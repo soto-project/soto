@@ -41,7 +41,7 @@ public struct Swf {
             region: region,
             amzTarget: "SimpleWorkflowService",
             service: "swf",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2012-01-25",
             endpoint: endpoint,
             middlewares: [],

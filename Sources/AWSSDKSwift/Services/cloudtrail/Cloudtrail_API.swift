@@ -41,7 +41,7 @@ public struct Cloudtrail {
             region: region,
             amzTarget: "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
             service: "cloudtrail",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-11-01",
             endpoint: endpoint,
             middlewares: [],

@@ -41,7 +41,7 @@ public struct Config {
             region: region,
             amzTarget: "StarlingDoveService",
             service: "config",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-12",
             endpoint: endpoint,
             middlewares: [],

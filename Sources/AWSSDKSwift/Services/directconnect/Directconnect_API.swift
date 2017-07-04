@@ -41,7 +41,7 @@ public struct Directconnect {
             region: region,
             amzTarget: "OvertureService",
             service: "directconnect",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2012-10-25",
             endpoint: endpoint,
             middlewares: [],

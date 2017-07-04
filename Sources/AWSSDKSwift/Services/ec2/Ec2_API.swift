@@ -40,7 +40,7 @@ public struct Ec2 {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "ec2",
-            serviceProtocol: .other("ec2"),
+            serviceProtocol: ServiceProtocol(type: .other("ec2")),
             apiVersion: "2016-11-15",
             endpoint: endpoint,
             middlewares: []

@@ -41,7 +41,7 @@ public struct Appstream {
             region: region,
             amzTarget: "PhotonAdminProxyService",
             service: "appstream2",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             middlewares: [],

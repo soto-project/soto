@@ -23,8 +23,20 @@ struct AWSService {
         return apiJSON["metadata"]["apiVersion"].stringValue
     }
     
+    var jsonVersion: ServiceProtocol.Version? {
+        if let version = apiJSON["metadata"]["jsonVersion"].string {
+            let componets = version.components(separatedBy: ".")
+            return ServiceProtocol.Version(major: Int(componets[0])!, minor: Int(componets[1])!)
+        }
+        
+        return nil
+    }
+    
     var serviceProtocol: ServiceProtocol {
-        return ServiceProtocol(rawValue: apiJSON["metadata"]["protocol"].stringValue)
+        if let version = jsonVersion {
+            return ServiceProtocol(name: apiJSON["metadata"]["protocol"].stringValue, version: version)
+        }
+        return ServiceProtocol(name: apiJSON["metadata"]["protocol"].stringValue)
     }
     
     var endpointPrefix: String {

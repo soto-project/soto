@@ -40,7 +40,7 @@ public struct Sts {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "sts",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2011-06-15",
             endpoint: endpoint,
             serviceEndpoints: ["ap-northeast-2": "sts.ap-northeast-2.amazonaws.com"],

@@ -40,7 +40,7 @@ public struct CognitoSync {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cognito-sync",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-06-30",
             endpoint: endpoint,
             middlewares: [],

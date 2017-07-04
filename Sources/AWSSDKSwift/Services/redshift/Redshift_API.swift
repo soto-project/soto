@@ -40,7 +40,7 @@ public struct Redshift {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "redshift",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2012-12-01",
             endpoint: endpoint,
             middlewares: [],

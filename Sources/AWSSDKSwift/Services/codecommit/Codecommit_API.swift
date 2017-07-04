@@ -41,7 +41,7 @@ public struct Codecommit {
             region: region,
             amzTarget: "CodeCommit_20150413",
             service: "codecommit",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-04-13",
             endpoint: endpoint,
             middlewares: [],

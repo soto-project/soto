@@ -41,7 +41,7 @@ public struct Rekognition {
             region: region,
             amzTarget: "RekognitionService",
             service: "rekognition",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-06-27",
             endpoint: endpoint,
             middlewares: [],

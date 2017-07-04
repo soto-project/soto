@@ -41,7 +41,7 @@ public struct States {
             region: region,
             amzTarget: "AWSStepFunctions",
             service: "states",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2016-11-23",
             endpoint: endpoint,
             middlewares: [],

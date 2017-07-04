@@ -40,7 +40,7 @@ public struct Lambda {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "lambda",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-03-31",
             endpoint: endpoint,
             middlewares: [],

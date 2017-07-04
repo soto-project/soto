@@ -41,7 +41,7 @@ public struct Cur {
             region: region,
             amzTarget: "AWSOrigamiServiceGatewayService",
             service: "cur",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-01-06",
             endpoint: endpoint,
             middlewares: [],

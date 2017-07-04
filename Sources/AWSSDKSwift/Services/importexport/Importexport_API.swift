@@ -40,7 +40,7 @@ public struct Importexport {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "importexport",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-06-01",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],

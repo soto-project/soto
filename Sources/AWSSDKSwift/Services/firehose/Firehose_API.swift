@@ -41,7 +41,7 @@ public struct Firehose {
             region: region,
             amzTarget: "Firehose_20150804",
             service: "firehose",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
             middlewares: [],

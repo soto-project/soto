@@ -40,7 +40,7 @@ public struct Monitoring {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "monitoring",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-08-01",
             endpoint: endpoint,
             middlewares: [],

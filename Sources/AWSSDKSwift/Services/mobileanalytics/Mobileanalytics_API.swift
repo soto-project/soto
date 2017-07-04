@@ -40,7 +40,7 @@ public struct Mobileanalytics {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "mobileanalytics",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2014-06-05",
             endpoint: endpoint,
             middlewares: [],

@@ -41,7 +41,7 @@ public struct Organizations {
             region: region,
             amzTarget: "AWSOrganizationsV20161128",
             service: "organizations",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "organizations.us-east-1.amazonaws.com"],

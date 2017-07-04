@@ -40,7 +40,7 @@ public struct Clouddirectory {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "clouddirectory",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2016-05-10",
             endpoint: endpoint,
             middlewares: [],

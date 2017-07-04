@@ -40,7 +40,7 @@ public struct Email {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "email",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-12-01",
             endpoint: endpoint,
             middlewares: [],

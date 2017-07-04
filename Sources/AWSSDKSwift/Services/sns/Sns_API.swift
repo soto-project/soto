@@ -40,7 +40,7 @@ public struct Sns {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "sns",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-03-31",
             endpoint: endpoint,
             middlewares: [],

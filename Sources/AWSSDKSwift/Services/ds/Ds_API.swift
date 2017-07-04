@@ -41,7 +41,7 @@ public struct Ds {
             region: region,
             amzTarget: "DirectoryService_20150416",
             service: "ds",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-04-16",
             endpoint: endpoint,
             middlewares: [],

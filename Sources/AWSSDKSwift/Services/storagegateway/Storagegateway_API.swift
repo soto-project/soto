@@ -41,7 +41,7 @@ public struct Storagegateway {
             region: region,
             amzTarget: "StorageGateway_20130630",
             service: "storagegateway",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-06-30",
             endpoint: endpoint,
             middlewares: [],

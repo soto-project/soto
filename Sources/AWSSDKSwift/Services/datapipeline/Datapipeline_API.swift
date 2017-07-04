@@ -41,7 +41,7 @@ public struct Datapipeline {
             region: region,
             amzTarget: "DataPipeline",
             service: "datapipeline",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2012-10-29",
             endpoint: endpoint,
             middlewares: [],

@@ -40,7 +40,7 @@ public struct Es {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "es",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-01-01",
             endpoint: endpoint,
             middlewares: [],

@@ -41,7 +41,7 @@ public struct WafRegional {
             region: region,
             amzTarget: "AWSWAF_Regional_20161128",
             service: "waf-regional",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: [],

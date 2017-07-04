@@ -41,7 +41,7 @@ public struct Ecs {
             region: region,
             amzTarget: "AmazonEC2ContainerServiceV20141113",
             service: "ecs",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-13",
             endpoint: endpoint,
             middlewares: [],

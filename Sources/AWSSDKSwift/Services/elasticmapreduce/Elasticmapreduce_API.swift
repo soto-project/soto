@@ -41,7 +41,7 @@ public struct Elasticmapreduce {
             region: region,
             amzTarget: "ElasticMapReduce",
             service: "elasticmapreduce",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2009-03-31",
             endpoint: endpoint,
             middlewares: [],

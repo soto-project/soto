@@ -40,7 +40,7 @@ public struct Elasticache {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "elasticache",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2015-02-02",
             endpoint: endpoint,
             middlewares: [],

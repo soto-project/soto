@@ -41,7 +41,7 @@ public struct Machinelearning {
             region: region,
             amzTarget: "AmazonML_20141212",
             service: "machinelearning",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-12-12",
             endpoint: endpoint,
             middlewares: [],

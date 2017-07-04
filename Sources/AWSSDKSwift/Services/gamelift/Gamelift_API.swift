@@ -41,7 +41,7 @@ public struct Gamelift {
             region: region,
             amzTarget: "GameLift",
             service: "gamelift",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-10-01",
             endpoint: endpoint,
             middlewares: [],
