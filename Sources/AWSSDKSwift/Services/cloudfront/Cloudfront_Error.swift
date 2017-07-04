@@ -70,6 +70,8 @@ public enum CloudfrontError: AWSErrorType {
     case tooManyDistributionsWithLambdaAssociations(message: String?)
     case tooManyLambdaFunctionAssociations(message: String?)
     case invalidLambdaFunctionAssociation(message: String?)
+    case invalidOriginReadTimeout(message: String?)
+    case invalidOriginKeepaliveTimeout(message: String?)
     case noSuchDistribution(message: String?)
     case cloudFrontOriginAccessIdentityAlreadyExists(message: String?)
     case tooManyCloudFrontOriginAccessIdentities(message: String?)
@@ -178,6 +180,10 @@ extension CloudfrontError {
             self = .tooManyLambdaFunctionAssociations(message: message)
         case "InvalidLambdaFunctionAssociation":
             self = .invalidLambdaFunctionAssociation(message: message)
+        case "InvalidOriginReadTimeout":
+            self = .invalidOriginReadTimeout(message: message)
+        case "InvalidOriginKeepaliveTimeout":
+            self = .invalidOriginKeepaliveTimeout(message: message)
         case "NoSuchDistribution":
             self = .noSuchDistribution(message: message)
         case "CloudFrontOriginAccessIdentityAlreadyExists":

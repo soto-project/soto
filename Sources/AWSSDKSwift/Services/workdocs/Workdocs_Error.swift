@@ -28,22 +28,27 @@ import AWSSDKSwiftCore
 
 /// Error enum for Workdocs
 public enum WorkdocsError: AWSErrorType {
-    case entityNotExistsException(message: String?)
     case unauthorizedOperationException(message: String?)
     case unauthorizedResourceAccessException(message: String?)
+    case invalidArgumentException(message: String?)
     case failedDependencyException(message: String?)
     case serviceUnavailableException(message: String?)
-    case entityAlreadyExistsException(message: String?)
+    case entityNotExistsException(message: String?)
     case prohibitedStateException(message: String?)
+    case documentLockedForCommentsException(message: String?)
+    case entityAlreadyExistsException(message: String?)
     case limitExceededException(message: String?)
     case concurrentModificationException(message: String?)
-    case invalidArgumentException(message: String?)
     case invalidOperationException(message: String?)
     case illegalUserStateException(message: String?)
     case deactivatingLastSystemUserException(message: String?)
+    case tooManyLabelsException(message: String?)
     case tooManySubscriptionsException(message: String?)
+    case customMetadataLimitExceededException(message: String?)
     case storageLimitExceededException(message: String?)
     case storageLimitWillExceedException(message: String?)
+    case draftUploadOutOfSyncException(message: String?)
+    case resourceAlreadyCheckedOutException(message: String?)
 }
 
 extension WorkdocsError {
@@ -53,38 +58,48 @@ extension WorkdocsError {
             errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
         }
         switch errorCode {
-        case "EntityNotExistsException":
-            self = .entityNotExistsException(message: message)
         case "UnauthorizedOperationException":
             self = .unauthorizedOperationException(message: message)
         case "UnauthorizedResourceAccessException":
             self = .unauthorizedResourceAccessException(message: message)
+        case "InvalidArgumentException":
+            self = .invalidArgumentException(message: message)
         case "FailedDependencyException":
             self = .failedDependencyException(message: message)
         case "ServiceUnavailableException":
             self = .serviceUnavailableException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
+        case "EntityNotExistsException":
+            self = .entityNotExistsException(message: message)
         case "ProhibitedStateException":
             self = .prohibitedStateException(message: message)
+        case "DocumentLockedForCommentsException":
+            self = .documentLockedForCommentsException(message: message)
+        case "EntityAlreadyExistsException":
+            self = .entityAlreadyExistsException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
         case "InvalidOperationException":
             self = .invalidOperationException(message: message)
         case "IllegalUserStateException":
             self = .illegalUserStateException(message: message)
         case "DeactivatingLastSystemUserException":
             self = .deactivatingLastSystemUserException(message: message)
+        case "TooManyLabelsException":
+            self = .tooManyLabelsException(message: message)
         case "TooManySubscriptionsException":
             self = .tooManySubscriptionsException(message: message)
+        case "CustomMetadataLimitExceededException":
+            self = .customMetadataLimitExceededException(message: message)
         case "StorageLimitExceededException":
             self = .storageLimitExceededException(message: message)
         case "StorageLimitWillExceedException":
             self = .storageLimitWillExceedException(message: message)
+        case "DraftUploadOutOfSyncException":
+            self = .draftUploadOutOfSyncException(message: message)
+        case "ResourceAlreadyCheckedOutException":
+            self = .resourceAlreadyCheckedOutException(message: message)
         default:
             return nil
         }

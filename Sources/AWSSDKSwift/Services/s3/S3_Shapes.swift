@@ -3355,6 +3355,7 @@ extension S3 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key"), required: false, type: .string), 
             AWSShapeProperty(label: "CacheControl", location: .header(locationName: "Cache-Control"), required: false, type: .string), 
+            AWSShapeProperty(label: "Tagging", location: .header(locationName: "x-amz-tagging"), required: false, type: .string), 
             AWSShapeProperty(label: "Bucket", location: .uri(locationName: "Bucket"), required: true, type: .string), 
             AWSShapeProperty(label: "ContentDisposition", location: .header(locationName: "Content-Disposition"), required: false, type: .string), 
             AWSShapeProperty(label: "RequestPayer", location: .header(locationName: "x-amz-request-payer"), required: false, type: .enum), 
@@ -3380,6 +3381,8 @@ extension S3 {
         public let sSECustomerKey: String?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
+        /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
+        public let tagging: String?
         public let bucket: String
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
@@ -3418,9 +3421,10 @@ extension S3 {
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
         public let serverSideEncryption: ServerSideEncryption?
 
-        public init(sSECustomerKey: String? = nil, cacheControl: String? = nil, bucket: String, contentDisposition: String? = nil, requestPayer: RequestPayer? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, aCL: ObjectCannedACL? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, metadata: [String: String]? = nil, contentEncoding: String? = nil, expires: String? = nil, grantWriteACP: String? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, key: String, websiteRedirectLocation: String? = nil, grantRead: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
+        public init(sSECustomerKey: String? = nil, cacheControl: String? = nil, tagging: String? = nil, bucket: String, contentDisposition: String? = nil, requestPayer: RequestPayer? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, aCL: ObjectCannedACL? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, metadata: [String: String]? = nil, contentEncoding: String? = nil, expires: String? = nil, grantWriteACP: String? = nil, contentType: String? = nil, storageClass: StorageClass? = nil, key: String, websiteRedirectLocation: String? = nil, grantRead: String? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
             self.sSECustomerKey = sSECustomerKey
             self.cacheControl = cacheControl
+            self.tagging = tagging
             self.bucket = bucket
             self.contentDisposition = contentDisposition
             self.requestPayer = requestPayer
@@ -3446,6 +3450,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.sSECustomerKey = dictionary["x-amz-server-side-encryption-customer-key"] as? String
             self.cacheControl = dictionary["Cache-Control"] as? String
+            self.tagging = dictionary["x-amz-tagging"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentDisposition = dictionary["Content-Disposition"] as? String

@@ -106,7 +106,7 @@ extension Xray {
             AWSShapeProperty(label: "Document", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
-        /// The segment document.
+        /// The segment document
         public let document: String?
         /// The segment's ID.
         public let id: String?
@@ -286,7 +286,7 @@ extension Xray {
         public let referenceId: Int32?
         /// Aliases for the edge.
         public let aliases: [Alias]?
-        /// Histogram describing the prominence of response times on the edge.
+        /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
 
         public init(startTime: String? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: String? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
@@ -676,7 +676,7 @@ extension Xray {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TraceSegmentDocuments", required: true, type: .list)
         ]
-        /// A JSON document defining one or more segments or subsegments. Segments must include the following fields.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
+        /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
 
         public init(traceSegmentDocuments: [String]) {
@@ -771,79 +771,88 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
             AWSShapeProperty(label: "SummaryStatistics", required: false, type: .structure), 
             AWSShapeProperty(label: "DurationHistogram", required: false, type: .list), 
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "State", required: false, type: .string), 
+            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
+            AWSShapeProperty(label: "Edges", required: false, type: .list), 
+            AWSShapeProperty(label: "ResponseTimeHistogram", required: false, type: .list), 
+            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Root", required: false, type: .boolean), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string), 
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReferenceId", required: false, type: .integer), 
             AWSShapeProperty(label: "Names", required: false, type: .list), 
-            AWSShapeProperty(label: "Edges", required: false, type: .list), 
             AWSShapeProperty(label: "Type", required: false, type: .string)
         ]
-        /// The start time of the first segment that the service generated.
-        public let startTime: String?
-        /// Aggregated statistics for the service.
-        public let summaryStatistics: ServiceStatistics?
-        /// Histogram mapping the spread of trace durations
-        public let durationHistogram: [HistogramEntry]?
         /// Identifier of the AWS account in which the service runs.
         public let accountId: String?
+        /// Aggregated statistics for the service.
+        public let summaryStatistics: ServiceStatistics?
+        /// A histogram that maps the spread of service durations.
+        public let durationHistogram: [HistogramEntry]?
+        /// The service's state.
+        public let state: String?
+        /// Identifier for the service. Unique within the service map.
+        public let referenceId: Int32?
+        /// Connections to downstream services.
+        public let edges: [Edge]?
+        /// A histogram that maps the spread of service response times.
+        public let responseTimeHistogram: [HistogramEntry]?
+        /// The start time of the first segment that the service generated.
+        public let startTime: String?
         /// Indicates that the service was the first service to process a request.
         public let root: Bool?
         /// The canonical name of the service.
         public let name: String?
-        /// The service's state.
-        public let state: String?
         /// The end time of the last segment that the service generated.
         public let endTime: String?
-        /// Identifier for the service. Unique within the service map.
-        public let referenceId: Int32?
         /// A list of names for the service, including the canonical name.
         public let names: [String]?
-        /// Connections to downstream services.
-        public let edges: [Edge]?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(startTime: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, accountId: String? = nil, root: Bool? = nil, name: String? = nil, state: String? = nil, endTime: String? = nil, referenceId: Int32? = nil, names: [String]? = nil, edges: [Edge]? = nil, type: String? = nil) {
-            self.startTime = startTime
+        public init(accountId: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, state: String? = nil, referenceId: Int32? = nil, edges: [Edge]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: String? = nil, root: Bool? = nil, name: String? = nil, endTime: String? = nil, names: [String]? = nil, type: String? = nil) {
+            self.accountId = accountId
             self.summaryStatistics = summaryStatistics
             self.durationHistogram = durationHistogram
-            self.accountId = accountId
+            self.state = state
+            self.referenceId = referenceId
+            self.edges = edges
+            self.responseTimeHistogram = responseTimeHistogram
+            self.startTime = startTime
             self.root = root
             self.name = name
-            self.state = state
             self.endTime = endTime
-            self.referenceId = referenceId
             self.names = names
-            self.edges = edges
             self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
+            self.accountId = dictionary["AccountId"] as? String
             if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
             if let durationHistogram = dictionary["DurationHistogram"] as? [[String: Any]] {
                 self.durationHistogram = try durationHistogram.map({ try HistogramEntry(dictionary: $0) })
             } else { 
                 self.durationHistogram = nil
             }
-            self.accountId = dictionary["AccountId"] as? String
-            self.root = dictionary["Root"] as? Bool
-            self.name = dictionary["Name"] as? String
             self.state = dictionary["State"] as? String
-            self.endTime = dictionary["EndTime"] as? String
             self.referenceId = dictionary["ReferenceId"] as? Int32
-            self.names = dictionary["Names"] as? [String]
             if let edges = dictionary["Edges"] as? [[String: Any]] {
                 self.edges = try edges.map({ try Edge(dictionary: $0) })
             } else { 
                 self.edges = nil
             }
+            if let responseTimeHistogram = dictionary["ResponseTimeHistogram"] as? [[String: Any]] {
+                self.responseTimeHistogram = try responseTimeHistogram.map({ try HistogramEntry(dictionary: $0) })
+            } else { 
+                self.responseTimeHistogram = nil
+            }
+            self.startTime = dictionary["StartTime"] as? String
+            self.root = dictionary["Root"] as? Bool
+            self.name = dictionary["Name"] as? String
+            self.endTime = dictionary["EndTime"] as? String
+            self.names = dictionary["Names"] as? [String]
             self.`type` = dictionary["Type"] as? String
         }
     }

@@ -66,12 +66,12 @@ public struct Organizations {
         return try client.send(operation: "ListChildren", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an AWS account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that AWS performs in the background. If you want to check the status of the request later, you need the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation. AWS Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants administrator permissions to the new account. Principals in the master account can assume the role. AWS Organizations clones the company name and address information for the new account from the organization's master account. For more information about creating accounts, see Creating an AWS Account in Your Organization in the AWS Organizations User Guide.  You cannot remove accounts that are created with this operation from an organization. That also means that you cannot delete an organization that contains an account that is created with this operation.   When you create a member account with this operation, the account is created with the IAM User and Role Access to Billing Information switch enabled. This allows IAM users and roles that are granted appropriate permissions to view billing information. If this is disabled, then only the account root user can access billing information. For information about how to disable this for an account, see Granting Access to Your Billing Information and Tools.  This operation can be called only from the organization's master account.
+    ///  Creates an AWS account that is automatically a member of the organization whose credentials made the request. This is an asynchronous request that AWS performs in the background. If you want to check the status of the request later, you need the OperationId response element from this operation to provide as a parameter to the DescribeCreateAccountStatus operation. AWS Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants administrator permissions to the new account. Principals in the master account can assume the role. AWS Organizations clones the company name and address information for the new account from the organization's master account. For more information about creating accounts, see Creating an AWS Account in Your Organization in the AWS Organizations User Guide.  You cannot remove accounts that are created with this operation from an organization. That also means that you cannot delete an organization that contains an account that is created with this operation.   When you create a member account with this operation, you can choose whether to create the account with the IAM User and Role Access to Billing Information switch enabled. If you enable it, IAM users and roles that have appropriate permissions can view billing information for the account. If you disable this, then only the account root user can access billing information. For information about how to disable this for an account, see Granting Access to Your Billing Information and Tools.  This operation can be called only from the organization's master account.
     public func createAccount(_ input: CreateAccountRequest) throws -> CreateAccountResponse {
         return try client.send(operation: "CreateAccount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original InviteAccountToOrganization operation that generated the handshake. This operation can be called from any account in the organization.
+    ///  Retrieves information about a previously requested handshake. The handshake ID comes from the response to the original InviteAccountToOrganization operation that generated the handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days after they change to that state. They are then deleted and no longer accessible. This operation can be called from any account in the organization.
     public func describeHandshake(_ input: DescribeHandshakeRequest) throws -> DescribeHandshakeResponse {
         return try client.send(operation: "DescribeHandshake", path: "/", httpMethod: "POST", input: input)
     }
@@ -86,7 +86,7 @@ public struct Organizations {
         _ = try client.send(operation: "MoveAccount", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. This operation can be called only from the organization's master account.
+    ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that they are deleted and no longer accessible. This operation can be called only from the organization's master account.
     public func listHandshakesForOrganization(_ input: ListHandshakesForOrganizationRequest) throws -> ListHandshakesForOrganizationResponse {
         return try client.send(operation: "ListHandshakesForOrganization", path: "/", httpMethod: "POST", input: input)
     }
@@ -106,7 +106,7 @@ public struct Organizations {
         _ = try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request.  This operation can be called only by the following principals when they also have the relevant IAM permissions:    Invitation to join or Approve all features request handshakes: only a principal from the member account.     Enable all features final confirmation handshake: only a principal from the master account. For more information about invitations, see Inviting an AWS Account to Join Your Organization in the AWS Organizations User Guide. For more information about requests to enable all features in the organization, see Enabling All Features in Your Organization in the AWS Organizations User Guide.  
+    ///  Sends a response to the originator of a handshake agreeing to the action proposed by the handshake request.  This operation can be called only by the following principals when they also have the relevant IAM permissions:    Invitation to join or Approve all features request handshakes: only a principal from the member account.     Enable all features final confirmation handshake: only a principal from the master account. For more information about invitations, see Inviting an AWS Account to Join Your Organization in the AWS Organizations User Guide. For more information about requests to enable all features in the organization, see Enabling All Features in Your Organization in the AWS Organizations User Guide.   After you accept a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that it is deleted.
     public func acceptHandshake(_ input: AcceptHandshakeRequest) throws -> AcceptHandshakeResponse {
         return try client.send(operation: "AcceptHandshake", path: "/", httpMethod: "POST", input: input)
     }
@@ -121,7 +121,7 @@ public struct Organizations {
         return try client.send(operation: "EnableAllFeatures", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the current handshakes that are associated with the account of the requesting user. This operation can be called from any account in the organization.
+    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that they are deleted and no longer accessible. This operation can be called from any account in the organization.
     public func listHandshakesForAccount(_ input: ListHandshakesForAccountRequest) throws -> ListHandshakesForAccountResponse {
         return try client.send(operation: "ListHandshakesForAccount", path: "/", httpMethod: "POST", input: input)
     }
@@ -131,7 +131,7 @@ public struct Organizations {
         _ = try client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST")
     }
 
-    ///  Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response. This operation can be called only from the organization's master account.
+    ///  Sends an invitation to another account to join your organization as a member account. Organizations sends email on your behalf to the email address that is associated with the other account's owner. The invitation is implemented as a Handshake whose details are in the response.  You can invite AWS accounts only from the same reseller as the master account. For example, if your organization's master account was created by Amazon Internet Services Pvt. Ltd (AISPL), an AWS reseller in India, then you can only invite other AISPL accounts to your organization. You can't combine accounts from AISPL and AWS. For more information, see Consolidated Billing in India.  This operation can be called only from the organization's master account.
     public func inviteAccountToOrganization(_ input: InviteAccountToOrganizationRequest) throws -> InviteAccountToOrganizationResponse {
         return try client.send(operation: "InviteAccountToOrganization", path: "/", httpMethod: "POST", input: input)
     }
@@ -151,7 +151,7 @@ public struct Organizations {
         return try client.send(operation: "DescribeOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified account from the organization. The removed account becomes a stand-alone account that is not a member of any organization. It is no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it is removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.  You can remove only existing accounts that were invited to join the organization. You cannot remove accounts that were created by AWS Organizations. 
+    ///  Removes the specified account from the organization. The removed account becomes a stand-alone account that is not a member of any organization. It is no longer subject to any policies and is responsible for its own bill payments. The organization's master account is no longer charged for any expenses accrued by the member account after it is removed from the organization. This operation can be called only from the organization's master account. Member accounts can remove themselves with LeaveOrganization instead.    You can remove only accounts that were created outside your organization and invited to join. If you created the account using the AWS Organizations console, the Organizations API, or the Organizations CLI commands, then you cannot remove the account.   You can remove a member account only after you enable IAM user access to billing in the member account. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.   
     public func removeAccountFromOrganization(_ input: RemoveAccountFromOrganizationRequest) throws {
         _ = try client.send(operation: "RemoveAccountFromOrganization", path: "/", httpMethod: "POST", input: input)
     }
@@ -161,7 +161,7 @@ public struct Organizations {
         return try client.send(operation: "UpdateOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the master account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.  The master account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do, including preventing them from successfully calling LeaveOrganization and leaving the organization.  
+    ///  Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the master account, use RemoveAccountFromOrganization instead. This operation can be called only from a member account in the organization.    The master account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do, including preventing them from successfully calling LeaveOrganization and leaving the organization.    If you created the account using the AWS Organizations console, the Organizations API, or the Organizations CLI commands, then you cannot remove the account.   You can leave an organization only after you enable IAM user access to billing in your account. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.   
     public func leaveOrganization() throws {
         _ = try client.send(operation: "LeaveOrganization", path: "/", httpMethod: "POST")
     }
@@ -201,7 +201,7 @@ public struct Organizations {
         return try client.send(operation: "CreateOrganizationalUnit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED.  This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use DeclineHandshake instead. After a handshake is canceled, the recipient can no longer respond to that handshake. 
+    ///  Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED.  This operation can be called only from the account that originated the handshake. The recipient of the handshake can't cancel it, but can use DeclineHandshake instead. After a handshake is canceled, the recipient can no longer respond to that handshake. After you cancel a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that it is deleted.
     public func cancelHandshake(_ input: CancelHandshakeRequest) throws -> CancelHandshakeResponse {
         return try client.send(operation: "CancelHandshake", path: "/", httpMethod: "POST", input: input)
     }
@@ -231,7 +231,7 @@ public struct Organizations {
         return try client.send(operation: "DescribePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use CancelHandshake instead. The originator can't reactivate a declined request, but can re-initiate the process with a new handshake request.
+    ///  Declines a handshake request. This sets the handshake state to DECLINED and effectively deactivates the request. This operation can be called only from the account that received the handshake. The originator of the handshake can use CancelHandshake instead. The originator can't reactivate a declined request, but can re-initiate the process with a new handshake request. After you decline a handshake, it continues to appear in the results of relevant APIs for only 30 days. After that it is deleted.
     public func declineHandshake(_ input: DeclineHandshakeRequest) throws -> DeclineHandshakeResponse {
         return try client.send(operation: "DeclineHandshake", path: "/", httpMethod: "POST", input: input)
     }

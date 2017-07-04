@@ -49,7 +49,7 @@ public struct Workspaces {
         )
     }
 
-    ///   Stops the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    ///   Stops the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     public func stopWorkspaces(_ input: StopWorkspacesRequest) throws -> StopWorkspacesResult {
         return try client.send(operation: "StopWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
@@ -59,12 +59,12 @@ public struct Workspaces {
         return try client.send(operation: "CreateTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the WorkSpace properties, including the RunningMode and AutoStop time.
+    ///  Modifies the WorkSpace properties, including the running mode and AutoStop time.
     public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest) throws -> ModifyWorkspacePropertiesResult {
         return try client.send(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to “STOPPED.”
+    ///  Starts the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of STOPPED.
     public func startWorkspaces(_ input: StartWorkspacesRequest) throws -> StartWorkspacesResult {
         return try client.send(operation: "StartWorkspaces", path: "/", httpMethod: "POST", input: input)
     }

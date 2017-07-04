@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Elastic Load Balancing A load balancer distributes incoming traffic across your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered instances and ensures that it routes traffic only to healthy instances. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer and a protocol and port number for connections from the load balancer to the instances. Elastic Load Balancing supports two types of load balancers: Classic load balancers and Application load balancers (new). A Classic load balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. An Application load balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). For more information, see the . This reference covers the 2012-06-01 API, which supports Classic load balancers. The 2015-12-01 API supports Application load balancers. To get started, create a load balancer with one or more listeners using CreateLoadBalancer. Register your instances with the load balancer using RegisterInstancesWithLoadBalancer. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds with a 200 OK response code.
+Elastic Load Balancing A load balancer distributes incoming traffic across your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered instances and ensures that it routes traffic only to healthy instances. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer and a protocol and port number for connections from the load balancer to the instances. Elastic Load Balancing supports two types of load balancers: Classic Load Balancers and Application Load Balancers (new). A Classic Load Balancer makes routing and load balancing decisions either at the transport layer (TCP/SSL) or the application layer (HTTP/HTTPS), and supports either EC2-Classic or a VPC. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS), supports path-based routing, and can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). For more information, see the Elastic Load Balancing User Guide. This reference covers the 2012-06-01 API, which supports Classic Load Balancers. The 2015-12-01 API supports Application Load Balancers. To get started, create a load balancer with one or more listeners using CreateLoadBalancer. Register your instances with the load balancer using RegisterInstancesWithLoadBalancer. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds with a 200 OK response code.
 */
 public struct Elasticloadbalancing {
 
@@ -48,12 +48,12 @@ public struct Elasticloadbalancing {
         )
     }
 
-    ///  Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer. For more information about setting policies, see Update the SSL Negotiation Configuration, Duration-Based Session Stickiness, and Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
+    ///  Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use SetLoadBalancerPoliciesForBackendServer. For more information about setting policies, see Update the SSL Negotiation Configuration, Duration-Based Session Stickiness, and Application-Controlled Session Stickiness in the Classic Load Balancer Guide.
     public func setLoadBalancerPoliciesOfListener(_ input: SetLoadBalancerPoliciesOfListenerInput) throws -> SetLoadBalancerPoliciesOfListenerOutput {
         return try client.send(operation: "SetLoadBalancerPoliciesOfListener", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups. For more information, see Security Groups for Load Balancers in a VPC in the Classic Load Balancers Guide.
+    ///  Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups. For more information, see Security Groups for Load Balancers in a VPC in the Classic Load Balancer Guide.
     public func applySecurityGroupsToLoadBalancer(_ input: ApplySecurityGroupsToLoadBalancerInput) throws -> ApplySecurityGroupsToLoadBalancerOutput {
         return try client.send(operation: "ApplySecurityGroupsToLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -63,7 +63,7 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the attributes of the specified load balancer. You can modify the load balancer attributes, such as AccessLogs, ConnectionDraining, and CrossZoneLoadBalancing by either enabling or disabling them. Or, you can modify the load balancer attribute ConnectionSettings by specifying an idle connection timeout value for your load balancer. For more information, see the following in the Classic Load Balancers Guide:    Cross-Zone Load Balancing     Connection Draining     Access Logs     Idle Connection Timeout   
+    ///  Modifies the attributes of the specified load balancer. You can modify the load balancer attributes, such as AccessLogs, ConnectionDraining, and CrossZoneLoadBalancing by either enabling or disabling them. Or, you can modify the load balancer attribute ConnectionSettings by specifying an idle connection timeout value for your load balancer. For more information, see the following in the Classic Load Balancer Guide:    Cross-Zone Load Balancing     Connection Draining     Access Logs     Idle Connection Timeout   
     public func modifyLoadBalancerAttributes(_ input: ModifyLoadBalancerAttributesInput) throws -> ModifyLoadBalancerAttributesOutput {
         return try client.send(operation: "ModifyLoadBalancerAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -78,7 +78,7 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DescribeLoadBalancerPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer. You can use DescribeLoadBalancers to verify that the instance is deregistered from the load balancer. For more information, see Register or De-Register EC2 Instances in the Classic Load Balancers Guide.
+    ///  Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer. You can use DescribeLoadBalancers to verify that the instance is deregistered from the load balancer. For more information, see Register or De-Register EC2 Instances in the Classic Load Balancer Guide.
     public func deregisterInstancesFromLoadBalancer(_ input: DeregisterEndPointsInput) throws -> DeregisterEndPointsOutput {
         return try client.send(operation: "DeregisterInstancesFromLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -93,7 +93,7 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DeleteLoadBalancerPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Classic load balancer. You can add listeners, security groups, subnets, and tags when you create your load balancer, or you can add them later using CreateLoadBalancerListeners, ApplySecurityGroupsToLoadBalancer, AttachLoadBalancerToSubnets, and AddTags. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see Limits for Your Classic Load Balancer in the Classic Load Balancers Guide.
+    ///  Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you create your load balancer, or you can add them later using CreateLoadBalancerListeners, ApplySecurityGroupsToLoadBalancer, AttachLoadBalancerToSubnets, and AddTags. To describe your current load balancers, see DescribeLoadBalancers. When you are finished with a load balancer, you can delete it using DeleteLoadBalancer. You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see Limits for Your Classic Load Balancer in the Classic Load Balancer Guide.
     public func createLoadBalancer(_ input: CreateAccessPointInput) throws -> CreateAccessPointOutput {
         return try client.send(operation: "CreateLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
@@ -103,14 +103,19 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer. The load balancer evenly distributes requests across all its registered Availability Zones that contain instances. For more information, see Add or Remove Availability Zones in the Classic Load Balancers Guide.
+    ///  Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer. The load balancer evenly distributes requests across all its registered Availability Zones that contain instances. For more information, see Add or Remove Availability Zones in the Classic Load Balancer Guide.
     public func enableAvailabilityZonesForLoadBalancer(_ input: AddAvailabilityZonesInput) throws -> AddAvailabilityZonesOutput {
         return try client.send(operation: "EnableAvailabilityZonesForLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners. This policy is similar to the policy created by CreateLBCookieStickinessPolicy, except that the lifetime of the special Elastic Load Balancing cookie, AWSELB, follows the lifetime of the application-generated cookie specified in the policy configuration. The load balancer only inserts a new stickiness cookie when the application response includes a new application cookie. If the application cookie is explicitly removed or expires, the session stops being sticky until a new application cookie is issued. For more information, see Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
+    ///  Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners. This policy is similar to the policy created by CreateLBCookieStickinessPolicy, except that the lifetime of the special Elastic Load Balancing cookie, AWSELB, follows the lifetime of the application-generated cookie specified in the policy configuration. The load balancer only inserts a new stickiness cookie when the application response includes a new application cookie. If the application cookie is explicitly removed or expires, the session stops being sticky until a new application cookie is issued. For more information, see Application-Controlled Session Stickiness in the Classic Load Balancer Guide.
     public func createAppCookieStickinessPolicy(_ input: CreateAppCookieStickinessPolicyInput) throws -> CreateAppCookieStickinessPolicyOutput {
         return try client.send(operation: "CreateAppCookieStickinessPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see Limits for Your Classic Load Balancer in the Classic Load Balancer Guide.
+    public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> DescribeAccountLimitsOutput {
+        return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a policy with the specified attributes for the specified load balancer. Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
@@ -133,17 +138,17 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DescribeLoadBalancerPolicyTypes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds one or more subnets to the set of configured subnets for the specified load balancer. The load balancer evenly distributes requests across all registered subnets. For more information, see Add or Remove Subnets for Your Load Balancer in a VPC in the Classic Load Balancers Guide.
+    ///  Adds one or more subnets to the set of configured subnets for the specified load balancer. The load balancer evenly distributes requests across all registered subnets. For more information, see Add or Remove Subnets for Your Load Balancer in a VPC in the Classic Load Balancer Guide.
     public func attachLoadBalancerToSubnets(_ input: AttachLoadBalancerToSubnetsInput) throws -> AttachLoadBalancerToSubnetsOutput {
         return try client.send(operation: "AttachLoadBalancerToSubnets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see Replace the SSL Certificate for Your Load Balancer in the Classic Load Balancers Guide.
+    ///  Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see Replace the SSL Certificate for Your Load Balancer in the Classic Load Balancer Guide.
     public func setLoadBalancerListenerSSLCertificate(_ input: SetLoadBalancerListenerSSLCertificateInput) throws -> SetLoadBalancerListenerSSLCertificateOutput {
         return try client.send(operation: "SetLoadBalancerListenerSSLCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Specifies the health check settings to use when evaluating the health state of your EC2 instances. For more information, see Configure Health Checks for Your Load Balancer in the Classic Load Balancers Guide.
+    ///  Specifies the health check settings to use when evaluating the health state of your EC2 instances. For more information, see Configure Health Checks for Your Load Balancer in the Classic Load Balancer Guide.
     public func configureHealthCheck(_ input: ConfigureHealthCheckInput) throws -> ConfigureHealthCheckOutput {
         return try client.send(operation: "ConfigureHealthCheck", path: "/", httpMethod: "POST", input: input)
     }
@@ -153,12 +158,12 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DetachLoadBalancerFromSubnets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer. There must be at least one Availability Zone registered with a load balancer at all times. After an Availability Zone is removed, all instances registered with the load balancer that are in the removed Availability Zone go into the OutOfService state. Then, the load balancer attempts to equally balance the traffic among its remaining Availability Zones. For more information, see Add or Remove Availability Zones in the Classic Load Balancers Guide.
+    ///  Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer. There must be at least one Availability Zone registered with a load balancer at all times. After an Availability Zone is removed, all instances registered with the load balancer that are in the removed Availability Zone go into the OutOfService state. Then, the load balancer attempts to equally balance the traffic among its remaining Availability Zones. For more information, see Add or Remove Availability Zones in the Classic Load Balancer Guide.
     public func disableAvailabilityZonesForLoadBalancer(_ input: RemoveAvailabilityZonesInput) throws -> RemoveAvailabilityZonesOutput {
         return try client.send(operation: "DisableAvailabilityZonesForLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the load balancer, AddTags updates its value. For more information, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
+    ///  Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the load balancer, AddTags updates its value. For more information, see Tag Your Classic Load Balancer in the Classic Load Balancer Guide.
     public func addTags(_ input: AddTagsInput) throws -> AddTagsOutput {
         return try client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -168,22 +173,22 @@ public struct Elasticloadbalancing {
         return try client.send(operation: "DescribeInstanceHealth", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
+    ///  Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancer Guide.
     public func createLoadBalancerListeners(_ input: CreateLoadBalancerListenerInput) throws -> CreateLoadBalancerListenerOutput {
         return try client.send(operation: "CreateLoadBalancerListeners", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners. When a load balancer implements this policy, the load balancer uses a special cookie to track the instance for each request. When the load balancer receives a request, it first checks to see if this cookie is present in the request. If so, the load balancer sends the request to the application server specified in the cookie. If not, the load balancer sends the request to a server that is chosen based on the existing load-balancing algorithm. A cookie is inserted into the response for binding subsequent requests from the same user to that server. The validity of the cookie is based on the cookie expiration time, which is specified in the policy configuration. For more information, see Duration-Based Session Stickiness in the Classic Load Balancers Guide.
+    ///  Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners. When a load balancer implements this policy, the load balancer uses a special cookie to track the instance for each request. When the load balancer receives a request, it first checks to see if this cookie is present in the request. If so, the load balancer sends the request to the application server specified in the cookie. If not, the load balancer sends the request to a server that is chosen based on the existing load-balancing algorithm. A cookie is inserted into the response for binding subsequent requests from the same user to that server. The validity of the cookie is based on the cookie expiration time, which is specified in the policy configuration. For more information, see Duration-Based Session Stickiness in the Classic Load Balancer Guide.
     public func createLBCookieStickinessPolicy(_ input: CreateLBCookieStickinessPolicyInput) throws -> CreateLBCookieStickinessPolicyOutput {
         return try client.send(operation: "CreateLBCookieStickinessPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies. At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies. Each time you use SetLoadBalancerPoliciesForBackendServer to enable the policies, use the PolicyNames parameter to list the policies that you want to enable. You can use DescribeLoadBalancers or DescribeLoadBalancerPolicies to verify that the policy is associated with the EC2 instance. For more information about enabling back-end instance authentication, see Configure Back-end Instance Authentication in the Classic Load Balancers Guide. For more information about Proxy Protocol, see Configure Proxy Protocol Support in the Classic Load Balancers Guide.
+    ///  Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies. At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies. Each time you use SetLoadBalancerPoliciesForBackendServer to enable the policies, use the PolicyNames parameter to list the policies that you want to enable. You can use DescribeLoadBalancers or DescribeLoadBalancerPolicies to verify that the policy is associated with the EC2 instance. For more information about enabling back-end instance authentication, see Configure Back-end Instance Authentication in the Classic Load Balancer Guide. For more information about Proxy Protocol, see Configure Proxy Protocol Support in the Classic Load Balancer Guide.
     public func setLoadBalancerPoliciesForBackendServer(_ input: SetLoadBalancerPoliciesForBackendServerInput) throws -> SetLoadBalancerPoliciesForBackendServerOutput {
         return try client.send(operation: "SetLoadBalancerPoliciesForBackendServer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified instances to the specified load balancer. The instance must be a running instance in the same network as the load balancer (EC2-Classic or the same VPC). If you have EC2-Classic instances and a load balancer in a VPC with ClassicLink enabled, you can link the EC2-Classic instances to that VPC and then register the linked EC2-Classic instances with the load balancer in the VPC. Note that RegisterInstanceWithLoadBalancer completes when the request has been registered. Instance registration takes a little time to complete. To check the state of the registered instances, use DescribeLoadBalancers or DescribeInstanceHealth. After the instance is registered, it starts receiving traffic and requests from the load balancer. Any instance that is not in one of the Availability Zones registered for the load balancer is moved to the OutOfService state. If an Availability Zone is added to the load balancer later, any instances registered with the load balancer move to the InService state. To deregister instances from a load balancer, use DeregisterInstancesFromLoadBalancer. For more information, see Register or De-Register EC2 Instances in the Classic Load Balancers Guide.
+    ///  Adds the specified instances to the specified load balancer. The instance must be a running instance in the same network as the load balancer (EC2-Classic or the same VPC). If you have EC2-Classic instances and a load balancer in a VPC with ClassicLink enabled, you can link the EC2-Classic instances to that VPC and then register the linked EC2-Classic instances with the load balancer in the VPC. Note that RegisterInstanceWithLoadBalancer completes when the request has been registered. Instance registration takes a little time to complete. To check the state of the registered instances, use DescribeLoadBalancers or DescribeInstanceHealth. After the instance is registered, it starts receiving traffic and requests from the load balancer. Any instance that is not in one of the Availability Zones registered for the load balancer is moved to the OutOfService state. If an Availability Zone is added to the load balancer later, any instances registered with the load balancer move to the InService state. To deregister instances from a load balancer, use DeregisterInstancesFromLoadBalancer. For more information, see Register or De-Register EC2 Instances in the Classic Load Balancer Guide.
     public func registerInstancesWithLoadBalancer(_ input: RegisterEndPointsInput) throws -> RegisterEndPointsOutput {
         return try client.send(operation: "RegisterInstancesWithLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }

@@ -50,11 +50,6 @@ public struct Iam {
         )
     }
 
-    ///  Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity) error.
-    public func getLoginProfile(_ input: GetLoginProfileRequest) throws -> GetLoginProfileResponse {
-        return try client.send(operation: "GetLoginProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Lists all managed policies that are attached to the specified IAM user. An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use the ListUserPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the action returns an empty list.
     public func listAttachedUserPolicies(_ input: ListAttachedUserPoliciesRequest) throws -> ListAttachedUserPoliciesResponse {
         return try client.send(operation: "ListAttachedUserPolicies", path: "/", httpMethod: "POST", input: input)
@@ -63,6 +58,11 @@ public struct Iam {
     ///  Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use the ListEntitiesForPolicy API. For information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.
     public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest) throws {
         _ = try client.send(operation: "SetDefaultPolicyVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity) error.
+    public func getLoginProfile(_ input: GetLoginProfileRequest) throws -> GetLoginProfileResponse {
+        return try client.send(operation: "GetLoginProfile", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified user from the specified group.
@@ -90,14 +90,14 @@ public struct Iam {
         _ = try client.send(operation: "AddUserToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the password of the IAM user who is calling this action. The root account password is not affected by this action. To change the password for a different user, see UpdateLoginProfile. For more information about modifying passwords, see Managing Passwords in the IAM User Guide.
-    public func changePassword(_ input: ChangePasswordRequest) throws {
-        _ = try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide.
     public func getServerCertificate(_ input: GetServerCertificateRequest) throws -> GetServerCertificateResponse {
         return try client.send(operation: "GetServerCertificate", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes the password of the IAM user who is calling this action. The root account password is not affected by this action. To change the password for a different user, see UpdateLoginProfile. For more information about modifying passwords, see Managing Passwords in the IAM User Guide.
+    public func changePassword(_ input: ChangePasswordRequest) throws {
+        _ = try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This action is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
@@ -150,7 +150,7 @@ public struct Iam {
         return try client.send(operation: "ListPolicyVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+    ///  Removes the specified IAM role from the specified EC2 instance profile.  Make sure you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
     public func removeRoleFromInstanceProfile(_ input: RemoveRoleFromInstanceProfileRequest) throws {
         _ = try client.send(operation: "RemoveRoleFromInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
@@ -180,19 +180,19 @@ public struct Iam {
         _ = try client.send(operation: "ResyncMFADevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches the specified managed policy to the specified user. You use this API to attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
-    public func attachUserPolicy(_ input: AttachUserPolicyRequest) throws {
-        _ = try client.send(operation: "AttachUserPolicy", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this action can be used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
     public func uploadSSHPublicKey(_ input: UploadSSHPublicKeyRequest) throws -> UploadSSHPublicKeyResponse {
         return try client.send(operation: "UploadSSHPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Simulate how a set of IAM policies attached to an IAM entity works with a list of API actions and AWS resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to . You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation. The simulation does not perform the API actions, it only checks the authorization to determine if the simulated policies allow or deny the actions.  Note: This API discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.
-    public func simulatePrincipalPolicy(_ input: SimulatePrincipalPolicyRequest) throws -> SimulatePolicyResponse {
-        return try client.send(operation: "SimulatePrincipalPolicy", path: "/", httpMethod: "POST", input: input)
+    ///  Attaches the specified managed policy to the specified user. You use this API to attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+    public func attachUserPolicy(_ input: AttachUserPolicyRequest) throws {
+        _ = try client.send(operation: "AttachUserPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the specified inline policy document that is embedded in the specified IAM group.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM group can also have managed policies attached to it. To retrieve a managed policy document that is attached to a group, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+    public func getGroupPolicy(_ input: GetGroupPolicyRequest) throws -> GetGroupPolicyResponse {
+        return try client.send(operation: "GetGroupPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the instance profiles that have the specified associated IAM role. If there are none, the action returns an empty list. For more information about instance profiles, go to About Instance Profiles. You can paginate the results using the MaxItems and Marker parameters.
@@ -215,9 +215,9 @@ public struct Iam {
         _ = try client.send(operation: "DeleteSAMLProvider", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the specified inline policy document that is embedded in the specified IAM group.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM group can also have managed policies attached to it. To retrieve a managed policy document that is attached to a group, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
-    public func getGroupPolicy(_ input: GetGroupPolicyRequest) throws -> GetGroupPolicyResponse {
-        return try client.send(operation: "GetGroupPolicy", path: "/", httpMethod: "POST", input: input)
+    ///  Simulate how a set of IAM policies attached to an IAM entity works with a list of API actions and AWS resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to . You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation. The simulation does not perform the API actions, it only checks the authorization to determine if the simulated policies allow or deny the actions.  Note: This API discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.
+    public func simulatePrincipalPolicy(_ input: SimulatePrincipalPolicyRequest) throws -> SimulatePolicyResponse {
+        return try client.send(operation: "SimulatePrincipalPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this action is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
@@ -245,9 +245,14 @@ public struct Iam {
         return try client.send(operation: "GetAccountAuthorizationDetails", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed in a group, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
-    public func putGroupPolicy(_ input: PutGroupPolicyRequest) throws {
-        _ = try client.send(operation: "PutGroupPolicy", path: "/", httpMethod: "POST", input: input)
+    ///  Lists the IAM roles that have the specified path prefix. If there are none, the action returns an empty list. For more information about roles, go to Working with Roles. You can paginate the results using the MaxItems and Marker parameters.
+    public func listRoles(_ input: ListRolesRequest) throws -> ListRolesResponse {
+        return try client.send(operation: "ListRoles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Uploads an X.509 signing certificate and associates it with the specified IAM user. Some AWS services use X.509 signing certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active. If the UserName field is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.  Because the body of a X.509 certificate can be large, you should use POST rather than GET when calling UploadSigningCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
+    public func uploadSigningCertificate(_ input: UploadSigningCertificateRequest) throws -> UploadSigningCertificateResponse {
+        return try client.send(operation: "UploadSigningCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an alias for your AWS account. For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
@@ -260,19 +265,14 @@ public struct Iam {
         _ = try client.send(operation: "DeleteAccessKey", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the IAM roles that have the specified path prefix. If there are none, the action returns an empty list. For more information about roles, go to Working with Roles. You can paginate the results using the MaxItems and Marker parameters.
-    public func listRoles(_ input: ListRolesRequest) throws -> ListRolesResponse {
-        return try client.send(operation: "ListRoles", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Uploads an X.509 signing certificate and associates it with the specified IAM user. Some AWS services use X.509 signing certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active. If the UserName field is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.  Because the body of a X.509 certificate can be large, you should use POST rather than GET when calling UploadSigningCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
-    public func uploadSigningCertificate(_ input: UploadSigningCertificateRequest) throws -> UploadSigningCertificateResponse {
-        return try client.send(operation: "UploadSigningCertificate", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID used to sign the request to this API.
     public func getUser(_ input: GetUserRequest) throws -> GetUserResponse {
         return try client.send(operation: "GetUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed in a group, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
+    public func putGroupPolicy(_ input: PutGroupPolicyRequest) throws {
+        _ = try client.send(operation: "PutGroupPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the names of the inline policies embedded in the specified IAM user. An IAM user can also have managed policies attached to it. To list the managed policies that are attached to a user, use ListAttachedUserPolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the action returns an empty list.
@@ -295,14 +295,14 @@ public struct Iam {
         _ = try client.send(operation: "UpdateAccessKey", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use the ListEntitiesForPolicy API. This API returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion. This API retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use the GetUserPolicy, GetGroupPolicy, or GetRolePolicy API. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
-    public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
-        return try client.send(operation: "GetPolicy", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns the SAML provider metadocument that was uploaded when the IAM SAML provider resource object was created or updated.  This operation requires Signature Version 4. 
     public func getSAMLProvider(_ input: GetSAMLProviderRequest) throws -> GetSAMLProviderResponse {
         return try client.send(operation: "GetSAMLProvider", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use the ListEntitiesForPolicy API. This API returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion. This API retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use the GetUserPolicy, GetGroupPolicy, or GetRolePolicy API. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+    public func getPolicy(_ input: GetPolicyRequest) throws -> GetPolicyResponse {
+        return try client.send(operation: "GetPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a managed policy from a group, use DetachGroupPolicy. For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide.
@@ -330,6 +330,11 @@ public struct Iam {
         return try client.send(operation: "ListMFADevices", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
+    public func listAccountAliases(_ input: ListAccountAliasesRequest) throws -> ListAccountAliasesResponse {
+        return try client.send(operation: "ListAccountAliases", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For more information about roles, see Using Roles to Delegate Permissions and Federate Identities.
     public func getRolePolicy(_ input: GetRolePolicyRequest) throws -> GetRolePolicyResponse {
         return try client.send(operation: "GetRolePolicy", path: "/", httpMethod: "POST", input: input)
@@ -343,11 +348,6 @@ public struct Iam {
     ///  Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service.  You can have a maximum of two sets of service-specific credentials for each supported service per user. The only supported service at this time is AWS CodeCommit. You can reset the password to a new service-generated value by calling ResetServiceSpecificCredential. For more information about service-specific credentials, see Using IAM with AWS CodeCommit: Git Credentials, SSH Keys, and AWS Access Keys in the IAM User Guide.
     public func createServiceSpecificCredential(_ input: CreateServiceSpecificCredentialRequest) throws -> CreateServiceSpecificCredentialResponse {
         return try client.send(operation: "CreateServiceSpecificCredential", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
-    public func listAccountAliases(_ input: ListAccountAliasesRequest) throws -> ListAccountAliasesResponse {
-        return try client.send(operation: "ListAccountAliases", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Attaches the specified managed policy to the specified IAM group. You use this API to attach a managed policy to a group. To embed an inline policy in a group, use PutGroupPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
@@ -370,7 +370,7 @@ public struct Iam {
         _ = try client.send(operation: "DeletePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+    ///  Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
     public func attachRolePolicy(_ input: AttachRolePolicyRequest) throws {
         _ = try client.send(operation: "AttachRolePolicy", path: "/", httpMethod: "POST", input: input)
     }
@@ -380,14 +380,14 @@ public struct Iam {
         return try client.send(operation: "ListAccessKeys", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the service-specific credentials associated with the specified IAM user. If there are none, the action returns an empty list. The service-specific credentials returned by this action are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an AWS service, see Set Up service-specific credentials in the AWS CodeCommit User Guide.
-    public func listServiceSpecificCredentials(_ input: ListServiceSpecificCredentialsRequest) throws -> ListServiceSpecificCredentialsResponse {
-        return try client.send(operation: "ListServiceSpecificCredentials", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request, and can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call SimulateCustomPolicy. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request.
     public func getContextKeysForCustomPolicy(_ input: GetContextKeysForCustomPolicyRequest) throws -> GetContextKeysForPolicyResponse {
         return try client.send(operation: "GetContextKeysForCustomPolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the service-specific credentials associated with the specified IAM user. If there are none, the action returns an empty list. The service-specific credentials returned by this action are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an AWS service, see Set Up service-specific credentials in the AWS CodeCommit User Guide.
+    public func listServiceSpecificCredentials(_ input: ListServiceSpecificCredentialsRequest) throws -> ListServiceSpecificCredentialsResponse {
+        return try client.send(operation: "ListServiceSpecificCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated IAM users.
@@ -425,14 +425,14 @@ public struct Iam {
         return try client.send(operation: "GetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the SAML provider resource objects defined in IAM in the account.   This operation requires Signature Version 4. 
-    public func listSAMLProviders(_ input: ListSAMLProvidersRequest) throws -> ListSAMLProvidersResponse {
-        return try client.send(operation: "ListSAMLProviders", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
     public func enableMFADevice(_ input: EnableMFADeviceRequest) throws {
         _ = try client.send(operation: "EnableMFADevice", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the SAML provider resource objects defined in IAM in the account.   This operation requires Signature Version 4. 
+    public func listSAMLProviders(_ input: ListSAMLProvidersRequest) throws -> ListSAMLProvidersResponse {
+        return try client.send(operation: "ListSAMLProviders", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified role. The role must not have any policies attached. For more information about roles, go to Working with Roles.  Make sure you do not have any Amazon EC2 instances running with the role you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. 
@@ -465,14 +465,14 @@ public struct Iam {
         _ = try client.send(operation: "DetachRolePolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the password policy settings for the AWS account.  This action does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value.   For more information about using a password policy, see Managing an IAM Password Policy in the IAM User Guide.
-    public func updateAccountPasswordPolicy(_ input: UpdateAccountPasswordPolicyRequest) throws {
-        _ = try client.send(operation: "UpdateAccountPasswordPolicy", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Returns information about the signing certificates associated with the specified IAM user. If there are none, the action returns an empty list. Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request for this API. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     public func listSigningCertificates(_ input: ListSigningCertificatesRequest) throws -> ListSigningCertificatesResponse {
         return try client.send(operation: "ListSigningCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the password policy settings for the AWS account.  This action does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value.   For more information about using a password policy, see Managing an IAM Password Policy in the IAM User Guide.
+    public func updateAccountPasswordPolicy(_ input: UpdateAccountPasswordPolicyRequest) throws {
+        _ = try client.send(operation: "UpdateAccountPasswordPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all managed policies that are attached to the specified IAM role. An IAM role can also have inline policies embedded with it. To list the inline policies for a role, use the ListRolePolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the action returns an empty list.
@@ -485,14 +485,9 @@ public struct Iam {
         _ = try client.send(operation: "DeleteSSHPublicKey", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the SSH public keys associated with the specified IAM user. If there are none, the action returns an empty list. The SSH public keys returned by this action are used only for authenticating the IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
-    public func listSSHPublicKeys(_ input: ListSSHPublicKeysRequest) throws -> ListSSHPublicKeysResponse {
-        return try client.send(operation: "ListSSHPublicKeys", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, go to Using Roles to Delegate Permissions and Federate Identities.
-    public func updateAssumeRolePolicy(_ input: UpdateAssumeRolePolicyRequest) throws {
-        _ = try client.send(operation: "UpdateAssumeRolePolicy", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. The name of the role is autogenerated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails. To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
+    public func createServiceLinkedRole(_ input: CreateServiceLinkedRoleRequest) throws -> CreateServiceLinkedRoleResponse {
+        return try client.send(operation: "CreateServiceLinkedRole", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the AWS service and region that were specified in the last request made with that key.
@@ -515,14 +510,14 @@ public struct Iam {
         return try client.send(operation: "GetContextKeysForPrincipalPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, go to Using Roles to Delegate Permissions and Federate Identities.
+    public func updateAssumeRolePolicy(_ input: UpdateAssumeRolePolicyRequest) throws {
+        _ = try client.send(operation: "UpdateAssumeRolePolicy", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Removes the specified managed policy from the specified IAM group. A group can also have inline policies embedded with it. To delete an inline policy, use the DeleteGroupPolicy API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
     public func detachGroupPolicy(_ input: DetachGroupPolicyRequest) throws {
         _ = try client.send(operation: "DetachGroupPolicy", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified IAM group. The group must not contain any users or have any attached policies.
-    public func deleteGroup(_ input: DeleteGroupRequest) throws {
-        _ = try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the names of the inline policies that are embedded in the specified IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use ListAttachedRolePolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the action returns an empty list.
@@ -530,9 +525,19 @@ public struct Iam {
         return try client.send(operation: "ListRolePolicies", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the specified IAM group. The group must not contain any users or have any attached policies.
+    public func deleteGroup(_ input: DeleteGroupRequest) throws {
+        _ = try client.send(operation: "DeleteGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the instance profiles that have the specified path prefix. If there are none, the action returns an empty list. For more information about instance profiles, go to About Instance Profiles. You can paginate the results using the MaxItems and Marker parameters.
     public func listInstanceProfiles(_ input: ListInstanceProfilesRequest) throws -> ListInstanceProfilesResponse {
         return try client.send(operation: "ListInstanceProfiles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about the SSH public keys associated with the specified IAM user. If there are none, the action returns an empty list. The SSH public keys returned by this action are used only for authenticating the IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
+    public func listSSHPublicKeys(_ input: ListSSHPublicKeysRequest) throws -> ListSSHPublicKeysResponse {
+        return try client.send(operation: "ListSSHPublicKeys", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new version of the specified managed policy. To update a managed policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using DeletePolicyVersion before you create a new version. Optionally, you can set the new version as the policy's default version. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
@@ -550,11 +555,6 @@ public struct Iam {
         return try client.send(operation: "GetInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Generates a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
-    public func generateCredentialReport() throws -> GenerateCredentialReportResponse {
-        return try client.send(operation: "GenerateCredentialReport", path: "/", httpMethod: "POST")
-    }
-
     ///  Retrieves the specified inline policy document that is embedded in the specified IAM user.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM user can also have managed policies attached to it. To retrieve a managed policy document that is attached to a user, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
     public func getUserPolicy(_ input: GetUserPolicyRequest) throws -> GetUserPolicyResponse {
         return try client.send(operation: "GetUserPolicy", path: "/", httpMethod: "POST", input: input)
@@ -563,6 +563,16 @@ public struct Iam {
     ///  Resets the password for a service-specific credential. The new password is AWS generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user.
     public func resetServiceSpecificCredential(_ input: ResetServiceSpecificCredentialRequest) throws -> ResetServiceSpecificCredentialResponse {
         return try client.send(operation: "ResetServiceSpecificCredential", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Generates a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
+    public func generateCredentialReport() throws -> GenerateCredentialReportResponse {
+        return try client.send(operation: "GenerateCredentialReport", path: "/", httpMethod: "POST")
+    }
+
+    ///  Modifies the description of a role.
+    public func updateRoleDescription(_ input: UpdateRoleDescriptionRequest) throws -> UpdateRoleDescriptionResponse {
+        return try client.send(operation: "UpdateRoleDescription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the IAM groups that the specified IAM user belongs to. You can paginate the results using the MaxItems and Marker parameters.
@@ -585,9 +595,9 @@ public struct Iam {
         _ = try client.send(operation: "PutUserPolicy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, go to Using a Virtual MFA Device in the IAM User Guide.
-    public func deactivateMFADevice(_ input: DeactivateMFADeviceRequest) throws {
-        _ = try client.send(operation: "DeactivateMFADevice", path: "/", httpMethod: "POST", input: input)
+    ///  Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy to enable federated users who sign-in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS. When you create the SAML provider resource, you upload an a SAML metadata document that you get from your IdP and that includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.   This operation requires Signature Version 4.   For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console and About SAML 2.0-based Federation in the IAM User Guide.
+    public func createSAMLProvider(_ input: CreateSAMLProviderRequest) throws -> CreateSAMLProviderResponse {
+        return try client.send(operation: "CreateSAMLProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy to establish a trust relationship between AWS and the OIDC provider. When you create the IAM OIDC provider, you specify the URL of the OIDC identity provider (IdP) to trust, a list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider, and a list of thumbprints of the server certificate(s) that the IdP uses. You get all of this information from the OIDC IdP that you want to use for access to AWS.  Because trust for the OIDC provider is ultimately derived from the IAM provider that this action creates, it is a best practice to limit access to the CreateOpenIDConnectProvider action to highly-privileged users. 
@@ -595,9 +605,9 @@ public struct Iam {
         return try client.send(operation: "CreateOpenIDConnectProvider", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy to enable federated users who sign-in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS. When you create the SAML provider resource, you upload an a SAML metadata document that you get from your IdP and that includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.   This operation requires Signature Version 4.   For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console and About SAML 2.0-based Federation in the IAM User Guide.
-    public func createSAMLProvider(_ input: CreateSAMLProviderRequest) throws -> CreateSAMLProviderResponse {
-        return try client.send(operation: "CreateSAMLProvider", path: "/", httpMethod: "POST", input: input)
+    ///  Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, go to Using a Virtual MFA Device in the IAM User Guide.
+    public func deactivateMFADevice(_ input: DeactivateMFADeviceRequest) throws {
+        _ = try client.send(operation: "DeactivateMFADevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the action returns an empty list.  You can paginate the results using the MaxItems and Marker parameters. For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide.
@@ -610,7 +620,7 @@ public struct Iam {
         _ = try client.send(operation: "DeleteLoginProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified IAM role to the specified instance profile.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+    ///  Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased.  The caller of this API must be granted the PassRole permission on the IAM role by a permission policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
     public func addRoleToInstanceProfile(_ input: AddRoleToInstanceProfileRequest) throws {
         _ = try client.send(operation: "AddRoleToInstanceProfile", path: "/", httpMethod: "POST", input: input)
     }
@@ -630,14 +640,14 @@ public struct Iam {
         return try client.send(operation: "UpdateSAMLProvider", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the password policy for the AWS account. For more information about using a password policy, go to Managing an IAM Password Policy.
-    public func getAccountPasswordPolicy() throws -> GetAccountPasswordPolicyResponse {
-        return try client.send(operation: "GetAccountPasswordPolicy", path: "/", httpMethod: "POST")
-    }
-
     ///  Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this API. To delete the default version from a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions. For information about versions for managed policies, see Versioning for Managed Policies in the IAM User Guide.
     public func deletePolicyVersion(_ input: DeletePolicyVersionRequest) throws {
         _ = try client.send(operation: "DeletePolicyVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the password policy for the AWS account. For more information about using a password policy, go to Managing an IAM Password Policy.
+    public func getAccountPasswordPolicy() throws -> GetAccountPasswordPolicyResponse {
+        return try client.send(operation: "GetAccountPasswordPolicy", path: "/", httpMethod: "POST")
     }
 
 

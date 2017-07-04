@@ -35,58 +35,6 @@ extension WafRegional {
         public var description: String { return self.rawValue }
     }
 
-    public struct ListXssMatchSetsResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// An array of XssMatchSetSummary objects.
-        public let xssMatchSets: [XssMatchSetSummary]?
-        /// If you have more XssMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
-        public let nextMarker: String?
-
-        public init(xssMatchSets: [XssMatchSetSummary]? = nil, nextMarker: String? = nil) {
-            self.xssMatchSets = xssMatchSets
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let xssMatchSets = dictionary["XssMatchSets"] as? [[String: Any]] {
-                self.xssMatchSets = try xssMatchSets.map({ try XssMatchSetSummary(dictionary: $0) })
-            } else { 
-                self.xssMatchSets = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct WebACLUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "ActivatedRule", required: true, type: .structure)
-        ]
-        /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
-        public let action: ChangeAction
-        /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
-        public let activatedRule: ActivatedRule
-
-        public init(action: ChangeAction, activatedRule: ActivatedRule) {
-            self.action = action
-            self.activatedRule = activatedRule
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let activatedRule = dictionary["ActivatedRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivatedRule") }
-            self.activatedRule = try WafRegional.ActivatedRule(dictionary: activatedRule)
-        }
-    }
-
     public struct UpdateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -153,62 +101,6 @@ extension WafRegional {
         }
     }
 
-    public struct IPSetUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "IPSetDescriptor", required: true, type: .structure)
-        ]
-        /// Specifies whether to insert or delete an IP address with UpdateIPSet.
-        public let action: ChangeAction
-        /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
-        public let iPSetDescriptor: IPSetDescriptor
-
-        public init(action: ChangeAction, iPSetDescriptor: IPSetDescriptor) {
-            self.action = action
-            self.iPSetDescriptor = iPSetDescriptor
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let iPSetDescriptor = dictionary["IPSetDescriptor"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IPSetDescriptor") }
-            self.iPSetDescriptor = try WafRegional.IPSetDescriptor(dictionary: iPSetDescriptor)
-        }
-    }
-
-    public struct DisassociateWebACLResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct ListWebACLsRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
-        public let limit: Int32?
-        /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
-        public let nextMarker: String?
-
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
-            self.limit = limit
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
     public struct UpdateSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -245,18 +137,22 @@ extension WafRegional {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Priority", required: true, type: .integer), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Action", required: true, type: .structure), 
             AWSShapeProperty(label: "RuleId", required: true, type: .string)
         ]
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
         public let priority: Int32
+        /// The rule type, either REGULAR, as defined by Rule, or RATE_BASED, as defined by RateBasedRule. The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist. 
+        public let `type`: WafRuleType?
         /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.   
         public let action: WafAction
         /// The RuleId for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
 
-        public init(priority: Int32, action: WafAction, ruleId: String) {
+        public init(priority: Int32, type: WafRuleType? = nil, action: WafAction, ruleId: String) {
             self.priority = priority
+            self.`type` = `type`
             self.action = action
             self.ruleId = ruleId
         }
@@ -264,10 +160,34 @@ extension WafRegional {
         public init(dictionary: [String: Any]) throws {
             guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
             self.priority = priority
+            if let `type` = dictionary["Type"] as? String { self.`type` = WafRuleType(rawValue: `type`) } else { self.`type` = nil }
             guard let action = dictionary["Action"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Action") }
             self.action = try WafRegional.WafAction(dictionary: action)
             guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
             self.ruleId = ruleId
+        }
+    }
+
+    public struct ListRateBasedRulesRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
+        public let limit: Int32?
+        /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
+        public let nextMarker: String?
+
+        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
@@ -287,31 +207,6 @@ extension WafRegional {
         public init(dictionary: [String: Any]) throws {
             guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
             self.iPSetId = iPSetId
-        }
-    }
-
-    public struct ByteMatchSetUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "ByteMatchTuple", required: true, type: .structure)
-        ]
-        /// Specifies whether to insert or delete a ByteMatchTuple.
-        public let action: ChangeAction
-        /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
-        public let byteMatchTuple: ByteMatchTuple
-
-        public init(action: ChangeAction, byteMatchTuple: ByteMatchTuple) {
-            self.action = action
-            self.byteMatchTuple = byteMatchTuple
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let byteMatchTuple = dictionary["ByteMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ByteMatchTuple") }
-            self.byteMatchTuple = try WafRegional.ByteMatchTuple(dictionary: byteMatchTuple)
         }
     }
 
@@ -366,6 +261,9 @@ extension WafRegional {
         case byte_match_text_transformation = "BYTE_MATCH_TEXT_TRANSFORMATION"
         case byte_match_positional_constraint = "BYTE_MATCH_POSITIONAL_CONSTRAINT"
         case size_constraint_comparison_operator = "SIZE_CONSTRAINT_COMPARISON_OPERATOR"
+        case rate_key = "RATE_KEY"
+        case rule_type = "RULE_TYPE"
+        case next_marker = "NEXT_MARKER"
         public var description: String { return self.rawValue }
     }
 
@@ -400,68 +298,6 @@ extension WafRegional {
         }
     }
 
-    public struct SqlInjectionMatchTuple: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
-        ]
-        /// Specifies where in a web request to look for snippets of malicious SQL code.
-        public let fieldToMatch: FieldToMatch
-        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
-        public let textTransformation: TextTransformation
-
-        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
-            self.fieldToMatch = fieldToMatch
-            self.textTransformation = textTransformation
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
-            self.fieldToMatch = try WafRegional.FieldToMatch(dictionary: fieldToMatch)
-            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
-            self.textTransformation = textTransformation
-        }
-    }
-
-    public struct GetWebACLForResourceRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-        }
-    }
-
-    public struct GetByteMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
-        ]
-        /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
-        public let byteMatchSet: ByteMatchSet?
-
-        public init(byteMatchSet: ByteMatchSet? = nil) {
-            self.byteMatchSet = byteMatchSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try WafRegional.ByteMatchSet(dictionary: byteMatchSet) } else { self.byteMatchSet = nil }
-        }
-    }
-
     public struct IPSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -474,7 +310,7 @@ extension WafRegional {
         public let iPSetId: String
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
         public let name: String?
-        /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
+        /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from. If the WebACL is associated with a CloudFront distribution and the viewer did not use an HTTP proxy or a load balancer to send the request, this is the value of the c-ip field in the CloudFront access logs.
         public let iPSetDescriptors: [IPSetDescriptor]
 
         public init(iPSetId: String, name: String? = nil, iPSetDescriptors: [IPSetDescriptor]) {
@@ -499,67 +335,6 @@ extension WafRegional {
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct CreateIPSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
-        public let name: String
-
-        public init(changeToken: String, name: String) {
-            self.changeToken = changeToken
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-        }
-    }
-
-    public struct UpdateSqlInjectionMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct UpdateIPSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
         public init(changeToken: String? = nil) {
@@ -596,67 +371,6 @@ extension WafRegional {
         }
     }
 
-    public struct GetByteMatchSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
-        ]
-        /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
-        public let byteMatchSetId: String
-
-        public init(byteMatchSetId: String) {
-            self.byteMatchSetId = byteMatchSetId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
-            self.byteMatchSetId = byteMatchSetId
-        }
-    }
-
-    public struct CreateIPSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
-        ]
-        /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-        /// The IPSet returned in the CreateIPSet response.
-        public let iPSet: IPSet?
-
-        public init(changeToken: String? = nil, iPSet: IPSet? = nil) {
-            self.changeToken = changeToken
-            self.iPSet = iPSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try WafRegional.IPSet(dictionary: iPSet) } else { self.iPSet = nil }
-        }
-    }
-
-    public struct GetChangeTokenStatusRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
-        ]
-        /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
-        public let changeToken: String
-
-        public init(changeToken: String) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-        }
-    }
-
     public struct CreateXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -680,28 +394,40 @@ extension WafRegional {
         }
     }
 
-    public struct DeleteIPSetRequest: AWSShape {
+    public struct UpdateIPSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string)
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
-        public let iPSetId: String
+        /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
 
-        public init(changeToken: String, iPSetId: String) {
+        public init(changeToken: String? = nil) {
             self.changeToken = changeToken
-            self.iPSetId = iPSetId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
-            self.iPSetId = iPSetId
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct GetByteMatchSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string)
+        ]
+        /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
+        public let byteMatchSetId: String
+
+        public init(byteMatchSetId: String) {
+            self.byteMatchSetId = byteMatchSetId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
         }
     }
 
@@ -711,12 +437,6 @@ extension WafRegional {
 
         public init(dictionary: [String: Any]) throws {
         }
-    }
-
-    public enum IPSetDescriptorType: String, CustomStringConvertible {
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        public var description: String { return self.rawValue }
     }
 
     public struct UpdateWebACLResponse: AWSShape {
@@ -812,6 +532,1759 @@ extension WafRegional {
         }
     }
 
+    public struct DeleteSizeConstraintSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct SizeConstraintSetUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SizeConstraint", required: true, type: .structure), 
+            AWSShapeProperty(label: "Action", required: true, type: .enum)
+        ]
+        /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
+        public let sizeConstraint: SizeConstraint
+        /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
+        public let action: ChangeAction
+
+        public init(sizeConstraint: SizeConstraint, action: ChangeAction) {
+            self.sizeConstraint = sizeConstraint
+            self.action = action
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let sizeConstraint = dictionary["SizeConstraint"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeConstraint") }
+            self.sizeConstraint = try WafRegional.SizeConstraint(dictionary: sizeConstraint)
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+        }
+    }
+
+    public struct CreateRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+        ]
+        /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// The Rule returned in the CreateRule response.
+        public let rule: Rule?
+
+        public init(changeToken: String? = nil, rule: Rule? = nil) {
+            self.changeToken = changeToken
+            self.rule = rule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.Rule(dictionary: rule) } else { self.rule = nil }
+        }
+    }
+
+    public struct CreateRateBasedRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+        ]
+        /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// The RateBasedRule that is returned in the CreateRateBasedRule response.
+        public let rule: RateBasedRule?
+
+        public init(changeToken: String? = nil, rule: RateBasedRule? = nil) {
+            self.changeToken = changeToken
+            self.rule = rule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.RateBasedRule(dictionary: rule) } else { self.rule = nil }
+        }
+    }
+
+    public struct UpdateXssMatchSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", required: true, type: .list)
+        ]
+        /// The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
+        public let xssMatchSetId: String
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// An array of XssMatchSetUpdate objects that you want to insert into or delete from a XssMatchSet. For more information, see the applicable data types:    XssMatchSetUpdate: Contains Action and XssMatchTuple     XssMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
+        public let updates: [XssMatchSetUpdate]
+
+        public init(xssMatchSetId: String, changeToken: String, updates: [XssMatchSetUpdate]) {
+            self.xssMatchSetId = xssMatchSetId
+            self.changeToken = changeToken
+            self.updates = updates
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try XssMatchSetUpdate(dictionary: $0) })
+        }
+    }
+
+    public struct DeleteIPSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct ListRateBasedRulesResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Rules", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of RuleSummary objects.
+        public let rules: [RuleSummary]?
+        /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRateBasedRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+
+        public init(rules: [RuleSummary]? = nil, nextMarker: String? = nil) {
+            self.rules = rules
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let rules = dictionary["Rules"] as? [[String: Any]] {
+                self.rules = try rules.map({ try RuleSummary(dictionary: $0) })
+            } else { 
+                self.rules = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct HTTPRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClientIP", required: false, type: .string), 
+            AWSShapeProperty(label: "Headers", required: false, type: .list), 
+            AWSShapeProperty(label: "Country", required: false, type: .string), 
+            AWSShapeProperty(label: "Method", required: false, type: .string), 
+            AWSShapeProperty(label: "URI", required: false, type: .string), 
+            AWSShapeProperty(label: "HTTPVersion", required: false, type: .string)
+        ]
+        /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
+        public let clientIP: String?
+        /// A complex type that contains two values for each header in the sampled web request: the name of the header and the value of the header.
+        public let headers: [HTTPHeader]?
+        /// The two-letter country code for the country that the request originated from. For a current list of country codes, see the Wikipedia entry ISO 3166-1 alpha-2.
+        public let country: String?
+        /// The HTTP method specified in the sampled web request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT. 
+        public let method: String?
+        /// The part of a web request that identifies the resource, for example, /images/daily-ad.jpg.
+        public let uRI: String?
+        /// The HTTP version specified in the sampled web request, for example, HTTP/1.1.
+        public let hTTPVersion: String?
+
+        public init(clientIP: String? = nil, headers: [HTTPHeader]? = nil, country: String? = nil, method: String? = nil, uRI: String? = nil, hTTPVersion: String? = nil) {
+            self.clientIP = clientIP
+            self.headers = headers
+            self.country = country
+            self.method = method
+            self.uRI = uRI
+            self.hTTPVersion = hTTPVersion
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.clientIP = dictionary["ClientIP"] as? String
+            if let headers = dictionary["Headers"] as? [[String: Any]] {
+                self.headers = try headers.map({ try HTTPHeader(dictionary: $0) })
+            } else { 
+                self.headers = nil
+            }
+            self.country = dictionary["Country"] as? String
+            self.method = dictionary["Method"] as? String
+            self.uRI = dictionary["URI"] as? String
+            self.hTTPVersion = dictionary["HTTPVersion"] as? String
+        }
+    }
+
+    public enum WafRuleType: String, CustomStringConvertible {
+        case regular = "REGULAR"
+        case rate_based = "RATE_BASED"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct HTTPHeader: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
+        /// The value of one of the headers in the sampled web request.
+        public let value: String?
+        /// The name of one of the headers in the sampled web request.
+        public let name: String?
+
+        public init(value: String? = nil, name: String? = nil) {
+            self.value = value
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.name = dictionary["Name"] as? String
+        }
+    }
+
+    public struct AssociateWebACLRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
+        ]
+        /// The ARN (Amazon Resource Name) of the resource to be protected.
+        public let resourceArn: String
+        /// A unique identifier (ID) for the web ACL.
+        public let webACLId: String
+
+        public init(resourceArn: String, webACLId: String) {
+            self.resourceArn = resourceArn
+            self.webACLId = webACLId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
+            self.webACLId = webACLId
+        }
+    }
+
+    public struct GetWebACLResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "WebACL", required: false, type: .structure)
+        ]
+        /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
+        public let webACL: WebACL?
+
+        public init(webACL: WebACL? = nil) {
+            self.webACL = webACL
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let webACL = dictionary["WebACL"] as? [String: Any] { self.webACL = try WafRegional.WebACL(dictionary: webACL) } else { self.webACL = nil }
+        }
+    }
+
+    public struct ListResourcesForWebACLResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArns", required: false, type: .list)
+        ]
+        /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
+        public let resourceArns: [String]?
+
+        public init(resourceArns: [String]? = nil) {
+            self.resourceArns = resourceArns
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.resourceArns = dictionary["ResourceArns"] as? [String]
+        }
+    }
+
+    public struct XssMatchSetSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
+        public let xssMatchSetId: String
+        /// The name of the XssMatchSet, if any, specified by Id.
+        public let name: String
+
+        public init(xssMatchSetId: String, name: String) {
+            self.xssMatchSetId = xssMatchSetId
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
+            self.xssMatchSetId = xssMatchSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct CreateWebACLRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
+            AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
+        public let metricName: String
+        /// The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL.
+        public let defaultAction: WafAction
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// A friendly name or description of the WebACL. You can't change Name after you create the WebACL.
+        public let name: String
+
+        public init(metricName: String, defaultAction: WafAction, changeToken: String, name: String) {
+            self.metricName = metricName
+            self.defaultAction = defaultAction
+            self.changeToken = changeToken
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let defaultAction = dictionary["DefaultAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultAction") }
+            self.defaultAction = try WafRegional.WafAction(dictionary: defaultAction)
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct WafAction: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum)
+        ]
+        /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
+        public let `type`: WafActionType
+
+        public init(type: WafActionType) {
+            self.`type` = `type`
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawType = dictionary["Type"] as? String, let `type` = WafActionType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
+        }
+    }
+
+    public struct SqlInjectionMatchSetUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .enum), 
+            AWSShapeProperty(label: "SqlInjectionMatchTuple", required: true, type: .structure)
+        ]
+        /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
+        public let action: ChangeAction
+        /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
+        public let sqlInjectionMatchTuple: SqlInjectionMatchTuple
+
+        public init(action: ChangeAction, sqlInjectionMatchTuple: SqlInjectionMatchTuple) {
+            self.action = action
+            self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let sqlInjectionMatchTuple = dictionary["SqlInjectionMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SqlInjectionMatchTuple") }
+            self.sqlInjectionMatchTuple = try WafRegional.SqlInjectionMatchTuple(dictionary: sqlInjectionMatchTuple)
+        }
+    }
+
+    public struct CreateSqlInjectionMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
+        ]
+        /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// A SqlInjectionMatchSet.
+        public let sqlInjectionMatchSet: SqlInjectionMatchSet?
+
+        public init(changeToken: String? = nil, sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
+            self.changeToken = changeToken
+            self.sqlInjectionMatchSet = sqlInjectionMatchSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let sqlInjectionMatchSet = dictionary["SqlInjectionMatchSet"] as? [String: Any] { self.sqlInjectionMatchSet = try WafRegional.SqlInjectionMatchSet(dictionary: sqlInjectionMatchSet) } else { self.sqlInjectionMatchSet = nil }
+        }
+    }
+
+    public enum MatchFieldType: String, CustomStringConvertible {
+        case uri = "URI"
+        case query_string = "QUERY_STRING"
+        case header = "HEADER"
+        case method = "METHOD"
+        case body = "BODY"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct GetChangeTokenResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct CreateXssMatchSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
+        public let name: String
+
+        public init(changeToken: String, name: String) {
+            self.changeToken = changeToken
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct RuleSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
+        public let ruleId: String
+        /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
+        public let name: String
+
+        public init(ruleId: String, name: String) {
+            self.ruleId = ruleId
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct GetSizeConstraintSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
+        ]
+        /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
+        public let sizeConstraintSet: SizeConstraintSet?
+
+        public init(sizeConstraintSet: SizeConstraintSet? = nil) {
+            self.sizeConstraintSet = sizeConstraintSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let sizeConstraintSet = dictionary["SizeConstraintSet"] as? [String: Any] { self.sizeConstraintSet = try WafRegional.SizeConstraintSet(dictionary: sizeConstraintSet) } else { self.sizeConstraintSet = nil }
+        }
+    }
+
+    public struct XssMatchSetUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "XssMatchTuple", required: true, type: .structure), 
+            AWSShapeProperty(label: "Action", required: true, type: .enum)
+        ]
+        /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
+        public let xssMatchTuple: XssMatchTuple
+        /// Specify INSERT to add a XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove a XssMatchSetUpdate from an XssMatchSet.
+        public let action: ChangeAction
+
+        public init(xssMatchTuple: XssMatchTuple, action: ChangeAction) {
+            self.xssMatchTuple = xssMatchTuple
+            self.action = action
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let xssMatchTuple = dictionary["XssMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("XssMatchTuple") }
+            self.xssMatchTuple = try WafRegional.XssMatchTuple(dictionary: xssMatchTuple)
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+        }
+    }
+
+    public struct ListSqlInjectionMatchSetsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
+            AWSShapeProperty(label: "SqlInjectionMatchSets", required: false, type: .list)
+        ]
+        /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+        /// An array of SqlInjectionMatchSetSummary objects.
+        public let sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]?
+
+        public init(nextMarker: String? = nil, sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]? = nil) {
+            self.nextMarker = nextMarker
+            self.sqlInjectionMatchSets = sqlInjectionMatchSets
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextMarker = dictionary["NextMarker"] as? String
+            if let sqlInjectionMatchSets = dictionary["SqlInjectionMatchSets"] as? [[String: Any]] {
+                self.sqlInjectionMatchSets = try sqlInjectionMatchSets.map({ try SqlInjectionMatchSetSummary(dictionary: $0) })
+            } else { 
+                self.sqlInjectionMatchSets = nil
+            }
+        }
+    }
+
+    public struct GetSampledRequestsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxItems", required: true, type: .long), 
+            AWSShapeProperty(label: "TimeWindow", required: true, type: .structure), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
+            AWSShapeProperty(label: "WebAclId", required: true, type: .string)
+        ]
+        /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
+        public let maxItems: Int64
+        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
+        public let timeWindow: TimeWindow
+        ///  RuleId is one of two values:   The RuleId of the Rule for which you want GetSampledRequests to return a sample of requests.    Default_Action, which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL.  
+        public let ruleId: String
+        /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
+        public let webAclId: String
+
+        public init(maxItems: Int64, timeWindow: TimeWindow, ruleId: String, webAclId: String) {
+            self.maxItems = maxItems
+            self.timeWindow = timeWindow
+            self.ruleId = ruleId
+            self.webAclId = webAclId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let maxItems = dictionary["MaxItems"] as? Int64 else { throw InitializableError.missingRequiredParam("MaxItems") }
+            self.maxItems = maxItems
+            guard let timeWindow = dictionary["TimeWindow"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimeWindow") }
+            self.timeWindow = try WafRegional.TimeWindow(dictionary: timeWindow)
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let webAclId = dictionary["WebAclId"] as? String else { throw InitializableError.missingRequiredParam("WebAclId") }
+            self.webAclId = webAclId
+        }
+    }
+
+    public struct UpdateRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", required: true, type: .list)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules.
+        public let ruleId: String
+        /// An array of RuleUpdate objects that you want to insert into or delete from a Rule. For more information, see the applicable data types:    RuleUpdate: Contains Action and Predicate     Predicate: Contains DataId, Negated, and Type     FieldToMatch: Contains Data and Type   
+        public let updates: [RuleUpdate]
+
+        public init(changeToken: String, ruleId: String, updates: [RuleUpdate]) {
+            self.changeToken = changeToken
+            self.ruleId = ruleId
+            self.updates = updates
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try RuleUpdate(dictionary: $0) })
+        }
+    }
+
+    public struct DeleteRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
+        public let ruleId: String
+
+        public init(changeToken: String, ruleId: String) {
+            self.changeToken = changeToken
+            self.ruleId = ruleId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
+    }
+
+    public struct DeleteWebACLResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct UpdateSizeConstraintSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct FieldToMatch: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Data", required: false, type: .string)
+        ]
+        /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.   
+        public let `type`: MatchFieldType
+        /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. If the value of Type is any other value, omit Data. The name of the header is not case sensitive.
+        public let data: String?
+
+        public init(type: MatchFieldType, data: String? = nil) {
+            self.`type` = `type`
+            self.data = data
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawType = dictionary["Type"] as? String, let `type` = MatchFieldType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
+            self.data = dictionary["Data"] as? String
+        }
+    }
+
+    public enum ChangeTokenStatus: String, CustomStringConvertible {
+        case provisioned = "PROVISIONED"
+        case pending = "PENDING"
+        case insync = "INSYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct CreateByteMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
+        ]
+        /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// A ByteMatchSet that contains no ByteMatchTuple objects.
+        public let byteMatchSet: ByteMatchSet?
+
+        public init(changeToken: String? = nil, byteMatchSet: ByteMatchSet? = nil) {
+            self.changeToken = changeToken
+            self.byteMatchSet = byteMatchSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try WafRegional.ByteMatchSet(dictionary: byteMatchSet) } else { self.byteMatchSet = nil }
+        }
+    }
+
+    public struct IPSetSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
+        public let iPSetId: String
+        /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
+        public let name: String
+
+        public init(iPSetId: String, name: String) {
+            self.iPSetId = iPSetId
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct DisassociateWebACLRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
+    }
+
+    public struct GetIPSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
+        ]
+        /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
+        public let iPSet: IPSet?
+
+        public init(iPSet: IPSet? = nil) {
+            self.iPSet = iPSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try WafRegional.IPSet(dictionary: iPSet) } else { self.iPSet = nil }
+        }
+    }
+
+    public struct ListByteMatchSetsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
+        public let limit: Int32?
+        /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
+        public let nextMarker: String?
+
+        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public enum WafActionType: String, CustomStringConvertible {
+        case block = "BLOCK"
+        case allow = "ALLOW"
+        case count = "COUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct UpdateRateBasedRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Updates", required: true, type: .list), 
+            AWSShapeProperty(label: "RateLimit", required: true, type: .long), 
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+        ]
+        /// An array of RuleUpdate objects that you want to insert into or delete from a RateBasedRule. 
+        public let updates: [RuleUpdate]
+        /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
+        public let rateLimit: Int64
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The RuleId of the RateBasedRule that you want to update. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
+        public let ruleId: String
+
+        public init(updates: [RuleUpdate], rateLimit: Int64, changeToken: String, ruleId: String) {
+            self.updates = updates
+            self.rateLimit = rateLimit
+            self.changeToken = changeToken
+            self.ruleId = ruleId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try RuleUpdate(dictionary: $0) })
+            guard let rateLimit = dictionary["RateLimit"] as? Int64 else { throw InitializableError.missingRequiredParam("RateLimit") }
+            self.rateLimit = rateLimit
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
+    }
+
+    public struct GetChangeTokenStatusResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeTokenStatus", required: false, type: .enum)
+        ]
+        /// The status of the change token.
+        public let changeTokenStatus: ChangeTokenStatus?
+
+        public init(changeTokenStatus: ChangeTokenStatus? = nil) {
+            self.changeTokenStatus = changeTokenStatus
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let changeTokenStatus = dictionary["ChangeTokenStatus"] as? String { self.changeTokenStatus = ChangeTokenStatus(rawValue: changeTokenStatus) } else { self.changeTokenStatus = nil }
+        }
+    }
+
+    public struct UpdateByteMatchSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Updates", required: true, type: .list)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
+        public let byteMatchSetId: String
+        /// An array of ByteMatchSetUpdate objects that you want to insert into or delete from a ByteMatchSet. For more information, see the applicable data types:    ByteMatchSetUpdate: Contains Action and ByteMatchTuple     ByteMatchTuple: Contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
+        public let updates: [ByteMatchSetUpdate]
+
+        public init(changeToken: String, byteMatchSetId: String, updates: [ByteMatchSetUpdate]) {
+            self.changeToken = changeToken
+            self.byteMatchSetId = byteMatchSetId
+            self.updates = updates
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
+            self.updates = try updates.map({ try ByteMatchSetUpdate(dictionary: $0) })
+        }
+    }
+
+    public struct GetXssMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
+        ]
+        /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
+        public let xssMatchSet: XssMatchSet?
+
+        public init(xssMatchSet: XssMatchSet? = nil) {
+            self.xssMatchSet = xssMatchSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let xssMatchSet = dictionary["XssMatchSet"] as? [String: Any] { self.xssMatchSet = try WafRegional.XssMatchSet(dictionary: xssMatchSet) } else { self.xssMatchSet = nil }
+        }
+    }
+
+    public struct SizeConstraintSet: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SizeConstraints", required: true, type: .list), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
+        ]
+        /// Specifies the parts of web requests that you want to inspect the size of.
+        public let sizeConstraints: [SizeConstraint]
+        /// The name, if any, of the SizeConstraintSet.
+        public let name: String?
+        /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see GetSizeConstraintSet), update a SizeConstraintSet (see UpdateSizeConstraintSet), insert a SizeConstraintSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SizeConstraintSet from AWS WAF (see DeleteSizeConstraintSet).  SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
+        public let sizeConstraintSetId: String
+
+        public init(sizeConstraints: [SizeConstraint], name: String? = nil, sizeConstraintSetId: String) {
+            self.sizeConstraints = sizeConstraints
+            self.name = name
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let sizeConstraints = dictionary["SizeConstraints"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SizeConstraints") }
+            self.sizeConstraints = try sizeConstraints.map({ try SizeConstraint(dictionary: $0) })
+            self.name = dictionary["Name"] as? String
+            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
+            self.sizeConstraintSetId = sizeConstraintSetId
+        }
+    }
+
+    public struct DeleteRateBasedRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct ByteMatchSetSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
+        public let byteMatchSetId: String
+        /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
+        public let name: String
+
+        public init(byteMatchSetId: String, name: String) {
+            self.byteMatchSetId = byteMatchSetId
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
+            self.byteMatchSetId = byteMatchSetId
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct GetRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+        ]
+        /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
+        public let rule: Rule?
+
+        public init(rule: Rule? = nil) {
+            self.rule = rule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.Rule(dictionary: rule) } else { self.rule = nil }
+        }
+    }
+
+    public struct ListSizeConstraintSetsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SizeConstraintSets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of SizeConstraintSetSummary objects.
+        public let sizeConstraintSets: [SizeConstraintSetSummary]?
+        /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+
+        public init(sizeConstraintSets: [SizeConstraintSetSummary]? = nil, nextMarker: String? = nil) {
+            self.sizeConstraintSets = sizeConstraintSets
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let sizeConstraintSets = dictionary["SizeConstraintSets"] as? [[String: Any]] {
+                self.sizeConstraintSets = try sizeConstraintSets.map({ try SizeConstraintSetSummary(dictionary: $0) })
+            } else { 
+                self.sizeConstraintSets = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct CreateSizeConstraintSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
+        public let name: String
+
+        public init(changeToken: String, name: String) {
+            self.changeToken = changeToken
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct ListByteMatchSetsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ByteMatchSets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of ByteMatchSetSummary objects.
+        public let byteMatchSets: [ByteMatchSetSummary]?
+        /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+
+        public init(byteMatchSets: [ByteMatchSetSummary]? = nil, nextMarker: String? = nil) {
+            self.byteMatchSets = byteMatchSets
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let byteMatchSets = dictionary["ByteMatchSets"] as? [[String: Any]] {
+                self.byteMatchSets = try byteMatchSets.map({ try ByteMatchSetSummary(dictionary: $0) })
+            } else { 
+                self.byteMatchSets = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct Predicate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Negated", required: true, type: .boolean), 
+            AWSShapeProperty(label: "DataId", required: true, type: .string)
+        ]
+        /// The type of predicate in a Rule, such as ByteMatchSet or IPSet.
+        public let `type`: PredicateType
+        /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
+        public let negated: Bool
+        /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
+        public let dataId: String
+
+        public init(type: PredicateType, negated: Bool, dataId: String) {
+            self.`type` = `type`
+            self.negated = negated
+            self.dataId = dataId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawType = dictionary["Type"] as? String, let `type` = PredicateType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
+            guard let negated = dictionary["Negated"] as? Bool else { throw InitializableError.missingRequiredParam("Negated") }
+            self.negated = negated
+            guard let dataId = dictionary["DataId"] as? String else { throw InitializableError.missingRequiredParam("DataId") }
+            self.dataId = dataId
+        }
+    }
+
+    public struct RuleUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .enum), 
+            AWSShapeProperty(label: "Predicate", required: true, type: .structure)
+        ]
+        /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
+        public let action: ChangeAction
+        /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
+        public let predicate: Predicate
+
+        public init(action: ChangeAction, predicate: Predicate) {
+            self.action = action
+            self.predicate = predicate
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let predicate = dictionary["Predicate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Predicate") }
+            self.predicate = try WafRegional.Predicate(dictionary: predicate)
+        }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible {
+        case eq = "EQ"
+        case ne = "NE"
+        case le = "LE"
+        case lt = "LT"
+        case ge = "GE"
+        case gt = "GT"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct ListIPSetsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "IPSets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of IPSetSummary objects.
+        public let iPSets: [IPSetSummary]?
+        /// If you have more IPSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more IPSet objects, submit another ListIPSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+
+        public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
+            self.iPSets = iPSets
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let iPSets = dictionary["IPSets"] as? [[String: Any]] {
+                self.iPSets = try iPSets.map({ try IPSetSummary(dictionary: $0) })
+            } else { 
+                self.iPSets = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct ListSizeConstraintSetsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
+        public let limit: Int32?
+        /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
+        public let nextMarker: String?
+
+        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct DeleteRateBasedRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The RuleId of the RateBasedRule that you want to delete. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
+        public let ruleId: String
+
+        public init(changeToken: String, ruleId: String) {
+            self.changeToken = changeToken
+            self.ruleId = ruleId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
+    }
+
+    public struct ListXssMatchSetsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "XssMatchSets", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of XssMatchSetSummary objects.
+        public let xssMatchSets: [XssMatchSetSummary]?
+        /// If you have more XssMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
+        public let nextMarker: String?
+
+        public init(xssMatchSets: [XssMatchSetSummary]? = nil, nextMarker: String? = nil) {
+            self.xssMatchSets = xssMatchSets
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let xssMatchSets = dictionary["XssMatchSets"] as? [[String: Any]] {
+                self.xssMatchSets = try xssMatchSets.map({ try XssMatchSetSummary(dictionary: $0) })
+            } else { 
+                self.xssMatchSets = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct WebACLUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .enum), 
+            AWSShapeProperty(label: "ActivatedRule", required: true, type: .structure)
+        ]
+        /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
+        public let action: ChangeAction
+        /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
+        public let activatedRule: ActivatedRule
+
+        public init(action: ChangeAction, activatedRule: ActivatedRule) {
+            self.action = action
+            self.activatedRule = activatedRule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let activatedRule = dictionary["ActivatedRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActivatedRule") }
+            self.activatedRule = try WafRegional.ActivatedRule(dictionary: activatedRule)
+        }
+    }
+
+    public struct IPSetUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .enum), 
+            AWSShapeProperty(label: "IPSetDescriptor", required: true, type: .structure)
+        ]
+        /// Specifies whether to insert or delete an IP address with UpdateIPSet.
+        public let action: ChangeAction
+        /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
+        public let iPSetDescriptor: IPSetDescriptor
+
+        public init(action: ChangeAction, iPSetDescriptor: IPSetDescriptor) {
+            self.action = action
+            self.iPSetDescriptor = iPSetDescriptor
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let iPSetDescriptor = dictionary["IPSetDescriptor"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IPSetDescriptor") }
+            self.iPSetDescriptor = try WafRegional.IPSetDescriptor(dictionary: iPSetDescriptor)
+        }
+    }
+
+    public struct DisassociateWebACLResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ListWebACLsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
+        public let limit: Int32?
+        /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
+        public let nextMarker: String?
+
+        public init(limit: Int32? = nil, nextMarker: String? = nil) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.limit = dictionary["Limit"] as? Int32
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct UpdateRateBasedRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct ByteMatchSetUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Action", required: true, type: .enum), 
+            AWSShapeProperty(label: "ByteMatchTuple", required: true, type: .structure)
+        ]
+        /// Specifies whether to insert or delete a ByteMatchTuple.
+        public let action: ChangeAction
+        /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
+        public let byteMatchTuple: ByteMatchTuple
+
+        public init(action: ChangeAction, byteMatchTuple: ByteMatchTuple) {
+            self.action = action
+            self.byteMatchTuple = byteMatchTuple
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let byteMatchTuple = dictionary["ByteMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ByteMatchTuple") }
+            self.byteMatchTuple = try WafRegional.ByteMatchTuple(dictionary: byteMatchTuple)
+        }
+    }
+
+    public struct GetRateBasedRuleManagedKeysResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ManagedKeys", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// An array of IP addresses that currently are blocked by the specified RateBasedRule. 
+        public let managedKeys: [String]?
+        /// A null value and not currently used.
+        public let nextMarker: String?
+
+        public init(managedKeys: [String]? = nil, nextMarker: String? = nil) {
+            self.managedKeys = managedKeys
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.managedKeys = dictionary["ManagedKeys"] as? [String]
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct GetRateBasedRuleManagedKeysRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
+        public let ruleId: String
+        /// A null value and not currently used. Do not include this in your request.
+        public let nextMarker: String?
+
+        public init(ruleId: String, nextMarker: String? = nil) {
+            self.ruleId = ruleId
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct SqlInjectionMatchTuple: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FieldToMatch", required: true, type: .structure), 
+            AWSShapeProperty(label: "TextTransformation", required: true, type: .enum)
+        ]
+        /// Specifies where in a web request to look for snippets of malicious SQL code.
+        public let fieldToMatch: FieldToMatch
+        /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
+        public let textTransformation: TextTransformation
+
+        public init(fieldToMatch: FieldToMatch, textTransformation: TextTransformation) {
+            self.fieldToMatch = fieldToMatch
+            self.textTransformation = textTransformation
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let fieldToMatch = dictionary["FieldToMatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("FieldToMatch") }
+            self.fieldToMatch = try WafRegional.FieldToMatch(dictionary: fieldToMatch)
+            guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
+            self.textTransformation = textTransformation
+        }
+    }
+
+    public struct GetWebACLForResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        ]
+        /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
+            self.resourceArn = resourceArn
+        }
+    }
+
+    public struct GetByteMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
+        ]
+        /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
+        public let byteMatchSet: ByteMatchSet?
+
+        public init(byteMatchSet: ByteMatchSet? = nil) {
+            self.byteMatchSet = byteMatchSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try WafRegional.ByteMatchSet(dictionary: byteMatchSet) } else { self.byteMatchSet = nil }
+        }
+    }
+
+    public struct GetRateBasedRuleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Rule", required: false, type: .structure)
+        ]
+        /// Information about the RateBasedRule that you specified in the GetRateBasedRule request.
+        public let rule: RateBasedRule?
+
+        public init(rule: RateBasedRule? = nil) {
+            self.rule = rule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.RateBasedRule(dictionary: rule) } else { self.rule = nil }
+        }
+    }
+
+    public struct CreateIPSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
+        public let name: String
+
+        public init(changeToken: String, name: String) {
+            self.changeToken = changeToken
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
+    public struct CreateIPSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
+            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
+        ]
+        /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+        /// The IPSet returned in the CreateIPSet response.
+        public let iPSet: IPSet?
+
+        public init(changeToken: String? = nil, iPSet: IPSet? = nil) {
+            self.changeToken = changeToken
+            self.iPSet = iPSet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try WafRegional.IPSet(dictionary: iPSet) } else { self.iPSet = nil }
+        }
+    }
+
+    public struct UpdateSqlInjectionMatchSetResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
+        ]
+        /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
+        public let changeToken: String?
+
+        public init(changeToken: String? = nil) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.changeToken = dictionary["ChangeToken"] as? String
+        }
+    }
+
+    public struct GetChangeTokenStatusRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string)
+        ]
+        /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
+        public let changeToken: String
+
+        public init(changeToken: String) {
+            self.changeToken = changeToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+        }
+    }
+
+    public struct RateBasedRule: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MetricName", required: false, type: .string), 
+            AWSShapeProperty(label: "MatchPredicates", required: true, type: .list), 
+            AWSShapeProperty(label: "RateLimit", required: true, type: .long), 
+            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
+            AWSShapeProperty(label: "RateKey", required: true, type: .enum), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
+        /// A friendly name or description for the metrics for a RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the RateBasedRule.
+        public let metricName: String?
+        /// The Predicates object contains one Predicate element for each ByteMatchSet, IPSet, or SqlInjectionMatchSet object that you want to include in a RateBasedRule.
+        public let matchPredicates: [Predicate]
+        /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
+        public let rateLimit: Int64
+        /// A unique identifier for a RateBasedRule. You use RuleId to get more information about a RateBasedRule (see GetRateBasedRule), update a RateBasedRule (see UpdateRateBasedRule), insert a RateBasedRule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a RateBasedRule from AWS WAF (see DeleteRateBasedRule).
+        public let ruleId: String
+        /// The field that AWS WAF uses to determine if requests are likely arriving from single source and thus subject to rate monitoring. The only valid value for RateKey is IP. IP indicates that requests arriving from the same IP address are subject to the RateLimit that is specified in the RateBasedRule.
+        public let rateKey: RateKey
+        /// A friendly name or description for a RateBasedRule. You can't change the name of a RateBasedRule after you create it.
+        public let name: String?
+
+        public init(metricName: String? = nil, matchPredicates: [Predicate], rateLimit: Int64, ruleId: String, rateKey: RateKey, name: String? = nil) {
+            self.metricName = metricName
+            self.matchPredicates = matchPredicates
+            self.rateLimit = rateLimit
+            self.ruleId = ruleId
+            self.rateKey = rateKey
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.metricName = dictionary["MetricName"] as? String
+            guard let matchPredicates = dictionary["MatchPredicates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MatchPredicates") }
+            self.matchPredicates = try matchPredicates.map({ try Predicate(dictionary: $0) })
+            guard let rateLimit = dictionary["RateLimit"] as? Int64 else { throw InitializableError.missingRequiredParam("RateLimit") }
+            self.rateLimit = rateLimit
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+            guard let rawRateKey = dictionary["RateKey"] as? String, let rateKey = RateKey(rawValue: rawRateKey) else { throw InitializableError.missingRequiredParam("RateKey") }
+            self.rateKey = rateKey
+            self.name = dictionary["Name"] as? String
+        }
+    }
+
+    public struct DeleteIPSetRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
+            AWSShapeProperty(label: "IPSetId", required: true, type: .string)
+        ]
+        /// The value returned by the most recent call to GetChangeToken.
+        public let changeToken: String
+        /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
+        public let iPSetId: String
+
+        public init(changeToken: String, iPSetId: String) {
+            self.changeToken = changeToken
+            self.iPSetId = iPSetId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
+            self.changeToken = changeToken
+            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
+            self.iPSetId = iPSetId
+        }
+    }
+
+    public struct GetRateBasedRuleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RuleId", required: true, type: .string)
+        ]
+        /// The RuleId of the RateBasedRule that you want to get. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
+        public let ruleId: String
+
+        public init(ruleId: String) {
+            self.ruleId = ruleId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
+            self.ruleId = ruleId
+        }
+    }
+
+    public enum IPSetDescriptorType: String, CustomStringConvertible {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct IPSetDescriptor: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
+            AWSShapeProperty(label: "Value", required: true, type: .string)
+        ]
+        /// Specify IPV4 or IPV6.
+        public let `type`: IPSetDescriptorType
+        /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.  
+        public let value: String
+
+        public init(type: IPSetDescriptorType, value: String) {
+            self.`type` = `type`
+            self.value = value
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawType = dictionary["Type"] as? String, let `type` = IPSetDescriptorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+        }
+    }
+
     public struct CreateSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -872,259 +2345,6 @@ extension WafRegional {
         }
     }
 
-    public struct IPSetDescriptor: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Value", required: true, type: .string)
-        ]
-        /// Specify IPV4 or IPV6.
-        public let `type`: IPSetDescriptorType
-        /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.  
-        public let value: String
-
-        public init(type: IPSetDescriptorType, value: String) {
-            self.`type` = `type`
-            self.value = value
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = IPSetDescriptorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-        }
-    }
-
-    public struct DeleteSizeConstraintSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct SizeConstraintSetUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraint", required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum)
-        ]
-        /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
-        public let sizeConstraint: SizeConstraint
-        /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
-        public let action: ChangeAction
-
-        public init(sizeConstraint: SizeConstraint, action: ChangeAction) {
-            self.sizeConstraint = sizeConstraint
-            self.action = action
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let sizeConstraint = dictionary["SizeConstraint"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SizeConstraint") }
-            self.sizeConstraint = try WafRegional.SizeConstraint(dictionary: sizeConstraint)
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-        }
-    }
-
-    public struct ListResourcesForWebACLResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArns", required: false, type: .list)
-        ]
-        /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
-        public let resourceArns: [String]?
-
-        public init(resourceArns: [String]? = nil) {
-            self.resourceArns = resourceArns
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.resourceArns = dictionary["ResourceArns"] as? [String]
-        }
-    }
-
-    public struct CreateRuleResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Rule", required: false, type: .structure)
-        ]
-        /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-        /// The Rule returned in the CreateRule response.
-        public let rule: Rule?
-
-        public init(changeToken: String? = nil, rule: Rule? = nil) {
-            self.changeToken = changeToken
-            self.rule = rule
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.Rule(dictionary: rule) } else { self.rule = nil }
-        }
-    }
-
-    public struct DeleteIPSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct UpdateXssMatchSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
-        ]
-        /// The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
-        public let xssMatchSetId: String
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// An array of XssMatchSetUpdate objects that you want to insert into or delete from a XssMatchSet. For more information, see the applicable data types:    XssMatchSetUpdate: Contains Action and XssMatchTuple     XssMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
-        public let updates: [XssMatchSetUpdate]
-
-        public init(xssMatchSetId: String, changeToken: String, updates: [XssMatchSetUpdate]) {
-            self.xssMatchSetId = xssMatchSetId
-            self.changeToken = changeToken
-            self.updates = updates
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
-            self.xssMatchSetId = xssMatchSetId
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
-            self.updates = try updates.map({ try XssMatchSetUpdate(dictionary: $0) })
-        }
-    }
-
-    public struct HTTPRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientIP", required: false, type: .string), 
-            AWSShapeProperty(label: "Headers", required: false, type: .list), 
-            AWSShapeProperty(label: "Country", required: false, type: .string), 
-            AWSShapeProperty(label: "Method", required: false, type: .string), 
-            AWSShapeProperty(label: "URI", required: false, type: .string), 
-            AWSShapeProperty(label: "HTTPVersion", required: false, type: .string)
-        ]
-        /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
-        public let clientIP: String?
-        /// A complex type that contains two values for each header in the sampled web request: the name of the header and the value of the header.
-        public let headers: [HTTPHeader]?
-        /// The two-letter country code for the country that the request originated from. For a current list of country codes, see the Wikipedia entry ISO 3166-1 alpha-2.
-        public let country: String?
-        /// The HTTP method specified in the sampled web request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT. 
-        public let method: String?
-        /// The part of a web request that identifies the resource, for example, /images/daily-ad.jpg.
-        public let uRI: String?
-        /// The HTTP version specified in the sampled web request, for example, HTTP/1.1.
-        public let hTTPVersion: String?
-
-        public init(clientIP: String? = nil, headers: [HTTPHeader]? = nil, country: String? = nil, method: String? = nil, uRI: String? = nil, hTTPVersion: String? = nil) {
-            self.clientIP = clientIP
-            self.headers = headers
-            self.country = country
-            self.method = method
-            self.uRI = uRI
-            self.hTTPVersion = hTTPVersion
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.clientIP = dictionary["ClientIP"] as? String
-            if let headers = dictionary["Headers"] as? [[String: Any]] {
-                self.headers = try headers.map({ try HTTPHeader(dictionary: $0) })
-            } else { 
-                self.headers = nil
-            }
-            self.country = dictionary["Country"] as? String
-            self.method = dictionary["Method"] as? String
-            self.uRI = dictionary["URI"] as? String
-            self.hTTPVersion = dictionary["HTTPVersion"] as? String
-        }
-    }
-
-    public struct AssociateWebACLRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string)
-        ]
-        /// The ARN (Amazon Resource Name) of the resource to be protected.
-        public let resourceArn: String
-        /// A unique identifier (ID) for the web ACL.
-        public let webACLId: String
-
-        public init(resourceArn: String, webACLId: String) {
-            self.resourceArn = resourceArn
-            self.webACLId = webACLId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
-            self.webACLId = webACLId
-        }
-    }
-
-    public struct HTTPHeader: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
-        ]
-        /// The value of one of the headers in the sampled web request.
-        public let value: String?
-        /// The name of one of the headers in the sampled web request.
-        public let name: String?
-
-        public init(value: String? = nil, name: String? = nil) {
-            self.value = value
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
-        }
-    }
-
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1145,49 +2365,6 @@ extension WafRegional {
         public init(dictionary: [String: Any]) throws {
             self.limit = dictionary["Limit"] as? Int32
             self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct GetWebACLResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WebACL", required: false, type: .structure)
-        ]
-        /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
-        public let webACL: WebACL?
-
-        public init(webACL: WebACL? = nil) {
-            self.webACL = webACL
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let webACL = dictionary["WebACL"] as? [String: Any] { self.webACL = try WafRegional.WebACL(dictionary: webACL) } else { self.webACL = nil }
-        }
-    }
-
-    public struct XssMatchSetSummary: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
-        public let xssMatchSetId: String
-        /// The name of the XssMatchSet, if any, specified by Id.
-        public let name: String
-
-        public init(xssMatchSetId: String, name: String) {
-            self.xssMatchSetId = xssMatchSetId
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let xssMatchSetId = dictionary["XssMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("XssMatchSetId") }
-            self.xssMatchSetId = xssMatchSetId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
         }
     }
 
@@ -1260,59 +2437,28 @@ extension WafRegional {
         }
     }
 
-    public struct CreateWebACLRequest: AWSShape {
+    public struct CreateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultAction", required: true, type: .structure), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
-        /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
-        public let metricName: String
-        /// The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL.
-        public let defaultAction: WafAction
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
-        /// A friendly name or description of the WebACL. You can't change Name after you create the WebACL.
+        /// A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
         public let name: String
 
-        public init(metricName: String, defaultAction: WafAction, changeToken: String, name: String) {
-            self.metricName = metricName
-            self.defaultAction = defaultAction
+        public init(changeToken: String, name: String) {
             self.changeToken = changeToken
             self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let defaultAction = dictionary["DefaultAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultAction") }
-            self.defaultAction = try WafRegional.WafAction(dictionary: defaultAction)
             guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
             self.changeToken = changeToken
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-        }
-    }
-
-    public struct WafAction: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum)
-        ]
-        /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
-        public let `type`: WafActionType
-
-        public init(type: WafActionType) {
-            self.`type` = `type`
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = WafActionType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
         }
     }
 
@@ -1339,56 +2485,6 @@ extension WafRegional {
         }
     }
 
-    public struct CreateSqlInjectionMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSet", required: false, type: .structure)
-        ]
-        /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-        /// A SqlInjectionMatchSet.
-        public let sqlInjectionMatchSet: SqlInjectionMatchSet?
-
-        public init(changeToken: String? = nil, sqlInjectionMatchSet: SqlInjectionMatchSet? = nil) {
-            self.changeToken = changeToken
-            self.sqlInjectionMatchSet = sqlInjectionMatchSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-            if let sqlInjectionMatchSet = dictionary["SqlInjectionMatchSet"] as? [String: Any] { self.sqlInjectionMatchSet = try WafRegional.SqlInjectionMatchSet(dictionary: sqlInjectionMatchSet) } else { self.sqlInjectionMatchSet = nil }
-        }
-    }
-
-    public enum MatchFieldType: String, CustomStringConvertible {
-        case uri = "URI"
-        case query_string = "QUERY_STRING"
-        case header = "HEADER"
-        case method = "METHOD"
-        case body = "BODY"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct GetChangeTokenResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
     public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1411,31 +2507,6 @@ extension WafRegional {
             self.changeToken = changeToken
             guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
-        }
-    }
-
-    public struct CreateXssMatchSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
-        public let name: String
-
-        public init(changeToken: String, name: String) {
-            self.changeToken = changeToken
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
         }
     }
 
@@ -1476,61 +2547,11 @@ extension WafRegional {
         }
     }
 
-    public struct RuleSummary: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
-        public let ruleId: String
-        /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
-        public let name: String
-
-        public init(ruleId: String, name: String) {
-            self.ruleId = ruleId
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
-            self.ruleId = ruleId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-        }
-    }
-
     public struct AssociateWebACLResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct XssMatchSetUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchTuple", required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum)
-        ]
-        /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
-        public let xssMatchTuple: XssMatchTuple
-        /// Specify INSERT to add a XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove a XssMatchSetUpdate from an XssMatchSet.
-        public let action: ChangeAction
-
-        public init(xssMatchTuple: XssMatchTuple, action: ChangeAction) {
-            self.xssMatchTuple = xssMatchTuple
-            self.action = action
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let xssMatchTuple = dictionary["XssMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("XssMatchTuple") }
-            self.xssMatchTuple = try WafRegional.XssMatchTuple(dictionary: xssMatchTuple)
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
         }
     }
 
@@ -1557,33 +2578,6 @@ extension WafRegional {
         }
     }
 
-    public struct ListSqlInjectionMatchSetsResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "SqlInjectionMatchSets", required: false, type: .list)
-        ]
-        /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
-        public let nextMarker: String?
-        /// An array of SqlInjectionMatchSetSummary objects.
-        public let sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]?
-
-        public init(nextMarker: String? = nil, sqlInjectionMatchSets: [SqlInjectionMatchSetSummary]? = nil) {
-            self.nextMarker = nextMarker
-            self.sqlInjectionMatchSets = sqlInjectionMatchSets
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.nextMarker = dictionary["NextMarker"] as? String
-            if let sqlInjectionMatchSets = dictionary["SqlInjectionMatchSets"] as? [[String: Any]] {
-                self.sqlInjectionMatchSets = try sqlInjectionMatchSets.map({ try SqlInjectionMatchSetSummary(dictionary: $0) })
-            } else { 
-                self.sqlInjectionMatchSets = nil
-            }
-        }
-    }
-
     public struct UpdateRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1602,80 +2596,6 @@ extension WafRegional {
         }
     }
 
-    public struct GetSizeConstraintSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraintSet", required: false, type: .structure)
-        ]
-        /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
-        public let sizeConstraintSet: SizeConstraintSet?
-
-        public init(sizeConstraintSet: SizeConstraintSet? = nil) {
-            self.sizeConstraintSet = sizeConstraintSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let sizeConstraintSet = dictionary["SizeConstraintSet"] as? [String: Any] { self.sizeConstraintSet = try WafRegional.SizeConstraintSet(dictionary: sizeConstraintSet) } else { self.sizeConstraintSet = nil }
-        }
-    }
-
-    public struct UpdateRuleRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules.
-        public let ruleId: String
-        /// An array of RuleUpdate objects that you want to insert into or delete from a Rule. For more information, see the applicable data types:    RuleUpdate: Contains Action and Predicate     Predicate: Contains DataId, Negated, and Type     FieldToMatch: Contains Data and Type   
-        public let updates: [RuleUpdate]
-
-        public init(changeToken: String, ruleId: String, updates: [RuleUpdate]) {
-            self.changeToken = changeToken
-            self.ruleId = ruleId
-            self.updates = updates
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
-            self.ruleId = ruleId
-            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
-            self.updates = try updates.map({ try RuleUpdate(dictionary: $0) })
-        }
-    }
-
-    public struct SqlInjectionMatchSetUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "SqlInjectionMatchTuple", required: true, type: .structure)
-        ]
-        /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
-        public let action: ChangeAction
-        /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
-        public let sqlInjectionMatchTuple: SqlInjectionMatchTuple
-
-        public init(action: ChangeAction, sqlInjectionMatchTuple: SqlInjectionMatchTuple) {
-            self.action = action
-            self.sqlInjectionMatchTuple = sqlInjectionMatchTuple
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let sqlInjectionMatchTuple = dictionary["SqlInjectionMatchTuple"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SqlInjectionMatchTuple") }
-            self.sqlInjectionMatchTuple = try WafRegional.SqlInjectionMatchTuple(dictionary: sqlInjectionMatchTuple)
-        }
-    }
-
     public struct UpdateXssMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1683,104 +2603,6 @@ extension WafRegional {
             AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
         ]
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct GetSampledRequestsRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .long), 
-            AWSShapeProperty(label: "TimeWindow", required: true, type: .structure), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string), 
-            AWSShapeProperty(label: "WebAclId", required: true, type: .string)
-        ]
-        /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
-        public let maxItems: Int64
-        /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let timeWindow: TimeWindow
-        ///  RuleId is one of two values:   The RuleId of the Rule for which you want GetSampledRequests to return a sample of requests.    Default_Action, which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL.  
-        public let ruleId: String
-        /// The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
-        public let webAclId: String
-
-        public init(maxItems: Int64, timeWindow: TimeWindow, ruleId: String, webAclId: String) {
-            self.maxItems = maxItems
-            self.timeWindow = timeWindow
-            self.ruleId = ruleId
-            self.webAclId = webAclId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let maxItems = dictionary["MaxItems"] as? Int64 else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let timeWindow = dictionary["TimeWindow"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimeWindow") }
-            self.timeWindow = try WafRegional.TimeWindow(dictionary: timeWindow)
-            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
-            self.ruleId = ruleId
-            guard let webAclId = dictionary["WebAclId"] as? String else { throw InitializableError.missingRequiredParam("WebAclId") }
-            self.webAclId = webAclId
-        }
-    }
-
-    public struct DeleteRuleRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "RuleId", required: true, type: .string)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
-        public let ruleId: String
-
-        public init(changeToken: String, ruleId: String) {
-            self.changeToken = changeToken
-            self.ruleId = ruleId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let ruleId = dictionary["RuleId"] as? String else { throw InitializableError.missingRequiredParam("RuleId") }
-            self.ruleId = ruleId
-        }
-    }
-
-    public struct DeleteWebACLResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-
-        public init(changeToken: String? = nil) {
-            self.changeToken = changeToken
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct UpdateSizeConstraintSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string)
-        ]
-        /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
         public init(changeToken: String? = nil) {
@@ -1812,31 +2634,6 @@ extension WafRegional {
         public init(dictionary: [String: Any]) throws {
             guard let sqlInjectionMatchSetId = dictionary["SqlInjectionMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("SqlInjectionMatchSetId") }
             self.sqlInjectionMatchSetId = sqlInjectionMatchSetId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-        }
-    }
-
-    public struct CreateSqlInjectionMatchSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
-        public let name: String
-
-        public init(changeToken: String, name: String) {
-            self.changeToken = changeToken
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
         }
@@ -1963,37 +2760,6 @@ extension WafRegional {
         }
     }
 
-    public struct FieldToMatch: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Data", required: false, type: .string)
-        ]
-        /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.   
-        public let `type`: MatchFieldType
-        /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. If the value of Type is any other value, omit Data. The name of the header is not case sensitive.
-        public let data: String?
-
-        public init(type: MatchFieldType, data: String? = nil) {
-            self.`type` = `type`
-            self.data = data
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = MatchFieldType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            self.data = dictionary["Data"] as? String
-        }
-    }
-
-    public enum ChangeTokenStatus: String, CustomStringConvertible {
-        case provisioned = "PROVISIONED"
-        case pending = "PENDING"
-        case insync = "INSYNC"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UpdateByteMatchSetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2009,29 +2775,6 @@ extension WafRegional {
 
         public init(dictionary: [String: Any]) throws {
             self.changeToken = dictionary["ChangeToken"] as? String
-        }
-    }
-
-    public struct CreateByteMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ByteMatchSet", required: false, type: .structure)
-        ]
-        /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
-        public let changeToken: String?
-        /// A ByteMatchSet that contains no ByteMatchTuple objects.
-        public let byteMatchSet: ByteMatchSet?
-
-        public init(changeToken: String? = nil, byteMatchSet: ByteMatchSet? = nil) {
-            self.changeToken = changeToken
-            self.byteMatchSet = byteMatchSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.changeToken = dictionary["ChangeToken"] as? String
-            if let byteMatchSet = dictionary["ByteMatchSet"] as? [String: Any] { self.byteMatchSet = try WafRegional.ByteMatchSet(dictionary: byteMatchSet) } else { self.byteMatchSet = nil }
         }
     }
 
@@ -2070,31 +2813,6 @@ extension WafRegional {
         }
     }
 
-    public struct IPSetSummary: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
-        public let iPSetId: String
-        /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
-        public let name: String
-
-        public init(iPSetId: String, name: String) {
-            self.iPSetId = iPSetId
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let iPSetId = dictionary["IPSetId"] as? String else { throw InitializableError.missingRequiredParam("IPSetId") }
-            self.iPSetId = iPSetId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-        }
-    }
-
     public enum PositionalConstraint: String, CustomStringConvertible {
         case exactly = "EXACTLY"
         case starts_with = "STARTS_WITH"
@@ -2102,43 +2820,6 @@ extension WafRegional {
         case contains = "CONTAINS"
         case contains_word = "CONTAINS_WORD"
         public var description: String { return self.rawValue }
-    }
-
-    public struct DisassociateWebACLRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
-        ]
-        /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed.
-        public let resourceArn: String
-
-        public init(resourceArn: String) {
-            self.resourceArn = resourceArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-        }
-    }
-
-    public struct GetIPSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSet", required: false, type: .structure)
-        ]
-        /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
-        public let iPSet: IPSet?
-
-        public init(iPSet: IPSet? = nil) {
-            self.iPSet = iPSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let iPSet = dictionary["IPSet"] as? [String: Any] { self.iPSet = try WafRegional.IPSet(dictionary: iPSet) } else { self.iPSet = nil }
-        }
     }
 
     public struct XssMatchTuple: AWSShape {
@@ -2164,36 +2845,6 @@ extension WafRegional {
             guard let rawTextTransformation = dictionary["TextTransformation"] as? String, let textTransformation = TextTransformation(rawValue: rawTextTransformation) else { throw InitializableError.missingRequiredParam("TextTransformation") }
             self.textTransformation = textTransformation
         }
-    }
-
-    public struct ListByteMatchSetsRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
-        public let limit: Int32?
-        /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
-        public let nextMarker: String?
-
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
-            self.limit = limit
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public enum WafActionType: String, CustomStringConvertible {
-        case block = "BLOCK"
-        case allow = "ALLOW"
-        case count = "COUNT"
-        public var description: String { return self.rawValue }
     }
 
     public struct DeleteByteMatchSetResponse: AWSShape {
@@ -2295,109 +2946,6 @@ extension WafRegional {
         public var description: String { return self.rawValue }
     }
 
-    public struct GetChangeTokenStatusResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeTokenStatus", required: false, type: .enum)
-        ]
-        /// The status of the change token.
-        public let changeTokenStatus: ChangeTokenStatus?
-
-        public init(changeTokenStatus: ChangeTokenStatus? = nil) {
-            self.changeTokenStatus = changeTokenStatus
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let changeTokenStatus = dictionary["ChangeTokenStatus"] as? String { self.changeTokenStatus = ChangeTokenStatus(rawValue: changeTokenStatus) } else { self.changeTokenStatus = nil }
-        }
-    }
-
-    public struct UpdateByteMatchSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Updates", required: true, type: .list)
-        ]
-        /// The value returned by the most recent call to GetChangeToken.
-        public let changeToken: String
-        /// The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
-        public let byteMatchSetId: String
-        /// An array of ByteMatchSetUpdate objects that you want to insert into or delete from a ByteMatchSet. For more information, see the applicable data types:    ByteMatchSetUpdate: Contains Action and ByteMatchTuple     ByteMatchTuple: Contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
-        public let updates: [ByteMatchSetUpdate]
-
-        public init(changeToken: String, byteMatchSetId: String, updates: [ByteMatchSetUpdate]) {
-            self.changeToken = changeToken
-            self.byteMatchSetId = byteMatchSetId
-            self.updates = updates
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
-            self.changeToken = changeToken
-            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
-            self.byteMatchSetId = byteMatchSetId
-            guard let updates = dictionary["Updates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Updates") }
-            self.updates = try updates.map({ try ByteMatchSetUpdate(dictionary: $0) })
-        }
-    }
-
-    public enum ParameterExceptionReason: String, CustomStringConvertible {
-        case invalid_option = "INVALID_OPTION"
-        case illegal_combination = "ILLEGAL_COMBINATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct SizeConstraintSet: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraints", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "SizeConstraintSetId", required: true, type: .string)
-        ]
-        /// Specifies the parts of web requests that you want to inspect the size of.
-        public let sizeConstraints: [SizeConstraint]
-        /// The name, if any, of the SizeConstraintSet.
-        public let name: String?
-        /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see GetSizeConstraintSet), update a SizeConstraintSet (see UpdateSizeConstraintSet), insert a SizeConstraintSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SizeConstraintSet from AWS WAF (see DeleteSizeConstraintSet).  SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
-        public let sizeConstraintSetId: String
-
-        public init(sizeConstraints: [SizeConstraint], name: String? = nil, sizeConstraintSetId: String) {
-            self.sizeConstraints = sizeConstraints
-            self.name = name
-            self.sizeConstraintSetId = sizeConstraintSetId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let sizeConstraints = dictionary["SizeConstraints"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SizeConstraints") }
-            self.sizeConstraints = try sizeConstraints.map({ try SizeConstraint(dictionary: $0) })
-            self.name = dictionary["Name"] as? String
-            guard let sizeConstraintSetId = dictionary["SizeConstraintSetId"] as? String else { throw InitializableError.missingRequiredParam("SizeConstraintSetId") }
-            self.sizeConstraintSetId = sizeConstraintSetId
-        }
-    }
-
-    public struct GetXssMatchSetResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "XssMatchSet", required: false, type: .structure)
-        ]
-        /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
-        public let xssMatchSet: XssMatchSet?
-
-        public init(xssMatchSet: XssMatchSet? = nil) {
-            self.xssMatchSet = xssMatchSet
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let xssMatchSet = dictionary["XssMatchSet"] as? [String: Any] { self.xssMatchSet = try WafRegional.XssMatchSet(dictionary: xssMatchSet) } else { self.xssMatchSet = nil }
-        }
-    }
-
     public struct UpdateWebACLRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2409,7 +2957,7 @@ extension WafRegional {
         ]
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
         public let defaultAction: WafAction?
-        /// An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, Priority, and RuleId     WafAction: Contains Type   
+        /// An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, Priority, RuleId, and Type     WafAction: Contains Type   
         public let updates: [WebACLUpdate]?
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
@@ -2456,6 +3004,17 @@ extension WafRegional {
         }
     }
 
+    public enum ParameterExceptionReason: String, CustomStringConvertible {
+        case invalid_option = "INVALID_OPTION"
+        case illegal_combination = "ILLEGAL_COMBINATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RateKey: String, CustomStringConvertible {
+        case ip = "IP"
+        public var description: String { return self.rawValue }
+    }
+
     public struct ListSqlInjectionMatchSetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2476,31 +3035,6 @@ extension WafRegional {
         public init(dictionary: [String: Any]) throws {
             self.limit = dictionary["Limit"] as? Int32
             self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct ByteMatchSetSummary: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSetId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
-        ]
-        /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
-        public let byteMatchSetId: String
-        /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
-        public let name: String
-
-        public init(byteMatchSetId: String, name: String) {
-            self.byteMatchSetId = byteMatchSetId
-            self.name = name
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let byteMatchSetId = dictionary["ByteMatchSetId"] as? String else { throw InitializableError.missingRequiredParam("ByteMatchSetId") }
-            self.byteMatchSetId = byteMatchSetId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
         }
     }
 
@@ -2561,156 +3095,46 @@ extension WafRegional {
         }
     }
 
-    public struct ListSizeConstraintSetsResponse: AWSShape {
+    public struct CreateRateBasedRuleRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeConstraintSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// An array of SizeConstraintSetSummary objects.
-        public let sizeConstraintSets: [SizeConstraintSetSummary]?
-        /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
-        public let nextMarker: String?
-
-        public init(sizeConstraintSets: [SizeConstraintSetSummary]? = nil, nextMarker: String? = nil) {
-            self.sizeConstraintSets = sizeConstraintSets
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let sizeConstraintSets = dictionary["SizeConstraintSets"] as? [[String: Any]] {
-                self.sizeConstraintSets = try sizeConstraintSets.map({ try SizeConstraintSetSummary(dictionary: $0) })
-            } else { 
-                self.sizeConstraintSets = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct GetRuleResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rule", required: false, type: .structure)
-        ]
-        /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
-        public let rule: Rule?
-
-        public init(rule: Rule? = nil) {
-            self.rule = rule
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try WafRegional.Rule(dictionary: rule) } else { self.rule = nil }
-        }
-    }
-
-    public struct CreateSizeConstraintSetRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
+            AWSShapeProperty(label: "RateLimit", required: true, type: .long), 
             AWSShapeProperty(label: "ChangeToken", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "RateKey", required: true, type: .enum)
         ]
-        /// The value returned by the most recent call to GetChangeToken.
+        /// A friendly name or description for the metrics for this RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the RateBasedRule.
+        public let metricName: String
+        /// The maximum number of requests, which have an identical value in the field that is specified by RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
+        public let rateLimit: Int64
+        /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String
-        /// A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
+        /// A friendly name or description of the RateBasedRule. You can't change the name of a RateBasedRule after you create it.
         public let name: String
+        /// The field that AWS WAF uses to determine if requests are likely arriving from a single source and thus subject to rate monitoring. The only valid value for RateKey is IP. IP indicates that requests that arrive from the same IP address are subject to the RateLimit that is specified in the RateBasedRule.
+        public let rateKey: RateKey
 
-        public init(changeToken: String, name: String) {
+        public init(metricName: String, rateLimit: Int64, changeToken: String, name: String, rateKey: RateKey) {
+            self.metricName = metricName
+            self.rateLimit = rateLimit
             self.changeToken = changeToken
             self.name = name
+            self.rateKey = rateKey
         }
 
         public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let rateLimit = dictionary["RateLimit"] as? Int64 else { throw InitializableError.missingRequiredParam("RateLimit") }
+            self.rateLimit = rateLimit
             guard let changeToken = dictionary["ChangeToken"] as? String else { throw InitializableError.missingRequiredParam("ChangeToken") }
             self.changeToken = changeToken
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-        }
-    }
-
-    public struct ListByteMatchSetsResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ByteMatchSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// An array of ByteMatchSetSummary objects.
-        public let byteMatchSets: [ByteMatchSetSummary]?
-        /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
-        public let nextMarker: String?
-
-        public init(byteMatchSets: [ByteMatchSetSummary]? = nil, nextMarker: String? = nil) {
-            self.byteMatchSets = byteMatchSets
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let byteMatchSets = dictionary["ByteMatchSets"] as? [[String: Any]] {
-                self.byteMatchSets = try byteMatchSets.map({ try ByteMatchSetSummary(dictionary: $0) })
-            } else { 
-                self.byteMatchSets = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
-        }
-    }
-
-    public struct Predicate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Negated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "DataId", required: true, type: .string)
-        ]
-        /// The type of predicate in a Rule, such as ByteMatchSet or IPSet.
-        public let `type`: PredicateType
-        /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
-        public let negated: Bool
-        /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
-        public let dataId: String
-
-        public init(type: PredicateType, negated: Bool, dataId: String) {
-            self.`type` = `type`
-            self.negated = negated
-            self.dataId = dataId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = PredicateType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let negated = dictionary["Negated"] as? Bool else { throw InitializableError.missingRequiredParam("Negated") }
-            self.negated = negated
-            guard let dataId = dictionary["DataId"] as? String else { throw InitializableError.missingRequiredParam("DataId") }
-            self.dataId = dataId
-        }
-    }
-
-    public struct RuleUpdate: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "Predicate", required: true, type: .structure)
-        ]
-        /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
-        public let action: ChangeAction
-        /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
-        public let predicate: Predicate
-
-        public init(action: ChangeAction, predicate: Predicate) {
-            self.action = action
-            self.predicate = predicate
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let predicate = dictionary["Predicate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Predicate") }
-            self.predicate = try WafRegional.Predicate(dictionary: predicate)
+            guard let rawRateKey = dictionary["RateKey"] as? String, let rateKey = RateKey(rawValue: rawRateKey) else { throw InitializableError.missingRequiredParam("RateKey") }
+            self.rateKey = rateKey
         }
     }
 
@@ -2761,43 +3185,6 @@ extension WafRegional {
                 self.sampledRequests = nil
             }
             if let timeWindow = dictionary["TimeWindow"] as? [String: Any] { self.timeWindow = try WafRegional.TimeWindow(dictionary: timeWindow) } else { self.timeWindow = nil }
-        }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible {
-        case eq = "EQ"
-        case ne = "NE"
-        case le = "LE"
-        case lt = "LT"
-        case ge = "GE"
-        case gt = "GT"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ListIPSetsResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPSets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// An array of IPSetSummary objects.
-        public let iPSets: [IPSetSummary]?
-        /// If you have more IPSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more IPSet objects, submit another ListIPSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
-        public let nextMarker: String?
-
-        public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
-            self.iPSets = iPSets
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let iPSets = dictionary["IPSets"] as? [[String: Any]] {
-                self.iPSets = try iPSets.map({ try IPSetSummary(dictionary: $0) })
-            } else { 
-                self.iPSets = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
@@ -2906,29 +3293,6 @@ extension WafRegional {
             self.name = dictionary["Name"] as? String
             guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
             self.webACLId = webACLId
-        }
-    }
-
-    public struct ListSizeConstraintSetsRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
-        public let limit: Int32?
-        /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
-        public let nextMarker: String?
-
-        public init(limit: Int32? = nil, nextMarker: String? = nil) {
-            self.limit = limit
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 

@@ -28,6 +28,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Cloudformation
 public enum CloudformationError: AWSErrorType {
+    case tokenAlreadyExistsException(message: String?)
     case changeSetNotFoundException(message: String?)
     case limitExceededException(message: String?)
     case alreadyExistsException(message: String?)
@@ -42,6 +43,8 @@ extension CloudformationError {
             errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
         }
         switch errorCode {
+        case "TokenAlreadyExistsException":
+            self = .tokenAlreadyExistsException(message: message)
         case "ChangeSetNotFoundException":
             self = .changeSetNotFoundException(message: message)
         case "LimitExceededException":

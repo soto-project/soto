@@ -123,13 +123,13 @@ extension Logs {
         ]
         /// The number of bytes stored.
         public let storedBytes: Int64?
-        /// The time of the last event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+        ///  the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. lastEventTime updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
         public let lastEventTimestamp: Int64?
         /// The name of the log stream.
         public let logStreamName: String?
-        /// The creation time of the stream.
+        /// The creation time of the stream, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
-        /// The ingestion time.
+        /// The ingestion time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let lastIngestionTime: Int64?
         /// The time of the first event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let firstEventTimestamp: Int64?
@@ -204,7 +204,7 @@ extension Logs {
         public let timestamp: Int64?
         /// The name of the log stream this event belongs to.
         public let logStreamName: String?
-        /// The time the event was ingested.
+        /// The time the event was ingested, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
 
         public init(eventId: String? = nil, message: String? = nil, timestamp: Int64? = nil, logStreamName: String? = nil, ingestionTime: Int64? = nil) {
@@ -267,9 +267,9 @@ extension Logs {
             AWSShapeProperty(label: "creationTime", required: false, type: .long), 
             AWSShapeProperty(label: "completionTime", required: false, type: .long)
         ]
-        /// The creation time of the export task.
+        /// The creation time of the export task, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
-        /// The completion time of the export task.
+        /// The completion time of the export task, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let completionTime: Int64?
 
         public init(creationTime: Int64? = nil, completionTime: Int64? = nil) {
@@ -302,7 +302,7 @@ extension Logs {
         public let descending: Bool?
         /// The prefix to match. You cannot specify this parameter if orderBy is LastEventTime.
         public let logStreamNamePrefix: String?
-        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
+        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter. lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
         public let orderBy: OrderBy?
         /// The name of the log group.
         public let logGroupName: String
@@ -419,7 +419,7 @@ extension Logs {
             AWSShapeProperty(label: "logGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "filterPattern", required: true, type: .string)
         ]
-        /// A name for the subscription filter.
+        /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
         public let destinationArn: String
@@ -618,7 +618,7 @@ extension Logs {
         public let timestamp: Int64?
         /// The data contained in the log event.
         public let message: String?
-        /// The time the event was ingested.
+        /// The time the event was ingested, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
 
         public init(timestamp: Int64? = nil, message: String? = nil, ingestionTime: Int64? = nil) {
@@ -890,7 +890,7 @@ extension Logs {
         public let filterName: String?
         /// The name of the log group.
         public let logGroupName: String?
-        /// The creation time of the metric filter.
+        /// The creation time of the metric filter, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         public let filterPattern: String?
 
@@ -1030,7 +1030,7 @@ extension Logs {
         public let destinationName: String?
         /// A role for impersonation, used when delivering log events to the target.
         public let roleArn: String?
-        /// The creation time of the destination.
+        /// The creation time of the destination, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// The Amazon Resource Name (ARN) of the physical target where the log events will be delivered (for example, a Kinesis stream).
         public let targetArn: String?
@@ -1218,7 +1218,7 @@ extension Logs {
         public let arn: String?
         /// The name of the log group.
         public let logGroupName: String?
-        /// The creation time of the log group.
+        /// The creation time of the log group, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         public let retentionInDays: Int32?
         /// The number of metric filters.
@@ -1616,7 +1616,7 @@ extension Logs {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the destination.
         public let destinationArn: String?
-        /// The creation time of the subscription filter.
+        /// The creation time of the subscription filter, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         public let filterPattern: String?
         /// The name of the subscription filter.

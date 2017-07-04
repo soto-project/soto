@@ -31,6 +31,7 @@ public enum EventsError: AWSErrorType {
     case internalException(message: String?)
     case resourceNotFoundException(message: String?)
     case concurrentModificationException(message: String?)
+    case policyLengthExceededException(message: String?)
     case invalidEventPatternException(message: String?)
     case limitExceededException(message: String?)
 }
@@ -48,6 +49,8 @@ extension EventsError {
             self = .resourceNotFoundException(message: message)
         case "ConcurrentModificationException":
             self = .concurrentModificationException(message: message)
+        case "PolicyLengthExceededException":
+            self = .policyLengthExceededException(message: message)
         case "InvalidEventPatternException":
             self = .invalidEventPatternException(message: message)
         case "LimitExceededException":

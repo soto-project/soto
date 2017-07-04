@@ -177,7 +177,7 @@ extension Storagegateway {
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
-        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a gateway-VTL.
+        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
         public let gatewayARN: String
 
         public init(tapeARN: String, gatewayARN: String) {
@@ -190,6 +190,23 @@ extension Storagegateway {
             self.tapeARN = tapeARN
             guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
             self.gatewayARN = gatewayARN
+        }
+    }
+
+    public struct RefreshCacheOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        ]
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareARN = dictionary["FileShareARN"] as? String
         }
     }
 
@@ -371,7 +388,7 @@ extension Storagegateway {
             AWSShapeProperty(label: "Marker", required: false, type: .string)
         ]
         public let gatewayARN: String
-        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, AWS Storage Gateway returns a description of all virtual tapes associated with the specified gateway.
+        /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
         public let tapeARNs: [String]?
         /// Specifies that the number of virtual tapes described be limited to the specified number.  Amazon Web Services may impose its own limit, if this field is not set. 
         public let limit: Int32?
@@ -1002,17 +1019,17 @@ extension Storagegateway {
         ]
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.
         public let activationKey: String
-        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is STORED. 
+        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is STORED.   Valid Values: "STORED", "CACHED", "VTL", "FILE_S3"
         public let gatewayType: String?
-        /// The value that indicates the type of medium changer to use for gateway-VTL. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
+        /// The value that indicates the type of medium changer to use for tape gateway. This field is optional.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let mediumChangerType: String?
-        /// A value that indicates the time zone you want to set for the gateway. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
+        /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
         public let gatewayTimezone: String
-        /// A value that indicates the region where you want to store the snapshot backups. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: "us-east-1", "us-west-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-northeast-1", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "sa-east-1"
+        /// A value that indicates the region where you want to store your data. The gateway region specified must be the same region as the region in your Host header in the request. For more information about available regions and endpoints for AWS Storage Gateway, see Regions and Endpoints in the Amazon Web Services Glossary.  Valid Values: "us-east-1", "us-east-2", "us-west-1", "us-west-2", "ca-central-1", "eu-west-1", "eu-central-1", "eu-west-2", "ap-northeast-1", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-south-1", "sa-east-1"
         public let gatewayRegion: String
         /// The name you configured for your gateway.
         public let gatewayName: String
-        /// The value that indicates the type of tape drive to use for gateway-VTL. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
+        /// The value that indicates the type of tape drive to use for tape gateway. This field is optional.  Valid Values: "IBM-ULT3580-TD5" 
         public let tapeDriveType: String?
 
         public init(activationKey: String, gatewayType: String? = nil, mediumChangerType: String? = nil, gatewayTimezone: String, gatewayRegion: String, gatewayName: String, tapeDriveType: String? = nil) {
@@ -1044,62 +1061,70 @@ extension Storagegateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Path", required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
+            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeProperty(label: "LocationARN", required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
             AWSShapeProperty(label: "FileShareStatus", required: false, type: .string), 
             AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
             AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
             AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
             AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string)
+            AWSShapeProperty(label: "Squash", required: false, type: .string), 
+            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
         ]
-        /// True to use Amazon S3 server side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. 
-        public let kMSEncrypted: Bool?
-        public let fileShareStatus: String?
-        public let gatewayARN: String?
-        public let kMSKey: String?
-        public let fileShareId: String?
-        public let role: String?
         public let path: String?
+        public let fileShareId: String?
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        public let clientList: [String]?
         public let fileShareARN: String?
         public let locationARN: String?
         /// The default storage class for objects put into an Amazon S3 bucket by file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
         public let defaultStorageClass: String?
+        public let fileShareStatus: String?
+        public let gatewayARN: String?
+        public let kMSKey: String?
+        public let role: String?
+        public let readOnly: Bool?
+        public let clientList: [String]?
+        public let squash: String?
+        /// True to use Amazon S3 server side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. 
+        public let kMSEncrypted: Bool?
 
-        public init(kMSEncrypted: Bool? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, kMSKey: String? = nil, fileShareId: String? = nil, role: String? = nil, path: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil) {
-            self.kMSEncrypted = kMSEncrypted
-            self.fileShareStatus = fileShareStatus
-            self.gatewayARN = gatewayARN
-            self.kMSKey = kMSKey
-            self.fileShareId = fileShareId
-            self.role = role
+        public init(path: String? = nil, fileShareId: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String? = nil, locationARN: String? = nil, defaultStorageClass: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, kMSKey: String? = nil, role: String? = nil, readOnly: Bool? = nil, clientList: [String]? = nil, squash: String? = nil, kMSEncrypted: Bool? = nil) {
             self.path = path
+            self.fileShareId = fileShareId
             self.nFSFileShareDefaults = nFSFileShareDefaults
-            self.clientList = clientList
             self.fileShareARN = fileShareARN
             self.locationARN = locationARN
             self.defaultStorageClass = defaultStorageClass
+            self.fileShareStatus = fileShareStatus
+            self.gatewayARN = gatewayARN
+            self.kMSKey = kMSKey
+            self.role = role
+            self.readOnly = readOnly
+            self.clientList = clientList
+            self.squash = squash
+            self.kMSEncrypted = kMSEncrypted
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
-            self.fileShareStatus = dictionary["FileShareStatus"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.kMSKey = dictionary["KMSKey"] as? String
-            self.fileShareId = dictionary["FileShareId"] as? String
-            self.role = dictionary["Role"] as? String
             self.path = dictionary["Path"] as? String
+            self.fileShareId = dictionary["FileShareId"] as? String
             if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
-            self.clientList = dictionary["ClientList"] as? [String]
             self.fileShareARN = dictionary["FileShareARN"] as? String
             self.locationARN = dictionary["LocationARN"] as? String
             self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
+            self.fileShareStatus = dictionary["FileShareStatus"] as? String
+            self.gatewayARN = dictionary["GatewayARN"] as? String
+            self.kMSKey = dictionary["KMSKey"] as? String
+            self.role = dictionary["Role"] as? String
+            self.readOnly = dictionary["ReadOnly"] as? Bool
+            self.clientList = dictionary["ClientList"] as? [String]
+            self.squash = dictionary["Squash"] as? String
+            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
         }
     }
 
@@ -1308,6 +1333,7 @@ extension Storagegateway {
             AWSShapeProperty(label: "CompletionTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeProperty(label: "TapeUsedInBytes", required: false, type: .long), 
             AWSShapeProperty(label: "RetrievedTo", required: false, type: .string), 
             AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
             AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
@@ -1319,18 +1345,21 @@ extension Storagegateway {
         public let tapeCreatedDate: String?
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
-        /// The Amazon Resource Name (ARN) of the gateway-VTL that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
+        /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
+        public let tapeUsedInBytes: Int64?
+        /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being retrieved to. The virtual tape is retrieved from the virtual tape shelf (VTS).
         public let retrievedTo: String?
         /// The current state of the archived virtual tape.
         public let tapeStatus: String?
         /// The size, in bytes, of the archived virtual tape.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, completionTime: String? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, completionTime: String? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.completionTime = completionTime
             self.tapeCreatedDate = tapeCreatedDate
             self.tapeBarcode = tapeBarcode
+            self.tapeUsedInBytes = tapeUsedInBytes
             self.retrievedTo = retrievedTo
             self.tapeStatus = tapeStatus
             self.tapeSizeInBytes = tapeSizeInBytes
@@ -1341,6 +1370,7 @@ extension Storagegateway {
             self.completionTime = dictionary["CompletionTime"] as? String
             self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
             self.tapeBarcode = dictionary["TapeBarcode"] as? String
+            self.tapeUsedInBytes = dictionary["TapeUsedInBytes"] as? Int64
             self.retrievedTo = dictionary["RetrievedTo"] as? String
             self.tapeStatus = dictionary["TapeStatus"] as? String
             self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
@@ -1424,8 +1454,10 @@ extension Storagegateway {
             AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
             AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
             AWSShapeProperty(label: "Role", required: true, type: .string), 
+            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
             AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
             AWSShapeProperty(label: "ClientList", required: false, type: .list), 
+            AWSShapeProperty(label: "Squash", required: false, type: .string), 
             AWSShapeProperty(label: "LocationARN", required: true, type: .string), 
             AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
             AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
@@ -1438,24 +1470,30 @@ extension Storagegateway {
         public let kMSKey: String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage. 
         public let role: String
+        /// Sets the write status of a file share: "true" if the write status is read-only, and otherwise "false".
+        public let readOnly: Bool?
         /// File share default values. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks. 
         public let clientList: [String]?
-        /// The ARN of the backend storage used for storing file data. 
+        /// Maps a user to anonymous user. Valid options are the following:    "RootSquash" - Only root is mapped to anonymous user.   "NoSquash" - No one is mapped to anonymous user.   "AllSquash" - Everyone is mapped to anonymous user.  
+        public let squash: String?
+        /// The ARN of the backed storage used for storing file data. 
         public let locationARN: String
         /// The default storage class for objects put into an Amazon S3 bucket by file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
         public let defaultStorageClass: String?
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional.
         public let kMSEncrypted: Bool?
 
-        public init(gatewayARN: String, clientToken: String, kMSKey: String? = nil, role: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, locationARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(gatewayARN: String, clientToken: String, kMSKey: String? = nil, role: String, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, locationARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
             self.gatewayARN = gatewayARN
             self.clientToken = clientToken
             self.kMSKey = kMSKey
             self.role = role
+            self.readOnly = readOnly
             self.nFSFileShareDefaults = nFSFileShareDefaults
             self.clientList = clientList
+            self.squash = squash
             self.locationARN = locationARN
             self.defaultStorageClass = defaultStorageClass
             self.kMSEncrypted = kMSEncrypted
@@ -1469,8 +1507,10 @@ extension Storagegateway {
             self.kMSKey = dictionary["KMSKey"] as? String
             guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
             self.role = role
+            self.readOnly = dictionary["ReadOnly"] as? Bool
             if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
             self.clientList = dictionary["ClientList"] as? [String]
+            self.squash = dictionary["Squash"] as? String
             guard let locationARN = dictionary["LocationARN"] as? String else { throw InitializableError.missingRequiredParam("LocationARN") }
             self.locationARN = locationARN
             self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
@@ -1760,40 +1800,50 @@ extension Storagegateway {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
+            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
             AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string), 
             AWSShapeProperty(label: "ClientList", required: false, type: .list), 
+            AWSShapeProperty(label: "Squash", required: false, type: .string), 
+            AWSShapeProperty(label: "FileShareARN", required: true, type: .string), 
             AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
             AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
         ]
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
         public let kMSKey: String?
+        /// Sets the write status of a file share: "true" if the write status is read-only, and otherwise "false".
+        public let readOnly: Bool?
         /// The default values for the file share. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
-        /// The Amazon Resource Name (ARN) of the file share to be updated. 
-        public let fileShareARN: String
         /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
+        /// The user mapped to anonymous user. Valid options are the following:   "RootSquash" - Only root is mapped to anonymous user.   "NoSquash" - No one is mapped to anonymous user   "AllSquash" - Everyone is mapped to anonymous user.  
+        public let squash: String?
+        /// The Amazon Resource Name (ARN) of the file share to be updated. 
+        public let fileShareARN: String
         /// The default storage class for objects put into an Amazon S3 bucket by a file gateway. Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated, the default value S3_STANDARD is used. Optional.
         public let defaultStorageClass: String?
         /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. 
         public let kMSEncrypted: Bool?
 
-        public init(kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, fileShareARN: String, clientList: [String]? = nil, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
+        public init(kMSKey: String? = nil, readOnly: Bool? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, clientList: [String]? = nil, squash: String? = nil, fileShareARN: String, defaultStorageClass: String? = nil, kMSEncrypted: Bool? = nil) {
             self.kMSKey = kMSKey
+            self.readOnly = readOnly
             self.nFSFileShareDefaults = nFSFileShareDefaults
-            self.fileShareARN = fileShareARN
             self.clientList = clientList
+            self.squash = squash
+            self.fileShareARN = fileShareARN
             self.defaultStorageClass = defaultStorageClass
             self.kMSEncrypted = kMSEncrypted
         }
 
         public init(dictionary: [String: Any]) throws {
             self.kMSKey = dictionary["KMSKey"] as? String
+            self.readOnly = dictionary["ReadOnly"] as? Bool
             if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
+            self.clientList = dictionary["ClientList"] as? [String]
+            self.squash = dictionary["Squash"] as? String
             guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
             self.fileShareARN = fileShareARN
-            self.clientList = dictionary["ClientList"] as? [String]
             self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
             self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
         }
@@ -2199,6 +2249,7 @@ extension Storagegateway {
         public let volumeSizeInBytes: Int64?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
         public let preservedExistingData: Bool?
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: String?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
@@ -2309,6 +2360,7 @@ extension Storagegateway {
         public let volumeProgress: Double?
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
+        /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
         public let createdDate: String?
 
         public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: String? = nil) {
@@ -2373,24 +2425,6 @@ extension Storagegateway {
         }
     }
 
-    public struct DeleteFileShareOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the deleted file share. 
-        public let fileShareARN: String?
-
-        public init(fileShareARN: String? = nil) {
-            self.fileShareARN = fileShareARN
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareARN = dictionary["FileShareARN"] as? String
-        }
-    }
-
     public struct DeleteGatewayInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2409,6 +2443,24 @@ extension Storagegateway {
         }
     }
 
+    public struct DeleteFileShareOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the deleted file share. 
+        public let fileShareARN: String?
+
+        public init(fileShareARN: String? = nil) {
+            self.fileShareARN = fileShareARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.fileShareARN = dictionary["FileShareARN"] as? String
+        }
+    }
+
     public struct Tape: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2418,6 +2470,7 @@ extension Storagegateway {
             AWSShapeProperty(label: "Progress", required: false, type: .double), 
             AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeProperty(label: "TapeUsedInBytes", required: false, type: .long), 
             AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
             AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
         ]
@@ -2427,20 +2480,24 @@ extension Storagegateway {
         public let vTLDevice: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
+        /// The date the virtual tape was created.
         public let tapeCreatedDate: String?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
+        /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
+        public let tapeUsedInBytes: Int64?
         /// The current state of the virtual tape.
         public let tapeStatus: String?
-        /// The size, in bytes, of the virtual tape.
+        /// The size, in bytes, of the virtual tape capacity.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.vTLDevice = vTLDevice
             self.progress = progress
             self.tapeCreatedDate = tapeCreatedDate
             self.tapeBarcode = tapeBarcode
+            self.tapeUsedInBytes = tapeUsedInBytes
             self.tapeStatus = tapeStatus
             self.tapeSizeInBytes = tapeSizeInBytes
         }
@@ -2451,6 +2508,7 @@ extension Storagegateway {
             self.progress = dictionary["Progress"] as? Double
             self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
             self.tapeBarcode = dictionary["TapeBarcode"] as? String
+            self.tapeUsedInBytes = dictionary["TapeUsedInBytes"] as? Int64
             self.tapeStatus = dictionary["TapeStatus"] as? String
             self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
         }
@@ -3251,6 +3309,24 @@ extension Storagegateway {
         public init(dictionary: [String: Any]) throws {
             guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
             self.gatewayARN = gatewayARN
+        }
+    }
+
+    public struct RefreshCacheInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FileShareARN", required: true, type: .string)
+        ]
+        public let fileShareARN: String
+
+        public init(fileShareARN: String) {
+            self.fileShareARN = fileShareARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
+            self.fileShareARN = fileShareARN
         }
     }
 

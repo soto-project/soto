@@ -49,7 +49,7 @@ public struct Appstream {
         )
     }
 
-    ///  Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. Only ComputeCapacity and ImageName can be updated in any other state. 
+    ///  Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. When a fleet is in the RUNNING state, only DisplayName and ComputeCapacity can be updated. A fleet cannot be updated in a status of STARTING or STOPPING.
     public func updateFleet(_ input: UpdateFleetRequest) throws -> UpdateFleetResult {
         return try client.send(operation: "UpdateFleet", path: "/", httpMethod: "POST", input: input)
     }
@@ -104,7 +104,7 @@ public struct Appstream {
         return try client.send(operation: "CreateFleet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items.
+    ///  Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items. If an authentication type is not provided, the operation defaults to users authenticated using a streaming URL.
     public func describeSessions(_ input: DescribeSessionsRequest) throws -> DescribeSessionsResult {
         return try client.send(operation: "DescribeSessions", path: "/", httpMethod: "POST", input: input)
     }

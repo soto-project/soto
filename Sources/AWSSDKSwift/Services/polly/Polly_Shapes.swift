@@ -123,6 +123,7 @@ extension Polly {
         case tatyana = "Tatyana"
         case astrid = "Astrid"
         case filiz = "Filiz"
+        case vicki = "Vicki"
         public var description: String { return self.rawValue }
     }
 
@@ -168,7 +169,7 @@ extension Polly {
             AWSShapeProperty(label: "AudioStream", required: false, type: .blob), 
             AWSShapeProperty(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
         ]
-        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.     
+        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
         public let contentType: String?
         ///  Stream containing the synthesized speech. 
         public let audioStream: Data?
@@ -237,6 +238,7 @@ extension Polly {
     }
 
     public enum OutputFormat: String, CustomStringConvertible {
+        case json = "json"
         case mp3 = "mp3"
         case ogg_vorbis = "ogg_vorbis"
         case pcm = "pcm"
@@ -297,49 +299,62 @@ extension Polly {
         }
     }
 
+    public enum SpeechMarkType: String, CustomStringConvertible {
+        case sentence = "sentence"
+        case ssml = "ssml"
+        case viseme = "viseme"
+        case word = "word"
+        public var description: String { return self.rawValue }
+    }
+
     public struct SynthesizeSpeechInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputFormat", required: true, type: .enum), 
             AWSShapeProperty(label: "VoiceId", required: true, type: .enum), 
-            AWSShapeProperty(label: "LexiconNames", required: false, type: .list), 
-            AWSShapeProperty(label: "TextType", required: false, type: .enum), 
             AWSShapeProperty(label: "Text", required: true, type: .string), 
-            AWSShapeProperty(label: "SampleRate", required: false, type: .string)
+            AWSShapeProperty(label: "SampleRate", required: false, type: .string), 
+            AWSShapeProperty(label: "SpeechMarkTypes", required: false, type: .list), 
+            AWSShapeProperty(label: "OutputFormat", required: true, type: .enum), 
+            AWSShapeProperty(label: "TextType", required: false, type: .enum), 
+            AWSShapeProperty(label: "LexiconNames", required: false, type: .list)
         ]
-        ///  The audio format in which the resulting stream will be encoded. 
-        public let outputFormat: OutputFormat
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
         public let voiceId: VoiceId
-        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
-        public let lexiconNames: [String]?
-        ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
-        public let textType: TextType?
         ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
         public let text: String
         ///  The audio frequency specified in Hz.  The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050".   Valid values for pcm are "8000" and "16000" The default value is "16000". 
         public let sampleRate: String?
+        /// The type of speech marks returned for the input text.
+        public let speechMarkTypes: [SpeechMarkType]?
+        ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
+        public let outputFormat: OutputFormat
+        ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
+        public let textType: TextType?
+        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
+        public let lexiconNames: [String]?
 
-        public init(outputFormat: OutputFormat, voiceId: VoiceId, lexiconNames: [String]? = nil, textType: TextType? = nil, text: String, sampleRate: String? = nil) {
-            self.outputFormat = outputFormat
+        public init(voiceId: VoiceId, text: String, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, outputFormat: OutputFormat, textType: TextType? = nil, lexiconNames: [String]? = nil) {
             self.voiceId = voiceId
-            self.lexiconNames = lexiconNames
-            self.textType = textType
             self.text = text
             self.sampleRate = sampleRate
+            self.speechMarkTypes = speechMarkTypes
+            self.outputFormat = outputFormat
+            self.textType = textType
+            self.lexiconNames = lexiconNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let rawOutputFormat = dictionary["OutputFormat"] as? String, let outputFormat = OutputFormat(rawValue: rawOutputFormat) else { throw InitializableError.missingRequiredParam("OutputFormat") }
-            self.outputFormat = outputFormat
             guard let rawVoiceId = dictionary["VoiceId"] as? String, let voiceId = VoiceId(rawValue: rawVoiceId) else { throw InitializableError.missingRequiredParam("VoiceId") }
             self.voiceId = voiceId
-            self.lexiconNames = dictionary["LexiconNames"] as? [String]
-            if let textType = dictionary["TextType"] as? String { self.textType = TextType(rawValue: textType) } else { self.textType = nil }
             guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
             self.text = text
             self.sampleRate = dictionary["SampleRate"] as? String
+            if let speechMarkTypes = dictionary["SpeechMarkTypes"] as? [String] { self.speechMarkTypes = speechMarkTypes.flatMap({ SpeechMarkType(rawValue: $0)}) } else { self.speechMarkTypes = nil }
+            guard let rawOutputFormat = dictionary["OutputFormat"] as? String, let outputFormat = OutputFormat(rawValue: rawOutputFormat) else { throw InitializableError.missingRequiredParam("OutputFormat") }
+            self.outputFormat = outputFormat
+            if let textType = dictionary["TextType"] as? String { self.textType = TextType(rawValue: textType) } else { self.textType = nil }
+            self.lexiconNames = dictionary["LexiconNames"] as? [String]
         }
     }
 

@@ -134,22 +134,30 @@ extension Codepipeline {
         }
     }
 
-    public struct GetJobDetailsInput: AWSShape {
+    public struct ListPipelineExecutionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+            AWSShapeProperty(label: "pipelineExecutionSummaries", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
-        /// The unique system-generated ID for the job.
-        public let jobId: String
+        /// A list of executions in the history of a pipeline.
+        public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
+        /// A token that can be used in the next list pipeline executions call to return the next set of pipeline executions. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
+        public let nextToken: String?
 
-        public init(jobId: String) {
-            self.jobId = jobId
+        public init(pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil, nextToken: String? = nil) {
+            self.pipelineExecutionSummaries = pipelineExecutionSummaries
+            self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+            if let pipelineExecutionSummaries = dictionary["pipelineExecutionSummaries"] as? [[String: Any]] {
+                self.pipelineExecutionSummaries = try pipelineExecutionSummaries.map({ try PipelineExecutionSummary(dictionary: $0) })
+            } else { 
+                self.pipelineExecutionSummaries = nil
+            }
+            self.nextToken = dictionary["nextToken"] as? String
         }
     }
 
@@ -185,6 +193,25 @@ extension Codepipeline {
             self.changeIdentifier = changeIdentifier
             self.created = dictionary["created"] as? String
             self.revisionSummary = dictionary["revisionSummary"] as? String
+        }
+    }
+
+    public struct GetJobDetailsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        ]
+        /// The unique system-generated ID for the job.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            self.jobId = jobId
         }
     }
 
@@ -501,6 +528,7 @@ extension Codepipeline {
         public let actionName: String
         /// The name of the pipeline that will start processing the revision to the source.
         public let pipelineName: String
+        /// Represents information about the version (or revision) of an action.
         public let actionRevision: ActionRevision
 
         public init(stageName: String, actionName: String, pipelineName: String, actionRevision: ActionRevision) {
@@ -530,6 +558,7 @@ extension Codepipeline {
             AWSShapeProperty(label: "clientToken", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
+        /// Represents information about failure details.
         public let failureDetails: FailureDetails
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
@@ -593,16 +622,21 @@ extension Codepipeline {
             AWSShapeProperty(label: "inputArtifacts", required: false, type: .list), 
             AWSShapeProperty(label: "pipelineContext", required: false, type: .structure)
         ]
+        /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
+        /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline.
         public let artifactCredentials: AWSSessionCredentials?
         /// The output of the job.
         public let outputArtifacts: [Artifact]?
+        /// Represents information about the key used to encrypt data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. 
         public let encryptionKey: EncryptionKey?
         /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
         public let continuationToken: String?
         /// The artifact supplied to the job.
         public let inputArtifacts: [Artifact]?
+        /// Represents information about a pipeline to a job worker.
         public let pipelineContext: PipelineContext?
 
         public init(actionTypeId: ActionTypeId? = nil, actionConfiguration: ActionConfiguration? = nil, artifactCredentials: AWSSessionCredentials? = nil, outputArtifacts: [Artifact]? = nil, encryptionKey: EncryptionKey? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
@@ -841,7 +875,7 @@ extension Codepipeline {
             AWSShapeProperty(label: "pipelineName", required: false, type: .string), 
             AWSShapeProperty(label: "artifactRevisions", required: false, type: .list)
         ]
-        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline did not complete successfully.  
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline execution did not complete successfully.  
         public let status: PipelineExecutionStatus?
         /// The version number of the pipeline that was executed.
         public let pipelineVersion: Int32?
@@ -910,6 +944,7 @@ extension Codepipeline {
         public let id: String?
         /// The AWS account ID associated with the job.
         public let accountId: String?
+        /// Represents additional information about a job required for a job worker to complete the job. 
         public let data: JobData?
 
         public init(id: String? = nil, accountId: String? = nil, data: JobData? = nil) {
@@ -956,6 +991,7 @@ extension Codepipeline {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "actionType", required: true, type: .structure)
         ]
+        /// Returns information about the details of an action type.
         public let actionType: ActionType
 
         public init(actionType: ActionType) {
@@ -1047,11 +1083,13 @@ extension Codepipeline {
             AWSShapeProperty(label: "currentRevision", required: false, type: .structure), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
+        /// The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline. 
         public let executionDetails: ExecutionDetails?
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
         public let continuationToken: String?
+        /// Represents information about a current revision.
         public let currentRevision: CurrentRevision?
         /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs.
         public let jobId: String
@@ -1465,6 +1503,7 @@ extension Codepipeline {
             AWSShapeProperty(label: "roleArn", required: true, type: .string), 
             AWSShapeProperty(label: "version", required: false, type: .integer)
         ]
+        /// Represents the context of an action within the stage of a pipeline to a job worker. 
         public let artifactStore: ArtifactStore
         /// The name of the action to be performed.
         public let name: String
@@ -1538,9 +1577,11 @@ extension Codepipeline {
         public let entityUrl: String?
         /// The name of the action.
         public let actionName: String?
+        /// Represents information about the version (or revision) of an action.
         public let currentRevision: ActionRevision?
         /// A URL link for more information about the revision, such as a commit details page.
         public let revisionUrl: String?
+        /// Represents information about the run of an action.
         public let latestExecution: ActionExecution?
 
         public init(entityUrl: String? = nil, actionName: String? = nil, currentRevision: ActionRevision? = nil, revisionUrl: String? = nil, latestExecution: ActionExecution? = nil) {
@@ -1568,6 +1609,7 @@ extension Codepipeline {
             AWSShapeProperty(label: "queryParam", required: false, type: .map), 
             AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
         ]
+        /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
         public let queryParam: [String: String]?
@@ -1825,6 +1867,7 @@ extension Codepipeline {
             AWSShapeProperty(label: "actionTypeId", required: true, type: .structure), 
             AWSShapeProperty(label: "maxBatchSize", required: false, type: .integer)
         ]
+        /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
         public let maxBatchSize: Int32?
@@ -1898,7 +1941,7 @@ extension Codepipeline {
         ]
         /// The type of the artifact store, such as S3.
         public let `type`: ArtifactStoreType
-        /// The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
+        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
         public let location: String
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
@@ -1989,6 +2032,7 @@ extension Codepipeline {
         ]
         /// The details of the input artifact for the action, such as its commit ID.
         public let inputArtifactDetails: ArtifactDetails
+        /// Represents information about an action type.
         public let id: ActionTypeId
         /// The configuration properties for the action type.
         public let actionConfigurationProperties: [ActionConfigurationProperty]?
@@ -2026,6 +2070,35 @@ extension Codepipeline {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListPipelineExecutionsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "pipelineName", required: true, type: .string), 
+            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
+        /// The name of the pipeline for which you want to get execution summary information.
+        public let pipelineName: String
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. The available pipeline execution history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
+        public let maxResults: Int32?
+        /// The token that was returned from the previous list pipeline executions call, which can be used to return the next set of pipeline executions in the list.
+        public let nextToken: String?
+
+        public init(pipelineName: String, maxResults: Int32? = nil, nextToken: String? = nil) {
+            self.pipelineName = pipelineName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let pipelineName = dictionary["pipelineName"] as? String else { throw InitializableError.missingRequiredParam("pipelineName") }
+            self.pipelineName = pipelineName
+            self.maxResults = dictionary["maxResults"] as? Int32
+            self.nextToken = dictionary["nextToken"] as? String
+        }
+    }
+
     public struct GetPipelineExecutionOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2057,8 +2130,11 @@ extension Codepipeline {
             AWSShapeProperty(label: "inputArtifacts", required: false, type: .list), 
             AWSShapeProperty(label: "pipelineContext", required: false, type: .structure)
         ]
+        /// Represents information about an action type.
         public let actionTypeId: ActionTypeId?
+        /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
+        /// Represents an AWS session credentials object. These credentials are temporary credentials that are issued by AWS Secure Token Service (STS). They can be used to access input and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline in AWS CodePipeline. 
         public let artifactCredentials: AWSSessionCredentials?
         /// The name of the artifact that will be the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or might be defined by the user when the action is created.
         public let outputArtifacts: [Artifact]?
@@ -2068,6 +2144,7 @@ extension Codepipeline {
         public let continuationToken: String?
         /// The name of the artifact that will be worked upon by the action, if any. This name might be system-generated, such as "MyApp", or might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
         public let inputArtifacts: [Artifact]?
+        /// Represents information about a pipeline to a job worker.
         public let pipelineContext: PipelineContext?
 
         public init(actionTypeId: ActionTypeId? = nil, actionConfiguration: ActionConfiguration? = nil, artifactCredentials: AWSSessionCredentials? = nil, outputArtifacts: [Artifact]? = nil, encryptionKey: EncryptionKey? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
@@ -2107,6 +2184,7 @@ extension Codepipeline {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: false, type: .structure)
         ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration?
 
         public init(pipeline: PipelineDeclaration? = nil) {
@@ -2146,6 +2224,7 @@ extension Codepipeline {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: false, type: .structure)
         ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration?
 
         public init(pipeline: PipelineDeclaration? = nil) {
@@ -2264,8 +2343,11 @@ extension Codepipeline {
             AWSShapeProperty(label: "provider", required: true, type: .string), 
             AWSShapeProperty(label: "category", required: true, type: .enum)
         ]
+        /// The details of the input artifact for the action, such as its commit ID.
         public let inputArtifactDetails: ArtifactDetails
+        /// Returns information about the settings for an action type.
         public let settings: ActionTypeSettings?
+        /// The details of the output artifact of the action, such as its commit ID.
         public let outputArtifactDetails: ArtifactDetails
         /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline. 
         public let configurationProperties: [ActionConfigurationProperty]?
@@ -2392,6 +2474,7 @@ extension Codepipeline {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pipeline", required: true, type: .structure)
         ]
+        /// Represents the structure of actions and stages to be performed in the pipeline. 
         public let pipeline: PipelineDeclaration
 
         public init(pipeline: PipelineDeclaration) {
@@ -2420,6 +2503,39 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             guard let pipeline = dictionary["pipeline"] as? [String: Any] else { throw InitializableError.missingRequiredParam("pipeline") }
             self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline)
+        }
+    }
+
+    public struct PipelineExecutionSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "pipelineExecutionId", required: false, type: .string), 
+            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "lastUpdateTime", required: false, type: .timestamp)
+        ]
+        /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline execution did not complete successfully.  
+        public let status: PipelineExecutionStatus?
+        /// The ID of the pipeline execution.
+        public let pipelineExecutionId: String?
+        /// The date and time when the pipeline execution began, in timestamp format.
+        public let startTime: String?
+        /// The date and time of the last change to the pipeline execution, in timestamp format.
+        public let lastUpdateTime: String?
+
+        public init(status: PipelineExecutionStatus? = nil, pipelineExecutionId: String? = nil, startTime: String? = nil, lastUpdateTime: String? = nil) {
+            self.status = status
+            self.pipelineExecutionId = pipelineExecutionId
+            self.startTime = startTime
+            self.lastUpdateTime = lastUpdateTime
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let status = dictionary["status"] as? String { self.status = PipelineExecutionStatus(rawValue: status) } else { self.status = nil }
+            self.pipelineExecutionId = dictionary["pipelineExecutionId"] as? String
+            self.startTime = dictionary["startTime"] as? String
+            self.lastUpdateTime = dictionary["lastUpdateTime"] as? String
         }
     }
 

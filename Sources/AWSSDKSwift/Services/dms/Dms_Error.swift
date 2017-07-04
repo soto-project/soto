@@ -36,8 +36,10 @@ public enum DmsError: AWSErrorType {
     case resourceQuotaExceededFault(message: String?)
     case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
     case invalidSubnet(message: String?)
-    case subnetAlreadyInUse(message: String?)
+    case sNSInvalidTopicFault(message: String?)
+    case sNSNoAuthorizationFault(message: String?)
     case invalidCertificateFault(message: String?)
+    case subnetAlreadyInUse(message: String?)
     case insufficientResourceCapacityFault(message: String?)
     case storageQuotaExceededFault(message: String?)
     case upgradeDependencyFailureFault(message: String?)
@@ -66,10 +68,14 @@ extension DmsError {
             self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
+        case "SNSInvalidTopicFault":
+            self = .sNSInvalidTopicFault(message: message)
+        case "SNSNoAuthorizationFault":
+            self = .sNSNoAuthorizationFault(message: message)
         case "InvalidCertificateFault":
             self = .invalidCertificateFault(message: message)
+        case "SubnetAlreadyInUse":
+            self = .subnetAlreadyInUse(message: message)
         case "InsufficientResourceCapacityFault":
             self = .insufficientResourceCapacityFault(message: message)
         case "StorageQuotaExceededFault":

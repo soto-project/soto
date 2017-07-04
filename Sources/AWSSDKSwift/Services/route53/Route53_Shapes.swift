@@ -115,9 +115,9 @@ extension Route53 {
         ]
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
         public let delegationSetId: String?
-        /// (Optional) If you have more hosted zones than the value of maxitems, ListHostedZones returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZones. For the value of marker, specify the value of the NextMarker element that was returned in the previous response. Hosted zones are listed in the order in which they were created.
+        /// If the value of IsTruncated in the previous response was true, you have more hosted zones. To get more hosted zones, submit another ListHostedZones request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first hosted zone that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more hosted zones to get.
         public let marker: String?
-        /// (Optional) The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, the value of the IsTruncated element in the response is true, and the value of the NextMarker element is the hosted zone ID of the first hosted zone in the next group of maxitems hosted zones.
+        /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If you have more than maxitems hosted zones, the value of IsTruncated in the response is true, and the value of NextMarker is the hosted zone ID of the first hosted zone that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
 
         public init(delegationSetId: String? = nil, marker: String? = nil, maxItems: String? = nil) {
@@ -221,11 +221,11 @@ extension Route53 {
             AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string)
         ]
-        ///  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of the NextToken element in from the response in the NextToken parameter in another ListVPCAssociationAuthorizations request.
+        ///  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of NextToken from the response in the nexttoken parameter in another ListVPCAssociationAuthorizations request.
         public let nextToken: String?
         /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone.
         public let hostedZoneId: String
-        ///  Optional: An integer that specifies the maximum number of VPCs that you want Amazon Route 53 to return.
+        ///  Optional: An integer that specifies the maximum number of VPCs that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Amazon Route 53 returns up to 50 VPCs per page.
         public let maxResults: String?
 
         public init(nextToken: String? = nil, hostedZoneId: String, maxResults: String? = nil) {
@@ -248,7 +248,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The ID of the reusable delegation set you want to delete.
+        /// The ID of the reusable delegation set that you want to delete.
         public let id: String
 
         public init(id: String) {
@@ -299,15 +299,15 @@ extension Route53 {
         ]
         /// The type of the resource record set.
         public let recordType: RRType
-        /// If the resolver that you specified for resolverip supports EDNS0, specify the IP address of a client in the applicable location.
+        /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client in the applicable location, for example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
         public let eDNS0ClientSubnetIP: String?
-        /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits.
+        /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits for IPv4 addresses and 64 bits for IPv6 addresses.
         public let eDNS0ClientSubnetMask: String?
         /// The name of the resource record set that you want Amazon Route 53 to simulate a query for.
         public let recordName: String
         /// The ID of the hosted zone that you want Amazon Route 53 to simulate a query for.
         public let hostedZoneId: String
-        /// If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East region.
+        /// If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East (N. Virginia) Region (us-east-1).
         public let resolverIP: String?
 
         public init(recordType: RRType, eDNS0ClientSubnetIP: String? = nil, eDNS0ClientSubnetMask: String? = nil, recordName: String, hostedZoneId: String, resolverIP: String? = nil) {
@@ -341,9 +341,9 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyIdMarker", required: true, type: .string), 
             AWSShapeProperty(label: "TrafficPolicySummaries", required: true, type: .structure)
         ]
-        /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of MaxItems traffic policies by calling ListTrafficPolicies again and specifying the value of the TrafficPolicyIdMarker element in the TrafficPolicyIdMarker request parameter. Valid Values: true | false 
+        /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
         public let isTruncated: Bool
-        /// The value that you specified for the MaxItems parameter in the call to ListTrafficPolicies that produced the current response.
+        /// The value that you specified for the MaxItems parameter in the ListTrafficPolicies request that produced the current response.
         public let maxItems: String
         /// If the value of IsTruncated is true, TrafficPolicyIdMarker is the ID of the first traffic policy in the next group of MaxItems traffic policies.
         public let trafficPolicyIdMarker: String
@@ -628,15 +628,15 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum), 
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string)
         ]
-        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByHostedZone again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
+        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
-        /// The value that you specified for the MaxItems parameter in the call to ListTrafficPolicyInstancesByHostedZone that produced the current response. 
+        /// The value that you specified for the MaxItems parameter in the ListTrafficPolicyInstancesByHostedZone request that produced the current response.
         public let maxItems: String
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request. 
         public let trafficPolicyInstances: TrafficPolicyInstances
-        /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of traffic policy instances.
         public let trafficPolicyInstanceTypeMarker: RRType?
-        /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of traffic policy instances.
         public let trafficPolicyInstanceNameMarker: String?
 
         public init(isTruncated: Bool, maxItems: String, trafficPolicyInstances: TrafficPolicyInstances, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
@@ -722,7 +722,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
-        /// The ID for the health check for which you want the current status. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
+        /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
         public let healthCheckId: String
 
         public init(healthCheckId: String) {
@@ -744,7 +744,7 @@ extension Route53 {
         ]
         /// The value of Value depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Value is the value that you want to give the new tag.    Edit a tag: Value is the new value that you want to assign the tag.  
         public let value: String?
-        /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag whose Value element you want to remove.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
+        /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag that you want to change the Value for.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -766,9 +766,9 @@ extension Route53 {
             AWSShapeProperty(label: "CallerReference", required: false, type: .string), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
-        /// A complex type that contains a list of the authoritative name servers for the hosted zone.
+        /// A complex type that contains a list of the authoritative name servers for a hosted zone or for a reusable delegation set.
         public let nameServers: DelegationSetNameServers
-        /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example, a date/time stamp.
+        /// The value that you specified for CallerReference when you created the reusable delegation set.
         public let callerReference: String?
         /// The ID that Amazon Route 53 assigns to a reusable delegation set.
         public let id: String?
@@ -835,9 +835,9 @@ extension Route53 {
         ]
         /// The new comment for the specified traffic policy and version.
         public let comment: String
-        /// The value of Version for the traffic policy for which you want to update the comment.
+        /// The value of Version for the traffic policy that you want to update the comment for.
         public let version: Int32
-        /// The value of Id for the traffic policy for which you want to update the comment.
+        /// The value of Id for the traffic policy that you want to update the comment for.
         public let id: String
 
         public init(comment: String, version: Int32, id: String) {
@@ -892,17 +892,17 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
             AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
-        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
+        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get more traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
-        /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance that Amazon Route 53 will return if you submit another ListTrafficPolicyInstances request. 
         public let hostedZoneIdMarker: String?
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request.
         public let trafficPolicyInstances: TrafficPolicyInstances
         /// The value that you specified for the MaxItems parameter in the call to ListTrafficPolicyInstances that produced the current response.
         public let maxItems: String
-        /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another ListTrafficPolicyInstances request. 
         public let trafficPolicyInstanceNameMarker: String?
-        /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, TrafficPolicyInstanceTypeMarker is the DNS type of the resource record sets that are associated with the first traffic policy instance that Amazon Route 53 will return if you submit another ListTrafficPolicyInstances request. 
         public let trafficPolicyInstanceTypeMarker: RRType?
 
         public init(isTruncated: Bool, hostedZoneIdMarker: String? = nil, trafficPolicyInstances: TrafficPolicyInstances, maxItems: String, trafficPolicyInstanceNameMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil) {
@@ -987,7 +987,7 @@ extension Route53 {
         ]
         /// A complex type that contains the response to a CreateHealthCheck request. 
         public let healthCheckConfig: HealthCheckConfig
-        /// A unique string that identifies the request and that allows failed CreateHealthCheck requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you create a health check.
+        /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:   If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Amazon Route 53 returns the settings for the existing health check.   If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Amazon Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with the same CallerReference as an existing health check but with different settings, Amazon Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique CallerReference but settings identical to an existing health check, Amazon Route 53 creates the health check.  
         public let callerReference: String
 
         public init(healthCheckConfig: HealthCheckConfig, callerReference: String) {
@@ -1116,7 +1116,7 @@ extension Route53 {
         public let statistic: Statistic
         /// The namespace of the metric that the alarm is associated with. For more information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let namespace: String
-        /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric.For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
+        /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about the dimensions for the metric. For information, see Amazon CloudWatch Namespaces, Dimensions, and Metrics Reference in the Amazon CloudWatch User Guide.
         public let dimensions: DimensionList?
 
         public init(threshold: Double, metricName: String, period: Int32, evaluationPeriods: Int32, comparisonOperator: ComparisonOperator, statistic: Statistic, namespace: String, dimensions: DimensionList? = nil) {
@@ -1207,9 +1207,9 @@ extension Route53 {
             AWSShapeProperty(label: "EnableSNI", required: false, type: .boolean), 
             AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
-        /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:   f the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
+        /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:   If the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
         public let healthCheckVersion: Int64?
-        /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address that is returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance never changes. For more information, see Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Linux Instances.  If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress.   For more information, see UpdateHealthCheckRequest$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses   
+        /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address that is returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance never changes. For more information, see the applicable documentation:   Linux: Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Linux Instances    Windows: Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Windows Instances     If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress.   For more information, see UpdateHealthCheckRequest$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses   
         public let iPAddress: String?
         /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
         public let childHealthChecks: ChildHealthCheckList?
@@ -1222,7 +1222,7 @@ extension Route53 {
         public let alarmIdentifier: AlarmIdentifier?
         /// The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
         public let healthCheckId: String
-        /// A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint.
+        /// A complex type that contains one Region element for each region that you want Amazon Route 53 health checkers to check the specified endpoint from.
         public let regions: HealthCheckRegionList?
         /// The number of child health checks that are associated with a CALCULATED health that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the ChildHealthChecks and ChildHealthCheck elements. Note the following:   If you specify a number greater than the number of child health checks, Amazon Route 53 always considers this health check to be unhealthy.   If you specify 0, Amazon Route 53 always considers this health check to be healthy.  
         public let healthThreshold: Int32?
@@ -1282,9 +1282,9 @@ extension Route53 {
             AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
-        /// If you're making the second or subsequent call to ListReusableDelegationSets, the Marker element matches the value that you specified in the marker parameter in the previous request.
+        /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more reusable delegation sets to get.
         public let marker: String?
-        /// The value that you specified for the maxitems parameter in the request that produced the current response.
+        /// The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Amazon Route 53 returns only the first 100 reusable delegation sets.
         public let maxItems: String?
 
         public init(marker: String? = nil, maxItems: String? = nil) {
@@ -1406,7 +1406,7 @@ extension Route53 {
         public let dNSName: String
         ///  Alias resource records sets only: The value used depends on where you want to route traffic:  CloudFront distribution  Specify Z2FDTNDATAQYW2.  Alias resource record sets for CloudFront can't be created in a private zone.   Elastic Beanstalk environment  Specify the hosted zone ID for the region in which you created the environment. The environment must have a regionalized subdomain. For a list of regions and the corresponding hosted zone IDs, see AWS Elastic Beanstalk in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference.  ELB load balancer  Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:    Elastic Load Balancing table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference: Use the value in the "Amazon Route 53 Hosted Zone ID" column that corresponds with the region that you created your load balancer in.    AWS Management Console: Go to the Amazon EC2 page, click Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.    Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId. For more information, see the applicable guide:   Classic Load Balancer: DescribeLoadBalancers    Application Load Balancer: DescribeLoadBalancers       AWS CLI: Use  describe-load-balancers  to get the value of CanonicalHostedZoneNameID.    An Amazon S3 bucket configured as a static website  Specify the hosted zone ID for the region that you created the bucket in. For more information about valid values, see the Amazon Simple Storage Service Website Endpoints table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference.  Another Amazon Route 53 resource record set in your hosted zone  Specify the hosted zone ID of your hosted zone. (An alias resource record set can't reference a resource record set in a different hosted zone.)  
         public let hostedZoneId: String
-        ///  Applies only to alias, weighted alias, latency alias, and failover alias record sets: If you set the value of EvaluateTargetHealth to true for the resource record set or sets in an alias, weighted alias, latency alias, or failover alias resource record set, and if you specify a value for  HealthCheck$Id  for every resource record set that is referenced by these alias resource record sets, the alias resource record sets inherit the health of the referenced resource record sets. In this configuration, when Amazon Route 53 receives a DNS query for an alias resource record set:   Amazon Route 53 looks at the resource record sets that are referenced by the alias resource record sets to determine which health checks they're using.   Amazon Route 53 checks the current status of each health check. (Amazon Route 53 periodically checks the health of the endpoint that is specified in a health check; it doesn't perform the health check when the DNS query arrives.)   Based on the status of the health checks, Amazon Route 53 determines which resource record sets are healthy. Unhealthy resource record sets are immediately removed from consideration. In addition, if all of the resource record sets that are referenced by an alias resource record set are unhealthy, that alias resource record set also is immediately removed from consideration.   Based on the configuration of the alias resource record sets (weighted alias or latency alias, for example) and the configuration of the resource record sets that they reference, Amazon Route 53 chooses a resource record set from the healthy resource record sets, and responds to the query.   Note the following:   You can't set EvaluateTargetHealth to true when the alias target is a CloudFront distribution.   If the AWS resource that you specify in AliasTarget is a resource record set or a group of resource record sets (for example, a group of weighted resource record sets), but it is not another alias resource record set, we recommend that you associate a health check with all of the resource record sets in the alias target.For more information, see What Happens When You Omit Health Checks? in the Amazon Route 53 Developer Guide.   If you specify an Elastic Beanstalk environment in HostedZoneId and DNSName, and if the environment contains an ELB load balancer, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. (An environment automatically contains an ELB load balancer if it includes more than one EC2 instance.) If you set EvaluateTargetHealth to true and either no EC2 instances are healthy or the load balancer itself is unhealthy, Amazon Route 53 routes queries to other available resources that are healthy, if any. If the environment contains a single EC2 instance, there are no special requirements.   If you specify an ELB load balancer in  AliasTarget , Elastic Load Balancing routes queries only to the healthy EC2 instances that are registered with the load balancer. If no EC2 instances are healthy or if the load balancer itself is unhealthy, and if EvaluateTargetHealth is true for the corresponding alias resource record set, Amazon Route 53 routes queries to other resources. When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Amazon Route 53 health checks, but they perform a similar function. Do not create Amazon Route 53 health checks for the EC2 instances that you register with an ELB load balancer. For more information, see How Health Checks Work in More Complex Amazon Route 53 Configurations in the Amazon Route 53 Developers Guide.   We recommend that you set EvaluateTargetHealth to true only when you have enough idle capacity to handle the failure of one or more endpoints.   For more information and examples, see Amazon Route 53 Health Checks and DNS Failover in the Amazon Route 53 Developer Guide.
+        ///  Applies only to alias, failover alias, geolocation alias, latency alias, and weighted alias resource record sets: When EvaluateTargetHealth is true, an alias resource record set inherits the health of the referenced AWS resource, such as an ELB load balancer, or the referenced resource record set. Note the following:   You can't set EvaluateTargetHealth to true when the alias target is a CloudFront distribution.   If the AWS resource that you specify in AliasTarget is a resource record set or a group of resource record sets (for example, a group of weighted resource record sets), but it is not another alias resource record set, we recommend that you associate a health check with all of the resource record sets in the alias target. For more information, see What Happens When You Omit Health Checks? in the Amazon Route 53 Developer Guide.   If you specify an Elastic Beanstalk environment in HostedZoneId and DNSName, and if the environment contains an ELB load balancer, Elastic Load Balancing routes queries only to the healthy Amazon EC2 instances that are registered with the load balancer. (An environment automatically contains an ELB load balancer if it includes more than one EC2 instance.) If you set EvaluateTargetHealth to true and either no EC2 instances are healthy or the load balancer itself is unhealthy, Amazon Route 53 routes queries to other available resources that are healthy, if any. If the environment contains a single EC2 instance, there are no special requirements.   If you specify an ELB load balancer in  AliasTarget , ELB routes queries only to the healthy EC2 instances that are registered with the load balancer. If no EC2 instances are healthy or if the load balancer itself is unhealthy, and if EvaluateTargetHealth is true for the corresponding alias resource record set, Amazon Route 53 routes queries to other resources. When you create a load balancer, you configure settings for ELB health checks; they're not Amazon Route 53 health checks, but they perform a similar function. Do not create Amazon Route 53 health checks for the EC2 instances that you register with an ELB load balancer. For more information, see How Health Checks Work in More Complex Amazon Route 53 Configurations in the Amazon Route 53 Developer Guide.   We recommend that you set EvaluateTargetHealth to true only when you have enough idle capacity to handle the failure of one or more endpoints.   For more information and examples, see Amazon Route 53 Health Checks and DNS Failover in the Amazon Route 53 Developer Guide.
         public let evaluateTargetHealth: Bool
 
         public init(dNSName: String, hostedZoneId: String, evaluateTargetHealth: Bool) {
@@ -1518,9 +1518,9 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
-        /// (Conditional) For your first request to ListTrafficPolicies, do not include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of MaxItems policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of the TrafficPolicyIdMarker element that was returned in the previous response. Policies are listed in the order in which they were created.
+        /// (Conditional) For your first request to ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was returned in the previous response.
         public let trafficPolicyIdMarker: String?
-        /// (Optional) The maximum number of traffic policies to be included in the response body for this request. If you have more than MaxItems traffic policies, the value of the IsTruncated element in the response is true, and the value of the TrafficPolicyIdMarker element is the ID of the first traffic policy in the next group of MaxItems traffic policies.
+        /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the response is true, and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
 
         public init(trafficPolicyIdMarker: String? = nil, maxItems: String? = nil) {
@@ -1659,7 +1659,7 @@ extension Route53 {
             AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
             AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
         ]
-        /// A complex type that describes the changes made to your hosted zone.
+        /// A complex type that contains information about the CreateHostedZone request.
         public let changeInfo: ChangeInfo
         /// A complex type that contains general information about the hosted zone.
         public let hostedZone: HostedZone
@@ -1719,7 +1719,7 @@ extension Route53 {
         ]
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public let status: String?
-        /// The time at which the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2014-10-27T17:48:16.751Z represents October 27, 2014 at 17:48:16.751 UTC.
+        /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public let checkedTime: String?
 
         public init(status: String? = nil, checkedTime: String? = nil) {
@@ -1840,17 +1840,17 @@ extension Route53 {
             AWSShapeProperty(label: "GeoLocationDetailsList", required: true, type: .structure), 
             AWSShapeProperty(label: "NextCountryCode", required: false, type: .string)
         ]
-        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextContinentCode in the StartContinentCode parameter in another GET ListGeoLocations request.
+        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextContinentCode in the StartContinentCode parameter in another ListGeoLocations request.
         public let nextContinentCode: String?
         /// A value that indicates whether more locations remain to be listed after the last location in this response. If so, the value of IsTruncated is true. To get more values, submit another request and include the values of NextContinentCode, NextCountryCode, and NextSubdivisionCode in the StartContinentCode, StartCountryCode, and StartSubdivisionCode, as applicable.
         public let isTruncated: Bool
         /// The value that you specified for MaxItems in the request.
         public let maxItems: String
-        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextSubdivisionCode in the StartSubdivisionCode parameter in another GET ListGeoLocations request.
+        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextSubdivisionCode in the StartSubdivisionCode parameter in another ListGeoLocations request.
         public let nextSubdivisionCode: String?
         /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
         public let geoLocationDetailsList: GeoLocationDetailsList
-        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextCountryCode in the StartCountryCode parameter in another GET ListGeoLocations request.
+        /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextCountryCode in the StartCountryCode parameter in another ListGeoLocations request.
         public let nextCountryCode: String?
 
         public init(nextContinentCode: String? = nil, isTruncated: Bool, maxItems: String, nextSubdivisionCode: String? = nil, geoLocationDetailsList: GeoLocationDetailsList, nextCountryCode: String? = nil) {
@@ -1955,7 +1955,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The ID of the reusable delegation set for which you want to get a list of the name server.
+        /// The ID of the reusable delegation set that you want to get a list of name servers for.
         public let id: String
 
         public init(id: String) {
@@ -2105,11 +2105,11 @@ extension Route53 {
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: HostedZones
-        /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get the next group of maxitems hosted zones by calling ListHostedZones again and specifying the value of the NextMarker element in the marker parameter.
+        /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get more hosted zones by submitting another ListHostedZones request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// The value that you specified for the maxitems parameter in the call to ListHostedZones that produced the current response.
         public let maxItems: String
-        /// If IsTruncated is true, the value of NextMarker identifies the first hosted zone in the next group of maxitems hosted zones. Call ListHostedZones again and specify the value of NextMarker in the marker parameter. This element is present only if IsTruncated is true.
+        /// If IsTruncated is true, the value of NextMarker identifies the first hosted zone in the next group of hosted zones. Submit another ListHostedZones request, and specify the value of NextMarker from the response in the marker parameter. This element is present only if IsTruncated is true.
         public let nextMarker: String?
         /// For the second and subsequent calls to ListHostedZones, Marker is the value that you specified for the marker parameter in the request that produced the current response.
         public let marker: String
@@ -2183,9 +2183,9 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
             AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
-        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
+        /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public let isTruncated: Bool
-        /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of traffic policy instances.
         public let hostedZoneIdMarker: String?
         /// A list that contains one TrafficPolicyInstance element for each traffic policy instance that matches the elements in the request.
         public let trafficPolicyInstances: TrafficPolicyInstances
@@ -2231,7 +2231,7 @@ extension Route53 {
         public let comment: String?
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
         public let status: ChangeStatus
-        /// The date and time the change request was submitted, in Coordinated Universal Time (UTC) format: YYYY-MM-DDThh:mm:ssZ. For more information, see the Wikipedia entry ISO 8601.
+        /// The date and time that the change request was submitted in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public let submittedAt: String
         /// The ID of the request.
         public let id: String
@@ -2311,11 +2311,11 @@ extension Route53 {
         public let startRecordIdentifier: String?
         /// (Optional) The maximum number of resource records sets to include in the response body for this request. If the response includes more than maxitems resource record sets, the value of the IsTruncated element in the response is true, and the values of the NextRecordName and NextRecordType elements in the response identify the first resource record set in the next group of maxitems resource record sets.
         public let maxItems: String?
-        /// The first name in the lexicographic ordering of domain names that you want the ListResourceRecordSets request to list.
+        /// The first name in the lexicographic ordering of resource record sets that you want to list.
         public let startRecordName: String?
         /// The type of resource record set to begin the record listing from. Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geo, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT  Values for alias resource record sets:     CloudFront distribution: A or AAAA    Elastic Beanstalk environment that has a regionalized subdomain: A    ELB load balancer: A | AAAA    Amazon S3 bucket: A   Constraint: Specifying type without specifying name returns an InvalidInput error.
         public let startRecordType: RRType?
-        /// The ID of the hosted zone that contains the resource record sets that you want to get.
+        /// The ID of the hosted zone that contains the resource record sets that you want to list.
         public let hostedZoneId: String
 
         public init(startRecordIdentifier: String? = nil, maxItems: String? = nil, startRecordName: String? = nil, startRecordType: RRType? = nil, hostedZoneId: String) {
@@ -2474,11 +2474,11 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyVersionMarker", required: true, type: .string), 
             AWSShapeProperty(label: "TrafficPolicies", required: true, type: .structure)
         ]
-        /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of maxitems traffic policies by calling ListTrafficPolicyVersions again and specifying the value of the NextMarker element in the marker parameter.
+        /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
-        /// The value that you specified for the maxitems parameter in the call to ListTrafficPolicyVersions that produced the current response.
+        /// The value that you specified for the maxitems parameter in the ListTrafficPolicyVersions request that produced the current response.
         public let maxItems: String
-        /// If IsTruncated is true, the value of TrafficPolicyVersionMarker identifies the first traffic policy in the next group of MaxItems traffic policies. Call ListTrafficPolicyVersions again and specify the value of TrafficPolicyVersionMarker in the TrafficPolicyVersionMarker request parameter. This element is present only if IsTruncated is true.
+        /// If IsTruncated is true, the value of TrafficPolicyVersionMarker identifies the first traffic policy that Amazon Route 53 will return if you submit another request. Call ListTrafficPolicyVersions again and specify the value of TrafficPolicyVersionMarker in the TrafficPolicyVersionMarker request parameter. This element is present only if IsTruncated is true.
         public let trafficPolicyVersionMarker: String
         /// A list that contains one TrafficPolicy element for each traffic policy version that is associated with the specified traffic policy.
         public let trafficPolicies: TrafficPolicies
@@ -2549,9 +2549,9 @@ extension Route53 {
             AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
-        /// If the response to a ListHealthChecks is more than one page, marker is the health check ID for the first health check on the next page of results. For more information, see ListHealthChecksResponse$MaxItems.
+        /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group, submit another ListHealthChecks request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first health check that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more health checks to get.
         public let marker: String?
-        /// The maximum number of HealthCheck elements you want ListHealthChecks to return on each page of the response body. If the AWS account includes more HealthCheck elements than the value of maxitems, the response is broken into pages. Each page contains the number of HealthCheck elements specified by maxitems. For example, suppose you specify 10 for maxitems and the current AWS account has 51 health checks. In the response, ListHealthChecks sets ListHealthChecksResponse$IsTruncated to true and includes the ListHealthChecksResponse$NextMarker element. To access the second and subsequent pages, you resend the GET ListHealthChecks request, add the ListHealthChecksResponse$Marker parameter to the request, and specify the value of the ListHealthChecksResponse$NextMarker element from the previous response. On the last (sixth) page of the response, which contains only one HealthCheck element:   The value of ListHealthChecksResponse$IsTruncated is false.    ListHealthChecksResponse$NextMarker is omitted.  
+        /// The maximum number of health checks that you want ListHealthChecks to return in response to the current request. Amazon Route 53 returns a maximum of 100 items. If you set MaxItems to a value greater than 100, Amazon Route 53 returns only the first 100 health checks. 
         public let maxItems: String?
 
         public init(marker: String? = nil, maxItems: String? = nil) {
@@ -2611,11 +2611,11 @@ extension Route53 {
             AWSShapeProperty(label: "Marker", required: true, type: .string), 
             AWSShapeProperty(label: "DelegationSets", required: true, type: .structure)
         ]
-        /// A flag that indicates whether there are more reusable delegation sets to be listed. If the response is truncated, you can get the next group of maxitems reusable delegation sets by calling ListReusableDelegationSets again and specifying the value of the NextMarker element in the marker parameter.
+        /// A flag that indicates whether there are more reusable delegation sets to be listed.
         public let isTruncated: Bool
         /// The value that you specified for the maxitems parameter in the call to ListReusableDelegationSets that produced the current response.
         public let maxItems: String
-        /// If IsTruncated is true, the value of NextMarker identifies the first reusable delegation set in the next group of maxitems reusable delegation sets. Call ListReusableDelegationSets again and specify the value of NextMarker in the marker parameter.
+        /// If IsTruncated is true, the value of NextMarker identifies the next reusable delegation set that Amazon Route 53 will return if you submit another ListReusableDelegationSets request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
         /// For the second and subsequent calls to ListReusableDelegationSets, Marker is the value that you specified for the marker parameter in the request that produced the current response.
         public let marker: String
@@ -2679,15 +2679,15 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
             AWSShapeProperty(label: "TrafficPolicyId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
-        /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
-        /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, HostedZoneIdMarker is the ID of the hosted zone for the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request.  For the value of hostedzoneid, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let hostedZoneIdMarker: String?
-        /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
         /// The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId.
         public let trafficPolicyVersion: Int32
-        /// For the first request to ListTrafficPolicyInstancesByPolicy, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceNameMarker: String?
         /// The ID of the traffic policy for which you want to list traffic policy instances.
         public let trafficPolicyId: String
@@ -2718,73 +2718,78 @@ extension Route53 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Failover", required: false, type: .enum), 
+            AWSShapeProperty(label: "Weight", required: false, type: .long), 
+            AWSShapeProperty(label: "Region", required: false, type: .enum), 
+            AWSShapeProperty(label: "TTL", required: false, type: .long), 
             AWSShapeProperty(label: "GeoLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "TrafficPolicyInstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Weight", required: false, type: .long), 
-            AWSShapeProperty(label: "Region", required: false, type: .enum), 
             AWSShapeProperty(label: "AliasTarget", required: false, type: .structure), 
             AWSShapeProperty(label: "HealthCheckId", required: false, type: .string), 
+            AWSShapeProperty(label: "MultiValueAnswer", required: false, type: .boolean), 
             AWSShapeProperty(label: "SetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "ResourceRecords", required: false, type: .structure), 
-            AWSShapeProperty(label: "TTL", required: false, type: .long)
+            AWSShapeProperty(label: "Type", required: true, type: .enum)
         ]
-        ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone    Valid values: PRIMARY | SECONDARY 
+        ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
         public let failover: ResourceRecordSetFailover?
+        ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Amazon Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Amazon Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Amazon Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Amazon Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.  
+        public let weight: Int64?
+        ///  Latency-based resource record sets only: The Amazon EC2 Region where you created the resource that this resource record set refers to. The resource typically is an AWS resource, such as an EC2 instance or an ELB load balancer, and is referred to by an IP address or a DNS domain name, depending on the record type.  Creating latency and latency alias resource record sets in private hosted zones is not supported.  When Amazon Route 53 receives a DNS query for a domain name and type for which you have created latency resource record sets, Amazon Route 53 selects the latency resource record set that has the lowest latency between the end user and the associated Amazon EC2 Region. Amazon Route 53 then returns the value that is associated with the selected resource record set. Note the following:   You can only specify one ResourceRecord per latency resource record set.   You can only create one latency resource record set for each Amazon EC2 Region.   You aren't required to create latency resource record sets for all Amazon EC2 Regions. Amazon Route 53 will choose the region with the best latency from among the regions that you create latency resource record sets for.   You can't create non-latency resource record sets that have the same values for the Name and Type elements as latency resource record sets.  
+        public let region: ResourceRecordSetRegion?
+        /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating or updating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.  
+        public let tTL: Int64?
         ///  Geo location resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF.  Creating geolocation and geolocation alias resource record sets in private hosted zones is not supported.  If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements.  Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Amazon Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *, which handles both queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Amazon Route 53 returns a "no answer" response for queries from those locations.  You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
         public let geoLocation: GeoLocation?
         /// When you create a traffic policy instance, Amazon Route 53 automatically creates a resource record set. TrafficPolicyInstanceId is the ID of the traffic policy instance that Amazon Route 53 created this resource record set for.  To delete the resource record set that is associated with a traffic policy instance, use DeleteTrafficPolicyInstance. Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Amazon Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.  
         public let trafficPolicyInstanceId: String?
-        /// The name of the domain you want to perform the action on. Enter a fully qualified domain name, for example, www.example.com. You can optionally include a trailing dot. If you omit the trailing dot, Amazon Route 53 still assumes that the domain name that you specify is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. For information about how to specify characters other than a-z, 0-9, and - (hyphen) and how to specify internationalized domain names, see DNS Domain Name Format in the Amazon Route 53 Developer Guide. You can use the asterisk (*) wildcard to replace the leftmost label in a domain name. For example, *.example.com. Note the following:   The * must replace the entire label. For example, you can't specify *prod.example.com or prod*.example.com.   The * can't replace any of the middle labels, for example, marketing.*.example.com.   If you include * in any position other than the leftmost label in a domain name, DNS treats it as an * character (ASCII 42), not as a wildcard.  You can't use the * wildcard for resource records sets that have a type of NS.    You can use the * wildcard as the leftmost label in a domain name, for example, *.example.com. You can't use an * for one of the middle labels, for example, marketing.*.example.com. In addition, the * must replace the entire label; for example, you can't specify prod*.example.com.
+        /// The name of the domain you want to perform the action on. Enter a fully qualified domain name, for example, www.example.com. You can optionally include a trailing dot. If you omit the trailing dot, Amazon Route 53 still assumes that the domain name that you specify is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. For information about how to specify characters other than a-z, 0-9, and - (hyphen) and how to specify internationalized domain names, see DNS Domain Name Format in the Amazon Route 53 Developer Guide. You can use the asterisk (*) wildcard to replace the leftmost label in a domain name, for example, *.example.com. Note the following:   The * must replace the entire label. For example, you can't specify *prod.example.com or prod*.example.com.   The * can't replace any of the middle labels, for example, marketing.*.example.com.   If you include * in any position other than the leftmost label in a domain name, DNS treats it as an * character (ASCII 42), not as a wildcard.  You can't use the * wildcard for resource records sets that have a type of NS.    You can use the * wildcard as the leftmost label in a domain name, for example, *.example.com. You can't use an * for one of the middle labels, for example, marketing.*.example.com. In addition, the * must replace the entire label; for example, you can't specify prod*.example.com.
         public let name: String
-        ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Amazon Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Amazon Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Amazon Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Amazon Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.  
-        public let weight: Int64?
-        ///  Latency-based resource record sets only: The Amazon EC2 Region where the resource that is specified in this resource record set resides. The resource typically is an AWS resource, such as an EC2 instance or an ELB load balancer, and is referred to by an IP address or a DNS domain name, depending on the record type.  Creating latency and latency alias resource record sets in private hosted zones is not supported.  When Amazon Route 53 receives a DNS query for a domain name and type for which you have created latency resource record sets, Amazon Route 53 selects the latency resource record set that has the lowest latency between the end user and the associated Amazon EC2 Region. Amazon Route 53 then returns the value that is associated with the selected resource record set. Note the following:   You can only specify one ResourceRecord per latency resource record set.   You can only create one latency resource record set for each Amazon EC2 Region.   You aren't required to create latency resource record sets for all Amazon EC2 Regions. Amazon Route 53 will choose the region with the best latency from among the regions for which you create latency resource record sets.   You can't create non-latency resource record sets that have the same values for the Name and Type elements as latency resource record sets.  
-        public let region: ResourceRecordSetRegion?
         ///  Alias resource record sets only: Information about the CloudFront distribution, AWS Elastic Beanstalk environment, ELB load balancer, Amazon S3 bucket, or Amazon Route 53 resource record set to which you're redirecting queries. The AWS Elastic Beanstalk environment must have a regionalized subdomain. If you're creating resource records sets for a private hosted zone, note the following:   You can't create alias resource record sets for CloudFront distributions in a private hosted zone.   Creating geolocation alias resource record sets or latency alias resource record sets in a private hosted zone is unsupported.   For information about creating failover resource record sets in a private hosted zone, see Configuring Failover in a Private Hosted Zone in the Amazon Route 53 Developer Guide.  
         public let aliasTarget: AliasTarget?
         /// If you want Amazon Route 53 to return this resource record set in response to a DNS query only when a health check is passing, include the HealthCheckId element and specify the ID of the applicable health check. Amazon Route 53 determines whether a resource record set is healthy based on one of the following:   By periodically sending a request to the endpoint that is specified in the health check   By aggregating the status of a specified group of health checks (calculated health checks)   By determining the current state of a CloudWatch alarm (CloudWatch metric health checks)   For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy. The HealthCheckId element is only useful when Amazon Route 53 is choosing between two or more resource record sets to respond to a DNS query, and you want Amazon Route 53 to base the choice in part on the status of a health check. Configuring health checks only makes sense in the following configurations:   You're checking the health of the resource record sets in a group of weighted, latency, geolocation, or failover resource record sets, and you specify health check IDs for all of the resource record sets. If the health check for one resource record set specifies an endpoint that is not healthy, Amazon Route 53 stops responding to queries using the value for that resource record set.   You set EvaluateTargetHealth to true for the resource record sets in a group of alias, weighted alias, latency alias, geolocation alias, or failover alias resource record sets, and you specify health check IDs for all of the resource record sets that are referenced by the alias resource record sets.    Amazon Route 53 doesn't check the health of the endpoint specified in the resource record set, for example, the endpoint specified by the IP address in the Value element. When you add a HealthCheckId element to a resource record set, Amazon Route 53 checks the health of the endpoint that you specified in the health check.   For geolocation resource record sets, if an endpoint is unhealthy, Amazon Route 53 looks for a resource record set for the larger, associated geographic region. For example, suppose you have resource record sets for a state in the United States, for the United States, for North America, and for all locations. If the endpoint for the state resource record set is unhealthy, Amazon Route 53 checks the resource record sets for the United States, for North America, and for all locations (a resource record set for which the value of CountryCode is *), in that order, until it finds a resource record set for which the endpoint is healthy.  If your health checks specify the endpoint only by domain name, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (example.com).  n this configuration, if you create a health check for which the value of FullyQualifiedDomainName matches the name of the resource record sets and then associate the health check with those resource record sets, health check results will be unpredictable.  For more information, see the following topics in the Amazon Route 53 Developer Guide:    Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
         public let healthCheckId: String?
+        ///  Multivalue answer resource record sets only: To route traffic approximately randomly to multiple resources, such as web servers, create one multivalue answer record for each resource and specify true for MultiValueAnswer. Note the following:   If you associate a health check with a multivalue answer resource record set, Amazon Route 53 responds to DNS queries with the corresponding IP address only when the health check is healthy.   If you don't associate a health check with a multivalue answer record, Amazon Route 53 always considers the record to be healthy.   Amazon Route 53 responds to DNS queries with up to eight healthy records; if you have eight or fewer healthy records, Amazon Route 53 responds to all DNS queries with all the healthy records.   If you have more than eight healthy records, Amazon Route 53 responds to different DNS resolvers with different combinations of healthy records.   When all records are unhealthy, Amazon Route 53 responds to DNS queries with up to eight unhealthy records.   If a resource becomes unavailable after a resolver caches a response, client software typically tries another of the IP addresses in the response.   You can't create multivalue answer alias records.
+        public let multiValueAnswer: Bool?
         ///  Weighted, Latency, Geo, and Failover resource record sets only: An identifier that differentiates among multiple resource record sets that have the same combination of DNS name and type. The value of SetIdentifier must be unique for each resource record set that has the same combination of DNS name and type. Omit SetIdentifier for any other types of record sets.
         public let setIdentifier: String?
-        /// The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.  SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type.  Values for alias resource record sets:    CloudFront distributions: A  If IPv6 is enabled for the distribution, create two resource record sets to route traffic to your distribution, one with a value of A and one with a value of AAAA.     AWS Elastic Beanstalk environment that has a regionalized subdomain: A     ELB load balancers: A | AAAA     Amazon S3 buckets: A     Another resource record set in this hosted zone: Specify the type of the resource record set for which you're creating the alias. Specify any value except NS or SOA.  
-        public let `type`: RRType
         /// Information about the resource records to act upon.  If you're creating an alias resource record set, omit ResourceRecords. 
         public let resourceRecords: ResourceRecords?
-        /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted, latency, geolocation, or failover resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.  
-        public let tTL: Int64?
+        /// The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group. Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT   SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type.  Values for alias resource record sets:    CloudFront distributions: A  If IPv6 is enabled for the distribution, create two resource record sets to route traffic to your distribution, one with a value of A and one with a value of AAAA.     AWS Elastic Beanstalk environment that has a regionalized subdomain: A     ELB load balancers: A | AAAA     Amazon S3 buckets: A     Another resource record set in this hosted zone: Specify the type of the resource record set that you're creating the alias for. All values are supported except NS and SOA.  
+        public let `type`: RRType
 
-        public init(failover: ResourceRecordSetFailover? = nil, geoLocation: GeoLocation? = nil, trafficPolicyInstanceId: String? = nil, name: String, weight: Int64? = nil, region: ResourceRecordSetRegion? = nil, aliasTarget: AliasTarget? = nil, healthCheckId: String? = nil, setIdentifier: String? = nil, type: RRType, resourceRecords: ResourceRecords? = nil, tTL: Int64? = nil) {
+        public init(failover: ResourceRecordSetFailover? = nil, weight: Int64? = nil, region: ResourceRecordSetRegion? = nil, tTL: Int64? = nil, geoLocation: GeoLocation? = nil, trafficPolicyInstanceId: String? = nil, name: String, aliasTarget: AliasTarget? = nil, healthCheckId: String? = nil, multiValueAnswer: Bool? = nil, setIdentifier: String? = nil, resourceRecords: ResourceRecords? = nil, type: RRType) {
             self.failover = failover
+            self.weight = weight
+            self.region = region
+            self.tTL = tTL
             self.geoLocation = geoLocation
             self.trafficPolicyInstanceId = trafficPolicyInstanceId
             self.name = name
-            self.weight = weight
-            self.region = region
             self.aliasTarget = aliasTarget
             self.healthCheckId = healthCheckId
+            self.multiValueAnswer = multiValueAnswer
             self.setIdentifier = setIdentifier
-            self.`type` = `type`
             self.resourceRecords = resourceRecords
-            self.tTL = tTL
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
             if let failover = dictionary["Failover"] as? String { self.failover = ResourceRecordSetFailover(rawValue: failover) } else { self.failover = nil }
+            self.weight = dictionary["Weight"] as? Int64
+            if let region = dictionary["Region"] as? String { self.region = ResourceRecordSetRegion(rawValue: region) } else { self.region = nil }
+            self.tTL = dictionary["TTL"] as? Int64
             if let geoLocation = dictionary["GeoLocation"] as? [String: Any] { self.geoLocation = try Route53.GeoLocation(dictionary: geoLocation) } else { self.geoLocation = nil }
             self.trafficPolicyInstanceId = dictionary["TrafficPolicyInstanceId"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.weight = dictionary["Weight"] as? Int64
-            if let region = dictionary["Region"] as? String { self.region = ResourceRecordSetRegion(rawValue: region) } else { self.region = nil }
             if let aliasTarget = dictionary["AliasTarget"] as? [String: Any] { self.aliasTarget = try Route53.AliasTarget(dictionary: aliasTarget) } else { self.aliasTarget = nil }
             self.healthCheckId = dictionary["HealthCheckId"] as? String
+            self.multiValueAnswer = dictionary["MultiValueAnswer"] as? Bool
             self.setIdentifier = dictionary["SetIdentifier"] as? String
+            if let resourceRecords = dictionary["ResourceRecords"] as? [String: Any] { self.resourceRecords = try Route53.ResourceRecords(dictionary: resourceRecords) } else { self.resourceRecords = nil }
             guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
             self.`type` = `type`
-            if let resourceRecords = dictionary["ResourceRecords"] as? [String: Any] { self.resourceRecords = try Route53.ResourceRecords(dictionary: resourceRecords) } else { self.resourceRecords = nil }
-            self.tTL = dictionary["TTL"] as? Int64
         }
     }
 
@@ -2857,7 +2862,7 @@ extension Route53 {
             AWSShapeProperty(label: "VPCs", required: true, type: .structure), 
             AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
         ]
-        /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the NextToken request parameter:  /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation?MaxItems=VPCs per page&amp;NextToken=  
+        /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the nexttoken request parameter.
         public let nextToken: String?
         /// The list of VPCs that are authorized to be associated with the specified hosted zone.
         public let vPCs: VPCs
@@ -2908,7 +2913,7 @@ extension Route53 {
         public let measureLatency: Bool?
         /// The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. 
         public let resourcePath: String?
-        /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Amazon Route 53 considers the health check to be healthy.    Unhealthy: Amazon Route 53 considers the health check to be unhealthy.    LastKnownStatus: Amazon Route 53uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
+        /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:    Healthy: Amazon Route 53 considers the health check to be healthy.    Unhealthy: Amazon Route 53 considers the health check to be unhealthy.    LastKnownStatus: Amazon Route 53 uses the status of the health check from the last time that CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.  
         public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
         public let inverted: Bool?
@@ -2924,7 +2929,7 @@ extension Route53 {
         public let fullyQualifiedDomainName: String?
         /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Amazon Route 53 health checker makes requests at this interval.  You can't change the value of RequestInterval after you create a health check.  If you don't specify a value for RequestInterval, the default value is 30 seconds.
         public let requestInterval: Int32?
-        /// The type of health check that you want to create, which indicates how Amazon Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     HTTP_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    HTTPS_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    TCP: Amazon Route 53 tries to establish a TCP connection.    CLOUDWATCH_METRIC: The health check is associated with a CloudWatch alarm. If the state of the alarm is OK, the health check is considered healthy. If the state is ALARM, the health check is considered unhealthy. If CloudWatch doesn't have sufficient data to determine whether the state is OK or ALARM, the health check status depends on the setting for InsufficientDataHealthStatus: Healthy, Unhealthy, or LastKnownStatus.     CALCULATED: For health checks that monitor the status of other health checks, Amazon Route 53 adds up the number of health checks that Amazon Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.    For more information about how Amazon Route 53 determines whether an endpoint is healthy, see the introduction to this topic.
+        /// The type of health check that you want to create, which indicates how Amazon Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     HTTP_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    HTTPS_STR_MATCH: Amazon Route 53 tries to establish a TCP connection. If successful, Amazon Route 53 submits an HTTPS request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    TCP: Amazon Route 53 tries to establish a TCP connection.    CLOUDWATCH_METRIC: The health check is associated with a CloudWatch alarm. If the state of the alarm is OK, the health check is considered healthy. If the state is ALARM, the health check is considered unhealthy. If CloudWatch doesn't have sufficient data to determine whether the state is OK or ALARM, the health check status depends on the setting for InsufficientDataHealthStatus: Healthy, Unhealthy, or LastKnownStatus.     CALCULATED: For health checks that monitor the status of other health checks, Amazon Route 53 adds up the number of health checks that Amazon Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.    For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide.
         public let `type`: HealthCheckType
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public let enableSNI: Bool?
@@ -2992,9 +2997,9 @@ extension Route53 {
         ]
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
         public let id: String
-        /// The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of the IsTruncated element in the response is true, and the value of the TrafficPolicyVersionMarker element is the ID of the first version in the next group of MaxItems traffic policy versions.
+        /// The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of IsTruncated in the response is true, and the value of the TrafficPolicyVersionMarker element is the ID of the first version that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
-        /// For your first request to ListTrafficPolicyVersions, do not include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems, ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get the next group of MaxItems traffic policy versions, submit another request to ListTrafficPolicyVersions. For the value of TrafficPolicyVersionMarker, specify the value of the TrafficPolicyVersionMarker element that was returned in the previous response. Traffic policy versions are listed in sequential order.
+        /// For your first request to ListTrafficPolicyVersions, don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems, ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker, specify the value of TrafficPolicyVersionMarker in the previous response.
         public let trafficPolicyVersionMarker: String?
 
         public init(id: String, maxItems: String? = nil, trafficPolicyVersionMarker: String? = nil) {
@@ -3020,13 +3025,13 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
             AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
-        /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
-        /// For the first request to ListTrafficPolicyInstancesByHostedZone, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone.
+        /// If the value of IsTruncated in the previous response is true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
-        /// For the first request to ListTrafficPolicyInstancesByHostedZone, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get for this hosted zone. If the value of IsTruncated in the previous response was false, omit this value.
+        /// If the value of IsTruncated in the previous response is true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceNameMarker: String?
-        /// The ID of the hosted zone for which you want to list traffic policy instances.
+        /// The ID of the hosted zone that you want to list traffic policy instances for.
         public let hostedZoneId: String
 
         public init(maxItems: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil, hostedZoneId: String) {
@@ -3055,11 +3060,11 @@ extension Route53 {
             AWSShapeProperty(label: "Marker", required: true, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: true, type: .string)
         ]
-        /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of maxitems health checks by calling ListHealthChecks again and specifying the value of the NextMarker element in the marker parameter. Valid Values: true | false 
+        /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
         public let healthChecks: HealthChecks
-        /// If IsTruncated is true, the value of NextMarker identifies the first health check in the next group of maxitems health checks. Call ListHealthChecks again and specify the value of NextMarker in the marker parameter.
+        /// If IsTruncated is true, the value of NextMarker identifies the first health check that Amazon Route 53 returns if you submit another ListHealthChecks request and specify the value of NextMarker in the marker parameter.
         public let nextMarker: String?
         /// For the second and subsequent calls to ListHealthChecks, Marker is the value that you specified for the marker parameter in the previous request.
         public let marker: String
@@ -3116,11 +3121,11 @@ extension Route53 {
             AWSShapeProperty(label: "VPCs", required: false, type: .structure), 
             AWSShapeProperty(label: "DelegationSet", required: false, type: .structure)
         ]
-        /// A complex type that contains general information about the hosted zone.
+        /// A complex type that contains general information about the specified hosted zone.
         public let hostedZone: HostedZone
-        /// A complex type that contains information about VPCs associated with the specified hosted zone.
+        /// A complex type that contains information about the VPCs that are associated with the specified hosted zone.
         public let vPCs: VPCs?
-        /// A complex type that describes the name servers for this hosted zone.
+        /// A complex type that lists the Amazon Route 53 name servers for the specified hosted zone.
         public let delegationSet: DelegationSet?
 
         public init(hostedZone: HostedZone, vPCs: VPCs? = nil, delegationSet: DelegationSet? = nil) {
@@ -3146,7 +3151,7 @@ extension Route53 {
             AWSShapeProperty(label: "RemoveTagKeys", required: false, type: .structure), 
             AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
-        /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags for which you want to edit the Value element. You can add a maximum of 10 tags to a health check or a hosted zone.
+        /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
         public let addTags: TagList?
         /// The ID of the resource for which you want to add, change, or delete tags.
         public let resourceId: String
@@ -3181,7 +3186,7 @@ extension Route53 {
         ]
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
         public let comment: String?
-        /// The ID for the hosted zone for which you want to update the comment.
+        /// The ID for the hosted zone that you want to update the comment for.
         public let id: String
 
         public init(comment: String? = nil, id: String) {
@@ -3248,15 +3253,15 @@ extension Route53 {
             AWSShapeProperty(label: "HostedZoneConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
-        /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.  Type  String  Default  None  Parent   CreatedHostedZoneRequest   
+        /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
         public let delegationSetId: String?
-        /// The VPC that you want your hosted zone to be associated with. By providing this parameter, your newly created hosted can't be resolved anywhere other than the given VPC.
+        /// (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon VPC when you create a private hosted zone. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
         public let vPC: VPC?
-        /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you create a hosted zone. CallerReference can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
         public let callerReference: String
-        ///  (Optional) A complex type that contains an optional comment about your hosted zone. If you don't want to specify a comment, omit both the HostedZoneConfig and Comment elements.
+        /// (Optional) A complex type that contains the following optional values:   For public and private hosted zones, an optional comment   For private hosted zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone element, omit HostedZoneConfig and the other elements.
         public let hostedZoneConfig: HostedZoneConfig?
-        /// The name of the domain. For resource record types that include a domain name, specify a fully qualified domain name, for example, www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Amazon Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in the DelegationSet element.
+        /// The name of the domain. For resource record types that include a domain name, specify a fully qualified domain name, for example, www.example.com. The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Amazon Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet.
         public let name: String
 
         public init(delegationSetId: String? = nil, vPC: VPC? = nil, callerReference: String, hostedZoneConfig: HostedZoneConfig? = nil, name: String) {
@@ -3284,7 +3289,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
         ]
-        /// A complex type that contains the ID, the status, and the date and time of your delete request.
+        /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
         public let changeInfo: ChangeInfo
 
         public init(changeInfo: ChangeInfo) {
@@ -3303,7 +3308,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HostedZoneCount", required: true, type: .long)
         ]
-        /// The total number of public and private hosted zones associated with the current AWS account.
+        /// The total number of public and private hosted zones that are associated with the current AWS account.
         public let hostedZoneCount: Int64
 
         public init(hostedZoneCount: Int64) {
@@ -3485,7 +3490,7 @@ extension Route53 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
-        /// The ID of the hosted zone for which you want to get a list of the name servers in the delegation set.
+        /// The ID of the hosted zone that you want to get information about.
         public let id: String
 
         public init(id: String) {
@@ -3731,13 +3736,13 @@ extension Route53 {
             AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
             AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string)
         ]
-        /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+        /// The maximum number of traffic policy instances that you want Amazon Route 53 to return in response to a ListTrafficPolicyInstances request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
-        /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get the next group of MaxItems traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneIdMarker, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneId, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let hostedZoneIdMarker: String?
-        /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceTypeMarker: RRType?
-        /// For the first request to ListTrafficPolicyInstances, omit this value. If the value of IsTruncated in the previous response was true, TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
+        /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancename, specify the value of TrafficPolicyInstanceNameMarker from the previous response, which is the name of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
         public let trafficPolicyInstanceNameMarker: String?
 
         public init(maxItems: String? = nil, hostedZoneIdMarker: String? = nil, trafficPolicyInstanceTypeMarker: RRType? = nil, trafficPolicyInstanceNameMarker: String? = nil) {
@@ -3763,7 +3768,7 @@ extension Route53 {
             AWSShapeProperty(label: "VPCRegion", required: false, type: .enum)
         ]
         public let vPCId: String?
-        /// The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
+        /// (Private hosted zones only) The region in which you created an Amazon VPC.
         public let vPCRegion: VPCRegion?
 
         public init(vPCId: String? = nil, vPCRegion: VPCRegion? = nil) {

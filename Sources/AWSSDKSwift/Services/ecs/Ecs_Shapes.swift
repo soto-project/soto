@@ -271,73 +271,66 @@ extension Ecs {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "pendingTasksCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "remainingResources", required: false, type: .list), 
             AWSShapeProperty(label: "versionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
             AWSShapeProperty(label: "ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
             AWSShapeProperty(label: "registeredResources", required: false, type: .list), 
             AWSShapeProperty(label: "agentConnected", required: false, type: .boolean), 
             AWSShapeProperty(label: "agentUpdateStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "version", required: false, type: .long), 
+            AWSShapeProperty(label: "registeredAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "remainingResources", required: false, type: .list), 
+            AWSShapeProperty(label: "attributes", required: false, type: .list), 
             AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer)
+            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "runningTasksCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "version", required: false, type: .long)
         ]
         /// The number of tasks on the container instance that are in the PENDING status.
         public let pendingTasksCount: Int32?
-        /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
-        public let remainingResources: [Resource]?
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public let versionInfo: VersionInfo?
-        /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the PutAttributes operation.
-        public let attributes: [Attribute]?
         /// The EC2 instance ID of the container instance.
         public let ec2InstanceId: String?
-        /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
-        public let containerInstanceArn: String?
         /// For most resource types, this parameter describes the registered resources on the container instance that are in use by current tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
         public let registeredResources: [Resource]?
         /// This parameter returns true if the agent is actually connected to Amazon ECS. Registered instances with an agent that may be unhealthy or stopped return false, and instances without a connected agent cannot accept placement requests.
         public let agentConnected: Bool?
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
         public let agentUpdateStatus: AgentUpdateStatus?
-        /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch events for the container instance (inside the detail object) to verify that the version in your event stream is current.
-        public let version: Int64?
-        /// The status of the container instance. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that the container instance can accept tasks.
+        /// The Unix timestamp for when the container instance was registered.
+        public let registeredAt: String?
+        /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
+        public let remainingResources: [Resource]?
+        /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the PutAttributes operation.
+        public let attributes: [Attribute]?
+        /// The status of the container instance. The valid values are ACTIVE, INACTIVE, or DRAINING. ACTIVE indicates that the container instance can accept tasks. DRAINING indicates that new tasks are not placed on the container instance and any service tasks running on the container instance are removed if possible. For more information, see Container Instance Draining in the Amazon EC2 Container Service Developer Guide.
         public let status: String?
+        /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
+        public let containerInstanceArn: String?
         /// The number of tasks on the container instance that are in the RUNNING status.
         public let runningTasksCount: Int32?
+        /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch events for the container instance (inside the detail object) to verify that the version in your event stream is current.
+        public let version: Int64?
 
-        public init(pendingTasksCount: Int32? = nil, remainingResources: [Resource]? = nil, versionInfo: VersionInfo? = nil, attributes: [Attribute]? = nil, ec2InstanceId: String? = nil, containerInstanceArn: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, version: Int64? = nil, status: String? = nil, runningTasksCount: Int32? = nil) {
+        public init(pendingTasksCount: Int32? = nil, versionInfo: VersionInfo? = nil, ec2InstanceId: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, registeredAt: String? = nil, remainingResources: [Resource]? = nil, attributes: [Attribute]? = nil, status: String? = nil, containerInstanceArn: String? = nil, runningTasksCount: Int32? = nil, version: Int64? = nil) {
             self.pendingTasksCount = pendingTasksCount
-            self.remainingResources = remainingResources
             self.versionInfo = versionInfo
-            self.attributes = attributes
             self.ec2InstanceId = ec2InstanceId
-            self.containerInstanceArn = containerInstanceArn
             self.registeredResources = registeredResources
             self.agentConnected = agentConnected
             self.agentUpdateStatus = agentUpdateStatus
-            self.version = version
+            self.registeredAt = registeredAt
+            self.remainingResources = remainingResources
+            self.attributes = attributes
             self.status = status
+            self.containerInstanceArn = containerInstanceArn
             self.runningTasksCount = runningTasksCount
+            self.version = version
         }
 
         public init(dictionary: [String: Any]) throws {
             self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
-            if let remainingResources = dictionary["remainingResources"] as? [[String: Any]] {
-                self.remainingResources = try remainingResources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.remainingResources = nil
-            }
             if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) } else { self.versionInfo = nil }
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
             self.ec2InstanceId = dictionary["ec2InstanceId"] as? String
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
             if let registeredResources = dictionary["registeredResources"] as? [[String: Any]] {
                 self.registeredResources = try registeredResources.map({ try Resource(dictionary: $0) })
             } else { 
@@ -345,9 +338,21 @@ extension Ecs {
             }
             self.agentConnected = dictionary["agentConnected"] as? Bool
             if let agentUpdateStatus = dictionary["agentUpdateStatus"] as? String { self.agentUpdateStatus = AgentUpdateStatus(rawValue: agentUpdateStatus) } else { self.agentUpdateStatus = nil }
-            self.version = dictionary["version"] as? Int64
+            self.registeredAt = dictionary["registeredAt"] as? String
+            if let remainingResources = dictionary["remainingResources"] as? [[String: Any]] {
+                self.remainingResources = try remainingResources.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.remainingResources = nil
+            }
+            if let attributes = dictionary["attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
+            }
             self.status = dictionary["status"] as? String
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
             self.runningTasksCount = dictionary["runningTasksCount"] as? Int32
+            self.version = dictionary["version"] as? Int64
         }
     }
 
@@ -423,7 +428,7 @@ extension Ecs {
             AWSShapeProperty(label: "status", required: true, type: .enum), 
             AWSShapeProperty(label: "cluster", required: false, type: .string)
         ]
-        /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
+        /// A list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]
         /// The container instance state with which to update the container instance.
         public let status: ContainerInstanceStatus
@@ -477,7 +482,7 @@ extension Ecs {
             AWSShapeProperty(label: "sourceContainer", required: false, type: .string), 
             AWSShapeProperty(label: "readOnly", required: false, type: .boolean)
         ]
-        /// The name of the container to mount volumes from.
+        /// The name of another container within the same task definition to mount volumes from.
         public let sourceContainer: String?
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?
@@ -810,7 +815,7 @@ extension Ecs {
         public let disableNetworking: Bool?
         /// A key/value map of labels to add to the container. This parameter maps to Labels in the Create a container section of the Docker Remote API and the --label option to docker run. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
         public let dockerLabels: [String: String]?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.  Amazon ECS task definitions currently only support tags as image identifiers within a specified repository (and not sha256 digests).    Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
+        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
         public let image: String?
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
         public let command: [String]?
@@ -943,7 +948,7 @@ extension Ecs {
         ]
         /// The name of the service to delete.
         public let service: String
-        /// The name of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
+        /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
 
         public init(service: String, cluster: String? = nil) {
@@ -1193,31 +1198,46 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "command", required: false, type: .list), 
+            AWSShapeProperty(label: "memoryReservation", required: false, type: .integer), 
             AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "environment", required: false, type: .list)
+            AWSShapeProperty(label: "environment", required: false, type: .list), 
+            AWSShapeProperty(label: "command", required: false, type: .list), 
+            AWSShapeProperty(label: "cpu", required: false, type: .integer), 
+            AWSShapeProperty(label: "memory", required: false, type: .integer)
         ]
-        /// The command to send to the container that overrides the default command from the Docker image or the task definition.
-        public let command: [String]?
-        /// The name of the container that receives the override.
+        /// The soft limit (in MiB) of memory to reserve for the container, instead of the default value from the task definition. You must also specify a container name.
+        public let memoryReservation: Int32?
+        /// The name of the container that receives the override. This parameter is required if any override is specified.
         public let name: String?
-        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition.
+        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition. You must also specify a container name.
         public let environment: [KeyValuePair]?
+        /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
+        public let command: [String]?
+        /// The number of cpu units reserved for the container, instead of the default value from the task definition. You must also specify a container name.
+        public let cpu: Int32?
+        /// The hard limit (in MiB) of memory to present to the container, instead of the default value from the task definition. If your container attempts to exceed the memory specified here, the container is killed. You must also specify a container name.
+        public let memory: Int32?
 
-        public init(command: [String]? = nil, name: String? = nil, environment: [KeyValuePair]? = nil) {
-            self.command = command
+        public init(memoryReservation: Int32? = nil, name: String? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, cpu: Int32? = nil, memory: Int32? = nil) {
+            self.memoryReservation = memoryReservation
             self.name = name
             self.environment = environment
+            self.command = command
+            self.cpu = cpu
+            self.memory = memory
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.command = dictionary["command"] as? [String]
+            self.memoryReservation = dictionary["memoryReservation"] as? Int32
             self.name = dictionary["name"] as? String
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
             } else { 
                 self.environment = nil
             }
+            self.command = dictionary["command"] as? [String]
+            self.cpu = dictionary["cpu"] as? Int32
+            self.memory = dictionary["memory"] as? Int32
         }
     }
 
@@ -1494,7 +1514,7 @@ extension Ecs {
             AWSShapeProperty(label: "cluster", required: false, type: .string), 
             AWSShapeProperty(label: "containerInstance", required: false, type: .string)
         ]
-        /// The cluster that the container instance belongs to.
+        /// The short name or full Amazon Resource Name (ARN) of the cluster that the container instance belongs to.
         public let cluster: String?
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
         public let containerInstance: String?
@@ -1548,7 +1568,7 @@ extension Ecs {
             AWSShapeProperty(label: "cluster", required: false, type: .string), 
             AWSShapeProperty(label: "attributes", required: true, type: .list)
         ]
-        /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
+        /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
         public let attributes: [Attribute]
@@ -1575,7 +1595,7 @@ extension Ecs {
             AWSShapeProperty(label: "filter", required: false, type: .string), 
             AWSShapeProperty(label: "cluster", required: false, type: .string)
         ]
-        /// The container instance status with which to filter the ListContainerInstances results. Specifying a container instance status of DRAINING limits the results to container instances that have been set to drain with the UpdateContainerInstancesState operation.
+        /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the default is to include container instances set to ACTIVE and DRAINING.
         public let status: ContainerInstanceStatus?
         /// The nextToken value returned from a previous paginated ListContainerInstances request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
@@ -1644,7 +1664,7 @@ extension Ecs {
         public let `protocol`: TransportProtocol?
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range (for more information, see hostPort). Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public let containerPort: Int32?
-        /// The port number on the container instance to reserve for your container. You can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range is 49153 to 65535, and this range is used for Docker versions prior to 1.6.0. For Docker version 1.6.0 and later, the Docker daemon tries to read the ephemeral port range from /proc/sys/net/ipv4/ip_local_port_range; if this kernel parameter is unavailable, the default ephemeral port range is used. You should not attempt to specify a host port in the ephemeral port range, because these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678 and 51679. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released).The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output, and a container instance may have up to 100 reserved ports at a time, including the default reserved ports (automatically assigned ports do not count toward the 100 reserved ports limit).
+        /// The port number on the container instance to reserve for your container. You can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range; if this kernel parameter is unavailable, the default ephemeral port range of 49153 to 65535 is used. You should not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range.  The default ephemeral port range of 49153 to 65535 will always be used for Docker versions prior to 1.6.0.  The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678 and 51679. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released).The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output, and a container instance may have up to 100 reserved ports at a time, including the default reserved ports (automatically assigned ports do not count toward the 100 reserved ports limit).
         public let hostPort: Int32?
 
         public init(protocol: TransportProtocol? = nil, containerPort: Int32? = nil, hostPort: Int32? = nil) {
@@ -1804,7 +1824,7 @@ extension Ecs {
         ]
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group associated with a service.
         public let targetGroupArn: String?
-        /// The name of the load balancer.
+        /// The name of a Classic load balancer.
         public let loadBalancerName: String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the service's task definition. Your container instances must allow ingress traffic on the hostPort of the port mapping.
         public let containerPort: Int32?
@@ -2336,7 +2356,7 @@ extension Ecs {
         ]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// A space-separated list of task IDs or full Amazon Resource Name (ARN) entries.
+        /// A list of up to 100 task IDs or full Amazon Resource Name (ARN) entries.
         public let tasks: [String]
 
         public init(cluster: String? = nil, tasks: [String]) {
@@ -2452,7 +2472,7 @@ extension Ecs {
         ]
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
         public let services: [String]
-        /// The name of the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed.
+        /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
 
         public init(services: [String], cluster: String? = nil) {
@@ -2924,7 +2944,7 @@ extension Ecs {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "clusters", required: false, type: .list)
         ]
-        /// A space-separated list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
+        /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
 
         public init(clusters: [String]? = nil) {
@@ -3161,7 +3181,7 @@ extension Ecs {
             AWSShapeProperty(label: "containerInstances", required: true, type: .list), 
             AWSShapeProperty(label: "cluster", required: false, type: .string)
         ]
-        /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
+        /// A list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public let containerInstances: [String]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?

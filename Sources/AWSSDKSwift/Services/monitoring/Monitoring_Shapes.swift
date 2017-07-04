@@ -289,16 +289,18 @@ extension Monitoring {
             AWSShapeProperty(label: "Threshold", required: true, type: .double), 
             AWSShapeProperty(label: "Period", required: true, type: .integer), 
             AWSShapeProperty(label: "ExtendedStatistic", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
+            AWSShapeProperty(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
             AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
             AWSShapeProperty(label: "Unit", required: false, type: .enum), 
             AWSShapeProperty(label: "ActionsEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
+            AWSShapeProperty(label: "AlarmActions", required: false, type: .list), 
             AWSShapeProperty(label: "InsufficientDataActions", required: false, type: .list), 
+            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
             AWSShapeProperty(label: "AlarmName", required: true, type: .string), 
             AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
             AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
+            AWSShapeProperty(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
             AWSShapeProperty(label: "OKActions", required: false, type: .list)
         ]
@@ -310,18 +312,20 @@ extension Monitoring {
         public let period: Int32
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public let extendedStatistic: String?
-        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        public let alarmActions: [String]?
+        ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid Values: evaluate | ignore 
+        public let evaluateLowSampleCountPercentile: String?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
         public let statistic: Statistic?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the Amazon CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
         public let unit: StandardUnit?
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
-        /// The namespace for the metric associated with the alarm.
-        public let namespace: String
+        /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        public let alarmActions: [String]?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
         public let insufficientDataActions: [String]?
+        /// The namespace for the metric associated with the alarm.
+        public let namespace: String
         /// The name for the alarm. This name must be unique within the AWS account.
         public let alarmName: String
         /// The number of periods over which data is compared to the specified threshold.
@@ -330,26 +334,30 @@ extension Monitoring {
         public let comparisonOperator: ComparisonOperator
         /// The dimensions for the metric associated with the alarm.
         public let dimensions: [Dimension]?
+        ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing 
+        public let treatMissingData: String?
         /// The description for the alarm.
         public let alarmDescription: String?
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
         public let oKActions: [String]?
 
-        public init(metricName: String, threshold: Double, period: Int32, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, unit: StandardUnit? = nil, actionsEnabled: Bool? = nil, namespace: String, insufficientDataActions: [String]? = nil, alarmName: String, evaluationPeriods: Int32, comparisonOperator: ComparisonOperator, dimensions: [Dimension]? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
+        public init(metricName: String, threshold: Double, period: Int32, extendedStatistic: String? = nil, evaluateLowSampleCountPercentile: String? = nil, statistic: Statistic? = nil, unit: StandardUnit? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, insufficientDataActions: [String]? = nil, namespace: String, alarmName: String, evaluationPeriods: Int32, comparisonOperator: ComparisonOperator, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
             self.threshold = threshold
             self.period = period
             self.extendedStatistic = extendedStatistic
-            self.alarmActions = alarmActions
+            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
             self.statistic = statistic
             self.unit = unit
             self.actionsEnabled = actionsEnabled
-            self.namespace = namespace
+            self.alarmActions = alarmActions
             self.insufficientDataActions = insufficientDataActions
+            self.namespace = namespace
             self.alarmName = alarmName
             self.evaluationPeriods = evaluationPeriods
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
+            self.treatMissingData = treatMissingData
             self.alarmDescription = alarmDescription
             self.oKActions = oKActions
         }
@@ -362,13 +370,14 @@ extension Monitoring {
             guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
             self.period = period
             self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            self.alarmActions = dictionary["AlarmActions"] as? [String]
+            self.evaluateLowSampleCountPercentile = dictionary["EvaluateLowSampleCountPercentile"] as? String
             if let statistic = dictionary["Statistic"] as? String { self.statistic = Statistic(rawValue: statistic) } else { self.statistic = nil }
             if let unit = dictionary["Unit"] as? String { self.unit = StandardUnit(rawValue: unit) } else { self.unit = nil }
             self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
+            self.alarmActions = dictionary["AlarmActions"] as? [String]
+            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
             guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
             self.namespace = namespace
-            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
             guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
             self.alarmName = alarmName
             guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
@@ -380,6 +389,7 @@ extension Monitoring {
             } else { 
                 self.dimensions = nil
             }
+            self.treatMissingData = dictionary["TreatMissingData"] as? String
             self.alarmDescription = dictionary["AlarmDescription"] as? String
             self.oKActions = dictionary["OKActions"] as? [String]
         }
@@ -571,11 +581,13 @@ extension Monitoring {
             AWSShapeProperty(label: "Namespace", required: false, type: .string), 
             AWSShapeProperty(label: "StateValue", required: false, type: .enum), 
             AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
+            AWSShapeProperty(label: "EvaluateLowSampleCountPercentile", required: false, type: .string), 
             AWSShapeProperty(label: "AlarmConfigurationUpdatedTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "AlarmArn", required: false, type: .string), 
             AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
             AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
             AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
+            AWSShapeProperty(label: "TreatMissingData", required: false, type: .string), 
             AWSShapeProperty(label: "AlarmDescription", required: false, type: .string), 
             AWSShapeProperty(label: "OKActions", required: false, type: .list)
         ]
@@ -609,6 +621,7 @@ extension Monitoring {
         public let stateValue: StateValue?
         /// The name of the alarm.
         public let alarmName: String?
+        public let evaluateLowSampleCountPercentile: String?
         /// The time stamp of the last update to the alarm configuration.
         public let alarmConfigurationUpdatedTimestamp: String?
         /// The Amazon Resource Name (ARN) of the alarm.
@@ -619,12 +632,13 @@ extension Monitoring {
         public let comparisonOperator: ComparisonOperator?
         /// The dimensions for the metric associated with the alarm.
         public let dimensions: [Dimension]?
+        public let treatMissingData: String?
         /// The description of the alarm.
         public let alarmDescription: String?
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         public let oKActions: [String]?
 
-        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: String? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, alarmConfigurationUpdatedTimestamp: String? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
+        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: String? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmConfigurationUpdatedTimestamp: String? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
             self.threshold = threshold
             self.period = period
@@ -640,11 +654,13 @@ extension Monitoring {
             self.namespace = namespace
             self.stateValue = stateValue
             self.alarmName = alarmName
+            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
             self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
             self.alarmArn = alarmArn
             self.evaluationPeriods = evaluationPeriods
             self.comparisonOperator = comparisonOperator
             self.dimensions = dimensions
+            self.treatMissingData = treatMissingData
             self.alarmDescription = alarmDescription
             self.oKActions = oKActions
         }
@@ -665,6 +681,7 @@ extension Monitoring {
             self.namespace = dictionary["Namespace"] as? String
             if let stateValue = dictionary["StateValue"] as? String { self.stateValue = StateValue(rawValue: stateValue) } else { self.stateValue = nil }
             self.alarmName = dictionary["AlarmName"] as? String
+            self.evaluateLowSampleCountPercentile = dictionary["EvaluateLowSampleCountPercentile"] as? String
             self.alarmConfigurationUpdatedTimestamp = dictionary["AlarmConfigurationUpdatedTimestamp"] as? String
             self.alarmArn = dictionary["AlarmArn"] as? String
             self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
@@ -674,6 +691,7 @@ extension Monitoring {
             } else { 
                 self.dimensions = nil
             }
+            self.treatMissingData = dictionary["TreatMissingData"] as? String
             self.alarmDescription = dictionary["AlarmDescription"] as? String
             self.oKActions = dictionary["OKActions"] as? [String]
         }
@@ -847,7 +865,7 @@ extension Monitoring {
         public let endTime: String
         /// The percentile statistics. Specify values between p0.0 and p100.
         public let extendedStatistics: [String]?
-        /// The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide.
+        /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information on specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
         public let dimensions: [Dimension]?
         /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
         public let unit: StandardUnit?

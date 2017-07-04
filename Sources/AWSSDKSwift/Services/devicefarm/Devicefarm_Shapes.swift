@@ -159,9 +159,9 @@ extension Devicefarm {
             AWSShapeProperty(label: "operator", required: false, type: .enum), 
             AWSShapeProperty(label: "value", required: false, type: .string)
         ]
-        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
+        /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
         public let attribute: DeviceAttribute?
-        /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.  
+        /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.   CONTAINS: The contains operator.  
         public let `operator`: RuleOperator?
         /// The rule's value.
         public let value: String?
@@ -203,24 +203,6 @@ extension Devicefarm {
         }
     }
 
-    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
-        ]
-        /// Returns the billing method for purposes of configuring a remote access session.
-        public let billingMethod: BillingMethod?
-
-        public init(billingMethod: BillingMethod? = nil) {
-            self.billingMethod = billingMethod
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
-        }
-    }
-
     public struct GetUploadResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -236,6 +218,24 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) } else { self.upload = nil }
+        }
+    }
+
+    public struct CreateRemoteAccessSessionConfiguration: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
+        ]
+        /// Returns the billing method for purposes of configuring a remote access session.
+        public let billingMethod: BillingMethod?
+
+        public init(billingMethod: BillingMethod? = nil) {
+            self.billingMethod = billingMethod
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
         }
     }
 
@@ -475,17 +475,27 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobTimeoutMinutes", required: false, type: .integer)
+            AWSShapeProperty(label: "accountsCleanup", required: false, type: .boolean), 
+            AWSShapeProperty(label: "jobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeProperty(label: "appPackagesCleanup", required: false, type: .boolean)
         ]
+        /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
+        public let accountsCleanup: Bool?
         /// The number of minutes a test run will execute before it times out.
         public let jobTimeoutMinutes: Int32?
+        /// True if app package cleanup is enabled at the beginning of the test; otherwise, false.
+        public let appPackagesCleanup: Bool?
 
-        public init(jobTimeoutMinutes: Int32? = nil) {
+        public init(accountsCleanup: Bool? = nil, jobTimeoutMinutes: Int32? = nil, appPackagesCleanup: Bool? = nil) {
+            self.accountsCleanup = accountsCleanup
             self.jobTimeoutMinutes = jobTimeoutMinutes
+            self.appPackagesCleanup = appPackagesCleanup
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.accountsCleanup = dictionary["accountsCleanup"] as? Bool
             self.jobTimeoutMinutes = dictionary["jobTimeoutMinutes"] as? Int32
+            self.appPackagesCleanup = dictionary["appPackagesCleanup"] as? Bool
         }
     }
 
@@ -921,6 +931,7 @@ extension Devicefarm {
         case greater_than = "GREATER_THAN"
         case `in` = "IN"
         case not_in = "NOT_IN"
+        case contains = "CONTAINS"
         public var description: String { return self.rawValue }
     }
 
@@ -1046,6 +1057,7 @@ extension Devicefarm {
         case form_factor = "FORM_FACTOR"
         case manufacturer = "MANUFACTURER"
         case remote_access_enabled = "REMOTE_ACCESS_ENABLED"
+        case appium_version = "APPIUM_VERSION"
         public var description: String { return self.rawValue }
     }
 
@@ -1309,22 +1321,27 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringId", required: false, type: .string), 
-            AWSShapeProperty(label: "quantity", required: false, type: .integer)
+            AWSShapeProperty(label: "offeringPromotionId", required: false, type: .string), 
+            AWSShapeProperty(label: "quantity", required: false, type: .integer), 
+            AWSShapeProperty(label: "offeringId", required: false, type: .string)
         ]
-        /// The ID of the offering.
-        public let offeringId: String?
+        /// The ID of the offering promotion to be applied to the purchase.
+        public let offeringPromotionId: String?
         /// The number of device slots you wish to purchase in an offering request.
         public let quantity: Int32?
+        /// The ID of the offering.
+        public let offeringId: String?
 
-        public init(offeringId: String? = nil, quantity: Int32? = nil) {
-            self.offeringId = offeringId
+        public init(offeringPromotionId: String? = nil, quantity: Int32? = nil, offeringId: String? = nil) {
+            self.offeringPromotionId = offeringPromotionId
             self.quantity = quantity
+            self.offeringId = offeringId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.offeringId = dictionary["offeringId"] as? String
+            self.offeringPromotionId = dictionary["offeringPromotionId"] as? String
             self.quantity = dictionary["quantity"] as? Int32
+            self.offeringId = dictionary["offeringId"] as? String
         }
     }
 
@@ -1563,6 +1580,33 @@ extension Devicefarm {
         }
     }
 
+    public struct ListOfferingPromotionsResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "offeringPromotions", required: false, type: .list), 
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
+        /// Information about the offering promotions.
+        public let offeringPromotions: [OfferingPromotion]?
+        /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(offeringPromotions: [OfferingPromotion]? = nil, nextToken: String? = nil) {
+            self.offeringPromotions = offeringPromotions
+            self.nextToken = nextToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let offeringPromotions = dictionary["offeringPromotions"] as? [[String: Any]] {
+                self.offeringPromotions = try offeringPromotions.map({ try OfferingPromotion(dictionary: $0) })
+            } else { 
+                self.offeringPromotions = nil
+            }
+            self.nextToken = dictionary["nextToken"] as? String
+        }
+    }
+
     public struct OfferingTransaction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1570,6 +1614,7 @@ extension Devicefarm {
             AWSShapeProperty(label: "transactionId", required: false, type: .string), 
             AWSShapeProperty(label: "cost", required: false, type: .structure), 
             AWSShapeProperty(label: "createdOn", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "offeringPromotionId", required: false, type: .string), 
             AWSShapeProperty(label: "offeringStatus", required: false, type: .structure)
         ]
         /// The transaction ID of the offering transaction.
@@ -1578,13 +1623,16 @@ extension Devicefarm {
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
         public let createdOn: String?
+        /// The ID that corresponds to a device offering promotion.
+        public let offeringPromotionId: String?
         /// The status of an offering transaction.
         public let offeringStatus: OfferingStatus?
 
-        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: String? = nil, offeringStatus: OfferingStatus? = nil) {
+        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: String? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil) {
             self.transactionId = transactionId
             self.cost = cost
             self.createdOn = createdOn
+            self.offeringPromotionId = offeringPromotionId
             self.offeringStatus = offeringStatus
         }
 
@@ -1592,6 +1640,7 @@ extension Devicefarm {
             self.transactionId = dictionary["transactionId"] as? String
             if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
             self.createdOn = dictionary["createdOn"] as? String
+            self.offeringPromotionId = dictionary["offeringPromotionId"] as? String
             if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) } else { self.offeringStatus = nil }
         }
     }
@@ -1599,6 +1648,24 @@ extension Devicefarm {
     public enum RecurringChargeFrequency: String, CustomStringConvertible {
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ListOfferingPromotionsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        ]
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextToken: String?
+
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+        }
     }
 
     public struct ListDevicesResult: AWSShape {
@@ -1929,7 +1996,7 @@ extension Devicefarm {
             AWSShapeProperty(label: "type", required: false, type: .enum), 
             AWSShapeProperty(label: "message", required: false, type: .string)
         ]
-        /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
+        /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
         public let `type`: DeviceAttribute?
         /// A message about the incompatibility.
         public let message: String?
@@ -2014,7 +2081,7 @@ extension Devicefarm {
         public let `type`: TestType
         /// The ARN of the uploaded test that will be run.
         public let testPackageArn: String?
-        /// The test's parameters, such as test framework parameters and fixture settings.
+        /// The test's parameters, such as the following test framework parameters and fixture settings: For Calabash tests:   profile: A cucumber profile, for example, "my_profile_name".   tags: You can limit execution to features or scenarios that have (or don't have) certain tags, for example, "@smoke" or "@smoke,~@wip".   For Appium tests (all types):   appium_version: The Appium version. Currently supported values are "1.4.16", "1.6.3", "latest", and "default".   “latest” will run the latest Appium version supported by Device Farm (1.6.3).   For “default”, Device Farm will choose a compatible version of Appium for the device. The current behavior is to run 1.4.16 on Android devices and iOS 9 and earlier, 1.6.3 for iOS 10 and later.   This behavior is subject to change.     For Fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Explorer tests:   username: A username to use if the Explorer encounters a login form. If not supplied, no username will be inserted.   password: A password to use if the Explorer encounters a login form. If not supplied, no password will be inserted.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: "com.android.abc.Test1"   Running a single test: "com.android.abc.Test1#smoke"   Running multiple tests: "com.android.abc.Test1,com.android.abc.Test2"     For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: "LoginTests"   Running a multiple test classes: "LoginTests,SmokeTests"   Running a single test: "LoginTests/testValid"   Running multiple tests: "LoginTests/testValid,LoginTests/testInvalid"     For UIAutomator:   filter: A test filter string. Examples:   Running a single test case: "com.android.abc.Test1"   Running a single test: "com.android.abc.Test1#smoke"   Running multiple tests: "com.android.abc.Test1,com.android.abc.Test2"    
         public let parameters: [String: String]?
 
         public init(filter: String? = nil, type: TestType, testPackageArn: String? = nil, parameters: [String: String]? = nil) {
@@ -2537,6 +2604,29 @@ extension Devicefarm {
         }
     }
 
+    public struct TrialMinutes: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "total", required: false, type: .double), 
+            AWSShapeProperty(label: "remaining", required: false, type: .double)
+        ]
+        /// The total number of free trial minutes that the account started with.
+        public let total: Double?
+        /// The number of free trial minutes remaining in the account.
+        public let remaining: Double?
+
+        public init(total: Double? = nil, remaining: Double? = nil) {
+            self.total = total
+            self.remaining = remaining
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.total = dictionary["total"] as? Double
+            self.remaining = dictionary["remaining"] as? Double
+        }
+    }
+
     public struct DevicePoolCompatibilityResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3041,6 +3131,29 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
+    public struct OfferingPromotion: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "description", required: false, type: .string)
+        ]
+        /// The ID of the offering promotion.
+        public let id: String?
+        /// A string describing the offering promotion.
+        public let description: String?
+
+        public init(id: String? = nil, description: String? = nil) {
+            self.id = id
+            self.description = description
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.id = dictionary["id"] as? String
+            self.description = dictionary["description"] as? String
+        }
+    }
+
     public struct ListUniqueProblemsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3274,45 +3387,59 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "awsAccountNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "trialMinutes", required: false, type: .structure), 
             AWSShapeProperty(label: "unmeteredDevices", required: false, type: .map), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
             AWSShapeProperty(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "unmeteredRemoteAccessDevices", required: false, type: .map)
+            AWSShapeProperty(label: "maxSlots", required: false, type: .map), 
+            AWSShapeProperty(label: "unmeteredRemoteAccessDevices", required: false, type: .map), 
+            AWSShapeProperty(label: "awsAccountNumber", required: false, type: .string), 
+            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
         ]
-        /// The AWS account number specified in the AccountSettings container.
-        public let awsAccountNumber: String?
+        /// Information about an AWS account's usage of free trial device minutes.
+        public let trialMinutes: TrialMinutes?
         /// Returns the unmetered devices you have purchased or want to purchase.
         public let unmeteredDevices: [DevicePlatform: Int32]?
-        /// The default number of minutes (at the account level) a test run will execute before it times out. Default value is 60 minutes.
-        public let defaultJobTimeoutMinutes: Int32?
         /// The maximum number of minutes a test run will execute before it times out.
         public let maxJobTimeoutMinutes: Int32?
+        /// The maximum number of device slots that the AWS account can purchase. Each maximum is expressed as an offering-id:number pair, where the offering-id represents one of the IDs returned by the ListOfferings command.
+        public let maxSlots: [String: Int32]?
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
         public let unmeteredRemoteAccessDevices: [DevicePlatform: Int32]?
+        /// The AWS account number specified in the AccountSettings container.
+        public let awsAccountNumber: String?
+        /// The default number of minutes (at the account level) a test run will execute before it times out. Default value is 60 minutes.
+        public let defaultJobTimeoutMinutes: Int32?
 
-        public init(awsAccountNumber: String? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, defaultJobTimeoutMinutes: Int32? = nil, maxJobTimeoutMinutes: Int32? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil) {
-            self.awsAccountNumber = awsAccountNumber
+        public init(trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int32]? = nil, maxJobTimeoutMinutes: Int32? = nil, maxSlots: [String: Int32]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int32]? = nil, awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int32? = nil) {
+            self.trialMinutes = trialMinutes
             self.unmeteredDevices = unmeteredDevices
-            self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.maxJobTimeoutMinutes = maxJobTimeoutMinutes
+            self.maxSlots = maxSlots
             self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
+            self.awsAccountNumber = awsAccountNumber
+            self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.awsAccountNumber = dictionary["awsAccountNumber"] as? String
+            if let trialMinutes = dictionary["trialMinutes"] as? [String: Any] { self.trialMinutes = try Devicefarm.TrialMinutes(dictionary: trialMinutes) } else { self.trialMinutes = nil }
             if let unmeteredDevices = dictionary["unmeteredDevices"] as? [DevicePlatform: Int32] {
                 self.unmeteredDevices = unmeteredDevices
             } else { 
                 self.unmeteredDevices = nil
             }
-            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
             self.maxJobTimeoutMinutes = dictionary["maxJobTimeoutMinutes"] as? Int32
+            if let maxSlots = dictionary["maxSlots"] as? [String: Int32] {
+                self.maxSlots = maxSlots
+            } else { 
+                self.maxSlots = nil
+            }
             if let unmeteredRemoteAccessDevices = dictionary["unmeteredRemoteAccessDevices"] as? [DevicePlatform: Int32] {
                 self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
             } else { 
                 self.unmeteredRemoteAccessDevices = nil
             }
+            self.awsAccountNumber = dictionary["awsAccountNumber"] as? String
+            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
         }
     }
 
@@ -3426,28 +3553,33 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "testType", required: false, type: .enum), 
+            AWSShapeProperty(label: "test", required: false, type: .structure), 
             AWSShapeProperty(label: "appArn", required: false, type: .string), 
-            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string), 
-            AWSShapeProperty(label: "testType", required: false, type: .enum)
+            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string)
         ]
+        /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
+        public let testType: TestType?
+        /// Information about the uploaded test to be run against the device pool.
+        public let test: ScheduleRunTest?
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
         /// The device pool's ARN.
         public let devicePoolArn: String
-        /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public let testType: TestType?
 
-        public init(appArn: String? = nil, devicePoolArn: String, testType: TestType? = nil) {
+        public init(testType: TestType? = nil, test: ScheduleRunTest? = nil, appArn: String? = nil, devicePoolArn: String) {
+            self.testType = testType
+            self.test = test
             self.appArn = appArn
             self.devicePoolArn = devicePoolArn
-            self.testType = testType
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let testType = dictionary["testType"] as? String { self.testType = TestType(rawValue: testType) } else { self.testType = nil }
+            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ScheduleRunTest(dictionary: test) } else { self.test = nil }
             self.appArn = dictionary["appArn"] as? String
             guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
             self.devicePoolArn = devicePoolArn
-            if let testType = dictionary["testType"] as? String { self.testType = TestType(rawValue: testType) } else { self.testType = nil }
         }
     }
 

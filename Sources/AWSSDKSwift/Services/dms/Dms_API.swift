@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS Database Migration Service AWS Database Migration Service (AWS DMS) can migrate your data to and from the most widely used commercial and open-source databases such as Oracle, PostgreSQL, Microsoft SQL Server, Amazon Redshift, MariaDB, Amazon Aurora, MySQL, and SAP Adaptive Server Enterprise (ASE). The service supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to MySQL or SQL Server to PostgreSQL.
+AWS Database Migration Service AWS Database Migration Service (AWS DMS) can migrate your data to and from the most widely used commercial and open-source databases such as Oracle, PostgreSQL, Microsoft SQL Server, Amazon Redshift, MariaDB, Amazon Aurora, MySQL, and SAP Adaptive Server Enterprise (ASE). The service supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to MySQL or SQL Server to PostgreSQL. For more information about AWS DMS, see the AWS DMS user guide at  What Is AWS Database Migration Service?  
 */
 public struct Dms {
 
@@ -99,14 +99,24 @@ public struct Dms {
         return try client.send(operation: "RefreshSchemas", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Creates an AWS DMS event notification subscription.  You can specify the type of source (SourceType) you want to be notified of, provide a list of AWS DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your AWS DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all AWS DMS sources belonging to your customer account. For more information about AWS DMS events, see  Working with Events and Notifications  in the AWS Database MIgration Service User Guide.
+    public func createEventSubscription(_ input: CreateEventSubscriptionMessage) throws -> CreateEventSubscriptionResponse {
+        return try client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts the replication task. For more information about AWS DMS tasks, see the AWS DMS user guide at  Working with Migration Tasks  
+    public func startReplicationTask(_ input: StartReplicationTaskMessage) throws -> StartReplicationTaskResponse {
+        return try client.send(operation: "StartReplicationTask", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about the replication subnet groups.
     public func describeReplicationSubnetGroups(_ input: DescribeReplicationSubnetGroupsMessage) throws -> DescribeReplicationSubnetGroupsResponse {
         return try client.send(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Starts the replication task.
-    public func startReplicationTask(_ input: StartReplicationTaskMessage) throws -> StartReplicationTaskResponse {
-        return try client.send(operation: "StartReplicationTask", path: "/", httpMethod: "POST", input: input)
+    ///  Uploads the specified certificate.
+    public func importCertificate(_ input: ImportCertificateMessage) throws -> ImportCertificateResponse {
+        return try client.send(operation: "ImportCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified replication task.
@@ -124,9 +134,14 @@ public struct Dms {
         return try client.send(operation: "ModifyReplicationSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Uploads the specified certificate.
-    public func importCertificate(_ input: ImportCertificateMessage) throws -> ImportCertificateResponse {
-        return try client.send(operation: "ImportCertificate", path: "/", httpMethod: "POST", input: input)
+    ///  Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
+    public func describeEventSubscriptions(_ input: DescribeEventSubscriptionsMessage) throws -> DescribeEventSubscriptionsResponse {
+        return try client.send(operation: "DescribeEventSubscriptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see  Working with Events and Notifications . 
+    public func describeEvents(_ input: DescribeEventsMessage) throws -> DescribeEventsResponse {
+        return try client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted.
@@ -134,14 +149,14 @@ public struct Dms {
         return try client.send(operation: "DescribeTableStatistics", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.  
-    public func deleteReplicationInstance(_ input: DeleteReplicationInstanceMessage) throws -> DeleteReplicationInstanceResponse {
-        return try client.send(operation: "DeleteReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Reloads the target database table with the source data. 
+    public func reloadTables(_ input: ReloadTablesMessage) throws -> ReloadTablesResponse {
+        return try client.send(operation: "ReloadTables", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates the replication instance using the specified parameters.
-    public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) throws -> CreateReplicationInstanceResponse {
-        return try client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified certificate. 
+    public func deleteCertificate(_ input: DeleteCertificateMessage) throws -> DeleteCertificateResponse {
+        return try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. 
@@ -149,9 +164,19 @@ public struct Dms {
         return try client.send(operation: "ModifyReplicationInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified certificate. 
-    public func deleteCertificate(_ input: DeleteCertificateMessage) throws -> DeleteCertificateResponse {
-        return try client.send(operation: "DeleteCertificate", path: "/", httpMethod: "POST", input: input)
+    ///  Creates the replication instance using the specified parameters.
+    public func createReplicationInstance(_ input: CreateReplicationInstanceMessage) throws -> CreateReplicationInstanceResponse {
+        return try client.send(operation: "CreateReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.  
+    public func deleteReplicationInstance(_ input: DeleteReplicationInstanceMessage) throws -> DeleteReplicationInstanceResponse {
+        return try client.send(operation: "DeleteReplicationInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies an existing AWS DMS event notification subscription. 
+    public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage) throws -> ModifyEventSubscriptionResponse {
+        return try client.send(operation: "ModifyEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a replication task using the specified parameters.
@@ -167,6 +192,16 @@ public struct Dms {
     ///  Returns the status of the RefreshSchemas operation.
     public func describeRefreshSchemasStatus(_ input: DescribeRefreshSchemasStatusMessage) throws -> DescribeRefreshSchemasStatusResponse {
         return try client.send(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in  Working with Events and Notifications  in the AWS Database Migration Service User Guide. 
+    public func describeEventCategories(_ input: DescribeEventCategoriesMessage) throws -> DescribeEventCategoriesResponse {
+        return try client.send(operation: "DescribeEventCategories", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Deletes an AWS DMS event subscription. 
+    public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) throws -> DeleteEventSubscriptionResponse {
+        return try client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about the replication instance types that can be created in the specified region.
@@ -209,7 +244,7 @@ public struct Dms {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it. 
+    ///  Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it.  For more information about AWS DMS tasks, see the AWS DMS user guide at  Working with Migration Tasks  
     public func modifyReplicationTask(_ input: ModifyReplicationTaskMessage) throws -> ModifyReplicationTaskResponse {
         return try client.send(operation: "ModifyReplicationTask", path: "/", httpMethod: "POST", input: input)
     }

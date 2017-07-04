@@ -28,11 +28,13 @@ import AWSSDKSwiftCore
 
 /// Error enum for Servicecatalog
 public enum ServicecatalogError: AWSErrorType {
+    case tagOptionNotMigratedException(message: String?)
     case resourceNotFoundException(message: String?)
-    case limitExceededException(message: String?)
-    case invalidParametersException(message: String?)
     case duplicateResourceException(message: String?)
+    case invalidParametersException(message: String?)
+    case limitExceededException(message: String?)
     case resourceInUseException(message: String?)
+    case invalidStateException(message: String?)
 }
 
 extension ServicecatalogError {
@@ -42,16 +44,20 @@ extension ServicecatalogError {
             errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
         }
         switch errorCode {
+        case "TagOptionNotMigratedException":
+            self = .tagOptionNotMigratedException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "InvalidParametersException":
-            self = .invalidParametersException(message: message)
         case "DuplicateResourceException":
             self = .duplicateResourceException(message: message)
+        case "InvalidParametersException":
+            self = .invalidParametersException(message: message)
+        case "LimitExceededException":
+            self = .limitExceededException(message: message)
         case "ResourceInUseException":
             self = .resourceInUseException(message: message)
+        case "InvalidStateException":
+            self = .invalidStateException(message: message)
         default:
             return nil
         }

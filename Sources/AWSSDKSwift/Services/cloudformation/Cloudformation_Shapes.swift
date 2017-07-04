@@ -68,10 +68,13 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
             AWSShapeProperty(label: "RetainResources", required: false, type: .list), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
+        /// A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// The name or the unique stack ID that is associated with the stack.
         public let stackName: String
         /// For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, AWS CloudFormation deletes the stack but does not delete the retained resources. Retaining resources is useful when you cannot delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
@@ -79,13 +82,15 @@ extension Cloudformation {
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to delete the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
         public let roleARN: String?
 
-        public init(stackName: String, retainResources: [String]? = nil, roleARN: String? = nil) {
+        public init(clientRequestToken: String? = nil, stackName: String, retainResources: [String]? = nil, roleARN: String? = nil) {
+            self.clientRequestToken = clientRequestToken
             self.stackName = stackName
             self.retainResources = retainResources
             self.roleARN = roleARN
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
             self.retainResources = dictionary["RetainResources"] as? [String]
@@ -371,6 +376,7 @@ extension Cloudformation {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
             AWSShapeProperty(label: "StackPolicyDuringUpdateBody", required: false, type: .string), 
@@ -387,13 +393,15 @@ extension Cloudformation {
         ]
         /// Structure containing a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you do not specify a stack policy, the current policy that is associated with the stack is unchanged.
         public let stackPolicyBody: String?
+        /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// Key-value pairs to associate with this stack. AWS CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 10 tags. If you don't specify this parameter, AWS CloudFormation doesn't modify the stack's tags. If you specify an empty value, AWS CloudFormation removes all associated tags.
         public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to update the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
         public let roleARN: String?
         /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
         public let stackPolicyDuringUpdateBody: String?
-        /// Reuse the existing template that is associated with the stack that you are updating.
+        /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
         /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same region as the stack. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you do not specify a stack policy, the current policy that is associated with the stack will be used.
         public let stackPolicyDuringUpdateURL: String?
@@ -405,17 +413,18 @@ extension Cloudformation {
         public let parameters: [Parameter]?
         /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, AWS CloudFormation grants permissions to all resource types. AWS Identity and Access Management (IAM) uses this parameter for AWS CloudFormation-specific condition keys in IAM policies. For more information, see Controlling Access with AWS Identity and Access Management.
         public let resourceTypes: [String]?
-        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateURL: String?
-        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateBody: String?
         /// The name or unique stack ID of the stack to update.
         public let stackName: String
         /// A list of values that you must specify before AWS CloudFormation can update certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
 
-        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackPolicyBody: String? = nil, clientRequestToken: String? = nil, tags: [Tag]? = nil, roleARN: String? = nil, stackPolicyDuringUpdateBody: String? = nil, usePreviousTemplate: Bool? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackPolicyBody = stackPolicyBody
+            self.clientRequestToken = clientRequestToken
             self.tags = tags
             self.roleARN = roleARN
             self.stackPolicyDuringUpdateBody = stackPolicyDuringUpdateBody
@@ -433,6 +442,7 @@ extension Cloudformation {
 
         public init(dictionary: [String: Any]) throws {
             self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
@@ -682,45 +692,27 @@ extension Cloudformation {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackName", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
         ]
         /// If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
         public let stackName: String?
+        /// A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// The name or ARN of the change set that you want use to update the specified stack.
         public let changeSetName: String
 
-        public init(stackName: String? = nil, changeSetName: String) {
+        public init(stackName: String? = nil, clientRequestToken: String? = nil, changeSetName: String) {
             self.stackName = stackName
+            self.clientRequestToken = clientRequestToken
             self.changeSetName = changeSetName
         }
 
         public init(dictionary: [String: Any]) throws {
             self.stackName = dictionary["StackName"] as? String
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
             self.changeSetName = changeSetName
-        }
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
-        ]
-        ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
-        public let value: String?
-        ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
         }
     }
 
@@ -781,6 +773,29 @@ extension Cloudformation {
             self.defaultValue = dictionary["DefaultValue"] as? String
             self.parameterKey = dictionary["ParameterKey"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
+        ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        public let value: String?
+        ///  Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services (AWS) have the reserved prefix: aws:.
+        public let key: String?
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
         }
     }
 
@@ -1271,28 +1286,33 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourcesToSkip", required: false, type: .list), 
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourcesToSkip", required: false, type: .list)
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
         ]
+        /// A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.   Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.   Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.  To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID. If the ResourceLogicalID is a stack resource (Type: AWS::CloudFormation::Stack), it must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED. 
+        public let resourcesToSkip: [String]?
+        /// A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// The name or the unique ID of the stack that you want to continue rolling back.  Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource). 
         public let stackName: String
         /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to roll back the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
         public let roleARN: String?
-        /// A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.   Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.   Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.  To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID. You can specify a nested stack resource (the logical ID of an AWS::CloudFormation::Stack resource) only if it's in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED. 
-        public let resourcesToSkip: [String]?
 
-        public init(stackName: String, roleARN: String? = nil, resourcesToSkip: [String]? = nil) {
+        public init(resourcesToSkip: [String]? = nil, clientRequestToken: String? = nil, stackName: String, roleARN: String? = nil) {
+            self.resourcesToSkip = resourcesToSkip
+            self.clientRequestToken = clientRequestToken
             self.stackName = stackName
             self.roleARN = roleARN
-            self.resourcesToSkip = resourcesToSkip
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.resourcesToSkip = dictionary["ResourcesToSkip"] as? [String]
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
             self.roleARN = dictionary["RoleARN"] as? String
-            self.resourcesToSkip = dictionary["ResourcesToSkip"] as? [String]
         }
     }
 
@@ -1301,6 +1321,7 @@ extension Cloudformation {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "OnFailure", required: false, type: .enum), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
@@ -1317,6 +1338,8 @@ extension Cloudformation {
         ]
         /// Structure containing the stack policy body. For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyBody: String?
+        /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// Key-value pairs to associate with this stack. AWS CloudFormation also propagates these tags to the resources created in the stack. A maximum number of 10 tags can be specified.
         public let tags: [Tag]?
         /// Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both. Default: ROLLBACK 
@@ -1344,8 +1367,9 @@ extension Cloudformation {
         /// A list of values that you must specify before AWS CloudFormation can create certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those stacks, you must explicitly acknowledge their capabilities by specifying this parameter. The only valid values are CAPABILITY_IAM and CAPABILITY_NAMED_IAM. The following resources require you to specify this parameter:  AWS::IAM::AccessKey,  AWS::IAM::Group,  AWS::IAM::InstanceProfile,  AWS::IAM::Policy,  AWS::IAM::Role,  AWS::IAM::User, and  AWS::IAM::UserToGroupAddition. If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary. If you have IAM resources, you can specify either capability. If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM. If you don't specify this parameter, this action returns an InsufficientCapabilities error. For more information, see Acknowledging IAM Resources in AWS CloudFormation Templates.
         public let capabilities: [Capability]?
 
-        public init(stackPolicyBody: String? = nil, tags: [Tag]? = nil, onFailure: OnFailure? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, timeoutInMinutes: Int32? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackPolicyBody: String? = nil, clientRequestToken: String? = nil, tags: [Tag]? = nil, onFailure: OnFailure? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, stackPolicyURL: String? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, timeoutInMinutes: Int32? = nil, templateURL: String? = nil, templateBody: String? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackPolicyBody = stackPolicyBody
+            self.clientRequestToken = clientRequestToken
             self.tags = tags
             self.onFailure = onFailure
             self.roleARN = roleARN
@@ -1363,6 +1387,7 @@ extension Cloudformation {
 
         public init(dictionary: [String: Any]) throws {
             self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
@@ -2006,9 +2031,10 @@ extension Cloudformation {
             AWSShapeProperty(label: "EventId", required: true, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
             AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceProperties", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
             AWSShapeProperty(label: "StackName", required: true, type: .string)
         ]
         /// Time the status was updated.
@@ -2023,25 +2049,28 @@ extension Cloudformation {
         public let resourceType: String?
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String?
-        /// The name or unique identifier associated with the physical instance of the resource.
-        public let physicalResourceId: String?
+        /// The token passed to the operation that generated this event. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1.
+        public let clientRequestToken: String?
         /// BLOB of the properties used to create the resource.
         public let resourceProperties: String?
         /// Success/failure message associated with the resource.
         public let resourceStatusReason: String?
+        /// The name or unique identifier associated with the physical instance of the resource.
+        public let physicalResourceId: String?
         /// The name associated with a stack.
         public let stackName: String
 
-        public init(timestamp: String, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, stackName: String) {
+        public init(timestamp: String, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, clientRequestToken: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, physicalResourceId: String? = nil, stackName: String) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
             self.eventId = eventId
             self.resourceType = resourceType
             self.logicalResourceId = logicalResourceId
-            self.physicalResourceId = physicalResourceId
+            self.clientRequestToken = clientRequestToken
             self.resourceProperties = resourceProperties
             self.resourceStatusReason = resourceStatusReason
+            self.physicalResourceId = physicalResourceId
             self.stackName = stackName
         }
 
@@ -2055,9 +2084,10 @@ extension Cloudformation {
             self.eventId = eventId
             self.resourceType = dictionary["ResourceType"] as? String
             self.logicalResourceId = dictionary["LogicalResourceId"] as? String
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             self.resourceProperties = dictionary["ResourceProperties"] as? String
             self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
+            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
         }
@@ -2252,16 +2282,21 @@ extension Cloudformation {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
             AWSShapeProperty(label: "StackName", required: true, type: .string)
         ]
+        /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
+        public let clientRequestToken: String?
         /// The name or the unique stack ID that is associated with the stack.
         public let stackName: String
 
-        public init(stackName: String) {
+        public init(clientRequestToken: String? = nil, stackName: String) {
+            self.clientRequestToken = clientRequestToken
             self.stackName = stackName
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
             guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
             self.stackName = stackName
         }

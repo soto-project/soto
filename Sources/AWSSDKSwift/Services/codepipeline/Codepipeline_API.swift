@@ -59,6 +59,11 @@ public struct Codepipeline {
         _ = try client.send(operation: "DisableStageTransition", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets a summary of the most recent executions for a pipeline.
+    public func listPipelineExecutions(_ input: ListPipelineExecutionsInput) throws -> ListPipelineExecutionsOutput {
+        return try client.send(operation: "ListPipelineExecutions", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Confirms a job worker has received the specified job. Only used for partner actions.
     public func acknowledgeThirdPartyJob(_ input: AcknowledgeThirdPartyJobInput) throws -> AcknowledgeThirdPartyJobOutput {
         return try client.send(operation: "AcknowledgeThirdPartyJob", path: "/", httpMethod: "POST", input: input)

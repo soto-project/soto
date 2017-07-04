@@ -40,6 +40,7 @@ public enum RedshiftError: AWSErrorType {
     case invalidTagFault(message: String?)
     case hsmConfigurationNotFoundFault(message: String?)
     case reservedNodeNotFoundFault(message: String?)
+    case dependentServiceUnavailableFault(message: String?)
     case hsmClientCertificateAlreadyExistsFault(message: String?)
     case hsmClientCertificateQuotaExceededFault(message: String?)
     case tagLimitExceededFault(message: String?)
@@ -144,6 +145,8 @@ extension RedshiftError {
             self = .hsmConfigurationNotFoundFault(message: message)
         case "ReservedNodeNotFoundFault":
             self = .reservedNodeNotFoundFault(message: message)
+        case "DependentServiceUnavailableFault":
+            self = .dependentServiceUnavailableFault(message: message)
         case "HsmClientCertificateAlreadyExistsFault":
             self = .hsmClientCertificateAlreadyExistsFault(message: message)
         case "HsmClientCertificateQuotaExceededFault":

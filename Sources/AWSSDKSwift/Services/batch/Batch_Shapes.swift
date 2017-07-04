@@ -135,6 +135,39 @@ extension Batch {
         }
     }
 
+    public struct AttemptDetail: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
+            AWSShapeProperty(label: "startedAt", required: false, type: .long), 
+            AWSShapeProperty(label: "container", required: false, type: .structure), 
+            AWSShapeProperty(label: "stoppedAt", required: false, type: .long)
+        ]
+        /// A short, human-readable string to provide additional details about the current status of the job attempt.
+        public let statusReason: String?
+        /// The Unix timestamp for when the attempt was started (when the task transitioned from the PENDING state to the RUNNING state).
+        public let startedAt: Int64?
+        /// Details about the container in this job attempt.
+        public let container: AttemptContainerDetail?
+        /// The Unix timestamp for when the attempt was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
+        public let stoppedAt: Int64?
+
+        public init(statusReason: String? = nil, startedAt: Int64? = nil, container: AttemptContainerDetail? = nil, stoppedAt: Int64? = nil) {
+            self.statusReason = statusReason
+            self.startedAt = startedAt
+            self.container = container
+            self.stoppedAt = stoppedAt
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.statusReason = dictionary["statusReason"] as? String
+            self.startedAt = dictionary["startedAt"] as? Int64
+            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.AttemptContainerDetail(dictionary: container) } else { self.container = nil }
+            self.stoppedAt = dictionary["stoppedAt"] as? Int64
+        }
+    }
+
     public struct JobQueueDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -305,6 +338,39 @@ extension Batch {
         }
     }
 
+    public struct AttemptContainerDetail: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "reason", required: false, type: .string), 
+            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
+            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeProperty(label: "exitCode", required: false, type: .integer)
+        ]
+        /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
+        public let reason: String?
+        /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the job attempt.
+        public let taskArn: String?
+        /// The Amazon Resource Name (ARN) of the Amazon ECS container instance that hosts the job attempt.
+        public let containerInstanceArn: String?
+        /// The exit code for the job attempt. A non-zero exit code is considered a failure.
+        public let exitCode: Int32?
+
+        public init(reason: String? = nil, taskArn: String? = nil, containerInstanceArn: String? = nil, exitCode: Int32? = nil) {
+            self.reason = reason
+            self.taskArn = taskArn
+            self.containerInstanceArn = containerInstanceArn
+            self.exitCode = exitCode
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.reason = dictionary["reason"] as? String
+            self.taskArn = dictionary["taskArn"] as? String
+            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
+            self.exitCode = dictionary["exitCode"] as? Int32
+        }
+    }
+
     public enum JobDefinitionType: String, CustomStringConvertible {
         case container = "container"
         public var description: String { return self.rawValue }
@@ -315,82 +381,87 @@ extension Batch {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ec2KeyPair", required: false, type: .string), 
+            AWSShapeProperty(label: "maxvCpus", required: true, type: .integer), 
+            AWSShapeProperty(label: "imageId", required: false, type: .string), 
+            AWSShapeProperty(label: "tags", required: false, type: .map), 
+            AWSShapeProperty(label: "type", required: true, type: .enum), 
             AWSShapeProperty(label: "bidPercentage", required: false, type: .integer), 
+            AWSShapeProperty(label: "instanceTypes", required: true, type: .list), 
             AWSShapeProperty(label: "subnets", required: true, type: .list), 
             AWSShapeProperty(label: "spotIamFleetRole", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "maxvCpus", required: true, type: .integer), 
             AWSShapeProperty(label: "securityGroupIds", required: true, type: .list), 
             AWSShapeProperty(label: "instanceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "minvCpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer)
+            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer), 
+            AWSShapeProperty(label: "minvCpus", required: true, type: .integer)
         ]
         /// The EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
+        /// The maximum number of EC2 vCPUs that an environment can reach. 
+        public let maxvCpus: Int32
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
+        public let imageId: String?
+        /// Key-value pair tags to be applied to resources that are launched in the compute environment. 
+        public let tags: [String: String]?
+        /// The type of compute environment.
+        public let `type`: CRType
         /// The minimum percentage that a Spot Instance price must be when compared with the On-Demand price for that instance type before instances are launched. For example, if your bid percentage is 20%, then the Spot price must be below 20% of the current On-Demand price for that EC2 instance.
         public let bidPercentage: Int32?
+        /// The instances types that may launched.
+        public let instanceTypes: [String]
         /// The VPC subnets into which the compute resources are launched. 
         public let subnets: [String]
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment.
         public let spotIamFleetRole: String?
-        /// The instances types that may launched.
-        public let instanceTypes: [String]
-        /// The maximum number of EC2 vCPUs that an environment can reach. 
-        public let maxvCpus: Int32
         /// The EC2 security group that is associated with instances launched in the compute environment. 
         public let securityGroupIds: [String]
         /// The Amazon ECS instance role applied to Amazon EC2 instances in a compute environment.
         public let instanceRole: String
-        /// Key-value pair tags to be applied to resources that are launched in the compute environment. 
-        public let tags: [String: String]?
-        /// The minimum number of EC2 vCPUs that an environment should maintain. 
-        public let minvCpus: Int32
-        /// The type of compute environment.
-        public let `type`: CRType
         /// The desired number of EC2 vCPUS in the compute environment. 
         public let desiredvCpus: Int32?
+        /// The minimum number of EC2 vCPUs that an environment should maintain. 
+        public let minvCpus: Int32
 
-        public init(ec2KeyPair: String? = nil, bidPercentage: Int32? = nil, subnets: [String], spotIamFleetRole: String? = nil, instanceTypes: [String], maxvCpus: Int32, securityGroupIds: [String], instanceRole: String, tags: [String: String]? = nil, minvCpus: Int32, type: CRType, desiredvCpus: Int32? = nil) {
+        public init(ec2KeyPair: String? = nil, maxvCpus: Int32, imageId: String? = nil, tags: [String: String]? = nil, type: CRType, bidPercentage: Int32? = nil, instanceTypes: [String], subnets: [String], spotIamFleetRole: String? = nil, securityGroupIds: [String], instanceRole: String, desiredvCpus: Int32? = nil, minvCpus: Int32) {
             self.ec2KeyPair = ec2KeyPair
+            self.maxvCpus = maxvCpus
+            self.imageId = imageId
+            self.tags = tags
+            self.`type` = `type`
             self.bidPercentage = bidPercentage
+            self.instanceTypes = instanceTypes
             self.subnets = subnets
             self.spotIamFleetRole = spotIamFleetRole
-            self.instanceTypes = instanceTypes
-            self.maxvCpus = maxvCpus
             self.securityGroupIds = securityGroupIds
             self.instanceRole = instanceRole
-            self.tags = tags
-            self.minvCpus = minvCpus
-            self.`type` = `type`
             self.desiredvCpus = desiredvCpus
+            self.minvCpus = minvCpus
         }
 
         public init(dictionary: [String: Any]) throws {
             self.ec2KeyPair = dictionary["ec2KeyPair"] as? String
-            self.bidPercentage = dictionary["bidPercentage"] as? Int32
-            guard let subnets = dictionary["subnets"] as? [String] else { throw InitializableError.missingRequiredParam("subnets") }
-            self.subnets = subnets
-            self.spotIamFleetRole = dictionary["spotIamFleetRole"] as? String
-            guard let instanceTypes = dictionary["instanceTypes"] as? [String] else { throw InitializableError.missingRequiredParam("instanceTypes") }
-            self.instanceTypes = instanceTypes
             guard let maxvCpus = dictionary["maxvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("maxvCpus") }
             self.maxvCpus = maxvCpus
-            guard let securityGroupIds = dictionary["securityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("securityGroupIds") }
-            self.securityGroupIds = securityGroupIds
-            guard let instanceRole = dictionary["instanceRole"] as? String else { throw InitializableError.missingRequiredParam("instanceRole") }
-            self.instanceRole = instanceRole
+            self.imageId = dictionary["imageId"] as? String
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
             } else { 
                 self.tags = nil
             }
-            guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
-            self.minvCpus = minvCpus
             guard let rawtype = dictionary["type"] as? String, let `type` = CRType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
             self.`type` = `type`
+            self.bidPercentage = dictionary["bidPercentage"] as? Int32
+            guard let instanceTypes = dictionary["instanceTypes"] as? [String] else { throw InitializableError.missingRequiredParam("instanceTypes") }
+            self.instanceTypes = instanceTypes
+            guard let subnets = dictionary["subnets"] as? [String] else { throw InitializableError.missingRequiredParam("subnets") }
+            self.subnets = subnets
+            self.spotIamFleetRole = dictionary["spotIamFleetRole"] as? String
+            guard let securityGroupIds = dictionary["securityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("securityGroupIds") }
+            self.securityGroupIds = securityGroupIds
+            guard let instanceRole = dictionary["instanceRole"] as? String else { throw InitializableError.missingRequiredParam("instanceRole") }
+            self.instanceRole = instanceRole
             self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
+            guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
+            self.minvCpus = minvCpus
         }
     }
 
@@ -701,6 +772,7 @@ extension Batch {
             AWSShapeProperty(label: "volumes", required: false, type: .list), 
             AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
             AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
+            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
             AWSShapeProperty(label: "command", required: false, type: .list), 
             AWSShapeProperty(label: "jobRoleArn", required: false, type: .string)
         ]
@@ -730,12 +802,14 @@ extension Batch {
         public let privileged: Bool?
         /// The exit code to return upon completion.
         public let exitCode: Int32?
+        /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the container job.
+        public let taskArn: String?
         /// The command that is passed to the container. 
         public let command: [String]?
         /// The Amazon Resource Name (ARN) associated with the job upon execution. 
         public let jobRoleArn: String?
 
-        public init(reason: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, user: String? = nil, vcpus: Int32? = nil, ulimits: [Ulimit]? = nil, memory: Int32? = nil, environment: [KeyValuePair]? = nil, containerInstanceArn: String? = nil, image: String? = nil, volumes: [Volume]? = nil, privileged: Bool? = nil, exitCode: Int32? = nil, command: [String]? = nil, jobRoleArn: String? = nil) {
+        public init(reason: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, user: String? = nil, vcpus: Int32? = nil, ulimits: [Ulimit]? = nil, memory: Int32? = nil, environment: [KeyValuePair]? = nil, containerInstanceArn: String? = nil, image: String? = nil, volumes: [Volume]? = nil, privileged: Bool? = nil, exitCode: Int32? = nil, taskArn: String? = nil, command: [String]? = nil, jobRoleArn: String? = nil) {
             self.reason = reason
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.mountPoints = mountPoints
@@ -749,6 +823,7 @@ extension Batch {
             self.volumes = volumes
             self.privileged = privileged
             self.exitCode = exitCode
+            self.taskArn = taskArn
             self.command = command
             self.jobRoleArn = jobRoleArn
         }
@@ -783,6 +858,7 @@ extension Batch {
             }
             self.privileged = dictionary["privileged"] as? Bool
             self.exitCode = dictionary["exitCode"] as? Int32
+            self.taskArn = dictionary["taskArn"] as? String
             self.command = dictionary["command"] as? [String]
             self.jobRoleArn = dictionary["jobRoleArn"] as? String
         }
@@ -959,84 +1035,98 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
             AWSShapeProperty(label: "jobName", required: true, type: .string), 
             AWSShapeProperty(label: "createdAt", required: false, type: .long), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .long), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
             AWSShapeProperty(label: "startedAt", required: true, type: .long), 
-            AWSShapeProperty(label: "container", required: false, type: .structure), 
             AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
+            AWSShapeProperty(label: "container", required: false, type: .structure), 
             AWSShapeProperty(label: "dependsOn", required: false, type: .list), 
+            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "attempts", required: false, type: .list), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map), 
+            AWSShapeProperty(label: "stoppedAt", required: false, type: .long), 
+            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
             AWSShapeProperty(label: "jobId", required: true, type: .string)
         ]
-        /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
-        public let jobQueue: String
-        /// The current status for the job.
-        public let status: JobStatus
         /// The name of the job.
         public let jobName: String
         /// The Unix timestamp for when the job was created (when the task entered the PENDING state). 
         public let createdAt: Int64?
-        /// The Unix timestamp for when the job was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
-        public let stoppedAt: Int64?
-        /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
-        public let parameters: [String: String]?
         /// The Unix timestamp for when the job was started (when the task transitioned from the PENDING state to the RUNNING state). 
         public let startedAt: Int64
-        /// An object representing the details of the container that is associated with the job.
-        public let container: ContainerDetail?
         /// A short, human-readable string to provide additional details about the current status of the job. 
         public let statusReason: String?
-        /// The job definition that is used by this job.
-        public let jobDefinition: String
+        /// An object representing the details of the container that is associated with the job.
+        public let container: ContainerDetail?
         /// A list of job names or IDs on which this job depends.
         public let dependsOn: [JobDependency]?
+        /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
+        public let jobQueue: String
+        /// The current status for the job.
+        public let status: JobStatus
+        /// A list of job attempts associated with this job.
+        public let attempts: [AttemptDetail]?
+        /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
+        public let parameters: [String: String]?
+        /// The Unix timestamp for when the job was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
+        public let stoppedAt: Int64?
+        /// The retry strategy to use for this job if an attempt fails.
+        public let retryStrategy: RetryStrategy?
+        /// The job definition that is used by this job.
+        public let jobDefinition: String
         /// The ID for the job.
         public let jobId: String
 
-        public init(jobQueue: String, status: JobStatus, jobName: String, createdAt: Int64? = nil, stoppedAt: Int64? = nil, parameters: [String: String]? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
-            self.jobQueue = jobQueue
-            self.status = status
+        public init(jobName: String, createdAt: Int64? = nil, startedAt: Int64, statusReason: String? = nil, container: ContainerDetail? = nil, dependsOn: [JobDependency]? = nil, jobQueue: String, status: JobStatus, attempts: [AttemptDetail]? = nil, parameters: [String: String]? = nil, stoppedAt: Int64? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, jobId: String) {
             self.jobName = jobName
             self.createdAt = createdAt
-            self.stoppedAt = stoppedAt
-            self.parameters = parameters
             self.startedAt = startedAt
-            self.container = container
             self.statusReason = statusReason
-            self.jobDefinition = jobDefinition
+            self.container = container
             self.dependsOn = dependsOn
+            self.jobQueue = jobQueue
+            self.status = status
+            self.attempts = attempts
+            self.parameters = parameters
+            self.stoppedAt = stoppedAt
+            self.retryStrategy = retryStrategy
+            self.jobDefinition = jobDefinition
             self.jobId = jobId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
-            guard let rawstatus = dictionary["status"] as? String, let status = JobStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
             guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
             self.jobName = jobName
             self.createdAt = dictionary["createdAt"] as? Int64
-            self.stoppedAt = dictionary["stoppedAt"] as? Int64
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
             guard let startedAt = dictionary["startedAt"] as? Int64 else { throw InitializableError.missingRequiredParam("startedAt") }
             self.startedAt = startedAt
-            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) } else { self.container = nil }
             self.statusReason = dictionary["statusReason"] as? String
-            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
-            self.jobDefinition = jobDefinition
+            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) } else { self.container = nil }
             if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
                 self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
             } else { 
                 self.dependsOn = nil
             }
+            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
+            self.jobQueue = jobQueue
+            guard let rawstatus = dictionary["status"] as? String, let status = JobStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            if let attempts = dictionary["attempts"] as? [[String: Any]] {
+                self.attempts = try attempts.map({ try AttemptDetail(dictionary: $0) })
+            } else { 
+                self.attempts = nil
+            }
+            if let parameters = dictionary["parameters"] as? [String: String] {
+                self.parameters = parameters
+            } else { 
+                self.parameters = nil
+            }
+            self.stoppedAt = dictionary["stoppedAt"] as? Int64
+            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
+            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
+            self.jobDefinition = jobDefinition
             guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
             self.jobId = jobId
         }
@@ -1048,31 +1138,35 @@ extension Batch {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
             AWSShapeProperty(label: "jobName", required: true, type: .string), 
+            AWSShapeProperty(label: "parameters", required: false, type: .map), 
+            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "dependsOn", required: false, type: .list), 
             AWSShapeProperty(label: "containerOverrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map)
+            AWSShapeProperty(label: "dependsOn", required: false, type: .list)
         ]
         /// The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue. 
         public let jobQueue: String
-        /// The name of the job.
+        /// The name of the job. A name must be 1 to 128 characters in length. Pattern: ^[a-zA-Z0-9_]+$
         public let jobName: String
-        /// The job definition used by this job. This value can be either a name:revision or the Amazon Resource Name (ARN) for the job definition.
-        public let jobDefinition: String
-        /// A list of job names or IDs on which this job depends. A job can depend upon a maximum of 100 jobs. 
-        public let dependsOn: [JobDependency]?
-        /// A list of container overrides in JSON format that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container (that is specified in the job definition or the Docker image) with a command override. You can also override existing environment variables (that are specified in the job definition or Docker image) on a container or add new environment variables to it with an environment override.
-        public let containerOverrides: ContainerOverrides?
         /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
+        /// The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
+        public let retryStrategy: RetryStrategy?
+        /// The job definition used by this job. This value can be either a name:revision or the Amazon Resource Name (ARN) for the job definition.
+        public let jobDefinition: String
+        /// A list of container overrides in JSON format that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container (that is specified in the job definition or the Docker image) with a command override. You can also override existing environment variables (that are specified in the job definition or Docker image) on a container or add new environment variables to it with an environment override.
+        public let containerOverrides: ContainerOverrides?
+        /// A list of job IDs on which this job depends. A job can depend upon a maximum of 100 jobs. 
+        public let dependsOn: [JobDependency]?
 
-        public init(jobQueue: String, jobName: String, jobDefinition: String, dependsOn: [JobDependency]? = nil, containerOverrides: ContainerOverrides? = nil, parameters: [String: String]? = nil) {
+        public init(jobQueue: String, jobName: String, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, jobDefinition: String, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil) {
             self.jobQueue = jobQueue
             self.jobName = jobName
-            self.jobDefinition = jobDefinition
-            self.dependsOn = dependsOn
-            self.containerOverrides = containerOverrides
             self.parameters = parameters
+            self.retryStrategy = retryStrategy
+            self.jobDefinition = jobDefinition
+            self.containerOverrides = containerOverrides
+            self.dependsOn = dependsOn
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1080,18 +1174,19 @@ extension Batch {
             self.jobQueue = jobQueue
             guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
             self.jobName = jobName
-            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
-            self.jobDefinition = jobDefinition
-            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
-                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
-            } else { 
-                self.dependsOn = nil
-            }
-            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) } else { self.containerOverrides = nil }
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
             } else { 
                 self.parameters = nil
+            }
+            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
+            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
+            self.jobDefinition = jobDefinition
+            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) } else { self.containerOverrides = nil }
+            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
+                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
+            } else { 
+                self.dependsOn = nil
             }
         }
     }
@@ -1199,12 +1294,15 @@ extension Batch {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
+            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeProperty(label: "type", required: true, type: .enum), 
             AWSShapeProperty(label: "containerProperties", required: false, type: .structure), 
             AWSShapeProperty(label: "parameters", required: false, type: .map)
         ]
         /// The name of the job definition to register. 
         public let jobDefinitionName: String
+        /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here.
+        public let retryStrategy: RetryStrategy?
         /// The type of job definition.
         public let `type`: JobDefinitionType
         /// An object with various properties specific for container-based jobs. This parameter is required if the type parameter is container.
@@ -1212,8 +1310,9 @@ extension Batch {
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
 
-        public init(jobDefinitionName: String, type: JobDefinitionType, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
+        public init(jobDefinitionName: String, retryStrategy: RetryStrategy? = nil, type: JobDefinitionType, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
             self.jobDefinitionName = jobDefinitionName
+            self.retryStrategy = retryStrategy
             self.`type` = `type`
             self.containerProperties = containerProperties
             self.parameters = parameters
@@ -1222,6 +1321,7 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
             self.jobDefinitionName = jobDefinitionName
+            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
             guard let rawtype = dictionary["type"] as? String, let `type` = JobDefinitionType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
             self.`type` = `type`
             if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
@@ -1377,6 +1477,7 @@ extension Batch {
             AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
             AWSShapeProperty(label: "parameters", required: false, type: .map), 
             AWSShapeProperty(label: "jobDefinitionArn", required: true, type: .string), 
+            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeProperty(label: "type", required: true, type: .string), 
             AWSShapeProperty(label: "containerProperties", required: false, type: .structure)
         ]
@@ -1390,17 +1491,20 @@ extension Batch {
         public let parameters: [String: String]?
         /// The Amazon Resource Name (ARN) for the job definition. 
         public let jobDefinitionArn: String
+        /// The retry strategy to use for failed jobs that are submitted with this job definition.
+        public let retryStrategy: RetryStrategy?
         /// The type of job definition.
         public let `type`: String
         /// An object with various properties specific to container-based jobs. 
         public let containerProperties: ContainerProperties?
 
-        public init(revision: Int32, status: String? = nil, jobDefinitionName: String, parameters: [String: String]? = nil, jobDefinitionArn: String, type: String, containerProperties: ContainerProperties? = nil) {
+        public init(revision: Int32, status: String? = nil, jobDefinitionName: String, parameters: [String: String]? = nil, jobDefinitionArn: String, retryStrategy: RetryStrategy? = nil, type: String, containerProperties: ContainerProperties? = nil) {
             self.revision = revision
             self.status = status
             self.jobDefinitionName = jobDefinitionName
             self.parameters = parameters
             self.jobDefinitionArn = jobDefinitionArn
+            self.retryStrategy = retryStrategy
             self.`type` = `type`
             self.containerProperties = containerProperties
         }
@@ -1418,6 +1522,7 @@ extension Batch {
             }
             guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
             self.jobDefinitionArn = jobDefinitionArn
+            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
             guard let `type` = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.`type` = `type`
             if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
@@ -1539,6 +1644,24 @@ extension Batch {
         case valid = "VALID"
         case invalid = "INVALID"
         public var description: String { return self.rawValue }
+    }
+
+    public struct RetryStrategy: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "attempts", required: false, type: .integer)
+        ]
+        /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+        public let attempts: Int32?
+
+        public init(attempts: Int32? = nil) {
+            self.attempts = attempts
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.attempts = dictionary["attempts"] as? Int32
+        }
     }
 
     public enum CRType: String, CustomStringConvertible {

@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Using the Amazon Cognito Your User Pools API, you can create a user pool to manage directories and users. You can authenticate a user to obtain tokens related to user identity and access policies. This API reference provides information about user pools in Amazon Cognito Your User Pools. For more information, see the Amazon Cognito Documentation.
+Using the Amazon Cognito User Pools API, you can create a user pool to manage directories and users. You can authenticate a user to obtain tokens related to user identity and access policies. This API reference provides information about user pools in Amazon Cognito User Pools. For more information, see the Amazon Cognito Documentation.
 */
 public struct CognitoIdp {
 
@@ -49,7 +49,7 @@ public struct CognitoIdp {
         )
     }
 
-    ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. Requires developer credentials.
+    ///  Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Requires developer credentials.
     public func adminUpdateUserAttributes(_ input: AdminUpdateUserAttributesRequest) throws -> AdminUpdateUserAttributesResponse {
         return try client.send(operation: "AdminUpdateUserAttributes", path: "/", httpMethod: "POST", input: input)
     }
@@ -69,9 +69,19 @@ public struct CognitoIdp {
         _ = try client.send(operation: "DeleteUserPool", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists information about all identity providers for a user pool.
+    public func listIdentityProviders(_ input: ListIdentityProvidersRequest) throws -> ListIdentityProvidersResponse {
+        return try client.send(operation: "ListIdentityProviders", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a user as an administrator. Works on any user. Requires developer credentials.
     public func adminDeleteUser(_ input: AdminDeleteUserRequest) throws {
         _ = try client.send(operation: "AdminDeleteUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a domain.
+    public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest) throws -> DescribeUserPoolDomainResponse {
+        return try client.send(operation: "DescribeUserPoolDomain", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new user in the specified user pool and sends a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to CreateUserPool or UpdateUserPool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Requires developer credentials.
@@ -79,14 +89,14 @@ public struct CognitoIdp {
         return try client.send(operation: "AdminCreateUser", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates an identity provider for a user pool.
+    public func createIdentityProvider(_ input: CreateIdentityProviderRequest) throws -> CreateIdentityProviderResponse {
+        return try client.send(operation: "CreateIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets the specified user by user name in a user pool as an administrator. Works on any user. Requires developer credentials.
     public func adminGetUser(_ input: AdminGetUserRequest) throws -> AdminGetUserResponse {
         return try client.send(operation: "AdminGetUser", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Forgets the specified device.
-    public func forgetDevice(_ input: ForgetDeviceRequest) throws {
-        _ = try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the device.
@@ -114,6 +124,11 @@ public struct CognitoIdp {
         return try client.send(operation: "AdminListGroupsForUser", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Changes the password for a specified user in a user pool.
+    public func changePassword(_ input: ChangePasswordRequest) throws -> ChangePasswordResponse {
+        return try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates the device status as an administrator. Requires developer credentials.
     public func adminUpdateDeviceStatus(_ input: AdminUpdateDeviceStatusRequest) throws -> AdminUpdateDeviceStatusResponse {
         return try client.send(operation: "AdminUpdateDeviceStatus", path: "/", httpMethod: "POST", input: input)
@@ -129,12 +144,12 @@ public struct CognitoIdp {
         return try client.send(operation: "ListUserImportJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Changes the password for a specified user in a user pool.
-    public func changePassword(_ input: ChangePasswordRequest) throws -> ChangePasswordResponse {
-        return try client.send(operation: "ChangePassword", path: "/", httpMethod: "POST", input: input)
+    ///  Forgets the specified device.
+    public func forgetDevice(_ input: ForgetDeviceRequest) throws {
+        _ = try client.send(operation: "ForgetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the password for the specified client ID or username.
+    ///  Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword.
     public func forgotPassword(_ input: ForgotPasswordRequest) throws -> ForgotPasswordResponse {
         return try client.send(operation: "ForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
@@ -189,6 +204,11 @@ public struct CognitoIdp {
         return try client.send(operation: "AdminGetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates identity provider information for a user pool.
+    public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest) throws -> UpdateIdentityProviderResponse {
+        return try client.send(operation: "UpdateIdentityProvider", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new Amazon Cognito user pool and sets the password policy for the pool.
     public func createUserPool(_ input: CreateUserPoolRequest) throws -> CreateUserPoolResponse {
         return try client.send(operation: "CreateUserPool", path: "/", httpMethod: "POST", input: input)
@@ -239,7 +259,12 @@ public struct CognitoIdp {
         return try client.send(operation: "DescribeUserPoolClient", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Confirms tracking of the device. This API call is the call that beings device tracking.
+    ///  Deletes a domain for a user pool.
+    public func deleteUserPoolDomain(_ input: DeleteUserPoolDomainRequest) throws -> DeleteUserPoolDomainResponse {
+        return try client.send(operation: "DeleteUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Confirms tracking of the device. This API call is the call that begins device tracking.
     public func confirmDevice(_ input: ConfirmDeviceRequest) throws -> ConfirmDeviceResponse {
         return try client.send(operation: "ConfirmDevice", path: "/", httpMethod: "POST", input: input)
     }
@@ -249,7 +274,7 @@ public struct CognitoIdp {
         return try client.send(operation: "AdminConfirmSignUp", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Allows a user to enter a code provided when they reset their password to update their password.
+    ///  Allows a user to enter a confirmation code to reset a forgotten password.
     public func confirmForgotPassword(_ input: ConfirmForgotPasswordRequest) throws -> ConfirmForgotPasswordResponse {
         return try client.send(operation: "ConfirmForgotPassword", path: "/", httpMethod: "POST", input: input)
     }
@@ -269,6 +294,16 @@ public struct CognitoIdp {
         return try client.send(operation: "StartUserImportJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the specified identity provider.
+    public func getIdentityProviderByIdentifier(_ input: GetIdentityProviderByIdentifierRequest) throws -> GetIdentityProviderByIdentifierResponse {
+        return try client.send(operation: "GetIdentityProviderByIdentifier", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new domain for a user pool.
+    public func createUserPoolDomain(_ input: CreateUserPoolDomainRequest) throws -> CreateUserPoolDomainResponse {
+        return try client.send(operation: "CreateUserPoolDomain", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates the user import job.
     public func createUserImportJob(_ input: CreateUserImportJobRequest) throws -> CreateUserImportJobResponse {
         return try client.send(operation: "CreateUserImportJob", path: "/", httpMethod: "POST", input: input)
@@ -277,6 +312,11 @@ public struct CognitoIdp {
     ///  Adds the specified user to the specified group. Requires developer credentials.
     public func adminAddUserToGroup(_ input: AdminAddUserToGroupRequest) throws {
         _ = try client.send(operation: "AdminAddUserToGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a specific identity provider.
+    public func describeIdentityProvider(_ input: DescribeIdentityProviderRequest) throws -> DescribeIdentityProviderResponse {
+        return try client.send(operation: "DescribeIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows a user to update a specific attribute (one at a time).
@@ -357,6 +397,11 @@ public struct CognitoIdp {
     ///  Gets the header information for the .csv file to be used as input for the user import job.
     public func getCSVHeader(_ input: GetCSVHeaderRequest) throws -> GetCSVHeaderResponse {
         return try client.send(operation: "GetCSVHeader", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an identity provider for a user pool.
+    public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest) throws {
+        _ = try client.send(operation: "DeleteIdentityProvider", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Confirms registration of a user and handles the existing alias from a previous user.

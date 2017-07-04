@@ -36,18 +36,21 @@ public enum ElasticacheError: AWSErrorType {
     case cacheParameterGroupQuotaExceededFault(message: String?)
     case cacheParameterGroupAlreadyExistsFault(message: String?)
     case invalidCacheParameterGroupStateFault(message: String?)
+    case aPICallRateForCustomerExceededFault(message: String?)
+    case invalidCacheClusterStateFault(message: String?)
+    case invalidReplicationGroupStateFault(message: String?)
+    case nodeGroupNotFoundFault(message: String?)
+    case replicationGroupNotFoundFault(message: String?)
+    case testFailoverNotAvailableFault(message: String?)
+    case cacheParameterGroupNotFoundFault(message: String?)
     case cacheSubnetGroupInUse(message: String?)
     case cacheSubnetGroupNotFoundFault(message: String?)
-    case cacheParameterGroupNotFoundFault(message: String?)
     case cacheClusterNotFoundFault(message: String?)
-    case invalidCacheClusterStateFault(message: String?)
     case snapshotAlreadyExistsFault(message: String?)
     case snapshotFeatureNotSupportedFault(message: String?)
     case snapshotQuotaExceededFault(message: String?)
     case snapshotNotFoundFault(message: String?)
     case invalidARNFault(message: String?)
-    case replicationGroupNotFoundFault(message: String?)
-    case invalidReplicationGroupStateFault(message: String?)
     case invalidSnapshotStateFault(message: String?)
     case authorizationAlreadyExistsFault(message: String?)
     case reservedCacheNodesOfferingNotFoundFault(message: String?)
@@ -96,16 +99,26 @@ extension ElasticacheError {
             self = .cacheParameterGroupAlreadyExistsFault(message: message)
         case "InvalidCacheParameterGroupStateFault":
             self = .invalidCacheParameterGroupStateFault(message: message)
+        case "APICallRateForCustomerExceededFault":
+            self = .aPICallRateForCustomerExceededFault(message: message)
+        case "InvalidCacheClusterStateFault":
+            self = .invalidCacheClusterStateFault(message: message)
+        case "InvalidReplicationGroupStateFault":
+            self = .invalidReplicationGroupStateFault(message: message)
+        case "NodeGroupNotFoundFault":
+            self = .nodeGroupNotFoundFault(message: message)
+        case "ReplicationGroupNotFoundFault":
+            self = .replicationGroupNotFoundFault(message: message)
+        case "TestFailoverNotAvailableFault":
+            self = .testFailoverNotAvailableFault(message: message)
+        case "CacheParameterGroupNotFoundFault":
+            self = .cacheParameterGroupNotFoundFault(message: message)
         case "CacheSubnetGroupInUse":
             self = .cacheSubnetGroupInUse(message: message)
         case "CacheSubnetGroupNotFoundFault":
             self = .cacheSubnetGroupNotFoundFault(message: message)
-        case "CacheParameterGroupNotFoundFault":
-            self = .cacheParameterGroupNotFoundFault(message: message)
         case "CacheClusterNotFoundFault":
             self = .cacheClusterNotFoundFault(message: message)
-        case "InvalidCacheClusterStateFault":
-            self = .invalidCacheClusterStateFault(message: message)
         case "SnapshotAlreadyExistsFault":
             self = .snapshotAlreadyExistsFault(message: message)
         case "SnapshotFeatureNotSupportedFault":
@@ -116,10 +129,6 @@ extension ElasticacheError {
             self = .snapshotNotFoundFault(message: message)
         case "InvalidARNFault":
             self = .invalidARNFault(message: message)
-        case "ReplicationGroupNotFoundFault":
-            self = .replicationGroupNotFoundFault(message: message)
-        case "InvalidReplicationGroupStateFault":
-            self = .invalidReplicationGroupStateFault(message: message)
         case "InvalidSnapshotStateFault":
             self = .invalidSnapshotStateFault(message: message)
         case "AuthorizationAlreadyExistsFault":

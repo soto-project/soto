@@ -63,7 +63,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DeregisterTargets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the specified policies or all policies used for SSL negotiation. Note that the only supported policy at this time is ELBSecurityPolicy-2015-05.
+    ///  Describes the specified policies or all policies used for SSL negotiation. For more information, see Security Policies in the Application Load Balancers Guide.
     public func describeSSLPolicies(_ input: DescribeSSLPoliciesInput) throws -> DescribeSSLPoliciesOutput {
         return try client.send(operation: "DescribeSSLPolicies", path: "/", httpMethod: "POST", input: input)
     }
@@ -88,7 +88,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "DeleteListener", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the tags for the specified resources.
+    ///  Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers and target groups.
     public func describeTags(_ input: DescribeTagsInput) throws -> DescribeTagsOutput {
         return try client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -126,6 +126,11 @@ public struct Elasticloadbalancingv2 {
     ///  Modifies the specified rule. Any existing properties that you do not modify retain their current values. To modify the default action, use ModifyListener.
     public func modifyRule(_ input: ModifyRuleInput) throws -> ModifyRuleOutput {
         return try client.send(operation: "ModifyRule", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see Limits for Your Application Load Balancer in the Application Load Balancer Guide.
+    public func describeAccountLimits(_ input: DescribeAccountLimitsInput) throws -> DescribeAccountLimitsOutput {
+        return try client.send(operation: "DescribeAccountLimits", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified Application Load Balancer and its attached listeners. You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds. Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
@@ -183,7 +188,7 @@ public struct Elasticloadbalancingv2 {
         return try client.send(operation: "RegisterTargets", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified properties of the specified listener. Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties. If you change the protocol from HTTP to HTTPS, you must add the security policy.
+    ///  Modifies the specified properties of the specified listener. Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties. If you change the protocol from HTTP to HTTPS, you must add the security policy and server certificate.
     public func modifyListener(_ input: ModifyListenerInput) throws -> ModifyListenerOutput {
         return try client.send(operation: "ModifyListener", path: "/", httpMethod: "POST", input: input)
     }

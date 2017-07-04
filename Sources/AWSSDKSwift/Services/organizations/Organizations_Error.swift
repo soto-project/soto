@@ -34,6 +34,7 @@ public enum OrganizationsError: AWSErrorType {
     case serviceException(message: String?)
     case tooManyRequestsException(message: String?)
     case parentNotFoundException(message: String?)
+    case concurrentModificationException(message: String?)
     case constraintViolationException(message: String?)
     case finalizingOrganizationException(message: String?)
     case handshakeNotFoundException(message: String?)
@@ -41,7 +42,6 @@ public enum OrganizationsError: AWSErrorType {
     case destinationParentNotFoundException(message: String?)
     case duplicateAccountException(message: String?)
     case accountNotFoundException(message: String?)
-    case concurrentModificationException(message: String?)
     case childNotFoundException(message: String?)
     case policyNotFoundException(message: String?)
     case policyInUseException(message: String?)
@@ -86,6 +86,8 @@ extension OrganizationsError {
             self = .tooManyRequestsException(message: message)
         case "ParentNotFoundException":
             self = .parentNotFoundException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
         case "ConstraintViolationException":
             self = .constraintViolationException(message: message)
         case "FinalizingOrganizationException":
@@ -100,8 +102,6 @@ extension OrganizationsError {
             self = .duplicateAccountException(message: message)
         case "AccountNotFoundException":
             self = .accountNotFoundException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
         case "ChildNotFoundException":
             self = .childNotFoundException(message: message)
         case "PolicyNotFoundException":

@@ -185,31 +185,6 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct RemoveAvailabilityZonesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
-        ]
-        /// The Availability Zones.
-        public let availabilityZones: [String]
-        /// The name of the load balancer.
-        public let loadBalancerName: String
-
-        public init(availabilityZones: [String], loadBalancerName: String) {
-            self.availabilityZones = availabilityZones
-            self.loadBalancerName = loadBalancerName
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
-            self.availabilityZones = availabilityZones
-            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
-            self.loadBalancerName = loadBalancerName
-        }
-    }
-
     public struct CreateLoadBalancerListenerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -235,21 +210,28 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct CreateAccessPointOutput: AWSShape {
+    public struct RemoveAvailabilityZonesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DNSName", required: false, type: .string)
+            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerName", required: true, type: .string)
         ]
-        /// The DNS name of the load balancer.
-        public let dNSName: String?
+        /// The Availability Zones.
+        public let availabilityZones: [String]
+        /// The name of the load balancer.
+        public let loadBalancerName: String
 
-        public init(dNSName: String? = nil) {
-            self.dNSName = dNSName
+        public init(availabilityZones: [String], loadBalancerName: String) {
+            self.availabilityZones = availabilityZones
+            self.loadBalancerName = loadBalancerName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dNSName = dictionary["DNSName"] as? String
+            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
+            self.availabilityZones = availabilityZones
+            guard let loadBalancerName = dictionary["LoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerName") }
+            self.loadBalancerName = loadBalancerName
         }
     }
 
@@ -262,7 +244,7 @@ extension Elasticloadbalancing {
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String
-        /// The attributes of the load balancer.
+        /// The attributes for the load balancer.
         public let loadBalancerAttributes: LoadBalancerAttributes
 
         public init(loadBalancerName: String, loadBalancerAttributes: LoadBalancerAttributes) {
@@ -303,21 +285,21 @@ extension Elasticloadbalancing {
         }
     }
 
-    public struct TagKeyOnly: AWSShape {
+    public struct CreateAccessPointOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+            AWSShapeProperty(label: "DNSName", required: false, type: .string)
         ]
-        /// The name of the key.
-        public let key: String?
+        /// The DNS name of the load balancer.
+        public let dNSName: String?
 
-        public init(key: String? = nil) {
-            self.key = key
+        public init(dNSName: String? = nil) {
+            self.dNSName = dNSName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
+            self.dNSName = dictionary["DNSName"] as? String
         }
     }
 
@@ -330,6 +312,7 @@ extension Elasticloadbalancing {
         ]
         /// The policies. If there are no policies enabled, the list is empty.
         public let policyNames: [String]?
+        /// The listener.
         public let listener: Listener?
 
         public init(policyNames: [String]? = nil, listener: Listener? = nil) {
@@ -365,6 +348,24 @@ extension Elasticloadbalancing {
         }
     }
 
+    public struct TagKeyOnly: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
+        /// The name of the key.
+        public let key: String?
+
+        public init(key: String? = nil) {
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+        }
+    }
+
     public struct LoadBalancerAttributes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -375,15 +376,15 @@ extension Elasticloadbalancing {
             AWSShapeProperty(label: "ConnectionDraining", required: false, type: .structure), 
             AWSShapeProperty(label: "CrossZoneLoadBalancing", required: false, type: .structure)
         ]
-        /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancers Guide.
+        /// If enabled, the load balancer allows the connections to remain idle (no data is sent over the connection) for the specified duration. By default, Elastic Load Balancing maintains a 60-second idle connection timeout for both front-end and back-end connections of your load balancer. For more information, see Configure Idle Connection Timeout in the Classic Load Balancer Guide.
         public let connectionSettings: ConnectionSettings?
         /// This parameter is reserved.
         public let additionalAttributes: [AdditionalAttribute]?
-        /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancers Guide.
+        /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see Enable Access Logs in the Classic Load Balancer Guide.
         public let accessLog: AccessLog?
-        /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancers Guide.
+        /// If enabled, the load balancer allows existing requests to complete before the load balancer shifts traffic away from a deregistered or unhealthy instance. For more information, see Configure Connection Draining in the Classic Load Balancer Guide.
         public let connectionDraining: ConnectionDraining?
-        /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide.
+        /// If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones. For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancer Guide.
         public let crossZoneLoadBalancing: CrossZoneLoadBalancing?
 
         public init(connectionSettings: ConnectionSettings? = nil, additionalAttributes: [AdditionalAttribute]? = nil, accessLog: AccessLog? = nil, connectionDraining: ConnectionDraining? = nil, crossZoneLoadBalancing: CrossZoneLoadBalancing? = nil) {
@@ -603,6 +604,29 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
             guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
             self.securityGroups = securityGroups
+        }
+    }
+
+    public struct DescribeAccountLimitsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer)
+        ]
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+
+        public init(marker: String? = nil, pageSize: Int32? = nil) {
+            self.marker = marker
+            self.pageSize = pageSize
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
         }
     }
 
@@ -968,6 +992,7 @@ extension Elasticloadbalancing {
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
+        /// Information about the load balancer attributes.
         public let loadBalancerAttributes: LoadBalancerAttributes?
 
         public init(loadBalancerName: String? = nil, loadBalancerAttributes: LoadBalancerAttributes? = nil) {
@@ -1187,9 +1212,9 @@ extension Elasticloadbalancing {
         public let availabilityZones: [String]?
         /// The IDs of the security groups to assign to the load balancer.
         public let securityGroups: [String]?
-        /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
+        /// The listeners. For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancer Guide.
         public let listeners: [Listener]
-        /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide.
+        /// A list of tags to assign to the load balancer. For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancer Guide.
         public let tags: [Tag]?
         /// The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones.
         public let subnets: [String]?
@@ -1424,6 +1449,29 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
+        }
+    }
+
+    public struct Limit: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Max", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
+        ]
+        /// The maximum value of the limit.
+        public let max: String?
+        /// The name of the limit. The possible values are:   classic-listeners   classic-load-balancers  
+        public let name: String?
+
+        public init(max: String? = nil, name: String? = nil) {
+            self.max = max
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.max = dictionary["Max"] as? String
+            self.name = dictionary["Name"] as? String
         }
     }
 
@@ -1733,6 +1781,33 @@ extension Elasticloadbalancing {
         }
     }
 
+    public struct DescribeAccountLimitsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limits", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the limits.
+        public let limits: [Limit]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
+            self.limits = limits
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let limits = dictionary["Limits"] as? [[String: Any]] {
+                self.limits = try limits.map({ try Limit(dictionary: $0) })
+            } else { 
+                self.limits = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
     public struct ConfigureHealthCheckInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1755,29 +1830,6 @@ extension Elasticloadbalancing {
             self.loadBalancerName = loadBalancerName
             guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
             self.healthCheck = try Elasticloadbalancing.HealthCheck(dictionary: healthCheck)
-        }
-    }
-
-    public struct BackendServerDescription: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "InstancePort", required: false, type: .integer)
-        ]
-        /// The names of the policies enabled for the EC2 instance.
-        public let policyNames: [String]?
-        /// The port on which the EC2 instance is listening.
-        public let instancePort: Int32?
-
-        public init(policyNames: [String]? = nil, instancePort: Int32? = nil) {
-            self.policyNames = policyNames
-            self.instancePort = instancePort
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            self.instancePort = dictionary["InstancePort"] as? Int32
         }
     }
 
@@ -1820,7 +1872,7 @@ extension Elasticloadbalancing {
         public let loadBalancerName: String?
         /// The date and time the load balancer was created.
         public let createdTime: String?
-        /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancers Guide.
+        /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancer Guide.
         public let canonicalHostedZoneName: String?
         /// The security groups for the load balancer. Valid only for load balancers in a VPC.
         public let securityGroups: [String]?
@@ -1914,6 +1966,29 @@ extension Elasticloadbalancing {
             self.loadBalancerPort = loadBalancerPort
             guard let sSLCertificateId = dictionary["SSLCertificateId"] as? String else { throw InitializableError.missingRequiredParam("SSLCertificateId") }
             self.sSLCertificateId = sSLCertificateId
+        }
+    }
+
+    public struct BackendServerDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeProperty(label: "InstancePort", required: false, type: .integer)
+        ]
+        /// The names of the policies enabled for the EC2 instance.
+        public let policyNames: [String]?
+        /// The port on which the EC2 instance is listening.
+        public let instancePort: Int32?
+
+        public init(policyNames: [String]? = nil, instancePort: Int32? = nil) {
+            self.policyNames = policyNames
+            self.instancePort = instancePort
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policyNames = dictionary["PolicyNames"] as? [String]
+            self.instancePort = dictionary["InstancePort"] as? Int32
         }
     }
 

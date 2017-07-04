@@ -193,6 +193,11 @@ public struct Apigateway {
         return try client.send(operation: "GetDomainNames", path: "/domainnames", httpMethod: "GET", input: input)
     }
 
+    ///  Updates a RequestValidator of a given RestApi.
+    public func updateRequestValidator(_ input: UpdateRequestValidatorRequest) throws -> RequestValidator {
+        return try client.send(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "PATCH", input: input)
+    }
+
     ///  Adds a MethodResponse to an existing Method resource.
     public func putMethodResponse(_ input: PutMethodResponseRequest) throws -> MethodResponse {
         return try client.send(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", input: input)
@@ -372,14 +377,19 @@ public struct Apigateway {
         return try client.send(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: "POST", input: input)
     }
 
-    ///  Represents a get integration.
-    public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
-        return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
+    ///  Creates a ReqeustValidator of a given RestApi.
+    public func createRequestValidator(_ input: CreateRequestValidatorRequest) throws -> RequestValidator {
+        return try client.send(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "POST", input: input)
     }
 
     ///  Flushes a stage's cache.
     public func flushStageCache(_ input: FlushStageCacheRequest) throws {
         _ = try client.send(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Represents a get integration.
+    public func getIntegration(_ input: GetIntegrationRequest) throws -> Integration {
+        return try client.send(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "GET", input: input)
     }
 
     ///  Creates a new domain name.
@@ -405,6 +415,11 @@ public struct Apigateway {
     ///  Creates a usage plan key for adding an existing API key to a usage plan.
     public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest) throws -> UsagePlanKey {
         return try client.send(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets a RequestValidator of a given RestApi.
+    public func getRequestValidator(_ input: GetRequestValidatorRequest) throws -> RequestValidator {
+        return try client.send(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "GET", input: input)
     }
 
     ///  Deletes the ApiKey resource.
@@ -521,6 +536,11 @@ public struct Apigateway {
         _ = try client.send(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "DELETE", input: input)
     }
 
+    ///  Gets the RequestValidators collection of a given RestApi.
+    public func getRequestValidators(_ input: GetRequestValidatorsRequest) throws -> RequestValidators {
+        return try client.send(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: "GET", input: input)
+    }
+
     ///  Lists information about a resource.
     public func getResource(_ input: GetResourceRequest) throws -> Resource {
         return try client.send(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: "GET", input: input)
@@ -543,6 +563,11 @@ public struct Apigateway {
     ///  Import API keys from an external source, such as a CSV-formatted file.
     public func importApiKeys(_ input: ImportApiKeysRequest) throws -> ApiKeyIds {
         return try client.send(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a RequestValidator of a given RestApi.
+    public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest) throws {
+        _ = try client.send(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: "DELETE", input: input)
     }
 
 

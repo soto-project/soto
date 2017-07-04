@@ -32,6 +32,7 @@ public enum CodepipelineError: AWSErrorType {
     case actionTypeNotFoundException(message: String?)
     case pipelineNotFoundException(message: String?)
     case stageNotFoundException(message: String?)
+    case invalidNextTokenException(message: String?)
     case invalidNonceException(message: String?)
     case jobNotFoundException(message: String?)
     case invalidClientTokenException(message: String?)
@@ -42,7 +43,6 @@ public enum CodepipelineError: AWSErrorType {
     case actionNotFoundException(message: String?)
     case pipelineExecutionNotFoundException(message: String?)
     case pipelineVersionNotFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
     case invalidStageDeclarationException(message: String?)
     case invalidActionDeclarationException(message: String?)
     case invalidBlockerDeclarationException(message: String?)
@@ -68,6 +68,8 @@ extension CodepipelineError {
             self = .pipelineNotFoundException(message: message)
         case "StageNotFoundException":
             self = .stageNotFoundException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         case "InvalidNonceException":
             self = .invalidNonceException(message: message)
         case "JobNotFoundException":
@@ -88,8 +90,6 @@ extension CodepipelineError {
             self = .pipelineExecutionNotFoundException(message: message)
         case "PipelineVersionNotFoundException":
             self = .pipelineVersionNotFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "InvalidStageDeclarationException":
             self = .invalidStageDeclarationException(message: message)
         case "InvalidActionDeclarationException":

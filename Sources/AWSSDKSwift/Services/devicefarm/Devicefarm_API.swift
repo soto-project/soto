@@ -49,16 +49,6 @@ public struct Devicefarm {
         )
     }
 
-    ///  Gets information about a project.
-    public func getProject(_ input: GetProjectRequest) throws -> GetProjectResult {
-        return try client.send(operation: "GetProject", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
-    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest) throws -> InstallToRemoteAccessSessionResult {
-        return try client.send(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about a test.
     public func getTest(_ input: GetTestRequest) throws -> GetTestResult {
         return try client.send(operation: "GetTest", path: "/", httpMethod: "POST", input: input)
@@ -67,6 +57,96 @@ public struct Devicefarm {
     ///  Specifies and starts a remote access session.
     public func createRemoteAccessSession(_ input: CreateRemoteAccessSessionRequest) throws -> CreateRemoteAccessSessionResult {
         return try client.send(operation: "CreateRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a link to a currently running remote access session.
+    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest) throws -> GetRemoteAccessSessionResult {
+        return try client.send(operation: "GetRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the specified project name, given the project ARN and a new name.
+    public func updateProject(_ input: UpdateProjectRequest) throws -> UpdateProjectResult {
+        return try client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the list of available network profiles.
+    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest) throws -> ListNetworkProfilesResult {
+        return try client.send(operation: "ListNetworkProfiles", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a device pool.
+    public func createDevicePool(_ input: CreateDevicePoolRequest) throws -> CreateDevicePoolResult {
+        return try client.send(operation: "CreateDevicePool", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about device pools.
+    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> ListDevicePoolsResult {
+        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a unique device type.
+    public func getDevice(_ input: GetDeviceRequest) throws -> GetDeviceResult {
+        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about a network profile.
+    public func getNetworkProfile(_ input: GetNetworkProfileRequest) throws -> GetNetworkProfileResult {
+        return try client.send(operation: "GetNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Ends a specified remote access session.
+    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest) throws -> StopRemoteAccessSessionResult {
+        return try client.send(operation: "StopRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a suite.
+    public func getSuite(_ input: GetSuiteRequest) throws -> GetSuiteResult {
+        return try client.send(operation: "GetSuite", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all currently running remote access sessions.
+    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> ListRemoteAccessSessionsResult {
+        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) throws -> ListOfferingTransactionsResult {
+        return try client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Schedules a run.
+    public func scheduleRun(_ input: ScheduleRunRequest) throws -> ScheduleRunResult {
+        return try client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes an upload given the upload ARN.
+    public func deleteUpload(_ input: DeleteUploadRequest) throws -> DeleteUploadResult {
+        return try client.send(operation: "DeleteUpload", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func listOfferings(_ input: ListOfferingsRequest) throws -> ListOfferingsResult {
+        return try client.send(operation: "ListOfferings", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the network profile with specific settings.
+    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) throws -> UpdateNetworkProfileResult {
+        return try client.send(operation: "UpdateNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func renewOffering(_ input: RenewOfferingRequest) throws -> RenewOfferingResult {
+        return try client.send(operation: "RenewOffering", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Gets information about a project.
+    public func getProject(_ input: GetProjectRequest) throws -> GetProjectResult {
+        return try client.send(operation: "GetProject", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
+    public func installToRemoteAccessSession(_ input: InstallToRemoteAccessSessionRequest) throws -> InstallToRemoteAccessSessionResult {
+        return try client.send(operation: "InstallToRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about projects.
@@ -79,9 +159,9 @@ public struct Devicefarm {
         return try client.send(operation: "CreateProject", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the specified project name, given the project ARN and a new name.
-    public func updateProject(_ input: UpdateProjectRequest) throws -> UpdateProjectResult {
-        return try client.send(operation: "UpdateProject", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    public func listOfferingPromotions(_ input: ListOfferingPromotionsRequest) throws -> ListOfferingPromotionsResult {
+        return try client.send(operation: "ListOfferingPromotions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an AWS Device Farm project, given the project ARN.  Note Deleting this resource does not stop an in-progress run.
@@ -99,9 +179,9 @@ public struct Devicefarm {
         return try client.send(operation: "UpdateDevicePool", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a link to a currently running remote access session.
-    public func getRemoteAccessSession(_ input: GetRemoteAccessSessionRequest) throws -> GetRemoteAccessSessionResult {
-        return try client.send(operation: "GetRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
+    public func deleteDevicePool(_ input: DeleteDevicePoolRequest) throws -> DeleteDevicePoolResult {
+        return try client.send(operation: "DeleteDevicePool", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Uploads an app or test scripts.
@@ -109,44 +189,9 @@ public struct Devicefarm {
         return try client.send(operation: "CreateUpload", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
-    public func deleteDevicePool(_ input: DeleteDevicePoolRequest) throws -> DeleteDevicePoolResult {
-        return try client.send(operation: "DeleteDevicePool", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the list of available network profiles.
-    public func listNetworkProfiles(_ input: ListNetworkProfilesRequest) throws -> ListNetworkProfilesResult {
-        return try client.send(operation: "ListNetworkProfiles", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a device pool.
-    public func createDevicePool(_ input: CreateDevicePoolRequest) throws -> CreateDevicePoolResult {
-        return try client.send(operation: "CreateDevicePool", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about compatibility with a device pool.
     public func getDevicePoolCompatibility(_ input: GetDevicePoolCompatibilityRequest) throws -> GetDevicePoolCompatibilityResult {
         return try client.send(operation: "GetDevicePoolCompatibility", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a job.
-    public func getJob(_ input: GetJobRequest) throws -> GetJobResult {
-        return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about samples, given an AWS Device Farm project ARN
-    public func listSamples(_ input: ListSamplesRequest) throws -> ListSamplesResult {
-        return try client.send(operation: "ListSamples", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about device pools.
-    public func listDevicePools(_ input: ListDevicePoolsRequest) throws -> ListDevicePoolsResult {
-        return try client.send(operation: "ListDevicePools", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a unique device type.
-    public func getDevice(_ input: GetDeviceRequest) throws -> GetDeviceResult {
-        return try client.send(operation: "GetDevice", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about uploads, given an AWS Device Farm project ARN.
@@ -154,9 +199,9 @@ public struct Devicefarm {
         return try client.send(operation: "ListUploads", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a network profile.
-    public func getNetworkProfile(_ input: GetNetworkProfileRequest) throws -> GetNetworkProfileResult {
-        return try client.send(operation: "GetNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    ///  Gets information about a job.
+    public func getJob(_ input: GetJobRequest) throws -> GetJobResult {
+        return try client.send(operation: "GetJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about suites.
@@ -164,14 +209,9 @@ public struct Devicefarm {
         return try client.send(operation: "ListSuites", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a network profile.
-    public func createNetworkProfile(_ input: CreateNetworkProfileRequest) throws -> CreateNetworkProfileResult {
-        return try client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Ends a specified remote access session.
-    public func stopRemoteAccessSession(_ input: StopRemoteAccessSessionRequest) throws -> StopRemoteAccessSessionResult {
-        return try client.send(operation: "StopRemoteAccessSession", path: "/", httpMethod: "POST", input: input)
+    ///  Gets information about samples, given an AWS Device Farm project ARN
+    public func listSamples(_ input: ListSamplesRequest) throws -> ListSamplesResult {
+        return try client.send(operation: "ListSamples", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about jobs.
@@ -179,14 +219,14 @@ public struct Devicefarm {
         return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a network profile.
+    public func createNetworkProfile(_ input: CreateNetworkProfileRequest) throws -> CreateNetworkProfileResult {
+        return try client.send(operation: "CreateNetworkProfile", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets information about tests.
     public func listTests(_ input: ListTestsRequest) throws -> ListTestsResult {
         return try client.send(operation: "ListTests", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Gets information about a suite.
-    public func getSuite(_ input: GetSuiteRequest) throws -> GetSuiteResult {
-        return try client.send(operation: "GetSuite", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
@@ -199,19 +239,9 @@ public struct Devicefarm {
         return try client.send(operation: "GetRun", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of all currently running remote access sessions.
-    public func listRemoteAccessSessions(_ input: ListRemoteAccessSessionsRequest) throws -> ListRemoteAccessSessionsResult {
-        return try client.send(operation: "ListRemoteAccessSessions", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about unique problems.
     public func listUniqueProblems(_ input: ListUniqueProblemsRequest) throws -> ListUniqueProblemsResult {
         return try client.send(operation: "ListUniqueProblems", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func listOfferingTransactions(_ input: ListOfferingTransactionsRequest) throws -> ListOfferingTransactionsResult {
-        return try client.send(operation: "ListOfferingTransactions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the run, given the run ARN.  Note Deleting this resource does not stop an in-progress run.
@@ -229,24 +259,14 @@ public struct Devicefarm {
         return try client.send(operation: "PurchaseOffering", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Schedules a run.
-    public func scheduleRun(_ input: ScheduleRunRequest) throws -> ScheduleRunResult {
-        return try client.send(operation: "ScheduleRun", path: "/", httpMethod: "POST", input: input)
+    ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
+    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> GetAccountSettingsResult {
+        return try client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about runs, given an AWS Device Farm project ARN.
     public func listRuns(_ input: ListRunsRequest) throws -> ListRunsResult {
         return try client.send(operation: "ListRuns", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes an upload given the upload ARN.
-    public func deleteUpload(_ input: DeleteUploadRequest) throws -> DeleteUploadResult {
-        return try client.send(operation: "DeleteUpload", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest) throws -> GetAccountSettingsResult {
-        return try client.send(operation: "GetAccountSettings", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about artifacts.
@@ -259,24 +279,9 @@ public struct Devicefarm {
         return try client.send(operation: "DeleteNetworkProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func listOfferings(_ input: ListOfferingsRequest) throws -> ListOfferingsResult {
-        return try client.send(operation: "ListOfferings", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates the network profile with specific settings.
-    public func updateNetworkProfile(_ input: UpdateNetworkProfileRequest) throws -> UpdateNetworkProfileResult {
-        return try client.send(operation: "UpdateNetworkProfile", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets information about a device pool.
     public func getDevicePool(_ input: GetDevicePoolRequest) throws -> GetDevicePoolResult {
         return try client.send(operation: "GetDevicePool", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
-    public func renewOffering(_ input: RenewOfferingRequest) throws -> RenewOfferingResult {
-        return try client.send(operation: "RenewOffering", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about an upload.

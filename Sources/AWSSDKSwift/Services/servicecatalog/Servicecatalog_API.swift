@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS Service Catalog  Overview   AWS Service Catalog allows organizations to create and manage catalogs of IT services that are approved for use on AWS. This documentation provides reference material for the AWS Service Catalog end user API. To get the most out of this documentation, you need to be familiar with the terminology discussed in AWS Service Catalog Concepts.  Additional Resources     AWS Service Catalog Administrator Guide     AWS Service Catalog User Guide   
+AWS Service Catalog  Overview   AWS Service Catalog allows organizations to create and manage catalogs of IT services that are approved for use on AWS. This documentation provides reference material for the AWS Service Catalog end user API. To get the most out of this documentation, be familiar with the terminology discussed in AWS Service Catalog Concepts.  Additional Resources     AWS Service Catalog Administrator Guide     AWS Service Catalog User Guide   
 */
 public struct Servicecatalog {
 
@@ -49,24 +49,19 @@ public struct Servicecatalog {
         )
     }
 
+    ///  Updates an existing TagOption.
+    public func updateTagOption(_ input: UpdateTagOptionInput) throws -> UpdateTagOptionOutput {
+        return try client.send(operation: "UpdateTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new portfolio share.
     public func createPortfolioShare(_ input: CreatePortfolioShareInput) throws -> CreatePortfolioShareOutput {
         return try client.send(operation: "CreatePortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a paginated list all of the Products objects to which the caller has access.  The output of this operation can be used as input for other operations, such as DescribeProductView.
-    public func searchProducts(_ input: SearchProductsInput) throws -> SearchProductsOutput {
-        return try client.send(operation: "SearchProducts", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the specified constraint.
     public func deleteConstraint(_ input: DeleteConstraintInput) throws -> DeleteConstraintOutput {
         return try client.send(operation: "DeleteConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Requests updates to the configuration of an existing ProvisionedProduct object. If there are tags associated with the object, they cannot be updated or added with this operation. Depending on the specific updates requested, this operation may update with no interruption, with some interruption, or replace the ProvisionedProduct object entirely.  You can check the status of this request using the DescribeRecord operation.
-    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> UpdateProvisionedProductOutput {
-        return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all principal ARNs associated with the specified portfolio.
@@ -84,14 +79,114 @@ public struct Servicecatalog {
         return try client.send(operation: "DescribeConstraint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the specified portfolio's details. This operation will not work with a product that has been shared with you.
-    public func updatePortfolio(_ input: UpdatePortfolioInput) throws -> UpdatePortfolioOutput {
-        return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
+    ///  Describes a TagOption.
+    public func describeTagOption(_ input: DescribeTagOptionInput) throws -> DescribeTagOptionOutput {
+        return try client.send(operation: "DescribeTagOption", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed information and any tags associated with the specified portfolio.
     public func describePortfolio(_ input: DescribePortfolioInput) throws -> DescribePortfolioOutput {
         return try client.send(operation: "DescribePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing constraint.
+    public func updateConstraint(_ input: UpdateConstraintInput) throws -> UpdateConstraintOutput {
+        return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new product.
+    public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
+        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists resources associated with a TagOption.
+    public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput) throws -> ListResourcesForTagOptionOutput {
+        return try client.send(operation: "ListResourcesForTagOption", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates the specified product from the specified portfolio. 
+    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput) throws -> DisassociateProductFromPortfolioOutput {
+        return try client.send(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Provides information about parameters required to provision a specified product in a specified manner. Use this operation to obtain the list of ProvisioningArtifactParameters parameters available to call the ProvisionProduct operation for the specified product. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to the ProvisionProduct operation, do not include conflicted TagOption keys as tags. Calls to ProvisionProduct with empty TagOption values cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value ". Calls to ProvisionProduct with conflicted TagOption keys automatically tag the provisioned product with the conflicted keys with the value "sc-tagoption-conflict-portfolioId-productId".
+    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput) throws -> DescribeProvisioningParametersOutput {
+        return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves detailed constraint information for the specified portfolio and product.
+    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput) throws -> ListConstraintsForPortfolioOutput {
+        return try client.send(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new constraint. For more information, see Using Constraints.
+    public func createConstraint(_ input: CreateConstraintInput) throws -> CreateConstraintOutput {
+        return try client.send(operation: "CreateConstraint", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associates the specified principal ARN with the specified portfolio.
+    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> AssociatePrincipalWithPortfolioOutput {
+        return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all provisioning artifacts associated with the specified product.
+    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput) throws -> ListProvisioningArtifactsOutput {
+        return try client.send(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new portfolio.
+    public func createPortfolio(_ input: CreatePortfolioInput) throws -> CreatePortfolioOutput {
+        return try client.send(operation: "CreatePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified provisioning artifact. This operation does not work on a provisioning artifact associated with a product that has been shared with you, or on the last provisioning artifact associated with a product (a product must have at least one provisioning artifact).
+    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput) throws -> DeleteProvisioningArtifactOutput {
+        return try client.send(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified product. This operation does not work with a product that has been shared with you or is associated with a portfolio. 
+    public func deleteProduct(_ input: DeleteProductInput) throws -> DeleteProductOutput {
+        return try client.send(operation: "DeleteProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing product.
+    public func updateProduct(_ input: UpdateProductInput) throws -> UpdateProductOutput {
+        return try client.send(operation: "UpdateProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all portfolios that the specified product is associated with.
+    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput) throws -> ListPortfoliosForProductOutput {
+        return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Create a new provisioning artifact for the specified product. This operation does not work with a product that has been shared with you. See the bottom of this topic for an example JSON request.
+    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> CreateProvisioningArtifactOutput {
+        return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes the specified portfolio share.
+    public func deletePortfolioShare(_ input: DeletePortfolioShareInput) throws -> DeletePortfolioShareOutput {
+        return try client.send(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a paginated list all of the Products objects to which the caller has access.  The output of this operation can be used as input for other operations, such as DescribeProductView.
+    public func searchProducts(_ input: SearchProductsInput) throws -> SearchProductsOutput {
+        return try client.send(operation: "SearchProducts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Requests updates to the configuration of an existing ProvisionedProduct object. If there are tags associated with the object, they cannot be updated or added with this operation. Depending on the specific updates requested, this operation may update with no interruption, with some interruption, or replace the ProvisionedProduct object entirely.  You can check the status of this request using the DescribeRecord operation.
+    public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput) throws -> UpdateProvisionedProductOutput {
+        return try client.send(operation: "UpdateProvisionedProduct", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified portfolio's details. This operation does not work with a product that has been shared with you.
+    public func updatePortfolio(_ input: UpdatePortfolioInput) throws -> UpdatePortfolioOutput {
+        return try client.send(operation: "UpdatePortfolio", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Associate a TagOption identifier with a resource identifier.
+    public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput) throws -> AssociateTagOptionWithResourceOutput {
+        return try client.send(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Accepts an offer to share a portfolio.
@@ -109,11 +204,6 @@ public struct Servicecatalog {
         return try client.send(operation: "ListLaunchPaths", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing constraint.
-    public func updateConstraint(_ input: UpdateConstraintInput) throws -> UpdateConstraintOutput {
-        return try client.send(operation: "UpdateConstraint", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Retrieves summary and status information about all products created within the caller's account. If a portfolio ID is provided, this operation retrieves information for only those products that are associated with the specified portfolio.
     public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput) throws -> SearchProductsAsAdminOutput {
         return try client.send(operation: "SearchProductsAsAdmin", path: "/", httpMethod: "POST", input: input)
@@ -127,11 +217,6 @@ public struct Servicecatalog {
     ///  Lists details of all portfolios for which sharing was accepted by this account.
     public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput) throws -> ListAcceptedPortfolioSharesOutput {
         return try client.send(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new product.
-    public func createProduct(_ input: CreateProductInput) throws -> CreateProductOutput {
-        return try client.send(operation: "CreateProduct", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Disassociates a previously associated principal ARN from a specified portfolio.
@@ -149,14 +234,9 @@ public struct Servicecatalog {
         return try client.send(operation: "RejectPortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disassociates the specified product from the specified portfolio. 
-    public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput) throws -> DisassociateProductFromPortfolioOutput {
-        return try client.send(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Provides information about parameters required to provision a specified product in a specified manner. Use this operation to obtain the list of ProvisioningArtifactParameters parameters available to call the ProvisionProduct operation for the specified product.
-    public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput) throws -> DescribeProvisioningParametersOutput {
-        return try client.send(operation: "DescribeProvisioningParameters", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieves information about a specified product, run with administrator access.
+    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput) throws -> DescribeProductAsAdminOutput {
+        return try client.send(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves detailed information about the specified provisioning artifact.
@@ -164,24 +244,9 @@ public struct Servicecatalog {
         return try client.send(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves detailed constraint information for the specified portfolio and product.
-    public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput) throws -> ListConstraintsForPortfolioOutput {
-        return try client.send(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves information about a specified product, run with administrator access.
-    public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput) throws -> DescribeProductAsAdminOutput {
-        return try client.send(operation: "DescribeProductAsAdmin", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Associates the specified principal ARN with the specified portfolio.
-    public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput) throws -> AssociatePrincipalWithPortfolioOutput {
-        return try client.send(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new constraint.
-    public func createConstraint(_ input: CreateConstraintInput) throws -> CreateConstraintOutput {
-        return try client.send(operation: "CreateConstraint", path: "/", httpMethod: "POST", input: input)
+    ///  Create a new TagOption.
+    public func createTagOption(_ input: CreateTagOptionInput) throws -> CreateTagOptionOutput {
+        return try client.send(operation: "CreateTagOption", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified product. This operation is functionally identical to DescribeProduct except that it takes as input ProductViewId instead of ProductId.
@@ -189,24 +254,19 @@ public struct Servicecatalog {
         return try client.send(operation: "DescribeProductView", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all provisioning artifacts associated with the specified product.
-    public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput) throws -> ListProvisioningArtifactsOutput {
-        return try client.send(operation: "ListProvisioningArtifacts", path: "/", httpMethod: "POST", input: input)
+    ///  Lists detailed TagOptions information.
+    public func listTagOptions(_ input: ListTagOptionsInput) throws -> ListTagOptionsOutput {
+        return try client.send(operation: "ListTagOptions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new portfolio.
-    public func createPortfolio(_ input: CreatePortfolioInput) throws -> CreatePortfolioOutput {
-        return try client.send(operation: "CreatePortfolio", path: "/", httpMethod: "POST", input: input)
+    ///  Disassociates a TagOption from a resource.
+    public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput) throws -> DisassociateTagOptionFromResourceOutput {
+        return try client.send(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a paginated list of all performed requests, in the form of RecordDetails objects that are filtered as specified.
     public func listRecordHistory(_ input: ListRecordHistoryInput) throws -> ListRecordHistoryOutput {
         return try client.send(operation: "ListRecordHistory", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified provisioning artifact. This operation will not work on a provisioning artifact associated with a product that has been shared with you, or on the last provisioning artifact associated with a product (a product must have at least one provisioning artifact).
-    public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput) throws -> DeleteProvisioningArtifactOutput {
-        return try client.send(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Requests termination of an existing ProvisionedProduct object. If there are Tags associated with the object, they are terminated when the ProvisionedProduct object is terminated.  This operation does not delete any records associated with the ProvisionedProduct object. You can check the status of this request using the DescribeRecord operation.
@@ -219,19 +279,14 @@ public struct Servicecatalog {
         return try client.send(operation: "ListPortfolios", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing provisioning artifact's information. This operation will not work on a provisioning artifact associated with a product that has been shared with you.
+    ///  Updates an existing provisioning artifact's information. This operation does not work on a provisioning artifact associated with a product that has been shared with you.
     public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput) throws -> UpdateProvisioningArtifactOutput {
         return try client.send(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified product. This operation will not work with a product that has been shared with you or is associated with a portfolio. 
-    public func deleteProduct(_ input: DeleteProductInput) throws -> DeleteProductOutput {
-        return try client.send(operation: "DeleteProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Updates an existing product.
-    public func updateProduct(_ input: UpdateProductInput) throws -> UpdateProductOutput {
-        return try client.send(operation: "UpdateProduct", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes the specified portfolio. This operation does not work with a portfolio that has been shared with you or if it has products, users, constraints, or shared accounts associated with it.
+    public func deletePortfolio(_ input: DeletePortfolioInput) throws -> DeletePortfolioOutput {
+        return try client.send(operation: "DeletePortfolio", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves information about a specified product. This operation is functionally identical to DescribeProductView except that it takes as input ProductId instead of ProductViewId.
@@ -239,29 +294,14 @@ public struct Servicecatalog {
         return try client.send(operation: "DescribeProduct", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all portfolios that the specified product is associated with.
-    public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput) throws -> ListPortfoliosForProductOutput {
-        return try client.send(operation: "ListPortfoliosForProduct", path: "/", httpMethod: "POST", input: input)
+    ///  Retrieve detailed information about the provisioned product.
+    public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput) throws -> DescribeProvisionedProductOutput {
+        return try client.send(operation: "DescribeProvisionedProduct", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified portfolio. This operation will not work with a portfolio that has been shared with you or if it has products, users, constraints, or shared accounts associated with it.
-    public func deletePortfolio(_ input: DeletePortfolioInput) throws -> DeletePortfolioOutput {
-        return try client.send(operation: "DeletePortfolio", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Requests a Provision of a specified product. A ProvisionedProduct is a resourced instance for a product. For example, provisioning a CloudFormation-template-backed product results in launching a CloudFormation stack and all the underlying resources that come with it.  You can check the status of this request using the DescribeRecord operation.
+    ///  Requests a provision of a specified product. A provisioned product is a resourced instance for a product. For example, provisioning a CloudFormation-template-backed product results in launching a CloudFormation stack and all the underlying resources that come with it.  You can check the status of this request using the DescribeRecord operation. The error "Parameter validation failed: Missing required parameter in Tags[N]:Value" indicates that your request contains a tag which has a tag key but no corresponding tag value (value is empty or null). Your call may have included values returned from a DescribeProvisioningParameters call that resulted in a TagOption key with an empty list. This happens when TagOption keys are in conflict. For more information, see DescribeProvisioningParameters.
     public func provisionProduct(_ input: ProvisionProductInput) throws -> ProvisionProductOutput {
         return try client.send(operation: "ProvisionProduct", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Create a new provisioning artifact for the specified product. This operation will not work with a product that has been shared with you.
-    public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput) throws -> CreateProvisioningArtifactOutput {
-        return try client.send(operation: "CreateProvisioningArtifact", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Deletes the specified portfolio share.
-    public func deletePortfolioShare(_ input: DeletePortfolioShareInput) throws -> DeletePortfolioShareOutput {
-        return try client.send(operation: "DeletePortfolioShare", path: "/", httpMethod: "POST", input: input)
     }
 
 

@@ -104,7 +104,7 @@ public struct Lightsail {
         return try client.send(operation: "CreateInstanceSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of all valid regions for Amazon Lightsail.
+    ///  Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the availability zones in a region.
     public func getRegions(_ input: GetRegionsRequest) throws -> GetRegionsResult {
         return try client.send(operation: "GetRegions", path: "/", httpMethod: "POST", input: input)
     }
@@ -199,14 +199,14 @@ public struct Lightsail {
         return try client.send(operation: "GetStaticIps", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Closes the public ports on a specific Amazon Lightsail instance.
-    public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) throws -> CloseInstancePublicPortsResult {
-        return try client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Stops a specific Amazon Lightsail instance that is currently running.
     public func stopInstance(_ input: StopInstanceRequest) throws -> StopInstanceResult {
         return try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Closes the public ports on a specific Amazon Lightsail instance.
+    public func closeInstancePublicPorts(_ input: CloseInstancePublicPortsRequest) throws -> CloseInstancePublicPortsResult {
+        return try client.send(operation: "CloseInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Downloads the default SSH key pair from the user's account.
@@ -257,6 +257,11 @@ public struct Lightsail {
     ///  Adds public ports to an Amazon Lightsail instance.
     public func openInstancePublicPorts(_ input: OpenInstancePublicPortsRequest) throws -> OpenInstancePublicPortsResult {
         return try client.send(operation: "OpenInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Sets the specified open ports for an Amazon Lightsail instance, and closes all ports for every protocol not included in the current request.
+    public func putInstancePublicPorts(_ input: PutInstancePublicPortsRequest) throws -> PutInstancePublicPortsResult {
+        return try client.send(operation: "PutInstancePublicPorts", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets operations for a specific resource (e.g., an instance or a static IP).
