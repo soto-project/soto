@@ -103,5 +103,15 @@ do {
 }
 ```
 
+## How speed up compling?
+
+Compiling the entire aws-sdk-swift requires a certain amount of time (ofc, dependes on machine spec). And I know 97% users don't need to install whole service sdks.
+
+In order to answer such a request, we provide SDK for each service as a separate repository.
+
+https://github.com/swift-aws
+
+From here, it's possible to select and install only the SDKs of the service to be used in your application.
+
 ## Lisence
 aws-sdk-swift is released under the MIT license. See LICENSE for details.
