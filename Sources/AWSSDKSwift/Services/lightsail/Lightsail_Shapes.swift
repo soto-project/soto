@@ -495,6 +495,7 @@ extension Lightsail {
 
     public enum RegionName: String, CustomStringConvertible {
         case us_east_1 = "us-east-1"
+        case us_east_2 = "us-east-2"
         case us_west_1 = "us-west-1"
         case us_west_2 = "us-west-2"
         case eu_west_1 = "eu-west-1"
@@ -623,14 +624,51 @@ extension Lightsail {
             AWSShapeProperty(label: "portStates", required: false, type: .list)
         ]
         /// Information about the port states resulting from your request.
-        public let portStates: [PortState]?
+        public let portStates: [InstancePortState]?
 
-        public init(portStates: [PortState]? = nil) {
+        public init(portStates: [InstancePortState]? = nil) {
             self.portStates = portStates
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let portStates = dictionary["portStates"] as? [String] { self.portStates = portStates.flatMap({ PortState(rawValue: $0)}) } else { self.portStates = nil }
+            if let portStates = dictionary["portStates"] as? [[String: Any]] {
+                self.portStates = try portStates.map({ try InstancePortState(dictionary: $0) })
+            } else { 
+                self.portStates = nil
+            }
+        }
+    }
+
+    public struct InstancePortState: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "state", required: false, type: .enum), 
+            AWSShapeProperty(label: "fromPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "protocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "toPort", required: false, type: .integer)
+        ]
+        /// Specifies whether the instance port is open or closed.
+        public let state: PortState?
+        /// The first port in the range.
+        public let fromPort: Int32?
+        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
+        public let `protocol`: NetworkProtocol?
+        /// The last port in the range.
+        public let toPort: Int32?
+
+        public init(state: PortState? = nil, fromPort: Int32? = nil, protocol: NetworkProtocol? = nil, toPort: Int32? = nil) {
+            self.state = state
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
+            self.toPort = toPort
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let state = dictionary["state"] as? String { self.state = PortState(rawValue: state) } else { self.state = nil }
+            self.fromPort = dictionary["fromPort"] as? Int32
+            if let `protocol` = dictionary["protocol"] as? String { self.`protocol` = NetworkProtocol(rawValue: `protocol`) } else { self.`protocol` = nil }
+            self.toPort = dictionary["toPort"] as? Int32
         }
     }
 
@@ -832,7 +870,7 @@ extension Lightsail {
             AWSShapeProperty(label: "userData", required: false, type: .string), 
             AWSShapeProperty(label: "keyPairName", required: false, type: .string)
         ]
-        /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive).
+        /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
         public let availabilityZone: String
         /// The names for your new instances.
         public let instanceNames: [String]
@@ -1320,16 +1358,20 @@ extension Lightsail {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "nextPageCount", required: false, type: .string), 
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "operations", required: false, type: .list), 
+            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
         ]
-        /// Returns the number of pages of results that remain.
+        /// (Deprecated) Returns the number of pages of results that remain.  In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the nextPageToken parameter instead. 
         public let nextPageCount: String?
         /// An array of key-value pairs containing information about the results of your get operations for resource request.
         public let operations: [Operation]?
+        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        public let nextPageToken: String?
 
-        public init(nextPageCount: String? = nil, operations: [Operation]? = nil) {
+        public init(nextPageCount: String? = nil, operations: [Operation]? = nil, nextPageToken: String? = nil) {
             self.nextPageCount = nextPageCount
             self.operations = operations
+            self.nextPageToken = nextPageToken
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -1339,6 +1381,7 @@ extension Lightsail {
             } else { 
                 self.operations = nil
             }
+            self.nextPageToken = dictionary["nextPageToken"] as? String
         }
     }
 
@@ -1595,7 +1638,7 @@ extension Lightsail {
         ]
         /// The state of the Availability Zone.
         public let state: String?
-        /// The name of the Availability Zone.
+        /// The name of the Availability Zone. The format is us-east-1a (case-sensitive).
         public let zoneName: String?
 
         public init(state: String? = nil, zoneName: String? = nil) {
@@ -1892,25 +1935,28 @@ extension Lightsail {
         }
     }
 
-    public struct AttachStaticIpResult: AWSShape {
+    public struct PutInstancePublicPortsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "operations", required: false, type: .list)
+            AWSShapeProperty(label: "portInfos", required: true, type: .list), 
+            AWSShapeProperty(label: "instanceName", required: true, type: .string)
         ]
-        /// An array of key-value pairs containing information about your API operations.
-        public let operations: [Operation]?
+        /// Specifies information about the public port(s).
+        public let portInfos: [PortInfo]
+        /// The Lightsail instance name of the public port(s) you are setting.
+        public let instanceName: String
 
-        public init(operations: [Operation]? = nil) {
-            self.operations = operations
+        public init(portInfos: [PortInfo], instanceName: String) {
+            self.portInfos = portInfos
+            self.instanceName = instanceName
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operations = dictionary["operations"] as? [[String: Any]] {
-                self.operations = try operations.map({ try Operation(dictionary: $0) })
-            } else { 
-                self.operations = nil
-            }
+            guard let portInfos = dictionary["portInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("portInfos") }
+            self.portInfos = try portInfos.map({ try PortInfo(dictionary: $0) })
+            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
+            self.instanceName = instanceName
         }
     }
 
@@ -1932,26 +1978,25 @@ extension Lightsail {
         }
     }
 
-    public struct ResourceLocation: AWSShape {
+    public struct AttachStaticIpResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "regionName", required: false, type: .enum), 
-            AWSShapeProperty(label: "availabilityZone", required: false, type: .string)
+            AWSShapeProperty(label: "operations", required: false, type: .list)
         ]
-        /// The AWS Region name.
-        public let regionName: RegionName?
-        /// The Availability Zone.
-        public let availabilityZone: String?
+        /// An array of key-value pairs containing information about your API operations.
+        public let operations: [Operation]?
 
-        public init(regionName: RegionName? = nil, availabilityZone: String? = nil) {
-            self.regionName = regionName
-            self.availabilityZone = availabilityZone
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let regionName = dictionary["regionName"] as? String { self.regionName = RegionName(rawValue: regionName) } else { self.regionName = nil }
-            self.availabilityZone = dictionary["availabilityZone"] as? String
+            if let operations = dictionary["operations"] as? [[String: Any]] {
+                self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
+            }
         }
     }
 
@@ -2128,6 +2173,24 @@ extension Lightsail {
         }
     }
 
+    public struct PutInstancePublicPortsResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "operation", required: false, type: .structure)
+        ]
+        /// Describes metadata about the operation you just executed.
+        public let operation: Operation?
+
+        public init(operation: Operation? = nil) {
+            self.operation = operation
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
+        }
+    }
+
     public struct GetInstanceSnapshotsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2268,6 +2331,29 @@ extension Lightsail {
         }
     }
 
+    public struct ResourceLocation: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "regionName", required: false, type: .enum), 
+            AWSShapeProperty(label: "availabilityZone", required: false, type: .string)
+        ]
+        /// The AWS Region name.
+        public let regionName: RegionName?
+        /// The Availability Zone. Follows the format us-east-1a (case-sensitive).
+        public let availabilityZone: String?
+
+        public init(regionName: RegionName? = nil, availabilityZone: String? = nil) {
+            self.regionName = regionName
+            self.availabilityZone = availabilityZone
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let regionName = dictionary["regionName"] as? String { self.regionName = RegionName(rawValue: regionName) } else { self.regionName = nil }
+            self.availabilityZone = dictionary["availabilityZone"] as? String
+        }
+    }
+
     public struct GetOperationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2392,6 +2478,7 @@ extension Lightsail {
         case startinstance = "StartInstance"
         case rebootinstance = "RebootInstance"
         case openinstancepublicports = "OpenInstancePublicPorts"
+        case putinstancepublicports = "PutInstancePublicPorts"
         case closeinstancepublicports = "CloseInstancePublicPorts"
         case allocatestaticip = "AllocateStaticIp"
         case releasestaticip = "ReleaseStaticIp"
@@ -2492,7 +2579,7 @@ extension Lightsail {
         public let fromPort: Int32?
         /// The common name.
         public let commonName: String?
-        /// The protocol. 
+        /// The protocol being used. Can be one of the following.    tcp - Transmission Control Protocol (TCP) provides reliable, ordered, and error-checked delivery of streamed data between applications running on hosts communicating by an IP network. If you have an application that doesn't require reliable data stream service, use UDP instead.    all - All transport layer protocol types. For more general information, see Transport layer on Wikipedia.    udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.  
         public let `protocol`: NetworkProtocol?
         /// The access direction (inbound or outbound).
         public let accessDirection: AccessDirection?
@@ -2613,11 +2700,11 @@ extension Lightsail {
             AWSShapeProperty(label: "userData", required: false, type: .string), 
             AWSShapeProperty(label: "blueprintId", required: true, type: .string)
         ]
-        /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive).
+        /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
         public let availabilityZone: String
         /// The name of your key pair.
         public let keyPairName: String?
-        /// The name for your custom image.
+        /// (Deprecated) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated. 
         public let customImageName: String?
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
         public let instanceNames: [String]
@@ -2785,7 +2872,7 @@ extension Lightsail {
         public let name: RegionName?
         /// The continent code (e.g., NA, meaning North America).
         public let continentCode: String?
-        /// The Availability Zones.
+        /// The Availability Zones. Follows the format us-east-1a (case-sensitive).
         public let availabilityZones: [AvailabilityZone]?
 
         public init(description: String? = nil, displayName: String? = nil, name: RegionName? = nil, continentCode: String? = nil, availabilityZones: [AvailabilityZone]? = nil) {

@@ -51,13 +51,13 @@ public enum Elasticloadbalancingv2Error: AWSErrorType {
     case targetGroupAssociationLimitException(message: String?)
     case tooManyRegistrationsForTargetIdException(message: String?)
     case operationNotPermittedException(message: String?)
+    case tooManyTargetsException(message: String?)
     case duplicateListenerException(message: String?)
     case tooManyListenersException(message: String?)
     case tooManyCertificatesException(message: String?)
     case incompatibleProtocolsException(message: String?)
     case certificateNotFoundException(message: String?)
     case unsupportedProtocolException(message: String?)
-    case tooManyTargetsException(message: String?)
     case duplicateTargetGroupNameException(message: String?)
 }
 
@@ -114,6 +114,8 @@ extension Elasticloadbalancingv2Error {
             self = .tooManyRegistrationsForTargetIdException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
+        case "TooManyTargetsException":
+            self = .tooManyTargetsException(message: message)
         case "DuplicateListenerException":
             self = .duplicateListenerException(message: message)
         case "TooManyListenersException":
@@ -126,8 +128,6 @@ extension Elasticloadbalancingv2Error {
             self = .certificateNotFoundException(message: message)
         case "UnsupportedProtocolException":
             self = .unsupportedProtocolException(message: message)
-        case "TooManyTargetsException":
-            self = .tooManyTargetsException(message: message)
         case "DuplicateTargetGroupNameException":
             self = .duplicateTargetGroupNameException(message: message)
         default:

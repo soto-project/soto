@@ -35,6 +35,7 @@ public enum CodedeployError: AWSErrorType {
     case invalidDeploymentIdException(message: String?)
     case invalidInstanceStatusException(message: String?)
     case invalidInstanceTypeException(message: String?)
+    case invalidDeploymentInstanceTypeException(message: String?)
     case batchLimitExceededException(message: String?)
     case applicationNameRequiredException(message: String?)
     case invalidApplicationNameException(message: String?)
@@ -87,6 +88,8 @@ public enum CodedeployError: AWSErrorType {
     case applicationLimitExceededException(message: String?)
     case deploymentLimitExceededException(message: String?)
     case invalidTargetInstancesException(message: String?)
+    case invalidFileExistsBehaviorException(message: String?)
+    case resourceValidationException(message: String?)
     case invalidSortByException(message: String?)
     case invalidSortOrderException(message: String?)
     case invalidBucketNameFilterException(message: String?)
@@ -126,6 +129,8 @@ extension CodedeployError {
             self = .invalidInstanceStatusException(message: message)
         case "InvalidInstanceTypeException":
             self = .invalidInstanceTypeException(message: message)
+        case "InvalidDeploymentInstanceTypeException":
+            self = .invalidDeploymentInstanceTypeException(message: message)
         case "BatchLimitExceededException":
             self = .batchLimitExceededException(message: message)
         case "ApplicationNameRequiredException":
@@ -230,6 +235,10 @@ extension CodedeployError {
             self = .deploymentLimitExceededException(message: message)
         case "InvalidTargetInstancesException":
             self = .invalidTargetInstancesException(message: message)
+        case "InvalidFileExistsBehaviorException":
+            self = .invalidFileExistsBehaviorException(message: message)
+        case "ResourceValidationException":
+            self = .resourceValidationException(message: message)
         case "InvalidSortByException":
             self = .invalidSortByException(message: message)
         case "InvalidSortOrderException":

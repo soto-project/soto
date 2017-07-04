@@ -29,14 +29,15 @@ import AWSSDKSwiftCore
 /// Error enum for Iam
 public enum IamError: AWSErrorType {
     case noSuchEntityException(message: String?)
-    case serviceFailureException(message: String?)
     case invalidInputException(message: String?)
+    case serviceFailureException(message: String?)
     case limitExceededException(message: String?)
     case entityAlreadyExistsException(message: String?)
     case passwordPolicyViolationException(message: String?)
     case malformedPolicyDocumentException(message: String?)
     case invalidUserTypeException(message: String?)
     case entityTemporarilyUnmodifiableException(message: String?)
+    case unmodifiableEntityException(message: String?)
     case malformedCertificateException(message: String?)
     case keyPairMismatchException(message: String?)
     case invalidAuthenticationCodeException(message: String?)
@@ -62,10 +63,10 @@ extension IamError {
         switch errorCode {
         case "NoSuchEntityException":
             self = .noSuchEntityException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
         case "InvalidInputException":
             self = .invalidInputException(message: message)
+        case "ServiceFailureException":
+            self = .serviceFailureException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
         case "EntityAlreadyExistsException":
@@ -78,6 +79,8 @@ extension IamError {
             self = .invalidUserTypeException(message: message)
         case "EntityTemporarilyUnmodifiableException":
             self = .entityTemporarilyUnmodifiableException(message: message)
+        case "UnmodifiableEntityException":
+            self = .unmodifiableEntityException(message: message)
         case "MalformedCertificateException":
             self = .malformedCertificateException(message: message)
         case "KeyPairMismatchException":

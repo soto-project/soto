@@ -149,7 +149,7 @@ extension Iam {
         public let marker: String?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
-        /// The name of the role to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
@@ -192,7 +192,7 @@ extension Iam {
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
-        /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// The name of the inline policy to delete from the specified IAM role. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let policyName: String
@@ -245,7 +245,7 @@ extension Iam {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
-        /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(roleName: String) {
@@ -264,7 +264,7 @@ extension Iam {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
         ]
-        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
         public let serialNumber: String
 
         public init(serialNumber: String) {
@@ -728,7 +728,7 @@ extension Iam {
         public let marker: String?
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
-        /// The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to list instance profiles for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(marker: String? = nil, maxItems: Int32? = nil, roleName: String) {
@@ -849,7 +849,7 @@ extension Iam {
         ]
         /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
-        /// The name of the role to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(instanceProfileName: String, roleName: String) {
@@ -1338,7 +1338,7 @@ extension Iam {
             AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
-        /// The name of the role to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// The policy document. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyDocument: String
@@ -1372,7 +1372,7 @@ extension Iam {
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
-        /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -1486,7 +1486,7 @@ extension Iam {
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
-        /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(policyArn: String, roleName: String) {
@@ -1561,7 +1561,7 @@ extension Iam {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "RoleName", required: true, type: .string)
         ]
-        /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(roleName: String) {
@@ -2207,7 +2207,7 @@ extension Iam {
         ]
         /// The name of the user whose MFA device you want to deactivate. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
-        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
         public let serialNumber: String
 
         public init(userName: String, serialNumber: String) {
@@ -2411,7 +2411,7 @@ extension Iam {
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
-        /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(policyArn: String, roleName: String) {
@@ -2609,6 +2609,35 @@ extension Iam {
         }
     }
 
+    public struct CreateServiceLinkedRoleRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AWSServiceName", required: true, type: .string), 
+            AWSShapeProperty(label: "CustomSuffix", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
+        /// The AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com 
+        public let aWSServiceName: String
+        /// A string that you provide, which is combined with the service name to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix.
+        public let customSuffix: String?
+        /// The description of the role.
+        public let description: String?
+
+        public init(aWSServiceName: String, customSuffix: String? = nil, description: String? = nil) {
+            self.aWSServiceName = aWSServiceName
+            self.customSuffix = customSuffix
+            self.description = description
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let aWSServiceName = dictionary["AWSServiceName"] as? String else { throw InitializableError.missingRequiredParam("AWSServiceName") }
+            self.aWSServiceName = aWSServiceName
+            self.customSuffix = dictionary["CustomSuffix"] as? String
+            self.description = dictionary["Description"] as? String
+        }
+    }
+
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2641,35 +2670,6 @@ extension Iam {
             guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
             self.policyDocument = policyDocument
             self.description = dictionary["Description"] as? String
-        }
-    }
-
-    public struct ListUserPoliciesRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
-        ]
-        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-        public let marker: String?
-        /// The name of the user to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-        public let maxItems: Int32?
-
-        public init(marker: String? = nil, userName: String, maxItems: Int32? = nil) {
-            self.marker = marker
-            self.userName = userName
-            self.maxItems = maxItems
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.maxItems = dictionary["MaxItems"] as? Int32
         }
     }
 
@@ -3117,6 +3117,35 @@ extension Iam {
         }
     }
 
+    public struct ListUserPoliciesRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "UserName", required: true, type: .string), 
+            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        ]
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// The name of the user to list policies for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String
+        /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int32?
+
+        public init(marker: String? = nil, userName: String, maxItems: Int32? = nil) {
+            self.marker = marker
+            self.userName = userName
+            self.maxItems = maxItems
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
+            self.userName = userName
+            self.maxItems = dictionary["MaxItems"] as? Int32
+        }
+    }
+
     public struct CreateLoginProfileRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3502,7 +3531,7 @@ extension Iam {
         ]
         /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
-        /// The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(instanceProfileName: String, roleName: String) {
@@ -3515,6 +3544,24 @@ extension Iam {
             self.instanceProfileName = instanceProfileName
             guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
             self.roleName = roleName
+        }
+    }
+
+    public struct UpdateRoleDescriptionResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Role", required: false, type: .structure)
+        ]
+        /// A structure that contains details about the modified role.
+        public let role: Role?
+
+        public init(role: Role? = nil) {
+            self.role = role
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let role = dictionary["Role"] as? [String: Any] { self.role = try Iam.Role(dictionary: role) } else { self.role = nil }
         }
     }
 
@@ -3571,11 +3618,11 @@ extension Iam {
         ]
         /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
-        /// An authentication code emitted by the device. The format for this parameter is a string of 6 digits.
+        /// An authentication code emitted by the device.  The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
         public let authenticationCode1: String
-        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+        /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
         public let serialNumber: String
-        /// A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.
+        /// A subsequent authentication code emitted by the device. The format for this parameter is a string of 6 digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
         public let authenticationCode2: String
 
         public init(userName: String, authenticationCode1: String, serialNumber: String, authenticationCode2: String) {
@@ -3606,7 +3653,7 @@ extension Iam {
         ]
         /// The policy that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyDocument: String
-        /// The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role to update with the new policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
         public init(policyDocument: String, roleName: String) {
@@ -3751,9 +3798,9 @@ extension Iam {
         ]
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
         public let lastUsedDate: String
-        /// The AWS region where this access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
+        /// The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let region: String
-        /// The name of the AWS service with which this access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
+        /// The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
         public let serviceName: String
 
         public init(lastUsedDate: String, region: String, serviceName: String) {
@@ -4188,30 +4235,6 @@ extension Iam {
         }
     }
 
-    public struct DeleteSigningCertificateRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
-        ]
-        /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
-        public let certificateId: String
-        /// The name of the user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
-        public let userName: String?
-
-        public init(certificateId: String, userName: String? = nil) {
-            self.certificateId = certificateId
-            self.userName = userName
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
-            self.certificateId = certificateId
-            self.userName = dictionary["UserName"] as? String
-        }
-    }
-
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4247,6 +4270,30 @@ extension Iam {
             if let scope = dictionary["Scope"] as? String { self.scope = PolicyScopeType(rawValue: scope) } else { self.scope = nil }
             self.marker = dictionary["Marker"] as? String
             self.pathPrefix = dictionary["PathPrefix"] as? String
+        }
+    }
+
+    public struct DeleteSigningCertificateRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
+            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        ]
+        /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
+        public let certificateId: String
+        /// The name of the user the signing certificate belongs to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        public let userName: String?
+
+        public init(certificateId: String, userName: String? = nil) {
+            self.certificateId = certificateId
+            self.userName = userName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
+            self.certificateId = certificateId
+            self.userName = dictionary["UserName"] as? String
         }
     }
 
@@ -4336,13 +4383,38 @@ extension Iam {
         }
     }
 
+    public struct UpdateRoleDescriptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
+            AWSShapeProperty(label: "Description", required: true, type: .string)
+        ]
+        /// The name of the role that you want to modify.
+        public let roleName: String
+        /// The new description that you want to apply to the specified role.
+        public let description: String
+
+        public init(roleName: String, description: String) {
+            self.roleName = roleName
+            self.description = description
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
+            self.roleName = roleName
+            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
+            self.description = description
+        }
+    }
+
     public struct GetAccountPasswordPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PasswordPolicy", required: true, type: .structure)
         ]
-        /// Contains information about the account password policy.
+        /// A structure that contains details about the account's password policy.
         public let passwordPolicy: PasswordPolicy
 
         public init(passwordPolicy: PasswordPolicy) {
@@ -4671,29 +4743,34 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Path", required: false, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "AssumeRolePolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
+        ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
+        public let path: String?
+        /// The name of the role to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@- Role names are not distinguished by case. For example, you cannot create roles named both "PRODROLE" and "prodrole".
         public let roleName: String
         /// The trust relationship policy document that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let assumeRolePolicyDocument: String
-        ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
-        public let path: String?
+        /// A customer-provided description of the role.
+        public let description: String?
 
-        public init(roleName: String, assumeRolePolicyDocument: String, path: String? = nil) {
+        public init(path: String? = nil, roleName: String, assumeRolePolicyDocument: String, description: String? = nil) {
+            self.path = path
             self.roleName = roleName
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
-            self.path = path
+            self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.path = dictionary["Path"] as? String
             guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
             self.roleName = roleName
             guard let assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("AssumeRolePolicyDocument") }
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
-            self.path = dictionary["Path"] as? String
+            self.description = dictionary["Description"] as? String
         }
     }
 
@@ -4816,7 +4893,7 @@ extension Iam {
         public let qRCodePNG: Data?
         ///  The Base32 seed defined as specified in RFC3548. The Base32StringSeed is Base64-encoded. 
         public let base32StringSeed: Data?
-        /// The user to whom the MFA device is assigned.
+        /// The IAM user associated with this virtual MFA device.
         public let user: User?
         /// The serial number associated with VirtualMFADevice.
         public let serialNumber: String
@@ -5132,7 +5209,7 @@ extension Iam {
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
-        /// The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
         /// The name of the policy document to get. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let policyName: String
@@ -5529,47 +5606,52 @@ extension Iam {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Arn", required: true, type: .string), 
+            AWSShapeProperty(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeProperty(label: "Path", required: true, type: .string), 
             AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "RoleId", required: true, type: .string), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
             AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "AssumeRolePolicyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+            AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: String
-        ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
-        public let roleId: String
-        ///  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
+        ///  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide guide. 
         public let arn: String
-        /// The friendly name that identifies the role.
-        public let roleName: String
         /// The policy that grants an entity permission to assume the role.
         public let assumeRolePolicyDocument: String?
         ///  The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
+        /// The date and time, in ISO 8601 date-time format, when the role was created.
+        public let createDate: String
+        ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
+        public let roleId: String
+        /// The friendly name that identifies the role.
+        public let roleName: String
+        /// A description of the role that you provide.
+        public let description: String?
 
-        public init(createDate: String, roleId: String, arn: String, roleName: String, assumeRolePolicyDocument: String? = nil, path: String) {
-            self.createDate = createDate
-            self.roleId = roleId
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, path: String, createDate: String, roleId: String, roleName: String, description: String? = nil) {
             self.arn = arn
-            self.roleName = roleName
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.path = path
+            self.createDate = createDate
+            self.roleId = roleId
+            self.roleName = roleName
+            self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
+            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
+            self.arn = arn
+            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
             guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
             self.createDate = createDate
             guard let roleId = dictionary["RoleId"] as? String else { throw InitializableError.missingRequiredParam("RoleId") }
             self.roleId = roleId
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
             guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
             self.roleName = roleName
-            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+            self.description = dictionary["Description"] as? String
         }
     }
 
@@ -6016,6 +6098,24 @@ extension Iam {
         public init(dictionary: [String: Any]) throws {
             guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
             self.instanceProfileName = instanceProfileName
+        }
+    }
+
+    public struct CreateServiceLinkedRoleResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Role", required: false, type: .structure)
+        ]
+        /// A Role object that contains details about the newly created role.
+        public let role: Role?
+
+        public init(role: Role? = nil) {
+            self.role = role
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let role = dictionary["Role"] as? [String: Any] { self.role = try Iam.Role(dictionary: role) } else { self.role = nil }
         }
     }
 

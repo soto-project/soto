@@ -54,24 +54,19 @@ public struct Inspector {
         return try client.send(operation: "RemoveAttributesFromFindings", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Previews the agents installed on the EC2 instances that are part of the specified assessment target.
+    public func previewAgents(_ input: PreviewAgentsRequest) throws -> PreviewAgentsResponse {
+        return try client.send(operation: "PreviewAgents", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the assessment template that is specified by the ARN of the assessment template.
     public func deleteAssessmentTemplate(_ input: DeleteAssessmentTemplateRequest) throws {
         _ = try client.send(operation: "DeleteAssessmentTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic.
-    public func unsubscribeFromEvent(_ input: UnsubscribeFromEventRequest) throws {
-        _ = try client.send(operation: "UnsubscribeFromEvent", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Starts the assessment run specified by the ARN of the assessment template. For this API to function properly, you must not exceed the limit of running up to 500 concurrent agents per AWS account.
     public func startAssessmentRun(_ input: StartAssessmentRunRequest) throws -> StartAssessmentRunResponse {
         return try client.send(operation: "StartAssessmentRun", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Lists the ARNs of the assessment targets within this AWS account. For more information about assessment targets, see Amazon Inspector Assessment Targets.
-    public func listAssessmentTargets(_ input: ListAssessmentTargetsRequest) throws -> ListAssessmentTargetsResponse {
-        return try client.send(operation: "ListAssessmentTargets", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists all available Amazon Inspector rules packages.
@@ -82,6 +77,16 @@ public struct Inspector {
     ///  Creates a resource group using the specified set of tags (key and value pairs) that are used to select the EC2 instances to be included in an Amazon Inspector assessment target. The created resource group is then used to create an Amazon Inspector assessment target. For more information, see CreateAssessmentTarget.
     public func createResourceGroup(_ input: CreateResourceGroupRequest) throws -> CreateResourceGroupResponse {
         return try client.send(operation: "CreateResourceGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the ARNs of the assessment targets within this AWS account. For more information about assessment targets, see Amazon Inspector Assessment Targets.
+    public func listAssessmentTargets(_ input: ListAssessmentTargetsRequest) throws -> ListAssessmentTargetsResponse {
+        return try client.send(operation: "ListAssessmentTargets", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Disables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic.
+    public func unsubscribeFromEvent(_ input: UnsubscribeFromEventRequest) throws {
+        _ = try client.send(operation: "UnsubscribeFromEvent", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the resource groups that are specified by the ARNs of the resource groups.
@@ -119,14 +124,14 @@ public struct Inspector {
         return try client.send(operation: "ListEventSubscriptions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an assessment template for the assessment target that is specified by the ARN of the assessment target.
-    public func createAssessmentTemplate(_ input: CreateAssessmentTemplateRequest) throws -> CreateAssessmentTemplateResponse {
-        return try client.send(operation: "CreateAssessmentTemplate", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Enables the process of sending Amazon Simple Notification Service (SNS) notifications about a specified event to a specified SNS topic.
     public func subscribeToEvent(_ input: SubscribeToEventRequest) throws {
         _ = try client.send(operation: "SubscribeToEvent", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates an assessment template for the assessment target that is specified by the ARN of the assessment target.
+    public func createAssessmentTemplate(_ input: CreateAssessmentTemplateRequest) throws -> CreateAssessmentTemplateResponse {
+        return try client.send(operation: "CreateAssessmentTemplate", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates the assessment target that is specified by the ARN of the assessment target.
@@ -144,19 +149,9 @@ public struct Inspector {
         return try client.send(operation: "DescribeFindings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the assessment runs that correspond to the assessment templates that are specified by the ARNs of the assessment templates.
-    public func listAssessmentRuns(_ input: ListAssessmentRunsRequest) throws -> ListAssessmentRunsResponse {
-        return try client.send(operation: "ListAssessmentRuns", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Deletes the assessment target that is specified by the ARN of the assessment target.
     public func deleteAssessmentTarget(_ input: DeleteAssessmentTargetRequest) throws {
         _ = try client.send(operation: "DeleteAssessmentTarget", path: "/", httpMethod: "POST", input: input)
-    }
-
-    ///  Creates a new assessment target using the ARN of the resource group that is generated by CreateResourceGroup. You can create up to 50 assessment targets per AWS account. You can run up to 500 concurrent agents per AWS account. For more information, see  Amazon Inspector Assessment Targets.
-    public func createAssessmentTarget(_ input: CreateAssessmentTargetRequest) throws -> CreateAssessmentTargetResponse {
-        return try client.send(operation: "CreateAssessmentTarget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists findings that are generated by the assessment runs that are specified by the ARNs of the assessment runs.
@@ -164,14 +159,24 @@ public struct Inspector {
         return try client.send(operation: "ListFindings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Information about the data that is collected for the specified assessment run.
-    public func getTelemetryMetadata(_ input: GetTelemetryMetadataRequest) throws -> GetTelemetryMetadataResponse {
-        return try client.send(operation: "GetTelemetryMetadata", path: "/", httpMethod: "POST", input: input)
+    ///  Creates a new assessment target using the ARN of the resource group that is generated by CreateResourceGroup. You can create up to 50 assessment targets per AWS account. You can run up to 500 concurrent agents per AWS account. For more information, see  Amazon Inspector Assessment Targets.
+    public func createAssessmentTarget(_ input: CreateAssessmentTargetRequest) throws -> CreateAssessmentTargetResponse {
+        return try client.send(operation: "CreateAssessmentTarget", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the assessment runs that correspond to the assessment templates that are specified by the ARNs of the assessment templates.
+    public func listAssessmentRuns(_ input: ListAssessmentRunsRequest) throws -> ListAssessmentRunsResponse {
+        return try client.send(operation: "ListAssessmentRuns", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the assessment runs that are specified by the ARNs of the assessment runs.
     public func describeAssessmentRuns(_ input: DescribeAssessmentRunsRequest) throws -> DescribeAssessmentRunsResponse {
         return try client.send(operation: "DescribeAssessmentRuns", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Information about the data that is collected for the specified assessment run.
+    public func getTelemetryMetadata(_ input: GetTelemetryMetadataRequest) throws -> GetTelemetryMetadataResponse {
+        return try client.send(operation: "GetTelemetryMetadata", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the rules packages that are specified by the ARNs of the rules packages.
@@ -199,9 +204,9 @@ public struct Inspector {
         return try client.send(operation: "DescribeAssessmentTemplates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Previews the agents installed on the EC2 instances that are part of the specified assessment target.
-    public func previewAgents(_ input: PreviewAgentsRequest) throws -> PreviewAgentsResponse {
-        return try client.send(operation: "PreviewAgents", path: "/", httpMethod: "POST", input: input)
+    ///  Produces an assessment report that includes detailed and comprehensive results of a specified assessment run. 
+    public func getAssessmentReport(_ input: GetAssessmentReportRequest) throws -> GetAssessmentReportResponse {
+        return try client.send(operation: "GetAssessmentReport", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Lists the agents of the assessment runs that are specified by the ARNs of the assessment runs.

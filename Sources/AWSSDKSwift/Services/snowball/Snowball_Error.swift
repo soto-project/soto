@@ -28,6 +28,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for Snowball
 public enum SnowballError: AWSErrorType {
+    case invalidNextTokenException(message: String?)
     case invalidResourceException(message: String?)
     case kMSRequestFailedException(message: String?)
     case invalidInputCombinationException(message: String?)
@@ -44,6 +45,8 @@ extension SnowballError {
             errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))
         }
         switch errorCode {
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         case "InvalidResourceException":
             self = .invalidResourceException(message: message)
         case "KMSRequestFailedException":

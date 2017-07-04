@@ -58,14 +58,14 @@ public struct Elasticache {
         _ = try client.send(operation: "DeleteCacheSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a new cache parameter group. A cache parameter group is a collection of parameters that you apply to all of the nodes in a cache cluster.
+    ///  Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cache cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.  
     public func createCacheParameterGroup(_ input: CreateCacheParameterGroupMessage) throws -> CreateCacheParameterGroupResult {
         return try client.send(operation: "CreateCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any cache clusters. 
-    public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) throws {
-        _ = try client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    ///  Represents the input of a TestFailover operation which test automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).  Note the following    A customer can use this operation to test automatic failover on up to 5 shards (called node groups in the ElastiCache API and AWS CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.     If calling this operation multiple times on different shards in the same Redis (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the AWS CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group &lt;node-group-id&gt;    Cache cluster message: Failover from master node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Replication group message: Failover from master node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ with Automatic Failover in the ElastiCache User Guide.
+    public func testFailover(_ input: TestFailoverMessage) throws -> TestFailoverResult {
+        return try client.send(operation: "TestFailover", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters.
@@ -73,9 +73,9 @@ public struct Elasticache {
         _ = try client.send(operation: "DeleteCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a previously provisioned cache cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cache cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cache cluster; you cannot cancel or revert this operation. This operation cannot be used to delete a cache cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cache cluster from a Redis (cluster mode enabled) replication group.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
-    public func deleteCacheCluster(_ input: DeleteCacheClusterMessage) throws -> DeleteCacheClusterResult {
-        return try client.send(operation: "DeleteCacheCluster", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a cache subnet group.  You cannot delete a cache subnet group if it is associated with any cache clusters. 
+    public func deleteCacheSubnetGroup(_ input: DeleteCacheSubnetGroupMessage) throws {
+        _ = try client.send(operation: "DeleteCacheSubnetGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns a list of the available cache engines and their versions.
@@ -83,7 +83,7 @@ public struct Elasticache {
         return try client.send(operation: "DescribeCacheEngineVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about all provisioned cache clusters if no cache cluster identifier is specified, or about a specific cache cluster if a cache cluster identifier is supplied. By default, abbreviated information about the cache clusters are returned. You can use the optional ShowDetails flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the CREATING state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the DELETING state, only cluster-level information is displayed. If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
+    ///  Returns information about all provisioned cache clusters if no cache cluster identifier is specified, or about a specific cache cluster if a cache cluster identifier is supplied. By default, abbreviated information about the cache clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
     public func describeCacheClusters(_ input: DescribeCacheClustersMessage) throws -> CacheClusterMessage {
         return try client.send(operation: "DescribeCacheClusters", path: "/", httpMethod: "POST", input: input)
     }
@@ -93,7 +93,12 @@ public struct Elasticache {
         return try client.send(operation: "ResetCacheParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists all cost allocation tags currently on the named resource. A cost allocation tag is a key-value pair where the key is case-sensitive and the value is optional. You can use cost allocation tags to categorize and track your AWS costs. You can have a maximum of 10 cost allocation tags on an ElastiCache resource. For more information, see Using Cost Allocation Tags in Amazon ElastiCache.
+    ///  Deletes a previously provisioned cache cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cache cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cache cluster; you cannot cancel or revert this operation. This operation cannot be used to delete a cache cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cache cluster from a Redis (cluster mode enabled) replication group.  Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups. 
+    public func deleteCacheCluster(_ input: DeleteCacheClusterMessage) throws -> DeleteCacheClusterResult {
+        return try client.send(operation: "DeleteCacheCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all cost allocation tags currently on the named resource. A cost allocation tag is a key-value pair where the key is case-sensitive and the value is optional. You can use cost allocation tags to categorize and track your AWS costs. You can have a maximum of 50 cost allocation tags on an ElastiCache resource. For more information, see Using Cost Allocation Tags in Amazon ElastiCache.
     public func listTagsForResource(_ input: ListTagsForResourceMessage) throws -> TagListMessage {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -193,7 +198,7 @@ public struct Elasticache {
         return try client.send(operation: "DescribeReservedCacheNodesOfferings", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created.  This operation is valid for Redis only. 
+    ///  Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group. A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards). When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide.  This operation is valid for Redis only. 
     public func createReplicationGroup(_ input: CreateReplicationGroupMessage) throws -> CreateReplicationGroupResult {
         return try client.send(operation: "CreateReplicationGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -218,7 +223,7 @@ public struct Elasticache {
         return try client.send(operation: "RevokeCacheSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds up to 10 cost allocation tags to the named resource. A cost allocation tag is a key-value pair where the key and value are case-sensitive. You can use cost allocation tags to categorize and track your AWS costs.  When you apply tags to your ElastiCache resources, AWS generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
+    ///  Adds up to 50 cost allocation tags to the named resource. A cost allocation tag is a key-value pair where the key and value are case-sensitive. You can use cost allocation tags to categorize and track your AWS costs.  When you apply tags to your ElastiCache resources, AWS generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
     public func addTagsToResource(_ input: AddTagsToResourceMessage) throws -> TagListMessage {
         return try client.send(operation: "AddTagsToResource", path: "/", httpMethod: "POST", input: input)
     }

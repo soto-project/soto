@@ -51,12 +51,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible {
-        case internet_facing = "internet-facing"
-        case `internal` = "internal"
-        public var description: String { return self.rawValue }
-    }
-
     public struct Rule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -100,34 +94,6 @@ extension Elasticloadbalancingv2 {
             } else { 
                 self.conditions = nil
             }
-        }
-    }
-
-    public struct TargetHealthDescription: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetHealth", required: false, type: .structure), 
-            AWSShapeProperty(label: "Target", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string)
-        ]
-        /// The health information for the target.
-        public let targetHealth: TargetHealth?
-        /// The description of the target.
-        public let target: TargetDescription?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-
-        public init(targetHealth: TargetHealth? = nil, target: TargetDescription? = nil, healthCheckPort: String? = nil) {
-            self.targetHealth = targetHealth
-            self.target = target
-            self.healthCheckPort = healthCheckPort
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancingv2.TargetHealth(dictionary: targetHealth) } else { self.targetHealth = nil }
-            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancingv2.TargetDescription(dictionary: target) } else { self.target = nil }
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
         }
     }
 
@@ -175,14 +141,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DeleteLoadBalancerOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
     public struct DescribeTargetGroupAttributesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -197,31 +155,6 @@ extension Elasticloadbalancingv2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct ModifyTargetGroupAttributesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: true, type: .list), 
-            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
-        ]
-        /// The attributes.
-        public let attributes: [TargetGroupAttribute]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
-            self.attributes = attributes
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
             guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
             self.targetGroupArn = targetGroupArn
         }
@@ -509,82 +442,26 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct RuleCondition: AWSShape {
+    public struct DescribeAccountLimitsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Field", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer)
         ]
-        /// The only possible value is path-pattern.
-        public let field: String?
-        /// The path pattern. You can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let values: [String]?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
 
-        public init(field: String? = nil, values: [String]? = nil) {
-            self.field = field
-            self.values = values
+        public init(marker: String? = nil, pageSize: Int32? = nil) {
+            self.marker = marker
+            self.pageSize = pageSize
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.field = dictionary["Field"] as? String
-            self.values = dictionary["Values"] as? [String]
-        }
-    }
-
-    public struct Listener: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificates", required: false, type: .list), 
-            AWSShapeProperty(label: "ListenerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "SslPolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultActions", required: false, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
-        ]
-        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
-        public let certificates: [Certificate]?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
-        /// The protocol for connections from clients to the load balancer.
-        public let `protocol`: ProtocolEnum?
-        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public let sslPolicy: String?
-        /// The default actions for the listener.
-        public let defaultActions: [Action]?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-        /// The port on which the load balancer is listening.
-        public let port: Int32?
-
-        public init(certificates: [Certificate]? = nil, listenerArn: String? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
-            self.certificates = certificates
-            self.listenerArn = listenerArn
-            self.`protocol` = `protocol`
-            self.sslPolicy = sslPolicy
-            self.defaultActions = defaultActions
-            self.loadBalancerArn = loadBalancerArn
-            self.port = port
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
-            } else { 
-                self.certificates = nil
-            }
-            self.listenerArn = dictionary["ListenerArn"] as? String
-            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = ProtocolEnum(rawValue: `protocol`) } else { self.`protocol` = nil }
-            self.sslPolicy = dictionary["SslPolicy"] as? String
-            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
-                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.defaultActions = nil
-            }
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
-            self.port = dictionary["Port"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
         }
     }
 
@@ -637,175 +514,21 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct ModifyTargetGroupInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckProtocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "HealthyThresholdCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Matcher", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string), 
-            AWSShapeProperty(label: "HealthCheckPath", required: false, type: .string), 
-            AWSShapeProperty(label: "UnhealthyThresholdCount", required: false, type: .integer)
-        ]
-        /// The protocol to use to connect with the target.
-        public let healthCheckProtocol: ProtocolEnum?
-        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public let healthyThresholdCount: Int32?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-        /// The HTTP codes to use when checking for a successful response from a target.
-        public let matcher: Matcher?
-        /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public let healthCheckIntervalSeconds: Int32?
-        /// The amount of time, in seconds, during which no response means a failed health check.
-        public let healthCheckTimeoutSeconds: Int32?
-        /// The port to use to connect with the target.
-        public let healthCheckPort: String?
-        /// The ping path that is the destination for the health check request.
-        public let healthCheckPath: String?
-        /// The number of consecutive health check failures required before considering the target unhealthy.
-        public let unhealthyThresholdCount: Int32?
-
-        public init(healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
-            self.healthCheckProtocol = healthCheckProtocol
-            self.healthyThresholdCount = healthyThresholdCount
-            self.targetGroupArn = targetGroupArn
-            self.matcher = matcher
-            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
-            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
-            self.healthCheckPort = healthCheckPort
-            self.healthCheckPath = healthCheckPath
-            self.unhealthyThresholdCount = unhealthyThresholdCount
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String { self.healthCheckProtocol = ProtocolEnum(rawValue: healthCheckProtocol) } else { self.healthCheckProtocol = nil }
-            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancingv2.Matcher(dictionary: matcher) } else { self.matcher = nil }
-            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
-            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
-            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
-            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
-            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
-        }
-    }
-
-    public struct CreateLoadBalancerInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "Scheme", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "IpAddressType", required: false, type: .enum)
-        ]
-        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
-        public let subnets: [String]
-        /// The IDs of the security groups to assign to the load balancer.
-        public let securityGroups: [String]?
-        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
-        public let scheme: LoadBalancerSchemeEnum?
-        /// One or more tags to assign to the load balancer.
-        public let tags: [Tag]?
-        /// The name of the load balancer. This name must be unique within your AWS account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
-        public let name: String
-        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public let ipAddressType: IpAddressType?
-
-        public init(subnets: [String], securityGroups: [String]? = nil, scheme: LoadBalancerSchemeEnum? = nil, tags: [Tag]? = nil, name: String, ipAddressType: IpAddressType? = nil) {
-            self.subnets = subnets
-            self.securityGroups = securityGroups
-            self.scheme = scheme
-            self.tags = tags
-            self.name = name
-            self.ipAddressType = ipAddressType
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            if let scheme = dictionary["Scheme"] as? String { self.scheme = LoadBalancerSchemeEnum(rawValue: scheme) } else { self.scheme = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let ipAddressType = dictionary["IpAddressType"] as? String { self.ipAddressType = IpAddressType(rawValue: ipAddressType) } else { self.ipAddressType = nil }
-        }
-    }
-
-    public struct DeregisterTargetsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: true, type: .list), 
-            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
-        ]
-        /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        public let targets: [TargetDescription]
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targets: [TargetDescription], targetGroupArn: String) {
-            self.targets = targets
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
-    public struct SetSecurityGroupsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
-        ]
-        /// The IDs of the security groups.
-        public let securityGroups: [String]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(securityGroups: [String], loadBalancerArn: String) {
-            self.securityGroups = securityGroups
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
-            self.securityGroups = securityGroups
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
     public struct DescribeRulesOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rules", required: false, type: .list)
+            AWSShapeProperty(label: "Rules", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
         ]
         /// Information about the rules.
         public let rules: [Rule]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
 
-        public init(rules: [Rule]? = nil) {
+        public init(rules: [Rule]? = nil, nextMarker: String? = nil) {
             self.rules = rules
+            self.nextMarker = nextMarker
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -814,6 +537,7 @@ extension Elasticloadbalancingv2 {
             } else { 
                 self.rules = nil
             }
+            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
@@ -836,111 +560,6 @@ extension Elasticloadbalancingv2 {
             } else { 
                 self.rules = nil
             }
-        }
-    }
-
-    public struct LoadBalancerAttribute: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
-        ]
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
-        }
-    }
-
-    public struct DescribeLoadBalancerAttributesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(loadBalancerArn: String) {
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct DescribeTagsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagDescriptions", required: false, type: .list)
-        ]
-        /// Information about the tags.
-        public let tagDescriptions: [TagDescription]?
-
-        public init(tagDescriptions: [TagDescription]? = nil) {
-            self.tagDescriptions = tagDescriptions
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let tagDescriptions = dictionary["TagDescriptions"] as? [[String: Any]] {
-                self.tagDescriptions = try tagDescriptions.map({ try TagDescription(dictionary: $0) })
-            } else { 
-                self.tagDescriptions = nil
-            }
-        }
-    }
-
-    public struct DescribeListenersInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ListenerArns", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string)
-        ]
-        /// The maximum number of results to return with this call.
-        public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the listeners.
-        public let listenerArns: [String]?
-        /// The marker for the next set of results. (You received this marker from a previous call.)
-        public let marker: String?
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String?
-
-        public init(pageSize: Int32? = nil, listenerArns: [String]? = nil, marker: String? = nil, loadBalancerArn: String? = nil) {
-            self.pageSize = pageSize
-            self.listenerArns = listenerArns
-            self.marker = marker
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? Int32
-            self.listenerArns = dictionary["ListenerArns"] as? [String]
-            self.marker = dictionary["Marker"] as? String
-            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
-        }
-    }
-
-    public struct DeleteListenerOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -1053,28 +672,6 @@ extension Elasticloadbalancingv2 {
                 self.ciphers = nil
             }
             self.name = dictionary["Name"] as? String
-        }
-    }
-
-    public struct CreateTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
-        ]
-        /// Information about the target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
-                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
-            } else { 
-                self.targetGroups = nil
-            }
         }
     }
 
@@ -1260,6 +857,883 @@ extension Elasticloadbalancingv2 {
         }
     }
 
+    public struct CreateRuleInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Priority", required: true, type: .integer), 
+            AWSShapeProperty(label: "Actions", required: true, type: .list), 
+            AWSShapeProperty(label: "Conditions", required: true, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: true, type: .string)
+        ]
+        /// The priority for the rule. A listener can't have multiple rules with the same priority.
+        public let priority: Int32
+        /// An action. Each action has the type forward and specifies a target group.
+        public let actions: [Action]
+        /// A condition. Each condition specifies a field name and a single value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        public let conditions: [RuleCondition]
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String
+
+        public init(priority: Int32, actions: [Action], conditions: [RuleCondition], listenerArn: String) {
+            self.priority = priority
+            self.actions = actions
+            self.conditions = conditions
+            self.listenerArn = listenerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
+            self.priority = priority
+            guard let actions = dictionary["Actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Actions") }
+            self.actions = try actions.map({ try Action(dictionary: $0) })
+            guard let conditions = dictionary["Conditions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Conditions") }
+            self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
+            self.listenerArn = listenerArn
+        }
+    }
+
+    public struct SetSubnetsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
+        public let subnets: [String]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+
+        public init(subnets: [String], loadBalancerArn: String) {
+            self.subnets = subnets
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
+    }
+
+    public struct DeleteRuleOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct DescribeTargetHealthInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Targets", required: false, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The targets.
+        public let targets: [TargetDescription]?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(targets: [TargetDescription]? = nil, targetGroupArn: String) {
+            self.targets = targets
+            self.targetGroupArn = targetGroupArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            } else { 
+                self.targets = nil
+            }
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+
+    public struct TargetGroupAttribute: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
+        /// The value of the attribute.
+        public let value: String?
+        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
+        public let key: String?
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
+    }
+
+    public struct DeleteRuleInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String
+
+        public init(ruleArn: String) {
+            self.ruleArn = ruleArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
+            self.ruleArn = ruleArn
+        }
+    }
+
+    public struct DescribeTagsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArns", required: true, type: .list)
+        ]
+        /// The Amazon Resource Names (ARN) of the resources.
+        public let resourceArns: [String]
+
+        public init(resourceArns: [String]) {
+            self.resourceArns = resourceArns
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
+            self.resourceArns = resourceArns
+        }
+    }
+
+    public enum LoadBalancerTypeEnum: String, CustomStringConvertible {
+        case application = "application"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeTargetGroupAttributesOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        ]
+        /// Information about the target group attributes
+        public let attributes: [TargetGroupAttribute]?
+
+        public init(attributes: [TargetGroupAttribute]? = nil) {
+            self.attributes = attributes
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
+                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
+            }
+        }
+    }
+
+    public struct RemoveTagsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ModifyRuleInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Actions", required: false, type: .list), 
+            AWSShapeProperty(label: "Conditions", required: false, type: .list), 
+            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
+        ]
+        /// The actions.
+        public let actions: [Action]?
+        /// The conditions.
+        public let conditions: [RuleCondition]?
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let ruleArn: String
+
+        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
+            self.actions = actions
+            self.conditions = conditions
+            self.ruleArn = ruleArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let actions = dictionary["Actions"] as? [[String: Any]] {
+                self.actions = try actions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.actions = nil
+            }
+            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
+                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            } else { 
+                self.conditions = nil
+            }
+            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
+            self.ruleArn = ruleArn
+        }
+    }
+
+    public struct TargetDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Port", required: false, type: .integer), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
+        /// The port on which the target is listening.
+        public let port: Int32?
+        /// The ID of the target.
+        public let id: String
+
+        public init(port: Int32? = nil, id: String) {
+            self.port = port
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.port = dictionary["Port"] as? Int32
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
+        }
+    }
+
+    public enum ActionTypeEnum: String, CustomStringConvertible {
+        case forward = "forward"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct DescribeListenersOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Listeners", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the listeners.
+        public let listeners: [Listener]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
+            self.listeners = listeners
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct DescribeRulesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "RuleArns", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The Amazon Resource Names (ARN) of the rules.
+        public let ruleArns: [String]?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+
+        public init(pageSize: Int32? = nil, marker: String? = nil, ruleArns: [String]? = nil, listenerArn: String? = nil) {
+            self.pageSize = pageSize
+            self.marker = marker
+            self.ruleArns = ruleArns
+            self.listenerArn = listenerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.ruleArns = dictionary["RuleArns"] as? [String]
+            self.listenerArn = dictionary["ListenerArn"] as? String
+        }
+    }
+
+    public struct ModifyListenerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Listeners", required: false, type: .list)
+        ]
+        /// Information about the modified listeners.
+        public let listeners: [Listener]?
+
+        public init(listeners: [Listener]? = nil) {
+            self.listeners = listeners
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
+                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
+            }
+        }
+    }
+
+    public struct SetSubnetsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
+        ]
+        /// Information about the subnet and Availability Zone.
+        public let availabilityZones: [AvailabilityZone]?
+
+        public init(availabilityZones: [AvailabilityZone]? = nil) {
+            self.availabilityZones = availabilityZones
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
+                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
+            }
+        }
+    }
+
+    public struct DescribeAccountLimitsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Limits", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// Information about the limits.
+        public let limits: [Limit]?
+        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+        public let nextMarker: String?
+
+        public init(limits: [Limit]? = nil, nextMarker: String? = nil) {
+            self.limits = limits
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let limits = dictionary["Limits"] as? [[String: Any]] {
+                self.limits = try limits.map({ try Limit(dictionary: $0) })
+            } else { 
+                self.limits = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
+    public struct DeleteTargetGroupOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ModifyTargetGroupOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
+        ]
+        /// Information about the target group.
+        public let targetGroups: [TargetGroup]?
+
+        public init(targetGroups: [TargetGroup]? = nil) {
+            self.targetGroups = targetGroups
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
+                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            } else { 
+                self.targetGroups = nil
+            }
+        }
+    }
+
+    public struct RemoveTagsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceArns", required: true, type: .list), 
+            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        ]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArns: [String]
+        /// The tag keys for the tags to remove.
+        public let tagKeys: [String]
+
+        public init(resourceArns: [String], tagKeys: [String]) {
+            self.resourceArns = resourceArns
+            self.tagKeys = tagKeys
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
+            self.resourceArns = resourceArns
+            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = tagKeys
+        }
+    }
+
+    public enum LoadBalancerSchemeEnum: String, CustomStringConvertible {
+        case internet_facing = "internet-facing"
+        case `internal` = "internal"
+        public var description: String { return self.rawValue }
+    }
+
+    public struct TargetHealthDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetHealth", required: false, type: .structure), 
+            AWSShapeProperty(label: "Target", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string)
+        ]
+        /// The health information for the target.
+        public let targetHealth: TargetHealth?
+        /// The description of the target.
+        public let target: TargetDescription?
+        /// The port to use to connect with the target.
+        public let healthCheckPort: String?
+
+        public init(targetHealth: TargetHealth? = nil, target: TargetDescription? = nil, healthCheckPort: String? = nil) {
+            self.targetHealth = targetHealth
+            self.target = target
+            self.healthCheckPort = healthCheckPort
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancingv2.TargetHealth(dictionary: targetHealth) } else { self.targetHealth = nil }
+            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancingv2.TargetDescription(dictionary: target) } else { self.target = nil }
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+        }
+    }
+
+    public struct DeleteLoadBalancerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ModifyTargetGroupAttributesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Attributes", required: true, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The attributes.
+        public let attributes: [TargetGroupAttribute]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
+            self.attributes = attributes
+            self.targetGroupArn = targetGroupArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+
+    public struct RuleCondition: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Field", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
+        /// The name of the field. The possible values are host-header and path-pattern.
+        public let field: String?
+        /// The condition value. If the field name is host-header, you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If the field name is path-pattern, you can specify a single path pattern (for example, /img/*). A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
+        public let values: [String]?
+
+        public init(field: String? = nil, values: [String]? = nil) {
+            self.field = field
+            self.values = values
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.field = dictionary["Field"] as? String
+            self.values = dictionary["Values"] as? [String]
+        }
+    }
+
+    public struct Listener: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Certificates", required: false, type: .list), 
+            AWSShapeProperty(label: "ListenerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Protocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeProperty(label: "DefaultActions", required: false, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string), 
+            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        ]
+        /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
+        public let certificates: [Certificate]?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public let listenerArn: String?
+        /// The protocol for connections from clients to the load balancer.
+        public let `protocol`: ProtocolEnum?
+        /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+        public let sslPolicy: String?
+        /// The default actions for the listener.
+        public let defaultActions: [Action]?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+        /// The port on which the load balancer is listening.
+        public let port: Int32?
+
+        public init(certificates: [Certificate]? = nil, listenerArn: String? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
+            self.certificates = certificates
+            self.listenerArn = listenerArn
+            self.`protocol` = `protocol`
+            self.sslPolicy = sslPolicy
+            self.defaultActions = defaultActions
+            self.loadBalancerArn = loadBalancerArn
+            self.port = port
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let certificates = dictionary["Certificates"] as? [[String: Any]] {
+                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
+            }
+            self.listenerArn = dictionary["ListenerArn"] as? String
+            if let `protocol` = dictionary["Protocol"] as? String { self.`protocol` = ProtocolEnum(rawValue: `protocol`) } else { self.`protocol` = nil }
+            self.sslPolicy = dictionary["SslPolicy"] as? String
+            if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
+                self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.defaultActions = nil
+            }
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+            self.port = dictionary["Port"] as? Int32
+        }
+    }
+
+    public struct ModifyTargetGroupInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeProperty(label: "HealthyThresholdCount", required: false, type: .integer), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string), 
+            AWSShapeProperty(label: "Matcher", required: false, type: .structure), 
+            AWSShapeProperty(label: "HealthCheckIntervalSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckTimeoutSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "HealthCheckPort", required: false, type: .string), 
+            AWSShapeProperty(label: "HealthCheckPath", required: false, type: .string), 
+            AWSShapeProperty(label: "UnhealthyThresholdCount", required: false, type: .integer)
+        ]
+        /// The protocol to use to connect with the target.
+        public let healthCheckProtocol: ProtocolEnum?
+        /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
+        public let healthyThresholdCount: Int32?
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+        /// The HTTP codes to use when checking for a successful response from a target.
+        public let matcher: Matcher?
+        /// The approximate amount of time, in seconds, between health checks of an individual target.
+        public let healthCheckIntervalSeconds: Int32?
+        /// The amount of time, in seconds, during which no response means a failed health check.
+        public let healthCheckTimeoutSeconds: Int32?
+        /// The port to use to connect with the target.
+        public let healthCheckPort: String?
+        /// The ping path that is the destination for the health check request.
+        public let healthCheckPath: String?
+        /// The number of consecutive health check failures required before considering the target unhealthy.
+        public let unhealthyThresholdCount: Int32?
+
+        public init(healthCheckProtocol: ProtocolEnum? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
+            self.healthCheckProtocol = healthCheckProtocol
+            self.healthyThresholdCount = healthyThresholdCount
+            self.targetGroupArn = targetGroupArn
+            self.matcher = matcher
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckPath = healthCheckPath
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let healthCheckProtocol = dictionary["HealthCheckProtocol"] as? String { self.healthCheckProtocol = ProtocolEnum(rawValue: healthCheckProtocol) } else { self.healthCheckProtocol = nil }
+            self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancingv2.Matcher(dictionary: matcher) } else { self.matcher = nil }
+            self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
+            self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
+            self.healthCheckPort = dictionary["HealthCheckPort"] as? String
+            self.healthCheckPath = dictionary["HealthCheckPath"] as? String
+            self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
+        }
+    }
+
+    public struct CreateLoadBalancerInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
+            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeProperty(label: "Scheme", required: false, type: .enum), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "IpAddressType", required: false, type: .enum)
+        ]
+        /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
+        public let subnets: [String]
+        /// The IDs of the security groups to assign to the load balancer.
+        public let securityGroups: [String]?
+        /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
+        public let scheme: LoadBalancerSchemeEnum?
+        /// One or more tags to assign to the load balancer.
+        public let tags: [Tag]?
+        /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
+        public let name: String
+        /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
+        public let ipAddressType: IpAddressType?
+
+        public init(subnets: [String], securityGroups: [String]? = nil, scheme: LoadBalancerSchemeEnum? = nil, tags: [Tag]? = nil, name: String, ipAddressType: IpAddressType? = nil) {
+            self.subnets = subnets
+            self.securityGroups = securityGroups
+            self.scheme = scheme
+            self.tags = tags
+            self.name = name
+            self.ipAddressType = ipAddressType
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
+            self.subnets = subnets
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
+            if let scheme = dictionary["Scheme"] as? String { self.scheme = LoadBalancerSchemeEnum(rawValue: scheme) } else { self.scheme = nil }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
+            }
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+            if let ipAddressType = dictionary["IpAddressType"] as? String { self.ipAddressType = IpAddressType(rawValue: ipAddressType) } else { self.ipAddressType = nil }
+        }
+    }
+
+    public struct DeregisterTargetsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Targets", required: true, type: .list), 
+            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
+        ]
+        /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
+        public let targets: [TargetDescription]
+        /// The Amazon Resource Name (ARN) of the target group.
+        public let targetGroupArn: String
+
+        public init(targets: [TargetDescription], targetGroupArn: String) {
+            self.targets = targets
+            self.targetGroupArn = targetGroupArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
+            self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+
+    public struct SetSecurityGroupsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SecurityGroups", required: true, type: .list), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        /// The IDs of the security groups.
+        public let securityGroups: [String]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+
+        public init(securityGroups: [String], loadBalancerArn: String) {
+            self.securityGroups = securityGroups
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let securityGroups = dictionary["SecurityGroups"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroups") }
+            self.securityGroups = securityGroups
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
+    }
+
+    public struct LoadBalancerAttribute: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
+        /// The value of the attribute.
+        public let value: String?
+        /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
+        public let key: String?
+
+        public init(value: String? = nil, key: String? = nil) {
+            self.value = value
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+        }
+    }
+
+    public struct DescribeLoadBalancerAttributesInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
+        ]
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String
+
+        public init(loadBalancerArn: String) {
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
+            self.loadBalancerArn = loadBalancerArn
+        }
+    }
+
+    public struct DescribeTagsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagDescriptions", required: false, type: .list)
+        ]
+        /// Information about the tags.
+        public let tagDescriptions: [TagDescription]?
+
+        public init(tagDescriptions: [TagDescription]? = nil) {
+            self.tagDescriptions = tagDescriptions
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tagDescriptions = dictionary["TagDescriptions"] as? [[String: Any]] {
+                self.tagDescriptions = try tagDescriptions.map({ try TagDescription(dictionary: $0) })
+            } else { 
+                self.tagDescriptions = nil
+            }
+        }
+    }
+
+    public struct DescribeListenersInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "ListenerArns", required: false, type: .list), 
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "LoadBalancerArn", required: false, type: .string)
+        ]
+        /// The maximum number of results to return with this call.
+        public let pageSize: Int32?
+        /// The Amazon Resource Names (ARN) of the listeners.
+        public let listenerArns: [String]?
+        /// The marker for the next set of results. (You received this marker from a previous call.)
+        public let marker: String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public let loadBalancerArn: String?
+
+        public init(pageSize: Int32? = nil, listenerArns: [String]? = nil, marker: String? = nil, loadBalancerArn: String? = nil) {
+            self.pageSize = pageSize
+            self.listenerArns = listenerArns
+            self.marker = marker
+            self.loadBalancerArn = loadBalancerArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.listenerArns = dictionary["ListenerArns"] as? [String]
+            self.marker = dictionary["Marker"] as? String
+            self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
+        }
+    }
+
+    public struct DeleteListenerOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct CreateTargetGroupOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
+        ]
+        /// Information about the target group.
+        public let targetGroups: [TargetGroup]?
+
+        public init(targetGroups: [TargetGroup]? = nil) {
+            self.targetGroups = targetGroups
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
+                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            } else { 
+                self.targetGroups = nil
+            }
+        }
+    }
+
     public struct Certificate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1345,43 +1819,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct CreateRuleInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Priority", required: true, type: .integer), 
-            AWSShapeProperty(label: "Actions", required: true, type: .list), 
-            AWSShapeProperty(label: "Conditions", required: true, type: .list), 
-            AWSShapeProperty(label: "ListenerArn", required: true, type: .string)
-        ]
-        /// The priority for the rule. A listener can't have multiple rules with the same priority.
-        public let priority: Int32
-        /// An action. Each action has the type forward and specifies a target group.
-        public let actions: [Action]
-        /// A condition. Each condition has the field path-pattern and specifies one path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public let conditions: [RuleCondition]
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String
-
-        public init(priority: Int32, actions: [Action], conditions: [RuleCondition], listenerArn: String) {
-            self.priority = priority
-            self.actions = actions
-            self.conditions = conditions
-            self.listenerArn = listenerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let priority = dictionary["Priority"] as? Int32 else { throw InitializableError.missingRequiredParam("Priority") }
-            self.priority = priority
-            guard let actions = dictionary["Actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Actions") }
-            self.actions = try actions.map({ try Action(dictionary: $0) })
-            guard let conditions = dictionary["Conditions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Conditions") }
-            self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
-            guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
-            self.listenerArn = listenerArn
-        }
-    }
-
     public struct TargetHealth: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1429,7 +1866,7 @@ extension Elasticloadbalancingv2 {
         ]
         /// The protocol for connections from clients to the load balancer.
         public let `protocol`: ProtocolEnum?
-        /// The security policy that defines which ciphers and protocols are supported.
+        /// The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide.
         public let sslPolicy: String?
         /// The SSL server certificate.
         public let certificates: [Certificate]?
@@ -1468,67 +1905,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct SetSubnetsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerArn", required: true, type: .string)
-        ]
-        /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
-        public let subnets: [String]
-        /// The Amazon Resource Name (ARN) of the load balancer.
-        public let loadBalancerArn: String
-
-        public init(subnets: [String], loadBalancerArn: String) {
-            self.subnets = subnets
-            self.loadBalancerArn = loadBalancerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
-            self.subnets = subnets
-            guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
-            self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct DeleteRuleOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct DescribeTargetHealthInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "TargetGroupArn", required: true, type: .string)
-        ]
-        /// The targets.
-        public let targets: [TargetDescription]?
-        /// The Amazon Resource Name (ARN) of the target group.
-        public let targetGroupArn: String
-
-        public init(targets: [TargetDescription]? = nil, targetGroupArn: String) {
-            self.targets = targets
-            self.targetGroupArn = targetGroupArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
-            self.targetGroupArn = targetGroupArn
-        }
-    }
-
     public struct Cipher: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1549,29 +1925,6 @@ extension Elasticloadbalancingv2 {
         public init(dictionary: [String: Any]) throws {
             self.priority = dictionary["Priority"] as? Int32
             self.name = dictionary["Name"] as? String
-        }
-    }
-
-    public struct TargetGroupAttribute: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
-        ]
-        /// The value of the attribute.
-        public let value: String?
-        /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
-        public let key: String?
-
-        public init(value: String? = nil, key: String? = nil) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
         }
     }
 
@@ -1600,7 +1953,7 @@ extension Elasticloadbalancingv2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "HttpCode", required: true, type: .string)
         ]
-        /// The HTTP codes. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
+        /// The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
         public let httpCode: String
 
         public init(httpCode: String) {
@@ -1610,25 +1963,6 @@ extension Elasticloadbalancingv2 {
         public init(dictionary: [String: Any]) throws {
             guard let httpCode = dictionary["HttpCode"] as? String else { throw InitializableError.missingRequiredParam("HttpCode") }
             self.httpCode = httpCode
-        }
-    }
-
-    public struct DeleteRuleInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
-        ]
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String
-
-        public init(ruleArn: String) {
-            self.ruleArn = ruleArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
-            self.ruleArn = ruleArn
         }
     }
 
@@ -1660,28 +1994,27 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DescribeTagsInput: AWSShape {
+    public struct Limit: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArns", required: true, type: .list)
+            AWSShapeProperty(label: "Max", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string)
         ]
-        /// The Amazon Resource Names (ARN) of the resources.
-        public let resourceArns: [String]
+        /// The maximum value of the limit.
+        public let max: String?
+        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   rules-per-application-load-balancer   target-groups   targets-per-application-load-balancer  
+        public let name: String?
 
-        public init(resourceArns: [String]) {
-            self.resourceArns = resourceArns
+        public init(max: String? = nil, name: String? = nil) {
+            self.max = max
+            self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
-            self.resourceArns = resourceArns
+            self.max = dictionary["Max"] as? String
+            self.name = dictionary["Name"] as? String
         }
-    }
-
-    public enum LoadBalancerTypeEnum: String, CustomStringConvertible {
-        case application = "application"
-        public var description: String { return self.rawValue }
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
@@ -1712,28 +2045,6 @@ extension Elasticloadbalancingv2 {
         public var description: String { return self.rawValue }
     }
 
-    public struct DescribeTargetGroupAttributesOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
-        ]
-        /// Information about the target group attributes
-        public let attributes: [TargetGroupAttribute]?
-
-        public init(attributes: [TargetGroupAttribute]? = nil) {
-            self.attributes = attributes
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-        }
-    }
-
     public struct DescribeLoadBalancersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1745,7 +2056,7 @@ extension Elasticloadbalancingv2 {
         ]
         /// The maximum number of results to return with this call.
         public let pageSize: Int32?
-        /// The Amazon Resource Names (ARN) of the load balancers.
+        /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
         public let loadBalancerArns: [String]?
         /// The names of the load balancers.
         public let names: [String]?
@@ -1764,14 +2075,6 @@ extension Elasticloadbalancingv2 {
             self.loadBalancerArns = dictionary["LoadBalancerArns"] as? [String]
             self.names = dictionary["Names"] as? [String]
             self.marker = dictionary["Marker"] as? String
-        }
-    }
-
-    public struct RemoveTagsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -1797,99 +2100,11 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct ModifyRuleInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Actions", required: false, type: .list), 
-            AWSShapeProperty(label: "Conditions", required: false, type: .list), 
-            AWSShapeProperty(label: "RuleArn", required: true, type: .string)
-        ]
-        /// The actions.
-        public let actions: [Action]?
-        /// The conditions.
-        public let conditions: [RuleCondition]?
-        /// The Amazon Resource Name (ARN) of the rule.
-        public let ruleArn: String
-
-        public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
-            self.actions = actions
-            self.conditions = conditions
-            self.ruleArn = ruleArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let actions = dictionary["Actions"] as? [[String: Any]] {
-                self.actions = try actions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.actions = nil
-            }
-            if let conditions = dictionary["Conditions"] as? [[String: Any]] {
-                self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
-            } else { 
-                self.conditions = nil
-            }
-            guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
-            self.ruleArn = ruleArn
-        }
-    }
-
     public struct DeregisterTargetsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct TargetDescription: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
-        ]
-        /// The port on which the target is listening.
-        public let port: Int32?
-        /// The ID of the target.
-        public let id: String
-
-        public init(port: Int32? = nil, id: String) {
-            self.port = port
-            self.id = id
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.port = dictionary["Port"] as? Int32
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-        }
-    }
-
-    public struct DescribeListenersOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Listeners", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// Information about the listeners.
-        public let listeners: [Listener]?
-        /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public let nextMarker: String?
-
-        public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
-            self.listeners = listeners
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
@@ -1918,29 +2133,6 @@ extension Elasticloadbalancingv2 {
         }
     }
 
-    public struct DescribeRulesInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RuleArns", required: false, type: .list), 
-            AWSShapeProperty(label: "ListenerArn", required: false, type: .string)
-        ]
-        /// The Amazon Resource Names (ARN) of the rules.
-        public let ruleArns: [String]?
-        /// The Amazon Resource Name (ARN) of the listener.
-        public let listenerArn: String?
-
-        public init(ruleArns: [String]? = nil, listenerArn: String? = nil) {
-            self.ruleArns = ruleArns
-            self.listenerArn = listenerArn
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.ruleArns = dictionary["RuleArns"] as? [String]
-            self.listenerArn = dictionary["ListenerArn"] as? String
-        }
-    }
-
     public struct DescribeTargetHealthOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1959,55 +2151,6 @@ extension Elasticloadbalancingv2 {
                 self.targetHealthDescriptions = try targetHealthDescriptions.map({ try TargetHealthDescription(dictionary: $0) })
             } else { 
                 self.targetHealthDescriptions = nil
-            }
-        }
-    }
-
-    public enum ActionTypeEnum: String, CustomStringConvertible {
-        case forward = "forward"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct ModifyListenerOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Listeners", required: false, type: .list)
-        ]
-        /// Information about the modified listeners.
-        public let listeners: [Listener]?
-
-        public init(listeners: [Listener]? = nil) {
-            self.listeners = listeners
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let listeners = dictionary["Listeners"] as? [[String: Any]] {
-                self.listeners = try listeners.map({ try Listener(dictionary: $0) })
-            } else { 
-                self.listeners = nil
-            }
-        }
-    }
-
-    public struct SetSubnetsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list)
-        ]
-        /// Information about the subnet and Availability Zone.
-        public let availabilityZones: [AvailabilityZone]?
-
-        public init(availabilityZones: [AvailabilityZone]? = nil) {
-            self.availabilityZones = availabilityZones
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
-                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
-            } else { 
-                self.availabilityZones = nil
             }
         }
     }
@@ -2062,7 +2205,7 @@ extension Elasticloadbalancingv2 {
         public let vpcId: String
         /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
         public let healthCheckProtocol: ProtocolEnum?
-        /// The name of the target group.
+        /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
         public let name: String
         /// The protocol to use for routing traffic to the targets.
         public let `protocol`: ProtocolEnum
@@ -2121,14 +2264,6 @@ extension Elasticloadbalancingv2 {
         public var description: String { return self.rawValue }
     }
 
-    public struct DeleteTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
     public struct DeleteLoadBalancerInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2145,28 +2280,6 @@ extension Elasticloadbalancingv2 {
         public init(dictionary: [String: Any]) throws {
             guard let loadBalancerArn = dictionary["LoadBalancerArn"] as? String else { throw InitializableError.missingRequiredParam("LoadBalancerArn") }
             self.loadBalancerArn = loadBalancerArn
-        }
-    }
-
-    public struct ModifyTargetGroupOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetGroups", required: false, type: .list)
-        ]
-        /// Information about the target group.
-        public let targetGroups: [TargetGroup]?
-
-        public init(targetGroups: [TargetGroup]? = nil) {
-            self.targetGroups = targetGroups
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
-                self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
-            } else { 
-                self.targetGroups = nil
-            }
         }
     }
 
@@ -2189,31 +2302,6 @@ extension Elasticloadbalancingv2 {
             } else { 
                 self.loadBalancers = nil
             }
-        }
-    }
-
-    public struct RemoveTagsInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArns", required: true, type: .list), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
-        ]
-        /// The Amazon Resource Name (ARN) of the resource.
-        public let resourceArns: [String]
-        /// The tag keys for the tags to remove.
-        public let tagKeys: [String]
-
-        public init(resourceArns: [String], tagKeys: [String]) {
-            self.resourceArns = resourceArns
-            self.tagKeys = tagKeys
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["ResourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("ResourceArns") }
-            self.resourceArns = resourceArns
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
         }
     }
 

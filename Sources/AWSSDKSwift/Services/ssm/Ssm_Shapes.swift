@@ -39,7 +39,7 @@ extension Ssm {
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// Each element in the array is a structure containing:  Key: (string, “NAME_PREFIX” or “OWNER”) Value: (array of strings, exactly 1 entry, 1 ≤ length ≤ 255)
+        /// Each element in the array is a structure containing:  Key: (string, "NAME_PREFIX" or "OWNER") Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patch baselines to return (per page).
         public let maxResults: Int32?
@@ -70,7 +70,7 @@ extension Ssm {
         ]
         /// A list of activations for your AWS account.
         public let activationList: [Activation]?
-        ///  The token for the next set of items to return. Use this token to get the next set of results. 
+        /// The token for the next set of items to return. Use this token to get the next set of results. 
         public let nextToken: String?
 
         public init(activationList: [Activation]? = nil, nextToken: String? = nil) {
@@ -190,6 +190,30 @@ extension Ssm {
         }
     }
 
+    public struct GetParameterRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
+        public let withDecryption: Bool?
+        /// The name of the parameter you want to query.
+        public let name: String
+
+        public init(withDecryption: Bool? = nil, name: String) {
+            self.withDecryption = withDecryption
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.withDecryption = dictionary["WithDecryption"] as? Bool
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
+    }
+
     public struct InventoryItemList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -222,21 +246,22 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .enum), 
+            AWSShapeProperty(label: "Key", required: true, type: .enum), 
             AWSShapeProperty(label: "Values", required: true, type: .list)
         ]
         /// The name of the filter.
-        public let key: ParametersFilterKey?
+        public let key: ParametersFilterKey
         /// The filter values.
         public let values: [String]
 
-        public init(key: ParametersFilterKey? = nil, values: [String]) {
+        public init(key: ParametersFilterKey, values: [String]) {
             self.key = key
             self.values = values
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let key = dictionary["Key"] as? String { self.key = ParametersFilterKey(rawValue: key) } else { self.key = nil }
+            guard let rawKey = dictionary["Key"] as? String, let key = ParametersFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
             guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
             self.values = values
         }
@@ -266,7 +291,7 @@ extension Ssm {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TypeName", required: true, type: .string)
         ]
-        /// Name of the inventory item type. Valid value: “AWS:InstanceInformation”. Default Value: “AWS:InstanceInformation”.
+        /// Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
         public let typeName: String
 
         public init(typeName: String) {
@@ -286,7 +311,7 @@ extension Ssm {
             AWSShapeProperty(label: "Mappings", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
-        /// Each entry in the array contains: PatchGroup: string (1 ≤ length ≤ 256, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$) PatchBaselineIdentity: A PatchBaselineIdentity element. 
+        /// Each entry in the array contains: PatchGroup: string (between 1 and 256 characters, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$) PatchBaselineIdentity: A PatchBaselineIdentity element. 
         public let mappings: [PatchGroupPatchBaselineMapping]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -368,6 +393,43 @@ extension Ssm {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.documentVersion = dictionary["DocumentVersion"] as? String
+        }
+    }
+
+    public struct FailureDetails: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FailureType", required: false, type: .string), 
+            AWSShapeProperty(label: "Details", required: false, type: .map), 
+            AWSShapeProperty(label: "FailureStage", required: false, type: .string)
+        ]
+        /// The type of Automation failure. Failure types include the following: Action, Permission, Throttling, Verification, Internal.
+        public let failureType: String?
+        /// Detailed information about the Automation step failure.
+        public let details: [String: [String]]?
+        /// The stage of the Automation execution when the failure occurred. The stages include the following: InputValidation, PreVerification, Invocation, PostVerification.
+        public let failureStage: String?
+
+        public init(failureType: String? = nil, details: [String: [String]]? = nil, failureStage: String? = nil) {
+            self.failureType = failureType
+            self.details = details
+            self.failureStage = failureStage
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.failureType = dictionary["FailureType"] as? String
+            if let details = dictionary["Details"] as? [String: Any] {
+                var detailsDict: [String: [String]] = [:]
+                for (key, value) in details {
+                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
+                    detailsDict[key] = automationParameterValueList
+                }
+                self.details = detailsDict
+            } else { 
+                self.details = nil
+            }
+            self.failureStage = dictionary["FailureStage"] as? String
         }
     }
 
@@ -477,7 +539,7 @@ extension Ssm {
             AWSShapeProperty(label: "GlobalFilters", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// Caller-provided idempotency token.
+        /// User-provided idempotency token.
         public let clientToken: String?
         /// A list of explicitly approved patches for the baseline.
         public let approvedPatches: [String]?
@@ -567,7 +629,7 @@ extension Ssm {
             AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
-        /// Each entry in the array is a structure containing: Key (string, 1 ≤ length ≤ 128) Values (array of strings 1 ≤ length ≤ 256)
+        /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string between 1 and 256 characters)
         public let filters: [PatchOrchestratorFilter]?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -618,6 +680,25 @@ extension Ssm {
             self.windowId = windowId
             guard let windowTargetId = dictionary["WindowTargetId"] as? String else { throw InitializableError.missingRequiredParam("WindowTargetId") }
             self.windowTargetId = windowTargetId
+        }
+    }
+
+    public struct DeleteResourceDataSyncRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SyncName", required: true, type: .string)
+        ]
+        /// The name of the configuration to delete.
+        public let syncName: String
+
+        public init(syncName: String) {
+            self.syncName = syncName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let syncName = dictionary["SyncName"] as? String else { throw InitializableError.missingRequiredParam("SyncName") }
+            self.syncName = syncName
         }
     }
 
@@ -716,25 +797,25 @@ extension Ssm {
         public let notificationConfig: NotificationConfig?
         /// User-specified information about the command, such as a brief description of what the command should do.
         public let comment: String?
-        /// (Optional) An array of search criteria that targets instances using a Key;Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use Targets, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use Targets, see Sending Commands to a Fleet.
         public let targets: [Target]?
         /// The directory structure within the S3 bucket where the responses should be stored.
         public let outputS3KeyPrefix: String?
-        /// (Optional) The region where the Amazon Simple Storage Service (Amazon S3) output bucket is located. The default value is the region where Run Command is being called.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
         public let documentHashType: DocumentHashType?
-        /// Required. The instance IDs where the command should execute. You can specify a maximum of 50 IDs.
+        /// The instance IDs where the command should execute. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use Targets, see Sending Commands to a Fleet.
         public let instanceIds: [String]?
-        /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like “10” or a percentage like “10%”. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 50. For more information about how to use MaxErrors, see Using Error Controls.
         public let maxErrors: String?
-        /// The required and optional parameters specified in the SSM document being executed.
+        /// The required and optional parameters specified in the document being executed.
         public let parameters: [String: [String]]?
-        /// Required. The name of the SSM document to execute. This can be an SSM public document or a custom document.
+        /// Required. The name of the Systems Manager document to execute. This can be a public document or a custom document.
         public let documentName: String
         /// The Sha256 or Sha1 hash created by the system when the document was created.   Sha1 hashes have been deprecated. 
         public let documentHash: String?
-        /// (Optional) The maximum number of instances that are allowed to execute the command at the same time. You can specify a number such as “10” or a percentage such as “10%”. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// (Optional) The maximum number of instances that are allowed to execute the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using Concurrency Controls.
         public let maxConcurrency: String?
         /// If this time is reached and the command has not already started executing, it will not execute.
         public let timeoutSeconds: Int32?
@@ -838,7 +919,7 @@ extension Ssm {
         public let responseStartDateTime: String?
         /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
         public let responseFinishDateTime: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript   test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-1234567876543 is the instance ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent. 
         public let name: String?
@@ -848,13 +929,13 @@ extension Ssm {
         public let standardErrorUrl: String?
         /// The URL for the complete text written by the plugin to stdout in Amazon S3. If the Amazon S3 bucket for the command was not specified, then this string is empty.
         public let standardOutputUrl: String?
-        /// The name of the region where the output is stored in Amazon S3.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript   test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-1234567876543 is the instance ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
         /// A numeric response code generated after executing the plugin. 
         public let responseCode: Int32?
-        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:   Pending – The command has not been sent to the instance.   In Progress – The command has been sent to the instance but has not reached a terminal state.   Success – The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out – The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command’s MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out – Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed – The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Undeliverable – The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command’s MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated – The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
         public init(status: CommandPluginStatus? = nil, responseStartDateTime: String? = nil, responseFinishDateTime: String? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
@@ -1140,7 +1221,7 @@ extension Ssm {
         public let notificationConfig: NotificationConfig?
         /// The number of targets for which the command invocation reached a terminal state. Terminal states include the following: Success, Failed, Execution Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
         public let completedCount: Int32?
-        /// An array of search criteria that targets instances using a Key;Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+        /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
         public let targets: [Target]?
         /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public let outputS3KeyPrefix: String?
@@ -1148,7 +1229,7 @@ extension Ssm {
         public let comment: String?
         /// The IAM service role that Run Command uses to act on your behalf when sending notifications about command status changes. 
         public let serviceRole: String?
-        /// The region where the Amazon Simple Storage Service (Amazon S3) output bucket is located. The default value is the region where Run Command is being called.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
         /// The instance IDs against which this command was requested.
         public let instanceIds: [String]?
@@ -1156,15 +1237,15 @@ extension Ssm {
         public let targetCount: Int32?
         /// The status of the command.
         public let status: CommandStatus?
-        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Systems Manager Run Command.
         public let maxErrors: String?
         /// The date and time the command was requested.
         public let requestedDateTime: String?
-        /// The parameter values to be inserted in the SSM document when executing the command.
+        /// The parameter values to be inserted in the document when executing the command.
         public let parameters: [String: [String]]?
-        /// The name of the SSM document requested for execution.
+        /// The name of the document requested for execution.
         public let documentName: String?
-        /// The maximum number of instances that are allowed to execute the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows). 
+        /// The maximum number of instances that are allowed to execute the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Systems Manager Run Command.
         public let maxConcurrency: String?
         /// If this time is reached and the command has not already started executing, it will not execute. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
         public let expiresAfter: String?
@@ -1172,7 +1253,7 @@ extension Ssm {
         public let errorCount: Int32?
         /// A unique identifier for this command.
         public let commandId: String?
-        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:   Pending – The command has not been sent to any instances.   In Progress – The command has been sent to at least one instance but has not reached a final state on all instances.   Success – The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out – The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out – The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed – The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete – The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Rate Exceeded – The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
+        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
         public let statusDetails: String?
 
         public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: String? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: String? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
@@ -1256,15 +1337,15 @@ extension Ssm {
         public let parameters: [String: [String]]?
         /// The instance ID.
         public let instanceId: String?
-        /// The name of the SSM document.
+        /// The name of the Systems Manager document.
         public let name: String
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
         public let documentVersion: String?
-        /// The targets (either instances or tags) for the association. Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
+        /// The targets (either instances or tags) for the association.
         public let targets: [Target]?
-        /// An Amazon S3 bucket where you want to store the output details of the request. For example:  "{ \"S3Location\": { \"OutputS3Region\": \"&lt;region&gt;\", \"OutputS3BucketName\": \"bucket name\", \"OutputS3KeyPrefix\": \"folder name\" } }" 
+        /// An Amazon S3 bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
-        /// A cron expression when the association will be applied to the target(s). Supported expressions are every half, 1, 2, 4, 8 or 12 hour(s); every specified day and time of the week. For example: cron(0 0/30 * 1/1 * ? *) to run every thirty minutes; cron(0 0 0/4 1/1 * ? *) to run every four hours; and cron(0 0 10 ? * SUN *) to run every Sunday at 10 a.m.
+        /// A cron expression when the association will be applied to the target(s).
         public let scheduleExpression: String?
 
         public init(parameters: [String: [String]]? = nil, instanceId: String? = nil, name: String, documentVersion: String? = nil, targets: [Target]? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, scheduleExpression: String? = nil) {
@@ -1823,6 +1904,24 @@ extension Ssm {
         }
     }
 
+    public struct GetParameterResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Parameter", required: false, type: .structure)
+        ]
+        /// Information about a parameter.
+        public let parameter: Parameter?
+
+        public init(parameter: Parameter? = nil) {
+            self.parameter = parameter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let parameter = dictionary["Parameter"] as? [String: Any] { self.parameter = try Ssm.Parameter(dictionary: parameter) } else { self.parameter = nil }
+        }
+    }
+
     public struct MaintenanceWindowFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1965,7 +2064,7 @@ extension Ssm {
         ]
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: String?
-        /// Indicates whether latest version of the SSM agent is running on your instance. 
+        /// Indicates whether latest version of the SSM Agent is running on your instance. 
         public let isLatestVersion: Bool?
         /// Information about the association.
         public let associationOverview: InstanceAggregatedAssociationOverview?
@@ -1985,13 +2084,13 @@ extension Ssm {
         public let iamRole: String?
         /// The name of the operating system platform running on your instance. 
         public let platformName: String?
-        /// The version of the SSM agent running on your Linux instance. 
+        /// The version of the SSM Agent running on your Linux instance. 
         public let agentVersion: String?
         /// The name of the managed instance.
         public let name: String?
         /// The instance ID. 
         public let instanceId: String?
-        /// Connection status of the SSM agent. 
+        /// Connection status of the SSM Agent. 
         public let pingStatus: PingStatus?
         /// The date the server or VM was registered with AWS as a managed instance.
         public let registrationDate: String?
@@ -2179,7 +2278,7 @@ extension Ssm {
         public let notificationConfig: NotificationConfig?
         /// User-specified information about the command, such as a brief description of what the command should do.
         public let comment: String?
-        /// The URL to the plugin’s StdOut file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardOutputUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
+        /// The URL to the plugin's StdOut file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardOutputUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
         public let standardOutputUrl: String?
         /// The IAM service role that Run Command uses to act on your behalf when sending notifications about command status changes on a per instance basis.
         public let serviceRole: String?
@@ -2195,11 +2294,11 @@ extension Ssm {
         public let instanceId: String?
         /// The document name that was requested for execution.
         public let documentName: String?
-        /// The URL to the plugin’s StdErr file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
+        /// The URL to the plugin's StdErr file in Amazon S3, if the Amazon S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the Amazon S3 bucket was defined for the command.
         public let standardErrorUrl: String?
         /// The command against which this invocation was requested.
         public let commandId: String?
-        /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:    Pending – The command has not been sent to the instance.   In Progress – The command has been sent to the instance but has not reached a terminal state.   Success – The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out – The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command’s MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out – Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed – The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Undeliverable – The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command’s MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated – The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
         public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: String? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
@@ -2242,6 +2341,14 @@ extension Ssm {
     }
 
     public struct DeregisterManagedInstanceResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct DeleteResourceDataSyncResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
@@ -2484,6 +2591,33 @@ extension Ssm {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListResourceDataSyncResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ResourceDataSyncItems", required: false, type: .list)
+        ]
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A list of your current Resource Data Sync configurations and their statuses.
+        public let resourceDataSyncItems: [ResourceDataSyncItem]?
+
+        public init(nextToken: String? = nil, resourceDataSyncItems: [ResourceDataSyncItem]? = nil) {
+            self.nextToken = nextToken
+            self.resourceDataSyncItems = resourceDataSyncItems
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            if let resourceDataSyncItems = dictionary["ResourceDataSyncItems"] as? [[String: Any]] {
+                self.resourceDataSyncItems = try resourceDataSyncItems.map({ try ResourceDataSyncItem(dictionary: $0) })
+            } else { 
+                self.resourceDataSyncItems = nil
+            }
+        }
+    }
+
     public struct Target: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2491,9 +2625,9 @@ extension Ssm {
             AWSShapeProperty(label: "Key", required: false, type: .string), 
             AWSShapeProperty(label: "Values", required: false, type: .list)
         ]
-        /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or name:&lt;Amazon EC2 instance ID&gt;. For example, tag:ServerRole or name:0123456789012345. For more information about how to send commands that target instances using Key;Value parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command.
         public let key: String?
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key;Value parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command.
         public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
@@ -2659,7 +2793,7 @@ extension Ssm {
             AWSShapeProperty(label: "Key", required: true, type: .string), 
             AWSShapeProperty(label: "Values", required: true, type: .structure)
         ]
-        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|”AssociationStatus”|”Tag Key”
+        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"
         public let key: String
         /// The filter values.
         public let values: InstanceInformationFilterValueSet
@@ -2683,7 +2817,7 @@ extension Ssm {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
-        /// The name of the SSM document.
+        /// The name of the document.
         public let name: String
 
         public init(name: String) {
@@ -3004,7 +3138,7 @@ extension Ssm {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
-        /// Each entry in the array is a structure containing: Key (string 1 ≤ length ≤ 200)  Values (array containing a single string)  Type (string “Equal”, “NotEqual”, “LessThan”, “GreaterThan”)
+        /// Each entry in the array is a structure containing: Key (string between 1 and 200 characters)  Values (array containing a single string)  Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
         public let filters: [InstancePatchStateFilter]?
         /// The name of the patch group for which the patch state information should be retrieved.
         public let patchGroup: String
@@ -3192,6 +3326,33 @@ extension Ssm {
         }
     }
 
+    public struct GetParametersByPathResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        ]
+        /// A list of parameters found in the specified hierarchy.
+        public let parameters: [Parameter]?
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+
+        public init(parameters: [Parameter]? = nil, nextToken: String? = nil) {
+            self.parameters = parameters
+            self.nextToken = nextToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
+                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
+            }
+            self.nextToken = dictionary["NextToken"] as? String
+        }
+    }
+
     public struct Patch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3214,7 +3375,7 @@ extension Ssm {
         public let classification: String?
         /// The specific product the patch is applicable for (for example, WindowsServer2016).
         public let product: String?
-        /// The language of the patch if it’s language-specific.
+        /// The language of the patch if it's language-specific.
         public let language: String?
         /// The date the patch was released.
         public let releaseDate: String?
@@ -3434,9 +3595,9 @@ extension Ssm {
         ]
         /// A description of the parameters for a document. 
         public let parameters: [String: [String]]?
-        ///  The ID of the instance. 
+        /// The ID of the instance. 
         public let instanceId: String?
-        ///  The name of the configuration document. 
+        /// The name of the configuration document. 
         public let name: String
         /// The document version.
         public let documentVersion: String?
@@ -3514,6 +3675,42 @@ extension Ssm {
         }
     }
 
+    public struct ResourceDataSyncS3Destination: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BucketName", required: true, type: .string), 
+            AWSShapeProperty(label: "SyncFormat", required: true, type: .enum), 
+            AWSShapeProperty(label: "Region", required: true, type: .string), 
+            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+        ]
+        /// The name of the Amazon S3 bucket where the aggregated data is stored.
+        public let bucketName: String
+        /// A supported sync format. The following format is currently supported: JsonSerDe
+        public let syncFormat: ResourceDataSyncS3Format
+        /// The AWS Region with the Amazon S3 bucket targeted by the Resource Data Sync.
+        public let region: String
+        /// An Amazon S3 prefix for the bucket.
+        public let prefix: String?
+
+        public init(bucketName: String, syncFormat: ResourceDataSyncS3Format, region: String, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.syncFormat = syncFormat
+            self.region = region
+            self.prefix = prefix
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
+            self.bucketName = bucketName
+            guard let rawSyncFormat = dictionary["SyncFormat"] as? String, let syncFormat = ResourceDataSyncS3Format(rawValue: rawSyncFormat) else { throw InitializableError.missingRequiredParam("SyncFormat") }
+            self.syncFormat = syncFormat
+            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
+            self.region = region
+            self.prefix = dictionary["Prefix"] as? String
+        }
+    }
+
     public struct InstanceInformationFilterList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3542,6 +3739,7 @@ extension Ssm {
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "LastModifiedUser", required: false, type: .string), 
@@ -3553,6 +3751,8 @@ extension Ssm {
         public let name: String?
         /// Date the parameter was last changed or updated.
         public let lastModifiedDate: String?
+        /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
+        public let allowedPattern: String?
         /// The type of parameter used.
         public let `type`: ParameterType?
         /// The parameter value.
@@ -3562,10 +3762,11 @@ extension Ssm {
         /// Information about the parameter.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: String? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
+            self.allowedPattern = allowedPattern
             self.`type` = `type`
             self.value = value
             self.lastModifiedUser = lastModifiedUser
@@ -3576,6 +3777,7 @@ extension Ssm {
             self.keyId = dictionary["KeyId"] as? String
             self.name = dictionary["Name"] as? String
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.allowedPattern = dictionary["AllowedPattern"] as? String
             if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.value = dictionary["Value"] as? String
             self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
@@ -3615,6 +3817,11 @@ extension Ssm {
         case invokedafter = "InvokedAfter"
         case invokedbefore = "InvokedBefore"
         case status = "Status"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceDataSyncS3Format: String, CustomStringConvertible {
+        case jsonserde = "JsonSerDe"
         public var description: String { return self.rawValue }
     }
 
@@ -3685,13 +3892,13 @@ extension Ssm {
         public let sha1: String?
         /// The default version.
         public let defaultVersion: String?
-        ///  The date when the SSM document was created. 
+        /// The date when the document was created.
         public let createdDate: String?
         /// The AWS user account of the person who created the document.
         public let owner: String?
         /// The type of document. 
         public let documentType: DocumentType?
-        ///  A description of the document. 
+        /// A description of the document. 
         public let description: String?
         /// The status of the SSM document.
         public let status: DocumentStatus?
@@ -3796,6 +4003,14 @@ extension Ssm {
             self.key = key
             guard let valueSet = dictionary["valueSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("valueSet") }
             self.valueSet = try Ssm.InstanceInformationFilterValueSet(dictionary: valueSet)
+        }
+    }
+
+    public struct CreateResourceDataSyncResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -3910,9 +4125,9 @@ extension Ssm {
             AWSShapeProperty(label: "key", required: true, type: .enum), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
-        /// The name of the filter. For example, requested date and time.
+        /// The name of the filter.
         public let key: CommandFilterKey
-        /// The filter value. For example: June 30, 2015.
+        /// The filter value. 
         public let value: String
 
         public init(key: CommandFilterKey, value: String) {
@@ -3943,7 +4158,7 @@ extension Ssm {
         ]
         /// A valid JSON string.
         public let content: String
-        /// A name for the SSM document.
+        /// A name for the Systems Manager document.
         public let name: String
         /// The type of document to create. Valid document types include: Policy, Automation, and Command.
         public let documentType: DocumentType?
@@ -4111,7 +4326,7 @@ extension Ssm {
         ]
         /// The ID of the Maintenance Window whose executions should be retrieved.
         public let windowId: String
-        /// Each entry in the array is a structure containing: Key (string, 1 ≤ length ≤ 128) Values (array of strings 1 ≤ length ≤ 256) The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
+        /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string is between 1 and 256 characters) The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
         public let filters: [MaintenanceWindowFilter]?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4135,6 +4350,29 @@ extension Ssm {
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
+        }
+    }
+
+    public struct DeleteParametersResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "InvalidParameters", required: false, type: .list), 
+            AWSShapeProperty(label: "DeletedParameters", required: false, type: .list)
+        ]
+        /// The names of parameters that weren't deleted because the parameters are not valid.
+        public let invalidParameters: [String]?
+        /// The names of the deleted parameters.
+        public let deletedParameters: [String]?
+
+        public init(invalidParameters: [String]? = nil, deletedParameters: [String]? = nil) {
+            self.invalidParameters = invalidParameters
+            self.deletedParameters = deletedParameters
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.invalidParameters = dictionary["InvalidParameters"] as? [String]
+            self.deletedParameters = dictionary["DeletedParameters"] as? [String]
         }
     }
 
@@ -4191,40 +4429,45 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "LastModifiedUser", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// Date the parameter was last changed or updated.
-        public let lastModifiedDate: String?
         /// The ID of the query key used for this parameter.
         public let keyId: String?
-        /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
-        public let `type`: ParameterType?
         /// The parameter name.
         public let name: String?
+        /// Date the parameter was last changed or updated.
+        public let lastModifiedDate: String?
+        /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
+        public let allowedPattern: String?
+        /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
+        public let `type`: ParameterType?
         /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
         public let lastModifiedUser: String?
         /// Description of the parameter actions.
         public let description: String?
 
-        public init(lastModifiedDate: String? = nil, keyId: String? = nil, type: ParameterType? = nil, name: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
-            self.lastModifiedDate = lastModifiedDate
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: String? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
-            self.`type` = `type`
             self.name = name
+            self.lastModifiedDate = lastModifiedDate
+            self.allowedPattern = allowedPattern
+            self.`type` = `type`
             self.lastModifiedUser = lastModifiedUser
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
             self.keyId = dictionary["KeyId"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.name = dictionary["Name"] as? String
+            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
+            self.allowedPattern = dictionary["AllowedPattern"] as? String
+            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
             self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -4498,11 +4741,11 @@ extension Ssm {
         public let instanceId: String?
         /// The first 8,000 characters written by the plugin to stderr. If the command has not finished executing, then this string is empty.
         public let standardErrorContent: String?
-        /// The name of the SSM document that was executed. For example, AWS-RunShellScript is an SSM document.
+        /// The name of the document that was executed. For example, AWS-RunShellScript.
         public let documentName: String?
         /// The URL for the complete text written by the plugin to stderr. If the command has not finished executing, then this string is empty.
         public let standardErrorUrl: String?
-        /// The date and time the plugin was finished executing. Date and time are written in ISO 8601 format. For example, August 28, 2016 is represented as 2016-08-28. If the plugin has not started to execute, the string is empty.
+        /// The date and time the plugin was finished executing. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedAfter filter.  aws ssm list-commands --filters key=InvokedAfter,value=2017-06-07T00:00:00Z  If the plugin has not started to execute, the string is empty.
         public let executionEndDateTime: String?
         /// The error level response code for the plugin script. If the response code is -1, then the command has not started executing on the instance, or it was not received by the instance.
         public let responseCode: Int32?
@@ -4510,9 +4753,9 @@ extension Ssm {
         public let standardOutputContent: String?
         /// The parent command ID of the invocation plugin.
         public let commandId: String?
-        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Monitor Commands (Linux) or Monitor Commands (Windows). StatusDetails can be one of the following values:    Pending – The command has not been sent to the instance.   In Progress – The command has been sent to the instance but has not reached a terminal state.   Delayed – The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success – The command or plugin was executed successfully. This is a terminal state.   Delivery Timed Out – The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command’s MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out – The command started to execute on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed – The command wasn't executed successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled – The command was terminated before it was completed. This is a terminal state.   Undeliverable – The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command’s MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated – The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
+        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.   Success: The command or plugin was executed successfully. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to execute on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't executed successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
-        /// The date and time the plugin started executing. Date and time are written in ISO 8601 format. For example, August 28, 2016 is represented as 2016-08-28. If the plugin has not started to execute, the string is empty.
+        /// The date and time the plugin started executing. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample AWS CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin has not started to execute, the string is empty.
         public let executionStartDateTime: String?
 
         public init(pluginName: String? = nil, executionElapsedTime: String? = nil, comment: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, instanceId: String? = nil, standardErrorContent: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, executionEndDateTime: String? = nil, responseCode: Int32? = nil, standardOutputContent: String? = nil, commandId: String? = nil, statusDetails: String? = nil, executionStartDateTime: String? = nil) {
@@ -4801,13 +5044,13 @@ extension Ssm {
         public let instancesWithMissingPatches: Int32?
         /// The number of instances in the patch group.
         public let instances: Int32?
-        /// The number of instances with patches that aren’t applicable.
+        /// The number of instances with patches that aren't applicable.
         public let instancesWithNotApplicablePatches: Int32?
         /// The number of instances with installed patches.
         public let instancesWithInstalledPatches: Int32?
         /// The number of instances with patches from the patch baseline that failed to install.
         public let instancesWithFailedPatches: Int32?
-        /// The number of instances with patches installed that aren’t defined in the patch baseline.
+        /// The number of instances with patches installed that aren't defined in the patch baseline.
         public let instancesWithInstalledOtherPatches: Int32?
 
         public init(instancesWithMissingPatches: Int32? = nil, instances: Int32? = nil, instancesWithNotApplicablePatches: Int32? = nil, instancesWithInstalledPatches: Int32? = nil, instancesWithFailedPatches: Int32? = nil, instancesWithInstalledOtherPatches: Int32? = nil) {
@@ -5026,7 +5269,7 @@ extension Ssm {
         ]
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
         public let iamRole: String
-        /// A user-defined description of the resource that you want to register with Amazon EC2. 
+        /// A userdefined description of the resource that you want to register with Amazon EC2. 
         public let description: String?
         /// Specify the maximum number of managed instances you want to register. The default value is 1 instance.
         public let registrationLimit: Int32?
@@ -5222,7 +5465,7 @@ extension Ssm {
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// Each entry in the array is a structure containing: Title (string) KBId (string) Classification (string) Severity (string) State (string – “INSTALLED”, “INSTALLED_OTHER”, “MISSING”, “NOT_APPLICABLE”, “FAILED”) InstalledTime (DateTime) InstalledBy (string)
+        /// Each entry in the array is a structure containing: Title (string) KBId (string) Classification (string) Severity (string) State (string: "INSTALLED", "INSTALLED OTHER", "MISSING", "NOT APPLICABLE", "FAILED") InstalledTime (DateTime) InstalledBy (string)
         public let patches: [PatchComplianceData]?
 
         public init(nextToken: String? = nil, patches: [PatchComplianceData]? = nil) {
@@ -5615,33 +5858,40 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
             AWSShapeProperty(label: "AssociationId", required: true, type: .string), 
             AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeProperty(label: "Targets", required: false, type: .list), 
+            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string)
         ]
-        /// An Amazon S3 bucket where you want to store the results of this request.  "{ \"S3Location\": { \"OutputS3Region\": \"&lt;region&gt;\", \"OutputS3BucketName\": \"bucket name\", \"OutputS3KeyPrefix\": \"folder name\" } }" 
-        public let outputLocation: InstanceAssociationOutputLocation?
         /// The ID of the association you want to update. 
         public let associationId: String
         /// The parameters you want to update for the association. If you create a parameter using Parameter Store, you can reference the parameter using {{ssm:parameter-name}}
         public let parameters: [String: [String]]?
-        /// The cron expression used to schedule the association that you want to update. Supported expressions are every half, 1, 2, 4, 8 or 12 hour(s); every specified day and time of the week. For example: cron(0 0/30 * 1/1 * ? *) to run every thirty minutes; cron(0 0 0/4 1/1 * ? *) to run every four hours; and cron(0 0 10 ? * SUN *) to run every Sunday at 10 a.m.
-        public let scheduleExpression: String?
+        /// The name of the association document.
+        public let name: String?
         /// The document version you want update for the association. 
         public let documentVersion: String?
+        /// The targets of the association.
+        public let targets: [Target]?
+        /// An Amazon S3 bucket where you want to store the results of this request.
+        public let outputLocation: InstanceAssociationOutputLocation?
+        /// The cron expression used to schedule the association that you want to update.
+        public let scheduleExpression: String?
 
-        public init(outputLocation: InstanceAssociationOutputLocation? = nil, associationId: String, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, documentVersion: String? = nil) {
-            self.outputLocation = outputLocation
+        public init(associationId: String, parameters: [String: [String]]? = nil, name: String? = nil, documentVersion: String? = nil, targets: [Target]? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, scheduleExpression: String? = nil) {
             self.associationId = associationId
             self.parameters = parameters
-            self.scheduleExpression = scheduleExpression
+            self.name = name
             self.documentVersion = documentVersion
+            self.targets = targets
+            self.outputLocation = outputLocation
+            self.scheduleExpression = scheduleExpression
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
             guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
             self.associationId = associationId
             if let parameters = dictionary["Parameters"] as? [String: Any] {
@@ -5654,8 +5904,15 @@ extension Ssm {
             } else { 
                 self.parameters = nil
             }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+            self.name = dictionary["Name"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
+            if let targets = dictionary["Targets"] as? [[String: Any]] {
+                self.targets = try targets.map({ try Target(dictionary: $0) })
+            } else { 
+                self.targets = nil
+            }
+            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
+            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
         }
     }
 
@@ -5669,7 +5926,7 @@ extension Ssm {
         ]
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
-        /// (Optional) The name of the plugin for which you want detailed results. If the SSM document contains only one plugin, the name can be omitted and the details will be returned.
+        /// (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
         public let pluginName: String?
         /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an Amazon EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
         public let instanceId: String
@@ -5762,6 +6019,29 @@ extension Ssm {
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct ListResourceDataSyncRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// A token to start the list. Use this token to get the next set of results. 
+        public let nextToken: String?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int32?
+
+        public init(nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
 
@@ -5858,13 +6138,13 @@ extension Ssm {
         public let patchGroup: String
         /// The ID of the patch baseline used to patch the instance.
         public let baselineId: String
-        /// The number of patches from the patch baseline that are applicable for the instance but aren’t currently installed.
+        /// The number of patches from the patch baseline that are applicable for the instance but aren't currently installed.
         public let missingCount: Int32?
         /// The ID of the managed instance the high-level patch compliance information was collected for.
         public let instanceId: String
         /// The type of patching operation that was performed: SCAN (assess patch compliance state) or INSTALL (install missing patches).
         public let operation: PatchOperationType
-        /// The number of patches from the patch baseline that aren’t applicable for the instance and hence aren’t installed on the instance.
+        /// The number of patches from the patch baseline that aren't applicable for the instance and hence aren't installed on the instance.
         public let notApplicableCount: Int32?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
@@ -6144,6 +6424,7 @@ extension Ssm {
             AWSShapeProperty(label: "ExecutionEndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "StepName", required: false, type: .string), 
             AWSShapeProperty(label: "Action", required: false, type: .string), 
+            AWSShapeProperty(label: "FailureDetails", required: false, type: .structure), 
             AWSShapeProperty(label: "Inputs", required: false, type: .map), 
             AWSShapeProperty(label: "ExecutionStartTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Outputs", required: false, type: .map), 
@@ -6158,6 +6439,8 @@ extension Ssm {
         public let stepName: String?
         /// The action this step performs. The action determines the behavior of the step.
         public let action: String?
+        /// Information about the Automation failure.
+        public let failureDetails: FailureDetails?
         /// Fully-resolved values passed into the step before execution.
         public let inputs: [String: String]?
         /// If a step has begun execution, this contains the time the step started. If the step is in Pending status, this field is not populated.
@@ -6173,10 +6456,11 @@ extension Ssm {
         /// A message associated with the response code for an execution.
         public let response: String?
 
-        public init(executionEndTime: String? = nil, stepName: String? = nil, action: String? = nil, inputs: [String: String]? = nil, executionStartTime: String? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
+        public init(executionEndTime: String? = nil, stepName: String? = nil, action: String? = nil, failureDetails: FailureDetails? = nil, inputs: [String: String]? = nil, executionStartTime: String? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
             self.executionEndTime = executionEndTime
             self.stepName = stepName
             self.action = action
+            self.failureDetails = failureDetails
             self.inputs = inputs
             self.executionStartTime = executionStartTime
             self.outputs = outputs
@@ -6190,6 +6474,7 @@ extension Ssm {
             self.executionEndTime = dictionary["ExecutionEndTime"] as? String
             self.stepName = dictionary["StepName"] as? String
             self.action = dictionary["Action"] as? String
+            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Ssm.FailureDetails(dictionary: failureDetails) } else { self.failureDetails = nil }
             if let inputs = dictionary["Inputs"] as? [String: String] {
                 self.inputs = inputs
             } else { 
@@ -6245,6 +6530,31 @@ extension Ssm {
         }
     }
 
+    public struct CreateResourceDataSyncRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SyncName", required: true, type: .string), 
+            AWSShapeProperty(label: "S3Destination", required: true, type: .structure)
+        ]
+        /// A name for the configuration.
+        public let syncName: String
+        /// Amazon S3 configuration details for the sync.
+        public let s3Destination: ResourceDataSyncS3Destination
+
+        public init(syncName: String, s3Destination: ResourceDataSyncS3Destination) {
+            self.syncName = syncName
+            self.s3Destination = s3Destination
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let syncName = dictionary["SyncName"] as? String else { throw InitializableError.missingRequiredParam("SyncName") }
+            self.syncName = syncName
+            guard let s3Destination = dictionary["S3Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Destination") }
+            self.s3Destination = try Ssm.ResourceDataSyncS3Destination(dictionary: s3Destination)
+        }
+    }
+
     public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -6279,7 +6589,7 @@ extension Ssm {
         public let maxErrors: String?
         /// The status of the task.
         public let status: MaintenanceWindowExecutionStatus?
-        /// The parameters passed to the task when it was executed. The map has the following format: Key: string, 1 ≤ length ≤ 255 Value: an array of strings where each string 1 ≤ length ≤ 255
+        /// The parameters passed to the task when it was executed. The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
         /// The time the task execution completed.
         public let endTime: String?
@@ -6341,7 +6651,7 @@ extension Ssm {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DocumentDescription", required: false, type: .structure)
         ]
-        /// Information about the SSM document.
+        /// Information about the Systems Manager document.
         public let documentDescription: DocumentDescription?
 
         public init(documentDescription: DocumentDescription? = nil) {
@@ -6647,30 +6957,39 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ParameterFilters", required: false, type: .list), 
             AWSShapeProperty(label: "Filters", required: false, type: .list), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
-        /// The token for the next set of items to return. (You received this token from a previous call.)
-        public let nextToken: String?
+        /// Filters to limit the request results.
+        public let parameterFilters: [ParameterStringFilter]?
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [ParametersFilter]?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
 
-        public init(nextToken: String? = nil, filters: [ParametersFilter]? = nil, maxResults: Int32? = nil) {
-            self.nextToken = nextToken
+        public init(parameterFilters: [ParameterStringFilter]? = nil, filters: [ParametersFilter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.parameterFilters = parameterFilters
             self.filters = filters
+            self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+            if let parameterFilters = dictionary["ParameterFilters"] as? [[String: Any]] {
+                self.parameterFilters = try parameterFilters.map({ try ParameterStringFilter(dictionary: $0) })
+            } else { 
+                self.parameterFilters = nil
+            }
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try ParametersFilter(dictionary: $0) })
             } else { 
                 self.filters = nil
             }
+            self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -7075,7 +7394,7 @@ extension Ssm {
             AWSShapeProperty(label: "Parameters", required: false, type: .list), 
             AWSShapeProperty(label: "InvalidParameters", required: false, type: .list)
         ]
-        /// A list of parameters used by the AWS account.
+        /// A list of details for a parameter.
         public let parameters: [Parameter]?
         /// A list of parameters that are not formatted correctly or do not run when executed.
         public let invalidParameters: [String]?
@@ -7240,6 +7559,49 @@ extension Ssm {
         public var description: String { return self.rawValue }
     }
 
+    public struct ResourceDataSyncItem: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "SyncName", required: false, type: .string), 
+            AWSShapeProperty(label: "LastSyncTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LastSuccessfulSyncTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "SyncCreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "S3Destination", required: false, type: .structure), 
+            AWSShapeProperty(label: "LastStatus", required: false, type: .enum)
+        ]
+        /// The name of the Resource Data Sync.
+        public let syncName: String?
+        /// The last time the configuration attempted to sync (UTC).
+        public let lastSyncTime: String?
+        /// The last time the sync operations returned a status of SUCCESSFUL (UTC).
+        public let lastSuccessfulSyncTime: String?
+        /// The date and time the configuration was created (UTC).
+        public let syncCreatedTime: String?
+        /// Configuration information for the target Amazon S3 bucket.
+        public let s3Destination: ResourceDataSyncS3Destination?
+        /// The status reported by the last sync.
+        public let lastStatus: LastResourceDataSyncStatus?
+
+        public init(syncName: String? = nil, lastSyncTime: String? = nil, lastSuccessfulSyncTime: String? = nil, syncCreatedTime: String? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, lastStatus: LastResourceDataSyncStatus? = nil) {
+            self.syncName = syncName
+            self.lastSyncTime = lastSyncTime
+            self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
+            self.syncCreatedTime = syncCreatedTime
+            self.s3Destination = s3Destination
+            self.lastStatus = lastStatus
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.syncName = dictionary["SyncName"] as? String
+            self.lastSyncTime = dictionary["LastSyncTime"] as? String
+            self.lastSuccessfulSyncTime = dictionary["LastSuccessfulSyncTime"] as? String
+            self.syncCreatedTime = dictionary["SyncCreatedTime"] as? String
+            if let s3Destination = dictionary["S3Destination"] as? [String: Any] { self.s3Destination = try Ssm.ResourceDataSyncS3Destination(dictionary: s3Destination) } else { self.s3Destination = nil }
+            if let lastStatus = dictionary["LastStatus"] as? String { self.lastStatus = LastResourceDataSyncStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
+        }
+    }
+
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -7283,7 +7645,7 @@ extension Ssm {
         public let outputS3KeyPrefix: String?
         /// The name of the Amazon S3 bucket.
         public let outputS3BucketName: String?
-        /// The Amazon S3 region where the association information is stored.
+        /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the Amazon S3 bucket region.
         public let outputS3Region: String?
 
         public init(outputS3KeyPrefix: String? = nil, outputS3BucketName: String? = nil, outputS3Region: String? = nil) {
@@ -7376,6 +7738,54 @@ extension Ssm {
         case failed = "Failed"
         case cancelling = "Cancelling"
         public var description: String { return self.rawValue }
+    }
+
+    public struct GetParametersByPathRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ParameterFilters", required: false, type: .list), 
+            AWSShapeProperty(label: "Path", required: true, type: .string), 
+            AWSShapeProperty(label: "Recursive", required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        ]
+        /// Retrieve all parameters in a hierarchy with their value decrypted.
+        public let withDecryption: Bool?
+        /// Filters to limit the request results.
+        public let parameterFilters: [ParameterStringFilter]?
+        /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end with the parameter name. A hierarchy can have a maximum of five levels. Examples: /Environment/Test/DBString003 /Finance/Prod/IAD/OS/WinServ2016/license15
+        public let path: String
+        /// Retrieve all parameters within a hierarchy.
+        public let recursive: Bool?
+        /// A token to start the list. Use this token to get the next set of results. 
+        public let nextToken: String?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int32?
+
+        public init(withDecryption: Bool? = nil, parameterFilters: [ParameterStringFilter]? = nil, path: String, recursive: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+            self.withDecryption = withDecryption
+            self.parameterFilters = parameterFilters
+            self.path = path
+            self.recursive = recursive
+            self.nextToken = nextToken
+            self.maxResults = maxResults
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.withDecryption = dictionary["WithDecryption"] as? Bool
+            if let parameterFilters = dictionary["ParameterFilters"] as? [[String: Any]] {
+                self.parameterFilters = try parameterFilters.map({ try ParameterStringFilter(dictionary: $0) })
+            } else { 
+                self.parameterFilters = nil
+            }
+            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
+            self.path = path
+            self.recursive = dictionary["Recursive"] as? Bool
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+        }
     }
 
     public struct DeleteActivationRequest: AWSShape {
@@ -7477,7 +7887,7 @@ extension Ssm {
         public let notificationArn: String?
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
         public let notificationType: NotificationType?
-        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Monitoring Commands in the Amazon Elastic Compute Cloud User Guide .
+        /// The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Setting Up Events and Notifications in the Amazon EC2 Systems Manager User Guide.
         public let notificationEvents: [NotificationEvent]?
 
         public init(notificationArn: String? = nil, notificationType: NotificationType? = nil, notificationEvents: [NotificationEvent]? = nil) {
@@ -7507,29 +7917,33 @@ extension Ssm {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Name", required: true, type: .string), 
+            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeProperty(label: "Type", required: true, type: .enum), 
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Overwrite", required: false, type: .boolean)
         ]
         /// Information about the parameter that you want to add to the system
         public let description: String?
-        /// The parameter key ID that you want to add to the system.
+        /// The KMS Key ID that you want to use to encrypt a parameter when you choose the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your AWS account.
         public let keyId: String?
-        /// The type of parameter that you want to add to the system.
-        public let `type`: ParameterType
         /// The name of the parameter that you want to add to the system.
         public let name: String
+        /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$ 
+        public let allowedPattern: String?
+        /// The type of parameter that you want to add to the system.
+        public let `type`: ParameterType
         /// The parameter value that you want to add to the system.
         public let value: String
-        /// Overwrite an existing parameter.
+        /// Overwrite an existing parameter. If not specified, will default to "false".
         public let overwrite: Bool?
 
-        public init(description: String? = nil, keyId: String? = nil, type: ParameterType, name: String, value: String, overwrite: Bool? = nil) {
+        public init(description: String? = nil, keyId: String? = nil, name: String, allowedPattern: String? = nil, type: ParameterType, value: String, overwrite: Bool? = nil) {
             self.description = description
             self.keyId = keyId
-            self.`type` = `type`
             self.name = name
+            self.allowedPattern = allowedPattern
+            self.`type` = `type`
             self.value = value
             self.overwrite = overwrite
         }
@@ -7537,10 +7951,11 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
             self.keyId = dictionary["KeyId"] as? String
-            guard let rawType = dictionary["Type"] as? String, let `type` = ParameterType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
+            self.allowedPattern = dictionary["AllowedPattern"] as? String
+            guard let rawType = dictionary["Type"] as? String, let `type` = ParameterType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
+            self.`type` = `type`
             guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
             self.value = value
             self.overwrite = dictionary["Overwrite"] as? Bool
@@ -7809,7 +8224,7 @@ extension Ssm {
             AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
             AWSShapeProperty(label: "AssociationId", required: false, type: .string)
         ]
-        /// The name of the SSM document.
+        /// The name of the Systems Manager document.
         public let name: String?
         /// The ID of the instance.
         public let instanceId: String?
@@ -7867,7 +8282,7 @@ extension Ssm {
             AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The type of parameter. The type can be either “String” or “StringList”.
+        /// The type of parameter. The type can be either String or StringList.
         public let `type`: DocumentParameterType?
         /// The name of the parameter.
         public let name: String?
@@ -7888,6 +8303,25 @@ extension Ssm {
             self.name = dictionary["Name"] as? String
             self.defaultValue = dictionary["DefaultValue"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct DeleteParametersRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Names", required: true, type: .list)
+        ]
+        /// The names of the parameters to delete.
+        public let names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let names = dictionary["Names"] as? [String] else { throw InitializableError.missingRequiredParam("Names") }
+            self.names = names
         }
     }
 
@@ -7960,6 +8394,53 @@ extension Ssm {
         }
     }
 
+    public struct ParameterStringFilter: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Option", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
+        /// Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
+        public let option: String?
+        /// The name of the filter.
+        public let key: String
+        /// The value you want to search for.
+        public let values: [String]?
+
+        public init(option: String? = nil, key: String, values: [String]? = nil) {
+            self.option = option
+            self.key = key
+            self.values = values
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.option = dictionary["Option"] as? String
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+            self.values = dictionary["Values"] as? [String]
+        }
+    }
+
+    public struct GetDefaultPatchBaselineResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
+        ]
+        /// The ID of the default patch baseline.
+        public let baselineId: String?
+
+        public init(baselineId: String? = nil) {
+            self.baselineId = baselineId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.baselineId = dictionary["BaselineId"] as? String
+        }
+    }
+
     public struct DocumentFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -7985,22 +8466,11 @@ extension Ssm {
         }
     }
 
-    public struct GetDefaultPatchBaselineResult: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
-        ]
-        /// The ID of the default patch baseline.
-        public let baselineId: String?
-
-        public init(baselineId: String? = nil) {
-            self.baselineId = baselineId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-        }
+    public enum LastResourceDataSyncStatus: String, CustomStringConvertible {
+        case successful = "Successful"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
     }
 
     public struct InstanceAssociationOutputLocation: AWSShape {

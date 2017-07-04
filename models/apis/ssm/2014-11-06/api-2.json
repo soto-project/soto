@@ -143,6 +143,21 @@
         {"shape":"InternalServerError"}
       ]
     },
+    "CreateResourceDataSync":{
+      "name":"CreateResourceDataSync",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateResourceDataSyncRequest"},
+      "output":{"shape":"CreateResourceDataSyncResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"ResourceDataSyncCountExceededException"},
+        {"shape":"ResourceDataSyncAlreadyExistsException"},
+        {"shape":"ResourceDataSyncInvalidConfigurationException"}
+      ]
+    },
     "DeleteActivation":{
       "name":"DeleteActivation",
       "http":{
@@ -213,6 +228,18 @@
         {"shape":"ParameterNotFound"}
       ]
     },
+    "DeleteParameters":{
+      "name":"DeleteParameters",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteParametersRequest"},
+      "output":{"shape":"DeleteParametersResult"},
+      "errors":[
+        {"shape":"InternalServerError"}
+      ]
+    },
     "DeletePatchBaseline":{
       "name":"DeletePatchBaseline",
       "http":{
@@ -224,6 +251,19 @@
       "errors":[
         {"shape":"ResourceInUseException"},
         {"shape":"InternalServerError"}
+      ]
+    },
+    "DeleteResourceDataSync":{
+      "name":"DeleteResourceDataSync",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteResourceDataSyncRequest"},
+      "output":{"shape":"DeleteResourceDataSyncResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"ResourceDataSyncNotFoundException"}
       ]
     },
     "DeregisterManagedInstance":{
@@ -546,6 +586,8 @@
       "output":{"shape":"DescribeParametersResult"},
       "errors":[
         {"shape":"InternalServerError"},
+        {"shape":"InvalidFilterKey"},
+        {"shape":"InvalidFilterOption"},
         {"shape":"InvalidFilterValue"},
         {"shape":"InvalidNextToken"}
       ]
@@ -723,6 +765,20 @@
         {"shape":"InternalServerError"}
       ]
     },
+    "GetParameter":{
+      "name":"GetParameter",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetParameterRequest"},
+      "output":{"shape":"GetParameterResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"InvalidKeyId"},
+        {"shape":"ParameterNotFound"}
+      ]
+    },
     "GetParameterHistory":{
       "name":"GetParameterHistory",
       "http":{
@@ -734,7 +790,8 @@
       "errors":[
         {"shape":"InternalServerError"},
         {"shape":"ParameterNotFound"},
-        {"shape":"InvalidNextToken"}
+        {"shape":"InvalidNextToken"},
+        {"shape":"InvalidKeyId"}
       ]
     },
     "GetParameters":{
@@ -746,7 +803,25 @@
       "input":{"shape":"GetParametersRequest"},
       "output":{"shape":"GetParametersResult"},
       "errors":[
+        {"shape":"InvalidKeyId"},
         {"shape":"InternalServerError"}
+      ]
+    },
+    "GetParametersByPath":{
+      "name":"GetParametersByPath",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetParametersByPathRequest"},
+      "output":{"shape":"GetParametersByPathResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"InvalidFilterKey"},
+        {"shape":"InvalidFilterOption"},
+        {"shape":"InvalidFilterValue"},
+        {"shape":"InvalidKeyId"},
+        {"shape":"InvalidNextToken"}
       ]
     },
     "GetPatchBaseline":{
@@ -864,6 +939,19 @@
         {"shape":"InvalidNextToken"}
       ]
     },
+    "ListResourceDataSync":{
+      "name":"ListResourceDataSync",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListResourceDataSyncRequest"},
+      "output":{"shape":"ListResourceDataSyncResult"},
+      "errors":[
+        {"shape":"InternalServerError"},
+        {"shape":"InvalidNextToken"}
+      ]
+    },
     "ListTagsForResource":{
       "name":"ListTagsForResource",
       "http":{
@@ -928,6 +1016,10 @@
         {"shape":"ParameterLimitExceeded"},
         {"shape":"TooManyUpdates"},
         {"shape":"ParameterAlreadyExists"},
+        {"shape":"HierarchyLevelLimitExceededException"},
+        {"shape":"HierarchyTypeMismatchException"},
+        {"shape":"InvalidAllowedPatternException"},
+        {"shape":"ParameterPatternMismatchException"},
         {"shape":"UnsupportedParameterType"}
       ]
     },
@@ -1071,7 +1163,9 @@
         {"shape":"InvalidDocumentVersion"},
         {"shape":"AssociationDoesNotExist"},
         {"shape":"InvalidUpdate"},
-        {"shape":"TooManyUpdates"}
+        {"shape":"TooManyUpdates"},
+        {"shape":"InvalidDocument"},
+        {"shape":"InvalidTarget"}
       ]
     },
     "UpdateAssociationStatus":{
@@ -1231,6 +1325,11 @@
     "AgentErrorCode":{
       "type":"string",
       "max":10
+    },
+    "AllowedPattern":{
+      "type":"string",
+      "max":1024,
+      "min":0
     },
     "AlreadyExistsException":{
       "type":"structure",
@@ -1592,8 +1691,8 @@
         "OutputS3Region":{"shape":"S3Region"},
         "OutputS3BucketName":{"shape":"S3BucketName"},
         "OutputS3KeyPrefix":{"shape":"S3KeyPrefix"},
-        "MaxConcurrency":{"shape":"VelocityConstraint"},
-        "MaxErrors":{"shape":"VelocityConstraint"},
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MaxErrors":{"shape":"MaxErrors"},
         "TargetCount":{"shape":"TargetCount"},
         "CompletedCount":{"shape":"CompletedCount"},
         "ErrorCount":{"shape":"ErrorCount"},
@@ -1884,6 +1983,22 @@
         "BaselineId":{"shape":"BaselineId"}
       }
     },
+    "CreateResourceDataSyncRequest":{
+      "type":"structure",
+      "required":[
+        "SyncName",
+        "S3Destination"
+      ],
+      "members":{
+        "SyncName":{"shape":"ResourceDataSyncName"},
+        "S3Destination":{"shape":"ResourceDataSyncS3Destination"}
+      }
+    },
+    "CreateResourceDataSyncResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "CreatedDate":{"type":"timestamp"},
     "CustomSchemaCountLimitExceededException":{
       "type":"structure",
@@ -1962,6 +2077,20 @@
       "members":{
       }
     },
+    "DeleteParametersRequest":{
+      "type":"structure",
+      "required":["Names"],
+      "members":{
+        "Names":{"shape":"ParameterNameList"}
+      }
+    },
+    "DeleteParametersResult":{
+      "type":"structure",
+      "members":{
+        "DeletedParameters":{"shape":"ParameterNameList"},
+        "InvalidParameters":{"shape":"ParameterNameList"}
+      }
+    },
     "DeletePatchBaselineRequest":{
       "type":"structure",
       "required":["BaselineId"],
@@ -1973,6 +2102,18 @@
       "type":"structure",
       "members":{
         "BaselineId":{"shape":"BaselineId"}
+      }
+    },
+    "DeleteResourceDataSyncRequest":{
+      "type":"structure",
+      "required":["SyncName"],
+      "members":{
+        "SyncName":{"shape":"ResourceDataSyncName"}
+      }
+    },
+    "DeleteResourceDataSyncResult":{
+      "type":"structure",
+      "members":{
       }
     },
     "DeregisterManagedInstanceRequest":{
@@ -2420,6 +2561,7 @@
       "type":"structure",
       "members":{
         "Filters":{"shape":"ParametersFilterList"},
+        "ParameterFilters":{"shape":"ParameterStringFilterList"},
         "MaxResults":{
           "shape":"MaxResults",
           "box":true
@@ -2744,6 +2886,14 @@
         "locationName":"FailedCreateAssociationEntry"
       }
     },
+    "FailureDetails":{
+      "type":"structure",
+      "members":{
+        "FailureStage":{"shape":"String"},
+        "FailureType":{"shape":"String"},
+        "Details":{"shape":"AutomationParameterMap"}
+      }
+    },
     "Fault":{
       "type":"string",
       "enum":[
@@ -2925,8 +3075,8 @@
         "Type":{"shape":"MaintenanceWindowTaskType"},
         "TaskParameters":{"shape":"MaintenanceWindowTaskParametersList"},
         "Priority":{"shape":"MaintenanceWindowTaskPriority"},
-        "MaxConcurrency":{"shape":"VelocityConstraint"},
-        "MaxErrors":{"shape":"VelocityConstraint"},
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MaxErrors":{"shape":"MaxErrors"},
         "Status":{"shape":"MaintenanceWindowExecutionStatus"},
         "StatusDetails":{"shape":"MaintenanceWindowExecutionStatusDetails"},
         "StartTime":{"shape":"DateTime"},
@@ -2974,6 +3124,56 @@
       "type":"structure",
       "members":{
         "Parameters":{"shape":"ParameterHistoryList"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
+    "GetParameterRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"PSParameterName"},
+        "WithDecryption":{
+          "shape":"Boolean",
+          "box":true
+        }
+      }
+    },
+    "GetParameterResult":{
+      "type":"structure",
+      "members":{
+        "Parameter":{"shape":"Parameter"}
+      }
+    },
+    "GetParametersByPathMaxResults":{
+      "type":"integer",
+      "max":10,
+      "min":1
+    },
+    "GetParametersByPathRequest":{
+      "type":"structure",
+      "required":["Path"],
+      "members":{
+        "Path":{"shape":"PSParameterName"},
+        "Recursive":{
+          "shape":"Boolean",
+          "box":true
+        },
+        "ParameterFilters":{"shape":"ParameterStringFilterList"},
+        "WithDecryption":{
+          "shape":"Boolean",
+          "box":true
+        },
+        "MaxResults":{
+          "shape":"GetParametersByPathMaxResults",
+          "box":true
+        },
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
+    "GetParametersByPathResult":{
+      "type":"structure",
+      "members":{
+        "Parameters":{"shape":"ParameterList"},
         "NextToken":{"shape":"NextToken"}
       }
     },
@@ -3030,6 +3230,20 @@
         "ModifiedDate":{"shape":"DateTime"},
         "Description":{"shape":"BaselineDescription"}
       }
+    },
+    "HierarchyLevelLimitExceededException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "HierarchyTypeMismatchException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
     },
     "IPAddress":{
       "type":"string",
@@ -3328,6 +3542,13 @@
       },
       "exception":true
     },
+    "InvalidAllowedPatternException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
     "InvalidAutomationExecutionParametersException":{
       "type":"structure",
       "members":{
@@ -3389,6 +3610,13 @@
       },
       "exception":true
     },
+    "InvalidFilterOption":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
     "InvalidFilterValue":{
       "type":"structure",
       "members":{
@@ -3428,6 +3656,7 @@
     "InvalidNextToken":{
       "type":"structure",
       "members":{
+        "Message":{"shape":"String"}
       },
       "exception":true
     },
@@ -3740,6 +3969,16 @@
       "type":"list",
       "member":{"shape":"TagKey"}
     },
+    "LastResourceDataSyncStatus":{
+      "type":"string",
+      "enum":[
+        "Successful",
+        "Failed",
+        "InProgress"
+      ]
+    },
+    "LastResourceDataSyncTime":{"type":"timestamp"},
+    "LastSuccessfulResourceDataSyncTime":{"type":"timestamp"},
     "ListAssociationsRequest":{
       "type":"structure",
       "members":{
@@ -3861,6 +4100,23 @@
         "SchemaVersion":{"shape":"InventoryItemSchemaVersion"},
         "CaptureTime":{"shape":"InventoryItemCaptureTime"},
         "Entries":{"shape":"InventoryItemEntryList"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListResourceDataSyncRequest":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"NextToken"},
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true
+        }
+      }
+    },
+    "ListResourceDataSyncResult":{
+      "type":"structure",
+      "members":{
+        "ResourceDataSyncItems":{"shape":"ResourceDataSyncItemList"},
         "NextToken":{"shape":"NextToken"}
       }
     },
@@ -4101,8 +4357,8 @@
         "Priority":{"shape":"MaintenanceWindowTaskPriority"},
         "LoggingInfo":{"shape":"LoggingInfo"},
         "ServiceRoleArn":{"shape":"ServiceRole"},
-        "MaxConcurrency":{"shape":"VelocityConstraint"},
-        "MaxErrors":{"shape":"VelocityConstraint"}
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MaxErrors":{"shape":"MaxErrors"}
       }
     },
     "MaintenanceWindowTaskArn":{
@@ -4170,12 +4426,24 @@
       "type":"string",
       "pattern":"^mi-[0-9a-f]{17}$"
     },
+    "MaxConcurrency":{
+      "type":"string",
+      "max":7,
+      "min":1,
+      "pattern":"^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$"
+    },
     "MaxDocumentSizeExceeded":{
       "type":"structure",
       "members":{
         "Message":{"shape":"String"}
       },
       "exception":true
+    },
+    "MaxErrors":{
+      "type":"string",
+      "max":7,
+      "min":1,
+      "pattern":"^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$"
     },
     "MaxResults":{
       "type":"integer",
@@ -4251,14 +4519,12 @@
     "PSParameterName":{
       "type":"string",
       "max":1024,
-      "min":1,
-      "pattern":"^(?!^([aA][wW][sS]|[sS][sS][mM]))(?=^[a-zA-Z0-9_.-]*$).*$"
+      "min":1
     },
     "PSParameterValue":{
       "type":"string",
-      "max":1024,
-      "min":1,
-      "pattern":"^(?:(?!(\\{\\{.*\\}\\})).)*$"
+      "max":4096,
+      "min":1
     },
     "Parameter":{
       "type":"structure",
@@ -4289,7 +4555,8 @@
         "LastModifiedDate":{"shape":"DateTime"},
         "LastModifiedUser":{"shape":"String"},
         "Description":{"shape":"ParameterDescription"},
-        "Value":{"shape":"PSParameterValue"}
+        "Value":{"shape":"PSParameterValue"},
+        "AllowedPattern":{"shape":"AllowedPattern"}
       }
     },
     "ParameterHistoryList":{
@@ -4321,7 +4588,8 @@
         "KeyId":{"shape":"ParameterKeyId"},
         "LastModifiedDate":{"shape":"DateTime"},
         "LastModifiedUser":{"shape":"String"},
-        "Description":{"shape":"ParameterDescription"}
+        "Description":{"shape":"ParameterDescription"},
+        "AllowedPattern":{"shape":"AllowedPattern"}
       }
     },
     "ParameterMetadataList":{
@@ -4341,6 +4609,48 @@
         "message":{"shape":"String"}
       },
       "exception":true
+    },
+    "ParameterPatternMismatchException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "ParameterStringFilter":{
+      "type":"structure",
+      "required":["Key"],
+      "members":{
+        "Key":{"shape":"ParameterStringFilterKey"},
+        "Option":{"shape":"ParameterStringQueryOption"},
+        "Values":{"shape":"ParameterStringFilterValueList"}
+      }
+    },
+    "ParameterStringFilterKey":{
+      "type":"string",
+      "max":132,
+      "min":1,
+      "pattern":"tag:.+|Name|Type|KeyId|Path"
+    },
+    "ParameterStringFilterList":{
+      "type":"list",
+      "member":{"shape":"ParameterStringFilter"}
+    },
+    "ParameterStringFilterValue":{
+      "type":"string",
+      "max":1024,
+      "min":1
+    },
+    "ParameterStringFilterValueList":{
+      "type":"list",
+      "member":{"shape":"ParameterStringFilterValue"},
+      "max":50,
+      "min":1
+    },
+    "ParameterStringQueryOption":{
+      "type":"string",
+      "max":10,
+      "min":1
     },
     "ParameterType":{
       "type":"string",
@@ -4362,7 +4672,10 @@
     },
     "ParametersFilter":{
       "type":"structure",
-      "required":["Values"],
+      "required":[
+        "Key",
+        "Values"
+      ],
       "members":{
         "Key":{"shape":"ParametersFilterKey"},
         "Values":{"shape":"ParametersFilterValueList"}
@@ -4382,7 +4695,7 @@
     },
     "ParametersFilterValue":{
       "type":"string",
-      "max":100,
+      "max":1024,
       "min":1
     },
     "ParametersFilterValueList":{
@@ -4695,7 +5008,8 @@
         "Overwrite":{
           "shape":"Boolean",
           "box":true
-        }
+        },
+        "AllowedPattern":{"shape":"AllowedPattern"}
       }
     },
     "PutParameterResult":{
@@ -4780,8 +5094,8 @@
           "shape":"MaintenanceWindowTaskPriority",
           "box":true
         },
-        "MaxConcurrency":{"shape":"VelocityConstraint"},
-        "MaxErrors":{"shape":"VelocityConstraint"},
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MaxErrors":{"shape":"MaxErrors"},
         "LoggingInfo":{"shape":"LoggingInfo"},
         "ClientToken":{
           "shape":"ClientToken",
@@ -4822,6 +5136,88 @@
       "type":"structure",
       "members":{
       }
+    },
+    "ResourceDataSyncAlreadyExistsException":{
+      "type":"structure",
+      "members":{
+        "SyncName":{"shape":"ResourceDataSyncName"}
+      },
+      "exception":true
+    },
+    "ResourceDataSyncCountExceededException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "ResourceDataSyncCreatedTime":{"type":"timestamp"},
+    "ResourceDataSyncInvalidConfigurationException":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "ResourceDataSyncItem":{
+      "type":"structure",
+      "members":{
+        "SyncName":{"shape":"ResourceDataSyncName"},
+        "S3Destination":{"shape":"ResourceDataSyncS3Destination"},
+        "LastSyncTime":{"shape":"LastResourceDataSyncTime"},
+        "LastSuccessfulSyncTime":{"shape":"LastSuccessfulResourceDataSyncTime"},
+        "LastStatus":{"shape":"LastResourceDataSyncStatus"},
+        "SyncCreatedTime":{"shape":"ResourceDataSyncCreatedTime"}
+      }
+    },
+    "ResourceDataSyncItemList":{
+      "type":"list",
+      "member":{"shape":"ResourceDataSyncItem"}
+    },
+    "ResourceDataSyncName":{
+      "type":"string",
+      "max":64,
+      "min":1
+    },
+    "ResourceDataSyncNotFoundException":{
+      "type":"structure",
+      "members":{
+        "SyncName":{"shape":"ResourceDataSyncName"}
+      },
+      "exception":true
+    },
+    "ResourceDataSyncS3BucketName":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "ResourceDataSyncS3Destination":{
+      "type":"structure",
+      "required":[
+        "BucketName",
+        "SyncFormat",
+        "Region"
+      ],
+      "members":{
+        "BucketName":{"shape":"ResourceDataSyncS3BucketName"},
+        "Prefix":{"shape":"ResourceDataSyncS3Prefix"},
+        "SyncFormat":{"shape":"ResourceDataSyncS3Format"},
+        "Region":{"shape":"ResourceDataSyncS3Region"}
+      }
+    },
+    "ResourceDataSyncS3Format":{
+      "type":"string",
+      "enum":["JsonSerDe"]
+    },
+    "ResourceDataSyncS3Prefix":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "ResourceDataSyncS3Region":{
+      "type":"string",
+      "max":64,
+      "min":1
     },
     "ResourceId":{"type":"string"},
     "ResourceInUseException":{
@@ -4922,8 +5318,8 @@
         "OutputS3Region":{"shape":"S3Region"},
         "OutputS3BucketName":{"shape":"S3BucketName"},
         "OutputS3KeyPrefix":{"shape":"S3KeyPrefix"},
-        "MaxConcurrency":{"shape":"VelocityConstraint"},
-        "MaxErrors":{"shape":"VelocityConstraint"},
+        "MaxConcurrency":{"shape":"MaxConcurrency"},
+        "MaxErrors":{"shape":"MaxErrors"},
         "ServiceRoleArn":{"shape":"ServiceRole"},
         "NotificationConfig":{"shape":"NotificationConfig"}
       }
@@ -5001,7 +5397,8 @@
         "Inputs":{"shape":"NormalStringMap"},
         "Outputs":{"shape":"AutomationParameterMap"},
         "Response":{"shape":"String"},
-        "FailureMessage":{"shape":"String"}
+        "FailureMessage":{"shape":"String"},
+        "FailureDetails":{"shape":"FailureDetails"}
       }
     },
     "StepExecutionList":{
@@ -5099,6 +5496,7 @@
     "TooManyUpdates":{
       "type":"structure",
       "members":{
+        "Message":{"shape":"String"}
       },
       "exception":true
     },
@@ -5138,7 +5536,9 @@
         "Parameters":{"shape":"Parameters"},
         "DocumentVersion":{"shape":"DocumentVersion"},
         "ScheduleExpression":{"shape":"ScheduleExpression"},
-        "OutputLocation":{"shape":"InstanceAssociationOutputLocation"}
+        "OutputLocation":{"shape":"InstanceAssociationOutputLocation"},
+        "Name":{"shape":"DocumentName"},
+        "Targets":{"shape":"Targets"}
       }
     },
     "UpdateAssociationResult":{
@@ -5282,12 +5682,6 @@
       }
     },
     "Url":{"type":"string"},
-    "VelocityConstraint":{
-      "type":"string",
-      "max":7,
-      "min":1,
-      "pattern":"^[1-9]\\d*$|[0-9][%]|[1-9][0-9][%]|[1][0][0][%]|[0-9]?"
-    },
     "Version":{
       "type":"string",
       "pattern":"^[0-9]{1,6}(\\.[0-9]{1,6}){2,3}$"

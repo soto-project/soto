@@ -202,6 +202,7 @@ struct AWSService {
         for (_, json) in docJSON["shapes"].dictionaryValue {
             for (key, comment) in json["refs"].dictionaryValue  {
                 let separeted = key.components(separatedBy: "$")
+                guard separeted.count >= 2 else { continue }
                 let shape = separeted[0]
                 let member = separeted[1]
                 if shapeDoc[shape] == nil {

@@ -1433,7 +1433,7 @@ extension Cloudfront {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string)
         ]
-        /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/CloudFront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
         public init(originAccessIdentity: String) {
@@ -1821,7 +1821,7 @@ extension Cloudfront {
         public let webACLId: String?
         /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
         public let comment: String
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
+        /// From this field, you can enable or disable the selected distribution. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
         public let enabled: Bool
         /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
@@ -1912,7 +1912,7 @@ extension Cloudfront {
             AWSShapeProperty(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
             AWSShapeProperty(label: "CertificateSource", required: false, type: .enum)
         ]
-        /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
+        /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
         public let iAMCertificateId: String?
         /// Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1. CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1. Note the following:   If you specify &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;, the minimum SSL protocol version is TLSv1 and can't be changed.   If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId) and if you're using SNI (if you specify sni-only for SSLSupportMethod), you must specify TLSv1 for MinimumProtocolVersion.  
@@ -2213,34 +2213,44 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HTTPSPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "HTTPPort", required: true, type: .integer), 
             AWSShapeProperty(label: "OriginProtocolPolicy", required: true, type: .enum), 
+            AWSShapeProperty(label: "HTTPPort", required: true, type: .integer), 
+            AWSShapeProperty(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "OriginReadTimeout", required: false, type: .integer), 
+            AWSShapeProperty(label: "HTTPSPort", required: true, type: .integer), 
             AWSShapeProperty(label: "OriginSslProtocols", required: false, type: .structure)
         ]
-        /// The HTTPS port the custom origin listens on.
-        public let hTTPSPort: Int32
-        /// The HTTP port the custom origin listens on.
-        public let hTTPPort: Int32
         /// The origin protocol policy to apply to your origin.
         public let originProtocolPolicy: OriginProtocolPolicy
+        /// The HTTP port the custom origin listens on.
+        public let hTTPPort: Int32
+        /// You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        public let originKeepaliveTimeout: Int32?
+        /// You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds. If you need to increase the maximum time limit, contact the AWS Support Center.
+        public let originReadTimeout: Int32?
+        /// The HTTPS port the custom origin listens on.
+        public let hTTPSPort: Int32
         /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
         public let originSslProtocols: OriginSslProtocols?
 
-        public init(hTTPSPort: Int32, hTTPPort: Int32, originProtocolPolicy: OriginProtocolPolicy, originSslProtocols: OriginSslProtocols? = nil) {
-            self.hTTPSPort = hTTPSPort
-            self.hTTPPort = hTTPPort
+        public init(originProtocolPolicy: OriginProtocolPolicy, hTTPPort: Int32, originKeepaliveTimeout: Int32? = nil, originReadTimeout: Int32? = nil, hTTPSPort: Int32, originSslProtocols: OriginSslProtocols? = nil) {
             self.originProtocolPolicy = originProtocolPolicy
+            self.hTTPPort = hTTPPort
+            self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originReadTimeout = originReadTimeout
+            self.hTTPSPort = hTTPSPort
             self.originSslProtocols = originSslProtocols
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let hTTPSPort = dictionary["HTTPSPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPSPort") }
-            self.hTTPSPort = hTTPSPort
-            guard let hTTPPort = dictionary["HTTPPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPPort") }
-            self.hTTPPort = hTTPPort
             guard let rawOriginProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String, let originProtocolPolicy = OriginProtocolPolicy(rawValue: rawOriginProtocolPolicy) else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
             self.originProtocolPolicy = originProtocolPolicy
+            guard let hTTPPort = dictionary["HTTPPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPPort") }
+            self.hTTPPort = hTTPPort
+            self.originKeepaliveTimeout = dictionary["OriginKeepaliveTimeout"] as? Int32
+            self.originReadTimeout = dictionary["OriginReadTimeout"] as? Int32
+            guard let hTTPSPort = dictionary["HTTPSPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPSPort") }
+            self.hTTPSPort = hTTPSPort
             if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) } else { self.originSslProtocols = nil }
         }
     }

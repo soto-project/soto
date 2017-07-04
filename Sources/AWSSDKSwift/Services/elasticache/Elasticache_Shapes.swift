@@ -95,66 +95,76 @@ extension Elasticache {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationEndpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshottingClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeGroups", required: false, type: .structure), 
             AWSShapeProperty(label: "AutomaticFailover", required: false, type: .enum), 
             AWSShapeProperty(label: "MemberClusters", required: false, type: .structure), 
+            AWSShapeProperty(label: "ClusterEnabled", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "ConfigurationEndpoint", required: false, type: .structure), 
+            AWSShapeProperty(label: "SnapshotWindow", required: false, type: .string), 
+            AWSShapeProperty(label: "Status", required: false, type: .string), 
+            AWSShapeProperty(label: "SnapshottingClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "ReplicationGroupId", required: false, type: .string), 
+            AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "NodeGroups", required: false, type: .structure)
         ]
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public let pendingModifiedValues: ReplicationGroupPendingModifiedValues?
-        /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
-        public let status: String?
-        /// The configuration endpoint for this replicaiton group. Use the configuration endpoint to connect to this replication group.
-        public let configurationEndpoint: Endpoint?
-        /// The cache cluster ID that is used as the daily snapshot source for the replication group.
-        public let snapshottingClusterId: String?
-        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  Note: This parameter is only valid if the Engine parameter is redis.
-        public let snapshotWindow: String?
-        /// The identifier for the replication group.
-        public let replicationGroupId: String?
-        /// A single element list with information about the nodes in the replication group.
-        public let nodeGroups: NodeGroupList?
         /// Indicates the status of Multi-AZ for this replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
         public let automaticFailover: AutomaticFailoverStatus?
         /// The names of all the cache clusters that are part of this replication group.
         public let memberClusters: ClusterIdList?
-        /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
-        public let snapshotRetentionLimit: Int32?
+        /// A flag indicating whether or not this replication group is cluster enabled; i.e., whether its data can be partitioned across multiple shards (API/CLI: node groups). Valid values: true | false 
+        public let clusterEnabled: Bool?
         /// The description of the replication group.
         public let description: String?
+        /// The configuration endpoint for this replicaiton group. Use the configuration endpoint to connect to this replication group.
+        public let configurationEndpoint: Endpoint?
+        /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  Note: This parameter is only valid if the Engine parameter is redis.
+        public let snapshotWindow: String?
+        /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
+        public let status: String?
+        /// The cache cluster ID that is used as the daily snapshot source for the replication group.
+        public let snapshottingClusterId: String?
+        /// The identifier for the replication group.
+        public let replicationGroupId: String?
+        /// The name of the compute and memory capacity node type for each node in the replication group.
+        public let cacheNodeType: String?
+        /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
+        public let snapshotRetentionLimit: Int32?
+        /// A single element list with information about the nodes in the replication group.
+        public let nodeGroups: NodeGroupList?
 
-        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, status: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, replicationGroupId: String? = nil, nodeGroups: NodeGroupList? = nil, automaticFailover: AutomaticFailoverStatus? = nil, memberClusters: ClusterIdList? = nil, snapshotRetentionLimit: Int32? = nil, description: String? = nil) {
+        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, automaticFailover: AutomaticFailoverStatus? = nil, memberClusters: ClusterIdList? = nil, clusterEnabled: Bool? = nil, description: String? = nil, configurationEndpoint: Endpoint? = nil, snapshotWindow: String? = nil, status: String? = nil, snapshottingClusterId: String? = nil, replicationGroupId: String? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, nodeGroups: NodeGroupList? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
-            self.status = status
-            self.configurationEndpoint = configurationEndpoint
-            self.snapshottingClusterId = snapshottingClusterId
-            self.snapshotWindow = snapshotWindow
-            self.replicationGroupId = replicationGroupId
-            self.nodeGroups = nodeGroups
             self.automaticFailover = automaticFailover
             self.memberClusters = memberClusters
-            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.clusterEnabled = clusterEnabled
             self.description = description
+            self.configurationEndpoint = configurationEndpoint
+            self.snapshotWindow = snapshotWindow
+            self.status = status
+            self.snapshottingClusterId = snapshottingClusterId
+            self.replicationGroupId = replicationGroupId
+            self.cacheNodeType = cacheNodeType
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.nodeGroups = nodeGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Elasticache.ReplicationGroupPendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            self.status = dictionary["Status"] as? String
-            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) } else { self.configurationEndpoint = nil }
-            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
-            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
-            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            if let nodeGroups = dictionary["NodeGroups"] as? [String: Any] { self.nodeGroups = try Elasticache.NodeGroupList(dictionary: nodeGroups) } else { self.nodeGroups = nil }
             if let automaticFailover = dictionary["AutomaticFailover"] as? String { self.automaticFailover = AutomaticFailoverStatus(rawValue: automaticFailover) } else { self.automaticFailover = nil }
             if let memberClusters = dictionary["MemberClusters"] as? [String: Any] { self.memberClusters = try Elasticache.ClusterIdList(dictionary: memberClusters) } else { self.memberClusters = nil }
-            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            self.clusterEnabled = dictionary["ClusterEnabled"] as? Bool
             self.description = dictionary["Description"] as? String
+            if let configurationEndpoint = dictionary["ConfigurationEndpoint"] as? [String: Any] { self.configurationEndpoint = try Elasticache.Endpoint(dictionary: configurationEndpoint) } else { self.configurationEndpoint = nil }
+            self.snapshotWindow = dictionary["SnapshotWindow"] as? String
+            self.status = dictionary["Status"] as? String
+            self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
+            self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+            self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
+            if let nodeGroups = dictionary["NodeGroups"] as? [String: Any] { self.nodeGroups = try Elasticache.NodeGroupList(dictionary: nodeGroups) } else { self.nodeGroups = nil }
         }
     }
 
@@ -486,9 +496,9 @@ extension Elasticache {
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
-        /// The tag's value. May not be null.
+        /// The tag's value. May be null.
         public let value: String?
-        /// The key for the tag.
+        /// The key for the tag. May not be null.
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -716,6 +726,31 @@ extension Elasticache {
         }
     }
 
+    public struct TestFailoverMessage: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NodeGroupId", required: true, type: .string), 
+            AWSShapeProperty(label: "ReplicationGroupId", required: true, type: .string)
+        ]
+        /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
+        public let nodeGroupId: String
+        /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
+        public let replicationGroupId: String
+
+        public init(nodeGroupId: String, replicationGroupId: String) {
+            self.nodeGroupId = nodeGroupId
+            self.replicationGroupId = replicationGroupId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let nodeGroupId = dictionary["NodeGroupId"] as? String else { throw InitializableError.missingRequiredParam("NodeGroupId") }
+            self.nodeGroupId = nodeGroupId
+            guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
+            self.replicationGroupId = replicationGroupId
+        }
+    }
+
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -822,7 +857,7 @@ extension Elasticache {
             AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
             AWSShapeProperty(label: "Duration", required: false, type: .integer)
         ]
-        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
+        /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let startTime: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
@@ -830,11 +865,11 @@ extension Elasticache {
         public let marker: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
-        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
+        /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let endTime: String?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
-        /// The number of minutes' worth of events to retrieve.
+        /// The number of minutes worth of events to retrieve.
         public let duration: Int32?
 
         public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
@@ -1118,6 +1153,23 @@ extension Elasticache {
             } else { 
                 self.event = nil
             }
+        }
+    }
+
+    public struct TestFailoverResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ReplicationGroup", required: false, type: .structure)
+        ]
+        public let replicationGroup: ReplicationGroup?
+
+        public init(replicationGroup: ReplicationGroup? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let replicationGroup = dictionary["ReplicationGroup"] as? [String: Any] { self.replicationGroup = try Elasticache.ReplicationGroup(dictionary: replicationGroup) } else { self.replicationGroup = nil }
         }
     }
 
@@ -1570,6 +1622,7 @@ extension Elasticache {
         public let engineVersion: String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30 
         public let preferredMaintenanceWindow: String?
+        /// Represents a Memcached cluster endpoint which, if Automatic Discovery is enabled on the cluster, can be used by an application to connect to any node in the cluster. The configuration endpoint will always have .cfg in it. Example: mem-3.9dvc4r.cfg.usw2.cache.amazonaws.com:11211 
         public let configurationEndpoint: Endpoint?
         /// The name of the Availability Zone in which the cache cluster is located or "Multiple" if the cache nodes are located in different Availability Zones.
         public let preferredAvailabilityZone: String?
@@ -2428,6 +2481,7 @@ extension Elasticache {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ScaleUpModifications", required: false, type: .list)
         ]
+        /// A string list, each element of which specifies a cache node type which you can use to scale your cache cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
         public let scaleUpModifications: [String]?
 
         public init(scaleUpModifications: [String]? = nil) {
@@ -2621,7 +2675,7 @@ extension Elasticache {
             AWSShapeProperty(label: "PrimaryAvailabilityZone", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicaCount", required: false, type: .integer)
         ]
-        /// A string that specifies the keyspaces as a series of comma separated values. Keyspaces are 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
+        /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
         public let slots: String?
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
         public let replicaAvailabilityZones: AvailabilityZonesList?
@@ -2912,7 +2966,7 @@ extension Elasticache {
             AWSShapeProperty(label: "AuthToken", required: false, type: .string), 
             AWSShapeProperty(label: "Port", required: false, type: .integer)
         ]
-        /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the replication group. The Amazon S3 object name in the ARN cannot contain any commas. The list must match the number of node groups (shards) in the replication group, which means you cannot repartition.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
+        /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
         public let snapshotArns: SnapshotArnsList?
         /// A list of cache security group names to associate with this replication group.
         public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
@@ -2920,7 +2974,7 @@ extension Elasticache {
         public let replicasPerNodeGroup: Int32?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
-        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to configure one node group (shard) or you can omit this parameter.
+        /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter.
         public let nodeGroupConfiguration: NodeGroupConfigurationList?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotWindow: String?
@@ -2940,7 +2994,7 @@ extension Elasticache {
         public let preferredCacheClusterAZs: AvailabilityZonesList?
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
         public let tags: TagList?
-        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If Multi-AZ is enabled, the value of this parameter must be at least 2. The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas).
+        /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas).
         public let numCacheClusters: Int32?
         /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
         public let securityGroupIds: SecurityGroupIdsList?
@@ -3098,12 +3152,15 @@ extension Elasticache {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeProperty(label: "ShowCacheClustersNotInReplicationGroups", required: false, type: .boolean), 
             AWSShapeProperty(label: "ShowCacheNodeInfo", required: false, type: .boolean), 
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "CacheClusterId", required: false, type: .string)
         ]
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
+        /// An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
+        public let showCacheClustersNotInReplicationGroups: Bool?
         /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
         public let showCacheNodeInfo: Bool?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -3111,8 +3168,9 @@ extension Elasticache {
         /// The user-supplied cluster identifier. If this parameter is specified, only information about that specific cache cluster is returned. This parameter isn't case sensitive.
         public let cacheClusterId: String?
 
-        public init(maxRecords: Int32? = nil, showCacheNodeInfo: Bool? = nil, marker: String? = nil, cacheClusterId: String? = nil) {
+        public init(maxRecords: Int32? = nil, showCacheClustersNotInReplicationGroups: Bool? = nil, showCacheNodeInfo: Bool? = nil, marker: String? = nil, cacheClusterId: String? = nil) {
             self.maxRecords = maxRecords
+            self.showCacheClustersNotInReplicationGroups = showCacheClustersNotInReplicationGroups
             self.showCacheNodeInfo = showCacheNodeInfo
             self.marker = marker
             self.cacheClusterId = cacheClusterId
@@ -3120,6 +3178,7 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
+            self.showCacheClustersNotInReplicationGroups = dictionary["ShowCacheClustersNotInReplicationGroups"] as? Bool
             self.showCacheNodeInfo = dictionary["ShowCacheNodeInfo"] as? Bool
             self.marker = dictionary["Marker"] as? String
             self.cacheClusterId = dictionary["CacheClusterId"] as? String
@@ -3861,8 +3920,9 @@ extension Elasticache {
             AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
             AWSShapeProperty(label: "CacheParameterGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "ReplicationGroupDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "NodeGroupId", required: false, type: .string), 
             AWSShapeProperty(label: "CacheNodeType", required: false, type: .string), 
+            AWSShapeProperty(label: "PrimaryClusterId", required: false, type: .string), 
             AWSShapeProperty(label: "AutomaticFailoverEnabled", required: false, type: .boolean), 
             AWSShapeProperty(label: "SnapshotRetentionLimit", required: false, type: .integer)
         ]
@@ -3892,16 +3952,18 @@ extension Elasticache {
         public let cacheParameterGroupName: String?
         /// A description for the replication group. Maximum length is 255 characters.
         public let replicationGroupDescription: String?
-        /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
-        public let primaryClusterId: String?
+        /// The name of the Node Group (called shard in the console).
+        public let nodeGroupId: String?
         /// A valid cache node type that you want to scale this replication group to.
         public let cacheNodeType: String?
+        /// For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
+        public let primaryClusterId: String?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false   ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
         public let automaticFailoverEnabled: Bool?
         /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupDescription: String? = nil, primaryClusterId: String? = nil, cacheNodeType: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupDescription: String? = nil, nodeGroupId: String? = nil, cacheNodeType: String? = nil, primaryClusterId: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.notificationTopicStatus = notificationTopicStatus
             self.securityGroupIds = securityGroupIds
@@ -3915,8 +3977,9 @@ extension Elasticache {
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.cacheParameterGroupName = cacheParameterGroupName
             self.replicationGroupDescription = replicationGroupDescription
-            self.primaryClusterId = primaryClusterId
+            self.nodeGroupId = nodeGroupId
             self.cacheNodeType = cacheNodeType
+            self.primaryClusterId = primaryClusterId
             self.automaticFailoverEnabled = automaticFailoverEnabled
             self.snapshotRetentionLimit = snapshotRetentionLimit
         }
@@ -3936,8 +3999,9 @@ extension Elasticache {
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
             self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
-            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
+            self.nodeGroupId = dictionary["NodeGroupId"] as? String
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
+            self.primaryClusterId = dictionary["PrimaryClusterId"] as? String
             self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
         }

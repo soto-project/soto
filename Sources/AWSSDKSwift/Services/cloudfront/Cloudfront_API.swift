@@ -41,7 +41,7 @@ public struct Cloudfront {
             region: region,
             service: "cloudfront",
             serviceProtocol: ServiceProtocol(type: .restxml),
-            apiVersion: "2016-11-25",
+            apiVersion: "2017-03-25",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],
             partitionEndpoint: "aws-global",
@@ -50,112 +50,112 @@ public struct Cloudfront {
         )
     }
 
-    public func updateCloudFrontOriginAccessIdentity20161125(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> UpdateCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "UpdateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateCloudFrontOriginAccessIdentity20170325(_ input: UpdateCloudFrontOriginAccessIdentityRequest) throws -> UpdateCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "UpdateCloudFrontOriginAccessIdentity2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func createDistribution20161125(_ input: CreateDistributionRequest) throws -> CreateDistributionResult {
-        return try client.send(operation: "CreateDistribution2016_11_25", path: "/2016-11-25/distribution", httpMethod: "POST", input: input)
+    public func createDistribution20170325(_ input: CreateDistributionRequest) throws -> CreateDistributionResult {
+        return try client.send(operation: "CreateDistribution2017_03_25", path: "/2017-03-25/distribution", httpMethod: "POST", input: input)
     }
 
-    public func updateDistribution20161125(_ input: UpdateDistributionRequest) throws -> UpdateDistributionResult {
-        return try client.send(operation: "UpdateDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateDistribution20170325(_ input: UpdateDistributionRequest) throws -> UpdateDistributionResult {
+        return try client.send(operation: "UpdateDistribution2017_03_25", path: "/2017-03-25/distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
-    public func listDistributionsByWebACLId20161125(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
-        return try client.send(operation: "ListDistributionsByWebACLId2016_11_25", path: "/2016-11-25/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
+    public func listDistributionsByWebACLId20170325(_ input: ListDistributionsByWebACLIdRequest) throws -> ListDistributionsByWebACLIdResult {
+        return try client.send(operation: "ListDistributionsByWebACLId2017_03_25", path: "/2017-03-25/distributionsByWebACLId/{WebACLId}", httpMethod: "GET", input: input)
     }
 
-    public func getCloudFrontOriginAccessIdentity20161125(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "GetCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
+    public func getCloudFrontOriginAccessIdentity20170325(_ input: GetCloudFrontOriginAccessIdentityRequest) throws -> GetCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentity2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func createCloudFrontOriginAccessIdentity20161125(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
-        return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
+    public func createCloudFrontOriginAccessIdentity20170325(_ input: CreateCloudFrontOriginAccessIdentityRequest) throws -> CreateCloudFrontOriginAccessIdentityResult {
+        return try client.send(operation: "CreateCloudFrontOriginAccessIdentity2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront", httpMethod: "POST", input: input)
     }
 
-    public func listDistributions20161125(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {
-        return try client.send(operation: "ListDistributions2016_11_25", path: "/2016-11-25/distribution", httpMethod: "GET", input: input)
+    public func listDistributions20170325(_ input: ListDistributionsRequest) throws -> ListDistributionsResult {
+        return try client.send(operation: "ListDistributions2017_03_25", path: "/2017-03-25/distribution", httpMethod: "GET", input: input)
     }
 
-    public func listTagsForResource20161125(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
-        return try client.send(operation: "ListTagsForResource2016_11_25", path: "/2016-11-25/tagging", httpMethod: "GET", input: input)
+    public func listTagsForResource20170325(_ input: ListTagsForResourceRequest) throws -> ListTagsForResourceResult {
+        return try client.send(operation: "ListTagsForResource2017_03_25", path: "/2017-03-25/tagging", httpMethod: "GET", input: input)
     }
 
-    public func getDistributionConfig20161125(_ input: GetDistributionConfigRequest) throws -> GetDistributionConfigResult {
-        return try client.send(operation: "GetDistributionConfig2016_11_25", path: "/2016-11-25/distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func getDistributionConfig20170325(_ input: GetDistributionConfigRequest) throws -> GetDistributionConfigResult {
+        return try client.send(operation: "GetDistributionConfig2017_03_25", path: "/2017-03-25/distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func createInvalidation20161125(_ input: CreateInvalidationRequest) throws -> CreateInvalidationResult {
-        return try client.send(operation: "CreateInvalidation2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
+    public func createInvalidation20170325(_ input: CreateInvalidationRequest) throws -> CreateInvalidationResult {
+        return try client.send(operation: "CreateInvalidation2017_03_25", path: "/2017-03-25/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
     }
 
-    public func getCloudFrontOriginAccessIdentityConfig20161125(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) throws -> GetCloudFrontOriginAccessIdentityConfigResult {
-        return try client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
+    public func getCloudFrontOriginAccessIdentityConfig20170325(_ input: GetCloudFrontOriginAccessIdentityConfigRequest) throws -> GetCloudFrontOriginAccessIdentityConfigResult {
+        return try client.send(operation: "GetCloudFrontOriginAccessIdentityConfig2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func getInvalidation20161125(_ input: GetInvalidationRequest) throws -> GetInvalidationResult {
-        return try client.send(operation: "GetInvalidation2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
+    public func getInvalidation20170325(_ input: GetInvalidationRequest) throws -> GetInvalidationResult {
+        return try client.send(operation: "GetInvalidation2017_03_25", path: "/2017-03-25/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func listCloudFrontOriginAccessIdentities20161125(_ input: ListCloudFrontOriginAccessIdentitiesRequest) throws -> ListCloudFrontOriginAccessIdentitiesResult {
-        return try client.send(operation: "ListCloudFrontOriginAccessIdentities2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
+    public func listCloudFrontOriginAccessIdentities20170325(_ input: ListCloudFrontOriginAccessIdentitiesRequest) throws -> ListCloudFrontOriginAccessIdentitiesResult {
+        return try client.send(operation: "ListCloudFrontOriginAccessIdentities2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront", httpMethod: "GET", input: input)
     }
 
-    public func getStreamingDistributionConfig20161125(_ input: GetStreamingDistributionConfigRequest) throws -> GetStreamingDistributionConfigResult {
-        return try client.send(operation: "GetStreamingDistributionConfig2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
+    public func getStreamingDistributionConfig20170325(_ input: GetStreamingDistributionConfigRequest) throws -> GetStreamingDistributionConfigResult {
+        return try client.send(operation: "GetStreamingDistributionConfig2017_03_25", path: "/2017-03-25/streaming-distribution/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    public func getDistribution20161125(_ input: GetDistributionRequest) throws -> GetDistributionResult {
-        return try client.send(operation: "GetDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}", httpMethod: "GET", input: input)
+    public func getDistribution20170325(_ input: GetDistributionRequest) throws -> GetDistributionResult {
+        return try client.send(operation: "GetDistribution2017_03_25", path: "/2017-03-25/distribution/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func deleteCloudFrontOriginAccessIdentity20161125(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
-        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2016_11_25", path: "/2016-11-25/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
+    public func deleteCloudFrontOriginAccessIdentity20170325(_ input: DeleteCloudFrontOriginAccessIdentityRequest) throws {
+        _ = try client.send(operation: "DeleteCloudFrontOriginAccessIdentity2017_03_25", path: "/2017-03-25/origin-access-identity/cloudfront/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func listStreamingDistributions20161125(_ input: ListStreamingDistributionsRequest) throws -> ListStreamingDistributionsResult {
-        return try client.send(operation: "ListStreamingDistributions2016_11_25", path: "/2016-11-25/streaming-distribution", httpMethod: "GET", input: input)
+    public func listStreamingDistributions20170325(_ input: ListStreamingDistributionsRequest) throws -> ListStreamingDistributionsResult {
+        return try client.send(operation: "ListStreamingDistributions2017_03_25", path: "/2017-03-25/streaming-distribution", httpMethod: "GET", input: input)
     }
 
-    public func listInvalidations20161125(_ input: ListInvalidationsRequest) throws -> ListInvalidationsResult {
-        return try client.send(operation: "ListInvalidations2016_11_25", path: "/2016-11-25/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+    public func listInvalidations20170325(_ input: ListInvalidationsRequest) throws -> ListInvalidationsResult {
+        return try client.send(operation: "ListInvalidations2017_03_25", path: "/2017-03-25/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
     }
 
-    public func getStreamingDistribution20161125(_ input: GetStreamingDistributionRequest) throws -> GetStreamingDistributionResult {
-        return try client.send(operation: "GetStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}", httpMethod: "GET", input: input)
+    public func getStreamingDistribution20170325(_ input: GetStreamingDistributionRequest) throws -> GetStreamingDistributionResult {
+        return try client.send(operation: "GetStreamingDistribution2017_03_25", path: "/2017-03-25/streaming-distribution/{Id}", httpMethod: "GET", input: input)
     }
 
-    public func deleteStreamingDistribution20161125(_ input: DeleteStreamingDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
+    public func deleteStreamingDistribution20170325(_ input: DeleteStreamingDistributionRequest) throws {
+        _ = try client.send(operation: "DeleteStreamingDistribution2017_03_25", path: "/2017-03-25/streaming-distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func untagResource20161125(_ input: UntagResourceRequest) throws {
-        _ = try client.send(operation: "UntagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Untag", httpMethod: "POST", input: input)
+    public func untagResource20170325(_ input: UntagResourceRequest) throws {
+        _ = try client.send(operation: "UntagResource2017_03_25", path: "/2017-03-25/tagging?Operation=Untag", httpMethod: "POST", input: input)
     }
 
-    public func createDistributionWithTags20161125(_ input: CreateDistributionWithTagsRequest) throws -> CreateDistributionWithTagsResult {
-        return try client.send(operation: "CreateDistributionWithTags2016_11_25", path: "/2016-11-25/distribution?WithTags", httpMethod: "POST", input: input)
+    public func createDistributionWithTags20170325(_ input: CreateDistributionWithTagsRequest) throws -> CreateDistributionWithTagsResult {
+        return try client.send(operation: "CreateDistributionWithTags2017_03_25", path: "/2017-03-25/distribution?WithTags", httpMethod: "POST", input: input)
     }
 
-    public func createStreamingDistributionWithTags20161125(_ input: CreateStreamingDistributionWithTagsRequest) throws -> CreateStreamingDistributionWithTagsResult {
-        return try client.send(operation: "CreateStreamingDistributionWithTags2016_11_25", path: "/2016-11-25/streaming-distribution?WithTags", httpMethod: "POST", input: input)
+    public func createStreamingDistributionWithTags20170325(_ input: CreateStreamingDistributionWithTagsRequest) throws -> CreateStreamingDistributionWithTagsResult {
+        return try client.send(operation: "CreateStreamingDistributionWithTags2017_03_25", path: "/2017-03-25/streaming-distribution?WithTags", httpMethod: "POST", input: input)
     }
 
-    public func deleteDistribution20161125(_ input: DeleteDistributionRequest) throws {
-        _ = try client.send(operation: "DeleteDistribution2016_11_25", path: "/2016-11-25/distribution/{Id}", httpMethod: "DELETE", input: input)
+    public func deleteDistribution20170325(_ input: DeleteDistributionRequest) throws {
+        _ = try client.send(operation: "DeleteDistribution2017_03_25", path: "/2017-03-25/distribution/{Id}", httpMethod: "DELETE", input: input)
     }
 
-    public func tagResource20161125(_ input: TagResourceRequest) throws {
-        _ = try client.send(operation: "TagResource2016_11_25", path: "/2016-11-25/tagging?Operation=Tag", httpMethod: "POST", input: input)
+    public func tagResource20170325(_ input: TagResourceRequest) throws {
+        _ = try client.send(operation: "TagResource2017_03_25", path: "/2017-03-25/tagging?Operation=Tag", httpMethod: "POST", input: input)
     }
 
-    public func createStreamingDistribution20161125(_ input: CreateStreamingDistributionRequest) throws -> CreateStreamingDistributionResult {
-        return try client.send(operation: "CreateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution", httpMethod: "POST", input: input)
+    public func createStreamingDistribution20170325(_ input: CreateStreamingDistributionRequest) throws -> CreateStreamingDistributionResult {
+        return try client.send(operation: "CreateStreamingDistribution2017_03_25", path: "/2017-03-25/streaming-distribution", httpMethod: "POST", input: input)
     }
 
-    public func updateStreamingDistribution20161125(_ input: UpdateStreamingDistributionRequest) throws -> UpdateStreamingDistributionResult {
-        return try client.send(operation: "UpdateStreamingDistribution2016_11_25", path: "/2016-11-25/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
+    public func updateStreamingDistribution20170325(_ input: UpdateStreamingDistributionRequest) throws -> UpdateStreamingDistributionResult {
+        return try client.send(operation: "UpdateStreamingDistribution2017_03_25", path: "/2017-03-25/streaming-distribution/{Id}/config", httpMethod: "PUT", input: input)
     }
 
 

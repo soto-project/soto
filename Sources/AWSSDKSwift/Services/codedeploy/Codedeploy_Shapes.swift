@@ -99,21 +99,21 @@ extension Codedeploy {
         }
     }
 
-    public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
+    public struct ListGitHubAccountTokenNamesInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+            AWSShapeProperty(label: "nextToken", required: false, type: .string)
         ]
-        /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
-        public let deploymentId: String?
+        /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
+        public let nextToken: String?
 
-        public init(deploymentId: String? = nil) {
-            self.deploymentId = deploymentId
+        public init(nextToken: String? = nil) {
+            self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
+            self.nextToken = dictionary["nextToken"] as? String
         }
     }
 
@@ -132,6 +132,24 @@ extension Codedeploy {
 
         public init(dictionary: [String: Any]) throws {
             if let deploymentInfo = dictionary["deploymentInfo"] as? [String: Any] { self.deploymentInfo = try Codedeploy.DeploymentInfo(dictionary: deploymentInfo) } else { self.deploymentInfo = nil }
+        }
+    }
+
+    public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+        ]
+        /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
+        public let deploymentId: String?
+
+        public init(deploymentId: String? = nil) {
+            self.deploymentId = deploymentId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
         }
     }
 
@@ -188,7 +206,7 @@ extension Codedeploy {
             AWSShapeProperty(label: "deploymentType", required: false, type: .enum), 
             AWSShapeProperty(label: "deploymentOption", required: false, type: .enum)
         ]
-        /// Indicates whether to run a standard deployment or a blue/green deployment.
+        /// Indicates whether to run an in-place deployment or a blue/green deployment.
         public let deploymentType: DeploymentType?
         /// Indicates whether to route deployment traffic behind a load balancer.
         public let deploymentOption: DeploymentOption?
@@ -208,125 +226,135 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeProperty(label: "creator", required: false, type: .enum), 
+            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "revision", required: false, type: .structure), 
+            AWSShapeProperty(label: "previousRevision", required: false, type: .structure), 
+            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentOverview", required: false, type: .structure), 
             AWSShapeProperty(label: "targetInstances", required: false, type: .structure), 
             AWSShapeProperty(label: "completeTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
             AWSShapeProperty(label: "rollbackInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
+            AWSShapeProperty(label: "description", required: false, type: .string), 
             AWSShapeProperty(label: "additionalDeploymentStatusInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "creator", required: false, type: .enum), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
             AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
+            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
             AWSShapeProperty(label: "status", required: false, type: .enum), 
             AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
             AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
+            AWSShapeProperty(label: "fileExistsBehavior", required: false, type: .enum), 
             AWSShapeProperty(label: "errorInformation", required: false, type: .structure), 
             AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentOverview", required: false, type: .structure), 
             AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "startTime", required: false, type: .timestamp)
         ]
+        /// The deployment group name.
+        public let deploymentGroupName: String?
+        /// Information about the load balancer used in the deployment.
+        public let loadBalancerInfo: LoadBalancerInfo?
+        /// The means by which the deployment was created:   user: A user created the deployment.   autoscaling: Auto Scaling created the deployment.   codeDeployRollback: A rollback process created the deployment.  
+        public let creator: DeploymentCreator?
+        /// Information about blue/green deployment options for this deployment.
+        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
+        /// Information about the location of stored application artifacts and the service from which to retrieve them.
+        public let revision: RevisionLocation?
+        /// Information about the application revision that was deployed to the deployment group before the most recent successful deployment.
+        public let previousRevision: RevisionLocation?
+        /// The deployment ID.
+        public let deploymentId: String?
+        /// A summary of the deployment status of the instances in the deployment.
+        public let deploymentOverview: DeploymentOverview?
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
         public let targetInstances: TargetInstances?
         /// A timestamp indicating when the deployment was complete.
         public let completeTime: String?
-        /// The deployment group name.
-        public let deploymentGroupName: String?
         /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified; otherwise, 'true' as soon as the termination wait period starts.
         public let instanceTerminationWaitTimeStarted: Bool?
         /// Information about a deployment rollback.
         public let rollbackInfo: RollbackInfo?
-        /// A comment about the deployment.
-        public let description: String?
         /// If true, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will not be considered to have failed at that point and will continue on to the BeforeInstall deployment lifecycle event. If false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to an instance to fail, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed.
         public let ignoreApplicationStopFailures: Bool?
+        /// A comment about the deployment.
+        public let description: String?
         /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
         public let additionalDeploymentStatusInfo: String?
-        /// The means by which the deployment was created:   user: A user created the deployment.   autoscaling: Auto Scaling created the deployment.   codeDeployRollback: A rollback process created the deployment.  
-        public let creator: DeploymentCreator?
-        /// Information about the load balancer used in this blue/green deployment.
-        public let loadBalancerInfo: LoadBalancerInfo?
-        /// Information about blue/green deployment options for this deployment.
-        public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
-        /// The application name.
-        public let applicationName: String?
         /// Indicates whether only instances that are not running the latest application revision are to be deployed to.
         public let updateOutdatedInstancesOnly: Bool?
-        /// Information about the location of stored application artifacts and the service from which to retrieve them.
-        public let revision: RevisionLocation?
+        /// The application name.
+        public let applicationName: String?
         /// The current state of the deployment as a whole.
         public let status: DeploymentStatus?
         /// The deployment configuration name.
         public let deploymentConfigName: String?
-        /// Information about the type of deployment, either standard or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
-        /// The deployment ID.
-        public let deploymentId: String?
+        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
+        public let fileExistsBehavior: FileExistsBehavior?
         /// Information about any error associated with this deployment.
         public let errorInformation: ErrorInformation?
         /// Information about the automatic rollback configuration associated with the deployment.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
-        /// A summary of the deployment status of the instances in the deployment.
-        public let deploymentOverview: DeploymentOverview?
         /// A timestamp indicating when the deployment was created.
         public let createTime: String?
         /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
         public let startTime: String?
 
-        public init(targetInstances: TargetInstances? = nil, completeTime: String? = nil, deploymentGroupName: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, description: String? = nil, ignoreApplicationStopFailures: Bool? = nil, additionalDeploymentStatusInfo: String? = nil, creator: DeploymentCreator? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, revision: RevisionLocation? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, deploymentId: String? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentOverview: DeploymentOverview? = nil, createTime: String? = nil, startTime: String? = nil) {
+        public init(deploymentGroupName: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, creator: DeploymentCreator? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, revision: RevisionLocation? = nil, previousRevision: RevisionLocation? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, targetInstances: TargetInstances? = nil, completeTime: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, ignoreApplicationStopFailures: Bool? = nil, description: String? = nil, additionalDeploymentStatusInfo: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, applicationName: String? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, fileExistsBehavior: FileExistsBehavior? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, createTime: String? = nil, startTime: String? = nil) {
+            self.deploymentGroupName = deploymentGroupName
+            self.loadBalancerInfo = loadBalancerInfo
+            self.creator = creator
+            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
+            self.revision = revision
+            self.previousRevision = previousRevision
+            self.deploymentId = deploymentId
+            self.deploymentOverview = deploymentOverview
             self.targetInstances = targetInstances
             self.completeTime = completeTime
-            self.deploymentGroupName = deploymentGroupName
             self.instanceTerminationWaitTimeStarted = instanceTerminationWaitTimeStarted
             self.rollbackInfo = rollbackInfo
-            self.description = description
             self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
+            self.description = description
             self.additionalDeploymentStatusInfo = additionalDeploymentStatusInfo
-            self.creator = creator
-            self.loadBalancerInfo = loadBalancerInfo
-            self.blueGreenDeploymentConfiguration = blueGreenDeploymentConfiguration
-            self.applicationName = applicationName
             self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
-            self.revision = revision
+            self.applicationName = applicationName
             self.status = status
             self.deploymentConfigName = deploymentConfigName
             self.deploymentStyle = deploymentStyle
-            self.deploymentId = deploymentId
+            self.fileExistsBehavior = fileExistsBehavior
             self.errorInformation = errorInformation
             self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.deploymentOverview = deploymentOverview
             self.createTime = createTime
             self.startTime = startTime
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
+            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
+            if let creator = dictionary["creator"] as? String { self.creator = DeploymentCreator(rawValue: creator) } else { self.creator = nil }
+            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
+            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
+            if let previousRevision = dictionary["previousRevision"] as? [String: Any] { self.previousRevision = try Codedeploy.RevisionLocation(dictionary: previousRevision) } else { self.previousRevision = nil }
+            self.deploymentId = dictionary["deploymentId"] as? String
+            if let deploymentOverview = dictionary["deploymentOverview"] as? [String: Any] { self.deploymentOverview = try Codedeploy.DeploymentOverview(dictionary: deploymentOverview) } else { self.deploymentOverview = nil }
             if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) } else { self.targetInstances = nil }
             self.completeTime = dictionary["completeTime"] as? String
-            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
             self.instanceTerminationWaitTimeStarted = dictionary["instanceTerminationWaitTimeStarted"] as? Bool
             if let rollbackInfo = dictionary["rollbackInfo"] as? [String: Any] { self.rollbackInfo = try Codedeploy.RollbackInfo(dictionary: rollbackInfo) } else { self.rollbackInfo = nil }
-            self.description = dictionary["description"] as? String
             self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
+            self.description = dictionary["description"] as? String
             self.additionalDeploymentStatusInfo = dictionary["additionalDeploymentStatusInfo"] as? String
-            if let creator = dictionary["creator"] as? String { self.creator = DeploymentCreator(rawValue: creator) } else { self.creator = nil }
-            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
-            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
-            self.applicationName = dictionary["applicationName"] as? String
             self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
-            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
+            self.applicationName = dictionary["applicationName"] as? String
             if let status = dictionary["status"] as? String { self.status = DeploymentStatus(rawValue: status) } else { self.status = nil }
             self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
             if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
-            self.deploymentId = dictionary["deploymentId"] as? String
+            if let fileExistsBehavior = dictionary["fileExistsBehavior"] as? String { self.fileExistsBehavior = FileExistsBehavior(rawValue: fileExistsBehavior) } else { self.fileExistsBehavior = nil }
             if let errorInformation = dictionary["errorInformation"] as? [String: Any] { self.errorInformation = try Codedeploy.ErrorInformation(dictionary: errorInformation) } else { self.errorInformation = nil }
             if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
-            if let deploymentOverview = dictionary["deploymentOverview"] as? [String: Any] { self.deploymentOverview = try Codedeploy.DeploymentOverview(dictionary: deploymentOverview) } else { self.deploymentOverview = nil }
             self.createTime = dictionary["createTime"] as? String
             self.startTime = dictionary["startTime"] as? String
         }
@@ -1177,9 +1205,9 @@ extension Codedeploy {
         public let deploymentGroupName: String
         /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
         public let serviceRoleArn: String
-        /// Information about the load balancer used in a blue/green deployment.
+        /// Information about the load balancer used in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
-        /// Information to add about Amazon CloudWatch alarms when the deployment group is created. 
+        /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
@@ -1187,15 +1215,15 @@ extension Codedeploy {
         public let applicationName: String
         /// A list of associated Auto Scaling groups.
         public let autoScalingGroups: [String]?
-        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation. CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group. For more information about the predefined deployment configurations in AWS CodeDeploy, see see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
+        /// If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation. CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group. For more information about the predefined deployment configurations in AWS CodeDeploy, see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
         public let deploymentConfigName: String?
         /// Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
-        /// Information about the type of deployment, standard or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
+        /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
-        /// The Amazon EC2 tags on which to filter.
+        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags.
         public let ec2TagFilters: [EC2TagFilter]?
-        /// The on-premises instance tags on which to filter.
+        /// The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags.
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// Configuration information for an automatic rollback that is added when a deployment group is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
@@ -1248,13 +1276,21 @@ extension Codedeploy {
         }
     }
 
+    public struct GitHubAccountTokenDoesNotExistException: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
     public struct LoadBalancerInfo: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "elbInfoList", required: false, type: .list)
         ]
-        /// An array containing information about the load balancer in Elastic Load Balancing to use in a blue/green deployment.
+        /// An array containing information about the load balancer in Elastic Load Balancing to use in a deployment.
         public let elbInfoList: [ELBInfo]?
 
         public init(elbInfoList: [ELBInfo]? = nil) {
@@ -1401,27 +1437,11 @@ extension Codedeploy {
         }
     }
 
-    public struct ListDeploymentConfigsOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentConfigsList", required: false, type: .list)
-        ]
-        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
-        public let nextToken: String?
-        /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
-        public let deploymentConfigsList: [String]?
-
-        public init(nextToken: String? = nil, deploymentConfigsList: [String]? = nil) {
-            self.nextToken = nextToken
-            self.deploymentConfigsList = deploymentConfigsList
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.deploymentConfigsList = dictionary["deploymentConfigsList"] as? [String]
-        }
+    public enum FileExistsBehavior: String, CustomStringConvertible {
+        case disallow = "DISALLOW"
+        case overwrite = "OVERWRITE"
+        case retain = "RETAIN"
+        public var description: String { return self.rawValue }
     }
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
@@ -1458,6 +1478,29 @@ extension Codedeploy {
         case unknown = "Unknown"
         case ready = "Ready"
         public var description: String { return self.rawValue }
+    }
+
+    public struct ListDeploymentConfigsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "deploymentConfigsList", required: false, type: .list)
+        ]
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
+        public let nextToken: String?
+        /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
+        public let deploymentConfigsList: [String]?
+
+        public init(nextToken: String? = nil, deploymentConfigsList: [String]? = nil) {
+            self.nextToken = nextToken
+            self.deploymentConfigsList = deploymentConfigsList
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.deploymentConfigsList = dictionary["deploymentConfigsList"] as? [String]
+        }
     }
 
     public struct GitHubLocation: AWSShape {
@@ -1667,6 +1710,7 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "lastSuccessfulDeployment", required: false, type: .structure), 
             AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "serviceRoleArn", required: false, type: .string), 
             AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
@@ -1678,16 +1722,19 @@ extension Codedeploy {
             AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
             AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
             AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeProperty(label: "lastAttemptedDeployment", required: false, type: .structure), 
             AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
             AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
             AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "targetRevision", required: false, type: .structure)
         ]
+        /// Information about the most recent successful deployment to the deployment group.
+        public let lastSuccessfulDeployment: LastDeploymentInfo?
         /// The deployment group name.
         public let deploymentGroupName: String?
         /// A service role ARN.
         public let serviceRoleArn: String?
-        /// Information about the load balancer to use in a blue/green deployment.
+        /// Information about the load balancer to use in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
         /// The deployment group ID.
         public let deploymentGroupId: String?
@@ -1703,8 +1750,10 @@ extension Codedeploy {
         public let deploymentConfigName: String?
         /// Information about triggers associated with the deployment group.
         public let triggerConfigurations: [TriggerConfig]?
-        /// Information about the type of deployment, either standard or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
+        /// Information about the most recent attempted deployment to the deployment group.
+        public let lastAttemptedDeployment: LastDeploymentInfo?
         /// The on-premises instance tags on which to filter.
         public let onPremisesInstanceTagFilters: [TagFilter]?
         /// The Amazon EC2 tags on which to filter.
@@ -1714,7 +1763,8 @@ extension Codedeploy {
         /// Information about the deployment group's target revision, including type and location.
         public let targetRevision: RevisionLocation?
 
-        public init(deploymentGroupName: String? = nil, serviceRoleArn: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, deploymentGroupId: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, targetRevision: RevisionLocation? = nil) {
+        public init(lastSuccessfulDeployment: LastDeploymentInfo? = nil, deploymentGroupName: String? = nil, serviceRoleArn: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, deploymentGroupId: String? = nil, alarmConfiguration: AlarmConfiguration? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, applicationName: String? = nil, autoScalingGroups: [AutoScalingGroup]? = nil, deploymentConfigName: String? = nil, triggerConfigurations: [TriggerConfig]? = nil, deploymentStyle: DeploymentStyle? = nil, lastAttemptedDeployment: LastDeploymentInfo? = nil, onPremisesInstanceTagFilters: [TagFilter]? = nil, ec2TagFilters: [EC2TagFilter]? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, targetRevision: RevisionLocation? = nil) {
+            self.lastSuccessfulDeployment = lastSuccessfulDeployment
             self.deploymentGroupName = deploymentGroupName
             self.serviceRoleArn = serviceRoleArn
             self.loadBalancerInfo = loadBalancerInfo
@@ -1726,6 +1776,7 @@ extension Codedeploy {
             self.deploymentConfigName = deploymentConfigName
             self.triggerConfigurations = triggerConfigurations
             self.deploymentStyle = deploymentStyle
+            self.lastAttemptedDeployment = lastAttemptedDeployment
             self.onPremisesInstanceTagFilters = onPremisesInstanceTagFilters
             self.ec2TagFilters = ec2TagFilters
             self.autoRollbackConfiguration = autoRollbackConfiguration
@@ -1733,6 +1784,7 @@ extension Codedeploy {
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let lastSuccessfulDeployment = dictionary["lastSuccessfulDeployment"] as? [String: Any] { self.lastSuccessfulDeployment = try Codedeploy.LastDeploymentInfo(dictionary: lastSuccessfulDeployment) } else { self.lastSuccessfulDeployment = nil }
             self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
             self.serviceRoleArn = dictionary["serviceRoleArn"] as? String
             if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
@@ -1752,6 +1804,7 @@ extension Codedeploy {
                 self.triggerConfigurations = nil
             }
             if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
+            if let lastAttemptedDeployment = dictionary["lastAttemptedDeployment"] as? [String: Any] { self.lastAttemptedDeployment = try Codedeploy.LastDeploymentInfo(dictionary: lastAttemptedDeployment) } else { self.lastAttemptedDeployment = nil }
             if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
                 self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
             } else { 
@@ -2037,11 +2090,14 @@ extension Codedeploy {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "gitHubAccountName", required: false, type: .string), 
             AWSShapeProperty(label: "linkedToGitHub", required: false, type: .boolean), 
             AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "applicationName", required: false, type: .string), 
             AWSShapeProperty(label: "applicationId", required: false, type: .string)
         ]
+        /// The name for a connection to a GitHub account.
+        public let gitHubAccountName: String?
         /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
         public let linkedToGitHub: Bool?
         /// The time at which the application was created.
@@ -2051,7 +2107,8 @@ extension Codedeploy {
         /// The application ID.
         public let applicationId: String?
 
-        public init(linkedToGitHub: Bool? = nil, createTime: String? = nil, applicationName: String? = nil, applicationId: String? = nil) {
+        public init(gitHubAccountName: String? = nil, linkedToGitHub: Bool? = nil, createTime: String? = nil, applicationName: String? = nil, applicationId: String? = nil) {
+            self.gitHubAccountName = gitHubAccountName
             self.linkedToGitHub = linkedToGitHub
             self.createTime = createTime
             self.applicationName = applicationName
@@ -2059,6 +2116,7 @@ extension Codedeploy {
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.gitHubAccountName = dictionary["gitHubAccountName"] as? String
             self.linkedToGitHub = dictionary["linkedToGitHub"] as? Bool
             self.createTime = dictionary["createTime"] as? String
             self.applicationName = dictionary["applicationName"] as? String
@@ -2159,6 +2217,29 @@ extension Codedeploy {
         public var description: String { return self.rawValue }
     }
 
+    public struct ListGitHubAccountTokenNamesOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "tokenNameList", required: false, type: .list)
+        ]
+        /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
+        public let nextToken: String?
+        /// A list of names of connections to GitHub accounts.
+        public let tokenNameList: [String]?
+
+        public init(nextToken: String? = nil, tokenNameList: [String]? = nil) {
+            self.nextToken = nextToken
+            self.tokenNameList = tokenNameList
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            self.tokenNameList = dictionary["tokenNameList"] as? [String]
+        }
+    }
+
     public struct GetDeploymentGroupInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2252,6 +2333,7 @@ extension Codedeploy {
             AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
             AWSShapeProperty(label: "description", required: false, type: .string), 
+            AWSShapeProperty(label: "fileExistsBehavior", required: false, type: .enum), 
             AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "applicationName", required: true, type: .string)
         ]
@@ -2269,12 +2351,14 @@ extension Codedeploy {
         public let updateOutdatedInstancesOnly: Bool?
         /// A comment about the deployment.
         public let description: String?
+        /// Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.  
+        public let fileExistsBehavior: FileExistsBehavior?
         /// Configuration information for an automatic rollback that is added when a deployment is created.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
 
-        public init(revision: RevisionLocation? = nil, deploymentConfigName: String? = nil, targetInstances: TargetInstances? = nil, ignoreApplicationStopFailures: Bool? = nil, deploymentGroupName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, description: String? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, applicationName: String) {
+        public init(revision: RevisionLocation? = nil, deploymentConfigName: String? = nil, targetInstances: TargetInstances? = nil, ignoreApplicationStopFailures: Bool? = nil, deploymentGroupName: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, applicationName: String) {
             self.revision = revision
             self.deploymentConfigName = deploymentConfigName
             self.targetInstances = targetInstances
@@ -2282,6 +2366,7 @@ extension Codedeploy {
             self.deploymentGroupName = deploymentGroupName
             self.updateOutdatedInstancesOnly = updateOutdatedInstancesOnly
             self.description = description
+            self.fileExistsBehavior = fileExistsBehavior
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.applicationName = applicationName
         }
@@ -2294,6 +2379,7 @@ extension Codedeploy {
             self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
             self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
             self.description = dictionary["description"] as? String
+            if let fileExistsBehavior = dictionary["fileExistsBehavior"] as? String { self.fileExistsBehavior = FileExistsBehavior(rawValue: fileExistsBehavior) } else { self.fileExistsBehavior = nil }
             if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
             guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
             self.applicationName = applicationName
@@ -2362,7 +2448,7 @@ extension Codedeploy {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "name", required: false, type: .string)
         ]
-        /// The name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment.
+        /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -2468,6 +2554,39 @@ extension Codedeploy {
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
             self.instancesList = dictionary["instancesList"] as? [String]
+        }
+    }
+
+    public struct LastDeploymentInfo: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
+            AWSShapeProperty(label: "status", required: false, type: .enum), 
+            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "createTime", required: false, type: .timestamp)
+        ]
+        /// The deployment ID.
+        public let deploymentId: String?
+        /// The status of the most recent deployment.
+        public let status: DeploymentStatus?
+        /// A timestamp indicating when the most recent deployment to the deployment group completed.
+        public let endTime: String?
+        /// A timestamp indicating when the most recent deployment to the deployment group started.
+        public let createTime: String?
+
+        public init(deploymentId: String? = nil, status: DeploymentStatus? = nil, endTime: String? = nil, createTime: String? = nil) {
+            self.deploymentId = deploymentId
+            self.status = status
+            self.endTime = endTime
+            self.createTime = createTime
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.deploymentId = dictionary["deploymentId"] as? String
+            if let status = dictionary["status"] as? String { self.status = DeploymentStatus(rawValue: status) } else { self.status = nil }
+            self.endTime = dictionary["endTime"] as? String
+            self.createTime = dictionary["createTime"] as? String
         }
     }
 
@@ -2695,9 +2814,9 @@ extension Codedeploy {
         public let serviceRoleArn: String?
         /// The new name of the deployment group, if you want to change it.
         public let newDeploymentGroupName: String?
-        /// Information about the load balancer used in a blue/green deployment.
+        /// Information about the load balancer used in a deployment.
         public let loadBalancerInfo: LoadBalancerInfo?
-        /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated. 
+        /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
         public let alarmConfiguration: AlarmConfiguration?
         /// Information about blue/green deployment options for a deployment group.
         public let blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration?
@@ -2709,7 +2828,7 @@ extension Codedeploy {
         public let deploymentConfigName: String?
         /// Information about triggers to change when the deployment group is updated. For examples, see Modify Triggers in an AWS CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
         public let triggerConfigurations: [TriggerConfig]?
-        /// Information about the type of deployment, either standard or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+        /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public let deploymentStyle: DeploymentStyle?
         /// The current name of the deployment group.
         public let currentDeploymentGroupName: String
@@ -3005,7 +3124,7 @@ extension Codedeploy {
             AWSShapeProperty(label: "type", required: false, type: .enum), 
             AWSShapeProperty(label: "value", required: false, type: .integer)
         ]
-        /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds. 
+        /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let `type`: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
         public let value: Int32?

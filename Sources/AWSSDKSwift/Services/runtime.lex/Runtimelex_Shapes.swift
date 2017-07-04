@@ -39,14 +39,15 @@ extension Runtimelex {
             AWSShapeProperty(label: "buttons", required: false, type: .list), 
             AWSShapeProperty(label: "subTitle", required: false, type: .string)
         ]
+        /// The URL of an attachment to the response card.
         public let attachmentLinkUrl: String?
-        /// Title of the option.
+        /// The title of the option.
         public let title: String?
-        /// URL of an image that is displayed to the user.
+        /// The URL of an image that is displayed to the user.
         public let imageUrl: String?
-        /// List of options to show to the user.
+        /// The list of options to show to the user.
         public let buttons: [Button]?
-        /// Subtitle shown below the title.
+        /// The subtitle shown below the title.
         public let subTitle: String?
 
         public init(attachmentLinkUrl: String? = nil, title: String? = nil, imageUrl: String? = nil, buttons: [Button]? = nil, subTitle: String? = nil) {
@@ -80,9 +81,9 @@ extension Runtimelex {
         ]
         /// An array of attachment objects representing options.
         public let genericAttachments: [GenericAttachment]?
-        /// Version of response card format.
+        /// The version of the response card format.
         public let version: String?
-        /// Content type of the response.
+        /// The content type of the response.
         public let contentType: ContentType?
 
         public init(genericAttachments: [GenericAttachment]? = nil, version: String? = nil, contentType: ContentType? = nil) {
@@ -124,19 +125,19 @@ extension Runtimelex {
             AWSShapeProperty(label: "intentName", required: false, type: .string), 
             AWSShapeProperty(label: "responseCard", required: false, type: .structure)
         ]
-        /// If dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
+        /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public let slotToElicit: String?
-        ///  Intent slots (name/value pairs) Amazon Lex detected so far from the user input in the conversation. 
+        ///  The intent slots (name/value pairs) that Amazon Lex detected so far from the user input in the conversation. 
         public let slots: [String: String]?
-        /// Map of key value pairs representing the session specific context information.
+        /// A map of key-value pairs representing the session-specific context information.
         public let sessionAttributes: [String: String]?
-        ///  Prompt (or statement) to convey to the user. This is based on the application configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the application. In another example, if the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Suppose the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. In that situation, Amazon Lex sends that message in the response. 
+        ///  A message to convey to the user. It can come from the bot's configuration or a code hook (Lambda function). If the current intent is not configured with a code hook or the code hook returned Delegate as the dialogAction.type in its response, then Amazon Lex decides the next course of action and selects an appropriate message from the bot configuration based on the current user interaction context. For example, if Amazon Lex is not able to understand the user input, it uses a clarification prompt message (for more information, see the Error Handling section in the Amazon Lex console). Another example: if the intent requires confirmation before fulfillment, then Amazon Lex uses the confirmation prompt message in the intent configuration. If the code hook returns a message, Amazon Lex passes it as-is in its response to the client. 
         public let message: String?
-        /// Represents the message type to be conveyed to the user. For example:     ElicitIntent – Amazon Lex wants to elicit user intent. For example, Amazon Lex did not understand the first utterances such as "I want to order pizza", which indicates the OrderPizza intent. If Amazon Lex doesn't understand the intent, it returns this dialogState. Another example is when your intent is configured with a follow up prompt. For example, after OrderPizza intent is fulfilled, the intent might have a follow up prompt such as " Do you want to order a drink or desert?" In this case, Amazon Lex returns this dialogState.     ConfirmIntent – Amazon Lex is expecting a yes/no response from the user indicating whether to go ahead and fulfill the intent (for example, OK to go ahead and order the pizza). In addition to a yes/no reply, the user might provide a response with additional slot information (either new slot information or changes to the existing slot values). For example, "Yes, but change to thick crust." Amazon Lex understands the additional information and updates the intent slots accordingly.   Consider another example. Before fulfilling an order, your application might prompt for confirmation such as "Do you want to place this pizza order?" A user might reply with "No, I want to order a drink." Amazon Lex recognizes the new OrderDrink intent.     ElicitSlot – Amazon Lex is expecting a value of a slot for the current intent. For example, suppose Amazon Lex asks, "What size pizza would you like?" A user might reply with "Medium pepperoni pizza." Amazon Lex recognizes the size and the topping as the two separate slot values.     Fulfilled – Conveys that the Lambda function has successfully fulfilled the intent. If Lambda function returns a statement/message to convey the fulfillment result, Amazon Lex passes this string to the client. If not, Amazon Lex looks for conclusionStatement that you configured for the intent.   If both the Lambda function statement and the conclusionStatement are missing, Amazon Lex throws a bad request exception.     ReadyForFulfillment – conveys that the client has to do the fulfillment work for the intent. This is the case when the current intent is configured with ReturnIntent as the fulfillmentActivity , where Amazon Lex returns this state to client.     Failed – Conversation with the user failed. Some of the reasons for this dialogState are: after the configured number of attempts the user didn't provide an appropriate response, or the Lambda function failed to fulfill an intent.   
+        ///  Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent – Amazon Lex wants to elicit user intent.  For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialogState.    ConfirmIntent – Amazon Lex is expecting a "yes" or "no" response.   For example, Amazon Lex wants user confirmation before fulfilling an intent.  Instead of a simple "yes" or "no," a user might respond with additional information. For example, "yes, but make it thick crust pizza" or "no, I want to order a drink". Amazon Lex can process such additional information (in these examples, update the crust type slot value, or change intent from OrderPizza to OrderDrink).    ElicitSlot – Amazon Lex is expecting a slot value for the current intent.  For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled – Conveys that the Lambda function configured for the intent has successfully fulfilled the intent.     ReadyForFulfillment – Conveys that the client has to fulfill the intent.     Failed – Conveys that the conversation with the user failed.   This can happen for various reasons including that the user did not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or the Lambda function failed to fulfill the intent.   
         public let dialogState: DialogState?
-        /// Intent Amazon Lex inferred from the user input text. This is one of the intents configured for the bot. 
+        /// The current user intent that Amazon Lex is aware of.
         public let intentName: String?
-        /// Represents the options that the user has to respond to the current prompt. Amazon Lex sends this in the response only if the dialogState value indicates that a user response is expected. 
+        /// Represents the options that the user has to respond to the current prompt. Response Card can come from the bot configuration (in the Amazon Lex console, choose the settings button next to a slot) or from a code hook (Lambda function). 
         public let responseCard: ResponseCard?
 
         public init(slotToElicit: String? = nil, slots: [String: String]? = nil, sessionAttributes: [String: String]? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, responseCard: ResponseCard? = nil) {
@@ -168,6 +169,59 @@ extension Runtimelex {
         }
     }
 
+    public struct PostContentRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = "inputStream"
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "botAlias"), required: true, type: .string), 
+            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .string), 
+            AWSShapeProperty(label: "inputStream", required: true, type: .blob), 
+            AWSShapeProperty(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeProperty(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeProperty(label: "accept", location: .header(locationName: "Accept"), required: false, type: .string), 
+            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        ]
+        /// Alias of the Amazon Lex bot.
+        public let botAlias: String
+        ///  You pass this values as the Content-Type HTTP header.   Indicates the audio format or text. The header value must start with one of the following prefixes:    PCM format   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1     Opus format   audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=1; frame-size-milliseconds=1.1     Text format   text/plain; charset=utf-8    
+        public let contentType: String
+        ///  User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header. 
+        public let inputStream: Data
+        /// ID of the client application user. Typically, each of your application users should have a unique ID. The application developer decides the user IDs. At runtime, each request must include the user ID. Note the following considerations:    If you want a user to start conversation on one device and continue the conversation on another device, you might choose a user-specific identifier, such as the user's login, or Amazon Cognito user ID (assuming your application is using Amazon Cognito).     If you want the same user to be able to have two independent conversations on two different devices, you might choose device-specific identifier, such as device ID, or some globally unique identifier.   
+        public let userId: String
+        /// You pass this value in the x-amz-lex-session-attributes HTTP header. The value must be map (keys and values must be strings) that is JSON serialized and then base64 encoded.  A session represents dialog between a user and Amazon Lex. At runtime, a client application can pass contextual information, in the request to Amazon Lex. For example,    You might use session attributes to track the requestID of user requests.   In Getting Started Exercise 1, the example bot uses the price session attribute to maintain the price of flowers ordered (for example, "price":25). The code hook (Lambda function) sets this attribute based on the type of flowers ordered. For more information, see Review the Details of Information Flow.    In the BookTrip bot exercise, the bot uses the currentReservation session attribute to maintains the slot data during the in-progress conversation to book a hotel or book a car. For more information, see Details of Information Flow.     Amazon Lex passes these session attributes to the Lambda functions configured for the intent In the your Lambda function, you can use the session attributes for initialization and customization (prompts). Some examples are:     Initialization - In a pizza ordering bot, if you pass user location (for example, "Location : 111 Maple Street"), then your Lambda function might use this information to determine the closest pizzeria to place the order (and perhaps set the storeAddress slot value as well).   Personalized prompts - For example, you can configure prompts to refer to the user by name (for example, "Hey [firstName], what toppings would you like?"). You can pass the user's name as a session attribute ("firstName": "Joe") so that Amazon Lex can substitute the placeholder to provide a personalized prompt to the user ("Hey Joe, what toppings would you like?").      Amazon Lex does not persist session attributes.   If you configured a code hook for the intent, Amazon Lex passes the incoming session attributes to the Lambda function. The Lambda function must return these session attributes if you want Amazon Lex to return them to the client.   If there is no code hook configured for the intent Amazon Lex simply returns the session attributes to the client application.  
+        public let sessionAttributes: String?
+        ///  You pass this value as the Accept HTTP header.   The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.     If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.     If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format. The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)    
+        public let accept: String?
+        /// Name of the Amazon Lex bot.
+        public let botName: String
+
+        public init(botAlias: String, contentType: String, inputStream: Data, userId: String, sessionAttributes: String? = nil, accept: String? = nil, botName: String) {
+            self.botAlias = botAlias
+            self.contentType = contentType
+            self.inputStream = inputStream
+            self.userId = userId
+            self.sessionAttributes = sessionAttributes
+            self.accept = accept
+            self.botName = botName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let botAlias = dictionary["botAlias"] as? String else { throw InitializableError.missingRequiredParam("botAlias") }
+            self.botAlias = botAlias
+            guard let contentType = dictionary["Content-Type"] as? String else { throw InitializableError.missingRequiredParam("Content-Type") }
+            self.contentType = contentType
+            guard let inputStream = dictionary["inputStream"] as? Data else { throw InitializableError.missingRequiredParam("inputStream") }
+            self.inputStream = inputStream
+            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
+            self.userId = userId
+            self.sessionAttributes = dictionary["x-amz-lex-session-attributes"] as? String
+            self.accept = dictionary["Accept"] as? String
+            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
+            self.botName = botName
+        }
+    }
+
     public struct PostTextRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -178,15 +232,15 @@ extension Runtimelex {
             AWSShapeProperty(label: "inputText", required: true, type: .string), 
             AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
-        /// Alias of the Amazon Lex bot.
+        /// The alias of the Amazon Lex bot.
         public let botAlias: String
-        ///  A session represents the dialog between a user and Amazon Lex. At runtime, a client application can pass contextual information (session attributes) in the request. For example, "FirstName" : "Joe". Amazon Lex passes these session attributes to the AWS Lambda functions configured for the intent (see dialogCodeHook and fulfillmentActivity.codeHook in CreateIntent).  In your Lambda function, you can use the session attributes for customization. Some examples are:    In a pizza ordering application, if you can pass user location as a session attribute (for example, "Location" : "111 Maple street"), your Lambda function might use this information to determine the closest pizzeria to place the order.     Use session attributes to personalize prompts. For example, you pass in user name as a session attribute ("FirstName" : "Joe"), you might configure subsequent prompts to refer to this attribute, as $session.FirstName". At runtime, Amazon Lex substitutes a real value when it generates a prompt, such as "Hello Joe, what would you like to order?"      Amazon Lex does not persist session attributes.   If the intent is configured without a Lambda function to process the intent (that is, the client application to process the intent), Amazon Lex simply returns the session attributes back to the client application.   If the intent is configured with a Lambda function to process the intent, Amazon Lex passes the incoming session attributes to the Lambda function. The Lambda function must return these session attributes if you want Amazon Lex to return them back to the client.  
+        ///  By using session attributes, a client application can pass contextual information in the request to Amazon Lex For example,    In Getting Started Exercise 1, the example bot uses the price session attribute to maintain the price of the flowers ordered (for example, "Price":25). The code hook (the Lambda function) sets this attribute based on the type of flowers ordered. For more information, see Review the Details of Information Flow.    In the BookTrip bot exercise, the bot uses the currentReservation session attribute to maintain slot data during the in-progress conversation to book a hotel or book a car. For more information, see Details of Information Flow.    You might use the session attributes (key, value pairs) to track the requestID of user requests.    Amazon Lex simply passes these session attributes to the Lambda functions configured for the intent. In your Lambda function, you can also use the session attributes for initialization and customization (prompts and response cards). Some examples are:    Initialization - In a pizza ordering bot, if you can pass the user location as a session attribute (for example, "Location" : "111 Maple street"), then your Lambda function might use this information to determine the closest pizzeria to place the order (perhaps to set the storeAddress slot value).     Personalize prompts - For example, you can configure prompts to refer to the user name. (For example, "Hey [FirstName], what toppings would you like?"). You can pass the user name as a session attribute ("FirstName" : "Joe") so that Amazon Lex can substitute the placeholder to provide a personalize prompt to the user ("Hey Joe, what toppings would you like?").      Amazon Lex does not persist session attributes.   If you configure a code hook for the intent, Amazon Lex passes the incoming session attributes to the Lambda function. If you want Amazon Lex to return these session attributes back to the client, the Lambda function must return them.   If there is no code hook configured for the intent, Amazon Lex simply returns the session attributes back to the client application.  
         public let sessionAttributes: [String: String]?
-        /// User ID of your client application. Typically, each of your application users should have a unique ID. Note the following considerations:     If you want a user to start a conversation on one mobile device and continue the conversation on another device, you might choose a user-specific identifier, such as a login or Amazon Cognito user ID (assuming your application is using Amazon Cognito).     If you want the same user to be able to have two independent conversations on two different devices, you might choose a device-specific identifier, such as device ID, or some globally unique identifier.   
+        /// The ID of the client application user. The application developer decides the user IDs. At runtime, each request must include the user ID. Typically, each of your application users should have a unique ID. Note the following considerations:     If you want a user to start a conversation on one device and continue the conversation on another device, you might choose a user-specific identifier, such as a login or Amazon Cognito user ID (assuming your application is using Amazon Cognito).     If you want the same user to be able to have two independent conversations on two different devices, you might choose a device-specific identifier, such as device ID, or some globally unique identifier.   
         public let userId: String
-        /// Text user entered (Amazon Lex interprets this text).
+        /// The text that the user entered (Amazon Lex interprets this text).
         public let inputText: String
-        /// Name of the Amazon Lex bot.
+        /// The name of the Amazon Lex bot.
         public let botName: String
 
         public init(botAlias: String, sessionAttributes: [String: String]? = nil, userId: String, inputText: String, botName: String) {
@@ -214,9 +268,62 @@ extension Runtimelex {
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible {
-        case application_vnd_amazonaws_card_generic = "application/vnd.amazonaws.card.generic"
-        public var description: String { return self.rawValue }
+    public struct PostContentResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = "audioStream"
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeProperty(label: "slotToElicit", location: .header(locationName: "x-amz-lex-slot-to-elicit"), required: false, type: .string), 
+            AWSShapeProperty(label: "audioStream", required: false, type: .blob), 
+            AWSShapeProperty(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript"), required: false, type: .string), 
+            AWSShapeProperty(label: "sessionAttributes", location: .header(locationName: "x-amz-lex-session-attributes"), required: false, type: .string), 
+            AWSShapeProperty(label: "slots", location: .header(locationName: "x-amz-lex-slots"), required: false, type: .string), 
+            AWSShapeProperty(label: "message", location: .header(locationName: "x-amz-lex-message"), required: false, type: .string), 
+            AWSShapeProperty(label: "dialogState", location: .header(locationName: "x-amz-lex-dialog-state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "intentName", location: .header(locationName: "x-amz-lex-intent-name"), required: false, type: .string)
+        ]
+        /// Content type as specified in the Accept HTTP header in the request.
+        public let contentType: String?
+        ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
+        public let slotToElicit: String?
+        /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response. 
+        public let audioStream: Data?
+        /// Transcript of the voice input to the operation.
+        public let inputTranscript: String?
+        ///  Map of key/value pairs representing the session-specific context information. 
+        public let sessionAttributes: String?
+        /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user input during the conversation.
+        public let slots: String?
+        ///  Message to convey to the user. It can come from the bot's configuration or a code hook (Lambda function). If the current intent is not configured with a code hook or if the code hook returned Delegate as the dialogAction.type in its response, then Amazon Lex decides the next course of action and selects an appropriate message from the bot configuration based on the current user interaction context. For example, if Amazon Lex is not able to understand the user input, it uses a clarification prompt message (For more information, see the Error Handling section in the Amazon Lex console). Another example: if the intent requires confirmation before fulfillment, then Amazon Lex uses the confirmation prompt message in the intent configuration. If the code hook returns a message, Amazon Lex passes it as-is in its response to the client. 
+        public let message: String?
+        /// Identifies the current state of the user interaction. Amazon Lex returns one of the following values as dialogState. The client can optionally use this information to customize the user interface.     ElicitIntent – Amazon Lex wants to elicit the user's intent. Consider the following examples:   For example, a user might utter an intent ("I want to order a pizza"). If Amazon Lex cannot infer the user intent from this utterance, it will return this dialog state.     ConfirmIntent – Amazon Lex is expecting a "yes" or "no" response.  For example, Amazon Lex wants user confirmation before fulfilling an intent. Instead of a simple "yes" or "no" response, a user might respond with additional information. For example, "yes, but make it a thick crust pizza" or "no, I want to order a drink." Amazon Lex can process such additional information (in these examples, update the crust type slot or change the intent from OrderPizza to OrderDrink).     ElicitSlot – Amazon Lex is expecting the value of a slot for the current intent.   For example, suppose that in the response Amazon Lex sends this message: "What size pizza would you like?". A user might reply with the slot value (e.g., "medium"). The user might also provide additional information in the response (e.g., "medium thick crust pizza"). Amazon Lex can process such additional information appropriately.     Fulfilled – Conveys that the Lambda function has successfully fulfilled the intent.     ReadyForFulfillment – Conveys that the client has to fullfill the request.     Failed – Conveys that the conversation with the user failed.   This can happen for various reasons, including that the user does not provide an appropriate response to prompts from the service (you can configure how many times Amazon Lex can prompt a user for specific information), or if the Lambda function fails to fulfill the intent.   
+        public let dialogState: DialogState?
+        /// Current user intent that Amazon Lex is aware of.
+        public let intentName: String?
+
+        public init(contentType: String? = nil, slotToElicit: String? = nil, audioStream: Data? = nil, inputTranscript: String? = nil, sessionAttributes: String? = nil, slots: String? = nil, message: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil) {
+            self.contentType = contentType
+            self.slotToElicit = slotToElicit
+            self.audioStream = audioStream
+            self.inputTranscript = inputTranscript
+            self.sessionAttributes = sessionAttributes
+            self.slots = slots
+            self.message = message
+            self.dialogState = dialogState
+            self.intentName = intentName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.contentType = dictionary["Content-Type"] as? String
+            self.slotToElicit = dictionary["x-amz-lex-slot-to-elicit"] as? String
+            self.audioStream = dictionary["audioStream"] as? Data
+            self.inputTranscript = dictionary["x-amz-lex-input-transcript"] as? String
+            self.sessionAttributes = dictionary["x-amz-lex-session-attributes"] as? String
+            self.slots = dictionary["x-amz-lex-slots"] as? String
+            self.message = dictionary["x-amz-lex-message"] as? String
+            if let dialogState = dictionary["x-amz-lex-dialog-state"] as? String { self.dialogState = DialogState(rawValue: dialogState) } else { self.dialogState = nil }
+            self.intentName = dictionary["x-amz-lex-intent-name"] as? String
+        }
     }
 
     public struct Button: AWSShape {
@@ -226,9 +333,9 @@ extension Runtimelex {
             AWSShapeProperty(label: "text", required: true, type: .string), 
             AWSShapeProperty(label: "value", required: true, type: .string)
         ]
-        /// Text visible to the user on the button.
+        /// Text that is visible to the user on the button.
         public let text: String
-        /// Value sent to Amazon Lex when user clicks the button. For example, consider button text "NYC". When the user clicks the button, the value sent can be "New York City".
+        /// The value sent to Amazon Lex when a user chooses the button. For example, consider button text "NYC." When the user chooses the button, the value sent can be "New York City."
         public let value: String
 
         public init(text: String, value: String) {
@@ -242,6 +349,11 @@ extension Runtimelex {
             guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
             self.value = value
         }
+    }
+
+    public enum ContentType: String, CustomStringConvertible {
+        case application_vnd_amazonaws_card_generic = "application/vnd.amazonaws.card.generic"
+        public var description: String { return self.rawValue }
     }
 
 }

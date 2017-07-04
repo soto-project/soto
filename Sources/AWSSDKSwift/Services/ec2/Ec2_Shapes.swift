@@ -188,27 +188,27 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoEnableIO", required: false, type: .structure), 
-            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
+            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
+            AWSShapeProperty(label: "AutoEnableIO", required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Indicates whether the volume should be auto-enabled for I/O operations.
-        public let autoEnableIO: AttributeBooleanValue?
         /// The ID of the volume.
         public let volumeId: String
+        /// Indicates whether the volume should be auto-enabled for I/O operations.
+        public let autoEnableIO: AttributeBooleanValue?
 
-        public init(dryRun: Bool? = nil, autoEnableIO: AttributeBooleanValue? = nil, volumeId: String) {
+        public init(dryRun: Bool? = nil, volumeId: String, autoEnableIO: AttributeBooleanValue? = nil) {
             self.dryRun = dryRun
-            self.autoEnableIO = autoEnableIO
             self.volumeId = volumeId
+            self.autoEnableIO = autoEnableIO
         }
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["dryRun"] as? Bool
-            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) } else { self.autoEnableIO = nil }
             guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
             self.volumeId = volumeId
+            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) } else { self.autoEnableIO = nil }
         }
     }
 
@@ -371,27 +371,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
             AWSShapeProperty(label: "EnableDnsSupport", required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: true, type: .string), 
             AWSShapeProperty(label: "EnableDnsHostnames", required: false, type: .structure)
         ]
-        /// The ID of the VPC.
-        public let vpcId: String
         /// Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range "plus two" will succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute.
         public let enableDnsSupport: AttributeBooleanValue?
+        /// The ID of the VPC.
+        public let vpcId: String
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support.
         public let enableDnsHostnames: AttributeBooleanValue?
 
-        public init(vpcId: String, enableDnsSupport: AttributeBooleanValue? = nil, enableDnsHostnames: AttributeBooleanValue? = nil) {
-            self.vpcId = vpcId
+        public init(enableDnsSupport: AttributeBooleanValue? = nil, vpcId: String, enableDnsHostnames: AttributeBooleanValue? = nil) {
             self.enableDnsSupport = enableDnsSupport
+            self.vpcId = vpcId
             self.enableDnsHostnames = enableDnsHostnames
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) } else { self.enableDnsSupport = nil }
             guard let vpcId = dictionary["vpcId"] as? String else { throw InitializableError.missingRequiredParam("vpcId") }
             self.vpcId = vpcId
-            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) } else { self.enableDnsSupport = nil }
             if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) } else { self.enableDnsHostnames = nil }
         }
     }
@@ -535,22 +535,22 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
-            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string)
+            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string)
         ]
-        /// The key pair name you provided.
-        public let keyName: String?
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
         public let keyFingerprint: String?
+        /// The key pair name you provided.
+        public let keyName: String?
 
-        public init(keyName: String? = nil, keyFingerprint: String? = nil) {
-            self.keyName = keyName
+        public init(keyFingerprint: String? = nil, keyName: String? = nil) {
             self.keyFingerprint = keyFingerprint
+            self.keyName = keyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.keyName = dictionary["keyName"] as? String
             self.keyFingerprint = dictionary["keyFingerprint"] as? String
+            self.keyName = dictionary["keyName"] as? String
         }
     }
 
@@ -626,8 +626,8 @@ extension Ec2 {
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "IncludeAllInstances", location: .body(locationName: "includeAllInstances"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).  
@@ -636,19 +636,19 @@ extension Ec2 {
         public let dryRun: Bool?
         /// When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false 
         public let includeAllInstances: Bool?
-        /// One or more instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
-        public let instanceIds: InstanceIdStringList?
         /// The token to retrieve the next page of results.
         public let nextToken: String?
+        /// One or more instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
+        public let instanceIds: InstanceIdStringList?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter in the same call.
         public let maxResults: Int32?
 
-        public init(filters: FilterList? = nil, dryRun: Bool? = nil, includeAllInstances: Bool? = nil, instanceIds: InstanceIdStringList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: FilterList? = nil, dryRun: Bool? = nil, includeAllInstances: Bool? = nil, nextToken: String? = nil, instanceIds: InstanceIdStringList? = nil, maxResults: Int32? = nil) {
             self.filters = filters
             self.dryRun = dryRun
             self.includeAllInstances = includeAllInstances
-            self.instanceIds = instanceIds
             self.nextToken = nextToken
+            self.instanceIds = instanceIds
             self.maxResults = maxResults
         }
 
@@ -656,8 +656,8 @@ extension Ec2 {
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             self.dryRun = dictionary["dryRun"] as? Bool
             self.includeAllInstances = dictionary["includeAllInstances"] as? Bool
-            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
             self.nextToken = dictionary["NextToken"] as? String
+            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -948,10 +948,13 @@ extension Ec2 {
         public let ebsOptimized: Bool?
         /// The ID of the kernel.
         public let kernelId: String?
+        /// One or more security group IDs.
         public let securityGroupIds: ValueStringList?
+        /// Indicates whether basic or detailed monitoring is enabled for the instance. Default: Disabled
         public let monitoring: RunInstancesMonitoringEnabled?
         /// The instance type.
         public let instanceType: InstanceType?
+        /// One or more security groups. When requesting instances in a VPC, you must specify the IDs of the security groups. When requesting instances in EC2-Classic, you can specify the names or the IDs of the security groups.
         public let securityGroups: ValueStringList?
         /// The name of the key pair.
         public let keyName: String?
@@ -1035,19 +1038,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
-            AWSShapeProperty(label: "Format", required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeProperty(label: "Format", required: false, type: .string), 
+            AWSShapeProperty(label: "UserBucket", required: false, type: .structure), 
             AWSShapeProperty(label: "Url", required: false, type: .string), 
             AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The S3 bucket for the disk image.
-        public let userBucket: UserBucket?
-        /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
-        public let format: String?
         /// The ID of the EBS snapshot to be used for importing the snapshot.
         public let snapshotId: String?
+        /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
+        public let format: String?
+        /// The S3 bucket for the disk image.
+        public let userBucket: UserBucket?
         /// The URL to the Amazon S3-based disk image being imported. The URL can either be a https URL (https://..) or an Amazon S3 URL (s3://..)
         public let url: String?
         /// The block device mapping for the disk.
@@ -1055,19 +1058,19 @@ extension Ec2 {
         /// The description of the disk image.
         public let description: String?
 
-        public init(userBucket: UserBucket? = nil, format: String? = nil, snapshotId: String? = nil, url: String? = nil, deviceName: String? = nil, description: String? = nil) {
-            self.userBucket = userBucket
-            self.format = format
+        public init(snapshotId: String? = nil, format: String? = nil, userBucket: UserBucket? = nil, url: String? = nil, deviceName: String? = nil, description: String? = nil) {
             self.snapshotId = snapshotId
+            self.format = format
+            self.userBucket = userBucket
             self.url = url
             self.deviceName = deviceName
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) } else { self.userBucket = nil }
-            self.format = dictionary["Format"] as? String
             self.snapshotId = dictionary["SnapshotId"] as? String
+            self.format = dictionary["Format"] as? String
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) } else { self.userBucket = nil }
             self.url = dictionary["Url"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
             self.description = dictionary["Description"] as? String
@@ -1079,32 +1082,32 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesOfferingId", required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "LimitPrice", location: .body(locationName: "limitPrice"), required: false, type: .structure)
         ]
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstancesOfferingId: String
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The number of Reserved Instances to purchase.
         public let instanceCount: Int32
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
         public let limitPrice: ReservedInstanceLimitPrice?
 
-        public init(reservedInstancesOfferingId: String, dryRun: Bool? = nil, instanceCount: Int32, limitPrice: ReservedInstanceLimitPrice? = nil) {
+        public init(reservedInstancesOfferingId: String, instanceCount: Int32, dryRun: Bool? = nil, limitPrice: ReservedInstanceLimitPrice? = nil) {
             self.reservedInstancesOfferingId = reservedInstancesOfferingId
-            self.dryRun = dryRun
             self.instanceCount = instanceCount
+            self.dryRun = dryRun
             self.limitPrice = limitPrice
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let reservedInstancesOfferingId = dictionary["ReservedInstancesOfferingId"] as? String else { throw InitializableError.missingRequiredParam("ReservedInstancesOfferingId") }
             self.reservedInstancesOfferingId = reservedInstancesOfferingId
-            self.dryRun = dictionary["dryRun"] as? Bool
             guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
             self.instanceCount = instanceCount
+            self.dryRun = dictionary["dryRun"] as? Bool
             if let limitPrice = dictionary["limitPrice"] as? [String: Any] { self.limitPrice = try Ec2.ReservedInstanceLimitPrice(dictionary: limitPrice) } else { self.limitPrice = nil }
         }
     }
@@ -1209,6 +1212,29 @@ extension Ec2 {
             self.duration = dictionary["duration"] as? Int64
             if let scope = dictionary["scope"] as? String { self.scope = Scope(rawValue: scope) } else { self.scope = nil }
             self.fixedPrice = dictionary["fixedPrice"] as? Float
+        }
+    }
+
+    public struct DescribeFpgaImagesResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "FpgaImages", location: .body(locationName: "fpgaImageSet"), required: false, type: .structure)
+        ]
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about one or more FPGA images.
+        public let fpgaImages: FpgaImageList?
+
+        public init(nextToken: String? = nil, fpgaImages: FpgaImageList? = nil) {
+            self.nextToken = nextToken
+            self.fpgaImages = fpgaImages
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nextToken = dictionary["nextToken"] as? String
+            if let fpgaImages = dictionary["fpgaImageSet"] as? [String: Any] { self.fpgaImages = try Ec2.FpgaImageList(dictionary: fpgaImages) } else { self.fpgaImages = nil }
         }
     }
 
@@ -1769,32 +1795,32 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure), 
             AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
             AWSShapeProperty(label: "Primary", location: .body(locationName: "primary"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
         ]
-        /// The private IPv4 address.
-        public let privateIpAddress: String?
+        /// The association information for an Elastic IP address (IPv4) associated with the network interface.
+        public let association: NetworkInterfaceAssociation?
         /// The private DNS name.
         public let privateDnsName: String?
         /// Indicates whether this IPv4 address is the primary private IPv4 address of the network interface.
         public let primary: Bool?
-        /// The association information for an Elastic IP address (IPv4) associated with the network interface.
-        public let association: NetworkInterfaceAssociation?
+        /// The private IPv4 address.
+        public let privateIpAddress: String?
 
-        public init(privateIpAddress: String? = nil, privateDnsName: String? = nil, primary: Bool? = nil, association: NetworkInterfaceAssociation? = nil) {
-            self.privateIpAddress = privateIpAddress
+        public init(association: NetworkInterfaceAssociation? = nil, privateDnsName: String? = nil, primary: Bool? = nil, privateIpAddress: String? = nil) {
+            self.association = association
             self.privateDnsName = privateDnsName
             self.primary = primary
-            self.association = association
+            self.privateIpAddress = privateIpAddress
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.privateIpAddress = dictionary["privateIpAddress"] as? String
+            if let association = dictionary["association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
             self.privateDnsName = dictionary["privateDnsName"] as? String
             self.primary = dictionary["primary"] as? Bool
-            if let association = dictionary["association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
+            self.privateIpAddress = dictionary["privateIpAddress"] as? String
         }
     }
 
@@ -1822,8 +1848,8 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .enum), 
             AWSShapeProperty(label: "PriceSchedules", location: .body(locationName: "priceSchedules"), required: false, type: .structure), 
-            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
             AWSShapeProperty(label: "UpdateDate", location: .body(locationName: "updateDate"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
@@ -1835,10 +1861,10 @@ extension Ec2 {
         public let status: ListingStatus?
         /// The price of the Reserved Instance listing.
         public let priceSchedules: PriceScheduleList?
-        /// The ID of the Reserved Instance listing.
-        public let reservedInstancesListingId: String?
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
         public let clientToken: String?
+        /// The ID of the Reserved Instance listing.
+        public let reservedInstancesListingId: String?
         /// Any tags assigned to the resource.
         public let tags: TagList?
         /// The last modified timestamp of the listing.
@@ -1852,11 +1878,11 @@ extension Ec2 {
         /// The number of instances in this state.
         public let instanceCounts: InstanceCountList?
 
-        public init(status: ListingStatus? = nil, priceSchedules: PriceScheduleList? = nil, reservedInstancesListingId: String? = nil, clientToken: String? = nil, tags: TagList? = nil, updateDate: String? = nil, reservedInstancesId: String? = nil, createDate: String? = nil, statusMessage: String? = nil, instanceCounts: InstanceCountList? = nil) {
+        public init(status: ListingStatus? = nil, priceSchedules: PriceScheduleList? = nil, clientToken: String? = nil, reservedInstancesListingId: String? = nil, tags: TagList? = nil, updateDate: String? = nil, reservedInstancesId: String? = nil, createDate: String? = nil, statusMessage: String? = nil, instanceCounts: InstanceCountList? = nil) {
             self.status = status
             self.priceSchedules = priceSchedules
-            self.reservedInstancesListingId = reservedInstancesListingId
             self.clientToken = clientToken
+            self.reservedInstancesListingId = reservedInstancesListingId
             self.tags = tags
             self.updateDate = updateDate
             self.reservedInstancesId = reservedInstancesId
@@ -1868,8 +1894,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let status = dictionary["status"] as? String { self.status = ListingStatus(rawValue: status) } else { self.status = nil }
             if let priceSchedules = dictionary["priceSchedules"] as? [String: Any] { self.priceSchedules = try Ec2.PriceScheduleList(dictionary: priceSchedules) } else { self.priceSchedules = nil }
-            self.reservedInstancesListingId = dictionary["reservedInstancesListingId"] as? String
             self.clientToken = dictionary["clientToken"] as? String
+            self.reservedInstancesListingId = dictionary["reservedInstancesListingId"] as? String
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
             self.updateDate = dictionary["updateDate"] as? String
             self.reservedInstancesId = dictionary["reservedInstancesId"] as? String
@@ -2100,26 +2126,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", required: false, type: .boolean)
         ]
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
-        /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
-        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// If true, enables outbound communication from an EC2-Classic instance that's linked to a local VPC via ClassicLink to instances in a peer VPC.
         public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
+        /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
+        public let allowDnsResolutionFromRemoteVpc: Bool?
 
-        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
+        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
-            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
+            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
         }
 
         public init(dictionary: [String: Any]) throws {
             self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["AllowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
-            self.allowDnsResolutionFromRemoteVpc = dictionary["AllowDnsResolutionFromRemoteVpc"] as? Bool
             self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["AllowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["AllowDnsResolutionFromRemoteVpc"] as? Bool
         }
     }
 
@@ -2500,8 +2526,8 @@ extension Ec2 {
             AWSShapeProperty(label: "IpPermissionsEgress", location: .body(locationName: "ipPermissionsEgress"), required: false, type: .structure), 
             AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
-            AWSShapeProperty(label: "IpPermissions", location: .body(locationName: "ipPermissions"), required: false, type: .structure), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "IpPermissions", location: .body(locationName: "ipPermissions"), required: false, type: .structure), 
             AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
             AWSShapeProperty(label: "Description", location: .body(locationName: "groupDescription"), required: false, type: .string)
@@ -2512,10 +2538,10 @@ extension Ec2 {
         public let groupName: String?
         /// [EC2-VPC] The ID of the VPC for the security group.
         public let vpcId: String?
-        /// One or more inbound rules associated with the security group.
-        public let ipPermissions: IpPermissionList?
         /// Any tags assigned to the security group.
         public let tags: TagList?
+        /// One or more inbound rules associated with the security group.
+        public let ipPermissions: IpPermissionList?
         /// The AWS account ID of the owner of the security group.
         public let ownerId: String?
         /// The ID of the security group.
@@ -2523,12 +2549,12 @@ extension Ec2 {
         /// A description of the security group.
         public let description: String?
 
-        public init(ipPermissionsEgress: IpPermissionList? = nil, groupName: String? = nil, vpcId: String? = nil, ipPermissions: IpPermissionList? = nil, tags: TagList? = nil, ownerId: String? = nil, groupId: String? = nil, description: String? = nil) {
+        public init(ipPermissionsEgress: IpPermissionList? = nil, groupName: String? = nil, vpcId: String? = nil, tags: TagList? = nil, ipPermissions: IpPermissionList? = nil, ownerId: String? = nil, groupId: String? = nil, description: String? = nil) {
             self.ipPermissionsEgress = ipPermissionsEgress
             self.groupName = groupName
             self.vpcId = vpcId
-            self.ipPermissions = ipPermissions
             self.tags = tags
+            self.ipPermissions = ipPermissions
             self.ownerId = ownerId
             self.groupId = groupId
             self.description = description
@@ -2538,8 +2564,8 @@ extension Ec2 {
             if let ipPermissionsEgress = dictionary["ipPermissionsEgress"] as? [String: Any] { self.ipPermissionsEgress = try Ec2.IpPermissionList(dictionary: ipPermissionsEgress) } else { self.ipPermissionsEgress = nil }
             self.groupName = dictionary["groupName"] as? String
             self.vpcId = dictionary["vpcId"] as? String
-            if let ipPermissions = dictionary["ipPermissions"] as? [String: Any] { self.ipPermissions = try Ec2.IpPermissionList(dictionary: ipPermissions) } else { self.ipPermissions = nil }
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
+            if let ipPermissions = dictionary["ipPermissions"] as? [String: Any] { self.ipPermissions = try Ec2.IpPermissionList(dictionary: ipPermissions) } else { self.ipPermissions = nil }
             self.ownerId = dictionary["ownerId"] as? String
             self.groupId = dictionary["groupId"] as? String
             self.description = dictionary["groupDescription"] as? String
@@ -2568,8 +2594,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
             AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string), 
@@ -2579,10 +2605,10 @@ extension Ec2 {
             AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string)
         ]
-        /// [IPv4 traffic only] The ID of a NAT gateway.
-        public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// [IPv4 traffic only] The ID of a NAT gateway.
+        public let natGatewayId: String?
         /// The ID of a NAT instance in your VPC.
         public let instanceId: String?
         /// The IPv6 CIDR address block used for the destination match. The value you provide must match the CIDR of an existing route in the table.
@@ -2600,9 +2626,9 @@ extension Ec2 {
         /// The IPv4 CIDR address block used for the destination match. The value you provide must match the CIDR of an existing route in the table.
         public let destinationCidrBlock: String?
 
-        public init(natGatewayId: String? = nil, networkInterfaceId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
-            self.natGatewayId = natGatewayId
+        public init(networkInterfaceId: String? = nil, natGatewayId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
+            self.natGatewayId = natGatewayId
             self.instanceId = instanceId
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -2614,8 +2640,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.natGatewayId = dictionary["natGatewayId"] as? String
             self.networkInterfaceId = dictionary["networkInterfaceId"] as? String
+            self.natGatewayId = dictionary["natGatewayId"] as? String
             self.instanceId = dictionary["instanceId"] as? String
             self.destinationIpv6CidrBlock = dictionary["destinationIpv6CidrBlock"] as? String
             self.vpcPeeringConnectionId = dictionary["vpcPeeringConnectionId"] as? String
@@ -2632,8 +2658,8 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: false, type: .string), 
+            AWSShapeProperty(label: "NatGatewayId", location: .body(locationName: "natGatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
             AWSShapeProperty(label: "DestinationIpv6CidrBlock", location: .body(locationName: "destinationIpv6CidrBlock"), required: false, type: .string), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string), 
@@ -2643,10 +2669,10 @@ extension Ec2 {
             AWSShapeProperty(label: "GatewayId", location: .body(locationName: "gatewayId"), required: false, type: .string), 
             AWSShapeProperty(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string)
         ]
-        /// [IPv4 traffic only] The ID of a NAT gateway.
-        public let natGatewayId: String?
         /// The ID of a network interface.
         public let networkInterfaceId: String?
+        /// [IPv4 traffic only] The ID of a NAT gateway.
+        public let natGatewayId: String?
         /// The ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is attached.
         public let instanceId: String?
         /// The IPv6 CIDR block used for the destination match. Routing decisions are based on the most specific match.
@@ -2664,9 +2690,9 @@ extension Ec2 {
         /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match.
         public let destinationCidrBlock: String?
 
-        public init(natGatewayId: String? = nil, networkInterfaceId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
-            self.natGatewayId = natGatewayId
+        public init(networkInterfaceId: String? = nil, natGatewayId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
+            self.natGatewayId = natGatewayId
             self.instanceId = instanceId
             self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -2678,8 +2704,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.natGatewayId = dictionary["natGatewayId"] as? String
             self.networkInterfaceId = dictionary["networkInterfaceId"] as? String
+            self.natGatewayId = dictionary["natGatewayId"] as? String
             self.instanceId = dictionary["instanceId"] as? String
             self.destinationIpv6CidrBlock = dictionary["destinationIpv6CidrBlock"] as? String
             self.vpcPeeringConnectionId = dictionary["vpcPeeringConnectionId"] as? String
@@ -2689,6 +2715,23 @@ extension Ec2 {
             self.egressOnlyInternetGatewayId = dictionary["egressOnlyInternetGatewayId"] as? String
             self.gatewayId = dictionary["gatewayId"] as? String
             self.destinationCidrBlock = dictionary["destinationCidrBlock"] as? String
+        }
+    }
+
+    public struct FpgaImageIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list)
+        ]
+        public let item: [String]?
+
+        public init(item: [String]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.item = dictionary["item"] as? [String]
         }
     }
 
@@ -2738,22 +2781,22 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
-            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string)
+            AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string)
         ]
-        /// The name of the key pair.
-        public let keyName: String?
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
         public let keyFingerprint: String?
+        /// The name of the key pair.
+        public let keyName: String?
 
-        public init(keyName: String? = nil, keyFingerprint: String? = nil) {
-            self.keyName = keyName
+        public init(keyFingerprint: String? = nil, keyName: String? = nil) {
             self.keyFingerprint = keyFingerprint
+            self.keyName = keyName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.keyName = dictionary["keyName"] as? String
             self.keyFingerprint = dictionary["keyFingerprint"] as? String
+            self.keyName = dictionary["keyName"] as? String
         }
     }
 
@@ -2804,27 +2847,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail"), required: false, type: .structure), 
-            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// A description of the import snapshot task.
-        public let description: String?
-        /// Describes an import snapshot task.
-        public let snapshotTaskDetail: SnapshotTaskDetail?
         /// The ID of the import snapshot task.
         public let importTaskId: String?
+        /// Describes an import snapshot task.
+        public let snapshotTaskDetail: SnapshotTaskDetail?
+        /// A description of the import snapshot task.
+        public let description: String?
 
-        public init(description: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, importTaskId: String? = nil) {
-            self.description = description
-            self.snapshotTaskDetail = snapshotTaskDetail
+        public init(importTaskId: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, description: String? = nil) {
             self.importTaskId = importTaskId
+            self.snapshotTaskDetail = snapshotTaskDetail
+            self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            if let snapshotTaskDetail = dictionary["snapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
             self.importTaskId = dictionary["importTaskId"] as? String
+            if let snapshotTaskDetail = dictionary["snapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
+            self.description = dictionary["description"] as? String
         }
     }
 
@@ -2833,28 +2876,28 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocationId", required: true, type: .string)
+            AWSShapeProperty(label: "AllocationId", required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string)
         ]
         /// The subnet in which to create the NAT gateway.
         public let subnetId: String
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency. Constraint: Maximum 64 ASCII characters.
-        public let clientToken: String?
         /// The allocation ID of an Elastic IP address to associate with the NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
         public let allocationId: String
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency. Constraint: Maximum 64 ASCII characters.
+        public let clientToken: String?
 
-        public init(subnetId: String, clientToken: String? = nil, allocationId: String) {
+        public init(subnetId: String, allocationId: String, clientToken: String? = nil) {
             self.subnetId = subnetId
-            self.clientToken = clientToken
             self.allocationId = allocationId
+            self.clientToken = clientToken
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
             self.subnetId = subnetId
-            self.clientToken = dictionary["ClientToken"] as? String
             guard let allocationId = dictionary["AllocationId"] as? String else { throw InitializableError.missingRequiredParam("AllocationId") }
             self.allocationId = allocationId
+            self.clientToken = dictionary["ClientToken"] as? String
         }
     }
 
@@ -2901,67 +2944,68 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes"), required: false, type: .integer), 
+            AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "AvailabilityZoneGroup", location: .body(locationName: "availabilityZoneGroup"), required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
             AWSShapeProperty(label: "LaunchSpecification", required: false, type: .structure), 
             AWSShapeProperty(label: "ValidFrom", location: .body(locationName: "validFrom"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "SpotPrice", location: .body(locationName: "spotPrice"), required: true, type: .string), 
-            AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceCount", location: .body(locationName: "instanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "LaunchGroup", location: .body(locationName: "launchGroup"), required: false, type: .string), 
+            AWSShapeProperty(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes"), required: false, type: .integer), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchGroup", location: .body(locationName: "launchGroup"), required: false, type: .string)
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
-        /// The required duration for the Spot instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. Note that you can't specify an Availability Zone group or a launch group if you specify a duration.
-        public let blockDurationMinutes: Int32?
+        /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. Default: The request is effective indefinitely.
+        public let validUntil: String?
         /// The user-specified name for a logical grouping of bids. When you specify an Availability Zone group in a Spot Instance request, all Spot instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to bids for Spot Instances of the same instance type. Any additional Spot instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot instance request (all instances are terminated, the bid is expired, or the bid falls below current market), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
         public let availabilityZoneGroup: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
         public let clientToken: String?
+        /// The launch specification.
         public let launchSpecification: RequestSpotLaunchSpecification?
         /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. Default: The request is effective indefinitely.
         public let validFrom: String?
         /// The maximum hourly price (bid) for any Spot instance launched to fulfill the request.
         public let spotPrice: String
-        /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. Default: The request is effective indefinitely.
-        public let validUntil: String?
-        /// The Spot instance request type. Default: one-time 
-        public let `type`: SpotInstanceType?
         /// The maximum number of Spot instances to launch. Default: 1
         public let instanceCount: Int32?
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The instance launch group. Launch groups are Spot instances that launch together and terminate together. Default: Instances are launched and terminated individually
         public let launchGroup: String?
+        /// The required duration for the Spot instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. Note that you can't specify an Availability Zone group or a launch group if you specify a duration.
+        public let blockDurationMinutes: Int32?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The Spot instance request type. Default: one-time 
+        public let `type`: SpotInstanceType?
 
-        public init(blockDurationMinutes: Int32? = nil, availabilityZoneGroup: String? = nil, clientToken: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, validFrom: String? = nil, spotPrice: String, validUntil: String? = nil, type: SpotInstanceType? = nil, instanceCount: Int32? = nil, dryRun: Bool? = nil, launchGroup: String? = nil) {
-            self.blockDurationMinutes = blockDurationMinutes
+        public init(validUntil: String? = nil, availabilityZoneGroup: String? = nil, clientToken: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, validFrom: String? = nil, spotPrice: String, instanceCount: Int32? = nil, launchGroup: String? = nil, blockDurationMinutes: Int32? = nil, dryRun: Bool? = nil, type: SpotInstanceType? = nil) {
+            self.validUntil = validUntil
             self.availabilityZoneGroup = availabilityZoneGroup
             self.clientToken = clientToken
             self.launchSpecification = launchSpecification
             self.validFrom = validFrom
             self.spotPrice = spotPrice
-            self.validUntil = validUntil
-            self.`type` = `type`
             self.instanceCount = instanceCount
-            self.dryRun = dryRun
             self.launchGroup = launchGroup
+            self.blockDurationMinutes = blockDurationMinutes
+            self.dryRun = dryRun
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.blockDurationMinutes = dictionary["blockDurationMinutes"] as? Int32
+            self.validUntil = dictionary["validUntil"] as? String
             self.availabilityZoneGroup = dictionary["availabilityZoneGroup"] as? String
             self.clientToken = dictionary["clientToken"] as? String
             if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.RequestSpotLaunchSpecification(dictionary: launchSpecification) } else { self.launchSpecification = nil }
             self.validFrom = dictionary["validFrom"] as? String
             guard let spotPrice = dictionary["spotPrice"] as? String else { throw InitializableError.missingRequiredParam("spotPrice") }
             self.spotPrice = spotPrice
-            self.validUntil = dictionary["validUntil"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = SpotInstanceType(rawValue: `type`) } else { self.`type` = nil }
             self.instanceCount = dictionary["instanceCount"] as? Int32
-            self.dryRun = dictionary["dryRun"] as? Bool
             self.launchGroup = dictionary["launchGroup"] as? String
+            self.blockDurationMinutes = dictionary["blockDurationMinutes"] as? Int32
+            self.dryRun = dictionary["dryRun"] as? Bool
+            if let `type` = dictionary["type"] as? String { self.`type` = SpotInstanceType(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -3423,9 +3467,9 @@ extension Ec2 {
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ServiceName", required: true, type: .string), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
+            AWSShapeProperty(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "RouteTableIds", location: .body(locationName: "RouteTableId"), required: false, type: .structure)
+            AWSShapeProperty(label: "PolicyDocument", required: false, type: .string)
         ]
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public let clientToken: String?
@@ -3433,20 +3477,20 @@ extension Ec2 {
         public let serviceName: String
         /// The ID of the VPC in which the endpoint will be used.
         public let vpcId: String
+        /// One or more route table IDs.
+        public let routeTableIds: ValueStringList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
         public let policyDocument: String?
-        /// One or more route table IDs.
-        public let routeTableIds: ValueStringList?
 
-        public init(clientToken: String? = nil, serviceName: String, vpcId: String, dryRun: Bool? = nil, policyDocument: String? = nil, routeTableIds: ValueStringList? = nil) {
+        public init(clientToken: String? = nil, serviceName: String, vpcId: String, routeTableIds: ValueStringList? = nil, dryRun: Bool? = nil, policyDocument: String? = nil) {
             self.clientToken = clientToken
             self.serviceName = serviceName
             self.vpcId = vpcId
+            self.routeTableIds = routeTableIds
             self.dryRun = dryRun
             self.policyDocument = policyDocument
-            self.routeTableIds = routeTableIds
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -3455,9 +3499,9 @@ extension Ec2 {
             self.serviceName = serviceName
             guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
             self.vpcId = vpcId
+            if let routeTableIds = dictionary["RouteTableId"] as? [String: Any] { self.routeTableIds = try Ec2.ValueStringList(dictionary: routeTableIds) } else { self.routeTableIds = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.policyDocument = dictionary["PolicyDocument"] as? String
-            if let routeTableIds = dictionary["RouteTableId"] as? [String: Any] { self.routeTableIds = try Ec2.ValueStringList(dictionary: routeTableIds) } else { self.routeTableIds = nil }
         }
     }
 
@@ -3511,6 +3555,50 @@ extension Ec2 {
         }
     }
 
+    public struct CreateFpgaImageRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
+            AWSShapeProperty(label: "InputStorageLocation", required: true, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "LogsStorageLocation", required: false, type: .structure), 
+            AWSShapeProperty(label: "Description", required: false, type: .string)
+        ]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
+        public let clientToken: String?
+        /// The location of the encrypted design checkpoint in Amazon S3. The input must be a tarball.
+        public let inputStorageLocation: StorageLocation
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// A name for the AFI.
+        public let name: String?
+        /// The location in Amazon S3 for the output logs.
+        public let logsStorageLocation: StorageLocation?
+        /// A description for the AFI.
+        public let description: String?
+
+        public init(clientToken: String? = nil, inputStorageLocation: StorageLocation, dryRun: Bool? = nil, name: String? = nil, logsStorageLocation: StorageLocation? = nil, description: String? = nil) {
+            self.clientToken = clientToken
+            self.inputStorageLocation = inputStorageLocation
+            self.dryRun = dryRun
+            self.name = name
+            self.logsStorageLocation = logsStorageLocation
+            self.description = description
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.clientToken = dictionary["ClientToken"] as? String
+            guard let inputStorageLocation = dictionary["InputStorageLocation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStorageLocation") }
+            self.inputStorageLocation = try Ec2.StorageLocation(dictionary: inputStorageLocation)
+            self.dryRun = dictionary["DryRun"] as? Bool
+            self.name = dictionary["Name"] as? String
+            if let logsStorageLocation = dictionary["LogsStorageLocation"] as? [String: Any] { self.logsStorageLocation = try Ec2.StorageLocation(dictionary: logsStorageLocation) } else { self.logsStorageLocation = nil }
+            self.description = dictionary["Description"] as? String
+        }
+    }
+
     public struct VpcIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3532,23 +3620,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", required: true, type: .string)
+            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The ID of the AMI.
         public let imageId: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(dryRun: Bool? = nil, imageId: String) {
-            self.dryRun = dryRun
+        public init(imageId: String, dryRun: Bool? = nil) {
             self.imageId = imageId
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -3619,7 +3707,7 @@ extension Ec2 {
         ]
         /// The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
         public let maxDuration: Int64?
-        /// The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances). Default: default 
+        /// The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances).  Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
         public let instanceTenancy: Tenancy?
         /// One or more Reserved Instances offering IDs.
         public let reservedInstancesOfferingIds: [String]?
@@ -3818,26 +3906,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
             AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
-        /// Information about the state of the CIDR block.
-        public let ipv6CidrBlockState: SubnetCidrBlockState?
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
+        /// Information about the state of the CIDR block.
+        public let ipv6CidrBlockState: SubnetCidrBlockState?
         /// The association ID for the CIDR block.
         public let associationId: String?
 
-        public init(ipv6CidrBlockState: SubnetCidrBlockState? = nil, ipv6CidrBlock: String? = nil, associationId: String? = nil) {
-            self.ipv6CidrBlockState = ipv6CidrBlockState
+        public init(ipv6CidrBlock: String? = nil, ipv6CidrBlockState: SubnetCidrBlockState? = nil, associationId: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
+            self.ipv6CidrBlockState = ipv6CidrBlockState
             self.associationId = associationId
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ipv6CidrBlockState = dictionary["ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.SubnetCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.ipv6CidrBlock = dictionary["ipv6CidrBlock"] as? String
+            if let ipv6CidrBlockState = dictionary["ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.SubnetCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.associationId = dictionary["associationId"] as? String
         }
     }
@@ -3906,27 +3994,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string), 
+            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string), 
             AWSShapeProperty(label: "IpOwnerId", location: .body(locationName: "ipOwnerId"), required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", location: .body(locationName: "publicIp"), required: false, type: .string)
+            AWSShapeProperty(label: "PublicDnsName", location: .body(locationName: "publicDnsName"), required: false, type: .string)
         ]
-        /// The public DNS name.
-        public let publicDnsName: String?
-        /// The ID of the owner of the Elastic IP address.
-        public let ipOwnerId: String?
         /// The public IP address or Elastic IP address bound to the network interface.
         public let publicIp: String?
+        /// The ID of the owner of the Elastic IP address.
+        public let ipOwnerId: String?
+        /// The public DNS name.
+        public let publicDnsName: String?
 
-        public init(publicDnsName: String? = nil, ipOwnerId: String? = nil, publicIp: String? = nil) {
-            self.publicDnsName = publicDnsName
-            self.ipOwnerId = ipOwnerId
+        public init(publicIp: String? = nil, ipOwnerId: String? = nil, publicDnsName: String? = nil) {
             self.publicIp = publicIp
+            self.ipOwnerId = ipOwnerId
+            self.publicDnsName = publicDnsName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.publicDnsName = dictionary["publicDnsName"] as? String
-            self.ipOwnerId = dictionary["ipOwnerId"] as? String
             self.publicIp = dictionary["publicIp"] as? String
+            self.ipOwnerId = dictionary["ipOwnerId"] as? String
+            self.publicDnsName = dictionary["publicDnsName"] as? String
         }
     }
 
@@ -4243,6 +4331,27 @@ extension Ec2 {
         }
     }
 
+    public struct TagSpecificationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list)
+        ]
+        public let item: [TagSpecification]?
+
+        public init(item: [TagSpecification]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["item"] as? [[String: Any]] {
+                self.item = try item.map({ try TagSpecification(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct SecurityGroupIdStringList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4324,8 +4433,8 @@ extension Ec2 {
             AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
             AWSShapeProperty(label: "SourceSecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
             AWSShapeProperty(label: "FromPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
             AWSShapeProperty(label: "IpProtocol", required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", required: false, type: .string)
         ]
@@ -4341,24 +4450,24 @@ extension Ec2 {
         public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code number. For the ICMP/ICMPv6 code number, use -1 to specify all codes.
-        public let toPort: Int32?
         /// The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. For the ICMP/ICMPv6 type number, use -1 to specify all types.
         public let fromPort: Int32?
+        /// The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code number. For the ICMP/ICMPv6 code number, use -1 to specify all codes.
+        public let toPort: Int32?
         /// The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers). (VPC only) Use -1 to specify all protocols. If you specify -1, or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6), traffic on all ports is allowed, regardless of any ports you specify. For tcp, udp, and icmp, you must specify a port range. For protocol 58 (ICMPv6), you can optionally specify a port range; if you don't, traffic for all types and codes is allowed.
         public let ipProtocol: String?
         /// The ID of the security group. Required for a nondefault VPC.
         public let groupId: String?
 
-        public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, toPort: Int32? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
+        public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, toPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
             self.groupName = groupName
             self.ipPermissions = ipPermissions
             self.cidrIp = cidrIp
             self.sourceSecurityGroupName = sourceSecurityGroupName
             self.dryRun = dryRun
-            self.toPort = toPort
             self.fromPort = fromPort
+            self.toPort = toPort
             self.ipProtocol = ipProtocol
             self.groupId = groupId
         }
@@ -4370,8 +4479,8 @@ extension Ec2 {
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
-            self.toPort = dictionary["ToPort"] as? Int32
             self.fromPort = dictionary["FromPort"] as? Int32
+            self.toPort = dictionary["ToPort"] as? Int32
             self.ipProtocol = dictionary["IpProtocol"] as? String
             self.groupId = dictionary["GroupId"] as? String
         }
@@ -4472,32 +4581,32 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string), 
+            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure), 
             AWSShapeProperty(label: "PrivateDnsName", location: .body(locationName: "privateDnsName"), required: false, type: .string), 
             AWSShapeProperty(label: "Primary", location: .body(locationName: "primary"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "Association", location: .body(locationName: "association"), required: false, type: .structure)
+            AWSShapeProperty(label: "PrivateIpAddress", location: .body(locationName: "privateIpAddress"), required: false, type: .string)
         ]
-        /// The private IPv4 address of the network interface.
-        public let privateIpAddress: String?
+        /// The association information for an Elastic IP address for the network interface.
+        public let association: InstanceNetworkInterfaceAssociation?
         /// The private IPv4 DNS name.
         public let privateDnsName: String?
         /// Indicates whether this IPv4 address is the primary private IP address of the network interface.
         public let primary: Bool?
-        /// The association information for an Elastic IP address for the network interface.
-        public let association: InstanceNetworkInterfaceAssociation?
+        /// The private IPv4 address of the network interface.
+        public let privateIpAddress: String?
 
-        public init(privateIpAddress: String? = nil, privateDnsName: String? = nil, primary: Bool? = nil, association: InstanceNetworkInterfaceAssociation? = nil) {
-            self.privateIpAddress = privateIpAddress
+        public init(association: InstanceNetworkInterfaceAssociation? = nil, privateDnsName: String? = nil, primary: Bool? = nil, privateIpAddress: String? = nil) {
+            self.association = association
             self.privateDnsName = privateDnsName
             self.primary = primary
-            self.association = association
+            self.privateIpAddress = privateIpAddress
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.privateIpAddress = dictionary["privateIpAddress"] as? String
+            if let association = dictionary["association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
             self.privateDnsName = dictionary["privateDnsName"] as? String
             self.primary = dictionary["primary"] as? Bool
-            if let association = dictionary["association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
+            self.privateIpAddress = dictionary["privateIpAddress"] as? String
         }
     }
 
@@ -4614,32 +4723,32 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Active", location: .body(locationName: "active"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double), 
             AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
             AWSShapeProperty(label: "Term", location: .body(locationName: "term"), required: false, type: .long), 
-            AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double)
+            AWSShapeProperty(label: "Active", location: .body(locationName: "active"), required: false, type: .boolean)
         ]
-        /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
-        public let active: Bool?
+        /// The fixed price for the term.
+        public let price: Double?
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
         public let term: Int64?
-        /// The fixed price for the term.
-        public let price: Double?
+        /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
+        public let active: Bool?
 
-        public init(active: Bool? = nil, currencyCode: CurrencyCodeValues? = nil, term: Int64? = nil, price: Double? = nil) {
-            self.active = active
+        public init(price: Double? = nil, currencyCode: CurrencyCodeValues? = nil, term: Int64? = nil, active: Bool? = nil) {
+            self.price = price
             self.currencyCode = currencyCode
             self.term = term
-            self.price = price
+            self.active = active
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.active = dictionary["active"] as? Bool
+            self.price = dictionary["price"] as? Double
             if let currencyCode = dictionary["currencyCode"] as? String { self.currencyCode = CurrencyCodeValues(rawValue: currencyCode) } else { self.currencyCode = nil }
             self.term = dictionary["term"] as? Int64
-            self.price = dictionary["price"] as? Double
+            self.active = dictionary["active"] as? Bool
         }
     }
 
@@ -4719,7 +4828,7 @@ extension Ec2 {
         ]
         /// One or more route table IDs. Default: Describes all your route tables.
         public let routeTableIds: ValueStringList?
-        /// One or more filters.    association.route-table-association-id - The ID of an association ID for the route table.    association.route-table-id - The ID of the route table involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    association.main - Indicates whether the route table is the main route table for the VPC (true | false).    route-table-id - The ID of the route table.    route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.    route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.    route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.    route.state - The state of a route in the route table (active | blackhole). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the route table.  
+        /// One or more filters.    association.route-table-association-id - The ID of an association ID for the route table.    association.route-table-id - The ID of the route table involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    association.main - Indicates whether the route table is the main route table for the VPC (true | false). Route tables that do not have an association ID are not returned in the response.    route-table-id - The ID of the route table.    route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.    route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.    route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.    route.state - The state of a route in the route table (active | blackhole). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the route table.  
         public let filters: FilterList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -4834,26 +4943,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), required: false, type: .structure)
+            AWSShapeProperty(label: "VpcPeeringConnectionIds", location: .body(locationName: "VpcPeeringConnectionId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the peer VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the peer VPC.    accepter-vpc-info.vpc-id - The ID of the peer VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-peering-connection-id - The ID of the VPC peering connection.  
-        public let filters: FilterList?
         /// One or more VPC peering connection IDs. Default: Describes all your VPC peering connections.
         public let vpcPeeringConnectionIds: ValueStringList?
+        /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the peer VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the peer VPC.    accepter-vpc-info.vpc-id - The ID of the peer VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-peering-connection-id - The ID of the VPC peering connection.  
+        public let filters: FilterList?
 
-        public init(dryRun: Bool? = nil, filters: FilterList? = nil, vpcPeeringConnectionIds: ValueStringList? = nil) {
+        public init(dryRun: Bool? = nil, vpcPeeringConnectionIds: ValueStringList? = nil, filters: FilterList? = nil) {
             self.dryRun = dryRun
-            self.filters = filters
             self.vpcPeeringConnectionIds = vpcPeeringConnectionIds
+            self.filters = filters
         }
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["dryRun"] as? Bool
-            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             if let vpcPeeringConnectionIds = dictionary["VpcPeeringConnectionId"] as? [String: Any] { self.vpcPeeringConnectionIds = try Ec2.ValueStringList(dictionary: vpcPeeringConnectionIds) } else { self.vpcPeeringConnectionIds = nil }
+            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
         }
     }
 
@@ -5062,26 +5171,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ReservedInstancesId", location: .body(locationName: "reservedInstancesId"), required: false, type: .string), 
-            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure)
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ReservedInstancesListingId", location: .body(locationName: "reservedInstancesListingId"), required: false, type: .string)
         ]
         /// One or more Reserved Instance IDs.
         public let reservedInstancesId: String?
-        /// One or more Reserved Instance listing IDs.
-        public let reservedInstancesListingId: String?
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
         public let filters: FilterList?
+        /// One or more Reserved Instance listing IDs.
+        public let reservedInstancesListingId: String?
 
-        public init(reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil, filters: FilterList? = nil) {
+        public init(reservedInstancesId: String? = nil, filters: FilterList? = nil, reservedInstancesListingId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
-            self.reservedInstancesListingId = reservedInstancesListingId
             self.filters = filters
+            self.reservedInstancesListingId = reservedInstancesListingId
         }
 
         public init(dictionary: [String: Any]) throws {
             self.reservedInstancesId = dictionary["reservedInstancesId"] as? String
-            self.reservedInstancesListingId = dictionary["reservedInstancesListingId"] as? String
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            self.reservedInstancesListingId = dictionary["reservedInstancesListingId"] as? String
         }
     }
 
@@ -5588,8 +5697,8 @@ extension Ec2 {
             AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
             AWSShapeProperty(label: "SourceSecurityGroupName", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
             AWSShapeProperty(label: "FromPort", required: false, type: .integer), 
+            AWSShapeProperty(label: "ToPort", required: false, type: .integer), 
             AWSShapeProperty(label: "IpProtocol", required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", required: false, type: .string)
         ]
@@ -5605,24 +5714,24 @@ extension Ec2 {
         public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The end of port range for the TCP and UDP protocols, or an ICMP code number. For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
-        public let toPort: Int32?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. For the ICMP type number, use -1 to specify all ICMP types.
         public let fromPort: Int32?
+        /// The end of port range for the TCP and UDP protocols, or an ICMP code number. For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
+        public let toPort: Int32?
         /// The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers). Use -1 to specify all.
         public let ipProtocol: String?
         /// The ID of the security group. Required for a security group in a nondefault VPC.
         public let groupId: String?
 
-        public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, toPort: Int32? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
+        public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, toPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
             self.groupName = groupName
             self.ipPermissions = ipPermissions
             self.cidrIp = cidrIp
             self.sourceSecurityGroupName = sourceSecurityGroupName
             self.dryRun = dryRun
-            self.toPort = toPort
             self.fromPort = fromPort
+            self.toPort = toPort
             self.ipProtocol = ipProtocol
             self.groupId = groupId
         }
@@ -5634,8 +5743,8 @@ extension Ec2 {
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
-            self.toPort = dictionary["ToPort"] as? Int32
             self.fromPort = dictionary["FromPort"] as? Int32
+            self.toPort = dictionary["ToPort"] as? Int32
             self.ipProtocol = dictionary["IpProtocol"] as? String
             self.groupId = dictionary["GroupId"] as? String
         }
@@ -5679,6 +5788,39 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.primary = dictionary["Primary"] as? Bool
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+        }
+    }
+
+    public struct PciId: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "VendorId", required: false, type: .string), 
+            AWSShapeProperty(label: "DeviceId", required: false, type: .string), 
+            AWSShapeProperty(label: "SubsystemVendorId", required: false, type: .string), 
+            AWSShapeProperty(label: "SubsystemId", required: false, type: .string)
+        ]
+        /// The ID of the vendor.
+        public let vendorId: String?
+        /// The ID of the device.
+        public let deviceId: String?
+        /// The ID of the vendor for the subsystem.
+        public let subsystemVendorId: String?
+        /// The ID of the subsystem.
+        public let subsystemId: String?
+
+        public init(vendorId: String? = nil, deviceId: String? = nil, subsystemVendorId: String? = nil, subsystemId: String? = nil) {
+            self.vendorId = vendorId
+            self.deviceId = deviceId
+            self.subsystemVendorId = subsystemVendorId
+            self.subsystemId = subsystemId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.vendorId = dictionary["VendorId"] as? String
+            self.deviceId = dictionary["DeviceId"] as? String
+            self.subsystemVendorId = dictionary["SubsystemVendorId"] as? String
+            self.subsystemId = dictionary["SubsystemId"] as? String
         }
     }
 
@@ -5914,7 +6056,7 @@ extension Ec2 {
         public let dryRun: Bool?
         /// The ID of the volume.
         public let volumeId: String
-        /// The instance attribute.
+        /// The attribute of the volume. This parameter is required.
         public let attribute: VolumeAttributeName?
 
         public init(dryRun: Bool? = nil, volumeId: String, attribute: VolumeAttributeName? = nil) {
@@ -6244,27 +6386,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateVolumePermissions", location: .body(locationName: "createVolumePermission"), required: false, type: .structure), 
             AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
-            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string)
+            AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
+            AWSShapeProperty(label: "CreateVolumePermissions", location: .body(locationName: "createVolumePermission"), required: false, type: .structure)
         ]
-        /// A list of permissions for creating volumes from the snapshot.
-        public let createVolumePermissions: CreateVolumePermissionList?
         /// A list of product codes.
         public let productCodes: ProductCodeList?
         /// The ID of the EBS snapshot.
         public let snapshotId: String?
+        /// A list of permissions for creating volumes from the snapshot.
+        public let createVolumePermissions: CreateVolumePermissionList?
 
-        public init(createVolumePermissions: CreateVolumePermissionList? = nil, productCodes: ProductCodeList? = nil, snapshotId: String? = nil) {
-            self.createVolumePermissions = createVolumePermissions
+        public init(productCodes: ProductCodeList? = nil, snapshotId: String? = nil, createVolumePermissions: CreateVolumePermissionList? = nil) {
             self.productCodes = productCodes
             self.snapshotId = snapshotId
+            self.createVolumePermissions = createVolumePermissions
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let createVolumePermissions = dictionary["createVolumePermission"] as? [String: Any] { self.createVolumePermissions = try Ec2.CreateVolumePermissionList(dictionary: createVolumePermissions) } else { self.createVolumePermissions = nil }
             if let productCodes = dictionary["productCodes"] as? [String: Any] { self.productCodes = try Ec2.ProductCodeList(dictionary: productCodes) } else { self.productCodes = nil }
             self.snapshotId = dictionary["snapshotId"] as? String
+            if let createVolumePermissions = dictionary["createVolumePermission"] as? [String: Any] { self.createVolumePermissions = try Ec2.CreateVolumePermissionList(dictionary: createVolumePermissions) } else { self.createVolumePermissions = nil }
         }
     }
 
@@ -6749,34 +6891,34 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "NotBefore", location: .body(locationName: "notBefore"), required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: false, type: .string), 
             AWSShapeProperty(label: "NotAfter", location: .body(locationName: "notAfter"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "EventType", location: .body(locationName: "eventType"), required: false, type: .string), 
             AWSShapeProperty(label: "EventId", location: .body(locationName: "eventId"), required: false, type: .string), 
             AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
         /// The earliest start time of the event.
         public let notBefore: String?
-        /// The type of this event.
-        public let eventType: String?
         /// The latest end time of the event.
         public let notAfter: String?
+        /// The type of this event.
+        public let eventType: String?
         /// The ID of this event.
         public let eventId: String?
         /// A description of the event.
         public let description: String?
 
-        public init(notBefore: String? = nil, eventType: String? = nil, notAfter: String? = nil, eventId: String? = nil, description: String? = nil) {
+        public init(notBefore: String? = nil, notAfter: String? = nil, eventType: String? = nil, eventId: String? = nil, description: String? = nil) {
             self.notBefore = notBefore
-            self.eventType = eventType
             self.notAfter = notAfter
+            self.eventType = eventType
             self.eventId = eventId
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
             self.notBefore = dictionary["notBefore"] as? String
-            self.eventType = dictionary["eventType"] as? String
             self.notAfter = dictionary["notAfter"] as? String
+            self.eventType = dictionary["eventType"] as? String
             self.eventId = dictionary["eventId"] as? String
             self.description = dictionary["description"] as? String
         }
@@ -7473,30 +7615,30 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TrafficType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceIds", location: .body(locationName: "ResourceId"), required: true, type: .structure), 
             AWSShapeProperty(label: "DeliverLogsPermissionArn", required: true, type: .string), 
+            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
             AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
             AWSShapeProperty(label: "LogGroupName", required: true, type: .string)
         ]
         /// The type of traffic to log.
         public let trafficType: TrafficType
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
-        public let clientToken: String?
         /// One or more subnet, network interface, or VPC IDs. Constraints: Maximum of 1000 resources
         public let resourceIds: ValueStringList
         /// The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group.
         public let deliverLogsPermissionArn: String
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+        public let clientToken: String?
         /// The type of resource on which to create the flow log.
         public let resourceType: FlowLogsResourceType
         /// The name of the CloudWatch log group.
         public let logGroupName: String
 
-        public init(trafficType: TrafficType, clientToken: String? = nil, resourceIds: ValueStringList, deliverLogsPermissionArn: String, resourceType: FlowLogsResourceType, logGroupName: String) {
+        public init(trafficType: TrafficType, resourceIds: ValueStringList, deliverLogsPermissionArn: String, clientToken: String? = nil, resourceType: FlowLogsResourceType, logGroupName: String) {
             self.trafficType = trafficType
-            self.clientToken = clientToken
             self.resourceIds = resourceIds
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
+            self.clientToken = clientToken
             self.resourceType = resourceType
             self.logGroupName = logGroupName
         }
@@ -7504,11 +7646,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             guard let rawTrafficType = dictionary["TrafficType"] as? String, let trafficType = TrafficType(rawValue: rawTrafficType) else { throw InitializableError.missingRequiredParam("TrafficType") }
             self.trafficType = trafficType
-            self.clientToken = dictionary["ClientToken"] as? String
             guard let resourceIds = dictionary["ResourceId"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceIds = try Ec2.ValueStringList(dictionary: resourceIds)
             guard let deliverLogsPermissionArn = dictionary["DeliverLogsPermissionArn"] as? String else { throw InitializableError.missingRequiredParam("DeliverLogsPermissionArn") }
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
+            self.clientToken = dictionary["ClientToken"] as? String
             guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = FlowLogsResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
             self.resourceType = resourceType
             guard let logGroupName = dictionary["LogGroupName"] as? String else { throw InitializableError.missingRequiredParam("LogGroupName") }
@@ -7584,8 +7726,8 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LicenseType", location: .body(locationName: "licenseType"), required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
             AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
             AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
             AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .string), 
             AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .string), 
@@ -7597,10 +7739,10 @@ extension Ec2 {
         ]
         /// The license type of the virtual machine.
         public let licenseType: String?
-        /// A brief status for the import image task.
-        public let status: String?
         /// The description string for the import image task.
         public let platform: String?
+        /// A brief status for the import image task.
+        public let status: String?
         /// The percentage of progress of the import image task.
         public let progress: String?
         /// The target hypervisor for the import task. Valid values: xen 
@@ -7618,10 +7760,10 @@ extension Ec2 {
         /// A description of the import task.
         public let description: String?
 
-        public init(licenseType: String? = nil, status: String? = nil, platform: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: SnapshotDetailList? = nil, description: String? = nil) {
+        public init(licenseType: String? = nil, platform: String? = nil, status: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: SnapshotDetailList? = nil, description: String? = nil) {
             self.licenseType = licenseType
-            self.status = status
             self.platform = platform
+            self.status = status
             self.progress = progress
             self.hypervisor = hypervisor
             self.architecture = architecture
@@ -7634,8 +7776,8 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.licenseType = dictionary["licenseType"] as? String
-            self.status = dictionary["status"] as? String
             self.platform = dictionary["platform"] as? String
+            self.status = dictionary["status"] as? String
             self.progress = dictionary["progress"] as? String
             self.hypervisor = dictionary["hypervisor"] as? String
             self.architecture = dictionary["architecture"] as? String
@@ -8230,27 +8372,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
-        /// The ID of the security group. Required for a nondefault VPC.
-        public let groupId: String?
         /// [EC2-Classic, default VPC] The name of the security group. You can specify either the security group name or the security group ID.
         public let groupName: String?
+        /// The ID of the security group. Required for a nondefault VPC.
+        public let groupId: String?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil) {
-            self.dryRun = dryRun
-            self.groupId = groupId
+        public init(groupName: String? = nil, groupId: String? = nil, dryRun: Bool? = nil) {
             self.groupName = groupName
+            self.groupId = groupId
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
-            self.groupId = dictionary["GroupId"] as? String
             self.groupName = dictionary["GroupName"] as? String
+            self.groupId = dictionary["GroupId"] as? String
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -8278,34 +8420,34 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
             AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// One or more filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    platform - The platform. Use windows if you have Windows instances; otherwise, leave blank.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you'll get one reservation ID. If you launch ten instances using the same launch request, you'll also get one reservation ID.    root-device-name - The name of the root device for the instance (for example, /dev/sda1 or /dev/xvda).    root-device-type - The type of root device that the instance uses (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
+        /// One or more filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    platform - The platform. Use windows if you have Windows instances; otherwise, leave blank.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you'll get one reservation ID. If you launch ten instances using the same launch request, you'll also get one reservation ID.    root-device-name - The name of the root device for the instance (for example, /dev/sda1 or /dev/xvda).    root-device-type - The type of root device that the instance uses (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
         public let filters: FilterList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more instance IDs. Default: Describes all your instances.
-        public let instanceIds: InstanceIdStringList?
         /// The token to request the next page of results.
         public let nextToken: String?
+        /// One or more instance IDs. Default: Describes all your instances.
+        public let instanceIds: InstanceIdStringList?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter or tag filters in the same call.
         public let maxResults: Int32?
 
-        public init(filters: FilterList? = nil, dryRun: Bool? = nil, instanceIds: InstanceIdStringList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, instanceIds: InstanceIdStringList? = nil, maxResults: Int32? = nil) {
             self.filters = filters
             self.dryRun = dryRun
-            self.instanceIds = instanceIds
             self.nextToken = nextToken
+            self.instanceIds = instanceIds
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             self.dryRun = dictionary["dryRun"] as? Bool
-            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
             self.nextToken = dictionary["nextToken"] as? String
+            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
             self.maxResults = dictionary["maxResults"] as? Int32
         }
     }
@@ -8348,6 +8490,14 @@ extension Ec2 {
             self.nextToken = dictionary["nextToken"] as? String
             if let scheduledInstanceSet = dictionary["scheduledInstanceSet"] as? [String: Any] { self.scheduledInstanceSet = try Ec2.ScheduledInstanceSet(dictionary: scheduledInstanceSet) } else { self.scheduledInstanceSet = nil }
         }
+    }
+
+    public enum FpgaImageStateCode: String, CustomStringConvertible {
+        case pending = "pending"
+        case failed = "failed"
+        case available = "available"
+        case unavailable = "unavailable"
+        public var description: String { return self.rawValue }
     }
 
     public struct DeleteNetworkAclEntryRequest: AWSShape {
@@ -8442,41 +8592,41 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcAttachments", location: .body(locationName: "attachments"), required: false, type: .structure), 
-            AWSShapeProperty(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
             AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
-            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
+            AWSShapeProperty(label: "VpnGatewayId", location: .body(locationName: "vpnGatewayId"), required: false, type: .string)
         ]
         /// Any VPCs attached to the virtual private gateway.
         public let vpcAttachments: VpcAttachmentList?
-        /// The ID of the virtual private gateway.
-        public let vpnGatewayId: String?
-        /// The type of VPN connection the virtual private gateway supports.
-        public let `type`: GatewayType?
         /// The Availability Zone where the virtual private gateway was created, if applicable. This field may be empty or not returned.
         public let availabilityZone: String?
+        /// The type of VPN connection the virtual private gateway supports.
+        public let `type`: GatewayType?
         /// Any tags assigned to the virtual private gateway.
         public let tags: TagList?
         /// The current state of the virtual private gateway.
         public let state: VpnState?
+        /// The ID of the virtual private gateway.
+        public let vpnGatewayId: String?
 
-        public init(vpcAttachments: VpcAttachmentList? = nil, vpnGatewayId: String? = nil, type: GatewayType? = nil, availabilityZone: String? = nil, tags: TagList? = nil, state: VpnState? = nil) {
+        public init(vpcAttachments: VpcAttachmentList? = nil, availabilityZone: String? = nil, type: GatewayType? = nil, tags: TagList? = nil, state: VpnState? = nil, vpnGatewayId: String? = nil) {
             self.vpcAttachments = vpcAttachments
-            self.vpnGatewayId = vpnGatewayId
-            self.`type` = `type`
             self.availabilityZone = availabilityZone
+            self.`type` = `type`
             self.tags = tags
             self.state = state
+            self.vpnGatewayId = vpnGatewayId
         }
 
         public init(dictionary: [String: Any]) throws {
             if let vpcAttachments = dictionary["attachments"] as? [String: Any] { self.vpcAttachments = try Ec2.VpcAttachmentList(dictionary: vpcAttachments) } else { self.vpcAttachments = nil }
-            self.vpnGatewayId = dictionary["vpnGatewayId"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = GatewayType(rawValue: `type`) } else { self.`type` = nil }
             self.availabilityZone = dictionary["availabilityZone"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = GatewayType(rawValue: `type`) } else { self.`type` = nil }
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
             if let state = dictionary["state"] as? String { self.state = VpnState(rawValue: state) } else { self.state = nil }
+            self.vpnGatewayId = dictionary["vpnGatewayId"] as? String
         }
     }
 
@@ -8651,8 +8801,8 @@ extension Ec2 {
             AWSShapeProperty(label: "StateMessage", location: .body(locationName: "statusMessage"), required: false, type: .string), 
             AWSShapeProperty(label: "State", location: .body(locationName: "status"), required: false, type: .enum), 
             AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
             AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeProperty(label: "StartTime", location: .body(locationName: "startTime"), required: false, type: .timestamp), 
@@ -8669,10 +8819,10 @@ extension Ec2 {
         public let state: SnapshotState?
         /// The ID of the volume that was used to create the snapshot. Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.
         public let volumeId: String?
-        /// Indicates whether the snapshot is encrypted.
-        public let encrypted: Bool?
         /// Any tags assigned to the snapshot.
         public let tags: TagList?
+        /// Indicates whether the snapshot is encrypted.
+        public let encrypted: Bool?
         /// The AWS account ID of the EBS snapshot owner.
         public let ownerId: String?
         /// The description for the snapshot.
@@ -8692,12 +8842,12 @@ extension Ec2 {
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the parent volume.
         public let kmsKeyId: String?
 
-        public init(stateMessage: String? = nil, state: SnapshotState? = nil, volumeId: String? = nil, encrypted: Bool? = nil, tags: TagList? = nil, ownerId: String? = nil, description: String? = nil, startTime: String? = nil, dataEncryptionKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, ownerAlias: String? = nil, kmsKeyId: String? = nil) {
+        public init(stateMessage: String? = nil, state: SnapshotState? = nil, volumeId: String? = nil, tags: TagList? = nil, encrypted: Bool? = nil, ownerId: String? = nil, description: String? = nil, startTime: String? = nil, dataEncryptionKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, ownerAlias: String? = nil, kmsKeyId: String? = nil) {
             self.stateMessage = stateMessage
             self.state = state
             self.volumeId = volumeId
-            self.encrypted = encrypted
             self.tags = tags
+            self.encrypted = encrypted
             self.ownerId = ownerId
             self.description = description
             self.startTime = startTime
@@ -8713,8 +8863,8 @@ extension Ec2 {
             self.stateMessage = dictionary["statusMessage"] as? String
             if let state = dictionary["status"] as? String { self.state = SnapshotState(rawValue: state) } else { self.state = nil }
             self.volumeId = dictionary["volumeId"] as? String
-            self.encrypted = dictionary["encrypted"] as? Bool
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
+            self.encrypted = dictionary["encrypted"] as? Bool
             self.ownerId = dictionary["ownerId"] as? String
             self.description = dictionary["description"] as? String
             self.startTime = dictionary["startTime"] as? String
@@ -8731,27 +8881,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VpcIds", location: .body(locationName: "VpcId"), required: false, type: .structure), 
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcIds", location: .body(locationName: "VpcId"), required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
-        /// One or more filters.    cidr - The IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    state - The state of the VPC (pending | available).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC.  
-        public let filters: FilterList?
         /// One or more VPC IDs. Default: Describes all your VPCs.
         public let vpcIds: VpcIdStringList?
+        /// One or more filters.    cidr - The IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    state - The state of the VPC (pending | available).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC.  
+        public let filters: FilterList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(dryRun: Bool? = nil, filters: FilterList? = nil, vpcIds: VpcIdStringList? = nil) {
-            self.dryRun = dryRun
-            self.filters = filters
+        public init(vpcIds: VpcIdStringList? = nil, filters: FilterList? = nil, dryRun: Bool? = nil) {
             self.vpcIds = vpcIds
+            self.filters = filters
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
-            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             if let vpcIds = dictionary["VpcId"] as? [String: Any] { self.vpcIds = try Ec2.VpcIdStringList(dictionary: vpcIds) } else { self.vpcIds = nil }
+            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -8807,12 +8957,12 @@ extension Ec2 {
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
             AWSShapeProperty(label: "EnaSupport", location: .body(locationName: "enaSupport"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
             AWSShapeProperty(label: "VirtualizationType", location: .body(locationName: "virtualizationType"), required: false, type: .string), 
             AWSShapeProperty(label: "RamdiskId", location: .body(locationName: "ramdiskId"), required: false, type: .string)
         ]
-        /// The billing product codes.
+        /// The billing product codes. Your account must be authorized to specify billing product codes. Otherwise, you can use the AWS Marketplace to bill for the use of an AMI.
         public let billingProducts: BillingProductList?
         /// One or more block device mapping entries.
         public let blockDeviceMappings: BlockDeviceMappingRequestList?
@@ -8830,16 +8980,16 @@ extension Ec2 {
         public let description: String?
         /// A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
         public let name: String
-        /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
-        public let architecture: ArchitectureValues?
         /// Set to true to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI. This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
         public let enaSupport: Bool?
+        /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
+        public let architecture: ArchitectureValues?
         /// The type of virtualization. Default: paravirtual 
         public let virtualizationType: String?
         /// The ID of the RAM disk.
         public let ramdiskId: String?
 
-        public init(billingProducts: BillingProductList? = nil, blockDeviceMappings: BlockDeviceMappingRequestList? = nil, sriovNetSupport: String? = nil, rootDeviceName: String? = nil, imageLocation: String? = nil, kernelId: String? = nil, dryRun: Bool? = nil, description: String? = nil, name: String, architecture: ArchitectureValues? = nil, enaSupport: Bool? = nil, virtualizationType: String? = nil, ramdiskId: String? = nil) {
+        public init(billingProducts: BillingProductList? = nil, blockDeviceMappings: BlockDeviceMappingRequestList? = nil, sriovNetSupport: String? = nil, rootDeviceName: String? = nil, imageLocation: String? = nil, kernelId: String? = nil, dryRun: Bool? = nil, description: String? = nil, name: String, enaSupport: Bool? = nil, architecture: ArchitectureValues? = nil, virtualizationType: String? = nil, ramdiskId: String? = nil) {
             self.billingProducts = billingProducts
             self.blockDeviceMappings = blockDeviceMappings
             self.sriovNetSupport = sriovNetSupport
@@ -8849,8 +8999,8 @@ extension Ec2 {
             self.dryRun = dryRun
             self.description = description
             self.name = name
-            self.architecture = architecture
             self.enaSupport = enaSupport
+            self.architecture = architecture
             self.virtualizationType = virtualizationType
             self.ramdiskId = ramdiskId
         }
@@ -8866,8 +9016,8 @@ extension Ec2 {
             self.description = dictionary["description"] as? String
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            if let architecture = dictionary["architecture"] as? String { self.architecture = ArchitectureValues(rawValue: architecture) } else { self.architecture = nil }
             self.enaSupport = dictionary["enaSupport"] as? Bool
+            if let architecture = dictionary["architecture"] as? String { self.architecture = ArchitectureValues(rawValue: architecture) } else { self.architecture = nil }
             self.virtualizationType = dictionary["virtualizationType"] as? String
             self.ramdiskId = dictionary["ramdiskId"] as? String
         }
@@ -9014,6 +9164,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .structure), 
             AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .boolean), 
             AWSShapeProperty(label: "ClientToken", location: .body(locationName: "clientToken"), required: false, type: .string), 
             AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .boolean), 
@@ -9040,6 +9191,8 @@ extension Ec2 {
             AWSShapeProperty(label: "NetworkInterfaces", location: .body(locationName: "networkInterface"), required: false, type: .structure), 
             AWSShapeProperty(label: "ImageId", required: true, type: .string)
         ]
+        /// The tags to apply to the resources during launch. You can tag instances and volumes. The specified tags are applied to all instances or volumes that are created during launch.
+        public let tagSpecifications: TagSpecificationList?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute to false after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false 
         public let disableApiTermination: Bool?
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters
@@ -9091,7 +9244,8 @@ extension Ec2 {
         /// The ID of the AMI, which you can get by calling DescribeImages.
         public let imageId: String
 
-        public init(disableApiTermination: Bool? = nil, clientToken: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, ipv6AddressCount: Int32? = nil, instanceType: InstanceType? = nil, privateIpAddress: String? = nil, keyName: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, ipv6Addresses: InstanceIpv6AddressList? = nil, minCount: Int32, ramdiskId: String? = nil, blockDeviceMappings: BlockDeviceMappingRequestList? = nil, subnetId: String? = nil, userData: String? = nil, securityGroupIds: SecurityGroupIdStringList? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, dryRun: Bool? = nil, securityGroups: SecurityGroupStringList? = nil, maxCount: Int32, additionalInfo: String? = nil, placement: Placement? = nil, networkInterfaces: InstanceNetworkInterfaceSpecificationList? = nil, imageId: String) {
+        public init(tagSpecifications: TagSpecificationList? = nil, disableApiTermination: Bool? = nil, clientToken: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, ipv6AddressCount: Int32? = nil, instanceType: InstanceType? = nil, privateIpAddress: String? = nil, keyName: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, ipv6Addresses: InstanceIpv6AddressList? = nil, minCount: Int32, ramdiskId: String? = nil, blockDeviceMappings: BlockDeviceMappingRequestList? = nil, subnetId: String? = nil, userData: String? = nil, securityGroupIds: SecurityGroupIdStringList? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, dryRun: Bool? = nil, securityGroups: SecurityGroupStringList? = nil, maxCount: Int32, additionalInfo: String? = nil, placement: Placement? = nil, networkInterfaces: InstanceNetworkInterfaceSpecificationList? = nil, imageId: String) {
+            self.tagSpecifications = tagSpecifications
             self.disableApiTermination = disableApiTermination
             self.clientToken = clientToken
             self.ebsOptimized = ebsOptimized
@@ -9120,6 +9274,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let tagSpecifications = dictionary["TagSpecification"] as? [String: Any] { self.tagSpecifications = try Ec2.TagSpecificationList(dictionary: tagSpecifications) } else { self.tagSpecifications = nil }
             self.disableApiTermination = dictionary["disableApiTermination"] as? Bool
             self.clientToken = dictionary["clientToken"] as? String
             self.ebsOptimized = dictionary["ebsOptimized"] as? Bool
@@ -9170,9 +9325,9 @@ extension Ec2 {
             AWSShapeProperty(label: "ActualBlockHourlyPrice", location: .body(locationName: "actualBlockHourlyPrice"), required: false, type: .string), 
             AWSShapeProperty(label: "BlockDurationMinutes", location: .body(locationName: "blockDurationMinutes"), required: false, type: .integer), 
             AWSShapeProperty(label: "LaunchSpecification", location: .body(locationName: "launchSpecification"), required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "LaunchGroup", location: .body(locationName: "launchGroup"), required: false, type: .string), 
-            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp)
+            AWSShapeProperty(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
         /// The Availability Zone in which the bid is launched.
         public let launchedAvailabilityZone: String?
@@ -9204,14 +9359,14 @@ extension Ec2 {
         public let blockDurationMinutes: Int32?
         /// Additional information for launching instances.
         public let launchSpecification: LaunchSpecification?
-        /// The Spot instance request type.
-        public let `type`: SpotInstanceType?
-        /// The instance launch group. Launch groups are Spot instances that launch together and terminate together.
-        public let launchGroup: String?
         /// The date and time when the Spot instance request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let createTime: String?
+        /// The instance launch group. Launch groups are Spot instances that launch together and terminate together.
+        public let launchGroup: String?
+        /// The Spot instance request type.
+        public let `type`: SpotInstanceType?
 
-        public init(launchedAvailabilityZone: String? = nil, spotInstanceRequestId: String? = nil, state: SpotInstanceState? = nil, spotPrice: String? = nil, tags: TagList? = nil, validUntil: String? = nil, fault: SpotInstanceStateFault? = nil, productDescription: RIProductDescription? = nil, availabilityZoneGroup: String? = nil, status: SpotInstanceStatus? = nil, validFrom: String? = nil, instanceId: String? = nil, actualBlockHourlyPrice: String? = nil, blockDurationMinutes: Int32? = nil, launchSpecification: LaunchSpecification? = nil, type: SpotInstanceType? = nil, launchGroup: String? = nil, createTime: String? = nil) {
+        public init(launchedAvailabilityZone: String? = nil, spotInstanceRequestId: String? = nil, state: SpotInstanceState? = nil, spotPrice: String? = nil, tags: TagList? = nil, validUntil: String? = nil, fault: SpotInstanceStateFault? = nil, productDescription: RIProductDescription? = nil, availabilityZoneGroup: String? = nil, status: SpotInstanceStatus? = nil, validFrom: String? = nil, instanceId: String? = nil, actualBlockHourlyPrice: String? = nil, blockDurationMinutes: Int32? = nil, launchSpecification: LaunchSpecification? = nil, createTime: String? = nil, launchGroup: String? = nil, type: SpotInstanceType? = nil) {
             self.launchedAvailabilityZone = launchedAvailabilityZone
             self.spotInstanceRequestId = spotInstanceRequestId
             self.state = state
@@ -9227,9 +9382,9 @@ extension Ec2 {
             self.actualBlockHourlyPrice = actualBlockHourlyPrice
             self.blockDurationMinutes = blockDurationMinutes
             self.launchSpecification = launchSpecification
-            self.`type` = `type`
-            self.launchGroup = launchGroup
             self.createTime = createTime
+            self.launchGroup = launchGroup
+            self.`type` = `type`
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -9248,9 +9403,9 @@ extension Ec2 {
             self.actualBlockHourlyPrice = dictionary["actualBlockHourlyPrice"] as? String
             self.blockDurationMinutes = dictionary["blockDurationMinutes"] as? Int32
             if let launchSpecification = dictionary["launchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.LaunchSpecification(dictionary: launchSpecification) } else { self.launchSpecification = nil }
-            if let `type` = dictionary["type"] as? String { self.`type` = SpotInstanceType(rawValue: `type`) } else { self.`type` = nil }
-            self.launchGroup = dictionary["launchGroup"] as? String
             self.createTime = dictionary["createTime"] as? String
+            self.launchGroup = dictionary["launchGroup"] as? String
+            if let `type` = dictionary["type"] as? String { self.`type` = SpotInstanceType(rawValue: `type`) } else { self.`type` = nil }
         }
     }
 
@@ -9496,26 +9651,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
-            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
-            AWSShapeProperty(label: "AutoEnableIO", location: .body(locationName: "autoEnableIO"), required: false, type: .structure)
+            AWSShapeProperty(label: "AutoEnableIO", location: .body(locationName: "autoEnableIO"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string)
         ]
         /// A list of product codes.
         public let productCodes: ProductCodeList?
-        /// The ID of the volume.
-        public let volumeId: String?
         /// The state of autoEnableIO attribute.
         public let autoEnableIO: AttributeBooleanValue?
+        /// The ID of the volume.
+        public let volumeId: String?
 
-        public init(productCodes: ProductCodeList? = nil, volumeId: String? = nil, autoEnableIO: AttributeBooleanValue? = nil) {
+        public init(productCodes: ProductCodeList? = nil, autoEnableIO: AttributeBooleanValue? = nil, volumeId: String? = nil) {
             self.productCodes = productCodes
-            self.volumeId = volumeId
             self.autoEnableIO = autoEnableIO
+            self.volumeId = volumeId
         }
 
         public init(dictionary: [String: Any]) throws {
             if let productCodes = dictionary["productCodes"] as? [String: Any] { self.productCodes = try Ec2.ProductCodeList(dictionary: productCodes) } else { self.productCodes = nil }
-            self.volumeId = dictionary["volumeId"] as? String
             if let autoEnableIO = dictionary["autoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) } else { self.autoEnableIO = nil }
+            self.volumeId = dictionary["volumeId"] as? String
         }
     }
 
@@ -9585,10 +9740,10 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskContainers", location: .body(locationName: "DiskContainer"), required: false, type: .structure), 
+            AWSShapeProperty(label: "LicenseType", required: false, type: .string), 
             AWSShapeProperty(label: "Platform", required: false, type: .string), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LicenseType", required: false, type: .string), 
+            AWSShapeProperty(label: "DiskContainers", location: .body(locationName: "DiskContainer"), required: false, type: .structure), 
             AWSShapeProperty(label: "Hypervisor", required: false, type: .string), 
             AWSShapeProperty(label: "Architecture", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
@@ -9596,14 +9751,14 @@ extension Ec2 {
             AWSShapeProperty(label: "ClientData", required: false, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// Information about the disk containers.
-        public let diskContainers: ImageDiskContainerList?
+        /// The license type to be used for the Amazon Machine Image (AMI) after importing.  Note: You may only use BYOL if you have existing licenses with rights to use these licenses in a third party cloud like AWS. For more information, see Prerequisites in the VM Import/Export User Guide. Valid values: AWS | BYOL 
+        public let licenseType: String?
         /// The operating system of the virtual machine. Valid values: Windows | Linux 
         public let platform: String?
         /// The token to enable idempotency for VM import requests.
         public let clientToken: String?
-        /// The license type to be used for the Amazon Machine Image (AMI) after importing.  Note: You may only use BYOL if you have existing licenses with rights to use these licenses in a third party cloud like AWS. For more information, see Prerequisites in the VM Import/Export User Guide. Valid values: AWS | BYOL 
-        public let licenseType: String?
+        /// Information about the disk containers.
+        public let diskContainers: ImageDiskContainerList?
         /// The target hypervisor platform. Valid values: xen 
         public let hypervisor: String?
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 
@@ -9617,11 +9772,11 @@ extension Ec2 {
         /// A description string for the import image task.
         public let description: String?
 
-        public init(diskContainers: ImageDiskContainerList? = nil, platform: String? = nil, clientToken: String? = nil, licenseType: String? = nil, hypervisor: String? = nil, architecture: String? = nil, dryRun: Bool? = nil, roleName: String? = nil, clientData: ClientData? = nil, description: String? = nil) {
-            self.diskContainers = diskContainers
+        public init(licenseType: String? = nil, platform: String? = nil, clientToken: String? = nil, diskContainers: ImageDiskContainerList? = nil, hypervisor: String? = nil, architecture: String? = nil, dryRun: Bool? = nil, roleName: String? = nil, clientData: ClientData? = nil, description: String? = nil) {
+            self.licenseType = licenseType
             self.platform = platform
             self.clientToken = clientToken
-            self.licenseType = licenseType
+            self.diskContainers = diskContainers
             self.hypervisor = hypervisor
             self.architecture = architecture
             self.dryRun = dryRun
@@ -9631,10 +9786,10 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let diskContainers = dictionary["DiskContainer"] as? [String: Any] { self.diskContainers = try Ec2.ImageDiskContainerList(dictionary: diskContainers) } else { self.diskContainers = nil }
+            self.licenseType = dictionary["LicenseType"] as? String
             self.platform = dictionary["Platform"] as? String
             self.clientToken = dictionary["ClientToken"] as? String
-            self.licenseType = dictionary["LicenseType"] as? String
+            if let diskContainers = dictionary["DiskContainer"] as? [String: Any] { self.diskContainers = try Ec2.ImageDiskContainerList(dictionary: diskContainers) } else { self.diskContainers = nil }
             self.hypervisor = dictionary["Hypervisor"] as? String
             self.architecture = dictionary["Architecture"] as? String
             self.dryRun = dictionary["DryRun"] as? Bool
@@ -9826,17 +9981,38 @@ extension Ec2 {
         public var description: String { return self.rawValue }
     }
 
+    public struct FpgaImageList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "item", required: false, type: .list)
+        ]
+        public let item: [FpgaImage]?
+
+        public init(item: [FpgaImage]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["item"] as? [[String: Any]] {
+                self.item = try item.map({ try FpgaImage(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct Volume: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum), 
             AWSShapeProperty(label: "State", location: .body(locationName: "status"), required: false, type: .enum), 
-            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
             AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
             AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: false, type: .integer), 
-            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "VolumeId", location: .body(locationName: "volumeId"), required: false, type: .string), 
             AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "Iops", location: .body(locationName: "iops"), required: false, type: .integer), 
             AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
@@ -9847,16 +10023,16 @@ extension Ec2 {
         public let volumeType: VolumeType?
         /// The volume state.
         public let state: VolumeState?
-        /// The ID of the volume.
-        public let volumeId: String?
+        /// Indicates whether the volume will be encrypted.
+        public let encrypted: Bool?
         /// Any tags assigned to the volume.
         public let tags: TagList?
         /// The snapshot from which the volume was created, if applicable.
         public let snapshotId: String?
         /// The size of the volume, in GiBs.
         public let size: Int32?
-        /// Indicates whether the volume will be encrypted.
-        public let encrypted: Bool?
+        /// The ID of the volume.
+        public let volumeId: String?
         /// The time stamp when volume creation was initiated.
         public let createTime: String?
         /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information on General Purpose SSD baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
@@ -9868,14 +10044,14 @@ extension Ec2 {
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
         public let kmsKeyId: String?
 
-        public init(volumeType: VolumeType? = nil, state: VolumeState? = nil, volumeId: String? = nil, tags: TagList? = nil, snapshotId: String? = nil, size: Int32? = nil, encrypted: Bool? = nil, createTime: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, attachments: VolumeAttachmentList? = nil, kmsKeyId: String? = nil) {
+        public init(volumeType: VolumeType? = nil, state: VolumeState? = nil, encrypted: Bool? = nil, tags: TagList? = nil, snapshotId: String? = nil, size: Int32? = nil, volumeId: String? = nil, createTime: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, attachments: VolumeAttachmentList? = nil, kmsKeyId: String? = nil) {
             self.volumeType = volumeType
             self.state = state
-            self.volumeId = volumeId
+            self.encrypted = encrypted
             self.tags = tags
             self.snapshotId = snapshotId
             self.size = size
-            self.encrypted = encrypted
+            self.volumeId = volumeId
             self.createTime = createTime
             self.iops = iops
             self.availabilityZone = availabilityZone
@@ -9886,11 +10062,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let volumeType = dictionary["volumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
             if let state = dictionary["status"] as? String { self.state = VolumeState(rawValue: state) } else { self.state = nil }
-            self.volumeId = dictionary["volumeId"] as? String
+            self.encrypted = dictionary["encrypted"] as? Bool
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
             self.snapshotId = dictionary["snapshotId"] as? String
             self.size = dictionary["size"] as? Int32
-            self.encrypted = dictionary["encrypted"] as? Bool
+            self.volumeId = dictionary["volumeId"] as? String
             self.createTime = dictionary["createTime"] as? String
             self.iops = dictionary["iops"] as? Int32
             self.availabilityZone = dictionary["availabilityZone"] as? String
@@ -9905,37 +10081,37 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "CurrencyCode", required: false, type: .enum), 
             AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LimitPrice", required: false, type: .string), 
+            AWSShapeProperty(label: "HostIdSet", required: true, type: .structure), 
             AWSShapeProperty(label: "OfferingId", required: true, type: .string), 
-            AWSShapeProperty(label: "HostIdSet", required: true, type: .structure)
+            AWSShapeProperty(label: "LimitPrice", required: false, type: .string)
         ]
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public let currencyCode: CurrencyCodeValues?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
         public let clientToken: String?
-        /// The specified limit is checked against the total upfront cost of the reservation (calculated as the offering's upfront cost multiplied by the host count). If the total upfront cost is greater than the specified price limit, the request will fail. This is used to ensure that the purchase does not exceed the expected upfront cost of the purchase. At this time, the only supported currency is USD. For example, to indicate a limit price of USD 100, specify 100.00.
-        public let limitPrice: String?
-        /// The ID of the offering.
-        public let offeringId: String
         /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
         public let hostIdSet: RequestHostIdSet
+        /// The ID of the offering.
+        public let offeringId: String
+        /// The specified limit is checked against the total upfront cost of the reservation (calculated as the offering's upfront cost multiplied by the host count). If the total upfront cost is greater than the specified price limit, the request will fail. This is used to ensure that the purchase does not exceed the expected upfront cost of the purchase. At this time, the only supported currency is USD. For example, to indicate a limit price of USD 100, specify 100.00.
+        public let limitPrice: String?
 
-        public init(currencyCode: CurrencyCodeValues? = nil, clientToken: String? = nil, limitPrice: String? = nil, offeringId: String, hostIdSet: RequestHostIdSet) {
+        public init(currencyCode: CurrencyCodeValues? = nil, clientToken: String? = nil, hostIdSet: RequestHostIdSet, offeringId: String, limitPrice: String? = nil) {
             self.currencyCode = currencyCode
             self.clientToken = clientToken
-            self.limitPrice = limitPrice
-            self.offeringId = offeringId
             self.hostIdSet = hostIdSet
+            self.offeringId = offeringId
+            self.limitPrice = limitPrice
         }
 
         public init(dictionary: [String: Any]) throws {
             if let currencyCode = dictionary["CurrencyCode"] as? String { self.currencyCode = CurrencyCodeValues(rawValue: currencyCode) } else { self.currencyCode = nil }
             self.clientToken = dictionary["ClientToken"] as? String
-            self.limitPrice = dictionary["LimitPrice"] as? String
-            guard let offeringId = dictionary["OfferingId"] as? String else { throw InitializableError.missingRequiredParam("OfferingId") }
-            self.offeringId = offeringId
             guard let hostIdSet = dictionary["HostIdSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostIdSet") }
             self.hostIdSet = try Ec2.RequestHostIdSet(dictionary: hostIdSet)
+            guard let offeringId = dictionary["OfferingId"] as? String else { throw InitializableError.missingRequiredParam("OfferingId") }
+            self.offeringId = offeringId
+            self.limitPrice = dictionary["LimitPrice"] as? String
         }
     }
 
@@ -9967,13 +10143,13 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
-            AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .structure), 
             AWSShapeProperty(label: "UserData", location: .body(locationName: "userData"), required: false, type: .structure), 
             AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .structure), 
             AWSShapeProperty(label: "RootDeviceName", location: .body(locationName: "rootDeviceName"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DisableApiTermination", location: .body(locationName: "disableApiTermination"), required: false, type: .structure), 
             AWSShapeProperty(label: "EbsOptimized", location: .body(locationName: "ebsOptimized"), required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure), 
             AWSShapeProperty(label: "KernelId", location: .body(locationName: "kernel"), required: false, type: .structure), 
+            AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure), 
             AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .structure), 
             AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
             AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string), 
@@ -9984,20 +10160,20 @@ extension Ec2 {
         ]
         /// The block device mapping of the instance.
         public let blockDeviceMappings: InstanceBlockDeviceMappingList?
-        /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
-        public let disableApiTermination: AttributeBooleanValue?
         /// The user data.
         public let userData: AttributeValue?
         /// Indicates whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
         public let sriovNetSupport: AttributeValue?
         /// The name of the root device (for example, /dev/sda1 or /dev/xvda).
         public let rootDeviceName: AttributeValue?
+        /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
+        public let disableApiTermination: AttributeBooleanValue?
         /// Indicates whether the instance is optimized for EBS I/O.
         public let ebsOptimized: AttributeBooleanValue?
-        /// Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT.
-        public let sourceDestCheck: AttributeBooleanValue?
         /// The kernel ID.
         public let kernelId: AttributeValue?
+        /// Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT.
+        public let sourceDestCheck: AttributeBooleanValue?
         /// The instance type.
         public let instanceType: AttributeValue?
         /// A list of product codes.
@@ -10013,15 +10189,15 @@ extension Ec2 {
         /// The security groups associated with the instance.
         public let groups: GroupIdentifierList?
 
-        public init(blockDeviceMappings: InstanceBlockDeviceMappingList? = nil, disableApiTermination: AttributeBooleanValue? = nil, userData: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, kernelId: AttributeValue? = nil, instanceType: AttributeValue? = nil, productCodes: ProductCodeList? = nil, instanceId: String? = nil, enaSupport: AttributeBooleanValue? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, ramdiskId: AttributeValue? = nil, groups: GroupIdentifierList? = nil) {
+        public init(blockDeviceMappings: InstanceBlockDeviceMappingList? = nil, userData: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, kernelId: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, instanceType: AttributeValue? = nil, productCodes: ProductCodeList? = nil, instanceId: String? = nil, enaSupport: AttributeBooleanValue? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, ramdiskId: AttributeValue? = nil, groups: GroupIdentifierList? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
-            self.disableApiTermination = disableApiTermination
             self.userData = userData
             self.sriovNetSupport = sriovNetSupport
             self.rootDeviceName = rootDeviceName
+            self.disableApiTermination = disableApiTermination
             self.ebsOptimized = ebsOptimized
-            self.sourceDestCheck = sourceDestCheck
             self.kernelId = kernelId
+            self.sourceDestCheck = sourceDestCheck
             self.instanceType = instanceType
             self.productCodes = productCodes
             self.instanceId = instanceId
@@ -10033,13 +10209,13 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["blockDeviceMapping"] as? [String: Any] { self.blockDeviceMappings = try Ec2.InstanceBlockDeviceMappingList(dictionary: blockDeviceMappings) } else { self.blockDeviceMappings = nil }
-            if let disableApiTermination = dictionary["disableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) } else { self.disableApiTermination = nil }
             if let userData = dictionary["userData"] as? [String: Any] { self.userData = try Ec2.AttributeValue(dictionary: userData) } else { self.userData = nil }
             if let sriovNetSupport = dictionary["sriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) } else { self.sriovNetSupport = nil }
             if let rootDeviceName = dictionary["rootDeviceName"] as? [String: Any] { self.rootDeviceName = try Ec2.AttributeValue(dictionary: rootDeviceName) } else { self.rootDeviceName = nil }
+            if let disableApiTermination = dictionary["disableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) } else { self.disableApiTermination = nil }
             if let ebsOptimized = dictionary["ebsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) } else { self.ebsOptimized = nil }
-            if let sourceDestCheck = dictionary["sourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
             if let kernelId = dictionary["kernel"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) } else { self.kernelId = nil }
+            if let sourceDestCheck = dictionary["sourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
             if let instanceType = dictionary["instanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) } else { self.instanceType = nil }
             if let productCodes = dictionary["productCodes"] as? [String: Any] { self.productCodes = try Ec2.ProductCodeList(dictionary: productCodes) } else { self.productCodes = nil }
             self.instanceId = dictionary["instanceId"] as? String
@@ -10362,27 +10538,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
-            AWSShapeProperty(label: "BundleIds", location: .body(locationName: "BundleId"), required: false, type: .structure)
+            AWSShapeProperty(label: "BundleIds", location: .body(locationName: "BundleId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// One or more filters.    bundle-id - The ID of the bundle task.    error-code - If the task failed, the error code returned.    error-message - If the task failed, the error message returned.    instance-id - The ID of the instance.    progress - The level of task completion, as a percentage (for example, 20%).    s3-bucket - The Amazon S3 bucket to store the AMI.    s3-prefix - The beginning of the AMI name.    start-time - The time the task started (for example, 2013-09-15T17:15:20.000Z).    state - The state of the task (pending | waiting-for-shutdown | bundling | storing | cancelling | complete | failed).    update-time - The time of the most recent update for the task.  
         public let filters: FilterList?
         /// One or more bundle task IDs. Default: Describes all your bundle tasks.
         public let bundleIds: BundleIdStringList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(dryRun: Bool? = nil, filters: FilterList? = nil, bundleIds: BundleIdStringList? = nil) {
-            self.dryRun = dryRun
+        public init(filters: FilterList? = nil, bundleIds: BundleIdStringList? = nil, dryRun: Bool? = nil) {
             self.filters = filters
             self.bundleIds = bundleIds
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             if let bundleIds = dictionary["BundleId"] as? [String: Any] { self.bundleIds = try Ec2.BundleIdStringList(dictionary: bundleIds) } else { self.bundleIds = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -10429,22 +10605,22 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceNames", location: .body(locationName: "serviceNameSet"), required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string)
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "ServiceNames", location: .body(locationName: "serviceNameSet"), required: false, type: .structure)
         ]
-        /// A list of supported AWS services.
-        public let serviceNames: ValueStringList?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
+        /// A list of supported AWS services.
+        public let serviceNames: ValueStringList?
 
-        public init(serviceNames: ValueStringList? = nil, nextToken: String? = nil) {
-            self.serviceNames = serviceNames
+        public init(nextToken: String? = nil, serviceNames: ValueStringList? = nil) {
             self.nextToken = nextToken
+            self.serviceNames = serviceNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let serviceNames = dictionary["serviceNameSet"] as? [String: Any] { self.serviceNames = try Ec2.ValueStringList(dictionary: serviceNames) } else { self.serviceNames = nil }
             self.nextToken = dictionary["nextToken"] as? String
+            if let serviceNames = dictionary["serviceNameSet"] as? [String: Any] { self.serviceNames = try Ec2.ValueStringList(dictionary: serviceNames) } else { self.serviceNames = nil }
         }
     }
 
@@ -10631,8 +10807,8 @@ extension Ec2 {
             AWSShapeProperty(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName"), required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
             AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string)
         ]
         /// The AWS account number for a destination security group. To authorize outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
@@ -10647,22 +10823,22 @@ extension Ec2 {
         public let dryRun: Bool?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
         public let fromPort: Int32?
-        /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
-        public let ipProtocol: String?
         /// The end of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
         public let toPort: Int32?
+        /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
+        public let ipProtocol: String?
         /// The ID of the security group.
         public let groupId: String
 
-        public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, toPort: Int32? = nil, groupId: String) {
+        public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, toPort: Int32? = nil, ipProtocol: String? = nil, groupId: String) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
             self.ipPermissions = ipPermissions
             self.cidrIp = cidrIp
             self.sourceSecurityGroupName = sourceSecurityGroupName
             self.dryRun = dryRun
             self.fromPort = fromPort
-            self.ipProtocol = ipProtocol
             self.toPort = toPort
+            self.ipProtocol = ipProtocol
             self.groupId = groupId
         }
 
@@ -10673,8 +10849,8 @@ extension Ec2 {
             self.sourceSecurityGroupName = dictionary["sourceSecurityGroupName"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
             self.fromPort = dictionary["fromPort"] as? Int32
-            self.ipProtocol = dictionary["ipProtocol"] as? String
             self.toPort = dictionary["toPort"] as? Int32
+            self.ipProtocol = dictionary["ipProtocol"] as? String
             guard let groupId = dictionary["groupId"] as? String else { throw InitializableError.missingRequiredParam("groupId") }
             self.groupId = groupId
         }
@@ -10705,18 +10881,18 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogGroupName", location: .body(locationName: "logGroupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeliverLogsErrorMessage", location: .body(locationName: "deliverLogsErrorMessage"), required: false, type: .string), 
             AWSShapeProperty(label: "FlowLogStatus", location: .body(locationName: "flowLogStatus"), required: false, type: .string), 
             AWSShapeProperty(label: "FlowLogId", location: .body(locationName: "flowLogId"), required: false, type: .string), 
             AWSShapeProperty(label: "CreationTime", location: .body(locationName: "creationTime"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "TrafficType", location: .body(locationName: "trafficType"), required: false, type: .enum), 
             AWSShapeProperty(label: "DeliverLogsPermissionArn", location: .body(locationName: "deliverLogsPermissionArn"), required: false, type: .string), 
             AWSShapeProperty(label: "ResourceId", location: .body(locationName: "resourceId"), required: false, type: .string), 
-            AWSShapeProperty(label: "DeliverLogsStatus", location: .body(locationName: "deliverLogsStatus"), required: false, type: .string), 
-            AWSShapeProperty(label: "DeliverLogsErrorMessage", location: .body(locationName: "deliverLogsErrorMessage"), required: false, type: .string)
+            AWSShapeProperty(label: "LogGroupName", location: .body(locationName: "logGroupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "DeliverLogsStatus", location: .body(locationName: "deliverLogsStatus"), required: false, type: .string)
         ]
-        /// The name of the flow log group.
-        public let logGroupName: String?
+        /// Information about the error that occurred. Rate limited indicates that CloudWatch logs throttling has been applied for one or more network interfaces, or that you've reached the limit on the number of CloudWatch Logs log groups that you can create. Access error indicates that the IAM role associated with the flow log does not have sufficient permissions to publish to CloudWatch Logs. Unknown error indicates an internal error.
+        public let deliverLogsErrorMessage: String?
         /// The status of the flow log (ACTIVE).
         public let flowLogStatus: String?
         /// The flow log ID.
@@ -10729,33 +10905,33 @@ extension Ec2 {
         public let deliverLogsPermissionArn: String?
         /// The ID of the resource on which the flow log was created.
         public let resourceId: String?
+        /// The name of the flow log group.
+        public let logGroupName: String?
         /// The status of the logs delivery (SUCCESS | FAILED).
         public let deliverLogsStatus: String?
-        /// Information about the error that occurred. Rate limited indicates that CloudWatch logs throttling has been applied for one or more network interfaces, or that you've reached the limit on the number of CloudWatch Logs log groups that you can create. Access error indicates that the IAM role associated with the flow log does not have sufficient permissions to publish to CloudWatch Logs. Unknown error indicates an internal error.
-        public let deliverLogsErrorMessage: String?
 
-        public init(logGroupName: String? = nil, flowLogStatus: String? = nil, flowLogId: String? = nil, creationTime: String? = nil, trafficType: TrafficType? = nil, deliverLogsPermissionArn: String? = nil, resourceId: String? = nil, deliverLogsStatus: String? = nil, deliverLogsErrorMessage: String? = nil) {
-            self.logGroupName = logGroupName
+        public init(deliverLogsErrorMessage: String? = nil, flowLogStatus: String? = nil, flowLogId: String? = nil, creationTime: String? = nil, trafficType: TrafficType? = nil, deliverLogsPermissionArn: String? = nil, resourceId: String? = nil, logGroupName: String? = nil, deliverLogsStatus: String? = nil) {
+            self.deliverLogsErrorMessage = deliverLogsErrorMessage
             self.flowLogStatus = flowLogStatus
             self.flowLogId = flowLogId
             self.creationTime = creationTime
             self.trafficType = trafficType
             self.deliverLogsPermissionArn = deliverLogsPermissionArn
             self.resourceId = resourceId
+            self.logGroupName = logGroupName
             self.deliverLogsStatus = deliverLogsStatus
-            self.deliverLogsErrorMessage = deliverLogsErrorMessage
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.logGroupName = dictionary["logGroupName"] as? String
+            self.deliverLogsErrorMessage = dictionary["deliverLogsErrorMessage"] as? String
             self.flowLogStatus = dictionary["flowLogStatus"] as? String
             self.flowLogId = dictionary["flowLogId"] as? String
             self.creationTime = dictionary["creationTime"] as? String
             if let trafficType = dictionary["trafficType"] as? String { self.trafficType = TrafficType(rawValue: trafficType) } else { self.trafficType = nil }
             self.deliverLogsPermissionArn = dictionary["deliverLogsPermissionArn"] as? String
             self.resourceId = dictionary["resourceId"] as? String
+            self.logGroupName = dictionary["logGroupName"] as? String
             self.deliverLogsStatus = dictionary["deliverLogsStatus"] as? String
-            self.deliverLogsErrorMessage = dictionary["deliverLogsErrorMessage"] as? String
         }
     }
 
@@ -11029,26 +11205,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "PasswordData", location: .body(locationName: "passwordData"), required: false, type: .string), 
+            AWSShapeProperty(label: "Timestamp", location: .body(locationName: "timestamp"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: false, type: .string)
         ]
-        /// The time the data was last updated.
-        public let timestamp: String?
         /// The password of the instance.
         public let passwordData: String?
+        /// The time the data was last updated.
+        public let timestamp: String?
         /// The ID of the Windows instance.
         public let instanceId: String?
 
-        public init(timestamp: String? = nil, passwordData: String? = nil, instanceId: String? = nil) {
-            self.timestamp = timestamp
+        public init(passwordData: String? = nil, timestamp: String? = nil, instanceId: String? = nil) {
             self.passwordData = passwordData
+            self.timestamp = timestamp
             self.instanceId = instanceId
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.timestamp = dictionary["timestamp"] as? String
             self.passwordData = dictionary["passwordData"] as? String
+            self.timestamp = dictionary["timestamp"] as? String
             self.instanceId = dictionary["instanceId"] as? String
         }
     }
@@ -11107,41 +11283,81 @@ extension Ec2 {
         }
     }
 
-    public struct DescribeClassicLinkInstancesRequest: AWSShape {
+    public struct FpgaImage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "tags"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ShellVersion", location: .body(locationName: "shellVersion"), required: false, type: .string), 
+            AWSShapeProperty(label: "FpgaImageGlobalId", location: .body(locationName: "fpgaImageGlobalId"), required: false, type: .string), 
+            AWSShapeProperty(label: "State", location: .body(locationName: "state"), required: false, type: .structure), 
+            AWSShapeProperty(label: "FpgaImageId", location: .body(locationName: "fpgaImageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "UpdateTime", location: .body(locationName: "updateTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "ProductCodes", location: .body(locationName: "productCodes"), required: false, type: .structure), 
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeProperty(label: "PciId", location: .body(locationName: "pciId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "OwnerAlias", location: .body(locationName: "ownerAlias"), required: false, type: .string)
         ]
-        /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:key=value - The key/value combination of a tag assigned to the resource.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC that the instance is linked to.  
-        public let filters: FilterList?
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
-        /// One or more instance IDs. Must be instances linked to a VPC through ClassicLink.
-        public let instanceIds: InstanceIdStringList?
-        /// The token to retrieve the next page of results.
-        public let nextToken: String?
-        /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. You cannot specify this parameter and the instance IDs parameter in the same request. Constraint: If the value is greater than 1000, we return only 1000 items.
-        public let maxResults: Int32?
+        /// Any tags assigned to the AFI.
+        public let tags: TagList?
+        /// The version of the AWS Shell that was used to create the bitstream.
+        public let shellVersion: String?
+        /// The global FPGA image identifier (AGFI ID).
+        public let fpgaImageGlobalId: String?
+        /// Information about the state of the AFI.
+        public let state: FpgaImageState?
+        /// The FPGA image identifier (AFI ID).
+        public let fpgaImageId: String?
+        /// The time of the most recent update to the AFI.
+        public let updateTime: String?
+        /// The AWS account ID of the AFI owner.
+        public let ownerId: String?
+        /// The description of the AFI.
+        public let description: String?
+        /// The product codes for the AFI.
+        public let productCodes: ProductCodeList?
+        /// The name of the AFI.
+        public let name: String?
+        /// Information about the PCI bus.
+        public let pciId: PciId?
+        /// The date and time the AFI was created.
+        public let createTime: String?
+        /// The alias of the AFI owner. Possible values include self, amazon, and aws-marketplace.
+        public let ownerAlias: String?
 
-        public init(filters: FilterList? = nil, dryRun: Bool? = nil, instanceIds: InstanceIdStringList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.filters = filters
-            self.dryRun = dryRun
-            self.instanceIds = instanceIds
-            self.nextToken = nextToken
-            self.maxResults = maxResults
+        public init(tags: TagList? = nil, shellVersion: String? = nil, fpgaImageGlobalId: String? = nil, state: FpgaImageState? = nil, fpgaImageId: String? = nil, updateTime: String? = nil, ownerId: String? = nil, description: String? = nil, productCodes: ProductCodeList? = nil, name: String? = nil, pciId: PciId? = nil, createTime: String? = nil, ownerAlias: String? = nil) {
+            self.tags = tags
+            self.shellVersion = shellVersion
+            self.fpgaImageGlobalId = fpgaImageGlobalId
+            self.state = state
+            self.fpgaImageId = fpgaImageId
+            self.updateTime = updateTime
+            self.ownerId = ownerId
+            self.description = description
+            self.productCodes = productCodes
+            self.name = name
+            self.pciId = pciId
+            self.createTime = createTime
+            self.ownerAlias = ownerAlias
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
-            self.dryRun = dictionary["dryRun"] as? Bool
-            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+            if let tags = dictionary["tags"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
+            self.shellVersion = dictionary["shellVersion"] as? String
+            self.fpgaImageGlobalId = dictionary["fpgaImageGlobalId"] as? String
+            if let state = dictionary["state"] as? [String: Any] { self.state = try Ec2.FpgaImageState(dictionary: state) } else { self.state = nil }
+            self.fpgaImageId = dictionary["fpgaImageId"] as? String
+            self.updateTime = dictionary["updateTime"] as? String
+            self.ownerId = dictionary["ownerId"] as? String
+            self.description = dictionary["description"] as? String
+            if let productCodes = dictionary["productCodes"] as? [String: Any] { self.productCodes = try Ec2.ProductCodeList(dictionary: productCodes) } else { self.productCodes = nil }
+            self.name = dictionary["name"] as? String
+            if let pciId = dictionary["pciId"] as? [String: Any] { self.pciId = try Ec2.PciId(dictionary: pciId) } else { self.pciId = nil }
+            self.createTime = dictionary["createTime"] as? String
+            self.ownerAlias = dictionary["ownerAlias"] as? String
         }
     }
 
@@ -11253,6 +11469,44 @@ extension Ec2 {
         }
     }
 
+    public struct DescribeClassicLinkInstancesRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeProperty(label: "InstanceIds", location: .body(locationName: "InstanceId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
+        ]
+        /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:key=value - The key/value combination of a tag assigned to the resource.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC that the instance is linked to.  
+        public let filters: FilterList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+        /// One or more instance IDs. Must be instances linked to a VPC through ClassicLink.
+        public let instanceIds: InstanceIdStringList?
+        /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. You cannot specify this parameter and the instance IDs parameter in the same request. Constraint: If the value is greater than 1000, we return only 1000 items.
+        public let maxResults: Int32?
+
+        public init(filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, instanceIds: InstanceIdStringList? = nil, maxResults: Int32? = nil) {
+            self.filters = filters
+            self.dryRun = dryRun
+            self.nextToken = nextToken
+            self.instanceIds = instanceIds
+            self.maxResults = maxResults
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
+            self.nextToken = dictionary["nextToken"] as? String
+            if let instanceIds = dictionary["InstanceId"] as? [String: Any] { self.instanceIds = try Ec2.InstanceIdStringList(dictionary: instanceIds) } else { self.instanceIds = nil }
+            self.maxResults = dictionary["maxResults"] as? Int32
+        }
+    }
+
     public struct AllocationIdList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -11353,11 +11607,11 @@ extension Ec2 {
             AWSShapeProperty(label: "TotalScheduledInstanceHours", location: .body(locationName: "totalScheduledInstanceHours"), required: false, type: .integer), 
             AWSShapeProperty(label: "MinTermDurationInDays", location: .body(locationName: "minTermDurationInDays"), required: false, type: .integer), 
             AWSShapeProperty(label: "MaxTermDurationInDays", location: .body(locationName: "maxTermDurationInDays"), required: false, type: .integer), 
-            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
+            AWSShapeProperty(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount"), required: false, type: .integer), 
             AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .string), 
             AWSShapeProperty(label: "SlotDurationInHours", location: .body(locationName: "slotDurationInHours"), required: false, type: .integer), 
             AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
-            AWSShapeProperty(label: "AvailableInstanceCount", location: .body(locationName: "availableInstanceCount"), required: false, type: .integer), 
+            AWSShapeProperty(label: "HourlyPrice", location: .body(locationName: "hourlyPrice"), required: false, type: .string), 
             AWSShapeProperty(label: "FirstSlotStartTime", location: .body(locationName: "firstSlotStartTime"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "NetworkPlatform", location: .body(locationName: "networkPlatform"), required: false, type: .string), 
             AWSShapeProperty(label: "PurchaseToken", location: .body(locationName: "purchaseToken"), required: false, type: .string), 
@@ -11371,16 +11625,16 @@ extension Ec2 {
         public let minTermDurationInDays: Int32?
         /// The maximum term. The only possible value is 365 days.
         public let maxTermDurationInDays: Int32?
-        /// The hourly price for a single instance.
-        public let hourlyPrice: String?
+        /// The number of available instances.
+        public let availableInstanceCount: Int32?
         /// The instance type. You can specify one of the C3, C4, M4, or R3 instance types.
         public let instanceType: String?
         /// The number of hours in the schedule.
         public let slotDurationInHours: Int32?
         /// The Availability Zone.
         public let availabilityZone: String?
-        /// The number of available instances.
-        public let availableInstanceCount: Int32?
+        /// The hourly price for a single instance.
+        public let hourlyPrice: String?
         /// The time period for the first schedule to start.
         public let firstSlotStartTime: String?
         /// The network platform (EC2-Classic or EC2-VPC).
@@ -11390,16 +11644,16 @@ extension Ec2 {
         /// The schedule recurrence.
         public let recurrence: ScheduledInstanceRecurrence?
 
-        public init(platform: String? = nil, totalScheduledInstanceHours: Int32? = nil, minTermDurationInDays: Int32? = nil, maxTermDurationInDays: Int32? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, slotDurationInHours: Int32? = nil, availabilityZone: String? = nil, availableInstanceCount: Int32? = nil, firstSlotStartTime: String? = nil, networkPlatform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil) {
+        public init(platform: String? = nil, totalScheduledInstanceHours: Int32? = nil, minTermDurationInDays: Int32? = nil, maxTermDurationInDays: Int32? = nil, availableInstanceCount: Int32? = nil, instanceType: String? = nil, slotDurationInHours: Int32? = nil, availabilityZone: String? = nil, hourlyPrice: String? = nil, firstSlotStartTime: String? = nil, networkPlatform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil) {
             self.platform = platform
             self.totalScheduledInstanceHours = totalScheduledInstanceHours
             self.minTermDurationInDays = minTermDurationInDays
             self.maxTermDurationInDays = maxTermDurationInDays
-            self.hourlyPrice = hourlyPrice
+            self.availableInstanceCount = availableInstanceCount
             self.instanceType = instanceType
             self.slotDurationInHours = slotDurationInHours
             self.availabilityZone = availabilityZone
-            self.availableInstanceCount = availableInstanceCount
+            self.hourlyPrice = hourlyPrice
             self.firstSlotStartTime = firstSlotStartTime
             self.networkPlatform = networkPlatform
             self.purchaseToken = purchaseToken
@@ -11411,11 +11665,11 @@ extension Ec2 {
             self.totalScheduledInstanceHours = dictionary["totalScheduledInstanceHours"] as? Int32
             self.minTermDurationInDays = dictionary["minTermDurationInDays"] as? Int32
             self.maxTermDurationInDays = dictionary["maxTermDurationInDays"] as? Int32
-            self.hourlyPrice = dictionary["hourlyPrice"] as? String
+            self.availableInstanceCount = dictionary["availableInstanceCount"] as? Int32
             self.instanceType = dictionary["instanceType"] as? String
             self.slotDurationInHours = dictionary["slotDurationInHours"] as? Int32
             self.availabilityZone = dictionary["availabilityZone"] as? String
-            self.availableInstanceCount = dictionary["availableInstanceCount"] as? Int32
+            self.hourlyPrice = dictionary["hourlyPrice"] as? String
             self.firstSlotStartTime = dictionary["firstSlotStartTime"] as? String
             self.networkPlatform = dictionary["networkPlatform"] as? String
             self.purchaseToken = dictionary["purchaseToken"] as? String
@@ -11790,41 +12044,41 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SlotStartTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "ScheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), required: false, type: .structure), 
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledInstanceIds", location: .body(locationName: "ScheduledInstanceId"), required: false, type: .structure)
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// The time period for the first schedule to start.
         public let slotStartTimeRange: SlotStartTimeRangeRequest?
-        /// The maximum number of results to return in a single call. This value can be between 5 and 300. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
-        public let maxResults: Int32?
+        /// One or more Scheduled Instance IDs.
+        public let scheduledInstanceIds: ScheduledInstanceIdRequestSet?
         /// One or more filters.    availability-zone - The Availability Zone (for example, us-west-2a).    instance-type - The instance type (for example, c4.large).    network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The platform (Linux/UNIX or Windows).  
         public let filters: FilterList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// One or more Scheduled Instance IDs.
-        public let scheduledInstanceIds: ScheduledInstanceIdRequestSet?
+        /// The maximum number of results to return in a single call. This value can be between 5 and 300. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int32?
 
-        public init(slotStartTimeRange: SlotStartTimeRangeRequest? = nil, maxResults: Int32? = nil, filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, scheduledInstanceIds: ScheduledInstanceIdRequestSet? = nil) {
+        public init(slotStartTimeRange: SlotStartTimeRangeRequest? = nil, scheduledInstanceIds: ScheduledInstanceIdRequestSet? = nil, filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.slotStartTimeRange = slotStartTimeRange
-            self.maxResults = maxResults
+            self.scheduledInstanceIds = scheduledInstanceIds
             self.filters = filters
             self.dryRun = dryRun
             self.nextToken = nextToken
-            self.scheduledInstanceIds = scheduledInstanceIds
+            self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
             if let slotStartTimeRange = dictionary["SlotStartTimeRange"] as? [String: Any] { self.slotStartTimeRange = try Ec2.SlotStartTimeRangeRequest(dictionary: slotStartTimeRange) } else { self.slotStartTimeRange = nil }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+            if let scheduledInstanceIds = dictionary["ScheduledInstanceId"] as? [String: Any] { self.scheduledInstanceIds = try Ec2.ScheduledInstanceIdRequestSet(dictionary: scheduledInstanceIds) } else { self.scheduledInstanceIds = nil }
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
-            if let scheduledInstanceIds = dictionary["ScheduledInstanceId"] as? [String: Any] { self.scheduledInstanceIds = try Ec2.ScheduledInstanceIdRequestSet(dictionary: scheduledInstanceIds) } else { self.scheduledInstanceIds = nil }
+            self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
 
@@ -12232,8 +12486,8 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "LicenseType", location: .body(locationName: "licenseType"), required: false, type: .string), 
-            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
             AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .string), 
+            AWSShapeProperty(label: "Status", location: .body(locationName: "status"), required: false, type: .string), 
             AWSShapeProperty(label: "Progress", location: .body(locationName: "progress"), required: false, type: .string), 
             AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .string), 
             AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .string), 
@@ -12245,10 +12499,10 @@ extension Ec2 {
         ]
         /// The license type of the virtual machine.
         public let licenseType: String?
-        /// A brief status of the task.
-        public let status: String?
         /// The operating system of the virtual machine.
         public let platform: String?
+        /// A brief status of the task.
+        public let status: String?
         /// The progress of the task.
         public let progress: String?
         /// The target hypervisor of the import task.
@@ -12266,10 +12520,10 @@ extension Ec2 {
         /// A description of the import task.
         public let description: String?
 
-        public init(licenseType: String? = nil, status: String? = nil, platform: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: SnapshotDetailList? = nil, description: String? = nil) {
+        public init(licenseType: String? = nil, platform: String? = nil, status: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: SnapshotDetailList? = nil, description: String? = nil) {
             self.licenseType = licenseType
-            self.status = status
             self.platform = platform
+            self.status = status
             self.progress = progress
             self.hypervisor = hypervisor
             self.architecture = architecture
@@ -12282,8 +12536,8 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.licenseType = dictionary["licenseType"] as? String
-            self.status = dictionary["status"] as? String
             self.platform = dictionary["platform"] as? String
+            self.status = dictionary["status"] as? String
             self.progress = dictionary["progress"] as? String
             self.hypervisor = dictionary["hypervisor"] as? String
             self.architecture = dictionary["architecture"] as? String
@@ -12349,26 +12603,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "PrefixListId", location: .body(locationName: "prefixListId"), required: false, type: .string), 
-            AWSShapeProperty(label: "Cidrs", location: .body(locationName: "cidrSet"), required: false, type: .structure), 
-            AWSShapeProperty(label: "PrefixListName", location: .body(locationName: "prefixListName"), required: false, type: .string)
+            AWSShapeProperty(label: "PrefixListName", location: .body(locationName: "prefixListName"), required: false, type: .string), 
+            AWSShapeProperty(label: "Cidrs", location: .body(locationName: "cidrSet"), required: false, type: .structure)
         ]
         /// The ID of the prefix.
         public let prefixListId: String?
-        /// The IP address range of the AWS service.
-        public let cidrs: ValueStringList?
         /// The name of the prefix.
         public let prefixListName: String?
+        /// The IP address range of the AWS service.
+        public let cidrs: ValueStringList?
 
-        public init(prefixListId: String? = nil, cidrs: ValueStringList? = nil, prefixListName: String? = nil) {
+        public init(prefixListId: String? = nil, prefixListName: String? = nil, cidrs: ValueStringList? = nil) {
             self.prefixListId = prefixListId
-            self.cidrs = cidrs
             self.prefixListName = prefixListName
+            self.cidrs = cidrs
         }
 
         public init(dictionary: [String: Any]) throws {
             self.prefixListId = dictionary["prefixListId"] as? String
-            if let cidrs = dictionary["cidrSet"] as? [String: Any] { self.cidrs = try Ec2.ValueStringList(dictionary: cidrs) } else { self.cidrs = nil }
             self.prefixListName = dictionary["prefixListName"] as? String
+            if let cidrs = dictionary["cidrSet"] as? [String: Any] { self.cidrs = try Ec2.ValueStringList(dictionary: cidrs) } else { self.cidrs = nil }
         }
     }
 
@@ -12878,16 +13132,16 @@ extension Ec2 {
             AWSShapeProperty(label: "InstanceLifecycle", location: .body(locationName: "instanceLifecycle"), required: false, type: .enum), 
             AWSShapeProperty(label: "BlockDeviceMappings", location: .body(locationName: "blockDeviceMapping"), required: false, type: .structure), 
             AWSShapeProperty(label: "SubnetId", location: .body(locationName: "subnetId"), required: false, type: .string), 
-            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .string), 
             AWSShapeProperty(label: "Platform", location: .body(locationName: "platform"), required: false, type: .enum), 
+            AWSShapeProperty(label: "SriovNetSupport", location: .body(locationName: "sriovNetSupport"), required: false, type: .string), 
             AWSShapeProperty(label: "SpotInstanceRequestId", location: .body(locationName: "spotInstanceRequestId"), required: false, type: .string), 
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
             AWSShapeProperty(label: "LaunchTime", location: .body(locationName: "launchTime"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "State", location: .body(locationName: "instanceState"), required: false, type: .structure), 
             AWSShapeProperty(label: "PublicIpAddress", location: .body(locationName: "ipAddress"), required: false, type: .string), 
             AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .structure), 
-            AWSShapeProperty(label: "StateTransitionReason", location: .body(locationName: "reason"), required: false, type: .string), 
             AWSShapeProperty(label: "StateReason", location: .body(locationName: "stateReason"), required: false, type: .structure), 
+            AWSShapeProperty(label: "StateTransitionReason", location: .body(locationName: "reason"), required: false, type: .string), 
             AWSShapeProperty(label: "SecurityGroups", location: .body(locationName: "groupSet"), required: false, type: .structure), 
             AWSShapeProperty(label: "Hypervisor", location: .body(locationName: "hypervisor"), required: false, type: .enum), 
             AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
@@ -12936,10 +13190,10 @@ extension Ec2 {
         public let blockDeviceMappings: InstanceBlockDeviceMappingList?
         /// [EC2-VPC] The ID of the subnet in which the instance is running.
         public let subnetId: String?
-        /// Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
-        public let sriovNetSupport: String?
         /// The value is Windows for Windows instances; otherwise blank.
         public let platform: PlatformValues?
+        /// Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
+        public let sriovNetSupport: String?
         /// If the request is a Spot instance request, the ID of the request.
         public let spotInstanceRequestId: String?
         /// Any tags assigned to the instance.
@@ -12952,10 +13206,10 @@ extension Ec2 {
         public let publicIpAddress: String?
         /// The monitoring for the instance.
         public let monitoring: Monitoring?
-        /// The reason for the most recent state transition. This might be an empty string.
-        public let stateTransitionReason: String?
         /// The reason for the most recent state transition.
         public let stateReason: StateReason?
+        /// The reason for the most recent state transition. This might be an empty string.
+        public let stateTransitionReason: String?
         /// One or more security groups for the instance.
         public let securityGroups: GroupIdentifierList?
         /// The hypervisor type of the instance.
@@ -12975,7 +13229,7 @@ extension Ec2 {
         /// The virtualization type of the instance.
         public let virtualizationType: VirtualizationType?
 
-        public init(clientToken: String? = nil, rootDeviceName: String? = nil, ebsOptimized: Bool? = nil, sourceDestCheck: Bool? = nil, kernelId: String? = nil, privateDnsName: String? = nil, instanceType: InstanceType? = nil, privateIpAddress: String? = nil, productCodes: ProductCodeList? = nil, keyName: String? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, publicDnsName: String? = nil, vpcId: String? = nil, rootDeviceType: DeviceType? = nil, ramdiskId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, blockDeviceMappings: InstanceBlockDeviceMappingList? = nil, subnetId: String? = nil, sriovNetSupport: String? = nil, platform: PlatformValues? = nil, spotInstanceRequestId: String? = nil, tags: TagList? = nil, launchTime: String? = nil, state: InstanceState? = nil, publicIpAddress: String? = nil, monitoring: Monitoring? = nil, stateTransitionReason: String? = nil, stateReason: StateReason? = nil, securityGroups: GroupIdentifierList? = nil, hypervisor: HypervisorType? = nil, architecture: ArchitectureValues? = nil, imageId: String? = nil, enaSupport: Bool? = nil, networkInterfaces: InstanceNetworkInterfaceList? = nil, amiLaunchIndex: Int32? = nil, placement: Placement? = nil, virtualizationType: VirtualizationType? = nil) {
+        public init(clientToken: String? = nil, rootDeviceName: String? = nil, ebsOptimized: Bool? = nil, sourceDestCheck: Bool? = nil, kernelId: String? = nil, privateDnsName: String? = nil, instanceType: InstanceType? = nil, privateIpAddress: String? = nil, productCodes: ProductCodeList? = nil, keyName: String? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, publicDnsName: String? = nil, vpcId: String? = nil, rootDeviceType: DeviceType? = nil, ramdiskId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, blockDeviceMappings: InstanceBlockDeviceMappingList? = nil, subnetId: String? = nil, platform: PlatformValues? = nil, sriovNetSupport: String? = nil, spotInstanceRequestId: String? = nil, tags: TagList? = nil, launchTime: String? = nil, state: InstanceState? = nil, publicIpAddress: String? = nil, monitoring: Monitoring? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, securityGroups: GroupIdentifierList? = nil, hypervisor: HypervisorType? = nil, architecture: ArchitectureValues? = nil, imageId: String? = nil, enaSupport: Bool? = nil, networkInterfaces: InstanceNetworkInterfaceList? = nil, amiLaunchIndex: Int32? = nil, placement: Placement? = nil, virtualizationType: VirtualizationType? = nil) {
             self.clientToken = clientToken
             self.rootDeviceName = rootDeviceName
             self.ebsOptimized = ebsOptimized
@@ -12995,16 +13249,16 @@ extension Ec2 {
             self.instanceLifecycle = instanceLifecycle
             self.blockDeviceMappings = blockDeviceMappings
             self.subnetId = subnetId
-            self.sriovNetSupport = sriovNetSupport
             self.platform = platform
+            self.sriovNetSupport = sriovNetSupport
             self.spotInstanceRequestId = spotInstanceRequestId
             self.tags = tags
             self.launchTime = launchTime
             self.state = state
             self.publicIpAddress = publicIpAddress
             self.monitoring = monitoring
-            self.stateTransitionReason = stateTransitionReason
             self.stateReason = stateReason
+            self.stateTransitionReason = stateTransitionReason
             self.securityGroups = securityGroups
             self.hypervisor = hypervisor
             self.architecture = architecture
@@ -13036,16 +13290,16 @@ extension Ec2 {
             if let instanceLifecycle = dictionary["instanceLifecycle"] as? String { self.instanceLifecycle = InstanceLifecycleType(rawValue: instanceLifecycle) } else { self.instanceLifecycle = nil }
             if let blockDeviceMappings = dictionary["blockDeviceMapping"] as? [String: Any] { self.blockDeviceMappings = try Ec2.InstanceBlockDeviceMappingList(dictionary: blockDeviceMappings) } else { self.blockDeviceMappings = nil }
             self.subnetId = dictionary["subnetId"] as? String
-            self.sriovNetSupport = dictionary["sriovNetSupport"] as? String
             if let platform = dictionary["platform"] as? String { self.platform = PlatformValues(rawValue: platform) } else { self.platform = nil }
+            self.sriovNetSupport = dictionary["sriovNetSupport"] as? String
             self.spotInstanceRequestId = dictionary["spotInstanceRequestId"] as? String
             if let tags = dictionary["tagSet"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
             self.launchTime = dictionary["launchTime"] as? String
             if let state = dictionary["instanceState"] as? [String: Any] { self.state = try Ec2.InstanceState(dictionary: state) } else { self.state = nil }
             self.publicIpAddress = dictionary["ipAddress"] as? String
             if let monitoring = dictionary["monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) } else { self.monitoring = nil }
-            self.stateTransitionReason = dictionary["reason"] as? String
             if let stateReason = dictionary["stateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) } else { self.stateReason = nil }
+            self.stateTransitionReason = dictionary["reason"] as? String
             if let securityGroups = dictionary["groupSet"] as? [String: Any] { self.securityGroups = try Ec2.GroupIdentifierList(dictionary: securityGroups) } else { self.securityGroups = nil }
             if let hypervisor = dictionary["hypervisor"] as? String { self.hypervisor = HypervisorType(rawValue: hypervisor) } else { self.hypervisor = nil }
             if let architecture = dictionary["architecture"] as? String { self.architecture = ArchitectureValues(rawValue: architecture) } else { self.architecture = nil }
@@ -13303,9 +13557,9 @@ extension Ec2 {
             AWSShapeProperty(label: "GroupIds", location: .body(locationName: "GroupId"), required: false, type: .structure), 
             AWSShapeProperty(label: "Architecture", location: .body(locationName: "architecture"), required: false, type: .enum), 
             AWSShapeProperty(label: "AdditionalInfo", location: .body(locationName: "additionalInfo"), required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .enum), 
             AWSShapeProperty(label: "Placement", location: .body(locationName: "placement"), required: false, type: .structure), 
             AWSShapeProperty(label: "Monitoring", location: .body(locationName: "monitoring"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "InstanceInitiatedShutdownBehavior", location: .body(locationName: "instanceInitiatedShutdownBehavior"), required: false, type: .enum), 
             AWSShapeProperty(label: "InstanceType", location: .body(locationName: "instanceType"), required: false, type: .enum), 
             AWSShapeProperty(label: "GroupNames", location: .body(locationName: "GroupName"), required: false, type: .structure)
         ]
@@ -13321,27 +13575,27 @@ extension Ec2 {
         public let architecture: ArchitectureValues?
         /// Reserved.
         public let additionalInfo: String?
-        /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
-        public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
         /// The placement information for the instance.
         public let placement: Placement?
         /// Indicates whether monitoring is enabled.
         public let monitoring: Bool?
+        /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
+        public let instanceInitiatedShutdownBehavior: ShutdownBehavior?
         /// The instance type. For more information about the instance types that you can import, see Instance Types in the VM Import/Export User Guide.
         public let instanceType: InstanceType?
         /// One or more security group names.
         public let groupNames: SecurityGroupStringList?
 
-        public init(privateIpAddress: String? = nil, subnetId: String? = nil, userData: UserData? = nil, groupIds: SecurityGroupIdStringList? = nil, architecture: ArchitectureValues? = nil, additionalInfo: String? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, placement: Placement? = nil, monitoring: Bool? = nil, instanceType: InstanceType? = nil, groupNames: SecurityGroupStringList? = nil) {
+        public init(privateIpAddress: String? = nil, subnetId: String? = nil, userData: UserData? = nil, groupIds: SecurityGroupIdStringList? = nil, architecture: ArchitectureValues? = nil, additionalInfo: String? = nil, placement: Placement? = nil, monitoring: Bool? = nil, instanceInitiatedShutdownBehavior: ShutdownBehavior? = nil, instanceType: InstanceType? = nil, groupNames: SecurityGroupStringList? = nil) {
             self.privateIpAddress = privateIpAddress
             self.subnetId = subnetId
             self.userData = userData
             self.groupIds = groupIds
             self.architecture = architecture
             self.additionalInfo = additionalInfo
-            self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
             self.placement = placement
             self.monitoring = monitoring
+            self.instanceInitiatedShutdownBehavior = instanceInitiatedShutdownBehavior
             self.instanceType = instanceType
             self.groupNames = groupNames
         }
@@ -13353,9 +13607,9 @@ extension Ec2 {
             if let groupIds = dictionary["GroupId"] as? [String: Any] { self.groupIds = try Ec2.SecurityGroupIdStringList(dictionary: groupIds) } else { self.groupIds = nil }
             if let architecture = dictionary["architecture"] as? String { self.architecture = ArchitectureValues(rawValue: architecture) } else { self.architecture = nil }
             self.additionalInfo = dictionary["additionalInfo"] as? String
-            if let instanceInitiatedShutdownBehavior = dictionary["instanceInitiatedShutdownBehavior"] as? String { self.instanceInitiatedShutdownBehavior = ShutdownBehavior(rawValue: instanceInitiatedShutdownBehavior) } else { self.instanceInitiatedShutdownBehavior = nil }
             if let placement = dictionary["placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) } else { self.placement = nil }
             self.monitoring = dictionary["monitoring"] as? Bool
+            if let instanceInitiatedShutdownBehavior = dictionary["instanceInitiatedShutdownBehavior"] as? String { self.instanceInitiatedShutdownBehavior = ShutdownBehavior(rawValue: instanceInitiatedShutdownBehavior) } else { self.instanceInitiatedShutdownBehavior = nil }
             if let instanceType = dictionary["instanceType"] as? String { self.instanceType = InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
             if let groupNames = dictionary["GroupName"] as? [String: Any] { self.groupNames = try Ec2.SecurityGroupStringList(dictionary: groupNames) } else { self.groupNames = nil }
         }
@@ -14308,21 +14562,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagSpecifications", location: .body(locationName: "TagSpecification"), required: false, type: .structure), 
             AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Size", required: false, type: .integer), 
+            AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean), 
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
             AWSShapeProperty(label: "AvailabilityZone", required: true, type: .string), 
             AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
         ]
+        /// The tags to apply to the volume during creation.
+        public let tagSpecifications: TagSpecificationList?
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: standard 
         public let volumeType: VolumeType?
-        /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-        public let encrypted: Bool?
         /// The size of the volume, in GiBs. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for st1, 500-16384 for sc1, and 1-1024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
         public let size: Int32?
+        /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+        public let encrypted: Bool?
         /// The snapshot from which to create the volume.
         public let snapshotId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14334,10 +14591,11 @@ extension Ec2 {
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. If a KmsKeyId is specified, the Encrypted flag must also be set.
         public let kmsKeyId: String?
 
-        public init(volumeType: VolumeType? = nil, encrypted: Bool? = nil, size: Int32? = nil, snapshotId: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, availabilityZone: String, kmsKeyId: String? = nil) {
+        public init(tagSpecifications: TagSpecificationList? = nil, volumeType: VolumeType? = nil, size: Int32? = nil, encrypted: Bool? = nil, snapshotId: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, availabilityZone: String, kmsKeyId: String? = nil) {
+            self.tagSpecifications = tagSpecifications
             self.volumeType = volumeType
-            self.encrypted = encrypted
             self.size = size
+            self.encrypted = encrypted
             self.snapshotId = snapshotId
             self.dryRun = dryRun
             self.iops = iops
@@ -14346,9 +14604,10 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let tagSpecifications = dictionary["TagSpecification"] as? [String: Any] { self.tagSpecifications = try Ec2.TagSpecificationList(dictionary: tagSpecifications) } else { self.tagSpecifications = nil }
             if let volumeType = dictionary["VolumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
-            self.encrypted = dictionary["encrypted"] as? Bool
             self.size = dictionary["Size"] as? Int32
+            self.encrypted = dictionary["encrypted"] as? Bool
             self.snapshotId = dictionary["SnapshotId"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
             self.iops = dictionary["Iops"] as? Int32
@@ -14370,34 +14629,34 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters.
         public let filters: FilterList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// A list of import snapshot task IDs.
-        public let importTaskIds: ImportTaskIdList?
         /// A token that indicates the next page of results.
         public let nextToken: String?
+        /// A list of import snapshot task IDs.
+        public let importTaskIds: ImportTaskIdList?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
 
-        public init(filters: FilterList? = nil, dryRun: Bool? = nil, importTaskIds: ImportTaskIdList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, importTaskIds: ImportTaskIdList? = nil, maxResults: Int32? = nil) {
             self.filters = filters
             self.dryRun = dryRun
-            self.importTaskIds = importTaskIds
             self.nextToken = nextToken
+            self.importTaskIds = importTaskIds
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let importTaskIds = dictionary["ImportTaskId"] as? [String: Any] { self.importTaskIds = try Ec2.ImportTaskIdList(dictionary: importTaskIds) } else { self.importTaskIds = nil }
             self.nextToken = dictionary["NextToken"] as? String
+            if let importTaskIds = dictionary["ImportTaskId"] as? [String: Any] { self.importTaskIds = try Ec2.ImportTaskIdList(dictionary: importTaskIds) } else { self.importTaskIds = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -14754,7 +15013,7 @@ extension Ec2 {
         ]
         /// The instance type.
         public let instanceType: String?
-        /// The health status of the instance. If the status of both the instance status check and the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
+        /// The health status of the instance. If the status of either the instance status check or the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
         public let instanceHealth: InstanceHealthStatus?
         /// The ID of the instance.
         public let instanceId: String?
@@ -15143,24 +15402,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Error", location: .body(locationName: "error"), required: true, type: .structure)
+            AWSShapeProperty(label: "Error", location: .body(locationName: "error"), required: true, type: .structure), 
+            AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
-        /// The ID of the Spot fleet request.
-        public let spotFleetRequestId: String
         /// The error.
         public let error: CancelSpotFleetRequestsError
+        /// The ID of the Spot fleet request.
+        public let spotFleetRequestId: String
 
-        public init(spotFleetRequestId: String, error: CancelSpotFleetRequestsError) {
-            self.spotFleetRequestId = spotFleetRequestId
+        public init(error: CancelSpotFleetRequestsError, spotFleetRequestId: String) {
             self.error = error
+            self.spotFleetRequestId = spotFleetRequestId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let spotFleetRequestId = dictionary["spotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("spotFleetRequestId") }
-            self.spotFleetRequestId = spotFleetRequestId
             guard let error = dictionary["error"] as? [String: Any] else { throw InitializableError.missingRequiredParam("error") }
             self.error = try Ec2.CancelSpotFleetRequestsError(dictionary: error)
+            guard let spotFleetRequestId = dictionary["spotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("spotFleetRequestId") }
+            self.spotFleetRequestId = spotFleetRequestId
         }
     }
 
@@ -15319,7 +15578,7 @@ extension Ec2 {
         public let dryRun: Bool?
         /// The ID of the network interface.
         public let networkInterfaceId: String
-        /// The attribute of the network interface.
+        /// The attribute of the network interface. This parameter is required.
         public let attribute: NetworkInterfaceAttribute?
 
         public init(dryRun: Bool? = nil, networkInterfaceId: String, attribute: NetworkInterfaceAttribute? = nil) {
@@ -15382,6 +15641,29 @@ extension Ec2 {
             guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
             self.vpcId = vpcId
             self.dryRun = dictionary["dryRun"] as? Bool
+        }
+    }
+
+    public struct StorageLocation: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Bucket", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string)
+        ]
+        /// The name of the S3 bucket.
+        public let bucket: String?
+        /// The key.
+        public let key: String?
+
+        public init(bucket: String? = nil, key: String? = nil) {
+            self.bucket = bucket
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.bucket = dictionary["Bucket"] as? String
+            self.key = dictionary["Key"] as? String
         }
     }
 
@@ -15466,16 +15748,16 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), required: false, type: .structure), 
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "VpcEndpointIds", location: .body(locationName: "VpcEndpointId"), required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
-        /// One or more endpoint IDs.
-        public let vpcEndpointIds: ValueStringList?
         /// One or more filters.    service-name: The name of the AWS service.    vpc-id: The ID of the VPC in which the endpoint resides.    vpc-endpoint-id: The ID of the endpoint.    vpc-endpoint-state: The state of the endpoint. (pending | available | deleting | deleted)  
         public let filters: FilterList?
+        /// One or more endpoint IDs.
+        public let vpcEndpointIds: ValueStringList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The token for the next set of items to return. (You received this token from a prior call.)
@@ -15483,17 +15765,17 @@ extension Ec2 {
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1000, we return only 1000 items.
         public let maxResults: Int32?
 
-        public init(vpcEndpointIds: ValueStringList? = nil, filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.vpcEndpointIds = vpcEndpointIds
+        public init(filters: FilterList? = nil, vpcEndpointIds: ValueStringList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
+            self.vpcEndpointIds = vpcEndpointIds
             self.dryRun = dryRun
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcEndpointIds = dictionary["VpcEndpointId"] as? [String: Any] { self.vpcEndpointIds = try Ec2.ValueStringList(dictionary: vpcEndpointIds) } else { self.vpcEndpointIds = nil }
             if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            if let vpcEndpointIds = dictionary["VpcEndpointId"] as? [String: Any] { self.vpcEndpointIds = try Ec2.ValueStringList(dictionary: vpcEndpointIds) } else { self.vpcEndpointIds = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -15612,8 +15894,8 @@ extension Ec2 {
             AWSShapeProperty(label: "SourceSecurityGroupName", location: .body(locationName: "sourceSecurityGroupName"), required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "FromPort", location: .body(locationName: "fromPort"), required: false, type: .integer), 
-            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
             AWSShapeProperty(label: "ToPort", location: .body(locationName: "toPort"), required: false, type: .integer), 
+            AWSShapeProperty(label: "IpProtocol", location: .body(locationName: "ipProtocol"), required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: true, type: .string)
         ]
         /// The AWS account number for a destination security group. To revoke outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
@@ -15628,22 +15910,22 @@ extension Ec2 {
         public let dryRun: Bool?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
         public let fromPort: Int32?
-        /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
-        public let ipProtocol: String?
         /// The end of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
         public let toPort: Int32?
+        /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
+        public let ipProtocol: String?
         /// The ID of the security group.
         public let groupId: String
 
-        public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, toPort: Int32? = nil, groupId: String) {
+        public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: IpPermissionList? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, toPort: Int32? = nil, ipProtocol: String? = nil, groupId: String) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
             self.ipPermissions = ipPermissions
             self.cidrIp = cidrIp
             self.sourceSecurityGroupName = sourceSecurityGroupName
             self.dryRun = dryRun
             self.fromPort = fromPort
-            self.ipProtocol = ipProtocol
             self.toPort = toPort
+            self.ipProtocol = ipProtocol
             self.groupId = groupId
         }
 
@@ -15654,8 +15936,8 @@ extension Ec2 {
             self.sourceSecurityGroupName = dictionary["sourceSecurityGroupName"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
             self.fromPort = dictionary["fromPort"] as? Int32
-            self.ipProtocol = dictionary["ipProtocol"] as? String
             self.toPort = dictionary["toPort"] as? Int32
+            self.ipProtocol = dictionary["ipProtocol"] as? String
             guard let groupId = dictionary["groupId"] as? String else { throw InitializableError.missingRequiredParam("groupId") }
             self.groupId = groupId
         }
@@ -15811,36 +16093,36 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", required: true, type: .string), 
             AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv6CidrBlock", required: false, type: .string), 
             AWSShapeProperty(label: "CidrBlock", required: true, type: .string)
         ]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
+        public let ipv6CidrBlock: String?
         /// The ID of the VPC.
         public let vpcId: String
         /// The Availability Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we may not necessarily select a different zone for each subnet.
         public let availabilityZone: String?
-        /// The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
-        public let ipv6CidrBlock: String?
         /// The IPv4 network range for the subnet, in CIDR notation. For example, 10.0.0.0/24.
         public let cidrBlock: String
 
-        public init(dryRun: Bool? = nil, vpcId: String, availabilityZone: String? = nil, ipv6CidrBlock: String? = nil, cidrBlock: String) {
+        public init(dryRun: Bool? = nil, ipv6CidrBlock: String? = nil, vpcId: String, availabilityZone: String? = nil, cidrBlock: String) {
             self.dryRun = dryRun
+            self.ipv6CidrBlock = ipv6CidrBlock
             self.vpcId = vpcId
             self.availabilityZone = availabilityZone
-            self.ipv6CidrBlock = ipv6CidrBlock
             self.cidrBlock = cidrBlock
         }
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["dryRun"] as? Bool
+            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
             guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
             self.vpcId = vpcId
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
             guard let cidrBlock = dictionary["CidrBlock"] as? String else { throw InitializableError.missingRequiredParam("CidrBlock") }
             self.cidrBlock = cidrBlock
         }
@@ -16205,34 +16487,34 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Filters", required: false, type: .structure), 
             AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskIds", location: .body(locationName: "ImportTaskId"), required: false, type: .structure), 
             AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filter tasks using the task-state filter and one of the following values: active, completed, deleting, deleted.
         public let filters: FilterList?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// A list of import image task IDs.
-        public let importTaskIds: ImportTaskIdList?
         /// A token that indicates the next page of results.
         public let nextToken: String?
+        /// A list of import image task IDs.
+        public let importTaskIds: ImportTaskIdList?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
 
-        public init(filters: FilterList? = nil, dryRun: Bool? = nil, importTaskIds: ImportTaskIdList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: FilterList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, importTaskIds: ImportTaskIdList? = nil, maxResults: Int32? = nil) {
             self.filters = filters
             self.dryRun = dryRun
-            self.importTaskIds = importTaskIds
             self.nextToken = nextToken
+            self.importTaskIds = importTaskIds
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let importTaskIds = dictionary["ImportTaskId"] as? [String: Any] { self.importTaskIds = try Ec2.ImportTaskIdList(dictionary: importTaskIds) } else { self.importTaskIds = nil }
             self.nextToken = dictionary["NextToken"] as? String
+            if let importTaskIds = dictionary["ImportTaskId"] as? [String: Any] { self.importTaskIds = try Ec2.ImportTaskIdList(dictionary: importTaskIds) } else { self.importTaskIds = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -16421,6 +16703,29 @@ extension Ec2 {
         }
     }
 
+    public struct FpgaImageState: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Code", location: .body(locationName: "code"), required: false, type: .enum), 
+            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        ]
+        /// The state. The following are the possible values:    pending - AFI bitstream generation is in progress.    available - The AFI is available for use.    failed - AFI bitstream generation failed.    unavailable - The AFI is no longer available for use.  
+        public let code: FpgaImageStateCode?
+        /// If the state is failed, this is the error message.
+        public let message: String?
+
+        public init(code: FpgaImageStateCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let code = dictionary["code"] as? String { self.code = FpgaImageStateCode(rawValue: code) } else { self.code = nil }
+            self.message = dictionary["message"] as? String
+        }
+    }
+
     public struct CancelImportTaskResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -16475,26 +16780,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Price", location: .body(locationName: "price"), required: false, type: .double), 
-            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Term", location: .body(locationName: "term"), required: false, type: .long)
+            AWSShapeProperty(label: "Term", location: .body(locationName: "term"), required: false, type: .long), 
+            AWSShapeProperty(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: false, type: .enum)
         ]
         /// The fixed price for the term.
         public let price: Double?
-        /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
-        public let currencyCode: CurrencyCodeValues?
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
         public let term: Int64?
+        /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
+        public let currencyCode: CurrencyCodeValues?
 
-        public init(price: Double? = nil, currencyCode: CurrencyCodeValues? = nil, term: Int64? = nil) {
+        public init(price: Double? = nil, term: Int64? = nil, currencyCode: CurrencyCodeValues? = nil) {
             self.price = price
-            self.currencyCode = currencyCode
             self.term = term
+            self.currencyCode = currencyCode
         }
 
         public init(dictionary: [String: Any]) throws {
             self.price = dictionary["price"] as? Double
-            if let currencyCode = dictionary["currencyCode"] as? String { self.currencyCode = CurrencyCodeValues(rawValue: currencyCode) } else { self.currencyCode = nil }
             self.term = dictionary["term"] as? Int64
+            if let currencyCode = dictionary["currencyCode"] as? String { self.currencyCode = CurrencyCodeValues(rawValue: currencyCode) } else { self.currencyCode = nil }
         }
     }
 
@@ -17271,28 +17576,28 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", required: true, type: .string)
+            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
         public let attribute: ImageAttributeName
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The ID of the AMI.
         public let imageId: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(attribute: ImageAttributeName, dryRun: Bool? = nil, imageId: String) {
+        public init(attribute: ImageAttributeName, imageId: String, dryRun: Bool? = nil) {
             self.attribute = attribute
-            self.dryRun = dryRun
             self.imageId = imageId
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let rawAttribute = dictionary["Attribute"] as? String, let attribute = ImageAttributeName(rawValue: rawAttribute) else { throw InitializableError.missingRequiredParam("Attribute") }
             self.attribute = attribute
-            self.dryRun = dictionary["dryRun"] as? Bool
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -17327,8 +17632,8 @@ extension Ec2 {
             AWSShapeProperty(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .string), 
             AWSShapeProperty(label: "RuleAction", location: .body(locationName: "ruleAction"), required: true, type: .enum), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
             AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
             AWSShapeProperty(label: "PortRange", location: .body(locationName: "portRange"), required: false, type: .structure)
         ]
@@ -17344,24 +17649,24 @@ extension Ec2 {
         public let ruleAction: RuleAction
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the ACL.
-        public let networkAclId: String
         /// Indicates whether to replace the egress rule. Default: If no value is specified, we replace the ingress rule.
         public let egress: Bool
+        /// The ID of the ACL.
+        public let networkAclId: String
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:bd8:1234:1a00::/64).
         public let ipv6CidrBlock: String?
         /// TCP or UDP protocols: The range of ports the rule applies to. Required if specifying TCP (6) or UDP (17) for the protocol.
         public let portRange: PortRange?
 
-        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: RuleAction, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
+        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: RuleAction, dryRun: Bool? = nil, egress: Bool, networkAclId: String, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
             self.ruleNumber = ruleNumber
             self.`protocol` = `protocol`
             self.ruleAction = ruleAction
             self.dryRun = dryRun
-            self.networkAclId = networkAclId
             self.egress = egress
+            self.networkAclId = networkAclId
             self.ipv6CidrBlock = ipv6CidrBlock
             self.portRange = portRange
         }
@@ -17376,10 +17681,10 @@ extension Ec2 {
             guard let rawRuleAction = dictionary["ruleAction"] as? String, let ruleAction = RuleAction(rawValue: rawRuleAction) else { throw InitializableError.missingRequiredParam("ruleAction") }
             self.ruleAction = ruleAction
             self.dryRun = dictionary["dryRun"] as? Bool
-            guard let networkAclId = dictionary["networkAclId"] as? String else { throw InitializableError.missingRequiredParam("networkAclId") }
-            self.networkAclId = networkAclId
             guard let egress = dictionary["egress"] as? Bool else { throw InitializableError.missingRequiredParam("egress") }
             self.egress = egress
+            guard let networkAclId = dictionary["networkAclId"] as? String else { throw InitializableError.missingRequiredParam("networkAclId") }
+            self.networkAclId = networkAclId
             self.ipv6CidrBlock = dictionary["ipv6CidrBlock"] as? String
             if let portRange = dictionary["portRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) } else { self.portRange = nil }
         }
@@ -17436,8 +17741,8 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", location: .body(locationName: "snapshotId"), required: false, type: .string), 
             AWSShapeProperty(label: "DeleteOnTermination", location: .body(locationName: "deleteOnTermination"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum), 
             AWSShapeProperty(label: "VolumeSize", location: .body(locationName: "volumeSize"), required: false, type: .integer), 
+            AWSShapeProperty(label: "VolumeType", location: .body(locationName: "volumeType"), required: false, type: .enum), 
             AWSShapeProperty(label: "Iops", location: .body(locationName: "iops"), required: false, type: .integer), 
             AWSShapeProperty(label: "Encrypted", location: .body(locationName: "encrypted"), required: false, type: .boolean)
         ]
@@ -17445,20 +17750,20 @@ extension Ec2 {
         public let snapshotId: String?
         /// Indicates whether the EBS volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
-        /// The volume type: gp2, io1, st1, sc1, or standard. Default: standard 
-        public let volumeType: VolumeType?
         /// The size of the volume, in GiB. Constraints: 1-16384 for General Purpose SSD (gp2), 4-16384 for Provisioned IOPS SSD (io1), 500-16384 for Throughput Optimized HDD (st1), 500-16384 for Cold HDD (sc1), and 1-1024 for Magnetic (standard) volumes. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
         public let volumeSize: Int32?
+        /// The volume type: gp2, io1, st1, sc1, or standard. Default: standard 
+        public let volumeType: VolumeType?
         /// The number of I/O operations per second (IOPS) that the volume supports. For io1, this represents the number of IOPS that are provisioned for the volume. For gp2, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about General Purpose SSD baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int32?
         /// Indicates whether the EBS volume is encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption.
         public let encrypted: Bool?
 
-        public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeType: VolumeType? = nil, volumeSize: Int32? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
+        public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeSize: Int32? = nil, volumeType: VolumeType? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
             self.snapshotId = snapshotId
             self.deleteOnTermination = deleteOnTermination
-            self.volumeType = volumeType
             self.volumeSize = volumeSize
+            self.volumeType = volumeType
             self.iops = iops
             self.encrypted = encrypted
         }
@@ -17466,8 +17771,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.snapshotId = dictionary["snapshotId"] as? String
             self.deleteOnTermination = dictionary["deleteOnTermination"] as? Bool
-            if let volumeType = dictionary["volumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
             self.volumeSize = dictionary["volumeSize"] as? Int32
+            if let volumeType = dictionary["volumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
             self.iops = dictionary["iops"] as? Int32
             self.encrypted = dictionary["encrypted"] as? Bool
         }
@@ -17616,6 +17921,29 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? [String]
+        }
+    }
+
+    public struct TagSpecification: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Tags", location: .body(locationName: "Tag"), required: false, type: .structure), 
+            AWSShapeProperty(label: "ResourceType", location: .body(locationName: "resourceType"), required: false, type: .enum)
+        ]
+        /// The tags to apply to the resource.
+        public let tags: TagList?
+        /// The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume. 
+        public let resourceType: ResourceType?
+
+        public init(tags: TagList? = nil, resourceType: ResourceType? = nil) {
+            self.tags = tags
+            self.resourceType = resourceType
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tag"] as? [String: Any] { self.tags = try Ec2.TagList(dictionary: tags) } else { self.tags = nil }
+            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
         }
     }
 
@@ -18169,8 +18497,8 @@ extension Ec2 {
             AWSShapeProperty(label: "Protocol", location: .body(locationName: "protocol"), required: true, type: .string), 
             AWSShapeProperty(label: "RuleAction", location: .body(locationName: "ruleAction"), required: true, type: .enum), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
             AWSShapeProperty(label: "Egress", location: .body(locationName: "egress"), required: true, type: .boolean), 
+            AWSShapeProperty(label: "NetworkAclId", location: .body(locationName: "networkAclId"), required: true, type: .string), 
             AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
             AWSShapeProperty(label: "PortRange", location: .body(locationName: "portRange"), required: false, type: .structure)
         ]
@@ -18186,24 +18514,24 @@ extension Ec2 {
         public let ruleAction: RuleAction
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the network ACL.
-        public let networkAclId: String
         /// Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).
         public let egress: Bool
+        /// The ID of the network ACL.
+        public let networkAclId: String
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:db8:1234:1a00::/64).
         public let ipv6CidrBlock: String?
         /// TCP or UDP protocols: The range of ports the rule applies to.
         public let portRange: PortRange?
 
-        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: RuleAction, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
+        public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: RuleAction, dryRun: Bool? = nil, egress: Bool, networkAclId: String, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
             self.icmpTypeCode = icmpTypeCode
             self.ruleNumber = ruleNumber
             self.`protocol` = `protocol`
             self.ruleAction = ruleAction
             self.dryRun = dryRun
-            self.networkAclId = networkAclId
             self.egress = egress
+            self.networkAclId = networkAclId
             self.ipv6CidrBlock = ipv6CidrBlock
             self.portRange = portRange
         }
@@ -18218,10 +18546,10 @@ extension Ec2 {
             guard let rawRuleAction = dictionary["ruleAction"] as? String, let ruleAction = RuleAction(rawValue: rawRuleAction) else { throw InitializableError.missingRequiredParam("ruleAction") }
             self.ruleAction = ruleAction
             self.dryRun = dictionary["dryRun"] as? Bool
-            guard let networkAclId = dictionary["networkAclId"] as? String else { throw InitializableError.missingRequiredParam("networkAclId") }
-            self.networkAclId = networkAclId
             guard let egress = dictionary["egress"] as? Bool else { throw InitializableError.missingRequiredParam("egress") }
             self.egress = egress
+            guard let networkAclId = dictionary["networkAclId"] as? String else { throw InitializableError.missingRequiredParam("networkAclId") }
+            self.networkAclId = networkAclId
             self.ipv6CidrBlock = dictionary["ipv6CidrBlock"] as? String
             if let portRange = dictionary["portRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) } else { self.portRange = nil }
         }
@@ -18256,9 +18584,9 @@ extension Ec2 {
             AWSShapeProperty(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .structure), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
-        /// Information about the requester VPC.
+        /// Information about the requester VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public let requesterVpcInfo: VpcPeeringConnectionVpcInfo?
-        /// Information about the accepter VPC. CIDR block information is not returned when creating a VPC peering connection, or when describing a VPC peering connection that's in the initiating-request or pending-acceptance state.
+        /// Information about the accepter VPC. CIDR block information is only returned when describing an active VPC peering connection.
         public let accepterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// The status of the VPC peering connection.
         public let status: VpcPeeringConnectionStateReason?
@@ -18411,33 +18739,33 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Format", location: .body(locationName: "format"), required: true, type: .enum), 
             AWSShapeProperty(label: "Checksum", location: .body(locationName: "checksum"), required: false, type: .string), 
-            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: true, type: .long), 
-            AWSShapeProperty(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl"), required: true, type: .string)
+            AWSShapeProperty(label: "ImportManifestUrl", location: .body(locationName: "importManifestUrl"), required: true, type: .string), 
+            AWSShapeProperty(label: "Size", location: .body(locationName: "size"), required: true, type: .long)
         ]
         /// The disk image format.
         public let format: DiskImageFormat
         /// The checksum computed for the disk image.
         public let checksum: String?
-        /// The size of the disk image, in GiB.
-        public let size: Int64
         /// A presigned URL for the import manifest stored in Amazon S3. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
         public let importManifestUrl: String
+        /// The size of the disk image, in GiB.
+        public let size: Int64
 
-        public init(format: DiskImageFormat, checksum: String? = nil, size: Int64, importManifestUrl: String) {
+        public init(format: DiskImageFormat, checksum: String? = nil, importManifestUrl: String, size: Int64) {
             self.format = format
             self.checksum = checksum
-            self.size = size
             self.importManifestUrl = importManifestUrl
+            self.size = size
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let rawFormat = dictionary["format"] as? String, let format = DiskImageFormat(rawValue: rawFormat) else { throw InitializableError.missingRequiredParam("format") }
             self.format = format
             self.checksum = dictionary["checksum"] as? String
-            guard let size = dictionary["size"] as? Int64 else { throw InitializableError.missingRequiredParam("size") }
-            self.size = size
             guard let importManifestUrl = dictionary["importManifestUrl"] as? String else { throw InitializableError.missingRequiredParam("importManifestUrl") }
             self.importManifestUrl = importManifestUrl
+            guard let size = dictionary["size"] as? Int64 else { throw InitializableError.missingRequiredParam("size") }
+            self.size = size
         }
     }
 
@@ -18908,26 +19236,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
             AWSShapeProperty(label: "Ipv6CidrBlock", location: .body(locationName: "ipv6CidrBlock"), required: false, type: .string), 
+            AWSShapeProperty(label: "Ipv6CidrBlockState", location: .body(locationName: "ipv6CidrBlockState"), required: false, type: .structure), 
             AWSShapeProperty(label: "AssociationId", location: .body(locationName: "associationId"), required: false, type: .string)
         ]
-        /// Information about the state of the CIDR block.
-        public let ipv6CidrBlockState: VpcCidrBlockState?
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
+        /// Information about the state of the CIDR block.
+        public let ipv6CidrBlockState: VpcCidrBlockState?
         /// The association ID for the IPv6 CIDR block.
         public let associationId: String?
 
-        public init(ipv6CidrBlockState: VpcCidrBlockState? = nil, ipv6CidrBlock: String? = nil, associationId: String? = nil) {
-            self.ipv6CidrBlockState = ipv6CidrBlockState
+        public init(ipv6CidrBlock: String? = nil, ipv6CidrBlockState: VpcCidrBlockState? = nil, associationId: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
+            self.ipv6CidrBlockState = ipv6CidrBlockState
             self.associationId = associationId
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ipv6CidrBlockState = dictionary["ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.VpcCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.ipv6CidrBlock = dictionary["ipv6CidrBlock"] as? String
+            if let ipv6CidrBlockState = dictionary["ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.VpcCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.associationId = dictionary["associationId"] as? String
         }
     }
@@ -18998,27 +19326,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string), 
             AWSShapeProperty(label: "SnapshotTaskDetail", location: .body(locationName: "snapshotTaskDetail"), required: false, type: .structure), 
-            AWSShapeProperty(label: "ImportTaskId", location: .body(locationName: "importTaskId"), required: false, type: .string)
+            AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string)
         ]
-        /// A description of the import snapshot task.
-        public let description: String?
-        /// Information about the import snapshot task.
-        public let snapshotTaskDetail: SnapshotTaskDetail?
         /// The ID of the import snapshot task.
         public let importTaskId: String?
+        /// Information about the import snapshot task.
+        public let snapshotTaskDetail: SnapshotTaskDetail?
+        /// A description of the import snapshot task.
+        public let description: String?
 
-        public init(description: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, importTaskId: String? = nil) {
-            self.description = description
-            self.snapshotTaskDetail = snapshotTaskDetail
+        public init(importTaskId: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, description: String? = nil) {
             self.importTaskId = importTaskId
+            self.snapshotTaskDetail = snapshotTaskDetail
+            self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            if let snapshotTaskDetail = dictionary["snapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
             self.importTaskId = dictionary["importTaskId"] as? String
+            if let snapshotTaskDetail = dictionary["snapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
+            self.description = dictionary["description"] as? String
         }
     }
 
@@ -19189,26 +19517,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean)
         ]
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
-        /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
-        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// If true, enables outbound communication from an EC2-Classic instance that's linked to a local VPC via ClassicLink to instances in a peer VPC.
         public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
+        /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
+        public let allowDnsResolutionFromRemoteVpc: Bool?
 
-        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
+        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
-            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
+            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
         }
 
         public init(dictionary: [String: Any]) throws {
             self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["allowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
-            self.allowDnsResolutionFromRemoteVpc = dictionary["allowDnsResolutionFromRemoteVpc"] as? Bool
             self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["allowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["allowDnsResolutionFromRemoteVpc"] as? Bool
         }
     }
 
@@ -19465,36 +19793,41 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Affinity", location: .body(locationName: "affinity"), required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
+            AWSShapeProperty(label: "SpreadDomain", location: .body(locationName: "spreadDomain"), required: false, type: .string), 
             AWSShapeProperty(label: "HostId", location: .body(locationName: "hostId"), required: false, type: .string), 
             AWSShapeProperty(label: "AvailabilityZone", location: .body(locationName: "availabilityZone"), required: false, type: .string), 
-            AWSShapeProperty(label: "Tenancy", location: .body(locationName: "tenancy"), required: false, type: .enum)
+            AWSShapeProperty(label: "Tenancy", location: .body(locationName: "tenancy"), required: false, type: .enum), 
+            AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string)
         ]
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
         public let affinity: String?
-        /// The name of the placement group the instance is in (for cluster compute instances).
-        public let groupName: String?
+        /// Reserved for future use.
+        public let spreadDomain: String?
         /// The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command.
         public let hostId: String?
         /// The Availability Zone of the instance.
         public let availabilityZone: String?
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command.
         public let tenancy: Tenancy?
+        /// The name of the placement group the instance is in (for cluster compute instances).
+        public let groupName: String?
 
-        public init(affinity: String? = nil, groupName: String? = nil, hostId: String? = nil, availabilityZone: String? = nil, tenancy: Tenancy? = nil) {
+        public init(affinity: String? = nil, spreadDomain: String? = nil, hostId: String? = nil, availabilityZone: String? = nil, tenancy: Tenancy? = nil, groupName: String? = nil) {
             self.affinity = affinity
-            self.groupName = groupName
+            self.spreadDomain = spreadDomain
             self.hostId = hostId
             self.availabilityZone = availabilityZone
             self.tenancy = tenancy
+            self.groupName = groupName
         }
 
         public init(dictionary: [String: Any]) throws {
             self.affinity = dictionary["affinity"] as? String
-            self.groupName = dictionary["groupName"] as? String
+            self.spreadDomain = dictionary["spreadDomain"] as? String
             self.hostId = dictionary["hostId"] as? String
             self.availabilityZone = dictionary["availabilityZone"] as? String
             if let tenancy = dictionary["tenancy"] as? String { self.tenancy = Tenancy(rawValue: tenancy) } else { self.tenancy = nil }
+            self.groupName = dictionary["groupName"] as? String
         }
     }
 
@@ -19578,7 +19911,7 @@ extension Ec2 {
             AWSShapeProperty(label: "DeviceIndex", required: false, type: .integer), 
             AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
             AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string), 
+            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
             AWSShapeProperty(label: "PrivateIpAddressConfigs", location: .body(locationName: "PrivateIpAddressConfig"), required: false, type: .structure), 
             AWSShapeProperty(label: "SecondaryPrivateIpAddressCount", required: false, type: .integer), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
@@ -19586,7 +19919,7 @@ extension Ec2 {
             AWSShapeProperty(label: "Ipv6Addresses", location: .body(locationName: "Ipv6Address"), required: false, type: .structure), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
             AWSShapeProperty(label: "Groups", location: .body(locationName: "Group"), required: false, type: .structure), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
+            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string)
         ]
         /// The index of the device for the network interface attachment.
         public let deviceIndex: Int32?
@@ -19594,8 +19927,8 @@ extension Ec2 {
         public let subnetId: String?
         /// The ID of the network interface.
         public let networkInterfaceId: String?
-        /// The IPv4 address of the network interface within the subnet.
-        public let privateIpAddress: String?
+        /// Indicates whether to assign a public IPv4 address to instances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
+        public let associatePublicIpAddress: Bool?
         /// The private IPv4 addresses.
         public let privateIpAddressConfigs: PrivateIpAddressConfigSet?
         /// The number of secondary private IPv4 addresses.
@@ -19610,14 +19943,14 @@ extension Ec2 {
         public let deleteOnTermination: Bool?
         /// The IDs of one or more security groups.
         public let groups: ScheduledInstancesSecurityGroupIdSet?
-        /// Indicates whether to assign a public IPv4 address to instances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
-        public let associatePublicIpAddress: Bool?
+        /// The IPv4 address of the network interface within the subnet.
+        public let privateIpAddress: String?
 
-        public init(deviceIndex: Int32? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, privateIpAddressConfigs: PrivateIpAddressConfigSet? = nil, secondaryPrivateIpAddressCount: Int32? = nil, description: String? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: ScheduledInstancesIpv6AddressList? = nil, deleteOnTermination: Bool? = nil, groups: ScheduledInstancesSecurityGroupIdSet? = nil, associatePublicIpAddress: Bool? = nil) {
+        public init(deviceIndex: Int32? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, associatePublicIpAddress: Bool? = nil, privateIpAddressConfigs: PrivateIpAddressConfigSet? = nil, secondaryPrivateIpAddressCount: Int32? = nil, description: String? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: ScheduledInstancesIpv6AddressList? = nil, deleteOnTermination: Bool? = nil, groups: ScheduledInstancesSecurityGroupIdSet? = nil, privateIpAddress: String? = nil) {
             self.deviceIndex = deviceIndex
             self.subnetId = subnetId
             self.networkInterfaceId = networkInterfaceId
-            self.privateIpAddress = privateIpAddress
+            self.associatePublicIpAddress = associatePublicIpAddress
             self.privateIpAddressConfigs = privateIpAddressConfigs
             self.secondaryPrivateIpAddressCount = secondaryPrivateIpAddressCount
             self.description = description
@@ -19625,14 +19958,14 @@ extension Ec2 {
             self.ipv6Addresses = ipv6Addresses
             self.deleteOnTermination = deleteOnTermination
             self.groups = groups
-            self.associatePublicIpAddress = associatePublicIpAddress
+            self.privateIpAddress = privateIpAddress
         }
 
         public init(dictionary: [String: Any]) throws {
             self.deviceIndex = dictionary["DeviceIndex"] as? Int32
             self.subnetId = dictionary["SubnetId"] as? String
             self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
             if let privateIpAddressConfigs = dictionary["PrivateIpAddressConfig"] as? [String: Any] { self.privateIpAddressConfigs = try Ec2.PrivateIpAddressConfigSet(dictionary: privateIpAddressConfigs) } else { self.privateIpAddressConfigs = nil }
             self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
             self.description = dictionary["Description"] as? String
@@ -19640,7 +19973,7 @@ extension Ec2 {
             if let ipv6Addresses = dictionary["Ipv6Address"] as? [String: Any] { self.ipv6Addresses = try Ec2.ScheduledInstancesIpv6AddressList(dictionary: ipv6Addresses) } else { self.ipv6Addresses = nil }
             self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
             if let groups = dictionary["Group"] as? [String: Any] { self.groups = try Ec2.ScheduledInstancesSecurityGroupIdSet(dictionary: groups) } else { self.groups = nil }
-            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
         }
     }
 
@@ -19648,17 +19981,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", location: .body(locationName: "userId"), required: false, type: .string), 
             AWSShapeProperty(label: "PeeringStatus", location: .body(locationName: "peeringStatus"), required: false, type: .string), 
+            AWSShapeProperty(label: "UserId", location: .body(locationName: "userId"), required: false, type: .string), 
             AWSShapeProperty(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string), 
             AWSShapeProperty(label: "GroupName", location: .body(locationName: "groupName"), required: false, type: .string), 
             AWSShapeProperty(label: "GroupId", location: .body(locationName: "groupId"), required: false, type: .string), 
             AWSShapeProperty(label: "VpcPeeringConnectionId", location: .body(locationName: "vpcPeeringConnectionId"), required: false, type: .string)
         ]
-        /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS account.
-        public let userId: String?
         /// The status of a VPC peering connection, if applicable.
         public let peeringStatus: String?
+        /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS account.
+        public let userId: String?
         /// The ID of the VPC for the referenced security group, if applicable.
         public let vpcId: String?
         /// The name of the security group. In a request, use this parameter for a security group in EC2-Classic or a default VPC only. For a security group in a nondefault VPC, use the security group ID.
@@ -19668,9 +20001,9 @@ extension Ec2 {
         /// The ID of the VPC peering connection, if applicable.
         public let vpcPeeringConnectionId: String?
 
-        public init(userId: String? = nil, peeringStatus: String? = nil, vpcId: String? = nil, groupName: String? = nil, groupId: String? = nil, vpcPeeringConnectionId: String? = nil) {
-            self.userId = userId
+        public init(peeringStatus: String? = nil, userId: String? = nil, vpcId: String? = nil, groupName: String? = nil, groupId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.peeringStatus = peeringStatus
+            self.userId = userId
             self.vpcId = vpcId
             self.groupName = groupName
             self.groupId = groupId
@@ -19678,8 +20011,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.userId = dictionary["userId"] as? String
             self.peeringStatus = dictionary["peeringStatus"] as? String
+            self.userId = dictionary["userId"] as? String
             self.vpcId = dictionary["vpcId"] as? String
             self.groupName = dictionary["groupName"] as? String
             self.groupId = dictionary["groupId"] as? String
@@ -19863,8 +20196,8 @@ extension Ec2 {
             AWSShapeProperty(label: "ValidUntil", location: .body(locationName: "validUntil"), required: false, type: .timestamp), 
             AWSShapeProperty(label: "AllocationStrategy", location: .body(locationName: "allocationStrategy"), required: false, type: .enum), 
             AWSShapeProperty(label: "ExcessCapacityTerminationPolicy", location: .body(locationName: "excessCapacityTerminationPolicy"), required: false, type: .enum), 
-            AWSShapeProperty(label: "LaunchSpecifications", location: .body(locationName: "launchSpecifications"), required: true, type: .structure), 
             AWSShapeProperty(label: "ValidFrom", location: .body(locationName: "validFrom"), required: false, type: .timestamp), 
+            AWSShapeProperty(label: "LaunchSpecifications", location: .body(locationName: "launchSpecifications"), required: true, type: .structure), 
             AWSShapeProperty(label: "TerminateInstancesWithExpiration", location: .body(locationName: "terminateInstancesWithExpiration"), required: false, type: .boolean), 
             AWSShapeProperty(label: "ReplaceUnhealthyInstances", location: .body(locationName: "replaceUnhealthyInstances"), required: false, type: .boolean), 
             AWSShapeProperty(label: "FulfilledCapacity", location: .body(locationName: "fulfilledCapacity"), required: false, type: .double), 
@@ -19884,10 +20217,10 @@ extension Ec2 {
         public let allocationStrategy: AllocationStrategy?
         /// Indicates whether running Spot instances should be terminated if the target capacity of the Spot fleet request is decreased below the current size of the Spot fleet.
         public let excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy?
-        /// Information about the launch specifications for the Spot fleet request.
-        public let launchSpecifications: LaunchSpecsList
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
         public let validFrom: String?
+        /// Information about the launch specifications for the Spot fleet request.
+        public let launchSpecifications: LaunchSpecsList
         /// Indicates whether running Spot instances should be terminated when the Spot fleet request expires.
         public let terminateInstancesWithExpiration: Bool?
         /// Indicates whether Spot fleet should replace unhealthy instances.
@@ -19897,7 +20230,7 @@ extension Ec2 {
         /// The type of request. Indicates whether the fleet will only request the target capacity or also attempt to maintain it. When you request a certain target capacity, the fleet will only place the required bids. It will not attempt to replenish Spot instances if capacity is diminished, nor will it submit bids in alternative Spot pools if capacity is not available. When you want to maintain a certain target capacity, fleet will place the required bids to meet this target capacity. It will also automatically replenish any interrupted instances. Default: maintain.
         public let `type`: FleetType?
 
-        public init(targetCapacity: Int32, clientToken: String? = nil, iamFleetRole: String, spotPrice: String, validUntil: String? = nil, allocationStrategy: AllocationStrategy? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, launchSpecifications: LaunchSpecsList, validFrom: String? = nil, terminateInstancesWithExpiration: Bool? = nil, replaceUnhealthyInstances: Bool? = nil, fulfilledCapacity: Double? = nil, type: FleetType? = nil) {
+        public init(targetCapacity: Int32, clientToken: String? = nil, iamFleetRole: String, spotPrice: String, validUntil: String? = nil, allocationStrategy: AllocationStrategy? = nil, excessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy? = nil, validFrom: String? = nil, launchSpecifications: LaunchSpecsList, terminateInstancesWithExpiration: Bool? = nil, replaceUnhealthyInstances: Bool? = nil, fulfilledCapacity: Double? = nil, type: FleetType? = nil) {
             self.targetCapacity = targetCapacity
             self.clientToken = clientToken
             self.iamFleetRole = iamFleetRole
@@ -19905,8 +20238,8 @@ extension Ec2 {
             self.validUntil = validUntil
             self.allocationStrategy = allocationStrategy
             self.excessCapacityTerminationPolicy = excessCapacityTerminationPolicy
-            self.launchSpecifications = launchSpecifications
             self.validFrom = validFrom
+            self.launchSpecifications = launchSpecifications
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
             self.replaceUnhealthyInstances = replaceUnhealthyInstances
             self.fulfilledCapacity = fulfilledCapacity
@@ -19924,9 +20257,9 @@ extension Ec2 {
             self.validUntil = dictionary["validUntil"] as? String
             if let allocationStrategy = dictionary["allocationStrategy"] as? String { self.allocationStrategy = AllocationStrategy(rawValue: allocationStrategy) } else { self.allocationStrategy = nil }
             if let excessCapacityTerminationPolicy = dictionary["excessCapacityTerminationPolicy"] as? String { self.excessCapacityTerminationPolicy = ExcessCapacityTerminationPolicy(rawValue: excessCapacityTerminationPolicy) } else { self.excessCapacityTerminationPolicy = nil }
+            self.validFrom = dictionary["validFrom"] as? String
             guard let launchSpecifications = dictionary["launchSpecifications"] as? [String: Any] else { throw InitializableError.missingRequiredParam("launchSpecifications") }
             self.launchSpecifications = try Ec2.LaunchSpecsList(dictionary: launchSpecifications)
-            self.validFrom = dictionary["validFrom"] as? String
             self.terminateInstancesWithExpiration = dictionary["terminateInstancesWithExpiration"] as? Bool
             self.replaceUnhealthyInstances = dictionary["replaceUnhealthyInstances"] as? Bool
             self.fulfilledCapacity = dictionary["fulfilledCapacity"] as? Double
@@ -19987,6 +20320,49 @@ extension Ec2 {
             guard let internetGatewayId = dictionary["internetGatewayId"] as? String else { throw InitializableError.missingRequiredParam("internetGatewayId") }
             self.internetGatewayId = internetGatewayId
             self.dryRun = dictionary["dryRun"] as? Bool
+        }
+    }
+
+    public struct DescribeFpgaImagesRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
+            AWSShapeProperty(label: "FpgaImageIds", location: .body(locationName: "FpgaImageId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
+            AWSShapeProperty(label: "Owners", location: .body(locationName: "Owner"), required: false, type: .structure)
+        ]
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int32?
+        /// One or more filters.    create-time - The creation time of the AFI.    fpga-image-id - The FPGA image identifier (AFI ID).    fpga-image-global-id - The global FPGA image identifier (AGFI ID).    name - The name of the AFI.    owner-id - The AWS account ID of the AFI owner.    product-code - The product code.    shell-version - The version of the AWS Shell that was used to create the bitstream.    state - The state of the AFI (pending | failed | available | unavailable).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    update-time - The time of the most recent update.  
+        public let filters: FilterList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more AFI IDs.
+        public let fpgaImageIds: FpgaImageIdList?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+        /// Filters the AFI by owner. Specify an AWS account ID, self (owner is the sender of the request), or an AWS owner alias (valid values are amazon | aws-marketplace).
+        public let owners: OwnerStringList?
+
+        public init(maxResults: Int32? = nil, filters: FilterList? = nil, dryRun: Bool? = nil, fpgaImageIds: FpgaImageIdList? = nil, nextToken: String? = nil, owners: OwnerStringList? = nil) {
+            self.maxResults = maxResults
+            self.filters = filters
+            self.dryRun = dryRun
+            self.fpgaImageIds = fpgaImageIds
+            self.nextToken = nextToken
+            self.owners = owners
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            self.dryRun = dictionary["DryRun"] as? Bool
+            if let fpgaImageIds = dictionary["FpgaImageId"] as? [String: Any] { self.fpgaImageIds = try Ec2.FpgaImageIdList(dictionary: fpgaImageIds) } else { self.fpgaImageIds = nil }
+            self.nextToken = dictionary["NextToken"] as? String
+            if let owners = dictionary["Owner"] as? [String: Any] { self.owners = try Ec2.OwnerStringList(dictionary: owners) } else { self.owners = nil }
         }
     }
 
@@ -20317,27 +20693,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "KeyNames", location: .body(locationName: "KeyName"), required: false, type: .structure), 
             AWSShapeProperty(label: "Filters", location: .body(locationName: "Filter"), required: false, type: .structure), 
-            AWSShapeProperty(label: "KeyNames", location: .body(locationName: "KeyName"), required: false, type: .structure)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
-        /// One or more filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
-        public let filters: FilterList?
         /// One or more key pair names. Default: Describes all your key pairs.
         public let keyNames: KeyNameStringList?
+        /// One or more filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
+        public let filters: FilterList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(dryRun: Bool? = nil, filters: FilterList? = nil, keyNames: KeyNameStringList? = nil) {
-            self.dryRun = dryRun
-            self.filters = filters
+        public init(keyNames: KeyNameStringList? = nil, filters: FilterList? = nil, dryRun: Bool? = nil) {
             self.keyNames = keyNames
+            self.filters = filters
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
-            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
             if let keyNames = dictionary["KeyName"] as? [String: Any] { self.keyNames = try Ec2.KeyNameStringList(dictionary: keyNames) } else { self.keyNames = nil }
+            if let filters = dictionary["Filter"] as? [String: Any] { self.filters = try Ec2.FilterList(dictionary: filters) } else { self.filters = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -20583,24 +20959,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
+            AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayId", required: true, type: .string)
         ]
-        /// The ID of the virtual private gateway.
-        public let gatewayId: String
         /// The ID of the route table.
         public let routeTableId: String
+        /// The ID of the virtual private gateway.
+        public let gatewayId: String
 
-        public init(gatewayId: String, routeTableId: String) {
-            self.gatewayId = gatewayId
+        public init(routeTableId: String, gatewayId: String) {
             self.routeTableId = routeTableId
+            self.gatewayId = gatewayId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
-            self.gatewayId = gatewayId
             guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
             self.routeTableId = routeTableId
+            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
+            self.gatewayId = gatewayId
         }
     }
 
@@ -20983,26 +21359,26 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AllowEgressFromLocalVpcToRemoteClassicLink", location: .body(locationName: "allowEgressFromLocalVpcToRemoteClassicLink"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean)
+            AWSShapeProperty(label: "AllowEgressFromLocalClassicLinkToRemoteVpc", location: .body(locationName: "allowEgressFromLocalClassicLinkToRemoteVpc"), required: false, type: .boolean), 
+            AWSShapeProperty(label: "AllowDnsResolutionFromRemoteVpc", location: .body(locationName: "allowDnsResolutionFromRemoteVpc"), required: false, type: .boolean)
         ]
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
-        /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
-        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// Indicates whether a local ClassicLink connection can communicate with the peer VPC over the VPC peering connection.
         public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
+        /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
+        public let allowDnsResolutionFromRemoteVpc: Bool?
 
-        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
+        public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
-            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
+            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
         }
 
         public init(dictionary: [String: Any]) throws {
             self.allowEgressFromLocalVpcToRemoteClassicLink = dictionary["allowEgressFromLocalVpcToRemoteClassicLink"] as? Bool
-            self.allowDnsResolutionFromRemoteVpc = dictionary["allowDnsResolutionFromRemoteVpc"] as? Bool
             self.allowEgressFromLocalClassicLinkToRemoteVpc = dictionary["allowEgressFromLocalClassicLinkToRemoteVpc"] as? Bool
+            self.allowDnsResolutionFromRemoteVpc = dictionary["allowDnsResolutionFromRemoteVpc"] as? Bool
         }
     }
 
@@ -21416,24 +21792,24 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "RouteTableId", required: true, type: .string)
+            AWSShapeProperty(label: "RouteTableId", required: true, type: .string), 
+            AWSShapeProperty(label: "GatewayId", required: true, type: .string)
         ]
-        /// The ID of the virtual private gateway.
-        public let gatewayId: String
         /// The ID of the route table.
         public let routeTableId: String
+        /// The ID of the virtual private gateway.
+        public let gatewayId: String
 
-        public init(gatewayId: String, routeTableId: String) {
-            self.gatewayId = gatewayId
+        public init(routeTableId: String, gatewayId: String) {
             self.routeTableId = routeTableId
+            self.gatewayId = gatewayId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
-            self.gatewayId = gatewayId
             guard let routeTableId = dictionary["RouteTableId"] as? String else { throw InitializableError.missingRequiredParam("RouteTableId") }
             self.routeTableId = routeTableId
+            guard let gatewayId = dictionary["GatewayId"] as? String else { throw InitializableError.missingRequiredParam("GatewayId") }
+            self.gatewayId = gatewayId
         }
     }
 
@@ -21580,6 +21956,29 @@ extension Ec2 {
         }
     }
 
+    public struct CreateFpgaImageResult: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "FpgaImageId", location: .body(locationName: "fpgaImageId"), required: false, type: .string), 
+            AWSShapeProperty(label: "FpgaImageGlobalId", location: .body(locationName: "fpgaImageGlobalId"), required: false, type: .string)
+        ]
+        /// The FPGA image identifier (AFI ID).
+        public let fpgaImageId: String?
+        /// The global FPGA image identifier (AGFI ID).
+        public let fpgaImageGlobalId: String?
+
+        public init(fpgaImageId: String? = nil, fpgaImageGlobalId: String? = nil) {
+            self.fpgaImageId = fpgaImageId
+            self.fpgaImageGlobalId = fpgaImageGlobalId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.fpgaImageId = dictionary["fpgaImageId"] as? String
+            self.fpgaImageGlobalId = dictionary["fpgaImageGlobalId"] as? String
+        }
+    }
+
     public struct PrefixListIdSet: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -21619,26 +22018,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
             AWSShapeProperty(label: "KeyFingerprint", location: .body(locationName: "keyFingerprint"), required: false, type: .string), 
+            AWSShapeProperty(label: "KeyName", location: .body(locationName: "keyName"), required: false, type: .string), 
             AWSShapeProperty(label: "KeyMaterial", location: .body(locationName: "keyMaterial"), required: false, type: .string)
         ]
-        /// The name of the key pair.
-        public let keyName: String?
         /// The SHA-1 digest of the DER encoded private key.
         public let keyFingerprint: String?
+        /// The name of the key pair.
+        public let keyName: String?
         /// An unencrypted PEM encoded RSA private key.
         public let keyMaterial: String?
 
-        public init(keyName: String? = nil, keyFingerprint: String? = nil, keyMaterial: String? = nil) {
-            self.keyName = keyName
+        public init(keyFingerprint: String? = nil, keyName: String? = nil, keyMaterial: String? = nil) {
             self.keyFingerprint = keyFingerprint
+            self.keyName = keyName
             self.keyMaterial = keyMaterial
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.keyName = dictionary["keyName"] as? String
             self.keyFingerprint = dictionary["keyFingerprint"] as? String
+            self.keyName = dictionary["keyName"] as? String
             self.keyMaterial = dictionary["keyMaterial"] as? String
         }
     }
@@ -22084,8 +22483,8 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .structure), 
             AWSShapeProperty(label: "NetworkInterfaceId", location: .body(locationName: "networkInterfaceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Attachment", location: .body(locationName: "attachment"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "Groups", location: .body(locationName: "SecurityGroupId"), required: false, type: .structure), 
             AWSShapeProperty(label: "SourceDestCheck", location: .body(locationName: "sourceDestCheck"), required: false, type: .structure)
         ]
@@ -22093,20 +22492,20 @@ extension Ec2 {
         public let description: AttributeValue?
         /// The ID of the network interface.
         public let networkInterfaceId: String
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
         public let attachment: NetworkInterfaceAttachmentChanges?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
         /// Changes the security groups for the network interface. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name.
         public let groups: SecurityGroupIdStringList?
         /// Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
         public let sourceDestCheck: AttributeBooleanValue?
 
-        public init(description: AttributeValue? = nil, networkInterfaceId: String, dryRun: Bool? = nil, attachment: NetworkInterfaceAttachmentChanges? = nil, groups: SecurityGroupIdStringList? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
+        public init(description: AttributeValue? = nil, networkInterfaceId: String, attachment: NetworkInterfaceAttachmentChanges? = nil, dryRun: Bool? = nil, groups: SecurityGroupIdStringList? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.description = description
             self.networkInterfaceId = networkInterfaceId
-            self.dryRun = dryRun
             self.attachment = attachment
+            self.dryRun = dryRun
             self.groups = groups
             self.sourceDestCheck = sourceDestCheck
         }
@@ -22115,8 +22514,8 @@ extension Ec2 {
             if let description = dictionary["description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) } else { self.description = nil }
             guard let networkInterfaceId = dictionary["networkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("networkInterfaceId") }
             self.networkInterfaceId = networkInterfaceId
-            self.dryRun = dictionary["dryRun"] as? Bool
             if let attachment = dictionary["attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachmentChanges(dictionary: attachment) } else { self.attachment = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
             if let groups = dictionary["SecurityGroupId"] as? [String: Any] { self.groups = try Ec2.SecurityGroupIdStringList(dictionary: groups) } else { self.groups = nil }
             if let sourceDestCheck = dictionary["sourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
         }
@@ -22285,28 +22684,28 @@ extension Ec2 {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Attribute", required: true, type: .enum), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "ImageId", required: true, type: .string)
+            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
         /// The attribute to reset (currently you can only reset the launch permission attribute).
         public let attribute: ResetImageAttributeName
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The ID of the AMI.
         public let imageId: String
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
 
-        public init(attribute: ResetImageAttributeName, dryRun: Bool? = nil, imageId: String) {
+        public init(attribute: ResetImageAttributeName, imageId: String, dryRun: Bool? = nil) {
             self.attribute = attribute
-            self.dryRun = dryRun
             self.imageId = imageId
+            self.dryRun = dryRun
         }
 
         public init(dictionary: [String: Any]) throws {
             guard let rawAttribute = dictionary["Attribute"] as? String, let attribute = ResetImageAttributeName(rawValue: rawAttribute) else { throw InitializableError.missingRequiredParam("Attribute") }
             self.attribute = attribute
-            self.dryRun = dictionary["dryRun"] as? Bool
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
+            self.dryRun = dictionary["dryRun"] as? Bool
         }
     }
 
@@ -22480,8 +22879,8 @@ extension Ec2 {
             AWSShapeProperty(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
             AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "NoReboot", location: .body(locationName: "noReboot"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string)
+            AWSShapeProperty(label: "InstanceId", location: .body(locationName: "instanceId"), required: true, type: .string), 
+            AWSShapeProperty(label: "Name", location: .body(locationName: "name"), required: true, type: .string)
         ]
         /// Information about one or more block device mappings.
         public let blockDeviceMappings: BlockDeviceMappingRequestList?
@@ -22491,18 +22890,18 @@ extension Ec2 {
         public let dryRun: Bool?
         /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
         public let noReboot: Bool?
-        /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
-        public let name: String
         /// The ID of the instance.
         public let instanceId: String
+        /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
+        public let name: String
 
-        public init(blockDeviceMappings: BlockDeviceMappingRequestList? = nil, description: String? = nil, dryRun: Bool? = nil, noReboot: Bool? = nil, name: String, instanceId: String) {
+        public init(blockDeviceMappings: BlockDeviceMappingRequestList? = nil, description: String? = nil, dryRun: Bool? = nil, noReboot: Bool? = nil, instanceId: String, name: String) {
             self.blockDeviceMappings = blockDeviceMappings
             self.description = description
             self.dryRun = dryRun
             self.noReboot = noReboot
-            self.name = name
             self.instanceId = instanceId
+            self.name = name
         }
 
         public init(dictionary: [String: Any]) throws {
@@ -22510,10 +22909,10 @@ extension Ec2 {
             self.description = dictionary["description"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
             self.noReboot = dictionary["noReboot"] as? Bool
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
             guard let instanceId = dictionary["instanceId"] as? String else { throw InitializableError.missingRequiredParam("instanceId") }
             self.instanceId = instanceId
+            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
+            self.name = name
         }
     }
 
@@ -23340,37 +23739,37 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotFleetRequestState", location: .body(locationName: "spotFleetRequestState"), required: true, type: .enum), 
-            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: true, type: .timestamp), 
             AWSShapeProperty(label: "ActivityStatus", location: .body(locationName: "activityStatus"), required: false, type: .enum), 
+            AWSShapeProperty(label: "CreateTime", location: .body(locationName: "createTime"), required: true, type: .timestamp), 
+            AWSShapeProperty(label: "SpotFleetRequestState", location: .body(locationName: "spotFleetRequestState"), required: true, type: .enum), 
             AWSShapeProperty(label: "SpotFleetRequestConfig", location: .body(locationName: "spotFleetRequestConfig"), required: true, type: .structure), 
             AWSShapeProperty(label: "SpotFleetRequestId", location: .body(locationName: "spotFleetRequestId"), required: true, type: .string)
         ]
-        /// The state of the Spot fleet request.
-        public let spotFleetRequestState: BatchState
-        /// The creation date and time of the request.
-        public let createTime: String
         /// The progress of the Spot fleet request. If there is an error, the status is error. After all bids are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot instances are terminating.
         public let activityStatus: ActivityStatus?
+        /// The creation date and time of the request.
+        public let createTime: String
+        /// The state of the Spot fleet request.
+        public let spotFleetRequestState: BatchState
         /// Information about the configuration of the Spot fleet request.
         public let spotFleetRequestConfig: SpotFleetRequestConfigData
         /// The ID of the Spot fleet request.
         public let spotFleetRequestId: String
 
-        public init(spotFleetRequestState: BatchState, createTime: String, activityStatus: ActivityStatus? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData, spotFleetRequestId: String) {
-            self.spotFleetRequestState = spotFleetRequestState
-            self.createTime = createTime
+        public init(activityStatus: ActivityStatus? = nil, createTime: String, spotFleetRequestState: BatchState, spotFleetRequestConfig: SpotFleetRequestConfigData, spotFleetRequestId: String) {
             self.activityStatus = activityStatus
+            self.createTime = createTime
+            self.spotFleetRequestState = spotFleetRequestState
             self.spotFleetRequestConfig = spotFleetRequestConfig
             self.spotFleetRequestId = spotFleetRequestId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let rawSpotFleetRequestState = dictionary["spotFleetRequestState"] as? String, let spotFleetRequestState = BatchState(rawValue: rawSpotFleetRequestState) else { throw InitializableError.missingRequiredParam("spotFleetRequestState") }
-            self.spotFleetRequestState = spotFleetRequestState
+            if let activityStatus = dictionary["activityStatus"] as? String { self.activityStatus = ActivityStatus(rawValue: activityStatus) } else { self.activityStatus = nil }
             guard let createTime = dictionary["createTime"] as? String else { throw InitializableError.missingRequiredParam("createTime") }
             self.createTime = createTime
-            if let activityStatus = dictionary["activityStatus"] as? String { self.activityStatus = ActivityStatus(rawValue: activityStatus) } else { self.activityStatus = nil }
+            guard let rawSpotFleetRequestState = dictionary["spotFleetRequestState"] as? String, let spotFleetRequestState = BatchState(rawValue: rawSpotFleetRequestState) else { throw InitializableError.missingRequiredParam("spotFleetRequestState") }
+            self.spotFleetRequestState = spotFleetRequestState
             guard let spotFleetRequestConfig = dictionary["spotFleetRequestConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("spotFleetRequestConfig") }
             self.spotFleetRequestConfig = try Ec2.SpotFleetRequestConfigData(dictionary: spotFleetRequestConfig)
             guard let spotFleetRequestId = dictionary["spotFleetRequestId"] as? String else { throw InitializableError.missingRequiredParam("spotFleetRequestId") }
@@ -23405,27 +23804,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
             AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string)
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean)
         ]
+        /// [EC2-VPC] The association ID. Required for EC2-VPC.
+        public let associationId: String?
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
         public let publicIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// [EC2-VPC] The association ID. Required for EC2-VPC.
-        public let associationId: String?
 
-        public init(publicIp: String? = nil, dryRun: Bool? = nil, associationId: String? = nil) {
+        public init(associationId: String? = nil, publicIp: String? = nil, dryRun: Bool? = nil) {
+            self.associationId = associationId
             self.publicIp = publicIp
             self.dryRun = dryRun
-            self.associationId = associationId
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.associationId = dictionary["AssociationId"] as? String
             self.publicIp = dictionary["PublicIp"] as? String
             self.dryRun = dictionary["dryRun"] as? Bool
-            self.associationId = dictionary["AssociationId"] as? String
         }
     }
 
@@ -23435,8 +23834,8 @@ extension Ec2 {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
             AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
             AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
             AWSShapeProperty(label: "Iops", required: false, type: .integer), 
             AWSShapeProperty(label: "Encrypted", required: false, type: .boolean)
         ]
@@ -23444,20 +23843,20 @@ extension Ec2 {
         public let snapshotId: String?
         /// Indicates whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
-        /// The volume type. gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, Throughput Optimized HDD for st1, Cold HDD for sc1, or standard for Magnetic. Default: standard 
-        public let volumeType: String?
         /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
         public let volumeSize: Int32?
+        /// The volume type. gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, Throughput Optimized HDD for st1, Cold HDD for sc1, or standard for Magnetic. Default: standard 
+        public let volumeType: String?
         /// The number of I/O operations per second (IOPS) that the volume supports. For io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about gp2 baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
         public let iops: Int32?
         /// Indicates whether the volume is encrypted. You can attached encrypted volumes only to instances that support them.
         public let encrypted: Bool?
 
-        public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, volumeSize: Int32? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
+        public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeSize: Int32? = nil, volumeType: String? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
             self.snapshotId = snapshotId
             self.deleteOnTermination = deleteOnTermination
-            self.volumeType = volumeType
             self.volumeSize = volumeSize
+            self.volumeType = volumeType
             self.iops = iops
             self.encrypted = encrypted
         }
@@ -23465,8 +23864,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.snapshotId = dictionary["SnapshotId"] as? String
             self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
-            self.volumeType = dictionary["VolumeType"] as? String
             self.volumeSize = dictionary["VolumeSize"] as? Int32
+            self.volumeType = dictionary["VolumeType"] as? String
             self.iops = dictionary["Iops"] as? Int32
             self.encrypted = dictionary["Encrypted"] as? Bool
         }
@@ -23545,30 +23944,30 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "SpotFleetRequestIds", location: .body(locationName: "spotFleetRequestId"), required: false, type: .structure), 
+            AWSShapeProperty(label: "DryRun", location: .body(locationName: "dryRun"), required: false, type: .boolean), 
             AWSShapeProperty(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
             AWSShapeProperty(label: "MaxResults", location: .body(locationName: "maxResults"), required: false, type: .integer)
         ]
-        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public let dryRun: Bool?
         /// The IDs of the Spot fleet requests.
         public let spotFleetRequestIds: ValueStringList?
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
         /// The token for the next set of results.
         public let nextToken: String?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int32?
 
-        public init(dryRun: Bool? = nil, spotFleetRequestIds: ValueStringList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
-            self.dryRun = dryRun
+        public init(spotFleetRequestIds: ValueStringList? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.spotFleetRequestIds = spotFleetRequestIds
+            self.dryRun = dryRun
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.dryRun = dictionary["dryRun"] as? Bool
             if let spotFleetRequestIds = dictionary["spotFleetRequestId"] as? [String: Any] { self.spotFleetRequestIds = try Ec2.ValueStringList(dictionary: spotFleetRequestIds) } else { self.spotFleetRequestIds = nil }
+            self.dryRun = dictionary["dryRun"] as? Bool
             self.nextToken = dictionary["nextToken"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
         }

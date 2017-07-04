@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS Storage Gateway Service AWS Storage Gateway is the service that connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization's on-premises IT environment and AWS's storage infrastructure. The service enables you to securely upload data to the AWS cloud for cost effective backup and rapid disaster recovery. Use the following links to get started using the AWS Storage Gateway Service API Reference:    AWS Storage Gateway Required Request Headers: Describes the required headers that you must send with every POST request to AWS Storage Gateway.    Signing Requests: AWS Storage Gateway requires that you authenticate every request you send; this topic describes how sign such a request.    Error Responses: Provides reference information about AWS Storage Gateway errors.    Operations in AWS Storage Gateway: Contains detailed descriptions of all AWS Storage Gateway operations, their request parameters, response elements, possible errors, and examples of requests and responses.    AWS Storage Gateway Regions and Endpoints: Provides a list of each of the s and endpoints available for use with AWS Storage Gateway.    AWS Storage Gateway resource IDs are in uppercase. When you use these resource IDs with the Amazon EC2 API, EC2 expects resource IDs in lowercase. You must change your resource ID to lowercase to use it with the EC2 API. For example, in Storage Gateway the ID for a volume might be vol-1122AABB. When you use this ID with the EC2 API, you must change it to vol-1122aabb. Otherwise, the EC2 API might not behave as expected.   IDs for Storage Gateway volumes and Amazon EBS snapshots created from gateway volumes are changing to a longer format. Starting in December 2016, all new volumes and snapshots will be created with a 17-character string. Starting in April 2016, you will be able to use these longer IDs so you can test your systems with the new format. For more information, see Longer EC2 and EBS Resource IDs.  For example, a volume ARN with the longer volume ID format will look like this:  arn:aws:storagegateway:us-west-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABBCCDDEEFFG. A snapshot ID with the longer ID format will look like this: snap-78e226633445566ee. For more information, see Announcement: Heads-up – Longer AWS Storage Gateway volume and snapshot IDs coming in 2016. 
+AWS Storage Gateway Service AWS Storage Gateway is the service that connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization's on-premises IT environment and AWS's storage infrastructure. The service enables you to securely upload data to the AWS cloud for cost effective backup and rapid disaster recovery. Use the following links to get started using the AWS Storage Gateway Service API Reference:    AWS Storage Gateway Required Request Headers: Describes the required headers that you must send with every POST request to AWS Storage Gateway.    Signing Requests: AWS Storage Gateway requires that you authenticate every request you send; this topic describes how sign such a request.    Error Responses: Provides reference information about AWS Storage Gateway errors.    Operations in AWS Storage Gateway: Contains detailed descriptions of all AWS Storage Gateway operations, their request parameters, response elements, possible errors, and examples of requests and responses.    AWS Storage Gateway Regions and Endpoints: Provides a list of each region and endpoints available for use with AWS Storage Gateway.    AWS Storage Gateway resource IDs are in uppercase. When you use these resource IDs with the Amazon EC2 API, EC2 expects resource IDs in lowercase. You must change your resource ID to lowercase to use it with the EC2 API. For example, in Storage Gateway the ID for a volume might be vol-AA22BB012345DAF670. When you use this ID with the EC2 API, you must change it to vol-aa22bb012345daf670. Otherwise, the EC2 API might not behave as expected.   IDs for Storage Gateway volumes and Amazon EBS snapshots created from gateway volumes are changing to a longer format. Starting in December 2016, all new volumes and snapshots will be created with a 17-character string. Starting in April 2016, you will be able to use these longer IDs so you can test your systems with the new format. For more information, see Longer EC2 and EBS Resource IDs.  For example, a volume Amazon Resource Name (ARN) with the longer volume ID format looks like the following:  arn:aws:storagegateway:us-west-2:111122223333:gateway/sgw-12A3456B/volume/vol-1122AABBCCDDEEFFG. A snapshot ID with the longer ID format looks like the following: snap-78e226633445566ee. For more information, see Announcement: Heads-up – Longer AWS Storage Gateway volume and snapshot IDs coming in 2016. 
 */
 public struct Storagegateway {
 
@@ -49,7 +49,7 @@ public struct Storagegateway {
         )
     }
 
-    ///  Configures one or more gateway local disks as cache for a cached-volume gateway. This operation is supported only for the gateway-cached volume architecture (see Storage Gateway Concepts). In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add cache, and one or more disk IDs that you want to configure as cache.
+    ///  Configures one or more gateway local disks as cache for a gateway. This operation is only supported in the cached volume, tape and file gateway architectures (see Storage Gateway Concepts). In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add cache, and one or more disk IDs that you want to configure as cache.
     public func addCache(_ input: AddCacheInput) throws -> AddCacheOutput {
         return try client.send(operation: "AddCache", path: "/", httpMethod: "POST", input: input)
     }
@@ -59,7 +59,7 @@ public struct Storagegateway {
         return try client.send(operation: "UpdateBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Disables a gateway when the gateway is no longer functioning. For example, if your gateway VM is damaged, you can disable the gateway so you can recover virtual tapes. Use this operation for a gateway-VTL that is not reachable or not functioning.  Once a gateway is disabled it cannot be enabled. 
+    ///  Disables a tape gateway when the gateway is no longer functioning. For example, if your gateway VM is damaged, you can disable the gateway so you can recover virtual tapes. Use this operation for a tape gateway that is not reachable or not functioning. This operation is only supported in the tape gateway architectures.  Once a gateway is disabled it cannot be enabled. 
     public func disableGateway(_ input: DisableGatewayInput) throws -> DisableGatewayOutput {
         return try client.send(operation: "DisableGateway", path: "/", httpMethod: "POST", input: input)
     }
@@ -69,7 +69,7 @@ public struct Storagegateway {
         return try client.send(operation: "DescribeGatewayInformation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the tags that have been added to the specified resource.
+    ///  Lists the tags that have been added to the specified resource. This operation is only supported in the cached volume, stored volume and tape gateway architecture.
     public func listTagsForResource(_ input: ListTagsForResourceInput) throws -> ListTagsForResourceOutput {
         return try client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
@@ -84,27 +84,27 @@ public struct Storagegateway {
         return try client.send(operation: "UpdateGatewayInformation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS. This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes.
+    ///  Lists virtual tapes in your virtual tape library (VTL) and your virtual tape shelf (VTS). You specify the tapes to list by specifying one or more tape Amazon Resource Names (ARNs). If you don't specify a tape ARN, the operation lists all virtual tapes in both your VTL and VTS. This operation supports pagination. By default, the operation returns a maximum of up to 100 tapes. You can optionally specify the Limit parameter in the body to limit the number of tapes in the response. If the number of tapes returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tapes. This operation is only supported in the tape gateway architecture.
     public func listTapes(_ input: ListTapesInput) throws -> ListTapesOutput {
         return try client.send(operation: "ListTapes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using a Network File System (NFS) interface.
+    ///  Creates a file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using a Network File System (NFS) interface. This operation is only supported in the file gateway architecture.  File gateway requires AWS Security Token Service (AWS STS) to be activated to enable you create a file share. Make sure AWS STS is activated in the region you are creating your file gateway in. If AWS STS is not activated in the region, activate it. For information about how to activate AWS STS, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  File gateway does not support creating hard or symbolic links on a file share. 
     public func createNFSFileShare(_ input: CreateNFSFileShareInput) throws -> CreateNFSFileShareOutput {
         return try client.send(operation: "CreateNFSFileShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a snapshot of a gateway from a volume recovery point. This operation is supported only for the gateway-cached volume architecture. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To get a list of volume recovery point for gateway-cached volumes, use ListVolumeRecoveryPoints. In the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When AWS Storage Gateway takes a snapshot of the specified volume, the snapshot and its description appear in the AWS Storage Gateway console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, in Amazon Elastic Compute Cloud API Reference. 
+    ///  Initiates a snapshot of a gateway from a volume recovery point. This operation is only supported in the cached volume gateway architecture. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To get a list of volume recovery point for cached volume gateway, use ListVolumeRecoveryPoints. In the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide a description for the snapshot. When the gateway takes a snapshot of the specified volume, the snapshot and its description appear in the AWS Storage Gateway console. In response, the gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, in Amazon Elastic Compute Cloud API Reference. 
     public func createSnapshotFromVolumeRecoveryPoint(_ input: CreateSnapshotFromVolumeRecoveryPointInput) throws -> CreateSnapshotFromVolumeRecoveryPointOutput {
         return try client.send(operation: "CreateSnapshotFromVolumeRecoveryPoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a description of virtual tape library (VTL) devices for the specified gateway. In the response, AWS Storage Gateway returns VTL device information. The list of VTL devices must be from one gateway.
+    ///  Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, AWS Storage Gateway returns VTL device information. This operation is only supported in the tape gateway architecture.
     public func describeVTLDevices(_ input: DescribeVTLDevicesInput) throws -> DescribeVTLDevicesOutput {
         return try client.send(operation: "DescribeVTLDevices", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a file share.   To leave a file share field unchanged, set the corresponding input field to null. 
+    ///  Updates a file share. This operation is only supported in the file gateway architecture.  To leave a file share field unchanged, set the corresponding input field to null.  Updates the following file share setting:   Default storage class for your S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share   Squash settings   Write status of your file share    To leave a file share field unchanged, set the corresponding input field to null. This operation is only supported in file gateways. 
     public func updateNFSFileShare(_ input: UpdateNFSFileShareInput) throws -> UpdateNFSFileShareOutput {
         return try client.send(operation: "UpdateNFSFileShare", path: "/", httpMethod: "POST", input: input)
     }
@@ -114,7 +114,7 @@ public struct Storagegateway {
         return try client.send(operation: "UpdateMaintenanceStartTime", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the upload buffer of a gateway. This operation is supported for both the gateway-stored and gateway-cached volume architectures. The response includes disk IDs that are configured as upload buffer space, and it includes the amount of upload buffer space allocated and used.
+    ///  Returns information about the upload buffer of a gateway. This operation is supported for the stored volume, cached volume and tape gateway architectures. The response includes disk IDs that are configured as upload buffer space, and it includes the amount of upload buffer space allocated and used.
     public func describeUploadBuffer(_ input: DescribeUploadBufferInput) throws -> DescribeUploadBufferOutput {
         return try client.send(operation: "DescribeUploadBuffer", path: "/", httpMethod: "POST", input: input)
     }
@@ -129,12 +129,12 @@ public struct Storagegateway {
         return try client.send(operation: "DescribeBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more tags from the specified resource.
+    ///  Removes one or more tags from the specified resource. This operation is only supported in the cached volume, stored volume and tape gateway architectures.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceInput) throws -> RemoveTagsFromResourceOutput {
         return try client.send(operation: "RemoveTagsFromResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. 
+    ///  Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. This operation is only supported in the tape gateway architecture.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. 
     public func createTapeWithBarcode(_ input: CreateTapeWithBarcodeInput) throws -> CreateTapeWithBarcodeOutput {
         return try client.send(operation: "CreateTapeWithBarcode", path: "/", httpMethod: "POST", input: input)
     }
@@ -149,7 +149,7 @@ public struct Storagegateway {
         return try client.send(operation: "UpdateChapCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Configures one or more gateway local disks as working storage for a gateway. This operation is supported only for the gateway-stored volume architecture. This operation is deprecated in cached-volumes API version 20120630. Use AddUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the AddUploadBuffer operation to add upload buffer to a stored-volume gateway.  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add working storage, and one or more disk IDs that you want to configure as working storage.
+    ///  Configures one or more gateway local disks as working storage for a gateway. This operation is only supported in the stored volume gateway architecture. This operation is deprecated in cached volume API version 20120630. Use AddUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the AddUploadBuffer operation to add upload buffer to a stored volume gateway.  In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add working storage, and one or more disk IDs that you want to configure as working storage.
     public func addWorkingStorage(_ input: AddWorkingStorageInput) throws -> AddWorkingStorageOutput {
         return try client.send(operation: "AddWorkingStorage", path: "/", httpMethod: "POST", input: input)
     }
@@ -159,17 +159,17 @@ public struct Storagegateway {
         return try client.send(operation: "DescribeMaintenanceStartTime", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request. The operation shuts down the gateway service component running in the storage gateway's virtual machine (VM) and not the VM.  If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpredictable conditions.  After the gateway is shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation, and ListGateways. For more information, see ActivateGateway. Your applications cannot read from or write to the gateway's storage volumes, and there are no snapshots taken.  When you make a shutdown request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to shut down. You can call the DescribeGatewayInformation API to check the status. For more information, see ActivateGateway.  If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the gateway.
+    ///  Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name (ARN) of the gateway in the body of your request. The operation shuts down the gateway service component running in the gateway's virtual machine (VM) and not the host VM.  If you want to shut down the VM, it is recommended that you first shut down the gateway component in the VM to avoid unpredictable conditions.  After the gateway is shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation, and ListGateways. For more information, see ActivateGateway. Your applications cannot read from or write to the gateway's storage volumes, and there are no snapshots taken.  When you make a shutdown request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to shut down. You can call the DescribeGatewayInformation API to check the status. For more information, see ActivateGateway.  If do not intend to use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay software charges associated with the gateway.
     public func shutdownGateway(_ input: ShutdownGatewayInput) throws -> ShutdownGatewayOutput {
         return try client.send(operation: "ShutdownGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a file share from a file gateway.
+    ///  Deletes a file share from a file gateway. This operation is only supported in the file gateway architecture.
     public func deleteFileShare(_ input: DeleteFileShareInput) throws -> DeleteFileShareOutput {
         return try client.send(operation: "DeleteFileShare", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the working storage of a gateway. This operation is supported only for the gateway-stored volume architecture. This operation is deprecated in cached-volumes API version (20120630). Use DescribeUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the DescribeUploadBuffer operation to add upload buffer to a stored-volume gateway.  The response includes disk IDs that are configured as working storage, and it includes the amount of working storage allocated and used.
+    ///  Returns information about the working storage of a gateway. This operation is only supported in the stored volumes gateway architecture. This operation is deprecated in cached volumes API version (20120630). Use DescribeUploadBuffer instead.  Working storage is also referred to as upload buffer. You can also use the DescribeUploadBuffer operation to add upload buffer to a stored volume gateway.  The response includes disk IDs that are configured as working storage, and it includes the amount of working storage allocated and used.
     public func describeWorkingStorage(_ input: DescribeWorkingStorageInput) throws -> DescribeWorkingStorageOutput {
         return try client.send(operation: "DescribeWorkingStorage", path: "/", httpMethod: "POST", input: input)
     }
@@ -179,52 +179,52 @@ public struct Storagegateway {
         return try client.send(operation: "SetLocalConsolePassword", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Resets all cache disks that have encountered a error and makes the disks available for reconfiguration as cache storage. If your cache disk encounters a error, the gateway prevents read and write operations on virtual tapes in the gateway. For example, an error can occur when a disk is corrupted or removed from the gateway. When a cache is reset, the gateway loses its cache storage. At this point you can reconfigure the disks as cache disks.  If the cache disk you are resetting contains data that has not been uploaded to Amazon S3 yet, that data can be lost. After you reset cache disks, there will be no configured cache disks left in the gateway, so you must configure at least one new cache disk for your gateway to function properly. 
+    ///  Resets all cache disks that have encountered a error and makes the disks available for reconfiguration as cache storage. If your cache disk encounters a error, the gateway prevents read and write operations on virtual tapes in the gateway. For example, an error can occur when a disk is corrupted or removed from the gateway. When a cache is reset, the gateway loses its cache storage. At this point you can reconfigure the disks as cache disks. This operation is only supported in the cached volume,tape and file gateway architectures.  If the cache disk you are resetting contains data that has not been uploaded to Amazon S3 yet, that data can be lost. After you reset cache disks, there will be no configured cache disks left in the gateway, so you must configure at least one new cache disk for your gateway to function properly. 
     public func resetCache(_ input: ResetCacheInput) throws -> ResetCacheOutput {
         return try client.send(operation: "ResetCache", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates a snapshot schedule configured for a gateway volume. The default snapshot schedule for volume is once every 24 hours, starting at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume. In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snapshot to begin on a day and the frequency (in hours) of snapshots.
+    ///  Updates a snapshot schedule configured for a gateway volume. This operation is only supported in the cached volume and stored volume gateway architectures. The default snapshot schedule for volume is once every 24 hours, starting at the creation time of the volume. You can use this API to change the snapshot schedule configured for the volume. In the request you must identify the gateway volume whose snapshot schedule you want to update, and the schedule information, including when you want the snapshot to begin on a day and the frequency (in hours) of snapshots.
     public func updateSnapshotSchedule(_ input: UpdateSnapshotScheduleInput) throws -> UpdateSnapshotScheduleOutput {
         return try client.send(operation: "UpdateSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a list of the file shares for a specific file gateway, or the list of file shares that belong to the calling user account. 
+    ///  Gets a list of the file shares for a specific file gateway, or the list of file shares that belong to the calling user account. This operation is only supported in the file gateway architecture.
     public func listFileShares(_ input: ListFileSharesInput) throws -> ListFileSharesOutput {
         return try client.send(operation: "ListFileShares", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the archiving process is initiated.
+    ///  Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the archiving process is initiated. This operation is only supported in the tape gateway architecture.
     public func cancelArchival(_ input: CancelArchivalInput) throws -> CancelArchivalOutput {
         return try client.send(operation: "CancelArchival", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Activates the gateway you previously deployed on your host. For more information, see  Activate the AWS Storage Gateway. In the activation process, you specify information such as the you want to use for storing snapshots, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account; for more information, see UpdateGatewayInformation.  You must turn on the gateway VM before you can activate your gateway. 
+    ///  Activates the gateway you previously deployed on your host. For more information, see  Activate the AWS Storage Gateway. In the activation process, you specify information such as the region you want to use for storing snapshots or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an activation key, and a name for your gateway. The activation process also associates your gateway with your account; for more information, see UpdateGatewayInformation.  You must turn on the gateway VM before you can activate your gateway. 
     public func activateGateway(_ input: ActivateGatewayInput) throws -> ActivateGatewayOutput {
         return try client.send(operation: "ActivateGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the recovery points for a specified gateway. This operation is supported only for the gateway-cached volume architecture. Each gateway-cached volume has one recovery point. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot. To create a snapshot from a volume recovery point use the CreateSnapshotFromVolumeRecoveryPoint operation.
+    ///  Lists the recovery points for a specified gateway. This operation is only supported in the cached volume gateway architecture. Each cache volume has one recovery point. A volume recovery point is a point in time at which all data of the volume is consistent and from which you can create a snapshot or clone a new cached volume from a source volume. To create a snapshot from a volume recovery point use the CreateSnapshotFromVolumeRecoveryPoint operation.
     public func listVolumeRecoveryPoints(_ input: ListVolumeRecoveryPointsInput) throws -> ListVolumeRecoveryPointsOutput {
         return try client.send(operation: "ListVolumeRecoveryPoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (S3) for durable off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad-hoc basis. This API enables you to take ad-hoc snapshot. For more information, see Working With Snapshots in the AWS Storage Gateway Console. In the CreateSnapshot request you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the AWS Storage Gateway Console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the EC2 API reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page. 
+    ///  Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (S3) for durable off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad-hoc basis. This API enables you to take ad-hoc snapshot. For more information, see Editing a Snapshot Schedule. In the CreateSnapshot request you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the AWS Storage Gateway Console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway architecture.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the EC2 API reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page. 
     public func createSnapshot(_ input: CreateSnapshotInput) throws -> CreateSnapshotOutput {
         return try client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the description of the gateway volumes specified in the request. The list of gateway volumes in the request must be from one gateway. In the response Amazon Storage Gateway returns volume information sorted by volume ARNs.
+    ///  Returns the description of the gateway volumes specified in the request. The list of gateway volumes in the request must be from one gateway. In the response Amazon Storage Gateway returns volume information sorted by volume ARNs. This operation is only supported in stored volume gateway architecture.
     public func describeStorediSCSIVolumes(_ input: DescribeStorediSCSIVolumesInput) throws -> DescribeStorediSCSIVolumesOutput {
         return try client.send(operation: "DescribeStorediSCSIVolumes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Configures one or more gateway local disks as upload buffer for a specified gateway. This operation is supported for both the gateway-stored and gateway-cached volume architectures. In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload buffer, and one or more disk IDs that you want to configure as upload buffer.
+    ///  Configures one or more gateway local disks as upload buffer for a specified gateway. This operation is supported for the stored volume, cached volume and tape gateway architectures. In the request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload buffer, and one or more disk IDs that you want to configure as upload buffer.
     public func addUploadBuffer(_ input: AddUploadBufferInput) throws -> AddUploadBufferOutput {
         return try client.send(operation: "AddUploadBuffer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of the gateway's local disks. To specify which gateway to describe, you use the Amazon Resource Name (ARN) of the gateway in the body of the request. The request returns a list of all disks, specifying which are configured as working storage, cache storage, or stored volume or not configured at all. The response includes a DiskStatus field. This field can have a value of present (the disk is available to use), missing (the disk is no longer connected to the gateway), or mismatch (the disk node is occupied by a disk that has incorrect metadata or the disk content is corrupted). 
+    ///  Returns a list of the gateway's local disks. To specify which gateway to describe, you use the Amazon Resource Name (ARN) of the gateway in the body of the request. The request returns a list of all disks, specifying which are configured as working storage, cache storage, or stored volume or not configured at all. The response includes a DiskStatus field. This field can have a value of present (the disk is available to use), missing (the disk is no longer connected to the gateway), or mismatch (the disk node is occupied by a disk that has incorrect metadata or the disk content is corrupted).
     public func listLocalDisks(_ input: ListLocalDisksInput) throws -> ListLocalDisksOutput {
         return try client.send(operation: "ListLocalDisks", path: "/", httpMethod: "POST", input: input)
     }
@@ -234,37 +234,42 @@ public struct Storagegateway {
         return try client.send(operation: "DeleteBandwidthRateLimit", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a gateway-VTL. Virtual tapes archived in the VTS are not associated with any gateway. However after a tape is retrieved, it is associated with a gateway, even though it is also listed in the VTS. Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another gateway. You must archive the tape again before you can retrieve it to another gateway.
+    ///  Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape gateway. Virtual tapes archived in the VTS are not associated with any gateway. However after a tape is retrieved, it is associated with a gateway, even though it is also listed in the VTS, that is, archive. This operation is only supported in the tape gateway architecture. Once a tape is successfully retrieved to a gateway, it cannot be retrieved again to another gateway. You must archive the tape again before you can retrieve it to another gateway. This operation is only supported in the tape gateway architecture.
     public func retrieveTapeArchive(_ input: RetrieveTapeArchiveInput) throws -> RetrieveTapeArchiveOutput {
         return try client.send(operation: "RetrieveTapeArchive", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a description of the gateway volumes specified in the request. This operation is supported only for the gateway-cached volume architecture. The list of gateway volumes in the request must be from one gateway. In the response Amazon Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
+    ///  Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway architecture. The list of gateway volumes in the request must be from one gateway. In the response Amazon Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
     public func describeCachediSCSIVolumes(_ input: DescribeCachediSCSIVolumesInput) throws -> DescribeCachediSCSIVolumesOutput {
         return try client.send(operation: "DescribeCachediSCSIVolumes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a volume on a specified gateway. This operation is supported only for the gateway-stored volume architecture. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request you must specify the gateway and the disk information on which you are creating the volume. In response, AWS Storage Gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
+    ///  Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway architecture. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
     public func createStorediSCSIVolume(_ input: CreateStorediSCSIVolumeInput) throws -> CreateStorediSCSIVolumeOutput {
         return try client.send(operation: "CreateStorediSCSIVolume", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists iSCSI initiators that are connected to a volume. You can use this operation to determine whether a volume is being used or not.
+    ///  Lists iSCSI initiators that are connected to a volume. You can use this operation to determine whether a volume is being used or not. This operation is only supported in the cached volume and stored volume gateway architecture.
     public func listVolumeInitiators(_ input: ListVolumeInitiatorsInput) throws -> ListVolumeInitiatorsOutput {
         return try client.send(operation: "ListVolumeInitiators", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a description of the specified Amazon Resource Name (ARN) of virtual tapes. If a TapeARN is not specified, returns a description of all virtual tapes associated with the specified gateway.
+    ///  Returns a description of the specified Amazon Resource Name (ARN) of virtual tapes. If a TapeARN is not specified, returns a description of all virtual tapes associated with the specified gateway. This operation is only supported in the tape gateway architecture.
     public func describeTapes(_ input: DescribeTapesInput) throws -> DescribeTapesOutput {
         return try client.send(operation: "DescribeTapes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the type of medium changer in a gateway-VTL. When you activate a gateway-VTL, you select a medium changer type for the gateway-VTL. This operation enables you to select a different type of medium changer after a gateway-VTL is activated.
+    ///  Refreshes the cache for the specified file share. This operation finds objects in the Amazon S3 bucket that were added or removed since the gateway last listed the bucket's contents and cached the results.
+    public func refreshCache(_ input: RefreshCacheInput) throws -> RefreshCacheOutput {
+        return try client.send(operation: "RefreshCache", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the type of medium changer in a tape gateway. When you activate a tape gateway, you select a medium changer type for the tape gateway. This operation enables you to select a different type of medium changer after a tape gateway is activated. This operation is only supported in the tape gateway architecture.
     public func updateVTLDeviceType(_ input: UpdateVTLDeviceTypeInput) throws -> UpdateVTLDeviceTypeOutput {
         return try client.send(operation: "UpdateVTLDeviceType", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the cache of a gateway. This operation is supported only for the gateway-cached volume architecture. The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
+    ///  Returns information about the cache of a gateway. This operation is only supported in the cached volume,tape and file gateway architectures. The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
     public func describeCache(_ input: DescribeCacheInput) throws -> DescribeCacheOutput {
         return try client.send(operation: "DescribeCache", path: "/", httpMethod: "POST", input: input)
     }
@@ -274,7 +279,7 @@ public struct Storagegateway {
         return try client.send(operation: "CancelRetrieval", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the snapshot schedule for the specified gateway volume. The snapshot schedule information includes intervals at which snapshots are automatically initiated on the volume.
+    ///  Describes the snapshot schedule for the specified gateway volume. The snapshot schedule information includes intervals at which snapshots are automatically initiated on the volume. This operation is only supported in the cached volume and stored volume architectures.
     public func describeSnapshotSchedule(_ input: DescribeSnapshotScheduleInput) throws -> DescribeSnapshotScheduleOutput {
         return try client.send(operation: "DescribeSnapshotSchedule", path: "/", httpMethod: "POST", input: input)
     }
@@ -289,12 +294,12 @@ public struct Storagegateway {
         return try client.send(operation: "UpdateGatewaySoftwareNow", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes.  Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway.  
+    ///  Creates one or more virtual tapes. You write data to the virtual tapes and then archive the tapes. This operation is only supported in the tape gateway architecture.  Cache storage must be allocated to the gateway before you can create virtual tapes. Use the AddCache operation to add cache storage to a gateway.  
     public func createTapes(_ input: CreateTapesInput) throws -> CreateTapesOutput {
         return try client.send(operation: "CreateTapes", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API. The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes.
+    ///  Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. The response includes only the volume ARNs. If you want additional volume information, use the DescribeStorediSCSIVolumes or the DescribeCachediSCSIVolumes API. The operation supports pagination. By default, the operation returns a maximum of up to 100 volumes. You can optionally specify the Limit field in the body to limit the number of volumes in the response. If the number of volumes returned in the response is truncated, the response includes a Marker field. You can use this Marker value in your subsequent request to retrieve the next set of volumes. This operation is only supported in the cached volume and stored volume gateway architectures.
     public func listVolumes(_ input: ListVolumesInput) throws -> ListVolumesOutput {
         return try client.send(operation: "ListVolumes", path: "/", httpMethod: "POST", input: input)
     }
@@ -304,7 +309,7 @@ public struct Storagegateway {
         return try client.send(operation: "DeleteChapCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). If a specific TapeARN is not specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
+    ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway architecture. If a specific TapeARN is not specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
     public func describeTapeArchives(_ input: DescribeTapeArchivesInput) throws -> DescribeTapeArchivesOutput {
         return try client.send(operation: "DescribeTapeArchives", path: "/", httpMethod: "POST", input: input)
     }
@@ -314,37 +319,37 @@ public struct Storagegateway {
         return try client.send(operation: "DeleteGateway", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified gateway volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. For gateway-stored volumes, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume.  Before you delete a gateway volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make sure there is no snapshot in progress. You can use the Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and check the snapshot status. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference. In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you want to delete.
+    ///  Deletes the specified storage volume that you previously created using the CreateCachediSCSIVolume or CreateStorediSCSIVolume API. This operation is only supported in the cached volume and stored volume architectures. For stored volume gateways, the local disk that was configured as the storage volume is not deleted. You can reuse the local disk to create another storage volume.  Before you delete a volume, make sure there are no iSCSI connections to the volume you are deleting. You should also make sure there is no snapshot in progress. You can use the Amazon Elastic Compute Cloud (Amazon EC2) API to query snapshots on the volume you are deleting and check the snapshot status. For more information, go to DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference. In the request, you must provide the Amazon Resource Name (ARN) of the storage volume you want to delete.
     public func deleteVolume(_ input: DeleteVolumeInput) throws -> DeleteVolumeOutput {
         return try client.send(operation: "DeleteVolume", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified virtual tape from the virtual tape shelf (VTS).
+    ///  Deletes the specified virtual tape from the virtual tape shelf (VTS). This operation is only supported in the tape gateway architecture.
     public func deleteTapeArchive(_ input: DeleteTapeArchiveInput) throws -> DeleteTapeArchiveOutput {
         return try client.send(operation: "DeleteTapeArchive", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes the specified virtual tape.
+    ///  Deletes the specified virtual tape. This operation is only supported in the tape gateway architecture.
     public func deleteTape(_ input: DeleteTapeInput) throws -> DeleteTapeOutput {
         return try client.send(operation: "DeleteTape", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a list of virtual tape recovery points that are available for the specified gateway-VTL. A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.
+    ///  Returns a list of virtual tape recovery points that are available for the specified tape gateway. A recovery point is a point-in-time view of a virtual tape at which all the data on the virtual tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway. This operation is only supported in the tape gateway architecture.
     public func describeTapeRecoveryPoints(_ input: DescribeTapeRecoveryPointsInput) throws -> DescribeTapeRecoveryPointsOutput {
         return try client.send(operation: "DescribeTapeRecoveryPoints", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Gets a description for one or more file shares from a file gateway.
+    ///  Gets a description for one or more file shares from a file gateway. This operation is only supported in file gateways.
     public func describeNFSFileShares(_ input: DescribeNFSFileSharesInput) throws -> DescribeNFSFileSharesOutput {
         return try client.send(operation: "DescribeNFSFileShares", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the recovery point for the specified virtual tape. A recovery point is a point in time view of a virtual tape at which all the data on the tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.  The virtual tape can be retrieved to only one gateway. The retrieved tape is read-only. The virtual tape can be retrieved to only a gateway-VTL. There is no charge for retrieving recovery points. 
+    ///  Retrieves the recovery point for the specified virtual tape. This operation is only supported in the tape gateway architecture. A recovery point is a point in time view of a virtual tape at which all the data on the tape is consistent. If your gateway crashes, virtual tapes that have recovery points can be recovered to a new gateway.  The virtual tape can be retrieved to only one gateway. The retrieved tape is read-only. The virtual tape can be retrieved to only a tape gateway. There is no charge for retrieving recovery points. 
     public func retrieveTapeRecoveryPoint(_ input: RetrieveTapeRecoveryPointInput) throws -> RetrieveTapeRecoveryPointOutput {
         return try client.send(operation: "RetrieveTapeRecoveryPoint", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a cached volume on a specified cached gateway. This operation is supported only for the gateway-cached volume architecture.  Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway.   In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, AWS Storage Gateway creates the volume and returns information about it. This information includes the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target. Optionally, you can provide the ARN for an existing volume as the SourceVolumeARN for this cached volume, which creates an exact copy of the existing volume’s latest recovery point. The VolumeSizeInBytes value must be equal to or larger than the size of the copied volume, in bytes.
+    ///  Creates a cached volume on a specified cached volume gateway. This operation is only supported in the cached volume gateway architecture.  Cache storage must be allocated to the gateway before you can create a cached volume. Use the AddCache operation to add cache storage to a gateway.   In the request, you must specify the gateway, size of the volume in bytes, the iSCSI target name, an IP address on which to expose the target, and a unique client token. In response, the gateway creates the volume and returns information about it. This information includes the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target. Optionally, you can provide the ARN for an existing volume as the SourceVolumeARN for this cached volume, which creates an exact copy of the existing volume’s latest recovery point. The VolumeSizeInBytes value must be equal to or larger than the size of the copied volume, in bytes.
     public func createCachediSCSIVolume(_ input: CreateCachediSCSIVolumeInput) throws -> CreateCachediSCSIVolumeOutput {
         return try client.send(operation: "CreateCachediSCSIVolume", path: "/", httpMethod: "POST", input: input)
     }

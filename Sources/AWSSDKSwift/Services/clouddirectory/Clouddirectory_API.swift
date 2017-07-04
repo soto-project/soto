@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile and IoT applications. This guide describes the Cloud Directory operations that you can call programatically and includes detailed information on data types and errors. For information about AWS Directory Services features, see AWS Directory Service and the AWS Directory Service Administration Guide.
+Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about AWS Directory Services features, see AWS Directory Service and the AWS Directory Service Administration Guide.
 */
 public struct Clouddirectory {
 
@@ -58,9 +58,9 @@ public struct Clouddirectory {
         return try client.send(operation: "CreateDirectory", path: "/amazonclouddirectory/2017-01-11/directory/create", httpMethod: "PUT", input: input)
     }
 
-    ///  Copies input published schema into Directory with same name and version as that of published schema .
-    public func applySchema(_ input: ApplySchemaRequest) throws -> ApplySchemaResponse {
-        return try client.send(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: "PUT", input: input)
+    ///  Attaches a typed link to a specified source and target object. For more information, see Typed link.
+    public func attachTypedLink(_ input: AttachTypedLinkRequest) throws -> AttachTypedLinkResponse {
+        return try client.send(operation: "AttachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/attach", httpMethod: "PUT", input: input)
     }
 
     ///  Attaches an existing object to another object. An object can be accessed in two ways:   Using the path   Using ObjectIdentifier   
@@ -68,17 +68,22 @@ public struct Clouddirectory {
         return try client.send(operation: "AttachObject", path: "/amazonclouddirectory/2017-01-11/object/attach", httpMethod: "PUT", input: input)
     }
 
+    ///  Copies the input published schema into the Directory with the same name and version as that of the published schema .
+    public func applySchema(_ input: ApplySchemaRequest) throws -> ApplySchemaResponse {
+        return try client.send(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: "PUT", input: input)
+    }
+
     ///  Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
     public func enableDirectory(_ input: EnableDirectoryRequest) throws -> EnableDirectoryResponse {
         return try client.send(operation: "EnableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/enable", httpMethod: "PUT", input: input)
     }
 
-    ///  Gets details of the Facet, such as Facet Name, Attributes, Rules, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
+    ///  Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
     public func getFacet(_ input: GetFacetRequest) throws -> GetFacetResponse {
         return try client.send(operation: "GetFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to directory root are ignored from the target object.
+    ///  Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
     public func listObjectParentPaths(_ input: ListObjectParentPathsRequest) throws -> ListObjectParentPathsResponse {
         return try client.send(operation: "ListObjectParentPaths", path: "/amazonclouddirectory/2017-01-11/object/parentpaths", httpMethod: "POST", input: input)
     }
@@ -98,14 +103,14 @@ public struct Clouddirectory {
         return try client.send(operation: "DeleteObject", path: "/amazonclouddirectory/2017-01-11/object/delete", httpMethod: "PUT", input: input)
     }
 
+    ///  Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
+    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest) throws -> ListDevelopmentSchemaArnsResponse {
+        return try client.send(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: "POST", input: input)
+    }
+
     ///  Lists indices attached to an object.
     public func listAttachedIndices(_ input: ListAttachedIndicesRequest) throws -> ListAttachedIndicesResponse {
         return try client.send(operation: "ListAttachedIndices", path: "/amazonclouddirectory/2017-01-11/object/indices", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves the ARNs of schemas in the development state.
-    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest) throws -> ListDevelopmentSchemaArnsResponse {
-        return try client.send(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: "POST", input: input)
     }
 
     ///  Returns policies attached to an object in pagination fashion.
@@ -133,6 +138,11 @@ public struct Clouddirectory {
         return try client.send(operation: "AddFacetToObject", path: "/amazonclouddirectory/2017-01-11/object/facets", httpMethod: "PUT", input: input)
     }
 
+    ///  Updates a TypedLinkFacet. For more information, see Typed link.
+    public func updateTypedLinkFacet(_ input: UpdateTypedLinkFacetRequest) throws -> UpdateTypedLinkFacetResponse {
+        return try client.send(operation: "UpdateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet", httpMethod: "PUT", input: input)
+    }
+
     ///  Creates a new schema in a development state. A schema can exist in three phases:    Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.    Published: Published schemas are immutable and have a version associated with them.    Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.   
     public func createSchema(_ input: CreateSchemaRequest) throws -> CreateSchemaResponse {
         return try client.send(operation: "CreateSchema", path: "/amazonclouddirectory/2017-01-11/schema/create", httpMethod: "PUT", input: input)
@@ -143,14 +153,14 @@ public struct Clouddirectory {
         return try client.send(operation: "DetachObject", path: "/amazonclouddirectory/2017-01-11/object/detach", httpMethod: "PUT", input: input)
     }
 
+    ///  Retrieves each published schema Amazon Resource Name (ARN).
+    public func listPublishedSchemaArns(_ input: ListPublishedSchemaArnsRequest) throws -> ListPublishedSchemaArnsResponse {
+        return try client.send(operation: "ListPublishedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/published", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves attributes attached to the facet.
     public func listFacetAttributes(_ input: ListFacetAttributesRequest) throws -> ListFacetAttributesResponse {
         return try client.send(operation: "ListFacetAttributes", path: "/amazonclouddirectory/2017-01-11/facet/attributes", httpMethod: "POST", input: input)
-    }
-
-    ///  Retrieves published schema ARNs.
-    public func listPublishedSchemaArns(_ input: ListPublishedSchemaArnsRequest) throws -> ListPublishedSchemaArnsResponse {
-        return try client.send(operation: "ListPublishedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/published", httpMethod: "POST", input: input)
     }
 
     ///  Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
@@ -168,12 +178,12 @@ public struct Clouddirectory {
         return try client.send(operation: "DeleteSchema", path: "/amazonclouddirectory/2017-01-11/schema", httpMethod: "PUT", input: input)
     }
 
-    ///  API for adding tags to a resource.
+    ///  An API operation for adding tags to a resource.
     public func tagResource(_ input: TagResourceRequest) throws -> TagResourceResponse {
         return try client.send(operation: "TagResource", path: "/amazonclouddirectory/2017-01-11/tags/add", httpMethod: "PUT", input: input)
     }
 
-    ///  Lists parent objects associated with a given object in pagination fashion.
+    ///  Lists parent objects that are associated with a given object in pagination fashion.
     public func listObjectParents(_ input: ListObjectParentsRequest) throws -> ListObjectParentsResponse {
         return try client.send(operation: "ListObjectParents", path: "/amazonclouddirectory/2017-01-11/object/parent", httpMethod: "POST", input: input)
     }
@@ -181,6 +191,11 @@ public struct Clouddirectory {
     ///  Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
     public func putSchemaFromJson(_ input: PutSchemaFromJsonRequest) throws -> PutSchemaFromJsonResponse {
         return try client.send(operation: "PutSchemaFromJson", path: "/amazonclouddirectory/2017-01-11/schema/json", httpMethod: "PUT", input: input)
+    }
+
+    ///  Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed link.
+    public func listTypedLinkFacetAttributes(_ input: ListTypedLinkFacetAttributesRequest) throws -> ListTypedLinkFacetAttributesResponse {
+        return try client.send(operation: "ListTypedLinkFacetAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves metadata about an object.
@@ -193,9 +208,19 @@ public struct Clouddirectory {
         return try client.send(operation: "UpdateFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: "PUT", input: input)
     }
 
-    ///  Lists all attributes associated with an object. 
+    ///  Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed link.
+    public func listTypedLinkFacetNames(_ input: ListTypedLinkFacetNamesRequest) throws -> ListTypedLinkFacetNamesResponse {
+        return try client.send(operation: "ListTypedLinkFacetNames", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/list", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists all attributes that are associated with an object. 
     public func listObjectAttributes(_ input: ListObjectAttributesRequest) throws -> ListObjectAttributesResponse {
         return try client.send(operation: "ListObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+    public func listIncomingTypedLinks(_ input: ListIncomingTypedLinksRequest) throws -> ListIncomingTypedLinksResponse {
+        return try client.send(operation: "ListIncomingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/incoming", httpMethod: "POST", input: input)
     }
 
     ///  Retrieves the names of facets that exist in a schema.
@@ -218,7 +243,7 @@ public struct Clouddirectory {
         return try client.send(operation: "CreateObject", path: "/amazonclouddirectory/2017-01-11/object", httpMethod: "PUT", input: input)
     }
 
-    ///  Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored.
+    ///  Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
     public func lookupPolicy(_ input: LookupPolicyRequest) throws -> LookupPolicyResponse {
         return try client.send(operation: "LookupPolicy", path: "/amazonclouddirectory/2017-01-11/policy/lookup", httpMethod: "POST", input: input)
     }
@@ -226,6 +251,11 @@ public struct Clouddirectory {
     ///  Lists directories created within an account.
     public func listDirectories(_ input: ListDirectoriesRequest) throws -> ListDirectoriesResponse {
         return try client.send(operation: "ListDirectories", path: "/amazonclouddirectory/2017-01-11/directory/list", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a TypedLinkFacet. For more information, see Typed link.
+    public func deleteTypedLinkFacet(_ input: DeleteTypedLinkFacetRequest) throws -> DeleteTypedLinkFacetResponse {
+        return try client.send(operation: "DeleteTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", httpMethod: "PUT", input: input)
     }
 
     ///  Performs all the write operations in a batch. Either all the operations succeed or none. Batch writes supports only object-related operations.
@@ -243,7 +273,12 @@ public struct Clouddirectory {
         return try client.send(operation: "UpdateSchema", path: "/amazonclouddirectory/2017-01-11/schema/update", httpMethod: "PUT", input: input)
     }
 
-    ///  Returns a paginated list of child objects associated with a given object.
+    ///  Detaches a typed link from a specified source and target object. For more information, see Typed link.
+    public func detachTypedLink(_ input: DetachTypedLinkRequest) throws {
+        _ = try client.send(operation: "DetachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/detach", httpMethod: "PUT", input: input)
+    }
+
+    ///  Returns a paginated list of child objects that are associated with a given object.
     public func listObjectChildren(_ input: ListObjectChildrenRequest) throws -> ListObjectChildrenResponse {
         return try client.send(operation: "ListObjectChildren", path: "/amazonclouddirectory/2017-01-11/object/children", httpMethod: "POST", input: input)
     }
@@ -253,7 +288,7 @@ public struct Clouddirectory {
         return try client.send(operation: "CreateIndex", path: "/amazonclouddirectory/2017-01-11/index", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes a given Facet. All attributes and Rules associated with the facet will be deleted. Only development schema facets are allowed deletion.
+    ///  Deletes a given Facet. All attributes and Rules that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
     public func deleteFacet(_ input: DeleteFacetRequest) throws -> DeleteFacetResponse {
         return try client.send(operation: "DeleteFacet", path: "/amazonclouddirectory/2017-01-11/facet/delete", httpMethod: "PUT", input: input)
     }
@@ -263,9 +298,24 @@ public struct Clouddirectory {
         return try client.send(operation: "RemoveFacetFromObject", path: "/amazonclouddirectory/2017-01-11/object/facets/delete", httpMethod: "PUT", input: input)
     }
 
-    ///  API for removing tags from a resource.
+    ///  Creates a TypedLinkFacet. For more information, see Typed link.
+    public func createTypedLinkFacet(_ input: CreateTypedLinkFacetRequest) throws -> CreateTypedLinkFacetResponse {
+        return try client.send(operation: "CreateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/create", httpMethod: "PUT", input: input)
+    }
+
+    ///  An API operation for removing tags from a resource.
     public func untagResource(_ input: UntagResourceRequest) throws -> UntagResourceResponse {
         return try client.send(operation: "UntagResource", path: "/amazonclouddirectory/2017-01-11/tags/remove", httpMethod: "PUT", input: input)
+    }
+
+    ///  Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed link.
+    public func listOutgoingTypedLinks(_ input: ListOutgoingTypedLinksRequest) throws -> ListOutgoingTypedLinksResponse {
+        return try client.send(operation: "ListOutgoingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/outgoing", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed link.
+    public func getTypedLinkFacetInformation(_ input: GetTypedLinkFacetInformationRequest) throws -> GetTypedLinkFacetInformationResponse {
+        return try client.send(operation: "GetTypedLinkFacetInformation", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/get", httpMethod: "POST", input: input)
     }
 
     ///  Detaches the specified object from the specified index.
@@ -278,14 +328,14 @@ public struct Clouddirectory {
         return try client.send(operation: "GetDirectory", path: "/amazonclouddirectory/2017-01-11/directory/get", httpMethod: "POST", input: input)
     }
 
-    ///  Detaches a policy from an object.
-    public func detachPolicy(_ input: DetachPolicyRequest) throws -> DetachPolicyResponse {
-        return try client.send(operation: "DetachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/detach", httpMethod: "PUT", input: input)
-    }
-
     ///  Attaches a policy object to a regular object. An object can have a limited number of attached policies.
     public func attachPolicy(_ input: AttachPolicyRequest) throws -> AttachPolicyResponse {
         return try client.send(operation: "AttachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/attach", httpMethod: "PUT", input: input)
+    }
+
+    ///  Detaches a policy from an object.
+    public func detachPolicy(_ input: DetachPolicyRequest) throws -> DetachPolicyResponse {
+        return try client.send(operation: "DetachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/detach", httpMethod: "PUT", input: input)
     }
 
     ///  Attaches the specified object to the specified index.

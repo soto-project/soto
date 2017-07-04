@@ -64,7 +64,7 @@ public struct Snowball {
         return try client.send(operation: "DescribeCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. .
+    ///  Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. 
     public func createJob(_ input: CreateJobRequest) throws -> CreateJobResult {
         return try client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
     }
@@ -114,7 +114,7 @@ public struct Snowball {
         return try client.send(operation: "CancelCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an address for a Snowball to be shipped to.  Addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
+    ///  Creates an address for a Snowball to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
     public func createAddress(_ input: CreateAddressRequest) throws -> CreateAddressResult {
         return try client.send(operation: "CreateAddress", path: "/", httpMethod: "POST", input: input)
     }
@@ -124,7 +124,7 @@ public struct Snowball {
         return try client.send(operation: "ListJobs", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about a specific job including shipping information, job status, and other important metadata. .
+    ///  Returns information about a specific job including shipping information, job status, and other important metadata. 
     public func describeJob(_ input: DescribeJobRequest) throws -> DescribeJobResult {
         return try client.send(operation: "DescribeJob", path: "/", httpMethod: "POST", input: input)
     }

@@ -35,6 +35,7 @@ public enum LambdaError: AWSErrorType {
     case policyLengthExceededException(message: String?)
     case tooManyRequestsException(message: String?)
     case invalidRequestContentException(message: String?)
+    case invalidRuntimeException(message: String?)
     case requestTooLargeException(message: String?)
     case unsupportedMediaTypeException(message: String?)
     case eC2UnexpectedException(message: String?)
@@ -73,6 +74,8 @@ extension LambdaError {
             self = .tooManyRequestsException(message: message)
         case "InvalidRequestContentException":
             self = .invalidRequestContentException(message: message)
+        case "InvalidRuntimeException":
+            self = .invalidRuntimeException(message: message)
         case "RequestTooLargeException":
             self = .requestTooLargeException(message: message)
         case "UnsupportedMediaTypeException":

@@ -83,11 +83,42 @@ extension ApplicationAutoscaling {
         }
     }
 
+    public enum MetricType: String, CustomStringConvertible {
+        case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
+        case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricAggregationType: String, CustomStringConvertible {
         case average = "Average"
         case minimum = "Minimum"
         case maximum = "Maximum"
         public var description: String { return self.rawValue }
+    }
+
+    public struct MetricDimension: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Name", required: true, type: .string)
+        ]
+        /// The value of the dimension.
+        public let value: String
+        /// The name of the dimension.
+        public let name: String
+
+        public init(value: String, name: String) {
+            self.value = value
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            self.name = name
+        }
     }
 
     public struct RegisterScalableTargetResponse: AWSShape {
@@ -103,6 +134,7 @@ extension ApplicationAutoscaling {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
             AWSShapeProperty(label: "PolicyType", required: true, type: .enum), 
             AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeProperty(label: "PolicyARN", required: true, type: .string), 
@@ -112,8 +144,10 @@ extension ApplicationAutoscaling {
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
             AWSShapeProperty(label: "PolicyName", required: true, type: .string)
         ]
-        /// The configuration for the step scaling policy.
+        /// A step scaling policy.
         public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
+        /// A target tracking policy.
+        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
         /// The scaling policy type.
         public let policyType: PolicyType
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
@@ -122,17 +156,18 @@ extension ApplicationAutoscaling {
         public let policyARN: String
         /// The Unix timestamp for when the scaling policy was created.
         public let creationTime: String
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The CloudWatch alarms associated with the scaling policy.
         public let alarms: [Alarm]?
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
         /// The name of the scaling policy.
         public let policyName: String
 
-        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: String, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
+        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: String, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
             self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
             self.policyType = policyType
             self.serviceNamespace = serviceNamespace
             self.policyARN = policyARN
@@ -145,6 +180,7 @@ extension ApplicationAutoscaling {
 
         public init(dictionary: [String: Any]) throws {
             if let stepScalingPolicyConfiguration = dictionary["StepScalingPolicyConfiguration"] as? [String: Any] { self.stepScalingPolicyConfiguration = try ApplicationAutoscaling.StepScalingPolicyConfiguration(dictionary: stepScalingPolicyConfiguration) } else { self.stepScalingPolicyConfiguration = nil }
+            if let targetTrackingScalingPolicyConfiguration = dictionary["TargetTrackingScalingPolicyConfiguration"] as? [String: Any] { self.targetTrackingScalingPolicyConfiguration = try ApplicationAutoscaling.TargetTrackingScalingPolicyConfiguration(dictionary: targetTrackingScalingPolicyConfiguration) } else { self.targetTrackingScalingPolicyConfiguration = nil }
             guard let rawPolicyType = dictionary["PolicyType"] as? String, let policyType = PolicyType(rawValue: rawPolicyType) else { throw InitializableError.missingRequiredParam("PolicyType") }
             self.policyType = policyType
             guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
@@ -167,6 +203,15 @@ extension ApplicationAutoscaling {
         }
     }
 
+    public enum MetricStatistic: String, CustomStringConvertible {
+        case average = "Average"
+        case minimum = "Minimum"
+        case maximum = "Maximum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdjustmentType: String, CustomStringConvertible {
         case changeincapacity = "ChangeInCapacity"
         case percentchangeincapacity = "PercentChangeInCapacity"
@@ -185,9 +230,9 @@ extension ApplicationAutoscaling {
         ]
         /// The name of the scaling policy.
         public let policyName: String
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -215,6 +260,11 @@ extension ApplicationAutoscaling {
         case ecs_service_desiredcount = "ecs:service:DesiredCount"
         case ec2_spot_fleet_request_targetcapacity = "ec2:spot-fleet-request:TargetCapacity"
         case elasticmapreduce_instancegroup_instancecount = "elasticmapreduce:instancegroup:InstanceCount"
+        case appstream_fleet_desiredcapacity = "appstream:fleet:DesiredCapacity"
+        case dynamodb_table_readcapacityunits = "dynamodb:table:ReadCapacityUnits"
+        case dynamodb_table_writecapacityunits = "dynamodb:table:WriteCapacityUnits"
+        case dynamodb_index_readcapacityunits = "dynamodb:index:ReadCapacityUnits"
+        case dynamodb_index_writecapacityunits = "dynamodb:index:WriteCapacityUnits"
         public var description: String { return self.rawValue }
     }
 
@@ -222,46 +272,51 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
+            AWSShapeProperty(label: "TargetTrackingScalingPolicyConfiguration", required: false, type: .structure), 
+            AWSShapeProperty(label: "PolicyType", required: false, type: .enum), 
             AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum), 
             AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
-            AWSShapeProperty(label: "PolicyType", required: false, type: .enum), 
             AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+            AWSShapeProperty(label: "StepScalingPolicyConfiguration", required: false, type: .structure)
         ]
-        /// The configuration for the step scaling policy. If you are creating a new policy, this parameter is required. If you are updating a policy, this parameter is not required. For more information, see StepScalingPolicyConfiguration and StepAdjustment.
-        public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
-        /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
-        public let serviceNamespace: ServiceNamespace
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
-        public let scalableDimension: ScalableDimension
-        /// The policy type. If you are creating a new policy, this parameter is required. If you are updating a policy, this parameter is not required.
-        public let policyType: PolicyType?
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
-        public let resourceId: String
         /// The name of the scaling policy.
         public let policyName: String
+        /// A target tracking policy. This parameter is required if you are creating a new policy and the policy type is TargetTrackingScaling.
+        public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
+        /// The policy type. If you are creating a new policy, this parameter is required. If you are updating a policy, this parameter is not required. For DynamoDB, only TargetTrackingScaling is supported. For any other service, only StepScaling is supported.
+        public let policyType: PolicyType?
+        /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
+        public let serviceNamespace: ServiceNamespace
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
+        public let scalableDimension: ScalableDimension
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
+        public let resourceId: String
+        /// A step scaling policy. This parameter is required if you are creating a policy and the policy type is StepScaling.
+        public let stepScalingPolicyConfiguration: StepScalingPolicyConfiguration?
 
-        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, serviceNamespace: ServiceNamespace, scalableDimension: ScalableDimension, policyType: PolicyType? = nil, resourceId: String, policyName: String) {
-            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
+        public init(policyName: String, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType? = nil, serviceNamespace: ServiceNamespace, scalableDimension: ScalableDimension, resourceId: String, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil) {
+            self.policyName = policyName
+            self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
+            self.policyType = policyType
             self.serviceNamespace = serviceNamespace
             self.scalableDimension = scalableDimension
-            self.policyType = policyType
             self.resourceId = resourceId
-            self.policyName = policyName
+            self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stepScalingPolicyConfiguration = dictionary["StepScalingPolicyConfiguration"] as? [String: Any] { self.stepScalingPolicyConfiguration = try ApplicationAutoscaling.StepScalingPolicyConfiguration(dictionary: stepScalingPolicyConfiguration) } else { self.stepScalingPolicyConfiguration = nil }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
+            self.policyName = policyName
+            if let targetTrackingScalingPolicyConfiguration = dictionary["TargetTrackingScalingPolicyConfiguration"] as? [String: Any] { self.targetTrackingScalingPolicyConfiguration = try ApplicationAutoscaling.TargetTrackingScalingPolicyConfiguration(dictionary: targetTrackingScalingPolicyConfiguration) } else { self.targetTrackingScalingPolicyConfiguration = nil }
+            if let policyType = dictionary["PolicyType"] as? String { self.policyType = PolicyType(rawValue: policyType) } else { self.policyType = nil }
             guard let rawServiceNamespace = dictionary["ServiceNamespace"] as? String, let serviceNamespace = ServiceNamespace(rawValue: rawServiceNamespace) else { throw InitializableError.missingRequiredParam("ServiceNamespace") }
             self.serviceNamespace = serviceNamespace
             guard let rawScalableDimension = dictionary["ScalableDimension"] as? String, let scalableDimension = ScalableDimension(rawValue: rawScalableDimension) else { throw InitializableError.missingRequiredParam("ScalableDimension") }
             self.scalableDimension = scalableDimension
-            if let policyType = dictionary["PolicyType"] as? String { self.policyType = PolicyType(rawValue: policyType) } else { self.policyType = nil }
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+            if let stepScalingPolicyConfiguration = dictionary["StepScalingPolicyConfiguration"] as? [String: Any] { self.stepScalingPolicyConfiguration = try ApplicationAutoscaling.StepScalingPolicyConfiguration(dictionary: stepScalingPolicyConfiguration) } else { self.stepScalingPolicyConfiguration = nil }
         }
     }
 
@@ -283,9 +338,9 @@ extension ApplicationAutoscaling {
         public let roleARN: String
         /// The Unix timestamp for when the scalable target was created.
         public let creationTime: String
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
         /// The maximum value to scale to in response to a scale out event.
         public let maxCapacity: Int32
@@ -328,9 +383,9 @@ extension ApplicationAutoscaling {
             AWSShapeProperty(label: "ScalableDimension", required: true, type: .enum), 
             AWSShapeProperty(label: "ServiceNamespace", required: true, type: .enum)
         ]
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
@@ -355,6 +410,8 @@ extension ApplicationAutoscaling {
         case ecs = "ecs"
         case elasticmapreduce = "elasticmapreduce"
         case ec2 = "ec2"
+        case appstream = "appstream"
+        case dynamodb = "dynamodb"
         public var description: String { return self.rawValue }
     }
 
@@ -385,6 +442,51 @@ extension ApplicationAutoscaling {
         }
     }
 
+    public struct CustomizedMetricSpecification: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
+            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
+            AWSShapeProperty(label: "Unit", required: false, type: .string), 
+            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
+            AWSShapeProperty(label: "Statistic", required: true, type: .enum)
+        ]
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+        /// The unit of the metric.
+        public let unit: String?
+        /// The dimensions of the metric.
+        public let dimensions: [MetricDimension]?
+        /// The statistic of the metric.
+        public let statistic: MetricStatistic
+
+        public init(metricName: String, namespace: String, unit: String? = nil, dimensions: [MetricDimension]? = nil, statistic: MetricStatistic) {
+            self.metricName = metricName
+            self.namespace = namespace
+            self.unit = unit
+            self.dimensions = dimensions
+            self.statistic = statistic
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
+            self.metricName = metricName
+            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
+            self.namespace = namespace
+            self.unit = dictionary["Unit"] as? String
+            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
+                self.dimensions = try dimensions.map({ try MetricDimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
+            }
+            guard let rawStatistic = dictionary["Statistic"] as? String, let statistic = MetricStatistic(rawValue: rawStatistic) else { throw InitializableError.missingRequiredParam("Statistic") }
+            self.statistic = statistic
+        }
+    }
+
     public struct DescribeScalableTargetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -397,9 +499,9 @@ extension ApplicationAutoscaling {
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceIds: [String]?
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension?
         /// The token for the next set of results.
         public let nextToken: String?
@@ -421,14 +523,6 @@ extension ApplicationAutoscaling {
             if let scalableDimension = dictionary["ScalableDimension"] as? String { self.scalableDimension = ScalableDimension(rawValue: scalableDimension) } else { self.scalableDimension = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
-        }
-    }
-
-    public struct DeleteScalingPolicyResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -461,6 +555,14 @@ extension ApplicationAutoscaling {
         }
     }
 
+    public struct DeleteScalingPolicyResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
     public enum ScalingActivityStatusCode: String, CustomStringConvertible {
         case pending = "Pending"
         case inprogress = "InProgress"
@@ -469,6 +571,69 @@ extension ApplicationAutoscaling {
         case unfulfilled = "Unfulfilled"
         case failed = "Failed"
         public var description: String { return self.rawValue }
+    }
+
+    public struct PredefinedMetricSpecification: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PredefinedMetricType", required: true, type: .enum), 
+            AWSShapeProperty(label: "ResourceLabel", required: false, type: .string)
+        ]
+        /// The metric type.
+        public let predefinedMetricType: MetricType
+        /// Reserved for future use.
+        public let resourceLabel: String?
+
+        public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawPredefinedMetricType = dictionary["PredefinedMetricType"] as? String, let predefinedMetricType = MetricType(rawValue: rawPredefinedMetricType) else { throw InitializableError.missingRequiredParam("PredefinedMetricType") }
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = dictionary["ResourceLabel"] as? String
+        }
+    }
+
+    public struct TargetTrackingScalingPolicyConfiguration: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ScaleOutCooldown", required: false, type: .integer), 
+            AWSShapeProperty(label: "ScaleInCooldown", required: false, type: .integer), 
+            AWSShapeProperty(label: "PredefinedMetricSpecification", required: false, type: .structure), 
+            AWSShapeProperty(label: "TargetValue", required: true, type: .double), 
+            AWSShapeProperty(label: "CustomizedMetricSpecification", required: false, type: .structure)
+        ]
+        /// The amount of time, in seconds, after a scale out activity completes before another scale out activity can start. While the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out.
+        public let scaleOutCooldown: Int32?
+        /// The amount of time, in seconds, after a scale in activity completes before another scale in activity can start. The cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
+        public let scaleInCooldown: Int32?
+        /// A predefined metric.
+        public let predefinedMetricSpecification: PredefinedMetricSpecification?
+        /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
+        public let targetValue: Double
+        /// Reserved for future use.
+        public let customizedMetricSpecification: CustomizedMetricSpecification?
+
+        public init(scaleOutCooldown: Int32? = nil, scaleInCooldown: Int32? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, targetValue: Double, customizedMetricSpecification: CustomizedMetricSpecification? = nil) {
+            self.scaleOutCooldown = scaleOutCooldown
+            self.scaleInCooldown = scaleInCooldown
+            self.predefinedMetricSpecification = predefinedMetricSpecification
+            self.targetValue = targetValue
+            self.customizedMetricSpecification = customizedMetricSpecification
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.scaleOutCooldown = dictionary["ScaleOutCooldown"] as? Int32
+            self.scaleInCooldown = dictionary["ScaleInCooldown"] as? Int32
+            if let predefinedMetricSpecification = dictionary["PredefinedMetricSpecification"] as? [String: Any] { self.predefinedMetricSpecification = try ApplicationAutoscaling.PredefinedMetricSpecification(dictionary: predefinedMetricSpecification) } else { self.predefinedMetricSpecification = nil }
+            guard let targetValue = dictionary["TargetValue"] as? Double else { throw InitializableError.missingRequiredParam("TargetValue") }
+            self.targetValue = targetValue
+            if let customizedMetricSpecification = dictionary["CustomizedMetricSpecification"] as? [String: Any] { self.customizedMetricSpecification = try ApplicationAutoscaling.CustomizedMetricSpecification(dictionary: customizedMetricSpecification) } else { self.customizedMetricSpecification = nil }
+        }
     }
 
     public struct Alarm: AWSShape {
@@ -508,7 +673,7 @@ extension ApplicationAutoscaling {
         ]
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average.
         public let metricAggregationType: MetricAggregationType?
-        /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale out policies, while Cooldown is in effect, the capacity that has been added by the previous scale out event that initiated the Cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a Cooldown period of 5 minutes starts. During the Cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale in policies, the Cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the Cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
+        /// The amount of time, in seconds, after a scaling activity completes where previous trigger-related scaling activities can influence future scaling events. For scale out policies, while the cooldown period is in effect, the capacity that has been added by the previous scale out event that initiated the cooldown is calculated as part of the desired capacity for the next scale out. The intention is to continuously (but not excessively) scale out. For example, an alarm triggers a step scaling policy to scale out an Amazon ECS service by 2 tasks, the scaling activity completes successfully, and a cooldown period of 5 minutes starts. During the Cooldown period, if the alarm triggers the same policy again but at a more aggressive step adjustment to scale out the service by 3 tasks, the 2 tasks that were added in the previous scale out event are considered part of that capacity and only 1 additional task is added to the desired count. For scale in policies, the cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
         public let cooldown: Int32?
         /// The minimum number to adjust your scalable dimension as a result of a scaling activity. If the adjustment type is PercentChangeInCapacity, the scaling policy changes the scalable dimension of the scalable target by this amount.
         public let minAdjustmentMagnitude: Int32?
@@ -550,9 +715,9 @@ extension ApplicationAutoscaling {
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension?
-        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String?
         /// The token for the next set of results.
         public let nextToken: String?
@@ -579,6 +744,7 @@ extension ApplicationAutoscaling {
 
     public enum PolicyType: String, CustomStringConvertible {
         case stepscaling = "StepScaling"
+        case targettrackingscaling = "TargetTrackingScaling"
         public var description: String { return self.rawValue }
     }
 
@@ -586,16 +752,25 @@ extension ApplicationAutoscaling {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
             AWSShapeProperty(label: "PolicyARN", required: true, type: .string)
         ]
+        /// The CloudWatch alarms created for the target tracking policy.
+        public let alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the resulting scaling policy.
         public let policyARN: String
 
-        public init(policyARN: String) {
+        public init(alarms: [Alarm]? = nil, policyARN: String) {
+            self.alarms = alarms
             self.policyARN = policyARN
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let alarms = dictionary["Alarms"] as? [[String: Any]] {
+                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
+            } else { 
+                self.alarms = nil
+            }
             guard let policyARN = dictionary["PolicyARN"] as? String else { throw InitializableError.missingRequiredParam("PolicyARN") }
             self.policyARN = policyARN
         }
@@ -614,13 +789,13 @@ extension ApplicationAutoscaling {
         ]
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension?
         /// The names of the scaling policies to describe.
         public let policyNames: [String]?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier. If you specify a scalable dimension, you must also specify a resource ID.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String?
         /// The maximum number of scalable target results. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
         public let maxResults: Int32?
@@ -658,11 +833,11 @@ extension ApplicationAutoscaling {
         ]
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. This parameter is required when you register a scalable target and optional when you update one.
         public let roleARN: String?
-        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The maximum value to scale to in response to a scale out event. This parameter is required if you are registering a scalable target and optional if you are updating one.
         public let maxCapacity: Int32?
-        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
         /// The minimum value to scale to in response to a scale in event. This parameter is required if you are registering a scalable target and optional if you are updating one.
         public let minCapacity: Int32?
@@ -727,13 +902,13 @@ extension ApplicationAutoscaling {
         public let statusCode: ScalingActivityStatusCode
         /// A simple description of what caused the scaling activity to happen.
         public let cause: String
-        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.  
+        /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The unique identifier of the scaling activity.
         public let activityId: String
         /// A simple message about the current status of the scaling activity.
         public let statusMessage: String?
-        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.  
+        /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
         public let resourceId: String
         /// A simple description of what action the scaling activity intends to accomplish.
         public let description: String

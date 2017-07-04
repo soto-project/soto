@@ -278,6 +278,11 @@ public struct Redshift {
         return try client.send(operation: "CreateHsmConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your AWS customer account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
+    public func describeHsmClientCertificates(_ input: DescribeHsmClientCertificatesMessage) throws -> HsmClientCertificateMessage {
+        return try client.send(operation: "DescribeHsmClientCertificates", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group.  For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide.
     public func createClusterSubnetGroup(_ input: CreateClusterSubnetGroupMessage) throws -> CreateClusterSubnetGroupResult {
         return try client.send(operation: "CreateClusterSubnetGroup", path: "/", httpMethod: "POST", input: input)
@@ -298,11 +303,6 @@ public struct Redshift {
         return try client.send(operation: "EnableSnapshotCopy", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your AWS customer account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
-    public func describeHsmClientCertificates(_ input: DescribeHsmClientCertificatesMessage) throws -> HsmClientCertificateMessage {
-        return try client.send(operation: "DescribeHsmClientCertificates", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     public func describeLoggingStatus(_ input: DescribeLoggingStatusMessage) throws -> LoggingStatus {
         return try client.send(operation: "DescribeLoggingStatus", path: "/", httpMethod: "POST", input: input)
@@ -318,14 +318,19 @@ public struct Redshift {
         _ = try client.send(operation: "DeleteClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
-    public func describeClusterVersions(_ input: DescribeClusterVersionsMessage) throws -> ClusterVersionsMessage {
-        return try client.send(operation: "DescribeClusterVersions", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True. You can optionally specify one or more database user groups that the user will join at log in. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Generating IAM Database User Credentials in the Amazon Redshift Cluster Management Guide. The IAM user or role that executes GetClusterCredentials must have an IAM policy attached that allows the redshift:GetClusterCredentials action with access to the dbuser resource on the cluster. The user name specified for dbuser in the IAM policy and the user name specified for the DbUser parameter must match. If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups.  In addition, if the AutoCreate parameter is set to True, then the policy must include the redshift:CreateClusterUser privilege. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name. 
+    public func getClusterCredentials(_ input: GetClusterCredentialsMessage) throws -> ClusterCredentials {
+        return try client.send(operation: "GetClusterCredentials", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes the specified cluster subnet group.
     public func deleteClusterSubnetGroup(_ input: DeleteClusterSubnetGroupMessage) throws {
         _ = try client.send(operation: "DeleteClusterSubnetGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+    public func describeClusterVersions(_ input: DescribeClusterVersionsMessage) throws -> ClusterVersionsMessage {
+        return try client.send(operation: "DescribeClusterVersions", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes an Amazon Redshift event notification subscription.

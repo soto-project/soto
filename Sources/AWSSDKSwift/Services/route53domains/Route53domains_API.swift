@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-
+Amazon Route 53 API actions let you register domain names and perform related operations.
 */
 public struct Route53domains {
 
@@ -79,12 +79,12 @@ public struct Route53domains {
         return try client.send(operation: "UpdateTagsForDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your AWS account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 documentation.
+    ///  This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your AWS account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide.
     public func renewDomain(_ input: RenewDomainRequest) throws -> RenewDomainResponse {
         return try client.send(operation: "RenewDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  The GetDomainSuggestions operation returns a list of suggested domain names given a string, which can either be a domain name or simply a word or phrase (without spaces).  Parameters: DomainName (string): The basis for your domain suggestion search, a string with (or without) top-level domain specified. SuggestionCount (int): The number of domain suggestions to be returned, maximum 50, minimum 1. OnlyAvailable (bool): If true, availability check will be performed on suggestion results, and only available domains will be returned. If false, suggestions will be returned without checking whether the domain is actually available, and caller will have to call checkDomainAvailability for each suggestion to determine availability for registration.  
+    ///  The GetDomainSuggestions operation returns a list of suggested domain names given a string, which can either be a domain name or simply a word or phrase (without spaces).
     public func getDomainSuggestions(_ input: GetDomainSuggestionsRequest) throws -> GetDomainSuggestionsResponse {
         return try client.send(operation: "GetDomainSuggestions", path: "/", httpMethod: "POST", input: input)
     }
@@ -104,7 +104,7 @@ public struct Route53domains {
         return try client.send(operation: "ListDomains", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact. 
+    ///  For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
     public func resendContactReachabilityEmail(_ input: ResendContactReachabilityEmailRequest) throws -> ResendContactReachabilityEmailResponse {
         return try client.send(operation: "ResendContactReachabilityEmail", path: "/", httpMethod: "POST", input: input)
     }
@@ -129,7 +129,7 @@ public struct Route53domains {
         return try client.send(operation: "DisableDomainTransferLock", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain.  If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    ///  This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     public func updateDomainNameservers(_ input: UpdateDomainNameserversRequest) throws -> UpdateDomainNameserversResponse {
         return try client.send(operation: "UpdateDomainNameservers", path: "/", httpMethod: "POST", input: input)
     }
@@ -139,17 +139,17 @@ public struct Route53domains {
         return try client.send(operation: "EnableDomainTransferLock", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation returns detailed information about the domain. The domain's contact information is also returned as part of the output.
+    ///  This operation returns detailed information about a specified domain that is associated with the current AWS account. Contact information for the domain is also returned as part of the output.
     public func getDomainDetail(_ input: GetDomainDetailRequest) throws -> GetDomainDetailResponse {
         return try client.send(operation: "GetDomainDetail", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation registers a domain. Domains are registered by the AWS registrar partner, Gandi. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following:  Creates a Amazon Route 53 hosted zone that has the same name as the domain. Amazon Route 53 assigns four name servers to your hosted zone and automatically updates your domain registration with the names of these name servers. Enables autorenew, so your domain registration will renew automatically each year. We'll notify you in advance of the renewal date so you can choose whether to renew the registration. Optionally enables privacy protection, so WHOIS queries return contact information for our registrar partner, Gandi, instead of the information you entered for registrant, admin, and tech contacts. If registration is successful, returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant is notified by email. Charges your AWS account an amount based on the top-level domain. For more information, see Amazon Route 53 Pricing. 
+    ///  This operation registers a domain. Domains are registered by the AWS registrar partner, Gandi. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following:   Creates a Amazon Route 53 hosted zone that has the same name as the domain. Amazon Route 53 assigns four name servers to your hosted zone and automatically updates your domain registration with the names of these name servers.   Enables autorenew, so your domain registration will renew automatically each year. We'll notify you in advance of the renewal date so you can choose whether to renew the registration.   Optionally enables privacy protection, so WHOIS queries return contact information for our registrar partner, Gandi, instead of the information you entered for registrant, admin, and tech contacts.   If registration is successful, returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant is notified by email.   Charges your AWS account an amount based on the top-level domain. For more information, see Amazon Route 53 Pricing.  
     public func registerDomain(_ input: RegisterDomainRequest) throws -> RegisterDomainResponse {
         return try client.send(operation: "RegisterDomain", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation returns all the domain-related billing records for the current AWS account for a specified period
+    ///  Returns all the domain-related billing records for the current AWS account for a specified period
     public func viewBilling(_ input: ViewBillingRequest) throws -> ViewBillingResponse {
         return try client.send(operation: "ViewBilling", path: "/", httpMethod: "POST", input: input)
     }
@@ -159,7 +159,7 @@ public struct Route53domains {
         return try client.send(operation: "RetrieveDomainAuthCode", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This operation transfers a domain from another registrar to Amazon Route 53. When the transfer is complete, the domain is registered with the AWS registrar partner, Gandi. For transfer requirements, a detailed procedure, and information about viewing the status of a domain transfer, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide. If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you consider transferring your DNS service to Amazon Route 53 or to another DNS service provider before you transfer your registration. Some registrars provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar will not renew your domain registration and could end your DNS service at any time. Caution! If the registrar for your domain is also the DNS service provider for the domain and you don't transfer DNS service to another provider, your website, email, and the web applications associated with the domain might become unavailable. If the transfer is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
+    ///  This operation transfers a domain from another registrar to Amazon Route 53. When the transfer is complete, the domain is registered with the AWS registrar partner, Gandi. For transfer requirements, a detailed procedure, and information about viewing the status of a domain transfer, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide. If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you consider transferring your DNS service to Amazon Route 53 or to another DNS service provider before you transfer your registration. Some registrars provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar will not renew your domain registration and could end your DNS service at any time.  If the registrar for your domain is also the DNS service provider for the domain and you don't transfer DNS service to another provider, your website, email, and the web applications associated with the domain might become unavailable.  If the transfer is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
     public func transferDomain(_ input: TransferDomainRequest) throws -> TransferDomainResponse {
         return try client.send(operation: "TransferDomain", path: "/", httpMethod: "POST", input: input)
     }

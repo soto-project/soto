@@ -276,26 +276,24 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSelectors", required: false, type: .list), 
-            AWSShapeProperty(label: "TrailName", required: false, type: .string)
+            AWSShapeProperty(label: "EventSelectors", required: true, type: .list), 
+            AWSShapeProperty(label: "TrailName", required: true, type: .string)
         ]
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
-        public let eventSelectors: [EventSelector]?
+        public let eventSelectors: [EventSelector]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public let trailName: String?
+        public let trailName: String
 
-        public init(eventSelectors: [EventSelector]? = nil, trailName: String? = nil) {
+        public init(eventSelectors: [EventSelector], trailName: String) {
             self.eventSelectors = eventSelectors
             self.trailName = trailName
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
-                self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
-            } else { 
-                self.eventSelectors = nil
-            }
-            self.trailName = dictionary["TrailName"] as? String
+            guard let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EventSelectors") }
+            self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            guard let trailName = dictionary["TrailName"] as? String else { throw InitializableError.missingRequiredParam("TrailName") }
+            self.trailName = trailName
         }
     }
 
@@ -334,6 +332,7 @@ extension Cloudtrail {
             AWSShapeProperty(label: "ResourceTagList", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
+        /// A list of resource tags.
         public let resourceTagList: [ResourceTag]?
         /// Reserved for future use.
         public let nextToken: String?
@@ -972,17 +971,18 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrailName", required: false, type: .string)
+            AWSShapeProperty(label: "TrailName", required: true, type: .string)
         ]
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public let trailName: String?
+        public let trailName: String
 
-        public init(trailName: String? = nil) {
+        public init(trailName: String) {
             self.trailName = trailName
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.trailName = dictionary["TrailName"] as? String
+            guard let trailName = dictionary["TrailName"] as? String else { throw InitializableError.missingRequiredParam("TrailName") }
+            self.trailName = trailName
         }
     }
 
@@ -1139,6 +1139,7 @@ extension Cloudtrail {
         ]
         /// Specifies the ARN of the resource.
         public let resourceId: String?
+        /// A list of tags.
         public let tagsList: [Tag]?
 
         public init(resourceId: String? = nil, tagsList: [Tag]? = nil) {

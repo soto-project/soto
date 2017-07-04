@@ -52,6 +52,31 @@ extension Lambda {
         }
     }
 
+    public struct TagResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
+            AWSShapeProperty(label: "Tags", required: true, type: .map)
+        ]
+        /// The ARN (Amazon Resource Name) of the Lambda function.
+        public let resource: String
+        /// The list of tags (key-value pairs) you are assigning to the Lambda function.
+        public let tags: [String: String]
+
+        public init(resource: String, tags: [String: String]) {
+            self.resource = resource
+            self.tags = tags
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.resource = resource
+            guard let tags = dictionary["Tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = tags
+        }
+    }
+
     public struct EventSourceMappingConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -108,8 +133,10 @@ extension Lambda {
     public enum Runtime: String, CustomStringConvertible {
         case nodejs = "nodejs"
         case nodejs4_3 = "nodejs4.3"
+        case nodejs6_10 = "nodejs6.10"
         case java8 = "java8"
         case python2_7 = "python2.7"
+        case python3_6 = "python3.6"
         case dotnetcore1_0 = "dotnetcore1.0"
         case nodejs4_3_edge = "nodejs4.3-edge"
         public var description: String { return self.rawValue }
@@ -122,7 +149,7 @@ extension Lambda {
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// The Lambda function to delete.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The Lambda function to delete.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// Using this optional parameter you can specify a function version (but not the $LATEST version) to direct AWS Lambda to delete a specific function version. If the function version has one or more aliases pointing to it, you will get an error because you cannot have aliases pointing to it. You can delete any function version but not the $LATEST, that is, you cannot specify $LATEST as the value of this parameter. The $LATEST version can be deleted only when you want to delete all the function versions and aliases. You can only specify a function version, not an alias name, using this parameter. You cannot delete a function version using its alias. If you don't specify this parameter, AWS Lambda will delete the function, including all of its versions and aliases.
         public let qualifier: String?
@@ -148,7 +175,7 @@ extension Lambda {
             AWSShapeProperty(label: "Name", location: .uri(locationName: "Name"), required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The function name for which the alias is created.
+        /// The function name for which the alias is created. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Using this parameter you can change the Lambda function version to which the alias points.
         public let functionVersion: String?
@@ -185,7 +212,7 @@ extension Lambda {
             AWSShapeProperty(label: "LogType", location: .header(locationName: "X-Amz-Log-Type"), required: false, type: .enum), 
             AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// By default, the Invoke API assumes RequestResponse invocation type. You can optionally request asynchronous execution by specifying Event as the InvocationType. You can also use this parameter to request AWS Lambda to not execute the function but do some verification, such as if the caller is authorized to invoke the function and if the inputs are valid. You request this by specifying DryRun as the InvocationType. This is useful in a cross-account scenario when you want to verify access to a function without running it. 
         public let invocationType: InvocationType?
@@ -215,6 +242,28 @@ extension Lambda {
             self.clientContext = dictionary["X-Amz-Client-Context"] as? String
             if let logType = dictionary["X-Amz-Log-Type"] as? String { self.logType = LogType(rawValue: logType) } else { self.logType = nil }
             self.qualifier = dictionary["Qualifier"] as? String
+        }
+    }
+
+    public struct ListTagsResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Tags", required: false, type: .map)
+        ]
+        /// The list of tags assigned to the function.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tags = dictionary["Tags"] as? [String: String] {
+                self.tags = tags
+            } else { 
+                self.tags = nil
+            }
         }
     }
 
@@ -251,13 +300,13 @@ extension Lambda {
         ]
         /// A unique statement identifier.
         public let statementId: String
-        /// Name of the Lambda function whose resource policy you are updating by adding a new permission.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// Name of the Lambda function whose resource policy you are updating by adding a new permission.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// The AWS Lambda action you want to allow in this statement. Each Lambda action is a string starting with lambda: followed by the API name . For example, lambda:CreateFunction. You can use wildcard (lambda:*) to grant permission for all AWS Lambda actions. 
         public let action: String
-        /// This is optional; however, when granting Amazon S3 permission to invoke your function, you should specify this field with the Amazon Resource Name (ARN) as its value. This ensures that only events generated from the specified source can invoke the function. If you add a permission for the Amazon S3 principal without providing the source ARN, any AWS account that creates a mapping to your function ARN can send events to invoke your Lambda function from Amazon S3. 
+        /// This is optional; however, when granting permission to invoke your function, you should specify this field with the Amazon Resource Name (ARN) as its value. This ensures that only events generated from the specified source can invoke the function.  If you add a permission without providing the source ARN, any AWS account that creates a mapping to your function ARN can send events to invoke your Lambda function. 
         public let sourceArn: String?
-        /// This parameter is used for S3, SES, CloudWatch Logs and CloudWatch Rules only. The AWS account ID (without a hyphen) of the source owner. For example, if the SourceArn identifies a bucket, then this is the bucket owner's account ID. You can use this additional condition to ensure the bucket you specify is owned by a specific account (it is possible the bucket owner deleted the bucket and some other AWS account created the bucket). You can also use this condition to specify all sources (that is, you don't specify the SourceArn) owned by a specific account. 
+        /// This parameter is used for S3 and SES. The AWS account ID (without a hyphen) of the source owner. For example, if the SourceArn identifies a bucket, then this is the bucket owner's account ID. You can use this additional condition to ensure the bucket you specify is owned by a specific account (it is possible the bucket owner deleted the bucket and some other AWS account created the bucket). You can also use this condition to specify all sources (that is, you don't specify the SourceArn) owned by a specific account. 
         public let sourceAccount: String?
         /// The principal who is getting this permission. It can be Amazon S3 service Principal (s3.amazonaws.com) if you want Amazon S3 to invoke the function, an AWS account ID if you are granting cross-account permission, or any valid AWS service principal such as sns.amazonaws.com. For example, you might want to allow a custom application in another AWS account to push events to AWS Lambda by invoking your function. 
         public let principal: String
@@ -304,7 +353,7 @@ extension Lambda {
             AWSShapeProperty(label: "StartingPosition", required: true, type: .enum), 
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
-        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
+        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
         public let batchSize: Int32?
@@ -362,6 +411,28 @@ extension Lambda {
         }
     }
 
+    public struct Environment: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Variables", required: false, type: .map)
+        ]
+        /// The key-value pairs that represent your environment's configuration settings.
+        public let variables: [String: String]?
+
+        public init(variables: [String: String]? = nil) {
+            self.variables = variables
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let variables = dictionary["Variables"] as? [String: String] {
+                self.variables = variables
+            } else { 
+                self.variables = nil
+            }
+        }
+    }
+
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "InvokeArgs"
@@ -369,7 +440,7 @@ extension Lambda {
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeProperty(label: "InvokeArgs", required: true, type: .blob)
         ]
-        /// The Lambda function name.
+        /// The Lambda function name. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// JSON that you want to provide to your Lambda function as input.
         public let invokeArgs: Data
@@ -387,28 +458,6 @@ extension Lambda {
         }
     }
 
-    public struct Environment: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Variables", required: false, type: .map)
-        ]
-        /// The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ",".
-        public let variables: [String: String]?
-
-        public init(variables: [String: String]? = nil) {
-            self.variables = variables
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let variables = dictionary["Variables"] as? [String: String] {
-                self.variables = variables
-            } else { 
-                self.variables = nil
-            }
-        }
-    }
-
     public struct ListVersionsByFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -421,7 +470,7 @@ extension Lambda {
         public let marker: String?
         /// Optional integer. Specifies the maximum number of AWS Lambda function versions to return in response. This parameter value must be greater than 0.
         public let maxItems: Int32?
-        /// Function name whose versions to list. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// Function name whose versions to list. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
 
         public init(marker: String? = nil, maxItems: Int32? = nil, functionName: String) {
@@ -435,33 +484,6 @@ extension Lambda {
             self.maxItems = dictionary["MaxItems"] as? Int32
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
-        }
-    }
-
-    public struct ListAliasesResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
-        ]
-        /// A list of aliases.
-        public let aliases: [AliasConfiguration]?
-        /// A string, present if there are more aliases.
-        public let nextMarker: String?
-
-        public init(aliases: [AliasConfiguration]? = nil, nextMarker: String? = nil) {
-            self.aliases = aliases
-            self.nextMarker = nextMarker
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
-                self.aliases = try aliases.map({ try AliasConfiguration(dictionary: $0) })
-            } else { 
-                self.aliases = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
         }
     }
 
@@ -521,6 +543,33 @@ extension Lambda {
         }
     }
 
+    public struct ListAliasesResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
+            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        ]
+        /// A list of aliases.
+        public let aliases: [AliasConfiguration]?
+        /// A string, present if there are more aliases.
+        public let nextMarker: String?
+
+        public init(aliases: [AliasConfiguration]? = nil, nextMarker: String? = nil) {
+            self.aliases = aliases
+            self.nextMarker = nextMarker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
+                self.aliases = try aliases.map({ try AliasConfiguration(dictionary: $0) })
+            } else { 
+                self.aliases = nil
+            }
+            self.nextMarker = dictionary["NextMarker"] as? String
+        }
+    }
+
     public enum InvocationType: String, CustomStringConvertible {
         case event = "Event"
         case requestresponse = "RequestResponse"
@@ -532,43 +581,48 @@ extension Lambda {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "ZipFile", required: false, type: .blob), 
+            AWSShapeProperty(label: "S3Key", required: false, type: .string), 
+            AWSShapeProperty(label: "DryRun", required: false, type: .boolean), 
             AWSShapeProperty(label: "S3Bucket", required: false, type: .string), 
             AWSShapeProperty(label: "Publish", required: false, type: .boolean), 
-            AWSShapeProperty(label: "S3Key", required: false, type: .string), 
-            AWSShapeProperty(label: "ZipFile", required: false, type: .blob)
+            AWSShapeProperty(label: "S3ObjectVersion", required: false, type: .string)
         ]
-        /// The Amazon S3 object (the deployment package) version you want to upload.
-        public let s3ObjectVersion: String?
-        /// The existing Lambda function name whose code you want to replace.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The existing Lambda function name whose code you want to replace.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
+        /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide. 
+        public let zipFile: Data?
+        /// The Amazon S3 object (the deployment package) key name you want to upload.
+        public let s3Key: String?
+        /// This boolean parameter can be used to test your request to AWS Lambda to update the Lambda function and publish a version as an atomic operation. It will do all necessary computation and validation of your code but will not upload it or a publish a version. Each time this operation is invoked, the CodeSha256 hash value the provided code will also be computed and returned in the response.
+        public let dryRun: Bool?
         /// Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS Region where you are creating the Lambda function.
         public let s3Bucket: String?
         /// This boolean parameter can be used to request AWS Lambda to update the Lambda function and publish a version as an atomic operation.
         public let publish: Bool?
-        /// The Amazon S3 object (the deployment package) key name you want to upload.
-        public let s3Key: String?
-        /// The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide. 
-        public let zipFile: Data?
+        /// The Amazon S3 object (the deployment package) version you want to upload.
+        public let s3ObjectVersion: String?
 
-        public init(s3ObjectVersion: String? = nil, functionName: String, s3Bucket: String? = nil, publish: Bool? = nil, s3Key: String? = nil, zipFile: Data? = nil) {
-            self.s3ObjectVersion = s3ObjectVersion
+        public init(functionName: String, zipFile: Data? = nil, s3Key: String? = nil, dryRun: Bool? = nil, s3Bucket: String? = nil, publish: Bool? = nil, s3ObjectVersion: String? = nil) {
             self.functionName = functionName
+            self.zipFile = zipFile
+            self.s3Key = s3Key
+            self.dryRun = dryRun
             self.s3Bucket = s3Bucket
             self.publish = publish
-            self.s3Key = s3Key
-            self.zipFile = zipFile
+            self.s3ObjectVersion = s3ObjectVersion
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.s3ObjectVersion = dictionary["S3ObjectVersion"] as? String
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
+            self.zipFile = dictionary["ZipFile"] as? Data
+            self.s3Key = dictionary["S3Key"] as? String
+            self.dryRun = dictionary["DryRun"] as? Bool
             self.s3Bucket = dictionary["S3Bucket"] as? String
             self.publish = dictionary["Publish"] as? Bool
-            self.s3Key = dictionary["S3Key"] as? String
-            self.zipFile = dictionary["ZipFile"] as? Data
+            self.s3ObjectVersion = dictionary["S3ObjectVersion"] as? String
         }
     }
 
@@ -582,7 +636,7 @@ extension Lambda {
         ]
         /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
         public let qualifier: String?
-        /// Lambda function whose resource policy you want to remove a permission from.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// Lambda function whose resource policy you want to remove a permission from.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// Statement ID of the permission to remove.
         public let statementId: String
@@ -626,7 +680,7 @@ extension Lambda {
         ]
         /// Optional integer. Specifies the maximum number of event sources to return in response. This value must be greater than 0.
         public let maxItems: Int32?
-        /// The name of the Lambda function.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The name of the Lambda function.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream. (This parameter is optional.)
         public let eventSourceArn: String?
@@ -657,7 +711,7 @@ extension Lambda {
             AWSShapeProperty(label: "Name", required: true, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// Name of the Lambda function for which you want to create an alias.
+        /// Name of the Lambda function for which you want to create an alias. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Lambda function version for which you are creating the alias.
         public let functionVersion: String
@@ -695,7 +749,7 @@ extension Lambda {
         ]
         /// The event source mapping identifier.
         public let uUID: String
-        /// The Lambda function to which you want the stream records sent.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail).  If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
+        /// The Lambda function to which you want the stream records sent.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.  If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
         public let functionName: String?
         /// The maximum number of stream records that can be sent to your Lambda function for a single invocation.
         public let batchSize: Int32?
@@ -725,7 +779,7 @@ extension Lambda {
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// Using this optional parameter you can specify a function version or an alias name. If you specify function version, the API uses qualified function ARN and returns information about the specific function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't specify this parameter, the API uses unqualified function ARN, and returns information about the $LATEST function version.
         public let qualifier: String?
@@ -777,7 +831,7 @@ extension Lambda {
         ]
         /// Name of the alias for which you want to retrieve information.
         public let name: String
-        /// Function name for which the alias is created. An alias is a subresource that exists only in the context of an existing Lambda function so you must specify the function name.
+        /// Function name for which the alias is created. An alias is a subresource that exists only in the context of an existing Lambda function so you must specify the function name. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(name: String, functionName: String) {
@@ -802,7 +856,7 @@ extension Lambda {
             AWSShapeProperty(label: "Payload", required: false, type: .blob), 
             AWSShapeProperty(label: "FunctionError", location: .header(locationName: "X-Amz-Function-Error"), required: false, type: .string)
         ]
-        /// The HTTP status code will be in the 200 range for successful request. For the RequestResonse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
+        /// The HTTP status code will be in the 200 range for successful request. For the RequestResponse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
         public let statusCode: Int32?
         ///  It is the base64-encoded logs for the Lambda function invocation. This is present only if the invocation type is RequestResponse and the logs were requested. 
         public let logResult: String?
@@ -849,23 +903,26 @@ extension Lambda {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Handler", required: false, type: .string), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
             AWSShapeProperty(label: "Role", required: false, type: .string), 
             AWSShapeProperty(label: "Environment", required: false, type: .structure), 
-            AWSShapeProperty(label: "Runtime", required: false, type: .enum), 
             AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "Runtime", required: false, type: .enum), 
+            AWSShapeProperty(label: "Handler", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
         public let kMSKeyArn: String?
-        /// The function that Lambda calls to begin executing your function. For Node.js, it is the module-name.export value in your function. 
-        public let handler: String?
+        /// A short user-defined function description. AWS Lambda does not use this value. Assign a meaningful description as you see fit.
+        public let description: String?
         /// The name of the Lambda function.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
         public let functionName: String
+        /// The parent object that contains your function's tracing settings.
+        public let tracingConfig: TracingConfig?
         public let vpcConfig: VpcConfig?
         /// The amount of memory, in MB, your Lambda function is given. AWS Lambda uses this memory size to infer the amount of CPU allocated to your function. Your function use-case determines your CPU and memory requirements. For example, a database operation might need less memory compared to an image processing function. The default value is 128 MB. The value must be a multiple of 64 MB.
         public let memorySize: Int32?
@@ -873,42 +930,44 @@ extension Lambda {
         public let role: String?
         /// The parent object that contains your environment's configuration settings.
         public let environment: Environment?
-        /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer downgrade to the v0.10.42 runtime version. This version will no longer be supported as of early 2017. 
-        public let runtime: Runtime?
-        /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which AWS Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
-        /// A short user-defined function description. AWS Lambda does not use this value. Assign a meaningful description as you see fit.
-        public let description: String?
+        /// The runtime environment for the Lambda function. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. You can request a one-time extension until June 30, 2017 by going to the Lambda console and following the instructions provided. Failure to do so will result in an invalid parameter value error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        public let runtime: Runtime?
+        /// The function that Lambda calls to begin executing your function. For Node.js, it is the module-name.export value in your function. 
+        public let handler: String?
 
-        public init(kMSKeyArn: String? = nil, handler: String? = nil, functionName: String, vpcConfig: VpcConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, runtime: Runtime? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, description: String? = nil) {
+        public init(kMSKeyArn: String? = nil, description: String? = nil, functionName: String, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil, memorySize: Int32? = nil, role: String? = nil, environment: Environment? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, handler: String? = nil) {
             self.kMSKeyArn = kMSKeyArn
-            self.handler = handler
+            self.description = description
             self.functionName = functionName
+            self.tracingConfig = tracingConfig
             self.vpcConfig = vpcConfig
             self.memorySize = memorySize
             self.role = role
             self.environment = environment
-            self.runtime = runtime
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
-            self.description = description
+            self.runtime = runtime
+            self.handler = handler
         }
 
         public init(dictionary: [String: Any]) throws {
             self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
-            self.handler = dictionary["Handler"] as? String
+            self.description = dictionary["Description"] as? String
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
+            if let tracingConfig = dictionary["TracingConfig"] as? [String: Any] { self.tracingConfig = try Lambda.TracingConfig(dictionary: tracingConfig) } else { self.tracingConfig = nil }
             if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             self.memorySize = dictionary["MemorySize"] as? Int32
             self.role = dictionary["Role"] as? String
             if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Lambda.Environment(dictionary: environment) } else { self.environment = nil }
-            if let runtime = dictionary["Runtime"] as? String { self.runtime = Runtime(rawValue: runtime) } else { self.runtime = nil }
             if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) } else { self.deadLetterConfig = nil }
             self.timeout = dictionary["Timeout"] as? Int32
-            self.description = dictionary["Description"] as? String
+            if let runtime = dictionary["Runtime"] as? String { self.runtime = Runtime(rawValue: runtime) } else { self.runtime = nil }
+            self.handler = dictionary["Handler"] as? String
         }
     }
 
@@ -939,19 +998,28 @@ extension Lambda {
         }
     }
 
+    public enum EventSourcePosition: String, CustomStringConvertible {
+        case trim_horizon = "TRIM_HORIZON"
+        case latest = "LATEST"
+        case at_timestamp = "AT_TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateFunctionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", required: false, type: .map), 
             AWSShapeProperty(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "Runtime", required: true, type: .enum), 
             AWSShapeProperty(label: "Publish", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Runtime", required: true, type: .enum), 
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: true, type: .string), 
             AWSShapeProperty(label: "Code", required: true, type: .structure), 
+            AWSShapeProperty(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
             AWSShapeProperty(label: "Role", required: true, type: .string), 
             AWSShapeProperty(label: "Environment", required: false, type: .structure), 
@@ -959,22 +1027,26 @@ extension Lambda {
         ]
         /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public let vpcConfig: VpcConfig?
-        /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic. 
+        /// The list of tags (key-value pairs) assigned to the new function.
+        public let tags: [String: String]?
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. 
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
-        /// The runtime environment for the Lambda function you are uploading. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".  You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017, but we recommend you migrate them to nodejs4.3 runtime version as soon as possible. 
-        public let runtime: Runtime
         /// This boolean parameter can be used to request AWS Lambda to create the Lambda function and publish a version as an atomic operation.
         public let publish: Bool?
+        /// The runtime environment for the Lambda function you are uploading. To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3".  Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. You can request a one-time extension until June 30, 2017 by going to the Lambda console and following the instructions provided. Failure to do so will result in an invalid parmaeter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime. 
+        public let runtime: Runtime
         /// A short, user-defined function description. Lambda does not use this value. Assign a meaningful description as you see fit.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If not provided, AWS Lambda will use a default service key.
         public let kMSKeyArn: String?
-        /// The name you want to assign to the function you are uploading. The function names appear in the console and are returned in the ListFunctions API. Function names are used to specify functions to other AWS Lambda API operations, such as Invoke. 
+        /// The name you want to assign to the function you are uploading. The function names appear in the console and are returned in the ListFunctions API. Function names are used to specify functions to other AWS Lambda API operations, such as Invoke. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// The code for the Lambda function.
         public let code: FunctionCode
+        /// The parent object that contains your function's tracing settings.
+        public let tracingConfig: TracingConfig?
         /// The amount of memory, in MB, your Lambda function is given. Lambda uses this memory size to infer the amount of CPU and memory allocated to your function. Your function use-case determines your CPU and memory requirements. For example, a database operation might need less memory compared to an image processing function. The default value is 128 MB. The value must be a multiple of 64 MB.
         public let memorySize: Int32?
         /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it executes your function to access any other Amazon Web Services (AWS) resources. For more information, see AWS Lambda: How it Works. 
@@ -983,16 +1055,18 @@ extension Lambda {
         /// The function within your code that Lambda calls to begin execution. For Node.js, it is the module-name.export value in your function. For Java, it can be package.class-name::handler or package.class-name. For more information, see Lambda Function Handler (Java). 
         public let handler: String
 
-        public init(vpcConfig: VpcConfig? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime, publish: Bool? = nil, description: String? = nil, kMSKeyArn: String? = nil, functionName: String, code: FunctionCode, memorySize: Int32? = nil, role: String, environment: Environment? = nil, handler: String) {
+        public init(vpcConfig: VpcConfig? = nil, tags: [String: String]? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, publish: Bool? = nil, runtime: Runtime, description: String? = nil, kMSKeyArn: String? = nil, functionName: String, code: FunctionCode, tracingConfig: TracingConfig? = nil, memorySize: Int32? = nil, role: String, environment: Environment? = nil, handler: String) {
             self.vpcConfig = vpcConfig
+            self.tags = tags
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
-            self.runtime = runtime
             self.publish = publish
+            self.runtime = runtime
             self.description = description
             self.kMSKeyArn = kMSKeyArn
             self.functionName = functionName
             self.code = code
+            self.tracingConfig = tracingConfig
             self.memorySize = memorySize
             self.role = role
             self.environment = environment
@@ -1001,17 +1075,23 @@ extension Lambda {
 
         public init(dictionary: [String: Any]) throws {
             if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Lambda.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
+            if let tags = dictionary["Tags"] as? [String: String] {
+                self.tags = tags
+            } else { 
+                self.tags = nil
+            }
             if let deadLetterConfig = dictionary["DeadLetterConfig"] as? [String: Any] { self.deadLetterConfig = try Lambda.DeadLetterConfig(dictionary: deadLetterConfig) } else { self.deadLetterConfig = nil }
             self.timeout = dictionary["Timeout"] as? Int32
+            self.publish = dictionary["Publish"] as? Bool
             guard let rawRuntime = dictionary["Runtime"] as? String, let runtime = Runtime(rawValue: rawRuntime) else { throw InitializableError.missingRequiredParam("Runtime") }
             self.runtime = runtime
-            self.publish = dictionary["Publish"] as? Bool
             self.description = dictionary["Description"] as? String
             self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
             guard let code = dictionary["Code"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Code") }
             self.code = try Lambda.FunctionCode(dictionary: code)
+            if let tracingConfig = dictionary["TracingConfig"] as? [String: Any] { self.tracingConfig = try Lambda.TracingConfig(dictionary: tracingConfig) } else { self.tracingConfig = nil }
             self.memorySize = dictionary["MemorySize"] as? Int32
             guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
             self.role = role
@@ -1021,11 +1101,22 @@ extension Lambda {
         }
     }
 
-    public enum EventSourcePosition: String, CustomStringConvertible {
-        case trim_horizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case at_timestamp = "AT_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct TracingConfigResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Mode", required: false, type: .enum)
+        ]
+        /// The tracing mode associated with your Lambda function.
+        public let mode: TracingMode?
+
+        public init(mode: TracingMode? = nil) {
+            self.mode = mode
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let mode = dictionary["Mode"] as? String { self.mode = TracingMode(rawValue: mode) } else { self.mode = nil }
+        }
     }
 
     public struct VpcConfigResponse: AWSShape {
@@ -1063,7 +1154,7 @@ extension Lambda {
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// Function name whose resource policy you want to retrieve.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// Function name whose resource policy you want to retrieve.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// You can specify this optional query parameter to specify a function version or an alias name in which case this API will return all permissions associated with the specific qualified ARN. If you don't provide this parameter, the API will return permissions that apply to the unqualified function ARN.
         public let qualifier: String?
@@ -1093,6 +1184,7 @@ extension Lambda {
             AWSShapeProperty(label: "LastModified", required: false, type: .string), 
             AWSShapeProperty(label: "KMSKeyArn", required: false, type: .string), 
             AWSShapeProperty(label: "FunctionName", required: false, type: .string), 
+            AWSShapeProperty(label: "TracingConfig", required: false, type: .structure), 
             AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
             AWSShapeProperty(label: "FunctionArn", required: false, type: .string), 
             AWSShapeProperty(label: "Version", required: false, type: .string), 
@@ -1103,22 +1195,24 @@ extension Lambda {
         ]
         /// VPC configuration associated with your Lambda function.
         public let vpcConfig: VpcConfigResponse?
-        /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
         public let deadLetterConfig: DeadLetterConfig?
         /// The function execution time at which Lambda should terminate the function. Because the execution time has cost implications, we recommend you set this value based on your expected execution time. The default is 3 seconds.
         public let timeout: Int32?
-        /// The runtime environment for the Lambda function. To use the Node.js runtime v4.3, set the value to "nodejs4.3". To use earlier runtime (v0.10.42), set the value to "nodejs".
+        /// The runtime environment for the Lambda function.
         public let runtime: Runtime?
         /// It is the SHA256 hash of your function deployment package.
         public let codeSha256: String?
         /// The user-provided description.
         public let description: String?
-        /// The time stamp of the last time you updated the function.
+        /// The time stamp of the last time you updated the function. The time stamp is conveyed as a string complying with ISO-8601 in this way YYYY-MM-DDThh:mm:ssTZD (e.g., 1997-07-16T19:20:30+01:00). For more information, see Date and Time Formats.
         public let lastModified: String?
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If empty, it means you are using the AWS Lambda default service key.
         public let kMSKeyArn: String?
-        /// The name of the function.
+        /// The name of the function. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String?
+        /// The parent object that contains your function's tracing settings.
+        public let tracingConfig: TracingConfigResponse?
         /// The memory size, in MB, you configured for the function. Must be a multiple of 64 MB.
         public let memorySize: Int32?
         /// The Amazon Resource Name (ARN) assigned to the function.
@@ -1134,7 +1228,7 @@ extension Lambda {
         /// The function Lambda calls to begin executing your function.
         public let handler: String?
 
-        public init(vpcConfig: VpcConfigResponse? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
+        public init(vpcConfig: VpcConfigResponse? = nil, deadLetterConfig: DeadLetterConfig? = nil, timeout: Int32? = nil, runtime: Runtime? = nil, codeSha256: String? = nil, description: String? = nil, lastModified: String? = nil, kMSKeyArn: String? = nil, functionName: String? = nil, tracingConfig: TracingConfigResponse? = nil, memorySize: Int32? = nil, functionArn: String? = nil, version: String? = nil, role: String? = nil, codeSize: Int64? = nil, environment: EnvironmentResponse? = nil, handler: String? = nil) {
             self.vpcConfig = vpcConfig
             self.deadLetterConfig = deadLetterConfig
             self.timeout = timeout
@@ -1144,6 +1238,7 @@ extension Lambda {
             self.lastModified = lastModified
             self.kMSKeyArn = kMSKeyArn
             self.functionName = functionName
+            self.tracingConfig = tracingConfig
             self.memorySize = memorySize
             self.functionArn = functionArn
             self.version = version
@@ -1163,6 +1258,7 @@ extension Lambda {
             self.lastModified = dictionary["LastModified"] as? String
             self.kMSKeyArn = dictionary["KMSKeyArn"] as? String
             self.functionName = dictionary["FunctionName"] as? String
+            if let tracingConfig = dictionary["TracingConfig"] as? [String: Any] { self.tracingConfig = try Lambda.TracingConfigResponse(dictionary: tracingConfig) } else { self.tracingConfig = nil }
             self.memorySize = dictionary["MemorySize"] as? Int32
             self.functionArn = dictionary["FunctionArn"] as? String
             self.version = dictionary["Version"] as? String
@@ -1233,7 +1329,7 @@ extension Lambda {
         public let codeSizeUnzipped: Int64?
         /// Number of simultaneous executions of your function per region. For more information or to request a limit increase for concurrent executions, see Lambda Function Concurrent Executions. The default limit is 100.
         public let concurrentExecutions: Int32?
-        /// Maximum size, in megabytes, of a code package you can upload per region. The default size is 75 GB. 
+        /// Maximum size, in bytes, of a code package you can upload per region. The default size is 75 GB. 
         public let totalCodeSize: Int64?
 
         public init(codeSizeZipped: Int64? = nil, codeSizeUnzipped: Int64? = nil, concurrentExecutions: Int32? = nil, totalCodeSize: Int64? = nil) {
@@ -1293,7 +1389,7 @@ extension Lambda {
         ]
         /// Name of the alias to delete.
         public let name: String
-        /// The Lambda function name for which the alias is created. Deleting an alias does not delete the function version to which it is pointing.
+        /// The Lambda function name for which the alias is created. Deleting an alias does not delete the function version to which it is pointing. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(name: String, functionName: String) {
@@ -1309,37 +1405,21 @@ extension Lambda {
         }
     }
 
-    public struct ListAliasesRequest: AWSShape {
+    public struct TracingConfig: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
-            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
+            AWSShapeProperty(label: "Mode", required: false, type: .enum)
         ]
-        /// Optional integer. Specifies the maximum number of aliases to return in response. This parameter value must be greater than 0.
-        public let maxItems: Int32?
-        /// Lambda function name for which the alias is created.
-        public let functionName: String
-        /// If you specify this optional parameter, the API returns only the aliases that are pointing to the specific Lambda function version, otherwise the API returns all of the aliases created for the Lambda function.
-        public let functionVersion: String?
-        /// Optional string. An opaque pagination token returned from a previous ListAliases operation. If present, indicates where to continue the listing.
-        public let marker: String?
+        /// Can be either PassThrough or Active. If PassThrough, Lambda will only trace the request from an upstream service if it contains a tracing header with "sampled=1". If Active, Lambda will respect any tracing header it receives from an upstream service. If no tracing header is received, Lambda will call X-Ray for a tracing decision.
+        public let mode: TracingMode?
 
-        public init(maxItems: Int32? = nil, functionName: String, functionVersion: String? = nil, marker: String? = nil) {
-            self.maxItems = maxItems
-            self.functionName = functionName
-            self.functionVersion = functionVersion
-            self.marker = marker
+        public init(mode: TracingMode? = nil) {
+            self.mode = mode
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
-            self.functionName = functionName
-            self.functionVersion = dictionary["FunctionVersion"] as? String
-            self.marker = dictionary["Marker"] as? String
+            if let mode = dictionary["Mode"] as? String { self.mode = TracingMode(rawValue: mode) } else { self.mode = nil }
         }
     }
 
@@ -1366,6 +1446,40 @@ extension Lambda {
             } else { 
                 self.variables = nil
             }
+        }
+    }
+
+    public struct ListAliasesRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .integer), 
+            AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
+            AWSShapeProperty(label: "FunctionVersion", location: .querystring(locationName: "FunctionVersion"), required: false, type: .string), 
+            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string)
+        ]
+        /// Optional integer. Specifies the maximum number of aliases to return in response. This parameter value must be greater than 0.
+        public let maxItems: Int32?
+        /// Lambda function name for which the alias is created. Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// If you specify this optional parameter, the API returns only the aliases that are pointing to the specific Lambda function version, otherwise the API returns all of the aliases created for the Lambda function.
+        public let functionVersion: String?
+        /// Optional string. An opaque pagination token returned from a previous ListAliases operation. If present, indicates where to continue the listing.
+        public let marker: String?
+
+        public init(maxItems: Int32? = nil, functionName: String, functionVersion: String? = nil, marker: String? = nil) {
+            self.maxItems = maxItems
+            self.functionName = functionName
+            self.functionVersion = functionVersion
+            self.marker = marker
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.maxItems = dictionary["MaxItems"] as? Int32
+            guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
+            self.functionName = functionName
+            self.functionVersion = dictionary["FunctionVersion"] as? String
+            self.marker = dictionary["Marker"] as? String
         }
     }
 
@@ -1465,7 +1579,7 @@ extension Lambda {
         public let description: String?
         /// The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter value must match the SHA256 of the $LATEST version for the publication to succeed.
         public let codeSha256: String?
-        /// The Lambda function name. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The Lambda function name. You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
 
         public init(description: String? = nil, codeSha256: String? = nil, functionName: String) {
@@ -1487,18 +1601,27 @@ extension Lambda {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Configuration", required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", required: false, type: .map), 
             AWSShapeProperty(label: "Code", required: false, type: .structure)
         ]
         public let configuration: FunctionConfiguration?
+        /// Returns the list of tags associated with the function.
+        public let tags: [String: String]?
         public let code: FunctionCodeLocation?
 
-        public init(configuration: FunctionConfiguration? = nil, code: FunctionCodeLocation? = nil) {
+        public init(configuration: FunctionConfiguration? = nil, tags: [String: String]? = nil, code: FunctionCodeLocation? = nil) {
             self.configuration = configuration
+            self.tags = tags
             self.code = code
         }
 
         public init(dictionary: [String: Any]) throws {
             if let configuration = dictionary["Configuration"] as? [String: Any] { self.configuration = try Lambda.FunctionConfiguration(dictionary: configuration) } else { self.configuration = nil }
+            if let tags = dictionary["Tags"] as? [String: String] {
+                self.tags = tags
+            } else { 
+                self.tags = nil
+            }
             if let code = dictionary["Code"] as? [String: Any] { self.code = try Lambda.FunctionCodeLocation(dictionary: code) } else { self.code = nil }
         }
     }
@@ -1510,7 +1633,7 @@ extension Lambda {
             AWSShapeProperty(label: "FunctionName", location: .uri(locationName: "FunctionName"), required: true, type: .string), 
             AWSShapeProperty(label: "Qualifier", location: .querystring(locationName: "Qualifier"), required: false, type: .string)
         ]
-        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
+        /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. 
         public let functionName: String
         /// Using this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function.
         public let qualifier: String?
@@ -1554,6 +1677,12 @@ extension Lambda {
         }
     }
 
+    public enum TracingMode: String, CustomStringConvertible {
+        case active = "Active"
+        case passthrough = "PassThrough"
+        public var description: String { return self.rawValue }
+    }
+
     public struct GetAccountSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1572,6 +1701,50 @@ extension Lambda {
         public init(dictionary: [String: Any]) throws {
             if let accountUsage = dictionary["AccountUsage"] as? [String: Any] { self.accountUsage = try Lambda.AccountUsage(dictionary: accountUsage) } else { self.accountUsage = nil }
             if let accountLimit = dictionary["AccountLimit"] as? [String: Any] { self.accountLimit = try Lambda.AccountLimit(dictionary: accountLimit) } else { self.accountLimit = nil }
+        }
+    }
+
+    public struct ListTagsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string)
+        ]
+        /// The ARN (Amazon Resource Name) of the function.
+        public let resource: String
+
+        public init(resource: String) {
+            self.resource = resource
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.resource = resource
+        }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Resource", location: .uri(locationName: "ARN"), required: true, type: .string), 
+            AWSShapeProperty(label: "TagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+        /// The ARN (Amazon Resource Name) of the function.
+        public let resource: String
+        /// The list of tag keys to be deleted from the function.
+        public let tagKeys: [String]
+
+        public init(resource: String, tagKeys: [String]) {
+            self.resource = resource
+            self.tagKeys = tagKeys
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resource = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            self.resource = resource
+            guard let tagKeys = dictionary["tagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("tagKeys") }
+            self.tagKeys = tagKeys
         }
     }
 

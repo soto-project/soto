@@ -720,6 +720,37 @@ extension Inspector {
         }
     }
 
+    public struct GetAssessmentReportRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "reportType", required: true, type: .enum), 
+            AWSShapeProperty(label: "reportFileFormat", required: true, type: .enum), 
+            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        ]
+        /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports. 
+        public let reportType: ReportType
+        /// Specifies the file format (html or pdf) of the assessment report that you want to generate.
+        public let reportFileFormat: ReportFileFormat
+        /// The ARN that specifies the assessment run for which you want to generate a report.
+        public let assessmentRunArn: String
+
+        public init(reportType: ReportType, reportFileFormat: ReportFileFormat, assessmentRunArn: String) {
+            self.reportType = reportType
+            self.reportFileFormat = reportFileFormat
+            self.assessmentRunArn = assessmentRunArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let rawreportType = dictionary["reportType"] as? String, let reportType = ReportType(rawValue: rawreportType) else { throw InitializableError.missingRequiredParam("reportType") }
+            self.reportType = reportType
+            guard let rawreportFileFormat = dictionary["reportFileFormat"] as? String, let reportFileFormat = ReportFileFormat(rawValue: rawreportFileFormat) else { throw InitializableError.missingRequiredParam("reportFileFormat") }
+            self.reportFileFormat = reportFileFormat
+            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
+            self.assessmentRunArn = assessmentRunArn
+        }
+    }
+
     public struct Attribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1205,10 +1236,11 @@ extension Inspector {
             AWSShapeProperty(label: "name", required: true, type: .string), 
             AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
             AWSShapeProperty(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeProperty(label: "notifications", required: true, type: .list), 
             AWSShapeProperty(label: "dataCollected", required: true, type: .boolean), 
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
             AWSShapeProperty(label: "stateChangedAt", required: true, type: .timestamp), 
+            AWSShapeProperty(label: "findingCounts", required: true, type: .map), 
             AWSShapeProperty(label: "userAttributesForFindings", required: true, type: .list), 
             AWSShapeProperty(label: "arn", required: true, type: .string), 
             AWSShapeProperty(label: "stateChanges", required: true, type: .list), 
@@ -1224,14 +1256,16 @@ extension Inspector {
         public let createdAt: String
         /// The time when StartAssessmentRun was called.
         public let startedAt: String?
+        /// The rules packages selected for the assessment run.
+        public let rulesPackageArns: [String]
         /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
         public let notifications: [AssessmentRunNotification]
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
         public let dataCollected: Bool
-        /// The rules packages selected for the assessment run.
-        public let rulesPackageArns: [String]
         /// The last time when the assessment run's state changed.
         public let stateChangedAt: String
+        /// Provides a total count of generated findings per severity.
+        public let findingCounts: [Severity: Int32]
         /// The user-defined attributes that are assigned to every generated finding.
         public let userAttributesForFindings: [Attribute]
         /// The ARN of the assessment run.
@@ -1245,15 +1279,16 @@ extension Inspector {
         /// The ARN of the assessment template that is associated with the assessment run.
         public let assessmentTemplateArn: String
 
-        public init(state: AssessmentRunState, name: String, createdAt: String, startedAt: String? = nil, notifications: [AssessmentRunNotification], dataCollected: Bool, rulesPackageArns: [String], stateChangedAt: String, userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: String? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
+        public init(state: AssessmentRunState, name: String, createdAt: String, startedAt: String? = nil, rulesPackageArns: [String], notifications: [AssessmentRunNotification], dataCollected: Bool, stateChangedAt: String, findingCounts: [Severity: Int32], userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: String? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
             self.state = state
             self.name = name
             self.createdAt = createdAt
             self.startedAt = startedAt
+            self.rulesPackageArns = rulesPackageArns
             self.notifications = notifications
             self.dataCollected = dataCollected
-            self.rulesPackageArns = rulesPackageArns
             self.stateChangedAt = stateChangedAt
+            self.findingCounts = findingCounts
             self.userAttributesForFindings = userAttributesForFindings
             self.arn = arn
             self.stateChanges = stateChanges
@@ -1270,14 +1305,16 @@ extension Inspector {
             guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
             self.createdAt = createdAt
             self.startedAt = dictionary["startedAt"] as? String
+            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
+            self.rulesPackageArns = rulesPackageArns
             guard let notifications = dictionary["notifications"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("notifications") }
             self.notifications = try notifications.map({ try AssessmentRunNotification(dictionary: $0) })
             guard let dataCollected = dictionary["dataCollected"] as? Bool else { throw InitializableError.missingRequiredParam("dataCollected") }
             self.dataCollected = dataCollected
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
             guard let stateChangedAt = dictionary["stateChangedAt"] as? String else { throw InitializableError.missingRequiredParam("stateChangedAt") }
             self.stateChangedAt = stateChangedAt
+            guard let findingCounts = dictionary["findingCounts"] as? [Severity: Int32] else { throw InitializableError.missingRequiredParam("findingCounts") }
+            self.findingCounts = findingCounts
             guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
             self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
             guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
@@ -1360,6 +1397,12 @@ extension Inspector {
         }
     }
 
+    public enum ReportType: String, CustomStringConvertible {
+        case finding = "FINDING"
+        case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssessmentRunState: String, CustomStringConvertible {
         case created = "CREATED"
         case start_data_collection_pending = "START_DATA_COLLECTION_PENDING"
@@ -1367,8 +1410,10 @@ extension Inspector {
         case collecting_data = "COLLECTING_DATA"
         case stop_data_collection_pending = "STOP_DATA_COLLECTION_PENDING"
         case data_collected = "DATA_COLLECTED"
+        case start_evaluating_rules_pending = "START_EVALUATING_RULES_PENDING"
         case evaluating_rules = "EVALUATING_RULES"
         case failed = "FAILED"
+        case error = "ERROR"
         case completed = "COMPLETED"
         case completed_with_errors = "COMPLETED_WITH_ERRORS"
         public var description: String { return self.rawValue }
@@ -1409,6 +1454,7 @@ extension Inspector {
         public let createdAt: String
         /// The description of the finding.
         public let description: String?
+        /// This data type is used in the Finding data type.
         public let serviceAttributes: InspectorServiceAttributes?
         /// This data element is currently not used.
         public let indicatorOfCompromise: Bool?
@@ -1617,6 +1663,13 @@ extension Inspector {
         }
     }
 
+    public enum ReportStatus: String, CustomStringConvertible {
+        case work_in_progress = "WORK_IN_PROGRESS"
+        case failed = "FAILED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible {
         case role_does_not_exist_or_invalid_trust_relationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
         case role_does_not_have_correct_policy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
@@ -1782,22 +1835,27 @@ extension Inspector {
         }
     }
 
-    public struct ListTagsForResourceResponse: AWSShape {
+    public struct GetAssessmentReportResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list)
+            AWSShapeProperty(label: "status", required: true, type: .enum), 
+            AWSShapeProperty(label: "url", required: false, type: .string)
         ]
-        /// A collection of key and value pairs.
-        public let tags: [Tag]
+        /// Specifies the status of the request to generate an assessment report. 
+        public let status: ReportStatus
+        /// Specifies the URL where you can find the generated assessment report. This parameter is only returned if the report is successfully generated.
+        public let url: String?
 
-        public init(tags: [Tag]) {
-            self.tags = tags
+        public init(status: ReportStatus, url: String? = nil) {
+            self.status = status
+            self.url = url
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let rawstatus = dictionary["status"] as? String, let status = ReportStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
+            self.status = status
+            self.url = dictionary["url"] as? String
         }
     }
 
@@ -1824,6 +1882,31 @@ extension Inspector {
             guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
             self.assessmentRunArn = assessmentRunArn
         }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "tags", required: true, type: .list)
+        ]
+        /// A collection of key and value pairs.
+        public let tags: [Tag]
+
+        public init(tags: [Tag]) {
+            self.tags = tags
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        }
+    }
+
+    public enum ReportFileFormat: String, CustomStringConvertible {
+        case html = "HTML"
+        case pdf = "PDF"
+        public var description: String { return self.rawValue }
     }
 
     public struct DurationRange: AWSShape {
@@ -2364,6 +2447,7 @@ extension Inspector {
         public let snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode?
         /// The event for which a notification is sent.
         public let event: InspectorEvent
+        /// The message included in the notification.
         public let message: String?
         /// The date of the notification.
         public let date: String

@@ -29,26 +29,36 @@ import AWSSDKSwiftCore
 
 extension Redshift {
 
-    public struct ClusterSubnetGroupMessage: AWSShape {
+    public struct EventInfoMap: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterSubnetGroups", required: false, type: .structure)
+            AWSShapeProperty(label: "Severity", required: false, type: .string), 
+            AWSShapeProperty(label: "EventId", required: false, type: .string), 
+            AWSShapeProperty(label: "EventDescription", required: false, type: .string), 
+            AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
         ]
-        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
-        public let marker: String?
-        /// A list of ClusterSubnetGroup instances. 
-        public let clusterSubnetGroups: ClusterSubnetGroups?
+        /// The severity of the event. Values: ERROR, INFO
+        public let severity: String?
+        /// The identifier of an Amazon Redshift event.
+        public let eventId: String?
+        /// The description of an Amazon Redshift event.
+        public let eventDescription: String?
+        /// The category of an Amazon Redshift event.
+        public let eventCategories: EventCategoriesList?
 
-        public init(marker: String? = nil, clusterSubnetGroups: ClusterSubnetGroups? = nil) {
-            self.marker = marker
-            self.clusterSubnetGroups = clusterSubnetGroups
+        public init(severity: String? = nil, eventId: String? = nil, eventDescription: String? = nil, eventCategories: EventCategoriesList? = nil) {
+            self.severity = severity
+            self.eventId = eventId
+            self.eventDescription = eventDescription
+            self.eventCategories = eventCategories
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [String: Any] { self.clusterSubnetGroups = try Redshift.ClusterSubnetGroups(dictionary: clusterSubnetGroups) } else { self.clusterSubnetGroups = nil }
+            self.severity = dictionary["Severity"] as? String
+            self.eventId = dictionary["EventId"] as? String
+            self.eventDescription = dictionary["EventDescription"] as? String
+            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
         }
     }
 
@@ -163,6 +173,51 @@ extension Redshift {
             self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
             guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
             self.clusterSecurityGroupName = clusterSecurityGroupName
+        }
+    }
+
+    public struct GetClusterCredentialsMessage: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeProperty(label: "DbGroups", required: false, type: .structure), 
+            AWSShapeProperty(label: "DbName", required: false, type: .string), 
+            AWSShapeProperty(label: "DurationSeconds", required: false, type: .integer), 
+            AWSShapeProperty(label: "AutoCreate", required: false, type: .boolean), 
+            AWSShapeProperty(label: "DbUser", required: true, type: .string)
+        ]
+        /// The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
+        public let clusterIdentifier: String
+        /// A list of the names of existing database groups that DbUser will join for the current session. If not specified, the new user is added only to PUBLIC.
+        public let dbGroups: DbGroupList?
+        /// The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log in to any existing database. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens   Must contain only lowercase letters.   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
+        public let dbName: String?
+        /// The number of seconds until the returned temporary password expires. Constraint: minimum 900, maximum 3600. Default: 900
+        public let durationSeconds: Int32?
+        /// Create a database user with the name specified for DbUser if one does not exist.
+        public let autoCreate: Bool?
+        /// The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True, a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False, then the command succeeds but the connection attempt will fail because the user doesn't exist in the database. For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.  Constraints:   Must be 1 to 128 alphanumeric characters or hyphens   Must contain only lowercase letters.   First character must be a letter.   Must not contain a colon ( : ) or slash ( / ).    Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.  
+        public let dbUser: String
+
+        public init(clusterIdentifier: String, dbGroups: DbGroupList? = nil, dbName: String? = nil, durationSeconds: Int32? = nil, autoCreate: Bool? = nil, dbUser: String) {
+            self.clusterIdentifier = clusterIdentifier
+            self.dbGroups = dbGroups
+            self.dbName = dbName
+            self.durationSeconds = durationSeconds
+            self.autoCreate = autoCreate
+            self.dbUser = dbUser
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
+            self.clusterIdentifier = clusterIdentifier
+            if let dbGroups = dictionary["DbGroups"] as? [String: Any] { self.dbGroups = try Redshift.DbGroupList(dictionary: dbGroups) } else { self.dbGroups = nil }
+            self.dbName = dictionary["DbName"] as? String
+            self.durationSeconds = dictionary["DurationSeconds"] as? Int32
+            self.autoCreate = dictionary["AutoCreate"] as? Bool
+            guard let dbUser = dictionary["DbUser"] as? String else { throw InitializableError.missingRequiredParam("DbUser") }
+            self.dbUser = dbUser
         }
     }
 
@@ -335,7 +390,7 @@ extension Redshift {
         public let snapshotClusterIdentifier: String?
         /// The identifier of the snapshot the account is authorized to restore.
         public let snapshotIdentifier: String
-        /// The identifier of the AWS customer account authorized to restore the specified snapshot.
+        /// The identifier of the AWS customer account authorized to restore the specified snapshot. To share a snapshot with AWS support, specify amazon-redshift-support.
         public let accountWithRestoreAccess: String
 
         public init(snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, accountWithRestoreAccess: String) {
@@ -2004,6 +2059,34 @@ extension Redshift {
             self.isModifiable = dictionary["IsModifiable"] as? Bool
             self.minimumEngineVersion = dictionary["MinimumEngineVersion"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct ClusterCredentials: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DbPassword", required: false, type: .string), 
+            AWSShapeProperty(label: "DbUser", required: false, type: .string), 
+            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp)
+        ]
+        /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName. 
+        public let dbPassword: String?
+        /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the DbGroups parameter is specifed, DbUser is added to the listed groups for the current session. The user name is prefixed with IAM: for an existing user name or IAMA: if the user was auto-created. 
+        public let dbUser: String?
+        /// The date and time DbPassword expires.
+        public let expiration: String?
+
+        public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: String? = nil) {
+            self.dbPassword = dbPassword
+            self.dbUser = dbUser
+            self.expiration = expiration
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.dbPassword = dictionary["DbPassword"] as? String
+            self.dbUser = dictionary["DbUser"] as? String
+            self.expiration = dictionary["Expiration"] as? String
         }
     }
 
@@ -4956,29 +5039,6 @@ extension Redshift {
         }
     }
 
-    public struct SnapshotMessage: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
-        ]
-        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
-        public let marker: String?
-        /// A list of Snapshot instances. 
-        public let snapshots: SnapshotList?
-
-        public init(marker: String? = nil, snapshots: SnapshotList? = nil) {
-            self.marker = marker
-            self.snapshots = snapshots
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Redshift.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
-        }
-    }
-
     public struct CreateClusterMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5128,6 +5188,29 @@ extension Redshift {
             self.additionalInfo = dictionary["AdditionalInfo"] as? String
             self.allowVersionUpgrade = dictionary["AllowVersionUpgrade"] as? Bool
             self.port = dictionary["Port"] as? Int32
+        }
+    }
+
+    public struct SnapshotMessage: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "Snapshots", required: false, type: .structure)
+        ]
+        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
+        public let marker: String?
+        /// A list of Snapshot instances. 
+        public let snapshots: SnapshotList?
+
+        public init(marker: String? = nil, snapshots: SnapshotList? = nil) {
+            self.marker = marker
+            self.snapshots = snapshots
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Redshift.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
         }
     }
 
@@ -5540,6 +5623,23 @@ extension Redshift {
         }
     }
 
+    public struct DbGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "DbGroup", required: false, type: .list)
+        ]
+        public let dbGroup: [String]?
+
+        public init(dbGroup: [String]? = nil) {
+            self.dbGroup = dbGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.dbGroup = dictionary["DbGroup"] as? [String]
+        }
+    }
+
     public struct ParametersList: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5639,54 +5739,49 @@ extension Redshift {
         }
     }
 
+    public struct ClusterSubnetGroupMessage: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Marker", required: false, type: .string), 
+            AWSShapeProperty(label: "ClusterSubnetGroups", required: false, type: .structure)
+        ]
+        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
+        public let marker: String?
+        /// A list of ClusterSubnetGroup instances. 
+        public let clusterSubnetGroups: ClusterSubnetGroups?
+
+        public init(marker: String? = nil, clusterSubnetGroups: ClusterSubnetGroups? = nil) {
+            self.marker = marker
+            self.clusterSubnetGroups = clusterSubnetGroups
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.marker = dictionary["Marker"] as? String
+            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [String: Any] { self.clusterSubnetGroups = try Redshift.ClusterSubnetGroups(dictionary: clusterSubnetGroups) } else { self.clusterSubnetGroups = nil }
+        }
+    }
+
     public struct AccountWithRestoreAccess: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string)
+            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
+            AWSShapeProperty(label: "AccountAlias", required: false, type: .string)
         ]
         /// The identifier of an AWS customer account authorized to restore a snapshot.
         public let accountId: String?
+        /// The identifier of an AWS support account authorized to restore a snapshot. For AWS support, the identifier is amazon-redshift-support. 
+        public let accountAlias: String?
 
-        public init(accountId: String? = nil) {
+        public init(accountId: String? = nil, accountAlias: String? = nil) {
             self.accountId = accountId
+            self.accountAlias = accountAlias
         }
 
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["AccountId"] as? String
-        }
-    }
-
-    public struct EventInfoMap: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: false, type: .string), 
-            AWSShapeProperty(label: "EventId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
-        ]
-        /// The severity of the event. Values: ERROR, INFO
-        public let severity: String?
-        /// The identifier of an Amazon Redshift event.
-        public let eventId: String?
-        /// The description of an Amazon Redshift event.
-        public let eventDescription: String?
-        /// The category of an Amazon Redshift event.
-        public let eventCategories: EventCategoriesList?
-
-        public init(severity: String? = nil, eventId: String? = nil, eventDescription: String? = nil, eventCategories: EventCategoriesList? = nil) {
-            self.severity = severity
-            self.eventId = eventId
-            self.eventDescription = eventDescription
-            self.eventCategories = eventCategories
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.severity = dictionary["Severity"] as? String
-            self.eventId = dictionary["EventId"] as? String
-            self.eventDescription = dictionary["EventDescription"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
+            self.accountAlias = dictionary["AccountAlias"] as? String
         }
     }
 

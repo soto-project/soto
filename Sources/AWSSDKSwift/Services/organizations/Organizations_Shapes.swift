@@ -216,7 +216,7 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: String?
-        /// If the request failed, a description of the reason for the failure.
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
         public let failureReason: CreateAccountFailureReason?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
@@ -753,6 +753,7 @@ extension Organizations {
         case invalid_next_token = "INVALID_NEXT_TOKEN"
         case max_limit_exceeded_filter = "MAX_LIMIT_EXCEEDED_FILTER"
         case moving_account_between_different_roots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
+        case invalid_full_name_target = "INVALID_FULL_NAME_TARGET"
         public var description: String { return self.rawValue }
     }
 
@@ -932,8 +933,12 @@ extension Organizations {
         case max_policy_type_attachment_limit_exceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
         case min_policy_type_attachment_limit_exceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
         case account_cannot_leave_organization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+        case account_cannot_leave_without_eula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
+        case account_cannot_leave_without_phone_verification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
         case master_account_payment_instrument_required = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case member_account_payment_instrument_required = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
         case account_creation_rate_limit_exceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+        case master_account_address_does_not_match_marketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
         public var description: String { return self.rawValue }
     }
 
@@ -1056,40 +1061,45 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JoinedTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Status", required: false, type: .enum), 
             AWSShapeProperty(label: "Arn", required: false, type: .string), 
+            AWSShapeProperty(label: "Email", required: false, type: .string), 
             AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "JoinedTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "JoinedMethod", required: false, type: .enum), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
-        /// The date the account became a part of the organization.
-        public let joinedTimestamp: String?
         /// The status of the account in the organization.
         public let status: AccountStatus?
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
+        /// The email address associated with the AWS account. The regex pattern for this parameter is a string of characters that represents a standard Internet email address.
+        public let email: String?
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
+        /// The date the account became a part of the organization.
+        public let joinedTimestamp: String?
         /// The method by which the account joined the organization.
         public let joinedMethod: AccountJoinedMethod?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
 
-        public init(joinedTimestamp: String? = nil, status: AccountStatus? = nil, arn: String? = nil, name: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
-            self.joinedTimestamp = joinedTimestamp
+        public init(status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, joinedTimestamp: String? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
+            self.email = email
             self.name = name
+            self.joinedTimestamp = joinedTimestamp
             self.joinedMethod = joinedMethod
             self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? String
             if let status = dictionary["Status"] as? String { self.status = AccountStatus(rawValue: status) } else { self.status = nil }
             self.arn = dictionary["Arn"] as? String
+            self.email = dictionary["Email"] as? String
             self.name = dictionary["Name"] as? String
+            self.joinedTimestamp = dictionary["JoinedTimestamp"] as? String
             if let joinedMethod = dictionary["JoinedMethod"] as? String { self.joinedMethod = AccountJoinedMethod(rawValue: joinedMethod) } else { self.joinedMethod = nil }
             self.id = dictionary["Id"] as? String
         }
@@ -1387,7 +1397,7 @@ extension Organizations {
         public let email: String
         /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you do not specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide. The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
-        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, then only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.
+        /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, then only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you do not specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
 
         public init(accountName: String, email: String, roleName: String? = nil, iamUserAccessToBilling: IAMUserAccessToBilling? = nil) {
@@ -1949,6 +1959,7 @@ extension Organizations {
         case account_limit_exceeded = "ACCOUNT_LIMIT_EXCEEDED"
         case email_already_exists = "EMAIL_ALREADY_EXISTS"
         case invalid_address = "INVALID_ADDRESS"
+        case invalid_email = "INVALID_EMAIL"
         case internal_failure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
     }

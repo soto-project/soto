@@ -32,10 +32,11 @@ public enum InspectorError: AWSErrorType {
     case invalidInputException(message: String?)
     case accessDeniedException(message: String?)
     case noSuchEntityException(message: String?)
+    case invalidCrossAccountRoleException(message: String?)
     case assessmentRunInProgressException(message: String?)
     case limitExceededException(message: String?)
-    case invalidCrossAccountRoleException(message: String?)
     case agentsAlreadyRunningAssessmentException(message: String?)
+    case unsupportedFeatureException(message: String?)
 }
 
 extension InspectorError {
@@ -53,14 +54,16 @@ extension InspectorError {
             self = .accessDeniedException(message: message)
         case "NoSuchEntityException":
             self = .noSuchEntityException(message: message)
+        case "InvalidCrossAccountRoleException":
+            self = .invalidCrossAccountRoleException(message: message)
         case "AssessmentRunInProgressException":
             self = .assessmentRunInProgressException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "InvalidCrossAccountRoleException":
-            self = .invalidCrossAccountRoleException(message: message)
         case "AgentsAlreadyRunningAssessmentException":
             self = .agentsAlreadyRunningAssessmentException(message: message)
+        case "UnsupportedFeatureException":
+            self = .unsupportedFeatureException(message: message)
         default:
             return nil
         }

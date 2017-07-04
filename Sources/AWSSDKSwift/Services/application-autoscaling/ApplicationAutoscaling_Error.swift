@@ -33,8 +33,8 @@ public enum ApplicationAutoscalingError: AWSErrorType {
     case concurrentUpdateException(message: String?)
     case internalServiceException(message: String?)
     case limitExceededException(message: String?)
-    case invalidNextTokenException(message: String?)
     case failedResourceAccessException(message: String?)
+    case invalidNextTokenException(message: String?)
 }
 
 extension ApplicationAutoscalingError {
@@ -54,10 +54,10 @@ extension ApplicationAutoscalingError {
             self = .internalServiceException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
         case "FailedResourceAccessException":
             self = .failedResourceAccessException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
         default:
             return nil
         }

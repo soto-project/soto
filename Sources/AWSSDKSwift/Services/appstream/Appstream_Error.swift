@@ -32,8 +32,11 @@ public enum AppstreamError: AWSErrorType {
     case limitExceededException(message: String?)
     case invalidRoleException(message: String?)
     case resourceNotFoundException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
     case resourceNotAvailableException(message: String?)
+    case invalidParameterCombinationException(message: String?)
+    case concurrentModificationException(message: String?)
+    case incompatibleImageException(message: String?)
+    case resourceAlreadyExistsException(message: String?)
     case operationNotPermittedException(message: String?)
 }
 
@@ -52,10 +55,16 @@ extension AppstreamError {
             self = .invalidRoleException(message: message)
         case "ResourceNotFoundException":
             self = .resourceNotFoundException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
         case "ResourceNotAvailableException":
             self = .resourceNotAvailableException(message: message)
+        case "InvalidParameterCombinationException":
+            self = .invalidParameterCombinationException(message: message)
+        case "ConcurrentModificationException":
+            self = .concurrentModificationException(message: message)
+        case "IncompatibleImageException":
+            self = .incompatibleImageException(message: message)
+        case "ResourceAlreadyExistsException":
+            self = .resourceAlreadyExistsException(message: message)
         case "OperationNotPermittedException":
             self = .operationNotPermittedException(message: message)
         default:

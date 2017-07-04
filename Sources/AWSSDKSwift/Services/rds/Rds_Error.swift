@@ -49,16 +49,16 @@ public enum RdsError: AWSErrorType {
     case dBSnapshotNotFoundFault(message: String?)
     case invalidDBSnapshotStateFault(message: String?)
     case invalidRestoreFault(message: String?)
+    case dBInstanceNotFoundFault(message: String?)
+    case invalidDBInstanceStateFault(message: String?)
     case dBClusterRoleNotFoundFault(message: String?)
     case invalidOptionGroupStateFault(message: String?)
     case subscriptionNotFoundFault(message: String?)
     case sourceNotFoundFault(message: String?)
     case dBParameterGroupQuotaExceededFault(message: String?)
     case dBParameterGroupAlreadyExistsFault(message: String?)
-    case dBInstanceNotFoundFault(message: String?)
     case dBClusterRoleAlreadyExistsFault(message: String?)
     case dBClusterRoleQuotaExceededFault(message: String?)
-    case invalidDBInstanceStateFault(message: String?)
     case reservedDBInstanceNotFoundFault(message: String?)
     case dBClusterSnapshotNotFoundFault(message: String?)
     case eventSubscriptionQuotaExceededFault(message: String?)
@@ -70,15 +70,15 @@ public enum RdsError: AWSErrorType {
     case optionGroupAlreadyExistsFault(message: String?)
     case optionGroupQuotaExceededFault(message: String?)
     case dBLogFileNotFoundFault(message: String?)
-    case dBSubnetGroupAlreadyExistsFault(message: String?)
-    case dBSubnetGroupQuotaExceededFault(message: String?)
-    case dBSubnetQuotaExceededFault(message: String?)
     case dBClusterAlreadyExistsFault(message: String?)
     case dBClusterQuotaExceededFault(message: String?)
     case invalidDBSubnetGroupStateFault(message: String?)
     case invalidS3BucketFault(message: String?)
     case dBClusterParameterGroupNotFoundFault(message: String?)
     case insufficientStorageClusterCapacityFault(message: String?)
+    case dBSubnetGroupAlreadyExistsFault(message: String?)
+    case dBSubnetGroupQuotaExceededFault(message: String?)
+    case dBSubnetQuotaExceededFault(message: String?)
     case invalidDBClusterSnapshotStateFault(message: String?)
     case dBSnapshotAlreadyExistsFault(message: String?)
     case snapshotQuotaExceededFault(message: String?)
@@ -155,6 +155,10 @@ extension RdsError {
             self = .invalidDBSnapshotStateFault(message: message)
         case "InvalidRestoreFault":
             self = .invalidRestoreFault(message: message)
+        case "DBInstanceNotFoundFault":
+            self = .dBInstanceNotFoundFault(message: message)
+        case "InvalidDBInstanceStateFault":
+            self = .invalidDBInstanceStateFault(message: message)
         case "DBClusterRoleNotFoundFault":
             self = .dBClusterRoleNotFoundFault(message: message)
         case "InvalidOptionGroupStateFault":
@@ -167,14 +171,10 @@ extension RdsError {
             self = .dBParameterGroupQuotaExceededFault(message: message)
         case "DBParameterGroupAlreadyExistsFault":
             self = .dBParameterGroupAlreadyExistsFault(message: message)
-        case "DBInstanceNotFoundFault":
-            self = .dBInstanceNotFoundFault(message: message)
         case "DBClusterRoleAlreadyExistsFault":
             self = .dBClusterRoleAlreadyExistsFault(message: message)
         case "DBClusterRoleQuotaExceededFault":
             self = .dBClusterRoleQuotaExceededFault(message: message)
-        case "InvalidDBInstanceStateFault":
-            self = .invalidDBInstanceStateFault(message: message)
         case "ReservedDBInstanceNotFoundFault":
             self = .reservedDBInstanceNotFoundFault(message: message)
         case "DBClusterSnapshotNotFoundFault":
@@ -197,12 +197,6 @@ extension RdsError {
             self = .optionGroupQuotaExceededFault(message: message)
         case "DBLogFileNotFoundFault":
             self = .dBLogFileNotFoundFault(message: message)
-        case "DBSubnetGroupAlreadyExistsFault":
-            self = .dBSubnetGroupAlreadyExistsFault(message: message)
-        case "DBSubnetGroupQuotaExceededFault":
-            self = .dBSubnetGroupQuotaExceededFault(message: message)
-        case "DBSubnetQuotaExceededFault":
-            self = .dBSubnetQuotaExceededFault(message: message)
         case "DBClusterAlreadyExistsFault":
             self = .dBClusterAlreadyExistsFault(message: message)
         case "DBClusterQuotaExceededFault":
@@ -215,6 +209,12 @@ extension RdsError {
             self = .dBClusterParameterGroupNotFoundFault(message: message)
         case "InsufficientStorageClusterCapacityFault":
             self = .insufficientStorageClusterCapacityFault(message: message)
+        case "DBSubnetGroupAlreadyExistsFault":
+            self = .dBSubnetGroupAlreadyExistsFault(message: message)
+        case "DBSubnetGroupQuotaExceededFault":
+            self = .dBSubnetGroupQuotaExceededFault(message: message)
+        case "DBSubnetQuotaExceededFault":
+            self = .dBSubnetQuotaExceededFault(message: message)
         case "InvalidDBClusterSnapshotStateFault":
             self = .invalidDBClusterSnapshotStateFault(message: message)
         case "DBSnapshotAlreadyExistsFault":

@@ -28,7 +28,7 @@ import Foundation
 import AWSSDKSwiftCore
 
 /**
-AWS OpsWorks Welcome to the AWS OpsWorks API Reference. This guide provides descriptions, syntax, and usage examples for AWS OpsWorks actions and data types, including common parameters and error codes.  AWS OpsWorks is an application management service that provides an integrated experience for overseeing the complete application lifecycle. For information about this product, go to the AWS OpsWorks details page.   SDKs and CLI  The most common way to use the AWS OpsWorks API is by using the AWS Command Line Interface (CLI) or by using one of the AWS SDKs to implement applications in your preferred language. For more information, see:    AWS CLI     AWS SDK for Java     AWS SDK for .NET     AWS SDK for PHP 2     AWS SDK for Ruby     AWS SDK for Node.js     AWS SDK for Python(Boto)     Endpoints  AWS OpsWorks supports the following endpoints, all HTTPS. You must connect to one of the following endpoints. Stacks can only be accessed or managed within the endpoint in which they are created.   opsworks.us-east-1.amazonaws.com   opsworks.us-west-1.amazonaws.com   opsworks.us-west-2.amazonaws.com   opsworks.eu-west-1.amazonaws.com   opsworks.eu-central-1.amazonaws.com   opsworks.ap-northeast-1.amazonaws.com   opsworks.ap-northeast-2.amazonaws.com   opsworks.ap-south-1.amazonaws.com   opsworks.ap-southeast-1.amazonaws.com   opsworks.ap-southeast-2.amazonaws.com   opsworks.sa-east-1.amazonaws.com    Chef Versions  When you call CreateStack, CloneStack, or UpdateStack we recommend you use the ConfigurationManager parameter to specify the Chef version. The recommended and default value for Linux stacks is currently 12. Windows stacks use Chef 12.2. For more information, see Chef Versions.  You can specify Chef 12, 11.10, or 11.4 for your Linux stack. We recommend migrating your existing Linux stacks to Chef 12 as soon as possible. 
+AWS OpsWorks Welcome to the AWS OpsWorks Stacks API Reference. This guide provides descriptions, syntax, and usage examples for AWS OpsWorks Stacks actions and data types, including common parameters and error codes.  AWS OpsWorks Stacks is an application management service that provides an integrated experience for overseeing the complete application lifecycle. For information about this product, go to the AWS OpsWorks details page.   SDKs and CLI  The most common way to use the AWS OpsWorks Stacks API is by using the AWS Command Line Interface (CLI) or by using one of the AWS SDKs to implement applications in your preferred language. For more information, see:    AWS CLI     AWS SDK for Java     AWS SDK for .NET     AWS SDK for PHP 2     AWS SDK for Ruby     AWS SDK for Node.js     AWS SDK for Python(Boto)     Endpoints  AWS OpsWorks Stacks supports the following endpoints, all HTTPS. You must connect to one of the following endpoints. Stacks can only be accessed or managed within the endpoint in which they are created.   opsworks.us-east-1.amazonaws.com   opsworks.us-east-2.amazonaws.com   opsworks.us-west-1.amazonaws.com   opsworks.us-west-2.amazonaws.com   opsworks.eu-west-1.amazonaws.com   opsworks.eu-west-2.amazonaws.com   opsworks.eu-central-1.amazonaws.com   opsworks.ap-northeast-1.amazonaws.com   opsworks.ap-northeast-2.amazonaws.com   opsworks.ap-south-1.amazonaws.com   opsworks.ap-southeast-1.amazonaws.com   opsworks.ap-southeast-2.amazonaws.com   opsworks.sa-east-1.amazonaws.com    Chef Versions  When you call CreateStack, CloneStack, or UpdateStack we recommend you use the ConfigurationManager parameter to specify the Chef version. The recommended and default value for Linux stacks is currently 12. Windows stacks use Chef 12.2. For more information, see Chef Versions.  You can specify Chef 12, 11.10, or 11.4 for your Linux stack. We recommend migrating your existing Linux stacks to Chef 12 as soon as possible. 
 */
 public struct Opsworks {
 
@@ -89,12 +89,12 @@ public struct Opsworks {
         return try client.send(operation: "RegisterEcsCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers an Amazon RDS instance with a stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
-    public func registerRdsDbInstance(_ input: RegisterRdsDbInstanceRequest) throws {
-        _ = try client.send(operation: "RegisterRdsDbInstance", path: "/", httpMethod: "POST", input: input)
+    ///  Returns a list of tags that are applied to the specified stack or layer.
+    public func listTags(_ input: ListTagsRequest) throws -> ListTagsResult {
+        return try client.send(operation: "ListTags", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a description of one or more layers in a specified stack.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Requests a description of one or more layers in a specified stack.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeLayers(_ input: DescribeLayersRequest) throws -> DescribeLayersResult {
         return try client.send(operation: "DescribeLayers", path: "/", httpMethod: "POST", input: input)
     }
@@ -104,12 +104,17 @@ public struct Opsworks {
         _ = try client.send(operation: "UpdateRdsDbInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a description of a specified set of deployments.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Requests a description of a specified set of deployments.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeDeployments(_ input: DescribeDeploymentsRequest) throws -> DescribeDeploymentsResult {
         return try client.send(operation: "DescribeDeployments", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes Amazon RDS instances.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Registers an Amazon RDS instance with a stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    public func registerRdsDbInstance(_ input: RegisterRdsDbInstanceRequest) throws {
+        _ = try client.send(operation: "RegisterRdsDbInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes Amazon RDS instances.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     public func describeRdsDbInstances(_ input: DescribeRdsDbInstancesRequest) throws -> DescribeRdsDbInstancesResult {
         return try client.send(operation: "DescribeRdsDbInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -134,12 +139,12 @@ public struct Opsworks {
         _ = try client.send(operation: "DeleteStack", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deregister a registered Amazon EC2 or on-premises instance. This action removes the instance from the stack and returns it to your control. This action can not be used with instances that were created with AWS OpsWorks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Deregister a registered Amazon EC2 or on-premises instance. This action removes the instance from the stack and returns it to your control. This action can not be used with instances that were created with AWS OpsWorks Stacks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func deregisterInstance(_ input: DeregisterInstanceRequest) throws {
         _ = try client.send(operation: "DeregisterInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes Elastic IP addresses.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Describes Elastic IP addresses.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeElasticIps(_ input: DescribeElasticIpsRequest) throws -> DescribeElasticIpsResult {
         return try client.send(operation: "DescribeElasticIps", path: "/", httpMethod: "POST", input: input)
     }
@@ -169,7 +174,7 @@ public struct Opsworks {
         _ = try client.send(operation: "StartInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describe an instance's RAID arrays.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Describe an instance's RAID arrays.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeRaidArrays(_ input: DescribeRaidArraysRequest) throws -> DescribeRaidArraysResult {
         return try client.send(operation: "DescribeRaidArrays", path: "/", httpMethod: "POST", input: input)
     }
@@ -179,7 +184,7 @@ public struct Opsworks {
         return try client.send(operation: "CreateDeployment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes AWS OpsWorks service errors.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Describes AWS OpsWorks Stacks service errors.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     public func describeServiceErrors(_ input: DescribeServiceErrorsRequest) throws -> DescribeServiceErrorsResult {
         return try client.send(operation: "DescribeServiceErrors", path: "/", httpMethod: "POST", input: input)
     }
@@ -189,12 +194,12 @@ public struct Opsworks {
         _ = try client.send(operation: "DetachElasticLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information on user permissions, see Managing User Permissions.
+    ///  Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks Stacks currently supports only one cluster per layer, so the result set has a maximum of one element.  Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack or an attached policy that explicitly grants permission. For more information on user permissions, see Managing User Permissions. This call accepts only one resource-identifying parameter.
     public func describeEcsClusters(_ input: DescribeEcsClustersRequest) throws -> DescribeEcsClustersResult {
         return try client.send(operation: "DescribeEcsClusters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes a stack's Elastic Load Balancing instances.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Describes a stack's Elastic Load Balancing instances.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeElasticLoadBalancers(_ input: DescribeElasticLoadBalancersRequest) throws -> DescribeElasticLoadBalancersResult {
         return try client.send(operation: "DescribeElasticLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
@@ -249,14 +254,19 @@ public struct Opsworks {
         _ = try client.send(operation: "UpdateInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Unassigns a registered instance from all of it's layers. The instance remains in the stack as an unassigned instance and can be assigned to another layer, as needed. You cannot use this action with instances that were created with AWS OpsWorks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Unassigns a registered instance from all of it's layers. The instance remains in the stack as an unassigned instance and can be assigned to another layer, as needed. You cannot use this action with instances that were created with AWS OpsWorks Stacks.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func unassignInstance(_ input: UnassignInstanceRequest) throws {
         _ = try client.send(operation: "UnassignInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Assign a registered instance to a layer.   You can assign registered on-premises instances to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.   You cannot use this action with instances that were created with AWS OpsWorks.    Required Permissions: To use this action, an AWS Identity and Access Management (IAM) user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Assign a registered instance to a layer.   You can assign registered on-premises instances to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.   You cannot use this action with instances that were created with AWS OpsWorks Stacks.    Required Permissions: To use this action, an AWS Identity and Access Management (IAM) user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func assignInstance(_ input: AssignInstanceRequest) throws {
         _ = try client.send(operation: "AssignInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks. For more information about how tagging works, see Tags in the AWS OpsWorks User Guide.
+    public func tagResource(_ input: TagResourceRequest) throws {
+        _ = try client.send(operation: "TagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified stack.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
@@ -269,17 +279,17 @@ public struct Opsworks {
         return try client.send(operation: "DescribePermissions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances.  To use load-based auto scaling, you must create a set of load-based auto scaling instances. Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough instances to handle the maximum anticipated load.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
-    public func setLoadBasedAutoScaling(_ input: SetLoadBasedAutoScalingRequest) throws {
-        _ = try client.send(operation: "SetLoadBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
-    }
-
     ///  Gets a generated host name for the specified layer, based on the current host name theme.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func getHostnameSuggestion(_ input: GetHostnameSuggestionRequest) throws -> GetHostnameSuggestionResult {
         return try client.send(operation: "GetHostnameSuggestion", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes an instance's Amazon EBS volumes.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances.  To use load-based auto scaling, you must create a set of load-based auto scaling instances. Load-based auto scaling operates only on the instances from that set, so you must ensure that you have created enough instances to handle the maximum anticipated load.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    public func setLoadBasedAutoScaling(_ input: SetLoadBasedAutoScalingRequest) throws {
+        _ = try client.send(operation: "SetLoadBasedAutoScaling", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes an instance's Amazon EBS volumes.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeVolumes(_ input: DescribeVolumesRequest) throws -> DescribeVolumesResult {
         return try client.send(operation: "DescribeVolumes", path: "/", httpMethod: "POST", input: input)
     }
@@ -324,12 +334,12 @@ public struct Opsworks {
         return try client.send(operation: "CreateUserProfile", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a description of a specified set of apps.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Requests a description of a specified set of apps.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeApps(_ input: DescribeAppsRequest) throws -> DescribeAppsResult {
         return try client.send(operation: "DescribeApps", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Registers instances with a specified stack that were created outside of AWS OpsWorks.  We do not recommend using this action to register instances. The complete registration operation has two primary steps, installing the AWS OpsWorks agent on the instance and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the AWS CLI register command, which performs the entire registration operation. For more information, see  Registering an Instance with an AWS OpsWorks Stack.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Registers instances that were created outside of AWS OpsWorks Stacks with a specified stack.  We do not recommend using this action to register instances. The complete registration operation includes two tasks: installing the AWS OpsWorks Stacks agent on the instance, and registering the instance with the stack. RegisterInstance handles only the second step. You should instead use the AWS CLI register command, which performs the entire registration operation. For more information, see  Registering an Instance with an AWS OpsWorks Stacks Stack.  Registered instances have the same requirements as instances that are created by using the CreateInstance API. For example, registered instances must be running a supported Linux-based operating system, and they must have a supported instance type. For more information about requirements for instances that you want to register, see  Preparing the Instance.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func registerInstance(_ input: RegisterInstanceRequest) throws -> RegisterInstanceResult {
         return try client.send(operation: "RegisterInstance", path: "/", httpMethod: "POST", input: input)
     }
@@ -359,17 +369,17 @@ public struct Opsworks {
         _ = try client.send(operation: "DeregisterRdsDbInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the available AWS OpsWorks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
+    ///  Describes the available AWS OpsWorks Stacks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
     public func describeAgentVersions(_ input: DescribeAgentVersionsRequest) throws -> DescribeAgentVersionsResult {
         return try client.send(operation: "DescribeAgentVersions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches an Elastic Load Balancing load balancer to a specified layer. For more information, see Elastic Load Balancing.  You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see  Elastic Load Balancing Developer Guide.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWorks Stacks does not support Application Load Balancer. You can only use Classic Load Balancer with AWS OpsWorks Stacks. For more information, see Elastic Load Balancing.  You must create the Elastic Load Balancing instance separately, by using the Elastic Load Balancing console, API, or CLI. For more information, see  Elastic Load Balancing Developer Guide.   Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func attachElasticLoadBalancer(_ input: AttachElasticLoadBalancerRequest) throws {
         _ = try client.send(operation: "AttachElasticLoadBalancer", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a description of a set of instances.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Requests a description of a set of instances.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeInstances(_ input: DescribeInstancesRequest) throws -> DescribeInstancesResult {
         return try client.send(operation: "DescribeInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -377,6 +387,11 @@ public struct Opsworks {
     ///  Stops a specified instance. When you stop a standard instance, the data disappears and must be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance without losing data. For more information, see Starting, Stopping, and Rebooting Instances.  Required Permissions: To use this action, an IAM user must have a Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func stopInstance(_ input: StopInstanceRequest) throws {
         _ = try client.send(operation: "StopInstance", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Removes tags from a specified stack or layer.
+    public func untagResource(_ input: UntagResourceRequest) throws {
+        _ = try client.send(operation: "UntagResource", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a specified app.  Required Permissions: To use this action, an IAM user must have a Deploy or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
@@ -394,7 +409,7 @@ public struct Opsworks {
         _ = try client.send(operation: "DeleteInstance", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the results of specified commands.  You must specify at least one of the parameters.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
+    ///  Describes the results of specified commands.  This call accepts only one resource-identifying parameter.   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that explicitly grants permissions. For more information on user permissions, see Managing User Permissions.
     public func describeCommands(_ input: DescribeCommandsRequest) throws -> DescribeCommandsResult {
         return try client.send(operation: "DescribeCommands", path: "/", httpMethod: "POST", input: input)
     }

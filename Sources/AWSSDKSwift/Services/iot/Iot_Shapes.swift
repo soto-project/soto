@@ -38,7 +38,7 @@ extension Iot {
         ]
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String?
-        /// Specifies the DynamoDB table to which the message data will be written. For example: { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } } Each attribute in the message payload will be written to a separate column in the DynamoDB database.
+        /// Specifies the DynamoDB table to which the message data will be written. For example:  { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } }  Each attribute in the message payload will be written to a separate column in the DynamoDB database.
         public let putItem: PutItemInput?
 
         public init(roleArn: String? = nil, putItem: PutItemInput? = nil) {
@@ -132,7 +132,7 @@ extension Iot {
             AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
             AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
-        /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate. 
+        /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
         public let caCertificateId: String
         /// The result page size.
         public let pageSize: Int32?
@@ -230,72 +230,77 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "kinesis", required: false, type: .structure), 
             AWSShapeProperty(label: "elasticsearch", required: false, type: .structure), 
-            AWSShapeProperty(label: "sqs", required: false, type: .structure), 
-            AWSShapeProperty(label: "cloudwatchMetric", required: false, type: .structure), 
-            AWSShapeProperty(label: "republish", required: false, type: .structure), 
             AWSShapeProperty(label: "s3", required: false, type: .structure), 
+            AWSShapeProperty(label: "lambda", required: false, type: .structure), 
+            AWSShapeProperty(label: "republish", required: false, type: .structure), 
+            AWSShapeProperty(label: "dynamoDB", required: false, type: .structure), 
+            AWSShapeProperty(label: "salesforce", required: false, type: .structure), 
+            AWSShapeProperty(label: "sqs", required: false, type: .structure), 
+            AWSShapeProperty(label: "sns", required: false, type: .structure), 
+            AWSShapeProperty(label: "cloudwatchMetric", required: false, type: .structure), 
             AWSShapeProperty(label: "cloudwatchAlarm", required: false, type: .structure), 
             AWSShapeProperty(label: "firehose", required: false, type: .structure), 
             AWSShapeProperty(label: "dynamoDBv2", required: false, type: .structure), 
-            AWSShapeProperty(label: "dynamoDB", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambda", required: false, type: .structure), 
-            AWSShapeProperty(label: "sns", required: false, type: .structure)
+            AWSShapeProperty(label: "kinesis", required: false, type: .structure)
         ]
-        /// Write data to an Amazon Kinesis stream.
-        public let kinesis: KinesisAction?
         /// Write data to an Amazon Elasticsearch Service domain.
         public let elasticsearch: ElasticsearchAction?
-        /// Publish to an Amazon SQS queue.
-        public let sqs: SqsAction?
-        /// Capture a CloudWatch metric.
-        public let cloudwatchMetric: CloudwatchMetricAction?
-        /// Publish to another MQTT topic.
-        public let republish: RepublishAction?
         /// Write to an Amazon S3 bucket.
         public let s3: S3Action?
+        /// Invoke a Lambda function.
+        public let lambda: LambdaAction?
+        /// Publish to another MQTT topic.
+        public let republish: RepublishAction?
+        /// Write to a DynamoDB table.
+        public let dynamoDB: DynamoDBAction?
+        /// Send a message to a Salesforce IoT Cloud Input Stream.
+        public let salesforce: SalesforceAction?
+        /// Publish to an Amazon SQS queue.
+        public let sqs: SqsAction?
+        /// Publish to an Amazon SNS topic.
+        public let sns: SnsAction?
+        /// Capture a CloudWatch metric.
+        public let cloudwatchMetric: CloudwatchMetricAction?
         /// Change the state of a CloudWatch alarm.
         public let cloudwatchAlarm: CloudwatchAlarmAction?
         /// Write to an Amazon Kinesis Firehose stream.
         public let firehose: FirehoseAction?
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
         public let dynamoDBv2: DynamoDBv2Action?
-        /// Write to a DynamoDB table.
-        public let dynamoDB: DynamoDBAction?
-        /// Invoke a Lambda function.
-        public let lambda: LambdaAction?
-        /// Publish to an Amazon SNS topic.
-        public let sns: SnsAction?
+        /// Write data to an Amazon Kinesis stream.
+        public let kinesis: KinesisAction?
 
-        public init(kinesis: KinesisAction? = nil, elasticsearch: ElasticsearchAction? = nil, sqs: SqsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, cloudwatchAlarm: CloudwatchAlarmAction? = nil, firehose: FirehoseAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, dynamoDB: DynamoDBAction? = nil, lambda: LambdaAction? = nil, sns: SnsAction? = nil) {
-            self.kinesis = kinesis
+        public init(elasticsearch: ElasticsearchAction? = nil, s3: S3Action? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, dynamoDB: DynamoDBAction? = nil, salesforce: SalesforceAction? = nil, sqs: SqsAction? = nil, sns: SnsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, cloudwatchAlarm: CloudwatchAlarmAction? = nil, firehose: FirehoseAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, kinesis: KinesisAction? = nil) {
             self.elasticsearch = elasticsearch
-            self.sqs = sqs
-            self.cloudwatchMetric = cloudwatchMetric
-            self.republish = republish
             self.s3 = s3
+            self.lambda = lambda
+            self.republish = republish
+            self.dynamoDB = dynamoDB
+            self.salesforce = salesforce
+            self.sqs = sqs
+            self.sns = sns
+            self.cloudwatchMetric = cloudwatchMetric
             self.cloudwatchAlarm = cloudwatchAlarm
             self.firehose = firehose
             self.dynamoDBv2 = dynamoDBv2
-            self.dynamoDB = dynamoDB
-            self.lambda = lambda
-            self.sns = sns
+            self.kinesis = kinesis
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) } else { self.kinesis = nil }
             if let elasticsearch = dictionary["elasticsearch"] as? [String: Any] { self.elasticsearch = try Iot.ElasticsearchAction(dictionary: elasticsearch) } else { self.elasticsearch = nil }
-            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) } else { self.sqs = nil }
-            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) } else { self.cloudwatchMetric = nil }
-            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) } else { self.republish = nil }
             if let s3 = dictionary["s3"] as? [String: Any] { self.s3 = try Iot.S3Action(dictionary: s3) } else { self.s3 = nil }
+            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) } else { self.lambda = nil }
+            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) } else { self.republish = nil }
+            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) } else { self.dynamoDB = nil }
+            if let salesforce = dictionary["salesforce"] as? [String: Any] { self.salesforce = try Iot.SalesforceAction(dictionary: salesforce) } else { self.salesforce = nil }
+            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) } else { self.sqs = nil }
+            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) } else { self.sns = nil }
+            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) } else { self.cloudwatchMetric = nil }
             if let cloudwatchAlarm = dictionary["cloudwatchAlarm"] as? [String: Any] { self.cloudwatchAlarm = try Iot.CloudwatchAlarmAction(dictionary: cloudwatchAlarm) } else { self.cloudwatchAlarm = nil }
             if let firehose = dictionary["firehose"] as? [String: Any] { self.firehose = try Iot.FirehoseAction(dictionary: firehose) } else { self.firehose = nil }
             if let dynamoDBv2 = dictionary["dynamoDBv2"] as? [String: Any] { self.dynamoDBv2 = try Iot.DynamoDBv2Action(dictionary: dynamoDBv2) } else { self.dynamoDBv2 = nil }
-            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) } else { self.dynamoDB = nil }
-            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) } else { self.lambda = nil }
-            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) } else { self.sns = nil }
+            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) } else { self.kinesis = nil }
         }
     }
 
@@ -593,6 +598,7 @@ extension Iot {
             AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
             AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
         ]
+        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
         public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -1041,7 +1047,7 @@ extension Iot {
         ]
         /// The CA certificate identifier.
         public let certificateId: String
-        /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        /// The updated status of the CA certificate.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let newStatus: CACertificateStatus?
         /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
         public let newAutoRegistrationStatus: AutoRegistrationStatus?
@@ -1166,7 +1172,7 @@ extension Iot {
         ]
         /// The ID of the certificate.
         public let certificateId: String
-        /// The new status. Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+        /// The new status.  Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let newStatus: CertificateStatus
 
         public init(certificateId: String, newStatus: CertificateStatus) {
@@ -1296,7 +1302,7 @@ extension Iot {
         ]
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
         public let merge: Bool?
-        /// A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}})
+        /// A JSON string containing up to three key-value pair in JSON format. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
         public let attributes: [String: String]?
 
         public init(merge: Bool? = nil, attributes: [String: String]? = nil) {
@@ -1469,7 +1475,7 @@ extension Iot {
         ]
         /// The name of the thing type associated with the new thing.
         public let thingTypeName: String?
-        /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}})
+        /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
         public let attributePayload: AttributePayload?
         /// The name of the thing to create.
         public let thingName: String
@@ -1689,7 +1695,7 @@ extension Iot {
             AWSShapeProperty(label: "certificateId", required: false, type: .string), 
             AWSShapeProperty(label: "certificateArn", required: false, type: .string)
         ]
-        /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
+        /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
         /// The date the CA certificate was created.
         public let creationDate: String?
@@ -2000,7 +2006,7 @@ extension Iot {
             AWSShapeProperty(label: "roleArn", required: true, type: .string), 
             AWSShapeProperty(label: "targetArn", required: true, type: .string)
         ]
-        /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
+        /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see http://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
         public let messageFormat: MessageFormat?
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -2466,6 +2472,31 @@ extension Iot {
         }
     }
 
+    public struct SalesforceAction: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "token", required: true, type: .string), 
+            AWSShapeProperty(label: "url", required: true, type: .string)
+        ]
+        /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
+        public let token: String
+        /// The URL exposed by the Salesforce IoT Cloud Input Stream. The URL is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
+        public let url: String
+
+        public init(token: String, url: String) {
+            self.token = token
+            self.url = url
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let token = dictionary["token"] as? String else { throw InitializableError.missingRequiredParam("token") }
+            self.token = token
+            guard let url = dictionary["url"] as? String else { throw InitializableError.missingRequiredParam("url") }
+            self.url = url
+        }
+    }
+
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2642,6 +2673,7 @@ extension Iot {
         ]
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
+        /// The status of the register certificate request.
         public let status: CertificateStatus?
         /// The certificate data, in PEM format.
         public let certificatePem: String
@@ -3156,7 +3188,7 @@ extension Iot {
         public let thingTypeName: String?
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
         public let expectedVersion: Int64?
-        /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}}) This data is used to add new attributes or update existing attributes.
+        /// A list of thing attributes, a JSON string containing name-value pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
         public let attributePayload: AttributePayload?
 
         public init(removeThingType: Bool? = nil, thingName: String, thingTypeName: String? = nil, expectedVersion: Int64? = nil, attributePayload: AttributePayload? = nil) {
@@ -3335,6 +3367,7 @@ extension Iot {
             AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
             AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
         ]
+        /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
         public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
         public let thingTypeName: String?

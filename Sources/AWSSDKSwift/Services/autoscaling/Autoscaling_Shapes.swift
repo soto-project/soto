@@ -161,7 +161,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "LaunchConfigurationNames", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call. The default is 100.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -229,7 +229,7 @@ extension Autoscaling {
         public let policyType: String?
         /// The adjustment type, which specifies how ScalingAdjustment is interpreted. Valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
-        /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start.
+        /// The amount of time, in seconds, after a scaling activity completes before any further dynamic scaling activities can start.
         public let cooldown: Int32?
         /// The minimum number of instances to scale. If the value of AdjustmentType is PercentChangeInCapacity, the scaling policy changes the DesiredCapacity of the Auto Scaling group by at least this many instances. Otherwise, the error is ValidationError.
         public let minAdjustmentMagnitude: Int32?
@@ -346,7 +346,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
             AWSShapeProperty(label: "AvailabilityZone", required: true, type: .string)
         ]
-        /// The launch configuration associated with the instance.
+        /// The launch configuration used to launch the instance. This value is not available if you attached the instance to the Auto Scaling group.
         public let launchConfigurationName: String
         /// The lifecycle state for the instance. For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide.
         public let lifecycleState: String
@@ -457,7 +457,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -488,7 +488,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
         public let startTime: String?
@@ -985,7 +985,7 @@ extension Autoscaling {
         public let targetGroupARNs: [String]?
         /// The minimum size of the group.
         public let minSize: Int32
-        /// The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
+        /// The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
         public let desiredCapacity: Int32?
         /// The name of the placement group into which you'll launch your instances, if any. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.
         public let placementGroup: String?
@@ -999,7 +999,7 @@ extension Autoscaling {
         public let healthCheckGracePeriod: Int32?
         /// One or more termination policies used to select the instance to terminate. These policies are executed in the order that they are listed. For more information, see Controlling Which Instances Auto Scaling Terminates During Scale In in the Auto Scaling User Guide.
         public let terminationPolicies: [String]?
-        /// One or more Classic load balancers. To specify an Application load balancer, use TargetGroupARNs instead. For more information, see Using a Load Balancer With an Auto Scaling Group in the Auto Scaling User Guide.
+        /// One or more Classic Load Balancers. To specify an Application Load Balancer, use TargetGroupARNs instead. For more information, see Using a Load Balancer With an Auto Scaling Group in the Auto Scaling User Guide.
         public let loadBalancerNames: [String]?
         /// The service to use for the health checks. The valid values are EC2 and ELB. By default, health checks use Amazon EC2 instance status checks to determine the health of an instance. For more information, see Health Checks in the Auto Scaling User Guide.
         public let healthCheckType: String?
@@ -1481,7 +1481,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1552,7 +1552,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1598,7 +1598,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "ActivityIds", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 100.
         public let maxRecords: Int32?
         /// The name of the group.
         public let autoScalingGroupName: String?
@@ -1662,7 +1662,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
             AWSShapeProperty(label: "NextToken", required: false, type: .string)
         ]
-        /// The maximum number of items to be returned with each call.
+        /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The name of the group.
         public let autoScalingGroupName: String?
@@ -1888,11 +1888,11 @@ extension Autoscaling {
         public let spotPrice: String?
         /// The ID of the kernel associated with the AMI.
         public let kernelId: String?
-        /// Enables detailed monitoring (true) or basic monitoring (false) for the Auto Scaling instances.
+        /// Enables detailed monitoring (true) or basic monitoring (false) for the Auto Scaling instances. The default is true.
         public let instanceMonitoring: InstanceMonitoring?
         /// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to. This parameter is supported only if you are launching EC2-Classic instances. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
         public let classicLinkVPCId: String?
-        /// The instance type of the EC2 instance. For information about available instance types, see  Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
+        /// The instance type of the EC2 instance. If you do not specify InstanceId, you must specify InstanceType. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide. 
         public let instanceType: String?
         /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware and can only be launched into a VPC. You must set the value of this parameter to dedicated if want to launch Dedicated Instances into a shared tenancy VPC (VPC with instance placement tenancy attribute set to default). If you specify this parameter, be sure to specify at least one subnet when you create your group. For more information, see Launching Auto Scaling Instances in a VPC in the Auto Scaling User Guide. Valid values: default | dedicated 
         public let placementTenancy: String?
@@ -1900,11 +1900,11 @@ extension Autoscaling {
         public let securityGroups: [String]?
         /// The name of the key pair. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide.
         public let keyName: String?
-        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, with the exception of the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a Launch Configuration Using an EC2 Instance in the Auto Scaling User Guide.
+        /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, with the exception of the block device mapping. If you do not specify InstanceId, you must specify both ImageId and InstanceType. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see Create a Launch Configuration Using an EC2 Instance in the Auto Scaling User Guide.
         public let instanceId: String?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. EC2 instances launched with an IAM role will automatically have AWS security credentials available. You can use IAM roles with Auto Scaling to automatically enable applications running on your EC2 instances to securely access other AWS resources. For more information, see Launch Auto Scaling Instances with an IAM Role in the Auto Scaling User Guide.
         public let iamInstanceProfile: String?
-        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide.
+        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. If you do not specify InstanceId, you must specify ImageId. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide.
         public let imageId: String?
         /// Used for groups that launch instances into a virtual private cloud (VPC). Specifies whether to assign a public IP address to each instance. For more information, see Launching Auto Scaling Instances in a VPC in the Auto Scaling User Guide. If you specify this parameter, be sure to specify at least one subnet when you create your group. Default: If the instance is launched into a default subnet, the default is true. If the instance is launched into a nondefault subnet, the default is false. For more information, see Supported Platforms in the Amazon Elastic Compute Cloud User Guide.
         public let associatePublicIpAddress: Bool?
@@ -1989,7 +1989,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2139,7 +2139,7 @@ extension Autoscaling {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
         ]
-        /// If True, instance monitoring is enabled.
+        /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
@@ -2984,7 +2984,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "Filters", required: false, type: .list)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -3109,7 +3109,7 @@ extension Autoscaling {
             AWSShapeProperty(label: "NextToken", required: false, type: .string), 
             AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
         ]
-        /// The maximum number of items to return with this call.
+        /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?

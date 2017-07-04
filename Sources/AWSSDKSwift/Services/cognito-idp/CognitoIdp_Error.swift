@@ -52,9 +52,13 @@ public enum CognitoIdpError: AWSErrorType {
     case codeDeliveryFailureException(message: String?)
     case preconditionNotMetException(message: String?)
     case unsupportedUserStateException(message: String?)
+    case duplicateProviderException(message: String?)
     case limitExceededException(message: String?)
+    case scopeDoesNotExistException(message: String?)
+    case invalidOAuthFlowException(message: String?)
     case invalidEmailRoleAccessPolicyException(message: String?)
     case groupExistsException(message: String?)
+    case unsupportedIdentityProviderException(message: String?)
     case userPoolTaggingException(message: String?)
     case tooManyFailedAttemptsException(message: String?)
     case concurrentModificationException(message: String?)
@@ -115,12 +119,20 @@ extension CognitoIdpError {
             self = .preconditionNotMetException(message: message)
         case "UnsupportedUserStateException":
             self = .unsupportedUserStateException(message: message)
+        case "DuplicateProviderException":
+            self = .duplicateProviderException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
+        case "ScopeDoesNotExistException":
+            self = .scopeDoesNotExistException(message: message)
+        case "InvalidOAuthFlowException":
+            self = .invalidOAuthFlowException(message: message)
         case "InvalidEmailRoleAccessPolicyException":
             self = .invalidEmailRoleAccessPolicyException(message: message)
         case "GroupExistsException":
             self = .groupExistsException(message: message)
+        case "UnsupportedIdentityProviderException":
+            self = .unsupportedIdentityProviderException(message: message)
         case "UserPoolTaggingException":
             self = .userPoolTaggingException(message: message)
         case "TooManyFailedAttemptsException":

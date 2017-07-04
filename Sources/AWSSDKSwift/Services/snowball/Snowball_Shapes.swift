@@ -59,6 +59,7 @@ extension Snowball {
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
             AWSShapeProperty(label: "Notification", required: false, type: .structure), 
             AWSShapeProperty(label: "Resources", required: false, type: .structure), 
@@ -71,7 +72,9 @@ extension Snowball {
         public let snowballCapacityPreference: SnowballCapacity?
         /// The ID of the updated Address object.
         public let addressId: String?
-        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRole AWS Identity and Access Management (IAM) API action.
+        /// The updated ID for the forwarding address for a job. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API action.
         public let roleARN: String?
         /// The new or updated Notification object.
         public let notification: Notification?
@@ -82,10 +85,11 @@ extension Snowball {
         /// The updated description of this job's JobMetadata object.
         public let description: String?
 
-        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, jobId: String, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, jobId: String, description: String? = nil) {
             self.shippingOption = shippingOption
             self.snowballCapacityPreference = snowballCapacityPreference
             self.addressId = addressId
+            self.forwardingAddressId = forwardingAddressId
             self.roleARN = roleARN
             self.notification = notification
             self.resources = resources
@@ -97,6 +101,7 @@ extension Snowball {
             if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
             self.addressId = dictionary["AddressId"] as? String
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
@@ -321,6 +326,7 @@ extension Snowball {
             AWSShapeProperty(label: "PhoneNumber", required: false, type: .string), 
             AWSShapeProperty(label: "Country", required: false, type: .string), 
             AWSShapeProperty(label: "Street1", required: false, type: .string), 
+            AWSShapeProperty(label: "IsRestricted", required: false, type: .boolean), 
             AWSShapeProperty(label: "PostalCode", required: false, type: .string), 
             AWSShapeProperty(label: "Street2", required: false, type: .string), 
             AWSShapeProperty(label: "StateOrProvince", required: false, type: .string), 
@@ -331,7 +337,7 @@ extension Snowball {
             AWSShapeProperty(label: "Street3", required: false, type: .string), 
             AWSShapeProperty(label: "Company", required: false, type: .string)
         ]
-        /// The landmark identifying the address that the appliance will be shipped to.
+        /// This field is no longer used and the value is ignored.
         public let landmark: String?
         /// The phone number associated with an address that a Snowball is to be delivered to.
         public let phoneNumber: String?
@@ -339,13 +345,15 @@ extension Snowball {
         public let country: String?
         /// The first line in a street address that a Snowball is to be delivered to.
         public let street1: String?
+        /// If the address you are creating is a primary address, then set this option to true. This field is not supported in most regions.
+        public let isRestricted: Bool?
         /// The postal code in an address that a Snowball is to be delivered to.
         public let postalCode: String?
         /// The second line in a street address that a Snowball is to be delivered to.
         public let street2: String?
         /// The state or province in an address that a Snowball is to be delivered to.
         public let stateOrProvince: String?
-        /// The prefecture or district that the appliance will be shipped to.
+        /// This field is no longer used and the value is ignored.
         public let prefectureOrDistrict: String?
         /// The unique ID for an address.
         public let addressId: String?
@@ -358,11 +366,12 @@ extension Snowball {
         /// The name of the company to receive a Snowball at an address.
         public let company: String?
 
-        public init(landmark: String? = nil, phoneNumber: String? = nil, country: String? = nil, street1: String? = nil, postalCode: String? = nil, street2: String? = nil, stateOrProvince: String? = nil, prefectureOrDistrict: String? = nil, addressId: String? = nil, name: String? = nil, city: String? = nil, street3: String? = nil, company: String? = nil) {
+        public init(landmark: String? = nil, phoneNumber: String? = nil, country: String? = nil, street1: String? = nil, isRestricted: Bool? = nil, postalCode: String? = nil, street2: String? = nil, stateOrProvince: String? = nil, prefectureOrDistrict: String? = nil, addressId: String? = nil, name: String? = nil, city: String? = nil, street3: String? = nil, company: String? = nil) {
             self.landmark = landmark
             self.phoneNumber = phoneNumber
             self.country = country
             self.street1 = street1
+            self.isRestricted = isRestricted
             self.postalCode = postalCode
             self.street2 = street2
             self.stateOrProvince = stateOrProvince
@@ -379,6 +388,7 @@ extension Snowball {
             self.phoneNumber = dictionary["PhoneNumber"] as? String
             self.country = dictionary["Country"] as? String
             self.street1 = dictionary["Street1"] as? String
+            self.isRestricted = dictionary["IsRestricted"] as? Bool
             self.postalCode = dictionary["PostalCode"] as? String
             self.street2 = dictionary["Street2"] as? String
             self.stateOrProvince = dictionary["StateOrProvince"] as? String
@@ -483,10 +493,11 @@ extension Snowball {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: true, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: true, type: .string), 
-            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
             AWSShapeProperty(label: "JobType", required: true, type: .enum), 
             AWSShapeProperty(label: "Notification", required: false, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
             AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
             AWSShapeProperty(label: "Resources", required: true, type: .structure), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
@@ -495,14 +506,16 @@ extension Snowball {
         public let shippingOption: ShippingOption
         /// The ID for the address that you want the cluster shipped to.&gt;
         public let addressId: String
-        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
-        public let kmsKeyARN: String?
+        /// The forwarding address ID for a cluster. This field is not supported in most regions.
+        public let forwardingAddressId: String?
+        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
+        public let roleARN: String
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
         public let jobType: JobType
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
-        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
-        public let roleARN: String
+        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
+        public let kmsKeyARN: String?
         /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
         /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
@@ -510,13 +523,14 @@ extension Snowball {
         /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(shippingOption: ShippingOption, addressId: String, kmsKeyARN: String? = nil, jobType: JobType, notification: Notification? = nil, roleARN: String, snowballType: SnowballType? = nil, resources: JobResource, description: String? = nil) {
+        public init(shippingOption: ShippingOption, addressId: String, forwardingAddressId: String? = nil, roleARN: String, jobType: JobType, notification: Notification? = nil, kmsKeyARN: String? = nil, snowballType: SnowballType? = nil, resources: JobResource, description: String? = nil) {
             self.shippingOption = shippingOption
             self.addressId = addressId
-            self.kmsKeyARN = kmsKeyARN
+            self.forwardingAddressId = forwardingAddressId
+            self.roleARN = roleARN
             self.jobType = jobType
             self.notification = notification
-            self.roleARN = roleARN
+            self.kmsKeyARN = kmsKeyARN
             self.snowballType = snowballType
             self.resources = resources
             self.description = description
@@ -527,12 +541,13 @@ extension Snowball {
             self.shippingOption = shippingOption
             guard let addressId = dictionary["AddressId"] as? String else { throw InitializableError.missingRequiredParam("AddressId") }
             self.addressId = addressId
-            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
             guard let rawJobType = dictionary["JobType"] as? String, let jobType = JobType(rawValue: rawJobType) else { throw InitializableError.missingRequiredParam("JobType") }
             self.jobType = jobType
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             guard let resources = dictionary["Resources"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Resources") }
             self.resources = try Snowball.JobResource(dictionary: resources)
@@ -856,70 +871,75 @@ extension Snowball {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ClusterState", required: false, type: .enum), 
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
-            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
             AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
             AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "JobType", required: false, type: .enum), 
             AWSShapeProperty(label: "Notification", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
+            AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
             AWSShapeProperty(label: "Resources", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+            AWSShapeProperty(label: "ClusterId", required: false, type: .string)
         ]
         /// The current status of the cluster.
         public let clusterState: ClusterState?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge appliance, rather it represents how quickly each appliance moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, appliances shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
         public let shippingOption: ShippingOption?
-        /// The automatically generated ID for a specific address.
-        public let addressId: String?
+        /// The ID of the address that you want a cluster shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
+        public let forwardingAddressId: String?
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
-        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
-        public let jobType: JobType?
         /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
         /// The creation date for this cluster.
         public let creationDate: String?
-        /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
-        public let snowballType: SnowballType?
-        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
-        public let notification: Notification?
-        /// The automatically generated ID for a cluster.
-        public let clusterId: String?
-        /// The arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
-        public let resources: JobResource?
         /// The optional description of the cluster.
         public let description: String?
+        /// The automatically generated ID for a specific address.
+        public let addressId: String?
+        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
+        public let jobType: JobType?
+        /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
+        public let notification: Notification?
+        /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported appliance type for cluster jobs is EDGE.
+        public let snowballType: SnowballType?
+        /// The arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
+        public let resources: JobResource?
+        /// The automatically generated ID for a cluster.
+        public let clusterId: String?
 
-        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, snowballType: SnowballType? = nil, notification: Notification? = nil, clusterId: String? = nil, resources: JobResource? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, description: String? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil) {
             self.clusterState = clusterState
             self.shippingOption = shippingOption
-            self.addressId = addressId
+            self.forwardingAddressId = forwardingAddressId
             self.roleARN = roleARN
-            self.jobType = jobType
             self.kmsKeyARN = kmsKeyARN
             self.creationDate = creationDate
-            self.snowballType = snowballType
-            self.notification = notification
-            self.clusterId = clusterId
-            self.resources = resources
             self.description = description
+            self.addressId = addressId
+            self.jobType = jobType
+            self.notification = notification
+            self.snowballType = snowballType
+            self.resources = resources
+            self.clusterId = clusterId
         }
 
         public init(dictionary: [String: Any]) throws {
             if let clusterState = dictionary["ClusterState"] as? String { self.clusterState = ClusterState(rawValue: clusterState) } else { self.clusterState = nil }
             if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
-            self.addressId = dictionary["AddressId"] as? String
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             self.creationDate = dictionary["CreationDate"] as? String
-            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
-            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
-            self.clusterId = dictionary["ClusterId"] as? String
-            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
             self.description = dictionary["Description"] as? String
+            self.addressId = dictionary["AddressId"] as? String
+            if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
+            if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
+            self.clusterId = dictionary["ClusterId"] as? String
         }
     }
 
@@ -988,7 +1008,7 @@ extension Snowball {
             AWSShapeProperty(label: "Status", required: false, type: .string), 
             AWSShapeProperty(label: "TrackingNumber", required: false, type: .string)
         ]
-        /// Status information for a shipment. Valid statuses include NEW, IN_TRANSIT, and DELIVERED.
+        /// Status information for a shipment.
         public let status: String?
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snowball as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
         public let trackingNumber: String?
@@ -1033,6 +1053,7 @@ extension Snowball {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
             AWSShapeProperty(label: "Notification", required: false, type: .structure), 
             AWSShapeProperty(label: "Resources", required: false, type: .structure), 
@@ -1043,6 +1064,8 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// The ID of the updated Address object.
         public let addressId: String?
+        /// The updated ID for the forwarding address for a cluster. This field is not supported in most regions.
+        public let forwardingAddressId: String?
         /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
         /// The new or updated Notification object.
@@ -1054,9 +1077,10 @@ extension Snowball {
         /// The updated description of this cluster.
         public let description: String?
 
-        public init(shippingOption: ShippingOption? = nil, addressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, clusterId: String, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, addressId: String? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, clusterId: String, description: String? = nil) {
             self.shippingOption = shippingOption
             self.addressId = addressId
+            self.forwardingAddressId = forwardingAddressId
             self.roleARN = roleARN
             self.notification = notification
             self.resources = resources
@@ -1067,6 +1091,7 @@ extension Snowball {
         public init(dictionary: [String: Any]) throws {
             if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             self.addressId = dictionary["AddressId"] as? String
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
@@ -1254,6 +1279,7 @@ extension Snowball {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DataTransferProgress", required: false, type: .structure), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
             AWSShapeProperty(label: "JobState", required: false, type: .enum), 
             AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
@@ -1262,8 +1288,8 @@ extension Snowball {
             AWSShapeProperty(label: "Description", required: false, type: .string), 
             AWSShapeProperty(label: "ShippingDetails", required: false, type: .structure), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
-            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
             AWSShapeProperty(label: "JobType", required: false, type: .enum), 
+            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
             AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
             AWSShapeProperty(label: "JobLogInfo", required: false, type: .structure), 
             AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
@@ -1273,6 +1299,8 @@ extension Snowball {
         public let dataTransferProgress: DataTransfer?
         /// The Snowball capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
         public let snowballCapacityPreference: SnowballCapacity?
+        /// The ID of the address that you want a job shipped to, after it will be shipped to its primary address. This field is not supported in most regions.
+        public let forwardingAddressId: String?
         /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
         /// The current status of the jobs.
@@ -1289,10 +1317,10 @@ extension Snowball {
         public let shippingDetails: ShippingDetails?
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
-        /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
-        public let notification: Notification?
         /// The type of job.
         public let jobType: JobType?
+        /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
+        public let notification: Notification?
         /// The type of appliance used with this job.
         public let snowballType: SnowballType?
         /// Links to Amazon S3 presigned URLs for the job report and logs. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snowball for your job part is being delivered to you.
@@ -1302,9 +1330,10 @@ extension Snowball {
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
         public let resources: JobResource?
 
-        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, notification: Notification? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
+        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: String? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
             self.dataTransferProgress = dataTransferProgress
             self.snowballCapacityPreference = snowballCapacityPreference
+            self.forwardingAddressId = forwardingAddressId
             self.roleARN = roleARN
             self.jobState = jobState
             self.kmsKeyARN = kmsKeyARN
@@ -1313,8 +1342,8 @@ extension Snowball {
             self.description = description
             self.shippingDetails = shippingDetails
             self.addressId = addressId
-            self.notification = notification
             self.jobType = jobType
+            self.notification = notification
             self.snowballType = snowballType
             self.jobLogInfo = jobLogInfo
             self.clusterId = clusterId
@@ -1324,6 +1353,7 @@ extension Snowball {
         public init(dictionary: [String: Any]) throws {
             if let dataTransferProgress = dictionary["DataTransferProgress"] as? [String: Any] { self.dataTransferProgress = try Snowball.DataTransfer(dictionary: dataTransferProgress) } else { self.dataTransferProgress = nil }
             if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
             if let jobState = dictionary["JobState"] as? String { self.jobState = JobState(rawValue: jobState) } else { self.jobState = nil }
             self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
@@ -1332,8 +1362,8 @@ extension Snowball {
             self.description = dictionary["Description"] as? String
             if let shippingDetails = dictionary["ShippingDetails"] as? [String: Any] { self.shippingDetails = try Snowball.ShippingDetails(dictionary: shippingDetails) } else { self.shippingDetails = nil }
             self.addressId = dictionary["AddressId"] as? String
-            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
             if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let jobLogInfo = dictionary["JobLogInfo"] as? [String: Any] { self.jobLogInfo = try Snowball.JobLogs(dictionary: jobLogInfo) } else { self.jobLogInfo = nil }
             self.clusterId = dictionary["ClusterId"] as? String
@@ -1398,11 +1428,12 @@ extension Snowball {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ShippingOption", required: false, type: .enum), 
             AWSShapeProperty(label: "SnowballCapacityPreference", required: false, type: .enum), 
+            AWSShapeProperty(label: "ForwardingAddressId", required: false, type: .string), 
             AWSShapeProperty(label: "AddressId", required: false, type: .string), 
             AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
+            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
             AWSShapeProperty(label: "JobType", required: false, type: .enum), 
             AWSShapeProperty(label: "Notification", required: false, type: .structure), 
-            AWSShapeProperty(label: "KmsKeyARN", required: false, type: .string), 
             AWSShapeProperty(label: "SnowballType", required: false, type: .enum), 
             AWSShapeProperty(label: "Resources", required: false, type: .structure), 
             AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
@@ -1412,16 +1443,18 @@ extension Snowball {
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
         public let snowballCapacityPreference: SnowballCapacity?
+        /// The forwarding address ID for a job. This field is not supported in most regions.
+        public let forwardingAddressId: String?
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
         /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
         public let roleARN: String?
+        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
+        public let kmsKeyARN: String?
         /// Defines the type of job that you're creating. 
         public let jobType: JobType?
         /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
         public let notification: Notification?
-        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
-        public let kmsKeyARN: String?
         /// The type of AWS Snowball appliance to use for this job. Currently, the only supported appliance type for cluster jobs is EDGE.
         public let snowballType: SnowballType?
         /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
@@ -1431,14 +1464,15 @@ extension Snowball {
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
 
-        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, addressId: String? = nil, roleARN: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, kmsKeyARN: String? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil, description: String? = nil) {
+        public init(shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, forwardingAddressId: String? = nil, addressId: String? = nil, roleARN: String? = nil, kmsKeyARN: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil, description: String? = nil) {
             self.shippingOption = shippingOption
             self.snowballCapacityPreference = snowballCapacityPreference
+            self.forwardingAddressId = forwardingAddressId
             self.addressId = addressId
             self.roleARN = roleARN
+            self.kmsKeyARN = kmsKeyARN
             self.jobType = jobType
             self.notification = notification
-            self.kmsKeyARN = kmsKeyARN
             self.snowballType = snowballType
             self.resources = resources
             self.clusterId = clusterId
@@ -1448,11 +1482,12 @@ extension Snowball {
         public init(dictionary: [String: Any]) throws {
             if let shippingOption = dictionary["ShippingOption"] as? String { self.shippingOption = ShippingOption(rawValue: shippingOption) } else { self.shippingOption = nil }
             if let snowballCapacityPreference = dictionary["SnowballCapacityPreference"] as? String { self.snowballCapacityPreference = SnowballCapacity(rawValue: snowballCapacityPreference) } else { self.snowballCapacityPreference = nil }
+            self.forwardingAddressId = dictionary["ForwardingAddressId"] as? String
             self.addressId = dictionary["AddressId"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
+            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             if let jobType = dictionary["JobType"] as? String { self.jobType = JobType(rawValue: jobType) } else { self.jobType = nil }
             if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try Snowball.Notification(dictionary: notification) } else { self.notification = nil }
-            self.kmsKeyARN = dictionary["KmsKeyARN"] as? String
             if let snowballType = dictionary["SnowballType"] as? String { self.snowballType = SnowballType(rawValue: snowballType) } else { self.snowballType = nil }
             if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Snowball.JobResource(dictionary: resources) } else { self.resources = nil }
             self.clusterId = dictionary["ClusterId"] as? String

@@ -35,7 +35,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request. Type: String Default: None Required: Yes
+        /// The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
         public let operationId: String
 
         public init(operationId: String) {
@@ -54,7 +54,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domainName", required: false, type: .string)
         ]
-        /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact. Type: String Default: None Required: Yes
+        /// The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
         public let domainName: String?
 
         public init(domainName: String? = nil) {
@@ -73,9 +73,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
         ]
-        /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Type: String Default: None Required: No
+        /// For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
         public let marker: String?
-        /// Number of domains to be returned. Type: Integer Default: 20 Constraints: A value between 1 and 100. Required: No
+        /// Number of domains to be returned. Default: 20
         public let maxItems: Int32?
 
         public init(marker: String? = nil, maxItems: Int32? = nil) {
@@ -97,10 +97,11 @@ extension Route53domains {
             AWSShapeProperty(label: "DomainName", required: true, type: .string), 
             AWSShapeProperty(label: "DurationInYears", required: false, type: .integer)
         ]
-        /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain. Type: Integer Default: None Valid values: Integer Required: Yes
+        /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
         public let currentExpiryYear: Int32
+        /// The name of the domain that you want to renew.
         public let domainName: String
-        /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 documentation. Type: Integer Default: 1 Valid values: Integer from 1 to 10 Required: No
+        /// The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
         public let durationInYears: Int32?
 
         public init(currentExpiryYear: Int32, domainName: String, durationInYears: Int32? = nil) {
@@ -133,6 +134,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "SuggestionsList", required: false, type: .list)
         ]
+        /// A list of possible domain names. If you specified true for OnlyAvailable in the request, the list contains only domains that are available for registration.
         public let suggestionsList: [DomainSuggestion]?
 
         public init(suggestionsList: [DomainSuggestion]? = nil) {
@@ -155,9 +157,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Domains", required: true, type: .list), 
             AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
         ]
-        /// A summary of domains. Type: Complex type containing a list of domain summaries. Children: AutoRenew, DomainName, Expiry, TransferLock
+        /// A summary of domains.
         public let domains: [DomainSummary]
-        /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: Operations
+        /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
 
         public init(domains: [DomainSummary], nextPageMarker: String? = nil) {
@@ -178,7 +180,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -212,13 +214,13 @@ extension Route53domains {
             AWSShapeProperty(label: "RegistrantPrivacy", required: false, type: .boolean), 
             AWSShapeProperty(label: "AdminPrivacy", required: false, type: .boolean)
         ]
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: None Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let techPrivacy: Bool?
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to update the privacy setting for.
         public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: None Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let registrantPrivacy: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: None Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let adminPrivacy: Bool?
 
         public init(techPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, adminPrivacy: Bool? = nil) {
@@ -244,9 +246,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
         ]
-        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Type: String Default: None Constraints: The marker must match the value specified in the previous request.  Required: No
+        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
         public let marker: String?
-        /// Number of domains to be returned. Type: Integer Default: 20 Constraints: A numeral between 1 and 100. Required: No
+        /// Number of domains to be returned. Default: 20
         public let maxItems: Int32?
 
         public init(marker: String? = nil, maxItems: Int32? = nil) {
@@ -266,7 +268,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -287,8 +289,11 @@ extension Route53domains {
             AWSShapeProperty(label: "SuggestionCount", required: true, type: .integer), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
+        /// If OnlyAvailable is true, Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false, Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
         public let onlyAvailable: Bool
+        /// The number of suggested domain names that you want Amazon Route 53 to return.
         public let suggestionCount: Int32
+        /// A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide.
         public let domainName: String
 
         public init(onlyAvailable: Bool, suggestionCount: Int32, domainName: String) {
@@ -346,7 +351,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "AuthCode", required: true, type: .string)
         ]
-        /// The authorization code for the domain. Type: String
+        /// The authorization code for the domain.
         public let authCode: String
 
         public init(authCode: String) {
@@ -366,9 +371,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Value", required: false, type: .string), 
             AWSShapeProperty(label: "Key", required: false, type: .string)
         ]
-        /// The value of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes
+        /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
         public let value: String?
-        /// The key (name) of a tag. Type: String Default: None Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes
+        /// The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long.
         public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
@@ -391,13 +396,13 @@ extension Route53domains {
             AWSShapeProperty(label: "AutoRenew", required: false, type: .boolean), 
             AWSShapeProperty(label: "TransferLock", required: false, type: .boolean)
         ]
-        /// Expiration date of the domain in Coordinated Universal Time (UTC). Type: Long
+        /// Expiration date of the domain in Coordinated Universal Time (UTC).
         public let expiry: String?
-        /// The name of a domain. Type: String
+        /// The name of the domain that the summary information applies to.
         public let domainName: String
-        /// Indicates whether the domain is automatically renewed upon expiration. Type: Boolean Valid values: True | False
+        /// Indicates whether the domain is automatically renewed upon expiration.
         public let autoRenew: Bool?
-        /// Indicates whether a domain is locked from unauthorized transfer to another party. Type: Boolean Valid values: True | False
+        /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public let transferLock: Bool?
 
         public init(expiry: String? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
@@ -431,7 +436,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Availability", required: true, type: .enum)
         ]
-        /// Whether the domain name is available for registering.  You can only register domains designated as AVAILABLE.  Type: String Valid values:  AVAILABLE – The domain name is available. AVAILABLE_RESERVED – The domain name is reserved under specific conditions. AVAILABLE_PREORDER – The domain name is available and can be preordered. UNAVAILABLE – The domain name is not available. UNAVAILABLE_PREMIUM – The domain name is not available. UNAVAILABLE_RESTRICTED – The domain name is forbidden. RESERVED – The domain name has been reserved for another person or organization. DONT_KNOW – The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. 
+        /// Whether the domain name is available for registering.  You can only register domains designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: DomainAvailability
 
         public init(availability: DomainAvailability) {
@@ -450,7 +455,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -477,7 +482,9 @@ extension Route53domains {
             AWSShapeProperty(label: "DomainName", required: false, type: .string), 
             AWSShapeProperty(label: "Availability", required: false, type: .string)
         ]
+        /// A suggested domain name.
         public let domainName: String?
+        /// Whether the domain name is available for registering.  You can register only the domains that are designated as AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.  PENDING  The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.  
         public let availability: String?
 
         public init(domainName: String? = nil, availability: String? = nil) {
@@ -498,9 +505,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Operations", required: true, type: .list), 
             AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
         ]
-        /// Lists summaries of the operations. Type: Complex type containing a list of operation summaries Children: OperationId, Status, SubmittedDate, Type
+        /// Lists summaries of the operations.
         public let operations: [OperationSummary]
-        /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: Operations
+        /// If there are more operations than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
 
         public init(operations: [OperationSummary], nextPageMarker: String? = nil) {
@@ -534,33 +541,33 @@ extension Route53domains {
             AWSShapeProperty(label: "CountryCode", required: false, type: .enum), 
             AWSShapeProperty(label: "AddressLine2", required: false, type: .string)
         ]
-        /// First line of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
+        /// First line of the contact's address.
         public let addressLine1: String?
-        /// Email address of the contact. Type: String Default: None Constraints: Maximum 254 characters. Parents: RegistrantContact, AdminContact, TechContact  Required: Yes
+        /// Email address of the contact.
         public let email: String?
-        /// The phone number of the contact. Type: String Default: None Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code>]". For example, a US phone number might appear as "+1.1234567890". Parents: RegistrantContact, AdminContact, TechContact Required: Yes
+        /// The phone number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code&gt;]". For example, a US phone number might appear as "+1.1234567890".
         public let phoneNumber: String?
-        /// Name of the organization for contact types other than PERSON. Type: String Default: None Constraints: Maximum 255 characters. Contact type must not be PERSON. Parents: RegistrantContact, AdminContact, TechContact Required: No
+        /// Name of the organization for contact types other than PERSON.
         public let organizationName: String?
-        /// The state or province of the contact&apos;s city. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: No
+        /// The state or province of the contact's city.
         public let state: String?
-        /// Last name of contact. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
+        /// Last name of contact.
         public let lastName: String?
-        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can&apos;t enable privacy protection for the contact. Type: String Default: None Constraints: Maximum 255 characters. Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY Parents: RegistrantContact, AdminContact, TechContact  Required: Yes
+        /// Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON, you must enter an organization name, and you can't enable privacy protection for the contact.
         public let contactType: ContactType?
-        /// The zip or postal code of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: No
+        /// The zip or postal code of the contact's address.
         public let zipCode: String?
-        /// Fax number of the contact. Type: String Default: None Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890". Parents: RegistrantContact, AdminContact, TechContact Required: No
+        /// Fax number of the contact. Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890".
         public let fax: String?
-        /// A list of name-value pairs for parameters required by certain top-level domains. Type: Complex Default: None Parents: RegistrantContact, AdminContact, TechContact Children: Name, Value Required: No
+        /// A list of name-value pairs for parameters required by certain top-level domains.
         public let extraParams: [ExtraParam]?
-        /// First name of contact. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact  Required: Yes
+        /// First name of contact.
         public let firstName: String?
-        /// The city of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
+        /// The city of the contact's address.
         public let city: String?
-        /// Code for the country of the contact&apos;s address. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: Yes
+        /// Code for the country of the contact's address.
         public let countryCode: CountryCode?
-        /// Second line of contact&apos;s address, if any. Type: String Default: None Constraints: Maximum 255 characters. Parents: RegistrantContact, AdminContact, TechContact Required: No
+        /// Second line of contact's address, if any.
         public let addressLine2: String?
 
         public init(addressLine1: String? = nil, email: String? = nil, phoneNumber: String? = nil, organizationName: String? = nil, state: String? = nil, lastName: String? = nil, contactType: ContactType? = nil, zipCode: String? = nil, fax: String? = nil, extraParams: [ExtraParam]? = nil, firstName: String? = nil, city: String? = nil, countryCode: CountryCode? = nil, addressLine2: String? = nil) {
@@ -617,9 +624,9 @@ extension Route53domains {
             AWSShapeProperty(label: "BillingRecords", required: false, type: .list), 
             AWSShapeProperty(label: "NextPageMarker", required: false, type: .string)
         ]
-        /// A summary of billing records. Type: Complex type containing a list of billing record summaries. Children: DomainName, Operation, InvoiceId, BillDate and Price
+        /// A summary of billing records.
         public let billingRecords: [BillingRecord]?
-        /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker. Type: String Parent: BillingRecords
+        /// If there are more billing records than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
 
         public init(billingRecords: [BillingRecord]? = nil, nextPageMarker: String? = nil) {
@@ -643,7 +650,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -681,7 +688,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "TagList", required: true, type: .list)
         ]
-        /// A list of the tags that are associated with the specified domain. Type: A complex type containing a list of tags Each tag includes the following elements.  Key The key (name) of a tag. Type: String  Value The value of a tag. Type: String  
+        /// A list of the tags that are associated with the specified domain.
         public let tagList: [Tag]
 
         public init(tagList: [Tag]) {
@@ -708,7 +715,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to get detailed information about.
         public let domainName: String
 
         public init(domainName: String) {
@@ -740,27 +747,27 @@ extension Route53domains {
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let adminContact: ContactDetail
-        /// The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Type: Integer Default: 1 Valid values: Integer from 1 to 10 Required: Yes
+        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
         public let durationInYears: Int32
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let registrantContact: ContactDetail
-        /// Contains details for the host and glue IP addresses. Type: Complex Children: GlueIps, Name Required: No
+        /// Contains details for the host and glue IP addresses.
         public let nameservers: [Nameserver]?
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let techContact: ContactDetail
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectTechContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectRegistrantContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectAdminContact: Bool?
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to transfer to Amazon Route 53. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
-        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Type: Boolean Valid values: true | false Default: true Required: No
+        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true
         public let autoRenew: Bool?
-        /// The authorization code for the domain. You get this value from the current registrar. Type: String Required: Yes
+        /// The authorization code for the domain. You get this value from the current registrar.
         public let authCode: String?
 
         public init(idnLangCode: String? = nil, adminContact: ContactDetail, durationInYears: Int32, registrantContact: ContactDetail, nameservers: [Nameserver]? = nil, techContact: ContactDetail, privacyProtectTechContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectAdminContact: Bool? = nil, domainName: String, autoRenew: Bool? = nil, authCode: String? = nil) {
@@ -809,7 +816,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to set the transfer lock for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -829,9 +836,9 @@ extension Route53domains {
             AWSShapeProperty(label: "TagsToUpdate", required: false, type: .list), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced. Type: A complex type containing a list of tags Default: None Required: No'> Each tag includes the following elements:  Key The key (name) of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and ".:/=+\-@" Constraints: Each key can be 1-128 characters long. Required: Yes  Value The value of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and ".:/=+\-@" Constraints: Each value can be 0-256 characters long. Required: Yes  
+        /// A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
         public let tagsToUpdate: [Tag]?
-        /// The domain for which you want to add or update tags. The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when they&apos;re surrounded by letters, numbers, or other hyphens. You can&apos;t specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode. Required: Yes
+        /// The domain for which you want to add or update tags.
         public let domainName: String
 
         public init(tagsToUpdate: [Tag]? = nil, domainName: String) {
@@ -859,7 +866,7 @@ extension Route53domains {
         ]
         /// The domain name for which you requested the reachability status.
         public let domainName: String?
-        /// Whether the registrant contact has responded. PENDING indicates that we sent the confirmation email and haven't received a response yet, DONE indicates that we sent the email and got confirmation from the registrant contact, and EXPIRED indicates that the time limit expired before the registrant contact responded.  Type: String Valid values: PENDING, DONE, EXPIRED
+        /// Whether the registrant contact has responded. Values include the following:  PENDING  We sent the confirmation email and haven't received a response yet.  DONE  We sent the email and got confirmation from the registrant contact.  EXPIRED  The time limit expired before the registrant contact responded.  
         public let status: ReachabilityStatus?
 
         public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
@@ -880,9 +887,9 @@ extension Route53domains {
             AWSShapeProperty(label: "TagsToDelete", required: true, type: .list), 
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// A list of tag keys to delete. Type: A list that contains the keys of the tags that you want to delete. Default: None Required: No'>
+        /// A list of tag keys to delete.
         public let tagsToDelete: [String]
-        /// The domain for which you want to delete one or more tags. The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when they&apos;re surrounded by letters, numbers, or other hyphens. You can&apos;t specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode. Required: Yes
+        /// The domain for which you want to delete one or more tags.
         public let domainName: String
 
         public init(tagsToDelete: [String], domainName: String) {
@@ -904,7 +911,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "domainName", required: false, type: .string)
         ]
-        /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid. Type: String Default: None Required: Yes
+        /// The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
         public let domainName: String?
 
         public init(domainName: String? = nil) {
@@ -923,9 +930,9 @@ extension Route53domains {
             AWSShapeProperty(label: "Value", required: true, type: .string), 
             AWSShapeProperty(label: "Name", required: true, type: .enum)
         ]
-        /// Values corresponding to the additional parameter names required by some top-level domains. Type: String Default: None Constraints: Maximum 2048 characters. Parent: ExtraParams Required: Yes
+        /// Values corresponding to the additional parameter names required by some top-level domains.
         public let value: String
-        /// Name of the additional parameter required by the top-level domain. Type: String Default: None Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER Parent: ExtraParams Required: Yes
+        /// Name of the additional parameter required by the top-level domain.
         public let name: ExtraParamName
 
         public init(value: String, name: ExtraParamName) {
@@ -952,17 +959,17 @@ extension Route53domains {
             AWSShapeProperty(label: "Type", required: false, type: .enum), 
             AWSShapeProperty(label: "DomainName", required: false, type: .string)
         ]
-        /// The current status of the requested operation in the system. Type: String
+        /// The current status of the requested operation in the system.
         public let status: OperationStatus?
-        /// The identifier for the operation. Type: String
+        /// The identifier for the operation.
         public let operationId: String?
-        /// Detailed information on the status including possible errors. Type: String
+        /// Detailed information on the status including possible errors.
         public let message: String?
         /// The date when the request was submitted.
         public let submittedDate: String?
-        /// The type of operation that was requested. Type: String
+        /// The type of operation that was requested.
         public let `type`: OperationType?
-        /// The name of a domain. Type: String
+        /// The name of a domain.
         public let domainName: String?
 
         public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: String? = nil, type: OperationType? = nil, domainName: String? = nil) {
@@ -990,6 +997,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
+        /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1009,9 +1017,9 @@ extension Route53domains {
             AWSShapeProperty(label: "GlueIps", required: false, type: .list), 
             AWSShapeProperty(label: "Name", required: true, type: .string)
         ]
-        /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Type: List of IP addresses. Constraints: The list can contain only one IPv4 and one IPv6 address. Parent: Nameservers
+        /// Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com. Constraints: The list can contain only one IPv4 and one IPv6 address.
         public let glueIps: [String]?
-        /// The fully qualified host name of the name server. Type: String Constraint: Maximum 255 characterss Parent: Nameservers
+        /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
         public let name: String
 
         public init(glueIps: [String]? = nil, name: String) {
@@ -1032,7 +1040,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1055,15 +1063,15 @@ extension Route53domains {
             AWSShapeProperty(label: "Operation", required: false, type: .enum), 
             AWSShapeProperty(label: "Price", required: false, type: .double)
         ]
-        /// The date that the operation was billed, in Unix format. Type: Double
+        /// The date that the operation was billed, in Unix format.
         public let billDate: String?
-        /// The ID of the invoice that is associated with the billing record. Type: String
+        /// The ID of the invoice that is associated with the billing record.
         public let invoiceId: String?
-        /// The name of a domain. Type: String
+        /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
         public let domainName: String?
-        /// The operation that you were charged for. Type: String Valid values:  REGISTER_DOMAIN TRANSFER_IN_DOMAIN RENEW_DOMAIN CHANGE_DOMAIN_OWNER  
+        /// The operation that you were charged for.
         public let operation: OperationType?
-        /// The price that you were charged for the operation, in US dollars. Type: Double Example value: 12.0
+        /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public let price: Double?
 
         public init(billDate: String? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
@@ -1100,23 +1108,23 @@ extension Route53domains {
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let adminContact: ContactDetail
-        /// The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. Type: Integer Default: 1 Valid values: Integer from 1 to 10 Required: Yes
+        /// The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
         public let durationInYears: Int32
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let registrantContact: ContactDetail
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let techContact: ContactDetail
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectTechContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectRegistrantContact: Bool?
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The domain name that you want to register. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean Default: true Valid values: true | false Required: No
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Default: true 
         public let privacyProtectAdminContact: Bool?
-        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Type: Boolean Valid values: true | false Default: true Required: No
+        /// Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged. Default: true 
         public let autoRenew: Bool?
 
         public init(idnLangCode: String? = nil, adminContact: ContactDetail, durationInYears: Int32, registrantContact: ContactDetail, techContact: ContactDetail, privacyProtectTechContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, domainName: String, privacyProtectAdminContact: Bool? = nil, autoRenew: Bool? = nil) {
@@ -1159,7 +1167,7 @@ extension Route53domains {
             AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
             AWSShapeProperty(label: "domainName", required: false, type: .string)
         ]
-        /// True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
+        ///  True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
         public let isAlreadyVerified: Bool?
         /// The email address for the registrant contact at the time that we sent the verification email.
         public let emailAddress: String?
@@ -1196,6 +1204,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
+        /// The name of the domain that you want to disable automatic renewal for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1236,45 +1245,45 @@ extension Route53domains {
         ]
         /// Reserved for future use.
         public let registryDomainId: String?
-        /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller.  Type: String
+        /// Reseller of the domain. Domains registered or transferred using Amazon Route 53 domains will have "Amazon" as the reseller. 
         public let reseller: String?
-        /// Provides details about the domain registrant.  Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams
+        /// Provides details about the domain registrant.
         public let registrantContact: ContactDetail
-        /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the ICANN website and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.) Type: Array of String
+        /// An array of domain name status codes, also known as Extensible Provisioning Protocol (EPP) status codes. ICANN, the organization that maintains a central database of domain names, has developed a set of domain name status codes that tell you the status of a variety of operations on a domain name, for example, registering a domain name, transferring a domain name to another registrar, renewing the registration for a domain name, and so on. All registrars use this same set of status codes. For a current list of domain name status codes and an explanation of what each code means, go to the ICANN website and search for epp status codes. (Search on the ICANN website; web searches sometimes return an old version of the document.)
         public let statusList: [String]?
-        /// Provides details about the domain technical contact. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams
+        /// Provides details about the domain technical contact.
         public let techContact: ContactDetail
         /// The date when the registration for the domain is set to expire. The date format is Unix time.
         public let expirationDate: String?
-        /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS".  Type: String
+        /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS". 
         public let registrarName: String?
-        /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean
+        /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let techPrivacy: Bool?
-        /// Web address of the registrar. Type: String
+        /// Web address of the registrar.
         public let registrarUrl: String?
         /// The date when the domain was created as found in the response to a WHOIS query. The date format is Unix time.
         public let creationDate: String?
-        /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.  Type: String
+        /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
         public let abuseContactEmail: String?
-        /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean
+        /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let adminPrivacy: Bool?
-        /// Phone number for reporting abuse.  Type: String
+        /// Phone number for reporting abuse.
         public let abuseContactPhone: String?
-        /// Provides details about the domain administrative contact.  Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams
+        /// Provides details about the domain administrative contact.
         public let adminContact: ContactDetail
         /// The last updated date of the domain as found in the response to a WHOIS query. The date format is Unix time.
         public let updatedDate: String?
-        /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain. Type: String
+        /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
-        /// The name of the domain. Type: String
+        /// The name of the domain.
         public let nameservers: [Nameserver]
         /// Reserved for future use.
         public let dnsSec: String?
-        /// The name of a domain. Type: String
+        /// The name of a domain.
         public let domainName: String
-        /// Specifies whether contact information for the registrant contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter. Type: Boolean
+        /// Specifies whether contact information for the registrant contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
         public let registrantPrivacy: Bool?
-        /// Specifies whether the domain registration is set to renew automatically. Type: Boolean
+        /// Specifies whether the domain registration is set to renew automatically.
         public let autoRenew: Bool?
 
         public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: String? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: String? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: String? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
@@ -1337,7 +1346,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "DomainName", required: true, type: .string)
         ]
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to remove the transfer lock for.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1356,6 +1365,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
+        /// The identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1377,13 +1387,13 @@ extension Route53domains {
             AWSShapeProperty(label: "SubmittedDate", required: true, type: .timestamp), 
             AWSShapeProperty(label: "Type", required: true, type: .enum)
         ]
-        /// The current status of the requested operation in the system. Type: String
+        /// The current status of the requested operation in the system.
         public let status: OperationStatus
-        /// Identifier returned to track the requested action. Type: String
+        /// Identifier returned to track the requested action.
         public let operationId: String
         /// The date when the request was submitted.
         public let submittedDate: String
-        /// Type of the action requested. Type: String Valid values: REGISTER_DOMAIN | DELETE_DOMAIN | TRANSFER_IN_DOMAIN | UPDATE_DOMAIN_CONTACT | UPDATE_NAMESERVER | CHANGE_PRIVACY_PROTECTION | DOMAIN_LOCK
+        /// Type of the action requested.
         public let `type`: OperationType
 
         public init(status: OperationStatus, operationId: String, submittedDate: String, type: OperationType) {
@@ -1411,7 +1421,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1441,7 +1451,7 @@ extension Route53domains {
         ]
         /// Reserved for future use.
         public let idnLangCode: String?
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to get availability for. Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         public let domainName: String
 
         public init(idnLangCode: String? = nil, domainName: String) {
@@ -1462,7 +1472,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {
@@ -1484,13 +1494,13 @@ extension Route53domains {
             AWSShapeProperty(label: "Marker", required: false, type: .string), 
             AWSShapeProperty(label: "End", required: false, type: .timestamp)
         ]
-        /// The number of billing records to be returned. Type: Integer Default: 20 Constraints: A value between 1 and 100. Required: No
+        /// The number of billing records to be returned. Default: 20
         public let maxItems: Int32?
-        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format. Type: Double Default: None Required: Yes
+        /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
         public let start: String?
-        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Type: String Default: None Constraints: The marker must match the value of NextPageMarker that was returned in the previous response. Required: No
+        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
-        /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format. Type: Double Default: None Required: Yes
+        /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
         public let end: String?
 
         public init(maxItems: Int32? = nil, start: String? = nil, marker: String? = nil, end: String? = nil) {
@@ -1517,13 +1527,13 @@ extension Route53domains {
             AWSShapeProperty(label: "RegistrantContact", required: false, type: .structure), 
             AWSShapeProperty(label: "TechContact", required: false, type: .structure)
         ]
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let adminContact: ContactDetail?
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to update contact information for.
         public let domainName: String
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let registrantContact: ContactDetail?
-        /// Provides detailed contact information. Type: Complex Children: FirstName, MiddleName, LastName, ContactType, OrganizationName, AddressLine1, AddressLine2, City, State, CountryCode, ZipCode, PhoneNumber, Email, Fax, ExtraParams Required: Yes
+        /// Provides detailed contact information.
         public let techContact: ContactDetail?
 
         public init(adminContact: ContactDetail? = nil, domainName: String, registrantContact: ContactDetail? = nil, techContact: ContactDetail? = nil) {
@@ -1552,9 +1562,9 @@ extension Route53domains {
         ]
         /// The authorization key for .fi domains
         public let fIAuthKey: String?
-        /// A list of new name servers for the domain. Type: Complex Children: Name, GlueIps Required: Yes
+        /// A list of new name servers for the domain.
         public let nameservers: [Nameserver]
-        /// The name of a domain. Type: String Default: None Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported. Required: Yes
+        /// The name of the domain that you want to change name servers for.
         public let domainName: String
 
         public init(fIAuthKey: String? = nil, nameservers: [Nameserver], domainName: String) {
@@ -1578,7 +1588,7 @@ extension Route53domains {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OperationId", required: true, type: .string)
         ]
-        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail. Type: String Default: None Constraints: Maximum 255 characters.
+        /// Identifier for tracking the progress of the request. To use this ID to query the operation status, use GetOperationDetail.
         public let operationId: String
 
         public init(operationId: String) {

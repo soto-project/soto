@@ -734,39 +734,44 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeType", required: true, type: .enum), 
-            AWSShapeProperty(label: "environmentVariables", required: false, type: .list), 
             AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "image", required: true, type: .string)
+            AWSShapeProperty(label: "computeType", required: true, type: .enum), 
+            AWSShapeProperty(label: "image", required: true, type: .string), 
+            AWSShapeProperty(label: "environmentVariables", required: false, type: .list), 
+            AWSShapeProperty(label: "privilegedMode", required: false, type: .boolean)
         ]
-        /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
-        public let computeType: ComputeType
-        /// A set of environment variables to make available to builds for this build project.
-        public let environmentVariables: [EnvironmentVariable]?
         /// The type of build environment to use for related builds.
         public let `type`: EnvironmentType
+        /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
+        public let computeType: ComputeType
         /// The ID of the Docker image to use for this build project.
         public let image: String
+        /// A set of environment variables to make available to builds for this build project.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// If set to true, enables running the Docker daemon inside a Docker container; otherwise, false or not specified (the default). This value must be set to true only if this build project will be used to build Docker images, and the specified build environment image is not one provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon will fail. Note that you must also start the Docker daemon so that your builds can interact with it as needed. One way to do this is to initialize the Docker daemon in the install phase of your build spec by running the following build commands. (Do not run the following build commands if the specified build environment image is provided by AWS CodeBuild with Docker support.)  - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=vfs&amp; - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done" 
+        public let privilegedMode: Bool?
 
-        public init(computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, type: EnvironmentType, image: String) {
-            self.computeType = computeType
-            self.environmentVariables = environmentVariables
+        public init(type: EnvironmentType, computeType: ComputeType, image: String, environmentVariables: [EnvironmentVariable]? = nil, privilegedMode: Bool? = nil) {
             self.`type` = `type`
+            self.computeType = computeType
             self.image = image
+            self.environmentVariables = environmentVariables
+            self.privilegedMode = privilegedMode
         }
 
         public init(dictionary: [String: Any]) throws {
+            guard let rawtype = dictionary["type"] as? String, let `type` = EnvironmentType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
+            self.`type` = `type`
             guard let rawcomputeType = dictionary["computeType"] as? String, let computeType = ComputeType(rawValue: rawcomputeType) else { throw InitializableError.missingRequiredParam("computeType") }
             self.computeType = computeType
+            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
+            self.image = image
             if let environmentVariables = dictionary["environmentVariables"] as? [[String: Any]] {
                 self.environmentVariables = try environmentVariables.map({ try EnvironmentVariable(dictionary: $0) })
             } else { 
                 self.environmentVariables = nil
             }
-            guard let rawtype = dictionary["type"] as? String, let `type` = EnvironmentType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
-            self.image = image
+            self.privilegedMode = dictionary["privilegedMode"] as? Bool
         }
     }
 
@@ -1023,7 +1028,7 @@ extension Codebuild {
         ]
         /// The name or key of the environment variable.
         public let name: String
-        /// The value of the environment variable.
+        /// The value of the environment variable.  We strongly discourage using environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using tools such as the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). 
         public let value: String
 
         public init(name: String, value: String) {
@@ -1189,7 +1194,7 @@ extension Codebuild {
         ]
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
         public let buildspec: String?
-        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, instead of specifying a value here, you connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
+        /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page that displays, for Organization access, choose Request access next to each repository you want to allow AWS CodeBuild to have access to. Then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
         public let location: String?
         /// The type of repository that contains the source code to be built. Valid values include:    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
         public let `type`: SourceType

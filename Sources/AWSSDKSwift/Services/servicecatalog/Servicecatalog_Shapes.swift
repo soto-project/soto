@@ -29,6 +29,31 @@ import AWSSDKSwiftCore
 
 extension Servicecatalog {
 
+    public struct CreateTagOptionInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
+        /// The TagOption value.
+        public let value: String
+        /// The TagOption key.
+        public let key: String
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
+    }
+
     public struct DeletePortfolioShareInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -93,6 +118,7 @@ extension Servicecatalog {
         case fulltextsearch = "FullTextSearch"
         case owner = "Owner"
         case producttype = "ProductType"
+        case sourceproductid = "SourceProductId"
         public var description: String { return self.rawValue }
     }
 
@@ -124,24 +150,38 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptions", required: false, type: .list), 
+            AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "UsageInstructions", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisioningArtifactParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ConstraintSummaries", required: false, type: .list)
+            AWSShapeProperty(label: "ProvisioningArtifactParameters", required: false, type: .list)
         ]
+        /// List of TagOptions associated with the provisioned provisioning parameters.
+        public let tagOptions: [TagOptionSummary]?
+        /// The list of constraint summaries that apply to provisioning this product.
+        public let constraintSummaries: [ConstraintSummary]?
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
         /// The list of parameters used to successfully provision the product. Each parameter includes a list of allowable values and additional metadata about each parameter.
         public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
-        /// The list of constraint summaries that apply to provisioning this product.
-        public let constraintSummaries: [ConstraintSummary]?
 
-        public init(usageInstructions: [UsageInstruction]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, constraintSummaries: [ConstraintSummary]? = nil) {
+        public init(tagOptions: [TagOptionSummary]? = nil, constraintSummaries: [ConstraintSummary]? = nil, usageInstructions: [UsageInstruction]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil) {
+            self.tagOptions = tagOptions
+            self.constraintSummaries = constraintSummaries
             self.usageInstructions = usageInstructions
             self.provisioningArtifactParameters = provisioningArtifactParameters
-            self.constraintSummaries = constraintSummaries
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
+                self.tagOptions = try tagOptions.map({ try TagOptionSummary(dictionary: $0) })
+            } else { 
+                self.tagOptions = nil
+            }
+            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
+                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
+            } else { 
+                self.constraintSummaries = nil
+            }
             if let usageInstructions = dictionary["UsageInstructions"] as? [[String: Any]] {
                 self.usageInstructions = try usageInstructions.map({ try UsageInstruction(dictionary: $0) })
             } else { 
@@ -152,11 +192,30 @@ extension Servicecatalog {
             } else { 
                 self.provisioningArtifactParameters = nil
             }
-            if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
-                self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
-            } else { 
-                self.constraintSummaries = nil
-            }
+        }
+    }
+
+    public struct DescribeProvisionedProductInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
+        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        public let acceptLanguage: String?
+        /// The provisioned product identifier.
+        public let id: String
+
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
         }
     }
 
@@ -171,11 +230,11 @@ extension Servicecatalog {
         ]
         /// The text description of the provisioning artifact properties.
         public let description: String?
-        /// The type of the provisioning artifact properties.
+        /// The type of the provisioning artifact properties. The following provisioning artifact property types are used by AWS Marketplace products:  MARKETPLACE_AMI - AMI products.  MARKETPLACE_CAR - CAR (Cluster and AWS Resources) products.
         public let `type`: ProvisioningArtifactType?
         /// The name assigned to the provisioning artifact properties.
         public let name: String?
-        /// Additional information about the provisioning artifact properties.
+        /// Additional information about the provisioning artifact properties. When using this element in a request, you must specify LoadTemplateFromURL. For more information, see CreateProvisioningArtifact.
         public let info: [String: String]
 
         public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, info: [String: String]) {
@@ -198,20 +257,38 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptions", required: false, type: .list), 
+            AWSShapeProperty(label: "ProvisioningArtifactSummaries", required: false, type: .list), 
             AWSShapeProperty(label: "Tags", required: false, type: .list), 
             AWSShapeProperty(label: "ProductViewDetail", required: false, type: .structure)
         ]
+        /// List of TagOptions associated with the product.
+        public let tagOptions: [TagOptionDetail]?
+        /// A list of provisioning artifact summaries for the product.
+        public let provisioningArtifactSummaries: [ProvisioningArtifactSummary]?
         /// Tags associated with the product.
         public let tags: [Tag]?
         /// Detailed product view information.
         public let productViewDetail: ProductViewDetail?
 
-        public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
+        public init(tagOptions: [TagOptionDetail]? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
+            self.tagOptions = tagOptions
+            self.provisioningArtifactSummaries = provisioningArtifactSummaries
             self.tags = tags
             self.productViewDetail = productViewDetail
         }
 
         public init(dictionary: [String: Any]) throws {
+            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
+                self.tagOptions = try tagOptions.map({ try TagOptionDetail(dictionary: $0) })
+            } else { 
+                self.tagOptions = nil
+            }
+            if let provisioningArtifactSummaries = dictionary["ProvisioningArtifactSummaries"] as? [[String: Any]] {
+                self.provisioningArtifactSummaries = try provisioningArtifactSummaries.map({ try ProvisioningArtifactSummary(dictionary: $0) })
+            } else { 
+                self.provisioningArtifactSummaries = nil
+            }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
             } else { 
@@ -242,6 +319,45 @@ extension Servicecatalog {
             self.nextPageToken = dictionary["NextPageToken"] as? String
             self.accountIds = dictionary["AccountIds"] as? [String]
         }
+    }
+
+    public struct ListResourcesForTagOptionInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptionId", required: true, type: .string), 
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
+            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        ]
+        /// Identifier of the TagOption.
+        public let tagOptionId: String
+        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        public let pageSize: Int32?
+        /// Resource type.
+        public let resourceType: String?
+        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        public let pageToken: String?
+
+        public init(tagOptionId: String, pageSize: Int32? = nil, resourceType: String? = nil, pageToken: String? = nil) {
+            self.tagOptionId = tagOptionId
+            self.pageSize = pageSize
+            self.resourceType = resourceType
+            self.pageToken = pageToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
+            self.tagOptionId = tagOptionId
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.resourceType = dictionary["ResourceType"] as? String
+            self.pageToken = dictionary["PageToken"] as? String
+        }
+    }
+
+    public enum PrincipalType: String, CustomStringConvertible {
+        case iam = "IAM"
+        public var description: String { return self.rawValue }
     }
 
     public struct CreateProductOutput: AWSShape {
@@ -276,11 +392,6 @@ extension Servicecatalog {
         }
     }
 
-    public enum PrincipalType: String, CustomStringConvertible {
-        case iam = "IAM"
-        public var description: String { return self.rawValue }
-    }
-
     public struct UsageInstruction: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -301,6 +412,24 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.`type` = dictionary["Type"] as? String
             self.value = dictionary["Value"] as? String
+        }
+    }
+
+    public struct DescribeTagOptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// The resulting detailed TagOption information.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
         }
     }
 
@@ -334,30 +463,27 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribeProductViewOutput: AWSShape {
+    public struct DescribeConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
+            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
         ]
-        /// The summary metadata about the specified product.
-        public let productViewSummary: ProductViewSummary?
-        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
-        public let provisioningArtifacts: [ProvisioningArtifact]?
+        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        public let acceptLanguage: String?
+        /// The identifier of the constraint.
+        public let id: String
 
-        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
-            self.productViewSummary = productViewSummary
-            self.provisioningArtifacts = provisioningArtifacts
+        public init(acceptLanguage: String? = nil, id: String) {
+            self.acceptLanguage = acceptLanguage
+            self.id = id
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
-            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
-                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
-            } else { 
-                self.provisioningArtifacts = nil
-            }
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
         }
     }
 
@@ -388,27 +514,30 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribeConstraintInput: AWSShape {
+    public struct DescribeProductViewOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+            AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
+            AWSShapeProperty(label: "ProvisioningArtifacts", required: false, type: .list)
         ]
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public let acceptLanguage: String?
-        /// The identifier of the constraint.
-        public let id: String
+        /// The summary metadata about the specified product.
+        public let productViewSummary: ProductViewSummary?
+        /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
+        public let provisioningArtifacts: [ProvisioningArtifact]?
 
-        public init(acceptLanguage: String? = nil, id: String) {
-            self.acceptLanguage = acceptLanguage
-            self.id = id
+        public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
+            self.productViewSummary = productViewSummary
+            self.provisioningArtifacts = provisioningArtifacts
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
+            if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
+                self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
+            } else { 
+                self.provisioningArtifacts = nil
+            }
         }
     }
 
@@ -445,6 +574,31 @@ extension Servicecatalog {
         }
     }
 
+    public struct Tag: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: true, type: .string), 
+            AWSShapeProperty(label: "Key", required: true, type: .string)
+        ]
+        /// The desired value for this key.
+        public let value: String
+        /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
+        public let key: String
+
+        public init(value: String, key: String) {
+            self.value = value
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
+            self.value = value
+            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
+            self.key = key
+        }
+    }
+
     public struct UpdatePortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -469,31 +623,6 @@ extension Servicecatalog {
             } else { 
                 self.tags = nil
             }
-        }
-    }
-
-    public struct Tag: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
-        ]
-        /// The esired value for this key.
-        public let value: String
-        /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
-        public let key: String
-
-        public init(value: String, key: String) {
-            self.value = value
-            self.key = key
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
         }
     }
 
@@ -628,6 +757,29 @@ extension Servicecatalog {
             self.displayName = displayName
             guard let idempotencyToken = dictionary["IdempotencyToken"] as? String else { throw InitializableError.missingRequiredParam("IdempotencyToken") }
             self.idempotencyToken = idempotencyToken
+        }
+    }
+
+    public struct TagOptionSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "Values", required: false, type: .list)
+        ]
+        /// The TagOptionSummary key.
+        public let key: String?
+        /// The TagOptionSummary value.
+        public let values: [String]?
+
+        public init(key: String? = nil, values: [String]? = nil) {
+            self.key = key
+            self.values = values
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -847,7 +999,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "ProvisionedProductName", required: true, type: .string)
         ]
-        /// The provisioning artifact identifier for this product.
+        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -931,6 +1083,14 @@ extension Servicecatalog {
         }
     }
 
+    public enum ProvisionedProductStatus: String, CustomStringConvertible {
+        case available = "AVAILABLE"
+        case under_change = "UNDER_CHANGE"
+        case tainted = "TAINTED"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public struct CreateConstraintInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -947,11 +1107,11 @@ extension Servicecatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The constraint parameters.
+        /// The constraint parameters. Expected values vary depending on which Type is specified. For examples, see the bottom of this topic. For Type LAUNCH, the RoleArn property is required.  For Type NOTIFICATION, the NotificationArns property is required. For Type TEMPLATE, the Rules property is required.
         public let parameters: String
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
         public let idempotencyToken: String
-        /// The type of the constraint.
+        /// The type of the constraint. Case-sensitive valid values are: LAUNCH, NOTIFICATION, or TEMPLATE. 
         public let `type`: String
         /// The product identifier.
         public let productId: String
@@ -986,6 +1146,7 @@ extension Servicecatalog {
 
     public enum ProductType: String, CustomStringConvertible {
         case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
+        case marketplace = "MARKETPLACE"
         public var description: String { return self.rawValue }
     }
 
@@ -1051,13 +1212,13 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProductId", required: false, type: .string), 
             AWSShapeProperty(label: "ProvisionedProductName", required: false, type: .string)
         ]
-        /// The provisioning artifact identifier for this product.
+        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
-        /// The identifier of the ProvisionedProduct object to update. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The identifier of the ProvisionedProduct object to update. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
         public let provisionedProductId: String?
         /// The identifier of the path to use in the updated ProvisionedProduct object. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
         public let pathId: String?
@@ -1065,7 +1226,7 @@ extension Servicecatalog {
         public let provisioningParameters: [UpdateProvisioningParameter]?
         /// The identifier of the ProvisionedProduct object.
         public let productId: String?
-        /// The updated name of the ProvisionedProduct object . You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The updated name of the ProvisionedProduct object. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
         public let provisionedProductName: String?
 
         public init(provisioningArtifactId: String? = nil, acceptLanguage: String? = nil, updateToken: String, provisionedProductId: String? = nil, pathId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, productId: String? = nil, provisionedProductName: String? = nil) {
@@ -1280,7 +1441,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProductViewSummary", required: false, type: .structure), 
             AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp)
         ]
-        /// Current status of the product.
+        /// Current status of the product.  AVAILABLE - Product is available for use.  CREATING - Creation of product started, not ready for use.  FAILED - Action on product failed.
         public let status: Status?
         /// The ARN associated with the product.
         public let productARN: String?
@@ -1301,6 +1462,41 @@ extension Servicecatalog {
             self.productARN = dictionary["ProductARN"] as? String
             if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
             self.createdTime = dictionary["CreatedTime"] as? String
+        }
+    }
+
+    public struct DescribeProvisioningArtifactInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
+            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeProperty(label: "Verbose", required: false, type: .boolean), 
+            AWSShapeProperty(label: "ProductId", required: true, type: .string)
+        ]
+        /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
+        public let provisioningArtifactId: String
+        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        public let acceptLanguage: String?
+        /// Enable a verbose level of details for the provisioning artifact.
+        public let verbose: Bool?
+        /// The product identifier.
+        public let productId: String
+
+        public init(provisioningArtifactId: String, acceptLanguage: String? = nil, verbose: Bool? = nil, productId: String) {
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = acceptLanguage
+            self.verbose = verbose
+            self.productId = productId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
+            self.provisioningArtifactId = provisioningArtifactId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+            self.verbose = dictionary["Verbose"] as? Bool
+            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
+            self.productId = productId
         }
     }
 
@@ -1340,36 +1536,6 @@ extension Servicecatalog {
         }
     }
 
-    public struct DescribeProvisioningArtifactInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProvisioningArtifactId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProductId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The identifier of the provisioning artifact.
-        public let provisioningArtifactId: String
-        /// The product identifier.
-        public let productId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public let acceptLanguage: String?
-
-        public init(provisioningArtifactId: String, productId: String, acceptLanguage: String? = nil) {
-            self.provisioningArtifactId = provisioningArtifactId
-            self.productId = productId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
-            self.provisioningArtifactId = provisioningArtifactId
-            guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
-            self.productId = productId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-        }
-    }
-
     public struct UpdateConstraintOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1400,6 +1566,8 @@ extension Servicecatalog {
 
     public enum ProvisioningArtifactType: String, CustomStringConvertible {
         case cloud_formation_template = "CLOUD_FORMATION_TEMPLATE"
+        case marketplace_ami = "MARKETPLACE_AMI"
+        case marketplace_car = "MARKETPLACE_CAR"
         public var description: String { return self.rawValue }
     }
 
@@ -1564,7 +1732,7 @@ extension Servicecatalog {
         public let name: String?
         /// The UTC timestamp of the creation time.
         public let createdTime: String?
-        /// The identifier for the artifact.
+        /// The identifier for the artifact. This is sometimes referred to as the product version.
         public let id: String?
 
         public init(description: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
@@ -1575,6 +1743,66 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.name = dictionary["Name"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? String
+            self.id = dictionary["Id"] as? String
+        }
+    }
+
+    public struct DescribeProvisionedProductOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProvisionedProductDetail", required: false, type: .structure)
+        ]
+        /// Detailed provisioned product information.
+        public let provisionedProductDetail: ProvisionedProductDetail?
+
+        public init(provisionedProductDetail: ProvisionedProductDetail? = nil) {
+            self.provisionedProductDetail = provisionedProductDetail
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let provisionedProductDetail = dictionary["ProvisionedProductDetail"] as? [String: Any] { self.provisionedProductDetail = try Servicecatalog.ProvisionedProductDetail(dictionary: provisionedProductDetail) } else { self.provisionedProductDetail = nil }
+        }
+    }
+
+    public struct ProvisioningArtifactSummary: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ProvisioningArtifactMetadata", required: false, type: .map), 
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
+        /// The provisioning artifact metadata. This data is used with products created by AWS Marketplace.
+        public let provisioningArtifactMetadata: [String: String]?
+        /// The description of the provisioning artifact.
+        public let description: String?
+        /// The name of the provisioning artifact.
+        public let name: String?
+        /// The UTC timestamp of the creation time.
+        public let createdTime: String?
+        /// The identifier of the provisioning artifact.
+        public let id: String?
+
+        public init(provisioningArtifactMetadata: [String: String]? = nil, description: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+            self.provisioningArtifactMetadata = provisioningArtifactMetadata
+            self.description = description
+            self.name = name
+            self.createdTime = createdTime
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let provisioningArtifactMetadata = dictionary["ProvisioningArtifactMetadata"] as? [String: String] {
+                self.provisioningArtifactMetadata = provisioningArtifactMetadata
+            } else { 
+                self.provisioningArtifactMetadata = nil
+            }
             self.description = dictionary["Description"] as? String
             self.name = dictionary["Name"] as? String
             self.createdTime = dictionary["CreatedTime"] as? String
@@ -1603,7 +1831,7 @@ extension Servicecatalog {
         public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
-        /// The product identifier.. Identifies the product for which to retrieve LaunchPathSummaries information.
+        /// The product identifier. Identifies the product for which to retrieve LaunchPathSummaries information.
         public let productId: String
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
         public let pageToken: String?
@@ -1621,14 +1849,6 @@ extension Servicecatalog {
             guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
             self.productId = productId
             self.pageToken = dictionary["PageToken"] as? String
-        }
-    }
-
-    public struct DeleteConstraintOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -1671,6 +1891,61 @@ extension Servicecatalog {
                 self.productViewSummaries = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
+        }
+    }
+
+    public struct ListTagOptionsFilters: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "Active", required: false, type: .boolean)
+        ]
+        /// The ListTagOptionsFilters value.
+        public let value: String?
+        /// The ListTagOptionsFilters key.
+        public let key: String?
+        /// The ListTagOptionsFilters active state.
+        public let active: Bool?
+
+        public init(value: String? = nil, key: String? = nil, active: Bool? = nil) {
+            self.value = value
+            self.key = key
+            self.active = active
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.key = dictionary["Key"] as? String
+            self.active = dictionary["Active"] as? Bool
+        }
+    }
+
+    public struct DeleteConstraintOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct DescribeTagOptionInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
+        /// The identifier of the TagOption.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
         }
     }
 
@@ -1738,7 +2013,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
         ]
-        /// The identifier of the provisioning artifact for the delete request.
+        /// The identifier of the provisioning artifact for the delete request. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
         /// The product identifier.
         public let productId: String
@@ -1860,6 +2135,24 @@ extension Servicecatalog {
         }
     }
 
+    public struct CreateTagOptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// The resulting detailed TagOption information.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
+        }
+    }
+
     public struct DescribeProvisioningParametersInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1869,7 +2162,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProductId", required: true, type: .string), 
             AWSShapeProperty(label: "PathId", required: false, type: .string)
         ]
-        /// The provisioning artifact identifier for this product.
+        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -1942,6 +2235,44 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.value = dictionary["Value"] as? String
             self.approximateCount = dictionary["ApproximateCount"] as? Int32
+        }
+    }
+
+    public struct ResourceDetail: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Description", required: false, type: .string), 
+            AWSShapeProperty(label: "ARN", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
+        /// Description of the resource.
+        public let description: String?
+        /// ARN of the resource.
+        public let aRN: String?
+        /// Name of the resource.
+        public let name: String?
+        /// Creation time of the resource.
+        public let createdTime: String?
+        /// Identifier of the resource.
+        public let id: String?
+
+        public init(description: String? = nil, aRN: String? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
+            self.description = description
+            self.aRN = aRN
+            self.name = name
+            self.createdTime = createdTime
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.description = dictionary["Description"] as? String
+            self.aRN = dictionary["ARN"] as? String
+            self.name = dictionary["Name"] as? String
+            self.createdTime = dictionary["CreatedTime"] as? String
+            self.id = dictionary["Id"] as? String
         }
     }
 
@@ -2091,8 +2422,8 @@ extension Servicecatalog {
             AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
             AWSShapeProperty(label: "Id", required: false, type: .string)
         ]
-        /// The current status of the ProvisionedProduct.
-        public let status: RecordStatus?
+        /// The current status of the ProvisionedProduct.  AVAILABLE - Stable state, ready to perform any operation. The most recent action request succeeded and completed.  UNDER_CHANGE - Transitive state, operations performed may or may not have valid results. Wait for an AVAILABLE status before performing operations.  TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.   ERROR - Something unexpected happened such that the provisioned product exists but the stack is not running. For example, CloudFormation received an invalid parameter value and could not launch the stack.
+        public let status: ProvisionedProductStatus?
         /// The ARN associated with the ProvisionedProduct object.
         public let arn: String?
         /// The record identifier of the last request performed on this ProvisionedProduct object.
@@ -2110,7 +2441,7 @@ extension Servicecatalog {
         /// The identifier of the ProvisionedProduct object.
         public let id: String?
 
-        public init(status: RecordStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: String? = nil, id: String? = nil) {
+        public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: String? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.lastRecordId = lastRecordId
@@ -2123,7 +2454,7 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = RecordStatus(rawValue: status) } else { self.status = nil }
+            if let status = dictionary["Status"] as? String { self.status = ProvisionedProductStatus(rawValue: status) } else { self.status = nil }
             self.arn = dictionary["Arn"] as? String
             self.lastRecordId = dictionary["LastRecordId"] as? String
             self.name = dictionary["Name"] as? String
@@ -2174,6 +2505,33 @@ extension Servicecatalog {
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
+        }
+    }
+
+    public struct ListResourcesForTagOptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceDetails", required: false, type: .list), 
+            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        ]
+        /// The resulting detailed resource information.
+        public let resourceDetails: [ResourceDetail]?
+        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        public let pageToken: String?
+
+        public init(resourceDetails: [ResourceDetail]? = nil, pageToken: String? = nil) {
+            self.resourceDetails = resourceDetails
+            self.pageToken = pageToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let resourceDetails = dictionary["ResourceDetails"] as? [[String: Any]] {
+                self.resourceDetails = try resourceDetails.map({ try ResourceDetail(dictionary: $0) })
+            } else { 
+                self.resourceDetails = nil
+            }
+            self.pageToken = dictionary["PageToken"] as? String
         }
     }
 
@@ -2370,9 +2728,9 @@ extension Servicecatalog {
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the ProvisionedProduct object is terminated, further requests to terminate the same ProvisionedProduct object always return ResourceNotFound regardless of the value of TerminateToken.
         public let terminateToken: String
-        /// The identifier of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The identifier of the ProvisionedProduct object to terminate. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
         public let provisionedProductId: String?
-        /// The name of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
+        /// The name of the ProvisionedProduct object to terminate. Specify either ProvisionedProductName or ProvisionedProductId, but not both.
         public let provisionedProductName: String?
 
         public init(ignoreErrors: Bool? = nil, acceptLanguage: String? = nil, terminateToken: String, provisionedProductId: String? = nil, provisionedProductName: String? = nil) {
@@ -2417,7 +2775,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "Name", required: false, type: .string), 
             AWSShapeProperty(label: "Description", required: false, type: .string)
         ]
-        /// The identifier of the provisioning artifact for the update request.
+        /// The identifier of the provisioning artifact for the update request. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public let acceptLanguage: String?
@@ -2444,40 +2802,6 @@ extension Servicecatalog {
             self.productId = productId
             self.name = dictionary["Name"] as? String
             self.description = dictionary["Description"] as? String
-        }
-    }
-
-    public enum AccessLevelFilterKey: String, CustomStringConvertible {
-        case account = "Account"
-        case role = "Role"
-        case user = "User"
-        public var description: String { return self.rawValue }
-    }
-
-    public struct DescribePortfolioOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
-        ]
-        /// Detailed portfolio information.
-        public let portfolioDetail: PortfolioDetail?
-        /// Tags associated with the portfolio.
-        public let tags: [Tag]?
-
-        public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
-            self.portfolioDetail = portfolioDetail
-            self.tags = tags
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
         }
     }
 
@@ -2508,6 +2832,49 @@ extension Servicecatalog {
         }
     }
 
+    public struct DescribePortfolioOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PortfolioDetail", required: false, type: .structure), 
+            AWSShapeProperty(label: "Tags", required: false, type: .list), 
+            AWSShapeProperty(label: "TagOptions", required: false, type: .list)
+        ]
+        /// Detailed portfolio information.
+        public let portfolioDetail: PortfolioDetail?
+        /// Tags associated with the portfolio.
+        public let tags: [Tag]?
+        /// TagOptions associated with the portfolio.
+        public let tagOptions: [TagOptionDetail]?
+
+        public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil, tagOptions: [TagOptionDetail]? = nil) {
+            self.portfolioDetail = portfolioDetail
+            self.tags = tags
+            self.tagOptions = tagOptions
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
+            if let tags = dictionary["Tags"] as? [[String: Any]] {
+                self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
+            }
+            if let tagOptions = dictionary["TagOptions"] as? [[String: Any]] {
+                self.tagOptions = try tagOptions.map({ try TagOptionDetail(dictionary: $0) })
+            } else { 
+                self.tagOptions = nil
+            }
+        }
+    }
+
+    public enum AccessLevelFilterKey: String, CustomStringConvertible {
+        case account = "Account"
+        case role = "Role"
+        case user = "User"
+        public var description: String { return self.rawValue }
+    }
+
     public struct AccessLevelFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2528,6 +2895,39 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.value = dictionary["Value"] as? String
             if let key = dictionary["Key"] as? String { self.key = AccessLevelFilterKey(rawValue: key) } else { self.key = nil }
+        }
+    }
+
+    public struct TagOptionDetail: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Key", required: false, type: .string), 
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Active", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Id", required: false, type: .string)
+        ]
+        /// The TagOptionDetail key.
+        public let key: String?
+        /// The TagOptionDetail value.
+        public let value: String?
+        /// The TagOptionDetail active state.
+        public let active: Bool?
+        /// The TagOptionDetail identifier.
+        public let id: String?
+
+        public init(key: String? = nil, value: String? = nil, active: Bool? = nil, id: String? = nil) {
+            self.key = key
+            self.value = value
+            self.active = active
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? String
+            self.value = dictionary["Value"] as? String
+            self.active = dictionary["Active"] as? Bool
+            self.id = dictionary["Id"] as? String
         }
     }
 
@@ -2590,7 +2990,7 @@ extension Servicecatalog {
         public let productId: String?
         /// The description of the support for this Product.
         public let supportDescription: String?
-        /// The product type. Contact the product administrator for the significance of this value.
+        /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
         public let `type`: ProductType?
 
         public init(hasDefaultPath: Bool? = nil, shortDescription: String? = nil, id: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, supportUrl: String? = nil, owner: String? = nil, productId: String? = nil, supportDescription: String? = nil, type: ProductType? = nil) {
@@ -2623,34 +3023,12 @@ extension Servicecatalog {
     }
 
     public enum RecordStatus: String, CustomStringConvertible {
+        case created = "CREATED"
         case in_progress = "IN_PROGRESS"
+        case in_progress_in_error = "IN_PROGRESS_IN_ERROR"
         case succeeded = "SUCCEEDED"
-        case error = "ERROR"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
-    }
-
-    public struct RejectPortfolioShareInput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
-            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
-        ]
-        /// The portfolio identifier.
-        public let portfolioId: String
-        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public let acceptLanguage: String?
-
-        public init(portfolioId: String, acceptLanguage: String? = nil) {
-            self.portfolioId = portfolioId
-            self.acceptLanguage = acceptLanguage
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
-            self.portfolioId = portfolioId
-            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-        }
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSShape {
@@ -2682,6 +3060,57 @@ extension Servicecatalog {
             } else { 
                 self.info = nil
             }
+        }
+    }
+
+    public struct RejectPortfolioShareInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PortfolioId", required: true, type: .string), 
+            AWSShapeProperty(label: "AcceptLanguage", required: false, type: .string)
+        ]
+        /// The portfolio identifier.
+        public let portfolioId: String
+        /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
+        public let acceptLanguage: String?
+
+        public init(portfolioId: String, acceptLanguage: String? = nil) {
+            self.portfolioId = portfolioId
+            self.acceptLanguage = acceptLanguage
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
+            self.portfolioId = portfolioId
+            self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
+    }
+
+    public struct ListTagOptionsOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptionDetails", required: false, type: .list), 
+            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        ]
+        /// The resulting detailed TagOption information.
+        public let tagOptionDetails: [TagOptionDetail]?
+        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        public let pageToken: String?
+
+        public init(tagOptionDetails: [TagOptionDetail]? = nil, pageToken: String? = nil) {
+            self.tagOptionDetails = tagOptionDetails
+            self.pageToken = pageToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tagOptionDetails = dictionary["TagOptionDetails"] as? [[String: Any]] {
+                self.tagOptionDetails = try tagOptionDetails.map({ try TagOptionDetail(dictionary: $0) })
+            } else { 
+                self.tagOptionDetails = nil
+            }
+            self.pageToken = dictionary["PageToken"] as? String
         }
     }
 
@@ -2743,6 +3172,52 @@ extension Servicecatalog {
         }
     }
 
+    public struct ListTagOptionsInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "PageSize", required: false, type: .integer), 
+            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
+            AWSShapeProperty(label: "PageToken", required: false, type: .string)
+        ]
+        /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
+        public let pageSize: Int32?
+        /// The list of filters with which to limit search results. If no search filters are specified, the output is all TagOptions. 
+        public let filters: ListTagOptionsFilters?
+        /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
+        public let pageToken: String?
+
+        public init(pageSize: Int32? = nil, filters: ListTagOptionsFilters? = nil, pageToken: String? = nil) {
+            self.pageSize = pageSize
+            self.filters = filters
+            self.pageToken = pageToken
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.pageSize = dictionary["PageSize"] as? Int32
+            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Servicecatalog.ListTagOptionsFilters(dictionary: filters) } else { self.filters = nil }
+            self.pageToken = dictionary["PageToken"] as? String
+        }
+    }
+
+    public struct UpdateTagOptionOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "TagOptionDetail", required: false, type: .structure)
+        ]
+        /// The resulting detailed TagOption information.
+        public let tagOptionDetail: TagOptionDetail?
+
+        public init(tagOptionDetail: TagOptionDetail? = nil) {
+            self.tagOptionDetail = tagOptionDetail
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tagOptionDetail = dictionary["TagOptionDetail"] as? [String: Any] { self.tagOptionDetail = try Servicecatalog.TagOptionDetail(dictionary: tagOptionDetail) } else { self.tagOptionDetail = nil }
+        }
+    }
+
     public struct ProvisioningArtifactDetail: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2755,13 +3230,13 @@ extension Servicecatalog {
         ]
         /// The text description of the provisioning artifact.
         public let description: String?
-        /// The type of the provisioning artifact.
+        /// The type of the provisioning artifact. The following provisioning artifact types are used by AWS Marketplace products:  MARKETPLACE_AMI - AMI products.  MARKETPLACE_CAR - CAR (Cluster and AWS Resources) products.
         public let `type`: ProvisioningArtifactType?
         /// The name assigned to the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
         public let createdTime: String?
-        /// The identifier of the provisioning artifact.
+        /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
         public let id: String?
 
         public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: String? = nil, id: String? = nil) {
@@ -2778,6 +3253,14 @@ extension Servicecatalog {
             self.name = dictionary["Name"] as? String
             self.createdTime = dictionary["CreatedTime"] as? String
             self.id = dictionary["Id"] as? String
+        }
+    }
+
+    public struct AssociateTagOptionWithResourceOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -2850,6 +3333,14 @@ extension Servicecatalog {
         }
     }
 
+    public struct DeleteProductOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
     public struct ListPortfoliosOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2874,14 +3365,6 @@ extension Servicecatalog {
                 self.portfolioDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
-        }
-    }
-
-    public struct DeleteProductOutput: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -2980,7 +3463,7 @@ extension Servicecatalog {
             AWSShapeProperty(label: "ProvisionedProductType", required: false, type: .string), 
             AWSShapeProperty(label: "RecordTags", required: false, type: .list)
         ]
-        /// The provisioning artifact identifier for this product.
+        /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
         /// The time when the record for the ProvisionedProduct object was last updated.
         public let updatedTime: String?
@@ -2994,7 +3477,7 @@ extension Servicecatalog {
         public let createdTime: String?
         /// A list of errors that occurred while processing the request.
         public let recordErrors: [RecordError]?
-        /// The status of the ProvisionedProduct object.
+        /// The status of the ProvisionedProduct object.  CREATED - Request created but the operation has not yet started.  IN_PROGRESS - The requested operation is in-progress.  IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.  SUCCEEDED - The requested operation has successfully completed.  FAILED - The requested operation has completed but has failed. Investigate using the error messages returned.
         public let status: RecordStatus?
         /// The identifier of the ProvisionedProduct object.
         public let provisionedProductId: String?
@@ -3077,6 +3560,64 @@ extension Servicecatalog {
             } else { 
                 self.info = nil
             }
+        }
+    }
+
+    public struct DisassociateTagOptionFromResourceInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagOptionId", required: true, type: .string)
+        ]
+        /// Identifier of the resource from which to disassociate the TagOption.
+        public let resourceId: String
+        /// Identifier of the TagOption to disassociate from the resource.
+        public let tagOptionId: String
+
+        public init(resourceId: String, tagOptionId: String) {
+            self.resourceId = resourceId
+            self.tagOptionId = tagOptionId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
+            self.tagOptionId = tagOptionId
+        }
+    }
+
+    public struct AssociateTagOptionWithResourceInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
+            AWSShapeProperty(label: "TagOptionId", required: true, type: .string)
+        ]
+        /// The resource identifier.
+        public let resourceId: String
+        /// The TagOption identifier.
+        public let tagOptionId: String
+
+        public init(resourceId: String, tagOptionId: String) {
+            self.resourceId = resourceId
+            self.tagOptionId = tagOptionId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
+            self.resourceId = resourceId
+            guard let tagOptionId = dictionary["TagOptionId"] as? String else { throw InitializableError.missingRequiredParam("TagOptionId") }
+            self.tagOptionId = tagOptionId
+        }
+    }
+
+    public struct DisassociateTagOptionFromResourceOutput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -3393,7 +3934,7 @@ extension Servicecatalog {
         public let status: Status?
         /// The resulting detailed provisioning artifact information.
         public let provisioningArtifactDetail: ProvisioningArtifactDetail?
-        /// Additional information about the provisioning artifact create request.
+        /// Additional information about the creation request for the provisioning artifact.
         public let info: [String: String]?
 
         public init(status: Status? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
@@ -3434,6 +3975,35 @@ extension Servicecatalog {
             guard let portfolioId = dictionary["PortfolioId"] as? String else { throw InitializableError.missingRequiredParam("PortfolioId") }
             self.portfolioId = portfolioId
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
+        }
+    }
+
+    public struct UpdateTagOptionInput: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Value", required: false, type: .string), 
+            AWSShapeProperty(label: "Active", required: false, type: .boolean), 
+            AWSShapeProperty(label: "Id", required: true, type: .string)
+        ]
+        /// The updated value.
+        public let value: String?
+        /// The updated active state.
+        public let active: Bool?
+        /// The identifier of the constraint to update.
+        public let id: String
+
+        public init(value: String? = nil, active: Bool? = nil, id: String) {
+            self.value = value
+            self.active = active
+            self.id = id
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.value = dictionary["Value"] as? String
+            self.active = dictionary["Active"] as? Bool
+            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
+            self.id = id
         }
     }
 

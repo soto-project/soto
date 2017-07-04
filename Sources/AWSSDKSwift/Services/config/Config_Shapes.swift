@@ -224,7 +224,7 @@ extension Config {
         public let messageType: MessageType?
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
         public let eventSource: EventSource?
-        /// The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.
+        /// The frequency that you want AWS Config to run evaluations for a custom rule with a periodic trigger. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
 
         public init(messageType: MessageType? = nil, eventSource: EventSource? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil) {
@@ -335,6 +335,7 @@ extension Config {
         public let s3KeyPrefix: String?
         /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
         public let name: String?
+        /// The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
         public let configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties?
         /// The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files. If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
         public let s3BucketName: String?
@@ -364,6 +365,7 @@ extension Config {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ConfigRule", required: true, type: .structure)
         ]
+        /// The rule that you want to add to your account.
         public let configRule: ConfigRule
 
         public init(configRule: ConfigRule) {
@@ -622,6 +624,7 @@ extension Config {
         case aws__redshift__clustersecuritygroup = "AWS::Redshift::ClusterSecurityGroup"
         case aws__redshift__clustersubnetgroup = "AWS::Redshift::ClusterSubnetGroup"
         case aws__redshift__eventsubscription = "AWS::Redshift::EventSubscription"
+        case aws__cloudwatch__alarm = "AWS::CloudWatch::Alarm"
         public var description: String { return self.rawValue }
     }
 
@@ -1022,7 +1025,7 @@ extension Config {
         public let source: Source
         /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
         public let scope: Scope?
-        /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot.   For more information, see ConfigSnapshotDeliveryProperties.
+        /// The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:   You are using an AWS managed rule that is triggered at a periodic frequency.   Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.    By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. 
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
         /// The description that you provide for the AWS Config rule.
         public let description: String?

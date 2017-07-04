@@ -959,7 +959,7 @@ extension Kms {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "Plaintext", required: false, type: .blob)
         ]
-        /// The unpredictable byte string.
+        /// The random byte string.
         public let plaintext: Data?
 
         public init(plaintext: Data? = nil) {
@@ -991,11 +991,11 @@ extension Kms {
         public let name: String?
         /// A list of operations that the grant permits.
         public let operations: [GrantOperation]?
-        /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
+        /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
         public let granteePrincipal: String
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// The conditions under which the operations permitted by the grant are allowed. You can use this value to allow the operations permitted by the grant only when a specified encryption context is present. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
+        /// A structure that you can use to allow certain operations in the grant only when the desired encryption context is present. For more information about encryption context, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let constraints: GrantConstraints?
 
         public init(keyId: String, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, granteePrincipal: String, grantTokens: [String]? = nil, constraints: GrantConstraints? = nil) {
@@ -1443,7 +1443,7 @@ extension Kms {
         public let creationDate: String?
         /// The principal that receives the grant's permissions.
         public let granteePrincipal: String?
-        /// The conditions under which the grant's operations are allowed.
+        /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
         public let constraints: GrantConstraints?
 
         public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: String? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
@@ -1507,9 +1507,9 @@ extension Kms {
             AWSShapeProperty(label: "EncryptionContextSubset", required: false, type: .map), 
             AWSShapeProperty(label: "EncryptionContextEquals", required: false, type: .map)
         ]
-        /// Contains a list of key-value pairs, a subset of which must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list or is a subset of this list, the grant allows the operation. Otherwise, the operation is not allowed.
+        /// A list of key-value pairs, all of which must be present in the encryption context of certain subsequent operations that the grant allows. When certain subsequent operations allowed by the grant include encryption context that matches this list or is a superset of this list, the grant allows the operation. Otherwise, the grant does not allow the operation.
         public let encryptionContextSubset: [String: String]?
-        /// Contains a list of key-value pairs that must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list, the grant allows the operation. Otherwise, the operation is not allowed.
+        /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows. When certain subsequent operations allowed by the grant include encryption context that matches this list, the grant allows the operation. Otherwise, the grant does not allow the operation.
         public let encryptionContextEquals: [String: String]?
 
         public init(encryptionContextSubset: [String: String]? = nil, encryptionContextEquals: [String: String]? = nil) {

@@ -29,6 +29,37 @@ import AWSSDKSwiftCore
 
 extension Events {
 
+    public struct PutPermissionRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Principal", required: true, type: .string), 
+            AWSShapeProperty(label: "Action", required: true, type: .string), 
+            AWSShapeProperty(label: "StatementId", required: true, type: .string)
+        ]
+        /// The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*", avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
+        public let principal: String
+        /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
+        public let action: String
+        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        public let statementId: String
+
+        public init(principal: String, action: String, statementId: String) {
+            self.principal = principal
+            self.action = action
+            self.statementId = statementId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let principal = dictionary["Principal"] as? String else { throw InitializableError.missingRequiredParam("Principal") }
+            self.principal = principal
+            guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
+            self.action = action
+            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
+            self.statementId = statementId
+        }
+    }
+
     public struct InputTransformer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -38,7 +69,7 @@ extension Events {
         ]
         /// Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
         public let inputTemplate: String
-        /// Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path.
+        /// Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path. You must use JSON dot notation, not bracket notation.
         public let inputPathsMap: [String: String]?
 
         public init(inputTemplate: String, inputPathsMap: [String: String]? = nil) {
@@ -84,6 +115,34 @@ extension Events {
         }
     }
 
+    public struct DescribeEventBusResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Policy", required: false, type: .string), 
+            AWSShapeProperty(label: "Name", required: false, type: .string), 
+            AWSShapeProperty(label: "Arn", required: false, type: .string)
+        ]
+        /// The policy that enables the external account to send events to your account.
+        public let policy: String?
+        /// The name of the event bus. Currently, this is always default.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
+        public let arn: String?
+
+        public init(policy: String? = nil, name: String? = nil, arn: String? = nil) {
+            self.policy = policy
+            self.name = name
+            self.arn = arn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.policy = dictionary["Policy"] as? String
+            self.name = dictionary["Name"] as? String
+            self.arn = dictionary["Arn"] as? String
+        }
+    }
+
     public struct Rule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -102,7 +161,7 @@ extension Events {
         public let state: RuleState?
         /// The name of the rule.
         public let name: String?
-        /// The event pattern of the rule.
+        /// The event pattern of the rule. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
         public let eventPattern: String?
         /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
         public let roleArn: String?
@@ -152,9 +211,9 @@ extension Events {
         public let inputTransformer: InputTransformer?
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
-        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
+        /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. You must use JSON dot notation, not bracket notation. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?
-        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see JSONPath.
+        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath.
         public let inputPath: String?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
@@ -220,7 +279,7 @@ extension Events {
         ]
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
-        /// The event pattern.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
         public let eventPattern: String
 
         public init(event: String, eventPattern: String) {
@@ -303,11 +362,11 @@ extension Events {
         ]
         /// A description of the rule.
         public let description: String?
-        /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
+        /// The scheduling expression. For example, "cron(0 20 * * ? *)" or "rate(5 minutes)".
         public let scheduleExpression: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
-        /// The event pattern.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
         public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
         public let name: String
@@ -417,7 +476,7 @@ extension Events {
         public let state: RuleState?
         /// The name of the rule.
         public let name: String?
-        /// The event pattern.
+        /// The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide.
         public let eventPattern: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         public let roleArn: String?
@@ -444,6 +503,14 @@ extension Events {
             self.roleArn = dictionary["RoleArn"] as? String
             self.scheduleExpression = dictionary["ScheduleExpression"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct DescribeEventBusRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -476,7 +543,7 @@ extension Events {
         ]
         /// The error message that explains why the target removal failed.
         public let errorMessage: String?
-        /// The error code that indicates why the target removal failed.
+        /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The ID of the target.
         public let targetId: String?
@@ -529,6 +596,25 @@ extension Events {
             self.source = dictionary["Source"] as? String
             self.time = dictionary["Time"] as? String
             self.resources = dictionary["Resources"] as? [String]
+        }
+    }
+
+    public struct RemovePermissionRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "StatementId", required: true, type: .string)
+        ]
+        /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
+        public let statementId: String
+
+        public init(statementId: String) {
+            self.statementId = statementId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let statementId = dictionary["StatementId"] as? String else { throw InitializableError.missingRequiredParam("StatementId") }
+            self.statementId = statementId
         }
     }
 
@@ -610,7 +696,7 @@ extension Events {
         ]
         /// The error message that explains why the target addition failed.
         public let errorMessage: String?
-        /// The error code that indicates why the target addition failed.
+        /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The ID of the target.
         public let targetId: String?

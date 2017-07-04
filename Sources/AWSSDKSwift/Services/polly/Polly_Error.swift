@@ -34,6 +34,8 @@ public enum PollyError: AWSErrorType {
     case textLengthExceededException(message: String?)
     case invalidSampleRateException(message: String?)
     case invalidSsmlException(message: String?)
+    case marksNotSupportedForFormatException(message: String?)
+    case ssmlMarksNotSupportedForTextTypeException(message: String?)
     case invalidLexiconException(message: String?)
     case unsupportedPlsAlphabetException(message: String?)
     case unsupportedPlsLanguageException(message: String?)
@@ -61,6 +63,10 @@ extension PollyError {
             self = .invalidSampleRateException(message: message)
         case "InvalidSsmlException":
             self = .invalidSsmlException(message: message)
+        case "MarksNotSupportedForFormatException":
+            self = .marksNotSupportedForFormatException(message: message)
+        case "SsmlMarksNotSupportedForTextTypeException":
+            self = .ssmlMarksNotSupportedForTextTypeException(message: message)
         case "InvalidLexiconException":
             self = .invalidLexiconException(message: message)
         case "UnsupportedPlsAlphabetException":

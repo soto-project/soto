@@ -62,6 +62,31 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct CloudWatchLoggingOption: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LogStreamARN", required: true, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        ]
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARN: String
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
+        public let roleARN: String
+
+        public init(logStreamARN: String, roleARN: String) {
+            self.logStreamARN = logStreamARN
+            self.roleARN = roleARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let logStreamARN = dictionary["LogStreamARN"] as? String else { throw InitializableError.missingRequiredParam("LogStreamARN") }
+            self.logStreamARN = logStreamARN
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
+    }
+
     public struct InputParallelismUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -124,9 +149,9 @@ extension Kinesisanalytics {
             AWSShapeProperty(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
             AWSShapeProperty(label: "InputSchemaUpdate", required: false, type: .structure)
         ]
-        /// Name prefix for in-application stream(s) that Kinesis Analytics creates for the specific streaming source.
+        /// Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.
         public let namePrefixUpdate: String?
-        /// Describes the parallelism updates (the number in-application streams Kinesis Analytics creates for the specific streaming source).
+        /// Describes the parallelism updates (the number in-application streams Amazon Kinesis Analytics creates for the specific streaming source).
         public let inputParallelismUpdate: InputParallelismUpdate?
         /// Input ID of the application input to be updated.
         public let inputId: String
@@ -398,7 +423,7 @@ extension Kinesisanalytics {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "InputStartingPosition", required: false, type: .enum)
         ]
-        /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
+        /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
 
         public init(inputStartingPosition: InputStartingPosition? = nil) {
@@ -477,6 +502,7 @@ extension Kinesisanalytics {
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
             AWSShapeProperty(label: "Outputs", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string)
         ]
         /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
@@ -485,16 +511,19 @@ extension Kinesisanalytics {
         public let applicationName: String
         /// You can configure application output to write data from any of the in-application streams to up to five destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, or both. In the configuration, you specify the in-application stream name, the destination stream Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. In the output configuration, you also provide the output stream Amazon Resource Name (ARN) and the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to this stream on your behalf.
         public let outputs: [Output]?
-        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads input data and generates a running average of the number of advertisement clicks by vendor. You can also provide a series of SQL statements, where output of one statement can be used as the input for the next statement. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
+        /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more inforamtion about the typical pattern, see Application Code.  You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
         public let applicationCode: String?
+        /// Use this parameter to configure a CloudWatch log stream to monitor application configuration errors. For more information, see Monitoring Configuration Errors.
+        public let cloudWatchLoggingOptions: [CloudWatchLoggingOption]?
         /// Summary description of the application.
         public let applicationDescription: String?
 
-        public init(inputs: [Input]? = nil, applicationName: String, outputs: [Output]? = nil, applicationCode: String? = nil, applicationDescription: String? = nil) {
+        public init(inputs: [Input]? = nil, applicationName: String, outputs: [Output]? = nil, applicationCode: String? = nil, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, applicationDescription: String? = nil) {
             self.inputs = inputs
             self.applicationName = applicationName
             self.outputs = outputs
             self.applicationCode = applicationCode
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.applicationDescription = applicationDescription
         }
 
@@ -512,6 +541,11 @@ extension Kinesisanalytics {
                 self.outputs = nil
             }
             self.applicationCode = dictionary["ApplicationCode"] as? String
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [[String: Any]] {
+                self.cloudWatchLoggingOptions = try cloudWatchLoggingOptions.map({ try CloudWatchLoggingOption(dictionary: $0) })
+            } else { 
+                self.cloudWatchLoggingOptions = nil
+            }
             self.applicationDescription = dictionary["ApplicationDescription"] as? String
         }
     }
@@ -559,14 +593,6 @@ extension Kinesisanalytics {
         }
     }
 
-    public struct StopApplicationResponse: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-
-        public init(dictionary: [String: Any]) throws {
-        }
-    }
-
     public struct DiscoverInputSchemaRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -595,6 +621,14 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
             guard let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStartingPositionConfiguration") }
             self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration)
+        }
+    }
+
+    public struct StopApplicationResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
         }
     }
 
@@ -731,6 +765,31 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct CSVMappingParameters: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RecordRowDelimiter", required: true, type: .string), 
+            AWSShapeProperty(label: "RecordColumnDelimiter", required: true, type: .string)
+        ]
+        /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
+        public let recordRowDelimiter: String
+        /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
+        public let recordColumnDelimiter: String
+
+        public init(recordRowDelimiter: String, recordColumnDelimiter: String) {
+            self.recordRowDelimiter = recordRowDelimiter
+            self.recordColumnDelimiter = recordColumnDelimiter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let recordRowDelimiter = dictionary["RecordRowDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordRowDelimiter") }
+            self.recordRowDelimiter = recordRowDelimiter
+            guard let recordColumnDelimiter = dictionary["RecordColumnDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordColumnDelimiter") }
+            self.recordColumnDelimiter = recordColumnDelimiter
+        }
+    }
+
     public struct AddApplicationOutputRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -759,31 +818,6 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
             guard let output = dictionary["Output"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Output") }
             self.output = try Kinesisanalytics.Output(dictionary: output)
-        }
-    }
-
-    public struct CSVMappingParameters: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordRowDelimiter", required: true, type: .string), 
-            AWSShapeProperty(label: "RecordColumnDelimiter", required: true, type: .string)
-        ]
-        /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
-        public let recordRowDelimiter: String
-        /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
-        public let recordColumnDelimiter: String
-
-        public init(recordRowDelimiter: String, recordColumnDelimiter: String) {
-            self.recordRowDelimiter = recordRowDelimiter
-            self.recordColumnDelimiter = recordColumnDelimiter
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let recordRowDelimiter = dictionary["RecordRowDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordRowDelimiter") }
-            self.recordRowDelimiter = recordRowDelimiter
-            guard let recordColumnDelimiter = dictionary["RecordColumnDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordColumnDelimiter") }
-            self.recordColumnDelimiter = recordColumnDelimiter
         }
     }
 
@@ -824,7 +858,7 @@ extension Kinesisanalytics {
         public let kinesisFirehoseInput: KinesisFirehoseInput?
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
         public let inputSchema: SourceSchema
-        /// Name prefix to use when creating in-application stream. Suppose you specify a prefix "MyInApplicationStream". Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001", "MyInApplicationStream_002" and so on. 
+        /// Name prefix to use when creating in-application stream. Suppose you specify a prefix "MyInApplicationStream". Amazon Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001", "MyInApplicationStream_002" and so on. 
         public let namePrefix: String
         /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisStreamsInput: KinesisStreamsInput?
@@ -1024,6 +1058,55 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct CloudWatchLoggingOptionDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "LogStreamARN", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        ]
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARN: String
+        /// ID of the CloudWatch logging option description.
+        public let cloudWatchLoggingOptionId: String?
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
+        public let roleARN: String
+
+        public init(logStreamARN: String, cloudWatchLoggingOptionId: String? = nil, roleARN: String) {
+            self.logStreamARN = logStreamARN
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.roleARN = roleARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let logStreamARN = dictionary["LogStreamARN"] as? String else { throw InitializableError.missingRequiredParam("LogStreamARN") }
+            self.logStreamARN = logStreamARN
+            self.cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String
+            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
+            self.roleARN = roleARN
+        }
+    }
+
+    public struct DescribeApplicationRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// Name of the application.
+        public let applicationName: String
+
+        public init(applicationName: String) {
+            self.applicationName = applicationName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+        }
+    }
+
     public struct KinesisStreamsInputUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1044,25 +1127,6 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
             self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
-        }
-    }
-
-    public struct DescribeApplicationRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
-        ]
-        /// Name of the application.
-        public let applicationName: String
-
-        public init(applicationName: String) {
-            self.applicationName = applicationName
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
         }
     }
 
@@ -1100,50 +1164,54 @@ extension Kinesisanalytics {
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "InputDescriptions", required: false, type: .list), 
             AWSShapeProperty(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeProperty(label: "InputDescriptions", required: false, type: .list), 
             AWSShapeProperty(label: "CreateTimestamp", required: false, type: .timestamp), 
             AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
             AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeProperty(label: "OutputDescriptions", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
             AWSShapeProperty(label: "ApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "OutputDescriptions", required: false, type: .list), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
             AWSShapeProperty(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
         ]
         /// Description of the application.
         public let applicationDescription: String?
         /// Status of the application.
         public let applicationStatus: ApplicationStatus
-        /// Describes the application input configuration. For more information, see Configuring Application Input. 
-        public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application was last updated.
         public let lastUpdateTimestamp: String?
+        /// Describes the application input configuration. For more information, see Configuring Application Input. 
+        public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application version was created.
         public let createTimestamp: String?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
         public let applicationCode: String?
         /// Name of the application.
         public let applicationName: String
+        /// Describes the application output configuration. For more information, see Configuring Application Output. 
+        public let outputDescriptions: [OutputDescription]?
         /// ARN of the application.
         public let applicationARN: String
         /// Provides the current application version.
         public let applicationVersionId: Int64
-        /// Describes the application output configuration. For more information, see Configuring Application Output. 
-        public let outputDescriptions: [OutputDescription]?
+        /// Describes the CloudWatch log streams configured to receive application messages. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Monitoring Configuration Errors. 
+        public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: String? = nil, createTimestamp: String? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, lastUpdateTimestamp: String? = nil, inputDescriptions: [InputDescription]? = nil, createTimestamp: String? = nil, applicationCode: String? = nil, applicationName: String, outputDescriptions: [OutputDescription]? = nil, applicationARN: String, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationStatus = applicationStatus
-            self.inputDescriptions = inputDescriptions
             self.lastUpdateTimestamp = lastUpdateTimestamp
+            self.inputDescriptions = inputDescriptions
             self.createTimestamp = createTimestamp
             self.applicationCode = applicationCode
             self.applicationName = applicationName
+            self.outputDescriptions = outputDescriptions
             self.applicationARN = applicationARN
             self.applicationVersionId = applicationVersionId
-            self.outputDescriptions = outputDescriptions
+            self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
             self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
         }
 
@@ -1151,24 +1219,29 @@ extension Kinesisanalytics {
             self.applicationDescription = dictionary["ApplicationDescription"] as? String
             guard let rawApplicationStatus = dictionary["ApplicationStatus"] as? String, let applicationStatus = ApplicationStatus(rawValue: rawApplicationStatus) else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
             self.applicationStatus = applicationStatus
+            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
             if let inputDescriptions = dictionary["InputDescriptions"] as? [[String: Any]] {
                 self.inputDescriptions = try inputDescriptions.map({ try InputDescription(dictionary: $0) })
             } else { 
                 self.inputDescriptions = nil
             }
-            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
             self.createTimestamp = dictionary["CreateTimestamp"] as? String
             self.applicationCode = dictionary["ApplicationCode"] as? String
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
-            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
-            self.applicationARN = applicationARN
-            guard let applicationVersionId = dictionary["ApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("ApplicationVersionId") }
-            self.applicationVersionId = applicationVersionId
             if let outputDescriptions = dictionary["OutputDescriptions"] as? [[String: Any]] {
                 self.outputDescriptions = try outputDescriptions.map({ try OutputDescription(dictionary: $0) })
             } else { 
                 self.outputDescriptions = nil
+            }
+            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
+            self.applicationARN = applicationARN
+            guard let applicationVersionId = dictionary["ApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("ApplicationVersionId") }
+            self.applicationVersionId = applicationVersionId
+            if let cloudWatchLoggingOptionDescriptions = dictionary["CloudWatchLoggingOptionDescriptions"] as? [[String: Any]] {
+                self.cloudWatchLoggingOptionDescriptions = try cloudWatchLoggingOptionDescriptions.map({ try CloudWatchLoggingOptionDescription(dictionary: $0) })
+            } else { 
+                self.cloudWatchLoggingOptionDescriptions = nil
             }
             if let referenceDataSourceDescriptions = dictionary["ReferenceDataSourceDescriptions"] as? [[String: Any]] {
                 self.referenceDataSourceDescriptions = try referenceDataSourceDescriptions.map({ try ReferenceDataSourceDescription(dictionary: $0) })
@@ -1217,24 +1290,6 @@ extension Kinesisanalytics {
         public var description: String { return self.rawValue }
     }
 
-    public struct InputParallelism: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
-        ]
-        /// Number of in-application streams to create. For more information, see Limits. 
-        public let count: Int32?
-
-        public init(count: Int32? = nil) {
-            self.count = count
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.count = dictionary["Count"] as? Int32
-        }
-    }
-
     public struct KinesisStreamsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1257,6 +1312,24 @@ extension Kinesisanalytics {
             self.resourceARN = resourceARN
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
+        }
+    }
+
+    public struct InputParallelism: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "Count", required: false, type: .integer)
+        ]
+        /// Number of in-application streams to create. For more information, see Limits. 
+        public let count: Int32?
+
+        public init(count: Int32? = nil) {
+            self.count = count
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.count = dictionary["Count"] as? Int32
         }
     }
 
@@ -1300,6 +1373,35 @@ extension Kinesisanalytics {
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
             if let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] { self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema) } else { self.referenceSchema = nil }
+        }
+    }
+
+    public struct CloudWatchLoggingOptionUpdate: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeProperty(label: "LogStreamARNUpdate", required: false, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: true, type: .string)
+        ]
+        /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
+        public let roleARNUpdate: String?
+        /// ARN of the CloudWatch log to receive application messages.
+        public let logStreamARNUpdate: String?
+        /// ID of the CloudWatch logging option to update
+        public let cloudWatchLoggingOptionId: String
+
+        public init(roleARNUpdate: String? = nil, logStreamARNUpdate: String? = nil, cloudWatchLoggingOptionId: String) {
+            self.roleARNUpdate = roleARNUpdate
+            self.logStreamARNUpdate = logStreamARNUpdate
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
+            self.logStreamARNUpdate = dictionary["LogStreamARNUpdate"] as? String
+            guard let cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOptionId") }
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
         }
     }
 
@@ -1407,34 +1509,42 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeProperty(label: "CloudWatchLoggingOption", required: true, type: .structure)
+        ]
+        /// The version ID of the Amazon Kinesis Analytics application.
+        public let currentApplicationVersionId: Int64
+        /// The Amazon Kinesis Analytics application name.
+        public let applicationName: String
+        /// Provide the CloudWatch log stream ARN and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled. 
+        public let cloudWatchLoggingOption: CloudWatchLoggingOption
+
+        public init(currentApplicationVersionId: Int64, applicationName: String, cloudWatchLoggingOption: CloudWatchLoggingOption) {
+            self.currentApplicationVersionId = currentApplicationVersionId
+            self.applicationName = applicationName
+            self.cloudWatchLoggingOption = cloudWatchLoggingOption
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
+            guard let cloudWatchLoggingOption = dictionary["CloudWatchLoggingOption"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOption") }
+            self.cloudWatchLoggingOption = try Kinesisanalytics.CloudWatchLoggingOption(dictionary: cloudWatchLoggingOption)
+        }
+    }
+
     public struct StartApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
-        }
-    }
-
-    public struct KinesisStreamsOutputDescription: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
-        ]
-        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        public let resourceARN: String?
-        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public let roleARN: String?
-
-        public init(resourceARN: String? = nil, roleARN: String? = nil) {
-            self.resourceARN = resourceARN
-            self.roleARN = roleARN
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
         }
     }
 
@@ -1469,17 +1579,28 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct AddApplicationCloudWatchLoggingOptionResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
     public struct ApplicationUpdate: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "OutputUpdates", required: false, type: .list), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
             AWSShapeProperty(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
             AWSShapeProperty(label: "ApplicationCodeUpdate", required: false, type: .string), 
             AWSShapeProperty(label: "InputUpdates", required: false, type: .list)
         ]
         /// Describes application output configuration updates.
         public let outputUpdates: [OutputUpdate]?
+        /// Describes application CloudWatch logging option updates.
+        public let cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]?
         /// Describes application reference data source updates.
         public let referenceDataSourceUpdates: [ReferenceDataSourceUpdate]?
         /// Describes application code updates.
@@ -1487,8 +1608,9 @@ extension Kinesisanalytics {
         /// Describes application input configuration updates.
         public let inputUpdates: [InputUpdate]?
 
-        public init(outputUpdates: [OutputUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil, applicationCodeUpdate: String? = nil, inputUpdates: [InputUpdate]? = nil) {
+        public init(outputUpdates: [OutputUpdate]? = nil, cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil, applicationCodeUpdate: String? = nil, inputUpdates: [InputUpdate]? = nil) {
             self.outputUpdates = outputUpdates
+            self.cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates
             self.referenceDataSourceUpdates = referenceDataSourceUpdates
             self.applicationCodeUpdate = applicationCodeUpdate
             self.inputUpdates = inputUpdates
@@ -1499,6 +1621,11 @@ extension Kinesisanalytics {
                 self.outputUpdates = try outputUpdates.map({ try OutputUpdate(dictionary: $0) })
             } else { 
                 self.outputUpdates = nil
+            }
+            if let cloudWatchLoggingOptionUpdates = dictionary["CloudWatchLoggingOptionUpdates"] as? [[String: Any]] {
+                self.cloudWatchLoggingOptionUpdates = try cloudWatchLoggingOptionUpdates.map({ try CloudWatchLoggingOptionUpdate(dictionary: $0) })
+            } else { 
+                self.cloudWatchLoggingOptionUpdates = nil
             }
             if let referenceDataSourceUpdates = dictionary["ReferenceDataSourceUpdates"] as? [[String: Any]] {
                 self.referenceDataSourceUpdates = try referenceDataSourceUpdates.map({ try ReferenceDataSourceUpdate(dictionary: $0) })
@@ -1575,6 +1702,29 @@ extension Kinesisanalytics {
         }
     }
 
+    public struct KinesisStreamsOutputDescription: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        ]
+        /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
+        public let resourceARN: String?
+        /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
+        public let roleARN: String?
+
+        public init(resourceARN: String? = nil, roleARN: String? = nil) {
+            self.resourceARN = resourceARN
+            self.roleARN = roleARN
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.resourceARN = dictionary["ResourceARN"] as? String
+            self.roleARN = dictionary["RoleARN"] as? String
+        }
+    }
+
     public struct ListApplicationsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1595,6 +1745,45 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             self.limit = dictionary["Limit"] as? Int32
             self.exclusiveStartApplicationName = dictionary["ExclusiveStartApplicationName"] as? String
+        }
+    }
+
+    public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+
+        public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
+            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        ]
+        /// The version ID of the Amazon Kinesis Analytics application.
+        public let currentApplicationVersionId: Int64
+        /// The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can use the DescribeApplication operation to get the CloudWatchLoggingOptionId. 
+        public let cloudWatchLoggingOptionId: String
+        /// The Amazon Kinesis Analytics application name.
+        public let applicationName: String
+
+        public init(currentApplicationVersionId: Int64, cloudWatchLoggingOptionId: String, applicationName: String) {
+            self.currentApplicationVersionId = currentApplicationVersionId
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.applicationName = applicationName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
+            self.currentApplicationVersionId = currentApplicationVersionId
+            guard let cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOptionId") }
+            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
+            self.applicationName = applicationName
         }
     }
 
@@ -1687,7 +1876,7 @@ extension Kinesisanalytics {
         public let currentApplicationVersionId: Int64
         /// Describes application updates.
         public let applicationUpdate: ApplicationUpdate
-        /// Name of the Kinesis Analytics application to update.
+        /// Name of the Amazon Kinesis Analytics application to update.
         public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, applicationUpdate: ApplicationUpdate, applicationName: String) {

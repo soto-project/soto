@@ -58,7 +58,7 @@ public struct Autoscaling {
         _ = try client.send(operation: "PutNotificationConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the load balancers for the specified Auto Scaling group. Note that this operation describes only Classic load balancers. If you have Application load balancers, use DescribeLoadBalancerTargetGroups instead.
+    ///  Describes the load balancers for the specified Auto Scaling group. Note that this operation describes only Classic Load Balancers. If you have Application Load Balancers, use DescribeLoadBalancerTargetGroups instead.
     public func describeLoadBalancers(_ input: DescribeLoadBalancersRequest) throws -> DescribeLoadBalancersResponse {
         return try client.send(operation: "DescribeLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
@@ -118,12 +118,12 @@ public struct Autoscaling {
         return try client.send(operation: "DescribeScheduledActions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independently from the rest of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Auto Scaling launches instances to replace the ones that are detached. If there is a Classic load balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see Detach EC2 Instances from Your Auto Scaling Group in the Auto Scaling User Guide.
+    ///  Removes one or more instances from the specified Auto Scaling group. After the instances are detached, you can manage them independent of the Auto Scaling group. If you do not specify the option to decrement the desired capacity, Auto Scaling launches instances to replace the ones that are detached. If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups. For more information, see Detach EC2 Instances from Your Auto Scaling Group in the Auto Scaling User Guide.
     public func detachInstances(_ input: DetachInstancesQuery) throws -> DetachInstancesAnswer {
         return try client.send(operation: "DetachInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic load balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Attach EC2 Instances to Your Auto Scaling Group in the Auto Scaling User Guide.
+    ///  Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Attach EC2 Instances to Your Auto Scaling Group in the Auto Scaling User Guide.
     public func attachInstances(_ input: AttachInstancesQuery) throws {
         _ = try client.send(operation: "AttachInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -143,7 +143,7 @@ public struct Autoscaling {
         _ = try client.send(operation: "DeleteLaunchConfiguration", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches one or more Classic load balancers to the specified Auto Scaling group. To attach an Application load balancer instead, see AttachLoadBalancerTargetGroups. To describe the load balancers for an Auto Scaling group, use DescribeLoadBalancers. To detach the load balancer from the Auto Scaling group, use DetachLoadBalancers. For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Auto Scaling User Guide.
+    ///  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. To attach an Application Load Balancer instead, see AttachLoadBalancerTargetGroups. To describe the load balancers for an Auto Scaling group, use DescribeLoadBalancers. To detach the load balancer from the Auto Scaling group, use DetachLoadBalancers. For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Auto Scaling User Guide.
     public func attachLoadBalancers(_ input: AttachLoadBalancersType) throws -> AttachLoadBalancersResultType {
         return try client.send(operation: "AttachLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
@@ -183,7 +183,7 @@ public struct Autoscaling {
         return try client.send(operation: "DescribeAutoScalingInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Detaches one or more Classic load balancers from the specified Auto Scaling group. Note that this operation detaches only Classic load balancers. If you have Application load balancers, use DetachLoadBalancerTargetGroups instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using DescribeLoadBalancers. Note that the instances remain running.
+    ///  Detaches one or more Classic Load Balancers from the specified Auto Scaling group. Note that this operation detaches only Classic Load Balancers. If you have Application Load Balancers, use DetachLoadBalancerTargetGroups instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using DescribeLoadBalancers. Note that the instances remain running.
     public func detachLoadBalancers(_ input: DetachLoadBalancersType) throws -> DetachLoadBalancersResultType {
         return try client.send(operation: "DetachLoadBalancers", path: "/", httpMethod: "POST", input: input)
     }
@@ -223,7 +223,7 @@ public struct Autoscaling {
         return try client.send(operation: "AttachLoadBalancerTargetGroups", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the configuration for the specified Auto Scaling group. To update an Auto Scaling group with a launch configuration with InstanceMonitoring set to False, you must first disable the collection of group metrics. Otherwise, you will get an error. If you have previously enabled the collection of group metrics, you can disable it using DisableMetricsCollection. The new settings are registered upon the completion of this call. Any launch configuration settings take effect on any triggers after this call returns. Scaling activities that are currently in progress aren't affected. Note the following:   If you specify a new value for MinSize without specifying a value for DesiredCapacity, and the new MinSize is larger than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MinSize.   If you specify a new value for MaxSize without specifying a value for DesiredCapacity, and the new MaxSize is smaller than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MaxSize.   All other optional parameters are left unchanged if not specified.  
+    ///  Updates the configuration for the specified Auto Scaling group. The new settings take effect on any scaling activities after this call returns. Scaling activities that are currently in progress aren't affected. To update an Auto Scaling group with a launch configuration with InstanceMonitoring set to false, you must first disable the collection of group metrics. Otherwise, you will get an error. If you have previously enabled the collection of group metrics, you can disable it using DisableMetricsCollection. Note the following:   If you specify a new value for MinSize without specifying a value for DesiredCapacity, and the new MinSize is larger than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MinSize.   If you specify a new value for MaxSize without specifying a value for DesiredCapacity, and the new MaxSize is smaller than the current size of the group, we implicitly call SetDesiredCapacity to set the size of the group to the new value of MaxSize.   All other optional parameters are left unchanged if not specified.  
     public func updateAutoScalingGroup(_ input: UpdateAutoScalingGroupType) throws {
         _ = try client.send(operation: "UpdateAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
@@ -263,7 +263,7 @@ public struct Autoscaling {
         return try client.send(operation: "DescribeLifecycleHooks", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Moves the specified instances out of Standby mode. For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide.
+    ///  Moves the specified instances out of the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Auto Scaling User Guide.
     public func exitStandby(_ input: ExitStandbyQuery) throws -> ExitStandbyAnswer {
         return try client.send(operation: "ExitStandby", path: "/", httpMethod: "POST", input: input)
     }
@@ -273,7 +273,7 @@ public struct Autoscaling {
         _ = try client.send(operation: "DeleteAutoScalingGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Moves the specified instances into Standby mode. For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide.
+    ///  Moves the specified instances into the standby state. For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Auto Scaling User Guide.
     public func enterStandby(_ input: EnterStandbyQuery) throws -> EnterStandbyAnswer {
         return try client.send(operation: "EnterStandby", path: "/", httpMethod: "POST", input: input)
     }

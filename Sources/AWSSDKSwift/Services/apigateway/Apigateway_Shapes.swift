@@ -408,7 +408,7 @@ extension Apigateway {
         ]
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
         public let includeValues: Bool?
-        /// The position of the current ApiKeys resource to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// The maximum number of ApiKeys to get information about.
         public let limit: Int32?
@@ -473,9 +473,9 @@ extension Apigateway {
         ]
         /// The Id of the API key associated with the resultant usage data.
         public let keyId: String?
-        /// Position
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of results to be returned.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
         /// The starting date (e.g., 2016-01-01) of the usage data.
         public let startDate: String
@@ -622,11 +622,11 @@ extension Apigateway {
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the returned DocumentationVersion in the DocumentationVersions collection.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The identifier of an API of the to-be-retrieved documentation versions.
         public let restApiId: String
-        /// The page size of the returned documentation versions.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
@@ -696,6 +696,31 @@ extension Apigateway {
         }
     }
 
+    public struct DeleteRequestValidatorRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the RestApi from which the given RequestValidator is deleted.
+        public let restApiId: String
+        /// [Required] The identifier of the RequestValidator to be deleted.
+        public let requestValidatorId: String
+
+        public init(restApiId: String, requestValidatorId: String) {
+            self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+            guard let requestValidatorId = dictionary["requestvalidator_id"] as? String else { throw InitializableError.missingRequiredParam("requestvalidator_id") }
+            self.requestValidatorId = requestValidatorId
+        }
+    }
+
     public struct DeleteModelRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -739,7 +764,7 @@ extension Apigateway {
         public let path: String?
         /// The resource's identifier.
         public let id: String?
-        /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160608T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160608/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
+        /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
         public let resourceMethods: [String: Method]?
 
         public init(parentId: String? = nil, pathPart: String? = nil, path: String? = nil, id: String? = nil, resourceMethods: [String: Method]? = nil) {
@@ -801,11 +826,11 @@ extension Apigateway {
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// The RestApi identifier for the Authorizers resource.
         public let restApiId: String
-        /// Limit the number of Authorizer resources in the response.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
@@ -981,6 +1006,35 @@ extension Apigateway {
             self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
             self.stageName = dictionary["stageName"] as? String
             self.cacheClusterEnabled = dictionary["cacheClusterEnabled"] as? Bool
+        }
+    }
+
+    public struct GetRequestValidatorsRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
+        ]
+        /// The current pagination position in the paged result set.
+        public let position: String?
+        /// [Required] The identifier of a RestApi to which the RequestValidators collection belongs.
+        public let restApiId: String
+        /// The maximum number of returned results per page.
+        public let limit: Int32?
+
+        public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
+            self.position = position
+            self.restApiId = restApiId
+            self.limit = limit
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.position = dictionary["position"] as? String
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+            self.limit = dictionary["limit"] as? Int32
         }
     }
 
@@ -1169,6 +1223,7 @@ extension Apigateway {
             AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
             AWSShapeProperty(label: "httpMethod", location: .uri(locationName: "http_method"), required: true, type: .string), 
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "requestValidatorId", required: false, type: .string), 
             AWSShapeProperty(label: "apiKeyRequired", required: false, type: .boolean), 
             AWSShapeProperty(label: "authorizationType", required: true, type: .string), 
             AWSShapeProperty(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string), 
@@ -1184,21 +1239,24 @@ extension Apigateway {
         public let httpMethod: String
         /// The RestApi identifier for the new Method resource.
         public let restApiId: String
+        /// The identifier of a RequestValidator for validating the method request.
+        public let requestValidatorId: String?
         /// Specifies whether the method required a valid ApiKey.
         public let apiKeyRequired: Bool?
-        /// Specifies the type of authorization used for the method.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public let authorizationType: String
         /// The Resource identifier for the new Method resource.
         public let resourceId: String
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
         public let operationName: String?
 
-        public init(authorizerId: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, httpMethod: String, restApiId: String, apiKeyRequired: Bool? = nil, authorizationType: String, resourceId: String, operationName: String? = nil) {
+        public init(authorizerId: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, httpMethod: String, restApiId: String, requestValidatorId: String? = nil, apiKeyRequired: Bool? = nil, authorizationType: String, resourceId: String, operationName: String? = nil) {
             self.authorizerId = authorizerId
             self.requestModels = requestModels
             self.requestParameters = requestParameters
             self.httpMethod = httpMethod
             self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
             self.apiKeyRequired = apiKeyRequired
             self.authorizationType = authorizationType
             self.resourceId = resourceId
@@ -1221,6 +1279,7 @@ extension Apigateway {
             self.httpMethod = httpMethod
             guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
             self.restApiId = restApiId
+            self.requestValidatorId = dictionary["requestValidatorId"] as? String
             self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
             guard let authorizationType = dictionary["authorizationType"] as? String else { throw InitializableError.missingRequiredParam("authorizationType") }
             self.authorizationType = authorizationType
@@ -1238,11 +1297,11 @@ extension Apigateway {
             AWSShapeProperty(label: "domainName", location: .uri(locationName: "domain_name"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the current BasePathMapping resource in the collection to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// The domain name of a BasePathMapping resource.
         public let domainName: String
-        /// The maximum number of BasePathMapping resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, domainName: String, limit: Int32? = nil) {
@@ -1270,7 +1329,7 @@ extension Apigateway {
         ]
         ///  Not supported.
         public let from: String?
-        /// The new target value of the update operation. 
+        /// The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
         public let value: String?
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
         public let path: String?
@@ -1399,11 +1458,11 @@ extension Apigateway {
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the current Deployment resource in the collection to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// The identifier of the RestApi resource for the collection of Deployment resources to get information about.
         public let restApiId: String
-        /// The maximum number of Deployment resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
@@ -1519,9 +1578,9 @@ extension Apigateway {
             AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the last fetched element in the SdkTypes collection.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of SdkType instances to be returned. 
+        /// The maximum number of returned results per page.
         public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
@@ -1822,6 +1881,31 @@ extension Apigateway {
         }
     }
 
+    public struct GetRequestValidatorRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string)
+        ]
+        /// [Required] The identifier of the RestApi to which the specified RequestValidator belongs.
+        public let restApiId: String
+        /// [Required] The identifier of the RequestValidator to be retrieved.
+        public let requestValidatorId: String
+
+        public init(restApiId: String, requestValidatorId: String) {
+            self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+            guard let requestValidatorId = dictionary["requestvalidator_id"] as? String else { throw InitializableError.missingRequiredParam("requestvalidator_id") }
+            self.requestValidatorId = requestValidatorId
+        }
+    }
+
     public struct ImportApiKeysRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "body"
@@ -2026,9 +2110,9 @@ extension Apigateway {
             AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the current domain names to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
@@ -2081,6 +2165,32 @@ extension Apigateway {
         }
     }
 
+    public struct RequestValidators: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "items", location: .body(locationName: "item"), required: false, type: .list), 
+            AWSShapeProperty(label: "position", required: false, type: .string)
+        ]
+        /// The current page of RequestValidator resources in the RequestValidators collection.
+        public let items: [RequestValidator]?
+        public let position: String?
+
+        public init(items: [RequestValidator]? = nil, position: String? = nil) {
+            self.items = items
+            self.position = position
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let items = dictionary["item"] as? [[String: Any]] {
+                self.items = try items.map({ try RequestValidator(dictionary: $0) })
+            } else { 
+                self.items = nil
+            }
+            self.position = dictionary["position"] as? String
+        }
+    }
+
     public struct MethodSnapshot: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2090,7 +2200,7 @@ extension Apigateway {
         ]
         /// Specifies whether the method requires a valid ApiKey.
         public let apiKeyRequired: Bool?
-        /// Specifies the type of authorization used for the method.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public let authorizationType: String?
 
         public init(apiKeyRequired: Bool? = nil, authorizationType: String? = nil) {
@@ -2261,11 +2371,11 @@ extension Apigateway {
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the next set of results in the Models resource to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// The RestApi identifier.
         public let restApiId: String
-        /// The maximum number of models in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
@@ -2351,20 +2461,25 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list), 
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "resourceId", location: .uri(locationName: "resource_id"), required: true, type: .string)
         ]
+        /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
+        public let embed: [String]?
         /// The RestApi identifier for the resource.
         public let restApiId: String
         /// The identifier for the Resource resource.
         public let resourceId: String
 
-        public init(restApiId: String, resourceId: String) {
+        public init(embed: [String]? = nil, restApiId: String, resourceId: String) {
+            self.embed = embed
             self.restApiId = restApiId
             self.resourceId = resourceId
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.embed = dictionary["embed"] as? [String]
             guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
             self.restApiId = restApiId
             guard let resourceId = dictionary["resource_id"] as? String else { throw InitializableError.missingRequiredParam("resource_id") }
@@ -3435,6 +3550,36 @@ extension Apigateway {
         }
     }
 
+    public struct GetDeploymentRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list), 
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
+        ]
+        /// The identifier of the Deployment resource to get information about.
+        public let deploymentId: String
+        /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
+        public let embed: [String]?
+        /// The identifier of the RestApi resource for the Deployment resource to get information about.
+        public let restApiId: String
+
+        public init(deploymentId: String, embed: [String]? = nil, restApiId: String) {
+            self.deploymentId = deploymentId
+            self.embed = embed
+            self.restApiId = restApiId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let deploymentId = dictionary["deployment_id"] as? String else { throw InitializableError.missingRequiredParam("deployment_id") }
+            self.deploymentId = deploymentId
+            self.embed = dictionary["embed"] as? [String]
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+        }
+    }
+
     public struct GetDocumentationPartsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3446,11 +3591,11 @@ extension Apigateway {
             AWSShapeProperty(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeProperty(label: "type", location: .querystring(locationName: "type"), required: false, type: .enum)
         ]
-        /// The position of the to-be-retrieved documentation part in the DocumentationParts collection.
+        /// The current pagination position in the paged result set.
         public let position: String?
         /// [Required] The identifier of the API of the to-be-retrieved documentation parts.
         public let restApiId: String
-        /// The size of the paged results.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
         /// The path of API entities of the to-be-retrieved documentation parts.
         public let path: String?
@@ -3476,31 +3621,6 @@ extension Apigateway {
             self.path = dictionary["path"] as? String
             self.nameQuery = dictionary["name"] as? String
             if let `type` = dictionary["type"] as? String { self.`type` = DocumentationPartType(rawValue: `type`) } else { self.`type` = nil }
-        }
-    }
-
-    public struct GetDeploymentRequest: AWSShape {
-        /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", location: .uri(locationName: "deployment_id"), required: true, type: .string), 
-            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string)
-        ]
-        /// The identifier of the Deployment resource to get information about.
-        public let deploymentId: String
-        /// The identifier of the RestApi resource for the Deployment resource to get information about.
-        public let restApiId: String
-
-        public init(deploymentId: String, restApiId: String) {
-            self.deploymentId = deploymentId
-            self.restApiId = restApiId
-        }
-
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deployment_id"] as? String else { throw InitializableError.missingRequiredParam("deployment_id") }
-            self.deploymentId = deploymentId
-            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
-            self.restApiId = restApiId
         }
     }
 
@@ -3698,24 +3818,29 @@ extension Apigateway {
         public static let payload: String? = nil
         public static var parsingHints: [AWSShapeProperty] = [
             AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
+            AWSShapeProperty(label: "embed", location: .querystring(locationName: "embed"), required: false, type: .list), 
             AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the next set of results in the current Resources resource to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
+        /// A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources?embed=methods.
+        public let embed: [String]?
         /// The RestApi identifier for the Resource.
         public let restApiId: String
-        /// The maximum number of Resource resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
-        public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
+        public init(position: String? = nil, embed: [String]? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
+            self.embed = embed
             self.restApiId = restApiId
             self.limit = limit
         }
 
         public init(dictionary: [String: Any]) throws {
             self.position = dictionary["position"] as? String
+            self.embed = dictionary["embed"] as? [String]
             guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
             self.restApiId = restApiId
             self.limit = dictionary["limit"] as? Int32
@@ -3980,9 +4105,9 @@ extension Apigateway {
             AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the current RestApis resource in the collection to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
@@ -4209,9 +4334,9 @@ extension Apigateway {
         ]
         /// The identifier of the API key associated with the usage plans.
         public let keyId: String?
-        /// The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The number of UsagePlan resources to be returned as the result.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
 
         public init(keyId: String? = nil, position: String? = nil, limit: Int32? = nil) {
@@ -4268,9 +4393,9 @@ extension Apigateway {
             AWSShapeProperty(label: "position", location: .querystring(locationName: "position"), required: false, type: .string), 
             AWSShapeProperty(label: "limit", location: .querystring(locationName: "limit"), required: false, type: .integer)
         ]
-        /// The position of the current ClientCertificate resource in the collection to get information about.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+        /// The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
         public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
@@ -4334,6 +4459,39 @@ extension Apigateway {
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct RequestValidator: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "validateRequestBody", required: false, type: .boolean), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "id", required: false, type: .string), 
+            AWSShapeProperty(label: "validateRequestParameters", required: false, type: .boolean)
+        ]
+        /// A Boolean flag to indicate whether to validate a request body according to the configured Model schema.
+        public let validateRequestBody: Bool?
+        /// The name of this RequestValidator
+        public let name: String?
+        /// The identifier of this RequestValidator.
+        public let id: String?
+        /// A Boolean flag to indicate whether to validate request parameters (true) or not (false).
+        public let validateRequestParameters: Bool?
+
+        public init(validateRequestBody: Bool? = nil, name: String? = nil, id: String? = nil, validateRequestParameters: Bool? = nil) {
+            self.validateRequestBody = validateRequestBody
+            self.name = name
+            self.id = id
+            self.validateRequestParameters = validateRequestParameters
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.validateRequestBody = dictionary["validateRequestBody"] as? Bool
+            self.name = dictionary["name"] as? String
+            self.id = dictionary["id"] as? String
+            self.validateRequestParameters = dictionary["validateRequestParameters"] as? Bool
         }
     }
 
@@ -4693,9 +4851,9 @@ extension Apigateway {
             AWSShapeProperty(label: "nameQuery", location: .querystring(locationName: "name"), required: false, type: .string), 
             AWSShapeProperty(label: "usagePlanId", location: .uri(locationName: "usageplanId"), required: true, type: .string)
         ]
-        /// A query parameter specifying the zero-based index specifying the position of a usage plan key.
+        /// The current pagination position in the paged result set.
         public let position: String?
-        /// A query parameter specifying the maximum number usage plan keys returned by the GET request.
+        /// The maximum number of returned results per page.
         public let limit: Int32?
         /// A query parameter specifying the name of the to-be-returned usage plan keys.
         public let nameQuery: String?
@@ -5064,6 +5222,40 @@ extension Apigateway {
         }
     }
 
+    public struct UpdateRequestValidatorRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "requestValidatorId", location: .uri(locationName: "requestvalidator_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "patchOperations", required: false, type: .list)
+        ]
+        /// [Required] The identifier of the RestApi for which the given RequestValidator is updated.
+        public let restApiId: String
+        /// [Required] The identifier of RequestValidator to be updated.
+        public let requestValidatorId: String
+        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        public let patchOperations: [PatchOperation]?
+
+        public init(restApiId: String, requestValidatorId: String, patchOperations: [PatchOperation]? = nil) {
+            self.restApiId = restApiId
+            self.requestValidatorId = requestValidatorId
+            self.patchOperations = patchOperations
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+            guard let requestValidatorId = dictionary["requestvalidator_id"] as? String else { throw InitializableError.missingRequiredParam("requestvalidator_id") }
+            self.requestValidatorId = requestValidatorId
+            if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
+                self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
+            }
+        }
+    }
+
     public struct Stages: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5096,6 +5288,7 @@ extension Apigateway {
             AWSShapeProperty(label: "requestParameters", required: false, type: .map), 
             AWSShapeProperty(label: "methodIntegration", required: false, type: .structure), 
             AWSShapeProperty(label: "httpMethod", required: false, type: .string), 
+            AWSShapeProperty(label: "requestValidatorId", required: false, type: .string), 
             AWSShapeProperty(label: "apiKeyRequired", required: false, type: .boolean), 
             AWSShapeProperty(label: "authorizationType", required: false, type: .string), 
             AWSShapeProperty(label: "operationName", required: false, type: .string)
@@ -5112,20 +5305,23 @@ extension Apigateway {
         public let methodIntegration: Integration?
         /// The method's HTTP verb.
         public let httpMethod: String?
+        /// The identifier of a RequestValidator for request validation.
+        public let requestValidatorId: String?
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public let apiKeyRequired: Bool?
-        /// The method's authorization type.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public let authorizationType: String?
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
         public let operationName: String?
 
-        public init(authorizerId: String? = nil, methodResponses: [String: MethodResponse]? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, methodIntegration: Integration? = nil, httpMethod: String? = nil, apiKeyRequired: Bool? = nil, authorizationType: String? = nil, operationName: String? = nil) {
+        public init(authorizerId: String? = nil, methodResponses: [String: MethodResponse]? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, methodIntegration: Integration? = nil, httpMethod: String? = nil, requestValidatorId: String? = nil, apiKeyRequired: Bool? = nil, authorizationType: String? = nil, operationName: String? = nil) {
             self.authorizerId = authorizerId
             self.methodResponses = methodResponses
             self.requestModels = requestModels
             self.requestParameters = requestParameters
             self.methodIntegration = methodIntegration
             self.httpMethod = httpMethod
+            self.requestValidatorId = requestValidatorId
             self.apiKeyRequired = apiKeyRequired
             self.authorizationType = authorizationType
             self.operationName = operationName
@@ -5155,6 +5351,7 @@ extension Apigateway {
             }
             if let methodIntegration = dictionary["methodIntegration"] as? [String: Any] { self.methodIntegration = try Apigateway.Integration(dictionary: methodIntegration) } else { self.methodIntegration = nil }
             self.httpMethod = dictionary["httpMethod"] as? String
+            self.requestValidatorId = dictionary["requestValidatorId"] as? String
             self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
             self.authorizationType = dictionary["authorizationType"] as? String
             self.operationName = dictionary["operationName"] as? String
@@ -5248,6 +5445,40 @@ extension Apigateway {
             } else { 
                 self.patchOperations = nil
             }
+        }
+    }
+
+    public struct CreateRequestValidatorRequest: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public static var parsingHints: [AWSShapeProperty] = [
+            AWSShapeProperty(label: "validateRequestBody", required: false, type: .boolean), 
+            AWSShapeProperty(label: "restApiId", location: .uri(locationName: "restapi_id"), required: true, type: .string), 
+            AWSShapeProperty(label: "name", required: false, type: .string), 
+            AWSShapeProperty(label: "validateRequestParameters", required: false, type: .boolean)
+        ]
+        /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true) or not (false).
+        public let validateRequestBody: Bool?
+        /// [Required] The identifier of the RestApi for which the RequestValidator is created.
+        public let restApiId: String
+        /// The name of the to-be-created RequestValidator.
+        public let name: String?
+        /// A Boolean flag to indicate whether to validate request parameters, true, or not false.
+        public let validateRequestParameters: Bool?
+
+        public init(validateRequestBody: Bool? = nil, restApiId: String, name: String? = nil, validateRequestParameters: Bool? = nil) {
+            self.validateRequestBody = validateRequestBody
+            self.restApiId = restApiId
+            self.name = name
+            self.validateRequestParameters = validateRequestParameters
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.validateRequestBody = dictionary["validateRequestBody"] as? Bool
+            guard let restApiId = dictionary["restapi_id"] as? String else { throw InitializableError.missingRequiredParam("restapi_id") }
+            self.restApiId = restApiId
+            self.name = dictionary["name"] as? String
+            self.validateRequestParameters = dictionary["validateRequestParameters"] as? Bool
         }
     }
 

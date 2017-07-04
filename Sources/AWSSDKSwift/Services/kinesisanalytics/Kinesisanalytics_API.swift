@@ -89,9 +89,9 @@ public struct Kinesisanalytics {
         return try client.send(operation: "DescribeApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes a reference data source configuration from the specified application configuration. If the application is running, Amazon Kinesis Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation.  This operation requires permissions to perform the kinesisanalytics.DeleteApplicationReferenceDataSource action.
-    public func deleteApplicationReferenceDataSource(_ input: DeleteApplicationReferenceDataSourceRequest) throws -> DeleteApplicationReferenceDataSourceResponse {
-        return try client.send(operation: "DeleteApplicationReferenceDataSource", path: "/", httpMethod: "POST", input: input)
+    ///  Deletes a CloudWatch log stream from an application. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Monitoring Configuration Errors.
+    public func deleteApplicationCloudWatchLoggingOption(_ input: DeleteApplicationCloudWatchLoggingOptionRequest) throws -> DeleteApplicationCloudWatchLoggingOptionResponse {
+        return try client.send(operation: "DeleteApplicationCloudWatchLoggingOption", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Adds a streaming source to your Amazon Kinesis application. For conceptual information, see Configuring Application Input.  You can add a streaming source either when you create an application or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version.  This operation requires permissions to perform the kinesisanalytics:AddApplicationInput action.
@@ -99,17 +99,27 @@ public struct Kinesisanalytics {
         return try client.send(operation: "AddApplicationInput", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a reference data source configuration from the specified application configuration. If the application is running, Amazon Kinesis Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation.  This operation requires permissions to perform the kinesisanalytics.DeleteApplicationReferenceDataSource action.
+    public func deleteApplicationReferenceDataSource(_ input: DeleteApplicationReferenceDataSourceRequest) throws -> DeleteApplicationReferenceDataSourceResponse {
+        return try client.send(operation: "DeleteApplicationReferenceDataSource", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Monitoring Configuration Errors.
+    public func addApplicationCloudWatchLoggingOption(_ input: AddApplicationCloudWatchLoggingOptionRequest) throws -> AddApplicationCloudWatchLoggingOptionResponse {
+        return try client.send(operation: "AddApplicationCloudWatchLoggingOption", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns a list of Amazon Kinesis Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If the response returns the HasMoreApplications value as true, you can send another request by adding the ExclusiveStartApplicationName in the request body, and set the value of this to the last application name from the previous response.  If you want detailed information about a specific application, use DescribeApplication. This operation requires permissions to perform the kinesisanalytics:ListApplications action.
     public func listApplications(_ input: ListApplicationsRequest) throws -> ListApplicationsResponse {
         return try client.send(operation: "ListApplications", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Updates an existing Kinesis Analytics application. Using this API, you can update application code, input configuration, and output configuration.  Note that Kinesis Analytics updates the CurrentApplicationVersionId each time you update your application.  This opeation requires permission for the kinesisanalytics:UpdateApplication action.
+    ///  Updates an existing Amazon Kinesis Analytics application. Using this API, you can update application code, input configuration, and output configuration.  Note that Amazon Kinesis Analytics updates the CurrentApplicationVersionId each time you update your application.  This operation requires permission for the kinesisanalytics:UpdateApplication action.
     public func updateApplication(_ input: UpdateApplicationRequest) throws -> UpdateApplicationResponse {
         return try client.send(operation: "UpdateApplication", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Creates an Amazon Kinesis Analytics application. You can configure each application with one streaming source as input, application code to process the input, and up to five streaming destinations where you want Amazon Kinesis Analytics to write the output data from your application. For an overview, see How it Works.  In the input configuration, you map the streaming source to an in-application stream, which you can think of as a constantly updating table. In the mapping, you must provide a schema for the in-application stream and map each data column in the in-application stream to a data element in the streaming source, with the option of renaming, casting and dropping columns as desired. Your application code is one or more SQL statements that read input data, transform it, and generate output. Your application code can create one or more SQL artifacts like SQL streams or pumps. In the output configuration, you can configure the application to write data from in-application streams created in your applications to up to five streaming destinations.  To read data from your source stream or write data to destination streams, Amazon Kinesis Analytics needs your permissions. You grant these permissions by creating IAM roles. This operation requires permissions to perform the kinesisanalytics:CreateApplication action.   For introductory exercises to create an Amazon Kinesis Analytics application, see Getting Started. 
+    ///   Creates an Amazon Kinesis Analytics application. You can configure each application with one streaming source as input, application code to process the input, and up to five streaming destinations where you want Amazon Kinesis Analytics to write the output data from your application. For an overview, see How it Works.  In the input configuration, you map the streaming source to an in-application stream, which you can think of as a constantly updating table. In the mapping, you must provide a schema for the in-application stream and map each data column in the in-application stream to a data element in the streaming source. Your application code is one or more SQL statements that read input data, transform it, and generate output. Your application code can create one or more SQL artifacts like SQL streams or pumps. In the output configuration, you can configure the application to write data from in-application streams created in your applications to up to five streaming destinations.  To read data from your source stream or write data to destination streams, Amazon Kinesis Analytics needs your permissions. You grant these permissions by creating IAM roles. This operation requires permissions to perform the kinesisanalytics:CreateApplication action.   For introductory exercises to create an Amazon Kinesis Analytics application, see Getting Started. 
     public func createApplication(_ input: CreateApplicationRequest) throws -> CreateApplicationResponse {
         return try client.send(operation: "CreateApplication", path: "/", httpMethod: "POST", input: input)
     }
