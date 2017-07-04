@@ -41,7 +41,7 @@ public struct Opsworks {
             region: region,
             amzTarget: "OpsWorks_20130218",
             service: "opsworks",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-02-18",
             endpoint: endpoint,
             middlewares: [],

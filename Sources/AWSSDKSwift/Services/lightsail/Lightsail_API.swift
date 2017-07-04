@@ -41,7 +41,7 @@ public struct Lightsail {
             region: region,
             amzTarget: "Lightsail_20161128",
             service: "lightsail",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: [],

@@ -52,6 +52,16 @@ extension Location {
     }
 }
 
+extension ServiceProtocol {
+    public func instantiationCode() -> String {
+        if let version = self.version {
+            return "ServiceProtocol(type: .\(type), version: ServiceProtocol.Version(major: \(version.major), minor: \(version.minor)))"
+        } else {
+            return "ServiceProtocol(type: .\(type))"
+        }
+    }
+}
+
 extension AWSSDKSwiftCore.Operation {
     func generateSwiftFunctionCode() -> String {
         var code = ""
@@ -209,7 +219,8 @@ extension AWSService {
             code += "\(indt(3))amzTarget: \"\(target)\",\n"
         }
         code += "\(indt(3))service: \"\(endpointPrefix)\",\n"
-        code += "\(indt(3))serviceProtocol: .\(serviceProtocol),\n"
+        
+        code += "\(indt(3))serviceProtocol: \(serviceProtocol.instantiationCode()),\n"
         code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
         

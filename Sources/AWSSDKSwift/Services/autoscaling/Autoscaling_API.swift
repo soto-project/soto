@@ -40,7 +40,7 @@ public struct Autoscaling {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "autoscaling",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2011-01-01",
             endpoint: endpoint,
             middlewares: [],

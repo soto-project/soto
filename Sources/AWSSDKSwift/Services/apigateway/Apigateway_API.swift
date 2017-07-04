@@ -40,7 +40,7 @@ public struct Apigateway {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "apigateway",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-07-09",
             endpoint: endpoint,
             middlewares: [],

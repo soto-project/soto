@@ -40,7 +40,7 @@ public struct Sqs {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "sqs",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2012-11-05",
             endpoint: endpoint,
             middlewares: [],

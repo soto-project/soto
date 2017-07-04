@@ -41,7 +41,7 @@ public struct Health {
             region: region,
             amzTarget: "AWSHealth_20160804",
             service: "health",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
             middlewares: [],

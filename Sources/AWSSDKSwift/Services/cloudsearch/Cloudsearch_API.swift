@@ -40,7 +40,7 @@ public struct Cloudsearch {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cloudsearch",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2013-01-01",
             endpoint: endpoint,
             middlewares: [],

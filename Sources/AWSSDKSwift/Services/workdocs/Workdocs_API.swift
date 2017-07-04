@@ -40,7 +40,7 @@ public struct Workdocs {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "workdocs",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-05-01",
             endpoint: endpoint,
             middlewares: [],

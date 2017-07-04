@@ -41,7 +41,7 @@ public struct Codepipeline {
             region: region,
             amzTarget: "CodePipeline_20150709",
             service: "codepipeline",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-07-09",
             endpoint: endpoint,
             middlewares: [],

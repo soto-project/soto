@@ -40,7 +40,7 @@ public struct Iam {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "iam",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-05-08",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "iam.amazonaws.com"],

@@ -40,7 +40,7 @@ public struct Elasticfilesystem {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "elasticfilesystem",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-02-01",
             endpoint: endpoint,
             middlewares: [],

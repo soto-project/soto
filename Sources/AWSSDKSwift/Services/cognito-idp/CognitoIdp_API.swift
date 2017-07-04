@@ -41,7 +41,7 @@ public struct CognitoIdp {
             region: region,
             amzTarget: "AWSCognitoIdentityProviderService",
             service: "cognito-idp",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
             middlewares: [],

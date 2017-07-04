@@ -41,7 +41,7 @@ public struct Dynamodb {
             region: region,
             amzTarget: "DynamoDB_20120810",
             service: "dynamodb",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 0)),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
             serviceEndpoints: ["local": "localhost:8000"],

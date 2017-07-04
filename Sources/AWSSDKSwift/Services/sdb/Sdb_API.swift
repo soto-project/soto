@@ -40,7 +40,7 @@ public struct Sdb {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "sdb",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2009-04-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "sdb.amazonaws.com"],

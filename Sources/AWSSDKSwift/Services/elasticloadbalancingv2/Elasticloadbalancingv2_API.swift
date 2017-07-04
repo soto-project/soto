@@ -40,7 +40,7 @@ public struct Elasticloadbalancingv2 {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "elasticloadbalancing",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2015-12-01",
             endpoint: endpoint,
             middlewares: [],

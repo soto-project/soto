@@ -41,7 +41,7 @@ public struct Codebuild {
             region: region,
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-10-06",
             endpoint: endpoint,
             middlewares: [],

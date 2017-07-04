@@ -41,7 +41,7 @@ public struct Events {
             region: region,
             amzTarget: "AWSEvents",
             service: "events",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
             middlewares: [],

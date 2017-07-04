@@ -5,7 +5,7 @@
       "package": "AWSSDKSwiftCore",
       "reason": null,
       "repositoryURL": "https://github.com/noppoMan/aws-sdk-swift-core.git",
-      "version": "0.1.0"
+      "version": "0.2.0"
     },
     {
       "package": "CHTTPParser",

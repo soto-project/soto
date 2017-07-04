@@ -41,7 +41,7 @@ public struct Kinesis {
             region: region,
             amzTarget: "Kinesis_20131202",
             service: "kinesis",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2013-12-02",
             endpoint: endpoint,
             middlewares: [],

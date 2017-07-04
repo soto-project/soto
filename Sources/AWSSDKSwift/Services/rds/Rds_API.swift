@@ -40,7 +40,7 @@ public struct Rds {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "rds",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2014-10-31",
             endpoint: endpoint,
             middlewares: [],

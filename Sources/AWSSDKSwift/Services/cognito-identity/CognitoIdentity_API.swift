@@ -41,7 +41,7 @@ public struct CognitoIdentity {
             region: region,
             amzTarget: "AWSCognitoIdentityService",
             service: "cognito-identity",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-06-30",
             endpoint: endpoint,
             middlewares: [],

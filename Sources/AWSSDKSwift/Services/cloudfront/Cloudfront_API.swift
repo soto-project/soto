@@ -40,7 +40,7 @@ public struct Cloudfront {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cloudfront",
-            serviceProtocol: .restxml,
+            serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2016-11-25",
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "cloudfront.amazonaws.com"],

@@ -41,7 +41,7 @@ public struct MturkRequester {
             region: region,
             amzTarget: "MTurkRequesterServiceV20170117",
             service: "mturk-requester",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
             serviceEndpoints: ["sandbox": "mturk-requester-sandbox.us-east-1.amazonaws.com"],

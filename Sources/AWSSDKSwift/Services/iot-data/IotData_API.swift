@@ -40,7 +40,7 @@ public struct IotData {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.iot",
-            serviceProtocol: .restjson,
+            serviceProtocol: ServiceProtocol(type: .restjson),
             apiVersion: "2015-05-28",
             endpoint: endpoint,
             middlewares: [],

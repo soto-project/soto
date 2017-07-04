@@ -41,7 +41,7 @@ public struct Servicecatalog {
             region: region,
             amzTarget: "AWS242ServiceCatalogService",
             service: "servicecatalog",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
             middlewares: [],

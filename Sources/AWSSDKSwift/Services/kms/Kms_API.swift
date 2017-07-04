@@ -41,7 +41,7 @@ public struct Kms {
             region: region,
             amzTarget: "TrentService",
             service: "kms",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-01",
             endpoint: endpoint,
             middlewares: [],

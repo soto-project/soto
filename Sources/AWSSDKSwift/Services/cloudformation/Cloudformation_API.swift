@@ -40,7 +40,7 @@ public struct Cloudformation {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cloudformation",
-            serviceProtocol: .query,
+            serviceProtocol: ServiceProtocol(type: .query),
             apiVersion: "2010-05-15",
             endpoint: endpoint,
             middlewares: [],

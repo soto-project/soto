@@ -41,7 +41,7 @@ public struct Acm {
             region: region,
             amzTarget: "CertificateManager",
             service: "acm",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-12-08",
             endpoint: endpoint,
             middlewares: [],

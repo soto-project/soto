@@ -41,7 +41,7 @@ public struct Ssm {
             region: region,
             amzTarget: "AmazonSSM",
             service: "ssm",
-            serviceProtocol: .json,
+            serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-06",
             endpoint: endpoint,
             middlewares: [],
