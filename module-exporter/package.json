@@ -1,0 +1,19 @@
+{
+  "name": "module-exporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "copy-dir": "^0.3.0",
+    "fs-promise": "^2.0.3",
+    "lodash": "^4.17.4",
+    "mkdirp-promise": "^5.0.1"
+  }
+}
