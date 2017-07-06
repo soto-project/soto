@@ -4,12 +4,12 @@ import AWSSDKSwiftCore
 struct S3RequestMiddleware: AWSRequestMiddleware {
     func chain(request: AWSRequest) throws -> AWSRequest {
         var request = request
-
+        
         var paths = request.url.path.components(separatedBy: "/").filter({ $0 != "" })
         if paths.count == 0 {
             return request
         }
-
+        
         switch request.httpMethod.lowercased() {
         case "get":
             let query = request.url.query != nil ? "?\(request.url.query!)" : ""
@@ -22,9 +22,19 @@ struct S3RequestMiddleware: AWSRequestMiddleware {
             }
             request.url = URL(string: "\(request.url.scheme ?? "https")://\(paths.removeFirst()).\(domain)/\(paths.joined(separator: "/"))\(query)")!
         default:
-            break
+            guard  let host = request.url.host, host.contains("amazonaws.com") else { break }
+            var pathes = request.url.path.components(separatedBy: "/")
+            if paths.count > 1 {
+                _ = pathes.removeFirst() // /
+                let bucket = pathes.removeFirst() // bucket
+                var urlString = "https://\(bucket).\(host)/\(pathes.joined(separator: "/"))"
+                if let query = request.url.query {
+                    urlString += "?\(query)"
+                }
+                request.url = URL(string: urlString)!
+            }
         }
-
+        
         switch request.operation {
         case "CreateBucket":
             var xml = ""
