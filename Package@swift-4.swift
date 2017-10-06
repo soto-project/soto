@@ -14,6 +14,6 @@ let package = Package(
     targets: [
         .target(name: "CodeGenerator", dependencies: ["AWSSDKSwiftCore", "SwiftyJSON"]),
         .target(name: "AWSSDKSwift", dependencies: ["AWSSDKSwiftCore", "SwiftyJSON"]),
-        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSSDKSwiftCore"])
+        .testTarget(name: "AWSSDKSwiftTests", dependencies: ["AWSSDKSwift"])
     ]
 )
