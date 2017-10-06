@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AWSSDKSwiftCore",
+        "repositoryURL": "https://github.com/noppoMan/aws-sdk-swift-core.git",
+        "state": {
+          "branch": null,
+          "revision": "14b371ebc51951556540aaaac41b1c01a95990fe",
+          "version": "0.2.5"
+        }
+      },
+      {
+        "package": "CHTTPParser",
+        "repositoryURL": "https://github.com/Zewo/CHTTPParser.git",
+        "state": {
+          "branch": null,
+          "revision": "88306ab33bb316b2eedd39c90f4be8f4ebf65a11",
+          "version": "0.14.0"
+        }
+      },
+      {
+        "package": "CLibreSSL",
+        "repositoryURL": "https://github.com/vapor/clibressl.git",
+        "state": {
+          "branch": null,
+          "revision": "23ddb296981d17a8ee6c7418742a40cad5d2f9d0",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "HypertextApplicationLanguage",
+        "repositoryURL": "https://github.com/noppoMan/HypertextApplicationLanguage.git",
+        "state": {
+          "branch": null,
+          "revision": "e6216c13fd510e31e70e6f409936f1a656db1f33",
+          "version": "1.0.1"
+        }
+      },
+      {
+        "package": "Prorsum",
+        "repositoryURL": "https://github.com/noppoMan/Prorsum.git",
+        "state": {
+          "branch": null,
+          "revision": "6f2558056fb887a84331c5da7d6ac4211bc16187",
+          "version": "0.1.16"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/IBM-Swift/SwiftyJSON.git",
+        "state": {
+          "branch": null,
+          "revision": "1190845cf7d25a5c8ea7653fe03dcdd39a082056",
+          "version": "16.0.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
