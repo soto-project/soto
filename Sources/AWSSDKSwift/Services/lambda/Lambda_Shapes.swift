@@ -873,10 +873,11 @@ extension Lambda {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.statusCode = dictionary["StatusCode"] as? Int32
-            self.logResult = dictionary["X-Amz-Log-Result"] as? String
-            self.payload = dictionary["Payload"] as? Data
-            self.functionError = dictionary["X-Amz-Function-Error"] as? String
+            var mutableDictionary = dictionary
+            self.statusCode = mutableDictionary.removeValue(forKey: "StatusCode") as? Int32
+            self.logResult = mutableDictionary.removeValue(forKey: "X-Amz-Log-Result") as? String
+            self.functionError = mutableDictionary.removeValue(forKey: "X-Amz-Function-Error") as? String
+            self.payload = mutableDictionary["Payload"] != nil ? mutableDictionary.removeValue(forKey: "Payload") as Data? : NSKeyedArchiver.archivedData(withRootObject: mutableDictionary)
         }
     }
 
