@@ -31,10 +31,9 @@ extension Inspector {
 
     public struct DescribeRulesPackagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeProperty(label: "locale", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "locale", required: false, type: .enum)
         ]
         /// The ARN that specifies the rules package that you want to describe.
         public let rulesPackageArns: [String]
@@ -46,14 +45,13 @@ extension Inspector {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
+        private enum CodingKeys: String, CodingKey {
+            case rulesPackageArns = "rulesPackageArns"
+            case locale = "locale"
         }
     }
 
-    public enum InspectorEvent: String, CustomStringConvertible {
+    public enum InspectorEvent: String, CustomStringConvertible, Codable {
         case assessment_run_started = "ASSESSMENT_RUN_STARTED"
         case assessment_run_completed = "ASSESSMENT_RUN_COMPLETED"
         case assessment_run_state_changed = "ASSESSMENT_RUN_STATE_CHANGED"
@@ -64,9 +62,8 @@ extension Inspector {
 
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Attributes details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -75,18 +72,12 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
         }
     }
 
-    public enum AccessDeniedErrorCode: String, CustomStringConvertible {
+    public enum AccessDeniedErrorCode: String, CustomStringConvertible, Codable {
         case access_denied_to_assessment_target = "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
         case access_denied_to_assessment_template = "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
         case access_denied_to_assessment_run = "ACCESS_DENIED_TO_ASSESSMENT_RUN"
@@ -100,9 +91,8 @@ extension Inspector {
 
     public struct DescribeResourceGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArns", required: true, type: .list)
         ]
         /// The ARN that specifies the resource group that you want to describe.
         public let resourceGroupArns: [String]
@@ -111,20 +101,18 @@ extension Inspector {
             self.resourceGroupArns = resourceGroupArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupArns = dictionary["resourceGroupArns"] as? [String] else { throw InitializableError.missingRequiredParam("resourceGroupArns") }
-            self.resourceGroupArns = resourceGroupArns
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArns = "resourceGroupArns"
         }
     }
 
     public struct ListFindingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunArns", required: false, type: .list)
         ]
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int32?
@@ -142,52 +130,47 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.FindingFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.assessmentRunArns = dictionary["assessmentRunArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case assessmentRunArns = "assessmentRunArns"
         }
     }
 
     public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "valid", required: true, type: .boolean), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "registeredAt", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "valid", required: true, type: .boolean), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "registeredAt", required: true, type: .timestamp)
         ]
         /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
         public let valid: Bool
         /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
         public let roleArn: String
         /// The date when the cross-account access role was registered.
-        public let registeredAt: String
+        public let registeredAt: Double
 
-        public init(valid: Bool, roleArn: String, registeredAt: String) {
+        public init(valid: Bool, roleArn: String, registeredAt: Double) {
             self.valid = valid
             self.roleArn = roleArn
             self.registeredAt = registeredAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let valid = dictionary["valid"] as? Bool else { throw InitializableError.missingRequiredParam("valid") }
-            self.valid = valid
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let registeredAt = dictionary["registeredAt"] as? String else { throw InitializableError.missingRequiredParam("registeredAt") }
-            self.registeredAt = registeredAt
+        private enum CodingKeys: String, CodingKey {
+            case valid = "valid"
+            case roleArn = "roleArn"
+            case registeredAt = "registeredAt"
         }
     }
 
     public struct PreviewAgentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "previewAgentsArn", required: true, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "previewAgentsArn", required: true, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The ARN of the assessment target whose agents you want to preview.
         public let previewAgentsArn: String
@@ -202,20 +185,18 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let previewAgentsArn = dictionary["previewAgentsArn"] as? String else { throw InitializableError.missingRequiredParam("previewAgentsArn") }
-            self.previewAgentsArn = previewAgentsArn
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case previewAgentsArn = "previewAgentsArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeRulesPackagesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rulesPackages", required: true, type: .list), 
-            AWSShapeProperty(label: "failedItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rulesPackages", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Information about the rules package.
         public let rulesPackages: [RulesPackage]
@@ -227,26 +208,18 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rulesPackages = dictionary["rulesPackages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("rulesPackages") }
-            self.rulesPackages = try rulesPackages.map({ try RulesPackage(dictionary: $0) })
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case rulesPackages = "rulesPackages"
+            case failedItems = "failedItems"
         }
     }
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "eventSubscriptions", required: true, type: .list), 
-            AWSShapeProperty(label: "topicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "eventSubscriptions", required: true, type: .list), 
+            AWSShapeMember(label: "topicArn", required: true, type: .string)
         ]
         /// The ARN of the assessment template that is used during the event for which the SNS notification is sent.
         public let resourceArn: String
@@ -261,38 +234,34 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            guard let eventSubscriptions = dictionary["eventSubscriptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("eventSubscriptions") }
-            self.eventSubscriptions = try eventSubscriptions.map({ try EventSubscription(dictionary: $0) })
-            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case eventSubscriptions = "eventSubscriptions"
+            case topicArn = "topicArn"
         }
     }
 
     public struct AssessmentTarget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "updatedAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The ARN that specifies the resource group that is associated with the assessment target.
         public let resourceGroupArn: String
         /// The name of the Amazon Inspector assessment target.
         public let name: String
         /// The time at which UpdateAssessmentTarget is called.
-        public let updatedAt: String
+        public let updatedAt: Double
         /// The time at which the assessment target is created.
-        public let createdAt: String
+        public let createdAt: Double
         /// The ARN that specifies the Amazon Inspector assessment target.
         public let arn: String
 
-        public init(resourceGroupArn: String, name: String, updatedAt: String, createdAt: String, arn: String) {
+        public init(resourceGroupArn: String, name: String, updatedAt: Double, createdAt: Double, arn: String) {
             self.resourceGroupArn = resourceGroupArn
             self.name = name
             self.updatedAt = updatedAt
@@ -300,25 +269,19 @@ extension Inspector {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
-            self.resourceGroupArn = resourceGroupArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let updatedAt = dictionary["updatedAt"] as? String else { throw InitializableError.missingRequiredParam("updatedAt") }
-            self.updatedAt = updatedAt
-            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
-            self.createdAt = createdAt
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArn = "resourceGroupArn"
+            case name = "name"
+            case updatedAt = "updatedAt"
+            case createdAt = "createdAt"
+            case arn = "arn"
         }
     }
 
     public struct DescribeAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTemplateArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list)
         ]
         public let assessmentTemplateArns: [String]
 
@@ -326,18 +289,16 @@ extension Inspector {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTemplateArns") }
-            self.assessmentTemplateArns = assessmentTemplateArns
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArns = "assessmentTemplateArns"
         }
     }
 
     public struct AddAttributesToFindingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributes", required: true, type: .list), 
-            AWSShapeProperty(label: "findingArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
         /// The array of attributes that you want to assign to specified findings.
         public let attributes: [Attribute]
@@ -349,20 +310,17 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
-            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
-            self.findingArns = findingArns
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case findingArns = "findingArns"
         }
     }
 
     public struct PreviewAgentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "agentPreviews", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "agentPreviews", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -374,19 +332,17 @@ extension Inspector {
             self.agentPreviews = agentPreviews
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let agentPreviews = dictionary["agentPreviews"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("agentPreviews") }
-            self.agentPreviews = try agentPreviews.map({ try AgentPreview(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case agentPreviews = "agentPreviews"
         }
     }
 
     public struct DescribeAssessmentRunsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedItems", required: true, type: .map), 
-            AWSShapeProperty(label: "assessmentRuns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "assessmentRuns", required: true, type: .list)
         ]
         /// Assessment run details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -398,49 +354,38 @@ extension Inspector {
             self.assessmentRuns = assessmentRuns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
-            guard let assessmentRuns = dictionary["assessmentRuns"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentRuns") }
-            self.assessmentRuns = try assessmentRuns.map({ try AssessmentRun(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case assessmentRuns = "assessmentRuns"
         }
     }
 
     public struct EventSubscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "event", required: true, type: .enum), 
-            AWSShapeProperty(label: "subscribedAt", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "subscribedAt", required: true, type: .timestamp)
         ]
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
         public let event: InspectorEvent
         /// The time at which SubscribeToEvent is called.
-        public let subscribedAt: String
+        public let subscribedAt: Double
 
-        public init(event: InspectorEvent, subscribedAt: String) {
+        public init(event: InspectorEvent, subscribedAt: Double) {
             self.event = event
             self.subscribedAt = subscribedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
-            self.event = event
-            guard let subscribedAt = dictionary["subscribedAt"] as? String else { throw InitializableError.missingRequiredParam("subscribedAt") }
-            self.subscribedAt = subscribedAt
+        private enum CodingKeys: String, CodingKey {
+            case event = "event"
+            case subscribedAt = "subscribedAt"
         }
     }
 
     public struct CreateResourceGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string)
         ]
         /// The ARN that specifies the resource group that is created.
         public let resourceGroupArn: String
@@ -449,18 +394,16 @@ extension Inspector {
             self.resourceGroupArn = resourceGroupArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
-            self.resourceGroupArn = resourceGroupArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArn = "resourceGroupArn"
         }
     }
 
     public struct ResourceGroupTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// A tag key.
         public let key: String
@@ -472,19 +415,17 @@ extension Inspector {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct RemoveAttributesFromFindingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeKeys", required: true, type: .list), 
-            AWSShapeProperty(label: "findingArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributeKeys", required: true, type: .list), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
         /// The array of attribute keys that you want to remove from specified findings.
         public let attributeKeys: [String]
@@ -496,19 +437,16 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeKeys = dictionary["attributeKeys"] as? [String] else { throw InitializableError.missingRequiredParam("attributeKeys") }
-            self.attributeKeys = attributeKeys
-            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
-            self.findingArns = findingArns
+        private enum CodingKeys: String, CodingKey {
+            case attributeKeys = "attributeKeys"
+            case findingArns = "findingArns"
         }
     }
 
     public struct DescribeAssessmentRunsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
         ]
         /// The ARN that specifies the assessment run that you want to describe.
         public let assessmentRunArns: [String]
@@ -517,18 +455,16 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentRunArns = dictionary["assessmentRunArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentRunArns") }
-            self.assessmentRunArns = assessmentRunArns
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArns = "assessmentRunArns"
         }
     }
 
     public struct ListAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTemplateArns", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of ARNs that specifies the assessment templates returned by the action.
         public let assessmentTemplateArns: [String]
@@ -540,19 +476,17 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTemplateArns") }
-            self.assessmentTemplateArns = assessmentTemplateArns
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArns = "assessmentTemplateArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedItems", required: true, type: .map), 
-            AWSShapeProperty(label: "assessmentTemplates", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "assessmentTemplates", required: true, type: .list)
         ]
         /// Assessment template details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -564,29 +498,21 @@ extension Inspector {
             self.assessmentTemplates = assessmentTemplates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
-            guard let assessmentTemplates = dictionary["assessmentTemplates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentTemplates") }
-            self.assessmentTemplates = try assessmentTemplates.map({ try AssessmentTemplate(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case assessmentTemplates = "assessmentTemplates"
         }
     }
 
-    public enum AssetType: String, CustomStringConvertible {
+    public enum AssetType: String, CustomStringConvertible, Codable {
         case ec2_instance = "ec2-instance"
         public var description: String { return self.rawValue }
     }
 
     public struct StartAssessmentRunResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN of the assessment run that has been started.
         public let assessmentRunArn: String
@@ -595,18 +521,16 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// A tag key.
         public let key: String
@@ -618,14 +542,13 @@ extension Inspector {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
-    public enum LimitExceededErrorCode: String, CustomStringConvertible {
+    public enum LimitExceededErrorCode: String, CustomStringConvertible, Codable {
         case assessment_target_limit_exceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
         case assessment_template_limit_exceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
         case assessment_run_limit_exceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
@@ -636,10 +559,9 @@ extension Inspector {
 
     public struct ListAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -651,51 +573,45 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTargetArns") }
-            self.assessmentTargetArns = assessmentTargetArns
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case assessmentTargetArns = "assessmentTargetArns"
         }
     }
 
     public struct ResourceGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
         public let tags: [ResourceGroupTag]
         /// The time at which resource group is created.
-        public let createdAt: String
+        public let createdAt: Double
         /// The ARN of the resource group.
         public let arn: String
 
-        public init(tags: [ResourceGroupTag], createdAt: String, arn: String) {
+        public init(tags: [ResourceGroupTag], createdAt: Double, arn: String) {
             self.tags = tags
             self.createdAt = createdAt
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try ResourceGroupTag(dictionary: $0) })
-            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
-            self.createdAt = createdAt
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case createdAt = "createdAt"
+            case arn = "arn"
         }
     }
 
     public struct UnsubscribeFromEventRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "event", required: true, type: .enum), 
-            AWSShapeProperty(label: "topicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "topicArn", required: true, type: .string)
         ]
         /// The ARN of the assessment template that is used during the event for which you want to stop receiving SNS notifications.
         public let resourceArn: String
@@ -710,23 +626,19 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
-            self.event = event
-            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case event = "event"
+            case topicArn = "topicArn"
         }
     }
 
     public struct GetAssessmentReportRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reportType", required: true, type: .enum), 
-            AWSShapeProperty(label: "reportFileFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reportType", required: true, type: .enum), 
+            AWSShapeMember(label: "reportFileFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// Specifies the type of the assessment report that you want to generate. There are two types of assessment reports: a finding report and a full report. For more information, see Assessment Reports. 
         public let reportType: ReportType
@@ -741,22 +653,18 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawreportType = dictionary["reportType"] as? String, let reportType = ReportType(rawValue: rawreportType) else { throw InitializableError.missingRequiredParam("reportType") }
-            self.reportType = reportType
-            guard let rawreportFileFormat = dictionary["reportFileFormat"] as? String, let reportFileFormat = ReportFileFormat(rawValue: rawreportFileFormat) else { throw InitializableError.missingRequiredParam("reportFileFormat") }
-            self.reportFileFormat = reportFileFormat
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case reportType = "reportType"
+            case reportFileFormat = "reportFileFormat"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The attribute key.
         public let key: String
@@ -768,18 +676,16 @@ extension Inspector {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct DeleteAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that you want to delete.
         public let assessmentTemplateArn: String
@@ -788,17 +694,15 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
-            self.assessmentTemplateArn = assessmentTemplateArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
         }
     }
 
     public struct DescribeAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargetArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArns", required: true, type: .list)
         ]
         /// The ARNs that specifies the assessment targets that you want to describe.
         public let assessmentTargetArns: [String]
@@ -807,17 +711,15 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentTargetArns") }
-            self.assessmentTargetArns = assessmentTargetArns
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArns = "assessmentTargetArns"
         }
     }
 
     public struct DeleteAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that you want to delete.
         public let assessmentRunArn: String
@@ -826,24 +728,22 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct FindingFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleNames", required: false, type: .list), 
-            AWSShapeProperty(label: "severities", required: false, type: .list), 
-            AWSShapeProperty(label: "attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "userAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "agentIds", required: false, type: .list), 
-            AWSShapeProperty(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeProperty(label: "creationTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleNames", required: false, type: .list), 
+            AWSShapeMember(label: "severities", required: false, type: .list), 
+            AWSShapeMember(label: "attributes", required: false, type: .list), 
+            AWSShapeMember(label: "userAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "agentIds", required: false, type: .list), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
+            AWSShapeMember(label: "creationTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list)
         ]
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
         public let ruleNames: [String]?
@@ -873,27 +773,19 @@ extension Inspector {
             self.autoScalingGroups = autoScalingGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleNames = dictionary["ruleNames"] as? [String]
-            if let severities = dictionary["severities"] as? [String] { self.severities = severities.flatMap({ Severity(rawValue: $0)}) } else { self.severities = nil }
-            if let attributes = dictionary["attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-            if let userAttributes = dictionary["userAttributes"] as? [[String: Any]] {
-                self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.userAttributes = nil
-            }
-            self.agentIds = dictionary["agentIds"] as? [String]
-            self.rulesPackageArns = dictionary["rulesPackageArns"] as? [String]
-            if let creationTimeRange = dictionary["creationTimeRange"] as? [String: Any] { self.creationTimeRange = try Inspector.TimestampRange(dictionary: creationTimeRange) } else { self.creationTimeRange = nil }
-            self.autoScalingGroups = dictionary["autoScalingGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case ruleNames = "ruleNames"
+            case severities = "severities"
+            case attributes = "attributes"
+            case userAttributes = "userAttributes"
+            case agentIds = "agentIds"
+            case rulesPackageArns = "rulesPackageArns"
+            case creationTimeRange = "creationTimeRange"
+            case autoScalingGroups = "autoScalingGroups"
         }
     }
 
-    public enum InvalidInputErrorCode: String, CustomStringConvertible {
+    public enum InvalidInputErrorCode: String, CustomStringConvertible, Codable {
         case invalid_assessment_target_arn = "INVALID_ASSESSMENT_TARGET_ARN"
         case invalid_assessment_template_arn = "INVALID_ASSESSMENT_TEMPLATE_ARN"
         case invalid_assessment_run_arn = "INVALID_ASSESSMENT_RUN_ARN"
@@ -951,7 +843,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum NoSuchEntityErrorCode: String, CustomStringConvertible {
+    public enum NoSuchEntityErrorCode: String, CustomStringConvertible, Codable {
         case assessment_target_does_not_exist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
         case assessment_template_does_not_exist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
         case assessment_run_does_not_exist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
@@ -963,7 +855,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum Severity: String, CustomStringConvertible {
+    public enum Severity: String, CustomStringConvertible, Codable {
         case low = "Low"
         case medium = "Medium"
         case high = "High"
@@ -974,13 +866,12 @@ extension Inspector {
 
     public struct RulesPackage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "provider", required: true, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "provider", required: true, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The description of the rules package.
         public let description: String?
@@ -1001,50 +892,42 @@ extension Inspector {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            guard let provider = dictionary["provider"] as? String else { throw InitializableError.missingRequiredParam("provider") }
-            self.provider = provider
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case version = "version"
+            case provider = "provider"
+            case arn = "arn"
         }
     }
 
     public struct AssessmentRunStateChange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: true, type: .enum), 
-            AWSShapeProperty(label: "stateChangedAt", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: true, type: .enum), 
+            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp)
         ]
         /// The assessment run state.
         public let state: AssessmentRunState
         /// The last time the assessment run state changed.
-        public let stateChangedAt: String
+        public let stateChangedAt: Double
 
-        public init(state: AssessmentRunState, stateChangedAt: String) {
+        public init(state: AssessmentRunState, stateChangedAt: Double) {
             self.state = state
             self.stateChangedAt = stateChangedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstate = dictionary["state"] as? String, let state = AssessmentRunState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
-            self.state = state
-            guard let stateChangedAt = dictionary["stateChangedAt"] as? String else { throw InitializableError.missingRequiredParam("stateChangedAt") }
-            self.stateChangedAt = stateChangedAt
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateChangedAt = "stateChangedAt"
         }
     }
 
     public struct ListFindingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "findingArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -1056,21 +939,19 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
-            self.findingArns = findingArns
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case findingArns = "findingArns"
         }
     }
 
     public struct ListAssessmentRunsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentTemplateArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentTemplateArns", required: false, type: .list)
         ]
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int32?
@@ -1088,20 +969,19 @@ extension Inspector {
             self.assessmentTemplateArns = assessmentTemplateArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentRunFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.assessmentTemplateArns = dictionary["assessmentTemplateArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case assessmentTemplateArns = "assessmentTemplateArns"
         }
     }
 
     public struct AgentPreview: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "agentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "agentId", required: true, type: .string)
         ]
         /// The Auto Scaling group for the EC2 instance where the agent is installed.
         public let autoScalingGroup: String?
@@ -1113,19 +993,17 @@ extension Inspector {
             self.agentId = agentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
-            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
-            self.agentId = agentId
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroup = "autoScalingGroup"
+            case agentId = "agentId"
         }
     }
 
     public struct ListRulesPackagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
@@ -1137,23 +1015,22 @@ extension Inspector {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct AssessmentRunFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "namePattern", required: false, type: .string), 
-            AWSShapeProperty(label: "states", required: false, type: .list), 
-            AWSShapeProperty(label: "startTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "durationRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeProperty(label: "completionTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "stateChangeTimeRange", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "namePattern", required: false, type: .string), 
+            AWSShapeMember(label: "states", required: false, type: .list), 
+            AWSShapeMember(label: "startTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "durationRange", required: false, type: .structure), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
+            AWSShapeMember(label: "completionTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "stateChangeTimeRange", required: false, type: .structure)
         ]
         /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
         public let namePattern: String?
@@ -1180,22 +1057,21 @@ extension Inspector {
             self.stateChangeTimeRange = stateChangeTimeRange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namePattern = dictionary["namePattern"] as? String
-            if let states = dictionary["states"] as? [String] { self.states = states.flatMap({ AssessmentRunState(rawValue: $0)}) } else { self.states = nil }
-            if let startTimeRange = dictionary["startTimeRange"] as? [String: Any] { self.startTimeRange = try Inspector.TimestampRange(dictionary: startTimeRange) } else { self.startTimeRange = nil }
-            if let durationRange = dictionary["durationRange"] as? [String: Any] { self.durationRange = try Inspector.DurationRange(dictionary: durationRange) } else { self.durationRange = nil }
-            self.rulesPackageArns = dictionary["rulesPackageArns"] as? [String]
-            if let completionTimeRange = dictionary["completionTimeRange"] as? [String: Any] { self.completionTimeRange = try Inspector.TimestampRange(dictionary: completionTimeRange) } else { self.completionTimeRange = nil }
-            if let stateChangeTimeRange = dictionary["stateChangeTimeRange"] as? [String: Any] { self.stateChangeTimeRange = try Inspector.TimestampRange(dictionary: stateChangeTimeRange) } else { self.stateChangeTimeRange = nil }
+        private enum CodingKeys: String, CodingKey {
+            case namePattern = "namePattern"
+            case states = "states"
+            case startTimeRange = "startTimeRange"
+            case durationRange = "durationRange"
+            case rulesPackageArns = "rulesPackageArns"
+            case completionTimeRange = "completionTimeRange"
+            case stateChangeTimeRange = "stateChangeTimeRange"
         }
     }
 
     public struct GetTelemetryMetadataRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
         public let assessmentRunArn: String
@@ -1204,17 +1080,15 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct AssessmentTargetFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargetNamePattern", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetNamePattern", required: false, type: .string)
         ]
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
         public let assessmentTargetNamePattern: String?
@@ -1223,39 +1097,38 @@ extension Inspector {
             self.assessmentTargetNamePattern = assessmentTargetNamePattern
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.assessmentTargetNamePattern = dictionary["assessmentTargetNamePattern"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetNamePattern = "assessmentTargetNamePattern"
         }
     }
 
     public struct AssessmentRun: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: true, type: .enum), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "startedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeProperty(label: "notifications", required: true, type: .list), 
-            AWSShapeProperty(label: "dataCollected", required: true, type: .boolean), 
-            AWSShapeProperty(label: "stateChangedAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "findingCounts", required: true, type: .map), 
-            AWSShapeProperty(label: "userAttributesForFindings", required: true, type: .list), 
-            AWSShapeProperty(label: "arn", required: true, type: .string), 
-            AWSShapeProperty(label: "stateChanges", required: true, type: .list), 
-            AWSShapeProperty(label: "completedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "durationInSeconds", required: true, type: .integer), 
-            AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: true, type: .enum), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "startedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "notifications", required: true, type: .list), 
+            AWSShapeMember(label: "dataCollected", required: true, type: .boolean), 
+            AWSShapeMember(label: "stateChangedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "findingCounts", required: true, type: .map), 
+            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list), 
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "stateChanges", required: true, type: .list), 
+            AWSShapeMember(label: "completedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The state of the assessment run.
         public let state: AssessmentRunState
         /// The auto-generated name for the assessment run.
         public let name: String
         /// The time when StartAssessmentRun was called.
-        public let createdAt: String
+        public let createdAt: Double
         /// The time when StartAssessmentRun was called.
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The rules packages selected for the assessment run.
         public let rulesPackageArns: [String]
         /// A list of notifications for the event subscriptions. A notification about a particular generated finding is added to this list only once.
@@ -1263,7 +1136,7 @@ extension Inspector {
         /// A Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.
         public let dataCollected: Bool
         /// The last time when the assessment run's state changed.
-        public let stateChangedAt: String
+        public let stateChangedAt: Double
         /// Provides a total count of generated findings per severity.
         public let findingCounts: [Severity: Int32]
         /// The user-defined attributes that are assigned to every generated finding.
@@ -1273,13 +1146,13 @@ extension Inspector {
         /// A list of the assessment run state changes.
         public let stateChanges: [AssessmentRunStateChange]
         /// The assessment run completion time that corresponds to the rules packages evaluation completion time or failure.
-        public let completedAt: String?
+        public let completedAt: Double?
         /// The duration of the assessment run.
         public let durationInSeconds: Int32
         /// The ARN of the assessment template that is associated with the assessment run.
         public let assessmentTemplateArn: String
 
-        public init(state: AssessmentRunState, name: String, createdAt: String, startedAt: String? = nil, rulesPackageArns: [String], notifications: [AssessmentRunNotification], dataCollected: Bool, stateChangedAt: String, findingCounts: [Severity: Int32], userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: String? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
+        public init(state: AssessmentRunState, name: String, createdAt: Double, startedAt: Double? = nil, rulesPackageArns: [String], notifications: [AssessmentRunNotification], dataCollected: Bool, stateChangedAt: Double, findingCounts: [Severity: Int32], userAttributesForFindings: [Attribute], arn: String, stateChanges: [AssessmentRunStateChange], completedAt: Double? = nil, durationInSeconds: Int32, assessmentTemplateArn: String) {
             self.state = state
             self.name = name
             self.createdAt = createdAt
@@ -1297,44 +1170,30 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstate = dictionary["state"] as? String, let state = AssessmentRunState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
-            self.state = state
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
-            self.createdAt = createdAt
-            self.startedAt = dictionary["startedAt"] as? String
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
-            guard let notifications = dictionary["notifications"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("notifications") }
-            self.notifications = try notifications.map({ try AssessmentRunNotification(dictionary: $0) })
-            guard let dataCollected = dictionary["dataCollected"] as? Bool else { throw InitializableError.missingRequiredParam("dataCollected") }
-            self.dataCollected = dataCollected
-            guard let stateChangedAt = dictionary["stateChangedAt"] as? String else { throw InitializableError.missingRequiredParam("stateChangedAt") }
-            self.stateChangedAt = stateChangedAt
-            guard let findingCounts = dictionary["findingCounts"] as? [Severity: Int32] else { throw InitializableError.missingRequiredParam("findingCounts") }
-            self.findingCounts = findingCounts
-            guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
-            self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
-            guard let stateChanges = dictionary["stateChanges"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("stateChanges") }
-            self.stateChanges = try stateChanges.map({ try AssessmentRunStateChange(dictionary: $0) })
-            self.completedAt = dictionary["completedAt"] as? String
-            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
-            self.durationInSeconds = durationInSeconds
-            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
-            self.assessmentTemplateArn = assessmentTemplateArn
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case name = "name"
+            case createdAt = "createdAt"
+            case startedAt = "startedAt"
+            case rulesPackageArns = "rulesPackageArns"
+            case notifications = "notifications"
+            case dataCollected = "dataCollected"
+            case stateChangedAt = "stateChangedAt"
+            case findingCounts = "findingCounts"
+            case userAttributesForFindings = "userAttributesForFindings"
+            case arn = "arn"
+            case stateChanges = "stateChanges"
+            case completedAt = "completedAt"
+            case durationInSeconds = "durationInSeconds"
+            case assessmentTemplateArn = "assessmentTemplateArn"
         }
     }
 
     public struct ListEventSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "subscriptions", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "subscriptions", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Details of the returned event subscriptions.
         public let subscriptions: [Subscription]
@@ -1346,18 +1205,16 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptions = dictionary["subscriptions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("subscriptions") }
-            self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptions = "subscriptions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that you want to delete.
         public let assessmentTargetArn: String
@@ -1366,13 +1223,12 @@ extension Inspector {
             self.assessmentTargetArn = assessmentTargetArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
-            self.assessmentTargetArn = assessmentTargetArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArn = "assessmentTargetArn"
         }
     }
 
-    public enum AgentHealth: String, CustomStringConvertible {
+    public enum AgentHealth: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
@@ -1380,9 +1236,8 @@ extension Inspector {
 
     public struct CreateAssessmentTemplateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template that is created.
         public let assessmentTemplateArn: String
@@ -1391,19 +1246,18 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
-            self.assessmentTemplateArn = assessmentTemplateArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateArn = "assessmentTemplateArn"
         }
     }
 
-    public enum ReportType: String, CustomStringConvertible {
+    public enum ReportType: String, CustomStringConvertible, Codable {
         case finding = "FINDING"
         case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
-    public enum AssessmentRunState: String, CustomStringConvertible {
+    public enum AssessmentRunState: String, CustomStringConvertible, Codable {
         case created = "CREATED"
         case start_data_collection_pending = "START_DATA_COLLECTION_PENDING"
         case start_data_collection_in_progress = "START_DATA_COLLECTION_IN_PROGRESS"
@@ -1421,26 +1275,25 @@ extension Inspector {
 
     public struct Finding: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assetType", required: false, type: .enum), 
-            AWSShapeProperty(label: "schemaVersion", required: false, type: .integer), 
-            AWSShapeProperty(label: "userAttributes", required: true, type: .list), 
-            AWSShapeProperty(label: "recommendation", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "indicatorOfCompromise", required: false, type: .boolean), 
-            AWSShapeProperty(label: "severity", required: false, type: .enum), 
-            AWSShapeProperty(label: "assetAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "numericSeverity", required: false, type: .double), 
-            AWSShapeProperty(label: "service", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string), 
-            AWSShapeProperty(label: "attributes", required: true, type: .list), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "updatedAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "title", required: false, type: .string), 
-            AWSShapeProperty(label: "confidence", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assetType", required: false, type: .enum), 
+            AWSShapeMember(label: "schemaVersion", required: false, type: .integer), 
+            AWSShapeMember(label: "userAttributes", required: true, type: .list), 
+            AWSShapeMember(label: "recommendation", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "serviceAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "indicatorOfCompromise", required: false, type: .boolean), 
+            AWSShapeMember(label: "severity", required: false, type: .enum), 
+            AWSShapeMember(label: "assetAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "numericSeverity", required: false, type: .double), 
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string), 
+            AWSShapeMember(label: "attributes", required: true, type: .list), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "updatedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "title", required: false, type: .string), 
+            AWSShapeMember(label: "confidence", required: false, type: .integer)
         ]
         /// The type of the host from which the finding is generated.
         public let assetType: AssetType?
@@ -1451,7 +1304,7 @@ extension Inspector {
         /// The recommendation for the finding.
         public let recommendation: String?
         /// The time when the finding was generated.
-        public let createdAt: String
+        public let createdAt: Double
         /// The description of the finding.
         public let description: String?
         /// This data type is used in the Finding data type.
@@ -1473,13 +1326,13 @@ extension Inspector {
         /// The ID of the finding.
         public let id: String?
         /// The time when AddAttributesToFindings is called.
-        public let updatedAt: String
+        public let updatedAt: Double
         /// The name of the finding.
         public let title: String?
         /// This data element is currently not used.
         public let confidence: Int32?
 
-        public init(assetType: AssetType? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: String, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: Severity? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: String, title: String? = nil, confidence: Int32? = nil) {
+        public init(assetType: AssetType? = nil, schemaVersion: Int32? = nil, userAttributes: [Attribute], recommendation: String? = nil, createdAt: Double, description: String? = nil, serviceAttributes: InspectorServiceAttributes? = nil, indicatorOfCompromise: Bool? = nil, severity: Severity? = nil, assetAttributes: AssetAttributes? = nil, numericSeverity: Double? = nil, service: String? = nil, arn: String, attributes: [Attribute], id: String? = nil, updatedAt: Double, title: String? = nil, confidence: Int32? = nil) {
             self.assetType = assetType
             self.schemaVersion = schemaVersion
             self.userAttributes = userAttributes
@@ -1500,41 +1353,35 @@ extension Inspector {
             self.confidence = confidence
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let assetType = dictionary["assetType"] as? String { self.assetType = AssetType(rawValue: assetType) } else { self.assetType = nil }
-            self.schemaVersion = dictionary["schemaVersion"] as? Int32
-            guard let userAttributes = dictionary["userAttributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributes") }
-            self.userAttributes = try userAttributes.map({ try Attribute(dictionary: $0) })
-            self.recommendation = dictionary["recommendation"] as? String
-            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
-            self.createdAt = createdAt
-            self.description = dictionary["description"] as? String
-            if let serviceAttributes = dictionary["serviceAttributes"] as? [String: Any] { self.serviceAttributes = try Inspector.InspectorServiceAttributes(dictionary: serviceAttributes) } else { self.serviceAttributes = nil }
-            self.indicatorOfCompromise = dictionary["indicatorOfCompromise"] as? Bool
-            if let severity = dictionary["severity"] as? String { self.severity = Severity(rawValue: severity) } else { self.severity = nil }
-            if let assetAttributes = dictionary["assetAttributes"] as? [String: Any] { self.assetAttributes = try Inspector.AssetAttributes(dictionary: assetAttributes) } else { self.assetAttributes = nil }
-            self.numericSeverity = dictionary["numericSeverity"] as? Double
-            self.service = dictionary["service"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
-            guard let attributes = dictionary["attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("attributes") }
-            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            self.id = dictionary["id"] as? String
-            guard let updatedAt = dictionary["updatedAt"] as? String else { throw InitializableError.missingRequiredParam("updatedAt") }
-            self.updatedAt = updatedAt
-            self.title = dictionary["title"] as? String
-            self.confidence = dictionary["confidence"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case assetType = "assetType"
+            case schemaVersion = "schemaVersion"
+            case userAttributes = "userAttributes"
+            case recommendation = "recommendation"
+            case createdAt = "createdAt"
+            case description = "description"
+            case serviceAttributes = "serviceAttributes"
+            case indicatorOfCompromise = "indicatorOfCompromise"
+            case severity = "severity"
+            case assetAttributes = "assetAttributes"
+            case numericSeverity = "numericSeverity"
+            case service = "service"
+            case arn = "arn"
+            case attributes = "attributes"
+            case id = "id"
+            case updatedAt = "updatedAt"
+            case title = "title"
+            case confidence = "confidence"
         }
     }
 
     public struct ListAssessmentRunAgentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int32?
@@ -1552,20 +1399,18 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AgentFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment template whose tags you want to list.
         public let resourceArn: String
@@ -1574,19 +1419,17 @@ extension Inspector {
             self.resourceArn = resourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct ListEventSubscriptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The ARN of the assessment template for which you want to list the existing event subscriptions.
         public let resourceArn: String?
@@ -1601,20 +1444,19 @@ extension Inspector {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceArn = dictionary["resourceArn"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct UpdateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
         ]
         /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
         public let resourceGroupArn: String
@@ -1629,21 +1471,17 @@ extension Inspector {
             self.assessmentTargetName = assessmentTargetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
-            self.resourceGroupArn = resourceGroupArn
-            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
-            self.assessmentTargetArn = assessmentTargetArn
-            guard let assessmentTargetName = dictionary["assessmentTargetName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetName") }
-            self.assessmentTargetName = assessmentTargetName
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArn = "resourceGroupArn"
+            case assessmentTargetArn = "assessmentTargetArn"
+            case assessmentTargetName = "assessmentTargetName"
         }
     }
 
     public struct AddAttributesToFindingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Attribute details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -1652,40 +1490,33 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
         }
     }
 
-    public enum ReportStatus: String, CustomStringConvertible {
+    public enum ReportStatus: String, CustomStringConvertible, Codable {
         case work_in_progress = "WORK_IN_PROGRESS"
         case failed = "FAILED"
         case completed = "COMPLETED"
         public var description: String { return self.rawValue }
     }
 
-    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible {
+    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible, Codable {
         case role_does_not_exist_or_invalid_trust_relationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
         case role_does_not_have_correct_policy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible {
+    public enum Locale: String, CustomStringConvertible, Codable {
         case en_us = "EN_US"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateAssessmentTargetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string)
         ]
         /// The ARN that specifies the assessment target that is created.
         public let assessmentTargetArn: String
@@ -1694,18 +1525,16 @@ extension Inspector {
             self.assessmentTargetArn = assessmentTargetArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
-            self.assessmentTargetArn = assessmentTargetArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArn = "assessmentTargetArn"
         }
     }
 
     public struct ListAssessmentRunsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunArns", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -1717,24 +1546,22 @@ extension Inspector {
             self.assessmentRunArns = assessmentRunArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let assessmentRunArns = dictionary["assessmentRunArns"] as? [String] else { throw InitializableError.missingRequiredParam("assessmentRunArns") }
-            self.assessmentRunArns = assessmentRunArns
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case assessmentRunArns = "assessmentRunArns"
         }
     }
 
     public struct AssessmentRunAgent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "telemetryMetadata", required: true, type: .list), 
-            AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "agentHealth", required: true, type: .enum), 
-            AWSShapeProperty(label: "agentHealthDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string), 
-            AWSShapeProperty(label: "agentHealthCode", required: true, type: .enum), 
-            AWSShapeProperty(label: "agentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list), 
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "agentHealth", required: true, type: .enum), 
+            AWSShapeMember(label: "agentHealthDetails", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string), 
+            AWSShapeMember(label: "agentHealthCode", required: true, type: .enum), 
+            AWSShapeMember(label: "agentId", required: true, type: .string)
         ]
         /// The Amazon Inspector application data metrics that are collected by the agent.
         public let telemetryMetadata: [TelemetryMetadata]
@@ -1761,28 +1588,22 @@ extension Inspector {
             self.agentId = agentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let telemetryMetadata = dictionary["telemetryMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("telemetryMetadata") }
-            self.telemetryMetadata = try telemetryMetadata.map({ try TelemetryMetadata(dictionary: $0) })
-            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
-            guard let rawagentHealth = dictionary["agentHealth"] as? String, let agentHealth = AgentHealth(rawValue: rawagentHealth) else { throw InitializableError.missingRequiredParam("agentHealth") }
-            self.agentHealth = agentHealth
-            self.agentHealthDetails = dictionary["agentHealthDetails"] as? String
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
-            guard let rawagentHealthCode = dictionary["agentHealthCode"] as? String, let agentHealthCode = AgentHealthCode(rawValue: rawagentHealthCode) else { throw InitializableError.missingRequiredParam("agentHealthCode") }
-            self.agentHealthCode = agentHealthCode
-            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
-            self.agentId = agentId
+        private enum CodingKeys: String, CodingKey {
+            case telemetryMetadata = "telemetryMetadata"
+            case autoScalingGroup = "autoScalingGroup"
+            case agentHealth = "agentHealth"
+            case agentHealthDetails = "agentHealthDetails"
+            case assessmentRunArn = "assessmentRunArn"
+            case agentHealthCode = "agentHealthCode"
+            case agentId = "agentId"
         }
     }
 
     public struct DescribeResourceGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedItems", required: true, type: .map), 
-            AWSShapeProperty(label: "resourceGroups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedItems", required: true, type: .map), 
+            AWSShapeMember(label: "resourceGroups", required: true, type: .list)
         ]
         /// Resource group details that cannot be described. An error code is provided for each failed item.
         public let failedItems: [String: FailedItemDetails]
@@ -1794,26 +1615,18 @@ extension Inspector {
             self.resourceGroups = resourceGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
-            guard let resourceGroups = dictionary["resourceGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("resourceGroups") }
-            self.resourceGroups = try resourceGroups.map({ try ResourceGroup(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case failedItems = "failedItems"
+            case resourceGroups = "resourceGroups"
         }
     }
 
     public struct AssessmentTemplateFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "namePattern", required: false, type: .string), 
-            AWSShapeProperty(label: "rulesPackageArns", required: false, type: .list), 
-            AWSShapeProperty(label: "durationRange", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "namePattern", required: false, type: .string), 
+            AWSShapeMember(label: "rulesPackageArns", required: false, type: .list), 
+            AWSShapeMember(label: "durationRange", required: false, type: .structure)
         ]
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type.
         public let namePattern: String?
@@ -1828,19 +1641,18 @@ extension Inspector {
             self.durationRange = durationRange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namePattern = dictionary["namePattern"] as? String
-            self.rulesPackageArns = dictionary["rulesPackageArns"] as? [String]
-            if let durationRange = dictionary["durationRange"] as? [String: Any] { self.durationRange = try Inspector.DurationRange(dictionary: durationRange) } else { self.durationRange = nil }
+        private enum CodingKeys: String, CodingKey {
+            case namePattern = "namePattern"
+            case rulesPackageArns = "rulesPackageArns"
+            case durationRange = "durationRange"
         }
     }
 
     public struct GetAssessmentReportResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "url", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "url", required: false, type: .string)
         ]
         /// Specifies the status of the request to generate an assessment report. 
         public let status: ReportStatus
@@ -1852,19 +1664,17 @@ extension Inspector {
             self.url = url
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstatus = dictionary["status"] as? String, let status = ReportStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.url = dictionary["url"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case url = "url"
         }
     }
 
     public struct AgentAlreadyRunningAssessment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentId", required: true, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentId", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
         public let agentId: String
@@ -1876,19 +1686,16 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let agentId = dictionary["agentId"] as? String else { throw InitializableError.missingRequiredParam("agentId") }
-            self.agentId = agentId
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list)
         ]
         /// A collection of key and value pairs.
         public let tags: [Tag]
@@ -1897,13 +1704,12 @@ extension Inspector {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
-    public enum ReportFileFormat: String, CustomStringConvertible {
+    public enum ReportFileFormat: String, CustomStringConvertible, Codable {
         case html = "HTML"
         case pdf = "PDF"
         public var description: String { return self.rawValue }
@@ -1911,10 +1717,9 @@ extension Inspector {
 
     public struct DurationRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "minSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "minSeconds", required: false, type: .integer)
         ]
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
         public let maxSeconds: Int32?
@@ -1926,13 +1731,13 @@ extension Inspector {
             self.minSeconds = minSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxSeconds = dictionary["maxSeconds"] as? Int32
-            self.minSeconds = dictionary["minSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case maxSeconds = "maxSeconds"
+            case minSeconds = "minSeconds"
         }
     }
 
-    public enum FailedItemErrorCode: String, CustomStringConvertible {
+    public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
         case invalid_arn = "INVALID_ARN"
         case duplicate_arn = "DUPLICATE_ARN"
         case item_does_not_exist = "ITEM_DOES_NOT_EXIST"
@@ -1942,7 +1747,7 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
-    public enum AgentHealthCode: String, CustomStringConvertible {
+    public enum AgentHealthCode: String, CustomStringConvertible, Codable {
         case idle = "IDLE"
         case running = "RUNNING"
         case shutdown = "SHUTDOWN"
@@ -1954,34 +1759,32 @@ extension Inspector {
 
     public struct TimestampRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "beginDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "endDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "beginDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "endDate", required: false, type: .timestamp)
         ]
         /// The minimum value of the timestamp range.
-        public let beginDate: String?
+        public let beginDate: Double?
         /// The maximum value of the timestamp range.
-        public let endDate: String?
+        public let endDate: Double?
 
-        public init(beginDate: String? = nil, endDate: String? = nil) {
+        public init(beginDate: Double? = nil, endDate: Double? = nil) {
             self.beginDate = beginDate
             self.endDate = endDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.beginDate = dictionary["beginDate"] as? String
-            self.endDate = dictionary["endDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case beginDate = "beginDate"
+            case endDate = "endDate"
         }
     }
 
     public struct TelemetryMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "dataSize", required: false, type: .long), 
-            AWSShapeProperty(label: "count", required: true, type: .long), 
-            AWSShapeProperty(label: "messageType", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "dataSize", required: false, type: .long), 
+            AWSShapeMember(label: "count", required: true, type: .long), 
+            AWSShapeMember(label: "messageType", required: true, type: .string)
         ]
         /// The data size of messages that the agent sends to the Amazon Inspector service.
         public let dataSize: Int64?
@@ -1996,33 +1799,30 @@ extension Inspector {
             self.messageType = messageType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSize = dictionary["dataSize"] as? Int64
-            guard let count = dictionary["count"] as? Int64 else { throw InitializableError.missingRequiredParam("count") }
-            self.count = count
-            guard let messageType = dictionary["messageType"] as? String else { throw InitializableError.missingRequiredParam("messageType") }
-            self.messageType = messageType
+        private enum CodingKeys: String, CodingKey {
+            case dataSize = "dataSize"
+            case count = "count"
+            case messageType = "messageType"
         }
     }
 
     public struct AssessmentTemplate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeProperty(label: "durationInSeconds", required: true, type: .integer), 
-            AWSShapeProperty(label: "userAttributesForFindings", required: true, type: .list), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "userAttributesForFindings", required: true, type: .list), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The ARN of the assessment target that corresponds to this assessment template.
         public let assessmentTargetArn: String
         /// The name of the assessment template.
         public let name: String
         /// The time at which the assessment template is created.
-        public let createdAt: String
+        public let createdAt: Double
         /// The rules packages that are specified for this assessment template.
         public let rulesPackageArns: [String]
         /// The duration in seconds specified for this assessment tempate. The default value is 3600 seconds (one hour). The maximum value is 86400 seconds (one day).
@@ -2032,7 +1832,7 @@ extension Inspector {
         /// The ARN of the assessment template.
         public let arn: String
 
-        public init(assessmentTargetArn: String, name: String, createdAt: String, rulesPackageArns: [String], durationInSeconds: Int32, userAttributesForFindings: [Attribute], arn: String) {
+        public init(assessmentTargetArn: String, name: String, createdAt: Double, rulesPackageArns: [String], durationInSeconds: Int32, userAttributesForFindings: [Attribute], arn: String) {
             self.assessmentTargetArn = assessmentTargetArn
             self.name = name
             self.createdAt = createdAt
@@ -2042,29 +1842,21 @@ extension Inspector {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
-            self.assessmentTargetArn = assessmentTargetArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let createdAt = dictionary["createdAt"] as? String else { throw InitializableError.missingRequiredParam("createdAt") }
-            self.createdAt = createdAt
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
-            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
-            self.durationInSeconds = durationInSeconds
-            guard let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userAttributesForFindings") }
-            self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetArn = "assessmentTargetArn"
+            case name = "name"
+            case createdAt = "createdAt"
+            case rulesPackageArns = "rulesPackageArns"
+            case durationInSeconds = "durationInSeconds"
+            case userAttributesForFindings = "userAttributesForFindings"
+            case arn = "arn"
         }
     }
 
     public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string)
         ]
         /// The ARN of the IAM role that Amazon Inspector uses to list your EC2 instances during the assessment run or when you call the PreviewAgents action. 
         public let roleArn: String
@@ -2073,22 +1865,20 @@ extension Inspector {
             self.roleArn = roleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
         }
     }
 
     public struct AssetAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "autoScalingGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "amiId", required: false, type: .string), 
-            AWSShapeProperty(label: "agentId", required: false, type: .string), 
-            AWSShapeProperty(label: "schemaVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "ipv4Addresses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "autoScalingGroup", required: false, type: .string), 
+            AWSShapeMember(label: "hostname", required: false, type: .string), 
+            AWSShapeMember(label: "amiId", required: false, type: .string), 
+            AWSShapeMember(label: "agentId", required: false, type: .string), 
+            AWSShapeMember(label: "schemaVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "ipv4Addresses", required: false, type: .list)
         ]
         /// The Auto Scaling group of the EC2 instance where the finding is generated.
         public let autoScalingGroup: String?
@@ -2112,23 +1902,21 @@ extension Inspector {
             self.ipv4Addresses = ipv4Addresses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoScalingGroup = dictionary["autoScalingGroup"] as? String
-            self.hostname = dictionary["hostname"] as? String
-            self.amiId = dictionary["amiId"] as? String
-            self.agentId = dictionary["agentId"] as? String
-            guard let schemaVersion = dictionary["schemaVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("schemaVersion") }
-            self.schemaVersion = schemaVersion
-            self.ipv4Addresses = dictionary["ipv4Addresses"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroup = "autoScalingGroup"
+            case hostname = "hostname"
+            case amiId = "amiId"
+            case agentId = "agentId"
+            case schemaVersion = "schemaVersion"
+            case ipv4Addresses = "ipv4Addresses"
         }
     }
 
     public struct ListAssessmentRunAgentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunAgents", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunAgents", required: true, type: .list)
         ]
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public let nextToken: String?
@@ -2140,20 +1928,18 @@ extension Inspector {
             self.assessmentRunAgents = assessmentRunAgents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let assessmentRunAgents = dictionary["assessmentRunAgents"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentRunAgents") }
-            self.assessmentRunAgents = try assessmentRunAgents.map({ try AssessmentRunAgent(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case assessmentRunAgents = "assessmentRunAgents"
         }
     }
 
     public struct ListAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure)
         ]
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public let nextToken: String?
@@ -2168,18 +1954,17 @@ extension Inspector {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentTargetFilter(dictionary: filter) } else { self.filter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case filter = "filter"
         }
     }
 
     public struct GetTelemetryMetadataResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "telemetryMetadata", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "telemetryMetadata", required: true, type: .list)
         ]
         /// Telemetry details.
         public let telemetryMetadata: [TelemetryMetadata]
@@ -2188,21 +1973,19 @@ extension Inspector {
             self.telemetryMetadata = telemetryMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let telemetryMetadata = dictionary["telemetryMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("telemetryMetadata") }
-            self.telemetryMetadata = try telemetryMetadata.map({ try TelemetryMetadata(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case telemetryMetadata = "telemetryMetadata"
         }
     }
 
     public struct CreateAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTemplateName", required: true, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetArn", required: true, type: .string), 
-            AWSShapeProperty(label: "durationInSeconds", required: true, type: .integer), 
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeProperty(label: "userAttributesForFindings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTemplateName", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTargetArn", required: true, type: .string), 
+            AWSShapeMember(label: "durationInSeconds", required: true, type: .integer), 
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "userAttributesForFindings", required: false, type: .list)
         ]
         /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
         public let assessmentTemplateName: String
@@ -2223,29 +2006,20 @@ extension Inspector {
             self.userAttributesForFindings = userAttributesForFindings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTemplateName = dictionary["assessmentTemplateName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateName") }
-            self.assessmentTemplateName = assessmentTemplateName
-            guard let assessmentTargetArn = dictionary["assessmentTargetArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetArn") }
-            self.assessmentTargetArn = assessmentTargetArn
-            guard let durationInSeconds = dictionary["durationInSeconds"] as? Int32 else { throw InitializableError.missingRequiredParam("durationInSeconds") }
-            self.durationInSeconds = durationInSeconds
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
-            if let userAttributesForFindings = dictionary["userAttributesForFindings"] as? [[String: Any]] {
-                self.userAttributesForFindings = try userAttributesForFindings.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.userAttributesForFindings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTemplateName = "assessmentTemplateName"
+            case assessmentTargetArn = "assessmentTargetArn"
+            case durationInSeconds = "durationInSeconds"
+            case rulesPackageArns = "rulesPackageArns"
+            case userAttributesForFindings = "userAttributesForFindings"
         }
     }
 
     public struct StartAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunName", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentTemplateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunName", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentTemplateArn", required: true, type: .string)
         ]
         /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
         public let assessmentRunName: String?
@@ -2257,19 +2031,17 @@ extension Inspector {
             self.assessmentTemplateArn = assessmentTemplateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.assessmentRunName = dictionary["assessmentRunName"] as? String
-            guard let assessmentTemplateArn = dictionary["assessmentTemplateArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentTemplateArn") }
-            self.assessmentTemplateArn = assessmentTemplateArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunName = "assessmentRunName"
+            case assessmentTemplateArn = "assessmentTemplateArn"
         }
     }
 
     public struct AgentFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "agentHealthCodes", required: true, type: .list), 
-            AWSShapeProperty(label: "agentHealths", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "agentHealthCodes", required: true, type: .list), 
+            AWSShapeMember(label: "agentHealths", required: true, type: .list)
         ]
         /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
         public let agentHealthCodes: [AgentHealthCode]
@@ -2281,21 +2053,18 @@ extension Inspector {
             self.agentHealths = agentHealths
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let agentHealthCodes = dictionary["agentHealthCodes"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealthCodes") }
-            self.agentHealthCodes = agentHealthCodes.flatMap({ AgentHealthCode(rawValue: $0)})
-            guard let agentHealths = dictionary["agentHealths"] as? [String] else { throw InitializableError.missingRequiredParam("agentHealths") }
-            self.agentHealths = agentHealths.flatMap({ AgentHealth(rawValue: $0)})
+        private enum CodingKeys: String, CodingKey {
+            case agentHealthCodes = "agentHealthCodes"
+            case agentHealths = "agentHealths"
         }
     }
 
     public struct SubscribeToEventRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "event", required: true, type: .enum), 
-            AWSShapeProperty(label: "topicArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "topicArn", required: true, type: .string)
         ]
         /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications.
         public let resourceArn: String
@@ -2310,17 +2079,14 @@ extension Inspector {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
-            self.event = event
-            guard let topicArn = dictionary["topicArn"] as? String else { throw InitializableError.missingRequiredParam("topicArn") }
-            self.topicArn = topicArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case event = "event"
+            case topicArn = "topicArn"
         }
     }
 
-    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible {
+    public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case topic_does_not_exist = "TOPIC_DOES_NOT_EXIST"
         case access_denied = "ACCESS_DENIED"
@@ -2330,9 +2096,8 @@ extension Inspector {
 
     public struct CreateResourceGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupTags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupTags", required: true, type: .list)
         ]
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
         public let resourceGroupTags: [ResourceGroupTag]
@@ -2341,18 +2106,16 @@ extension Inspector {
             self.resourceGroupTags = resourceGroupTags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupTags = dictionary["resourceGroupTags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("resourceGroupTags") }
-            self.resourceGroupTags = try resourceGroupTags.map({ try ResourceGroupTag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupTags = "resourceGroupTags"
         }
     }
 
     public struct DescribeFindingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "findings", required: true, type: .list), 
-            AWSShapeProperty(label: "failedItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "findings", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Information about the finding.
         public let findings: [Finding]
@@ -2364,25 +2127,17 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let findings = dictionary["findings"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("findings") }
-            self.findings = try findings.map({ try Finding(dictionary: $0) })
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case failedItems = "failedItems"
         }
     }
 
     public struct SetTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The ARN of the assessment template that you want to set tags to.
         public let resourceArn: String
@@ -2394,23 +2149,17 @@ extension Inspector {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct FailedItemDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failureCode", required: true, type: .enum), 
-            AWSShapeProperty(label: "retryable", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureCode", required: true, type: .enum), 
+            AWSShapeMember(label: "retryable", required: true, type: .boolean)
         ]
         /// The status code of a failed item.
         public let failureCode: FailedItemErrorCode
@@ -2422,24 +2171,21 @@ extension Inspector {
             self.retryable = retryable
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawfailureCode = dictionary["failureCode"] as? String, let failureCode = FailedItemErrorCode(rawValue: rawfailureCode) else { throw InitializableError.missingRequiredParam("failureCode") }
-            self.failureCode = failureCode
-            guard let retryable = dictionary["retryable"] as? Bool else { throw InitializableError.missingRequiredParam("retryable") }
-            self.retryable = retryable
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
+            case retryable = "retryable"
         }
     }
 
     public struct AssessmentRunNotification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "snsTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "snsPublishStatusCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "event", required: true, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "date", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "error", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "snsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "snsPublishStatusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "event", required: true, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "date", required: true, type: .timestamp), 
+            AWSShapeMember(label: "error", required: true, type: .boolean)
         ]
         /// The SNS topic to which the SNS notification is sent.
         public let snsTopicArn: String?
@@ -2450,11 +2196,11 @@ extension Inspector {
         /// The message included in the notification.
         public let message: String?
         /// The date of the notification.
-        public let date: String
+        public let date: Double
         /// The Boolean value that specifies whether the notification represents an error.
         public let error: Bool
 
-        public init(snsTopicArn: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, message: String? = nil, date: String, error: Bool) {
+        public init(snsTopicArn: String? = nil, snsPublishStatusCode: AssessmentRunNotificationSnsStatusCode? = nil, event: InspectorEvent, message: String? = nil, date: Double, error: Bool) {
             self.snsTopicArn = snsTopicArn
             self.snsPublishStatusCode = snsPublishStatusCode
             self.event = event
@@ -2463,27 +2209,23 @@ extension Inspector {
             self.error = error
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snsTopicArn = dictionary["snsTopicArn"] as? String
-            if let snsPublishStatusCode = dictionary["snsPublishStatusCode"] as? String { self.snsPublishStatusCode = AssessmentRunNotificationSnsStatusCode(rawValue: snsPublishStatusCode) } else { self.snsPublishStatusCode = nil }
-            guard let rawevent = dictionary["event"] as? String, let event = InspectorEvent(rawValue: rawevent) else { throw InitializableError.missingRequiredParam("event") }
-            self.event = event
-            self.message = dictionary["message"] as? String
-            guard let date = dictionary["date"] as? String else { throw InitializableError.missingRequiredParam("date") }
-            self.date = date
-            guard let error = dictionary["error"] as? Bool else { throw InitializableError.missingRequiredParam("error") }
-            self.error = error
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "snsTopicArn"
+            case snsPublishStatusCode = "snsPublishStatusCode"
+            case event = "event"
+            case message = "message"
+            case date = "date"
+            case error = "error"
         }
     }
 
     public struct ListAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentTargetArns", required: false, type: .list)
         ]
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int32?
@@ -2501,19 +2243,18 @@ extension Inspector {
             self.assessmentTargetArns = assessmentTargetArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Inspector.AssessmentTemplateFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.assessmentTargetArns = dictionary["assessmentTargetArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case assessmentTargetArns = "assessmentTargetArns"
         }
     }
 
     public struct StopAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentRunArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentRunArn", required: true, type: .string)
         ]
         /// The ARN of the assessment run that you want to stop.
         public let assessmentRunArn: String
@@ -2522,18 +2263,16 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentRunArn = dictionary["assessmentRunArn"] as? String else { throw InitializableError.missingRequiredParam("assessmentRunArn") }
-            self.assessmentRunArn = assessmentRunArn
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct ListRulesPackagesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rulesPackageArns", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rulesPackageArns", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of ARNs that specifies the rules packages returned by the action.
         public let rulesPackageArns: [String]
@@ -2545,19 +2284,17 @@ extension Inspector {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rulesPackageArns = dictionary["rulesPackageArns"] as? [String] else { throw InitializableError.missingRequiredParam("rulesPackageArns") }
-            self.rulesPackageArns = rulesPackageArns
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case rulesPackageArns = "rulesPackageArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceGroupArn", required: true, type: .string), 
-            AWSShapeProperty(label: "assessmentTargetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceGroupArn", required: true, type: .string), 
+            AWSShapeMember(label: "assessmentTargetName", required: true, type: .string)
         ]
         /// The ARN that specifies the resource group that is used to create the assessment target.
         public let resourceGroupArn: String
@@ -2569,21 +2306,18 @@ extension Inspector {
             self.assessmentTargetName = assessmentTargetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceGroupArn = dictionary["resourceGroupArn"] as? String else { throw InitializableError.missingRequiredParam("resourceGroupArn") }
-            self.resourceGroupArn = resourceGroupArn
-            guard let assessmentTargetName = dictionary["assessmentTargetName"] as? String else { throw InitializableError.missingRequiredParam("assessmentTargetName") }
-            self.assessmentTargetName = assessmentTargetName
+        private enum CodingKeys: String, CodingKey {
+            case resourceGroupArn = "resourceGroupArn"
+            case assessmentTargetName = "assessmentTargetName"
         }
     }
 
     public struct InspectorServiceAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "schemaVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "rulesPackageArn", required: false, type: .string), 
-            AWSShapeProperty(label: "assessmentRunArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "schemaVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "rulesPackageArn", required: false, type: .string), 
+            AWSShapeMember(label: "assessmentRunArn", required: false, type: .string)
         ]
         /// The schema version of this data type.
         public let schemaVersion: Int32
@@ -2598,20 +2332,18 @@ extension Inspector {
             self.assessmentRunArn = assessmentRunArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaVersion = dictionary["schemaVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("schemaVersion") }
-            self.schemaVersion = schemaVersion
-            self.rulesPackageArn = dictionary["rulesPackageArn"] as? String
-            self.assessmentRunArn = dictionary["assessmentRunArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaVersion = "schemaVersion"
+            case rulesPackageArn = "rulesPackageArn"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
     public struct DescribeAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "assessmentTargets", required: true, type: .list), 
-            AWSShapeProperty(label: "failedItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "assessmentTargets", required: true, type: .list), 
+            AWSShapeMember(label: "failedItems", required: true, type: .map)
         ]
         /// Information about the assessment targets.
         public let assessmentTargets: [AssessmentTarget]
@@ -2623,25 +2355,17 @@ extension Inspector {
             self.failedItems = failedItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assessmentTargets = dictionary["assessmentTargets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("assessmentTargets") }
-            self.assessmentTargets = try assessmentTargets.map({ try AssessmentTarget(dictionary: $0) })
-            guard let failedItems = dictionary["failedItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("failedItems") }
-            var failedItemsDict: [String: FailedItemDetails] = [:]
-            for (key, value) in failedItems {
-                guard let failedItemDetailsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                failedItemsDict[key] = try FailedItemDetails(dictionary: failedItemDetailsDict)
-            }
-            self.failedItems = failedItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargets = "assessmentTargets"
+            case failedItems = "failedItems"
         }
     }
 
     public struct DescribeFindingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "findingArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "findingArns", required: true, type: .list)
         ]
         /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
         public let locale: Locale?
@@ -2653,10 +2377,9 @@ extension Inspector {
             self.findingArns = findingArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
-            guard let findingArns = dictionary["findingArns"] as? [String] else { throw InitializableError.missingRequiredParam("findingArns") }
-            self.findingArns = findingArns
+        private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
+            case findingArns = "findingArns"
         }
     }
 

@@ -31,10 +31,9 @@ extension Polly {
 
     public struct Lexicon: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
@@ -46,18 +45,17 @@ extension Polly {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case name = "Name"
         }
     }
 
     public struct DescribeVoicesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", location: .querystring(locationName: "LanguageCode"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
         public let languageCode: LanguageCode?
@@ -69,13 +67,13 @@ extension Polly {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum VoiceId: String, CustomStringConvertible {
+    public enum VoiceId: String, CustomStringConvertible, Codable {
         case geraint = "Geraint"
         case gwyneth = "Gwyneth"
         case mads = "Mads"
@@ -127,7 +125,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible {
+    public enum LanguageCode: String, CustomStringConvertible, Codable {
         case cy_gb = "cy-GB"
         case da_dk = "da-DK"
         case de_de = "de-DE"
@@ -155,7 +153,7 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
-    public enum Gender: String, CustomStringConvertible {
+    public enum Gender: String, CustomStringConvertible, Codable {
         case female = "Female"
         case male = "Male"
         public var description: String { return self.rawValue }
@@ -163,11 +161,11 @@ extension Polly {
 
     public struct SynthesizeSpeechOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "AudioStream"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
-            AWSShapeProperty(label: "AudioStream", required: false, type: .blob), 
-            AWSShapeProperty(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
+        public static let payloadPath: String? = "AudioStream"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContentType", location: .header(locationName: "Content-Type"), required: false, type: .string), 
+            AWSShapeMember(label: "AudioStream", required: false, type: .blob), 
+            AWSShapeMember(label: "RequestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"), required: false, type: .integer)
         ]
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
         public let contentType: String?
@@ -182,19 +180,18 @@ extension Polly {
             self.requestCharacters = requestCharacters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.contentType = dictionary["Content-Type"] as? String
-            self.audioStream = dictionary["AudioStream"] as? Data
-            self.requestCharacters = dictionary["x-amzn-RequestCharacters"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "Content-Type"
+            case audioStream = "AudioStream"
+            case requestCharacters = "x-amzn-RequestCharacters"
         }
     }
 
     public struct PutLexiconInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
         /// Content of the PLS lexicon as string data.
         public let content: String
@@ -206,20 +203,17 @@ extension Polly {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
-            self.content = content
-            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case name = "LexiconName"
         }
     }
 
     public struct GetLexiconOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Lexicon", required: false, type: .structure), 
-            AWSShapeProperty(label: "LexiconAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Lexicon", required: false, type: .structure), 
+            AWSShapeMember(label: "LexiconAttributes", required: false, type: .structure)
         ]
         /// Lexicon object that provides name and the string content of the lexicon. 
         public let lexicon: Lexicon?
@@ -231,13 +225,13 @@ extension Polly {
             self.lexiconAttributes = lexiconAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lexicon = dictionary["Lexicon"] as? [String: Any] { self.lexicon = try Polly.Lexicon(dictionary: lexicon) } else { self.lexicon = nil }
-            if let lexiconAttributes = dictionary["LexiconAttributes"] as? [String: Any] { self.lexiconAttributes = try Polly.LexiconAttributes(dictionary: lexiconAttributes) } else { self.lexiconAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case lexicon = "Lexicon"
+            case lexiconAttributes = "LexiconAttributes"
         }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible {
+    public enum OutputFormat: String, CustomStringConvertible, Codable {
         case json = "json"
         case mp3 = "mp3"
         case ogg_vorbis = "ogg_vorbis"
@@ -247,10 +241,9 @@ extension Polly {
 
     public struct ListLexiconsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Lexicons", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Lexicons", required: false, type: .list)
         ]
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
         public let nextToken: String?
@@ -262,21 +255,16 @@ extension Polly {
             self.lexicons = lexicons
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let lexicons = dictionary["Lexicons"] as? [[String: Any]] {
-                self.lexicons = try lexicons.map({ try LexiconDescription(dictionary: $0) })
-            } else { 
-                self.lexicons = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case lexicons = "Lexicons"
         }
     }
 
     public struct GetLexiconInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
         /// Name of the lexicon.
         public let name: String
@@ -285,21 +273,17 @@ extension Polly {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "LexiconName"
         }
     }
 
     public struct DeleteLexiconOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum SpeechMarkType: String, CustomStringConvertible {
+    public enum SpeechMarkType: String, CustomStringConvertible, Codable {
         case sentence = "sentence"
         case ssml = "ssml"
         case viseme = "viseme"
@@ -309,15 +293,14 @@ extension Polly {
 
     public struct SynthesizeSpeechInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VoiceId", required: true, type: .enum), 
-            AWSShapeProperty(label: "Text", required: true, type: .string), 
-            AWSShapeProperty(label: "SampleRate", required: false, type: .string), 
-            AWSShapeProperty(label: "SpeechMarkTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "TextType", required: false, type: .enum), 
-            AWSShapeProperty(label: "LexiconNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VoiceId", required: true, type: .enum), 
+            AWSShapeMember(label: "Text", required: true, type: .string), 
+            AWSShapeMember(label: "SampleRate", required: false, type: .string), 
+            AWSShapeMember(label: "SpeechMarkTypes", required: false, type: .list), 
+            AWSShapeMember(label: "OutputFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "TextType", required: false, type: .enum), 
+            AWSShapeMember(label: "LexiconNames", required: false, type: .list)
         ]
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
         public let voiceId: VoiceId
@@ -344,26 +327,22 @@ extension Polly {
             self.lexiconNames = lexiconNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawVoiceId = dictionary["VoiceId"] as? String, let voiceId = VoiceId(rawValue: rawVoiceId) else { throw InitializableError.missingRequiredParam("VoiceId") }
-            self.voiceId = voiceId
-            guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
-            self.text = text
-            self.sampleRate = dictionary["SampleRate"] as? String
-            if let speechMarkTypes = dictionary["SpeechMarkTypes"] as? [String] { self.speechMarkTypes = speechMarkTypes.flatMap({ SpeechMarkType(rawValue: $0)}) } else { self.speechMarkTypes = nil }
-            guard let rawOutputFormat = dictionary["OutputFormat"] as? String, let outputFormat = OutputFormat(rawValue: rawOutputFormat) else { throw InitializableError.missingRequiredParam("OutputFormat") }
-            self.outputFormat = outputFormat
-            if let textType = dictionary["TextType"] as? String { self.textType = TextType(rawValue: textType) } else { self.textType = nil }
-            self.lexiconNames = dictionary["LexiconNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case voiceId = "VoiceId"
+            case text = "Text"
+            case sampleRate = "SampleRate"
+            case speechMarkTypes = "SpeechMarkTypes"
+            case outputFormat = "OutputFormat"
+            case textType = "TextType"
+            case lexiconNames = "LexiconNames"
         }
     }
 
     public struct DescribeVoicesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Voices", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Voices", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of voices with their properties.
         public let voices: [Voice]?
@@ -375,21 +354,16 @@ extension Polly {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let voices = dictionary["Voices"] as? [[String: Any]] {
-                self.voices = try voices.map({ try Voice(dictionary: $0) })
-            } else { 
-                self.voices = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case voices = "Voices"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListLexiconsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string)
         ]
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
         public let nextToken: String?
@@ -398,26 +372,25 @@ extension Polly {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct LexiconAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LexiconArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LexemesCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Alphabet", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LexiconArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LexemesCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Alphabet", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
         /// Amazon Resource Name (ARN) of the lexicon.
         public let lexiconArn: String?
         /// Date lexicon was last modified (a timestamp value).
-        public let lastModified: String?
+        public let lastModified: Double?
         /// Number of lexemes in the lexicon.
         public let lexemesCount: Int32?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -427,7 +400,7 @@ extension Polly {
         /// Total size of the lexicon, in characters.
         public let size: Int32?
 
-        public init(lexiconArn: String? = nil, lastModified: String? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
+        public init(lexiconArn: String? = nil, lastModified: Double? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
             self.lexiconArn = lexiconArn
             self.lastModified = lastModified
             self.lexemesCount = lexemesCount
@@ -436,22 +409,21 @@ extension Polly {
             self.size = size
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lexiconArn = dictionary["LexiconArn"] as? String
-            self.lastModified = dictionary["LastModified"] as? String
-            self.lexemesCount = dictionary["LexemesCount"] as? Int32
-            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
-            self.alphabet = dictionary["Alphabet"] as? String
-            self.size = dictionary["Size"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case lexiconArn = "LexiconArn"
+            case lastModified = "LastModified"
+            case lexemesCount = "LexemesCount"
+            case languageCode = "LanguageCode"
+            case alphabet = "Alphabet"
+            case size = "Size"
         }
     }
 
     public struct LexiconDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .structure)
         ]
         /// Name of the lexicon.
         public let name: String?
@@ -463,13 +435,13 @@ extension Polly {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Polly.LexiconAttributes(dictionary: attributes) } else { self.attributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case attributes = "Attributes"
         }
     }
 
-    public enum TextType: String, CustomStringConvertible {
+    public enum TextType: String, CustomStringConvertible, Codable {
         case ssml = "ssml"
         case text = "text"
         public var description: String { return self.rawValue }
@@ -477,17 +449,13 @@ extension Polly {
 
     public struct PutLexiconOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteLexiconInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", location: .uri(locationName: "LexiconName"), required: true, type: .string)
         ]
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         public let name: String
@@ -496,21 +464,19 @@ extension Polly {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "LexiconName"
         }
     }
 
     public struct Voice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LanguageName", required: false, type: .string), 
-            AWSShapeProperty(label: "LanguageCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Gender", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageName", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Gender", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .enum)
         ]
         /// Human readable name of the language in English.
         public let languageName: String?
@@ -531,12 +497,12 @@ extension Polly {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.languageName = dictionary["LanguageName"] as? String
-            if let languageCode = dictionary["LanguageCode"] as? String { self.languageCode = LanguageCode(rawValue: languageCode) } else { self.languageCode = nil }
-            self.name = dictionary["Name"] as? String
-            if let gender = dictionary["Gender"] as? String { self.gender = Gender(rawValue: gender) } else { self.gender = nil }
-            if let id = dictionary["Id"] as? String { self.id = VoiceId(rawValue: id) } else { self.id = nil }
+        private enum CodingKeys: String, CodingKey {
+            case languageName = "LanguageName"
+            case languageCode = "LanguageCode"
+            case name = "Name"
+            case gender = "Gender"
+            case id = "Id"
         }
     }
 

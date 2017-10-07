@@ -31,10 +31,9 @@ extension LexModels {
 
     public struct GetBotVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bots", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bots", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
         public let bots: [BotMetadata]?
@@ -46,40 +45,35 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let bots = dictionary["bots"] as? [[String: Any]] {
-                self.bots = try bots.map({ try BotMetadata(dictionary: $0) })
-            } else { 
-                self.bots = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bots = "bots"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateBotVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "voiceId", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "failureReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
         /// The name of the bot.
         public let name: String?
         /// The date when the bot version was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -89,7 +83,7 @@ extension LexModels {
         /// Checksum identifying the version of the bot that was created.
         public let checksum: String?
         /// The date when the $LATEST version of this bot was updated. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The message that Amazon Lex uses to abort a conversation. For more information, see .
         public let abortStatement: Statement?
         ///  Specifies the target locale for the bot. 
@@ -107,7 +101,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt
@@ -125,45 +119,40 @@ extension LexModels {
             self.failureReason = failureReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let clarificationPrompt = dictionary["clarificationPrompt"] as? [String: Any] { self.clarificationPrompt = try LexModels.Prompt(dictionary: clarificationPrompt) } else { self.clarificationPrompt = nil }
-            self.description = dictionary["description"] as? String
-            self.idleSessionTTLInSeconds = dictionary["idleSessionTTLInSeconds"] as? Int32
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let abortStatement = dictionary["abortStatement"] as? [String: Any] { self.abortStatement = try LexModels.Statement(dictionary: abortStatement) } else { self.abortStatement = nil }
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
-            self.childDirected = dictionary["childDirected"] as? Bool
-            if let status = dictionary["status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.voiceId = dictionary["voiceId"] as? String
-            self.version = dictionary["version"] as? String
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try Intent(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.failureReason = dictionary["failureReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case abortStatement = "abortStatement"
+            case locale = "locale"
+            case childDirected = "childDirected"
+            case status = "status"
+            case voiceId = "voiceId"
+            case version = "version"
+            case intents = "intents"
+            case failureReason = "failureReason"
         }
     }
 
     public struct GetSlotTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
         ]
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version of the slot type.
@@ -173,9 +162,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
 
-        public init(name: String? = nil, createdDate: String? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -185,27 +174,22 @@ extension LexModels {
             self.lastUpdatedDate = lastUpdatedDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let enumerationValues = dictionary["enumerationValues"] as? [[String: Any]] {
-                self.enumerationValues = try enumerationValues.map({ try EnumerationValue(dictionary: $0) })
-            } else { 
-                self.enumerationValues = nil
-            }
-            self.version = dictionary["version"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.description = dictionary["description"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case enumerationValues = "enumerationValues"
+            case version = "version"
+            case checksum = "checksum"
+            case description = "description"
+            case lastUpdatedDate = "lastUpdatedDate"
         }
     }
 
     public struct FulfillmentActivity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "codeHook", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "codeHook", required: false, type: .structure)
         ]
         ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application. 
         public let `type`: FulfillmentActivityType
@@ -217,20 +201,18 @@ extension LexModels {
             self.codeHook = codeHook
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = FulfillmentActivityType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            if let codeHook = dictionary["codeHook"] as? [String: Any] { self.codeHook = try LexModels.CodeHook(dictionary: codeHook) } else { self.codeHook = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case codeHook = "codeHook"
         }
     }
 
     public struct GetSlotTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
         /// The maximum number of slot types to return in the response. The default is 10.
         public let maxResults: Int32?
@@ -245,19 +227,18 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nameContains = dictionary["nameContains"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteIntentVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         /// The name of the intent.
         public let name: String
@@ -269,40 +250,37 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct GetIntentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeProperty(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "slots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list)
         ]
         /// The name of the intent.
         public let name: String?
         /// Describes how the intent is fulfilled. For more information, see . 
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// If defined in the bot, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. For more information, see .
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -312,7 +290,7 @@ extension LexModels {
         /// Checksum of the intent.
         public let checksum: String?
         /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see . 
         public let confirmationPrompt: Prompt?
         /// An array of sample utterances configured for the intent.
@@ -328,7 +306,7 @@ extension LexModels {
         /// An array of intent slots configured for the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: String? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -346,34 +324,29 @@ extension LexModels {
             self.slots = slots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let fulfillmentActivity = dictionary["fulfillmentActivity"] as? [String: Any] { self.fulfillmentActivity = try LexModels.FulfillmentActivity(dictionary: fulfillmentActivity) } else { self.fulfillmentActivity = nil }
-            self.createdDate = dictionary["createdDate"] as? String
-            if let followUpPrompt = dictionary["followUpPrompt"] as? [String: Any] { self.followUpPrompt = try LexModels.FollowUpPrompt(dictionary: followUpPrompt) } else { self.followUpPrompt = nil }
-            self.description = dictionary["description"] as? String
-            if let dialogCodeHook = dictionary["dialogCodeHook"] as? [String: Any] { self.dialogCodeHook = try LexModels.CodeHook(dictionary: dialogCodeHook) } else { self.dialogCodeHook = nil }
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let confirmationPrompt = dictionary["confirmationPrompt"] as? [String: Any] { self.confirmationPrompt = try LexModels.Prompt(dictionary: confirmationPrompt) } else { self.confirmationPrompt = nil }
-            self.sampleUtterances = dictionary["sampleUtterances"] as? [String]
-            if let rejectionStatement = dictionary["rejectionStatement"] as? [String: Any] { self.rejectionStatement = try LexModels.Statement(dictionary: rejectionStatement) } else { self.rejectionStatement = nil }
-            if let conclusionStatement = dictionary["conclusionStatement"] as? [String: Any] { self.conclusionStatement = try LexModels.Statement(dictionary: conclusionStatement) } else { self.conclusionStatement = nil }
-            self.parentIntentSignature = dictionary["parentIntentSignature"] as? String
-            self.version = dictionary["version"] as? String
-            if let slots = dictionary["slots"] as? [[String: Any]] {
-                self.slots = try slots.map({ try Slot(dictionary: $0) })
-            } else { 
-                self.slots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case createdDate = "createdDate"
+            case followUpPrompt = "followUpPrompt"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case confirmationPrompt = "confirmationPrompt"
+            case sampleUtterances = "sampleUtterances"
+            case rejectionStatement = "rejectionStatement"
+            case conclusionStatement = "conclusionStatement"
+            case parentIntentSignature = "parentIntentSignature"
+            case version = "version"
+            case slots = "slots"
         }
     }
 
     public struct DeleteSlotTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
         /// The name of the slot type. The name is case sensitive. 
         public let name: String
@@ -382,22 +355,20 @@ extension LexModels {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct BotMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
         ]
         /// A description of the bot.
         public let description: String?
@@ -408,11 +379,11 @@ extension LexModels {
         /// The name of the bot. 
         public let name: String?
         /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The date that the bot was created.
-        public let createdDate: String?
+        public let createdDate: Double?
 
-        public init(description: String? = nil, status: Status? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: String? = nil, createdDate: String? = nil) {
+        public init(description: String? = nil, status: Status? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
             self.description = description
             self.status = status
             self.version = version
@@ -421,21 +392,20 @@ extension LexModels {
             self.createdDate = createdDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            if let status = dictionary["status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.version = dictionary["version"] as? String
-            self.name = dictionary["name"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case status = "status"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case createdDate = "createdDate"
         }
     }
 
     public struct GetBuiltinIntentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signature", location: .uri(locationName: "signature"), required: true, type: .string)
         ]
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String
@@ -444,25 +414,23 @@ extension LexModels {
             self.signature = signature
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let signature = dictionary["signature"] as? String else { throw InitializableError.missingRequiredParam("signature") }
-            self.signature = signature
+        private enum CodingKeys: String, CodingKey {
+            case signature = "signature"
         }
     }
 
     public struct Slot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "slotTypeVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "slotConstraint", required: true, type: .enum), 
-            AWSShapeProperty(label: "slotType", required: false, type: .string), 
-            AWSShapeProperty(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeProperty(label: "priority", required: false, type: .integer), 
-            AWSShapeProperty(label: "valueElicitationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "responseCard", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "slotTypeVersion", required: false, type: .string), 
+            AWSShapeMember(label: "slotConstraint", required: true, type: .enum), 
+            AWSShapeMember(label: "slotType", required: false, type: .string), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "priority", required: false, type: .integer), 
+            AWSShapeMember(label: "valueElicitationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "responseCard", required: false, type: .string)
         ]
         /// The name of the slot.
         public let name: String
@@ -495,27 +463,24 @@ extension LexModels {
             self.responseCard = responseCard
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.description = dictionary["description"] as? String
-            self.slotTypeVersion = dictionary["slotTypeVersion"] as? String
-            guard let rawslotConstraint = dictionary["slotConstraint"] as? String, let slotConstraint = SlotConstraint(rawValue: rawslotConstraint) else { throw InitializableError.missingRequiredParam("slotConstraint") }
-            self.slotConstraint = slotConstraint
-            self.slotType = dictionary["slotType"] as? String
-            self.sampleUtterances = dictionary["sampleUtterances"] as? [String]
-            self.priority = dictionary["priority"] as? Int32
-            if let valueElicitationPrompt = dictionary["valueElicitationPrompt"] as? [String: Any] { self.valueElicitationPrompt = try LexModels.Prompt(dictionary: valueElicitationPrompt) } else { self.valueElicitationPrompt = nil }
-            self.responseCard = dictionary["responseCard"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case description = "description"
+            case slotTypeVersion = "slotTypeVersion"
+            case slotConstraint = "slotConstraint"
+            case slotType = "slotType"
+            case sampleUtterances = "sampleUtterances"
+            case priority = "priority"
+            case valueElicitationPrompt = "valueElicitationPrompt"
+            case responseCard = "responseCard"
         }
     }
 
     public struct GetUtterancesViewResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "utterances", required: false, type: .list), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "utterances", required: false, type: .list), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// An array of objects, each containing a list of objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version.
         public let utterances: [UtteranceList]?
@@ -527,22 +492,17 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let utterances = dictionary["utterances"] as? [[String: Any]] {
-                self.utterances = try utterances.map({ try UtteranceList(dictionary: $0) })
-            } else { 
-                self.utterances = nil
-            }
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case utterances = "utterances"
+            case botName = "botName"
         }
     }
 
     public struct GetIntentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of Intent objects. For more information, see .
         public let intents: [IntentMetadata]?
@@ -554,22 +514,17 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try IntentMetadata(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case intents = "intents"
+            case nextToken = "nextToken"
         }
     }
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "content", required: true, type: .string), 
-            AWSShapeProperty(label: "contentType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "content", required: true, type: .string), 
+            AWSShapeMember(label: "contentType", required: true, type: .enum)
         ]
         /// The text of the message.
         public let content: String
@@ -581,21 +536,18 @@ extension LexModels {
             self.contentType = contentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["content"] as? String else { throw InitializableError.missingRequiredParam("content") }
-            self.content = content
-            guard let rawcontentType = dictionary["contentType"] as? String, let contentType = ContentType(rawValue: rawcontentType) else { throw InitializableError.missingRequiredParam("contentType") }
-            self.contentType = contentType
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case contentType = "contentType"
         }
     }
 
     public struct GetIntentVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The name of the intent for which versions should be returned.
         public let name: String
@@ -610,21 +562,19 @@ extension LexModels {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct GetSlotTypeVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The name of the slot type for which versions should be returned.
         public let name: String
@@ -639,20 +589,18 @@ extension LexModels {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct CodeHook: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uri", required: true, type: .string), 
-            AWSShapeProperty(label: "messageVersion", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uri", required: true, type: .string), 
+            AWSShapeMember(label: "messageVersion", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Lambda function.
         public let uri: String
@@ -664,20 +612,17 @@ extension LexModels {
             self.messageVersion = messageVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let uri = dictionary["uri"] as? String else { throw InitializableError.missingRequiredParam("uri") }
-            self.uri = uri
-            guard let messageVersion = dictionary["messageVersion"] as? String else { throw InitializableError.missingRequiredParam("messageVersion") }
-            self.messageVersion = messageVersion
+        private enum CodingKeys: String, CodingKey {
+            case uri = "uri"
+            case messageVersion = "messageVersion"
         }
     }
 
     public struct BuiltinSlotTypeMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "supportedLocales", required: false, type: .list), 
-            AWSShapeProperty(label: "signature", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "supportedLocales", required: false, type: .list), 
+            AWSShapeMember(label: "signature", required: false, type: .string)
         ]
         /// A list of target locales for the slot. 
         public let supportedLocales: [Locale]?
@@ -689,19 +634,18 @@ extension LexModels {
             self.signature = signature
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let supportedLocales = dictionary["supportedLocales"] as? [String] { self.supportedLocales = supportedLocales.flatMap({ Locale(rawValue: $0)}) } else { self.supportedLocales = nil }
-            self.signature = dictionary["signature"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case supportedLocales = "supportedLocales"
+            case signature = "signature"
         }
     }
 
     public struct GetBotVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The name of the bot for which versions should be returned.
         public let name: String
@@ -716,19 +660,17 @@ extension LexModels {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct EnumerationValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The value of the slot type.
         public let value: String
@@ -737,20 +679,18 @@ extension LexModels {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
         }
     }
 
     public struct GetBuiltinIntentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
         ]
         /// Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signatureContains: String?
@@ -768,21 +708,20 @@ extension LexModels {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.signatureContains = dictionary["signatureContains"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
+        private enum CodingKeys: String, CodingKey {
+            case signatureContains = "signatureContains"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case locale = "locale"
         }
     }
 
     public struct GetUtterancesViewRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botname"), required: true, type: .string), 
-            AWSShapeProperty(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botVersions", location: .querystring(locationName: "bot_versions"), required: true, type: .list), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botname"), required: true, type: .string), 
+            AWSShapeMember(label: "statusType", location: .querystring(locationName: "status_type"), required: true, type: .enum)
         ]
         /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
         public let botVersions: [String]
@@ -797,23 +736,19 @@ extension LexModels {
             self.statusType = statusType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let botVersions = dictionary["bot_versions"] as? [String] else { throw InitializableError.missingRequiredParam("bot_versions") }
-            self.botVersions = botVersions
-            guard let botName = dictionary["botname"] as? String else { throw InitializableError.missingRequiredParam("botname") }
-            self.botName = botName
-            guard let rawstatusType = dictionary["status_type"] as? String, let statusType = StatusType(rawValue: rawstatusType) else { throw InitializableError.missingRequiredParam("status_type") }
-            self.statusType = statusType
+        private enum CodingKeys: String, CodingKey {
+            case botVersions = "bot_versions"
+            case botName = "botname"
+            case statusType = "status_type"
         }
     }
 
     public struct GetBuiltinIntentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "supportedLocales", required: false, type: .list), 
-            AWSShapeProperty(label: "slots", required: false, type: .list), 
-            AWSShapeProperty(label: "signature", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "supportedLocales", required: false, type: .list), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "signature", required: false, type: .string)
         ]
         /// A list of locales that the intent supports.
         public let supportedLocales: [Locale]?
@@ -828,23 +763,18 @@ extension LexModels {
             self.signature = signature
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let supportedLocales = dictionary["supportedLocales"] as? [String] { self.supportedLocales = supportedLocales.flatMap({ Locale(rawValue: $0)}) } else { self.supportedLocales = nil }
-            if let slots = dictionary["slots"] as? [[String: Any]] {
-                self.slots = try slots.map({ try BuiltinIntentSlot(dictionary: $0) })
-            } else { 
-                self.slots = nil
-            }
-            self.signature = dictionary["signature"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case supportedLocales = "supportedLocales"
+            case slots = "slots"
+            case signature = "signature"
         }
     }
 
     public struct GetBotAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The name of the bot alias. The name is case sensitive.
         public let name: String
@@ -856,15 +786,13 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botName = "botName"
         }
     }
 
-    public enum ProcessBehavior: String, CustomStringConvertible {
+    public enum ProcessBehavior: String, CustomStringConvertible, Codable {
         case save = "SAVE"
         case build = "BUILD"
         public var description: String { return self.rawValue }
@@ -872,10 +800,9 @@ extension LexModels {
 
     public struct BuiltinIntentMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "supportedLocales", required: false, type: .list), 
-            AWSShapeProperty(label: "signature", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "supportedLocales", required: false, type: .list), 
+            AWSShapeMember(label: "signature", required: false, type: .string)
         ]
         /// A list of identifiers for the locales that the intent supports.
         public let supportedLocales: [Locale]?
@@ -887,40 +814,39 @@ extension LexModels {
             self.signature = signature
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let supportedLocales = dictionary["supportedLocales"] as? [String] { self.supportedLocales = supportedLocales.flatMap({ Locale(rawValue: $0)}) } else { self.supportedLocales = nil }
-            self.signature = dictionary["signature"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case supportedLocales = "supportedLocales"
+            case signature = "signature"
         }
     }
 
     public struct BotAliasMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "botVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// The name of the bot alias.
         public let name: String?
         /// The version of the Amazon Lex bot to which the alias points.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A description of the bot alias.
         public let description: String?
         /// Checksum of the bot alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The name of the bot to which the alias points.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: String? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -930,23 +856,22 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.botVersion = dictionary["botVersion"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            self.description = dictionary["description"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botVersion = "botVersion"
+            case createdDate = "createdDate"
+            case description = "description"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case botName = "botName"
         }
     }
 
     public struct GetSlotTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "slotTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
         public let slotTypes: [SlotTypeMetadata]?
@@ -958,42 +883,37 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let slotTypes = dictionary["slotTypes"] as? [[String: Any]] {
-                self.slotTypes = try slotTypes.map({ try SlotTypeMetadata(dictionary: $0) })
-            } else { 
-                self.slotTypes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case slotTypes = "slotTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct PutIntentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeProperty(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "slots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list)
         ]
         /// The name of the intent.
         public let name: String?
         /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// If defined in the intent, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled.
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -1003,7 +923,7 @@ extension LexModels {
         /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
         /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// If defined in the intent, Amazon Lex prompts the user to confirm the intent before fulfilling it.
         public let confirmationPrompt: Prompt?
         ///  An array of sample utterances that are configured for the intent. 
@@ -1019,7 +939,7 @@ extension LexModels {
         /// An array of intent slots that are configured for the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: String? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -1037,40 +957,35 @@ extension LexModels {
             self.slots = slots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let fulfillmentActivity = dictionary["fulfillmentActivity"] as? [String: Any] { self.fulfillmentActivity = try LexModels.FulfillmentActivity(dictionary: fulfillmentActivity) } else { self.fulfillmentActivity = nil }
-            self.createdDate = dictionary["createdDate"] as? String
-            if let followUpPrompt = dictionary["followUpPrompt"] as? [String: Any] { self.followUpPrompt = try LexModels.FollowUpPrompt(dictionary: followUpPrompt) } else { self.followUpPrompt = nil }
-            self.description = dictionary["description"] as? String
-            if let dialogCodeHook = dictionary["dialogCodeHook"] as? [String: Any] { self.dialogCodeHook = try LexModels.CodeHook(dictionary: dialogCodeHook) } else { self.dialogCodeHook = nil }
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let confirmationPrompt = dictionary["confirmationPrompt"] as? [String: Any] { self.confirmationPrompt = try LexModels.Prompt(dictionary: confirmationPrompt) } else { self.confirmationPrompt = nil }
-            self.sampleUtterances = dictionary["sampleUtterances"] as? [String]
-            if let rejectionStatement = dictionary["rejectionStatement"] as? [String: Any] { self.rejectionStatement = try LexModels.Statement(dictionary: rejectionStatement) } else { self.rejectionStatement = nil }
-            if let conclusionStatement = dictionary["conclusionStatement"] as? [String: Any] { self.conclusionStatement = try LexModels.Statement(dictionary: conclusionStatement) } else { self.conclusionStatement = nil }
-            self.parentIntentSignature = dictionary["parentIntentSignature"] as? String
-            self.version = dictionary["version"] as? String
-            if let slots = dictionary["slots"] as? [[String: Any]] {
-                self.slots = try slots.map({ try Slot(dictionary: $0) })
-            } else { 
-                self.slots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case createdDate = "createdDate"
+            case followUpPrompt = "followUpPrompt"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case confirmationPrompt = "confirmationPrompt"
+            case sampleUtterances = "sampleUtterances"
+            case rejectionStatement = "rejectionStatement"
+            case conclusionStatement = "conclusionStatement"
+            case parentIntentSignature = "parentIntentSignature"
+            case version = "version"
+            case slots = "slots"
         }
     }
 
     public struct GetBotChannelAssociationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String?
@@ -1079,7 +994,7 @@ extension LexModels {
         /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
         public let botConfiguration: [String: String]?
         /// The date that the association between the bot and the channel was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A description of the association between the bot and the channel.
         public let description: String?
         /// The type of the messaging platform.
@@ -1087,7 +1002,7 @@ extension LexModels {
         /// The name of the Amazon Lex bot.
         public let botName: String?
 
-        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: String? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
+        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: Double? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
             self.botAlias = botAlias
             self.name = name
             self.botConfiguration = botConfiguration
@@ -1097,27 +1012,22 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.botAlias = dictionary["botAlias"] as? String
-            self.name = dictionary["name"] as? String
-            if let botConfiguration = dictionary["botConfiguration"] as? [String: String] {
-                self.botConfiguration = botConfiguration
-            } else { 
-                self.botConfiguration = nil
-            }
-            self.createdDate = dictionary["createdDate"] as? String
-            self.description = dictionary["description"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = ChannelType(rawValue: `type`) } else { self.`type` = nil }
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case name = "name"
+            case botConfiguration = "botConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case `type` = "type"
+            case botName = "botName"
         }
     }
 
     public struct GetBotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "versionOrAlias", location: .uri(locationName: "versionoralias"), required: true, type: .string)
         ]
         /// The name of the bot. The name is case sensitive. 
         public let name: String
@@ -1129,20 +1039,17 @@ extension LexModels {
             self.versionOrAlias = versionOrAlias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let versionOrAlias = dictionary["versionoralias"] as? String else { throw InitializableError.missingRequiredParam("versionoralias") }
-            self.versionOrAlias = versionOrAlias
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case versionOrAlias = "versionoralias"
         }
     }
 
     public struct CreateSlotTypeVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
         ]
         /// The name of the slot type that you want to create a new version for. The name is case sensitive. 
         public let name: String
@@ -1154,14 +1061,13 @@ extension LexModels {
             self.checksum = checksum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.checksum = dictionary["checksum"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case checksum = "checksum"
         }
     }
 
-    public enum ChannelType: String, CustomStringConvertible {
+    public enum ChannelType: String, CustomStringConvertible, Codable {
         case facebook = "Facebook"
         case slack = "Slack"
         case twilio_sms = "Twilio-Sms"
@@ -1170,10 +1076,9 @@ extension LexModels {
 
     public struct DeleteSlotTypeVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         /// The name of the slot type.
         public let name: String
@@ -1185,20 +1090,17 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct GetBotChannelAssociationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botChannelAssociations", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botChannelAssociations", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel. 
         public let botChannelAssociations: [BotChannelAssociation]?
@@ -1210,24 +1112,19 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let botChannelAssociations = dictionary["botChannelAssociations"] as? [[String: Any]] {
-                self.botChannelAssociations = try botChannelAssociations.map({ try BotChannelAssociation(dictionary: $0) })
-            } else { 
-                self.botChannelAssociations = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case botChannelAssociations = "botChannelAssociations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetBotAliasesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The maximum number of aliases to return in the response. The default is 50. . 
         public let maxResults: Int32?
@@ -1245,21 +1142,19 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nameContains = dictionary["nameContains"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case nextToken = "nextToken"
+            case botName = "botName"
         }
     }
 
     public struct GetIntentVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
         public let intents: [IntentMetadata]?
@@ -1271,25 +1166,20 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try IntentMetadata(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case intents = "intents"
+            case nextToken = "nextToken"
         }
     }
 
     public struct IntentMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
         ]
         /// A description of the intent.
         public let description: String?
@@ -1298,11 +1188,11 @@ extension LexModels {
         /// The name of the intent.
         public let name: String?
         /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The date that the intent was created.
-        public let createdDate: String?
+        public let createdDate: Double?
 
-        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: String? = nil, createdDate: String? = nil) {
+        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
             self.description = description
             self.version = version
             self.name = name
@@ -1310,16 +1200,16 @@ extension LexModels {
             self.createdDate = createdDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.version = dictionary["version"] as? String
-            self.name = dictionary["name"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case createdDate = "createdDate"
         }
     }
 
-    public enum StatusType: String, CustomStringConvertible {
+    public enum StatusType: String, CustomStringConvertible, Codable {
         case detected = "Detected"
         case missed = "Missed"
         public var description: String { return self.rawValue }
@@ -1327,28 +1217,27 @@ extension LexModels {
 
     public struct GetBotResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "voiceId", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "failureReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
         /// The name of the bot.
         public let name: String?
         /// The date that the bot was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -1358,7 +1247,7 @@ extension LexModels {
         /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
         public let checksum: String?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see .
         public let abortStatement: Statement?
         ///  The target locale for the bot. 
@@ -1376,7 +1265,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt
@@ -1394,35 +1283,30 @@ extension LexModels {
             self.failureReason = failureReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let clarificationPrompt = dictionary["clarificationPrompt"] as? [String: Any] { self.clarificationPrompt = try LexModels.Prompt(dictionary: clarificationPrompt) } else { self.clarificationPrompt = nil }
-            self.description = dictionary["description"] as? String
-            self.idleSessionTTLInSeconds = dictionary["idleSessionTTLInSeconds"] as? Int32
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let abortStatement = dictionary["abortStatement"] as? [String: Any] { self.abortStatement = try LexModels.Statement(dictionary: abortStatement) } else { self.abortStatement = nil }
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
-            self.childDirected = dictionary["childDirected"] as? Bool
-            if let status = dictionary["status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.voiceId = dictionary["voiceId"] as? String
-            self.version = dictionary["version"] as? String
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try Intent(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.failureReason = dictionary["failureReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case abortStatement = "abortStatement"
+            case locale = "locale"
+            case childDirected = "childDirected"
+            case status = "status"
+            case voiceId = "voiceId"
+            case version = "version"
+            case intents = "intents"
+            case failureReason = "failureReason"
         }
     }
 
     public struct DeleteUtterancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userId", location: .uri(locationName: "userId"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the or operation request that contained the utterance.
         public let userId: String
@@ -1434,42 +1318,39 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
-            self.userId = userId
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case userId = "userId"
+            case botName = "botName"
         }
     }
 
     public struct GetBotAliasResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "botVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// The name of the bot alias.
         public let name: String?
         /// The version of the bot that the alias points to.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A description of the bot alias.
         public let description: String?
         /// Checksum of the bot alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The name of the bot that the alias points to.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: String? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -1479,33 +1360,32 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.botVersion = dictionary["botVersion"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            self.description = dictionary["description"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botVersion = "botVersion"
+            case createdDate = "createdDate"
+            case description = "description"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case botName = "botName"
         }
     }
 
     public struct CreateSlotTypeVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
         ]
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version assigned to the new slot type version. 
@@ -1515,9 +1395,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
 
-        public init(name: String? = nil, createdDate: String? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -1527,22 +1407,18 @@ extension LexModels {
             self.lastUpdatedDate = lastUpdatedDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let enumerationValues = dictionary["enumerationValues"] as? [[String: Any]] {
-                self.enumerationValues = try enumerationValues.map({ try EnumerationValue(dictionary: $0) })
-            } else { 
-                self.enumerationValues = nil
-            }
-            self.version = dictionary["version"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.description = dictionary["description"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case enumerationValues = "enumerationValues"
+            case version = "version"
+            case checksum = "checksum"
+            case description = "description"
+            case lastUpdatedDate = "lastUpdatedDate"
         }
     }
 
-    public enum FulfillmentActivityType: String, CustomStringConvertible {
+    public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
         case returnintent = "ReturnIntent"
         case codehook = "CodeHook"
         public var description: String { return self.rawValue }
@@ -1550,10 +1426,9 @@ extension LexModels {
 
     public struct DeleteBotVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         /// The name of the bot.
         public let name: String
@@ -1565,15 +1440,13 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
-    public enum ReferenceType: String, CustomStringConvertible {
+    public enum ReferenceType: String, CustomStringConvertible, Codable {
         case intent = "Intent"
         case bot = "Bot"
         case botalias = "BotAlias"
@@ -1583,10 +1456,9 @@ extension LexModels {
 
     public struct DeleteBotAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The name of the alias to delete. The name is case sensitive. 
         public let name: String
@@ -1598,20 +1470,17 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botName = "botName"
         }
     }
 
     public struct GetBotsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bots", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bots", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of botMetadata objects, with one entry for each bot. 
         public let bots: [BotMetadata]?
@@ -1623,21 +1492,16 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let bots = dictionary["bots"] as? [[String: Any]] {
-                self.bots = try bots.map({ try BotMetadata(dictionary: $0) })
-            } else { 
-                self.bots = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bots = "bots"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteIntentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
         /// The name of the intent. The name is case sensitive. 
         public let name: String
@@ -1646,18 +1510,16 @@ extension LexModels {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct GetIntentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         /// The name of the intent. The name is case sensitive. 
         public let name: String
@@ -1669,15 +1531,13 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
-    public enum SlotConstraint: String, CustomStringConvertible {
+    public enum SlotConstraint: String, CustomStringConvertible, Codable {
         case required = "Required"
         case optional = "Optional"
         public var description: String { return self.rawValue }
@@ -1685,9 +1545,8 @@ extension LexModels {
 
     public struct DeleteBotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string)
         ]
         /// The name of the bot. The name is case sensitive. 
         public let name: String
@@ -1696,18 +1555,16 @@ extension LexModels {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct CreateIntentVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
         ]
         /// The name of the intent that you want to create a new version of. The name is case sensitive. 
         public let name: String
@@ -1719,14 +1576,13 @@ extension LexModels {
             self.checksum = checksum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.checksum = dictionary["checksum"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case checksum = "checksum"
         }
     }
 
-    public enum Status: String, CustomStringConvertible {
+    public enum Status: String, CustomStringConvertible, Codable {
         case building = "BUILDING"
         case ready = "READY"
         case failed = "FAILED"
@@ -1734,20 +1590,19 @@ extension LexModels {
         public var description: String { return self.rawValue }
     }
 
-    public enum Locale: String, CustomStringConvertible {
+    public enum Locale: String, CustomStringConvertible, Codable {
         case en_us = "en-US"
         public var description: String { return self.rawValue }
     }
 
     public struct PutBotAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "botVersion", required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "botVersion", required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// A description of the alias.
         public let description: String?
@@ -1768,34 +1623,30 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.checksum = dictionary["checksum"] as? String
-            guard let botVersion = dictionary["botVersion"] as? String else { throw InitializableError.missingRequiredParam("botVersion") }
-            self.botVersion = botVersion
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case checksum = "checksum"
+            case botVersion = "botVersion"
+            case botName = "botName"
         }
     }
 
     public struct PutIntentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "slots", required: false, type: .list), 
-            AWSShapeProperty(label: "sampleUtterances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "slots", required: false, type: .list), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list)
         ]
         /// When the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither. 
         public let rejectionStatement: Statement?
@@ -1837,33 +1688,27 @@ extension LexModels {
             self.sampleUtterances = sampleUtterances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rejectionStatement = dictionary["rejectionStatement"] as? [String: Any] { self.rejectionStatement = try LexModels.Statement(dictionary: rejectionStatement) } else { self.rejectionStatement = nil }
-            if let fulfillmentActivity = dictionary["fulfillmentActivity"] as? [String: Any] { self.fulfillmentActivity = try LexModels.FulfillmentActivity(dictionary: fulfillmentActivity) } else { self.fulfillmentActivity = nil }
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            if let conclusionStatement = dictionary["conclusionStatement"] as? [String: Any] { self.conclusionStatement = try LexModels.Statement(dictionary: conclusionStatement) } else { self.conclusionStatement = nil }
-            if let dialogCodeHook = dictionary["dialogCodeHook"] as? [String: Any] { self.dialogCodeHook = try LexModels.CodeHook(dictionary: dialogCodeHook) } else { self.dialogCodeHook = nil }
-            self.description = dictionary["description"] as? String
-            self.parentIntentSignature = dictionary["parentIntentSignature"] as? String
-            if let followUpPrompt = dictionary["followUpPrompt"] as? [String: Any] { self.followUpPrompt = try LexModels.FollowUpPrompt(dictionary: followUpPrompt) } else { self.followUpPrompt = nil }
-            self.checksum = dictionary["checksum"] as? String
-            if let confirmationPrompt = dictionary["confirmationPrompt"] as? [String: Any] { self.confirmationPrompt = try LexModels.Prompt(dictionary: confirmationPrompt) } else { self.confirmationPrompt = nil }
-            if let slots = dictionary["slots"] as? [[String: Any]] {
-                self.slots = try slots.map({ try Slot(dictionary: $0) })
-            } else { 
-                self.slots = nil
-            }
-            self.sampleUtterances = dictionary["sampleUtterances"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case rejectionStatement = "rejectionStatement"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case name = "name"
+            case conclusionStatement = "conclusionStatement"
+            case dialogCodeHook = "dialogCodeHook"
+            case description = "description"
+            case parentIntentSignature = "parentIntentSignature"
+            case followUpPrompt = "followUpPrompt"
+            case checksum = "checksum"
+            case confirmationPrompt = "confirmationPrompt"
+            case slots = "slots"
+            case sampleUtterances = "sampleUtterances"
         }
     }
 
     public struct GetBuiltinSlotTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "slotTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
         public let slotTypes: [BuiltinSlotTypeMetadata]?
@@ -1875,22 +1720,17 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let slotTypes = dictionary["slotTypes"] as? [[String: Any]] {
-                self.slotTypes = try slotTypes.map({ try BuiltinSlotTypeMetadata(dictionary: $0) })
-            } else { 
-                self.slotTypes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case slotTypes = "slotTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct Intent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "intentName", required: true, type: .string), 
-            AWSShapeProperty(label: "intentVersion", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intentName", required: true, type: .string), 
+            AWSShapeMember(label: "intentVersion", required: true, type: .string)
         ]
         /// The name of the intent.
         public let intentName: String
@@ -1902,21 +1742,18 @@ extension LexModels {
             self.intentVersion = intentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let intentName = dictionary["intentName"] as? String else { throw InitializableError.missingRequiredParam("intentName") }
-            self.intentName = intentName
-            guard let intentVersion = dictionary["intentVersion"] as? String else { throw InitializableError.missingRequiredParam("intentVersion") }
-            self.intentVersion = intentVersion
+        private enum CodingKeys: String, CodingKey {
+            case intentName = "intentName"
+            case intentVersion = "intentVersion"
         }
     }
 
     public struct DeleteBotChannelAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The name of the association. The name is case sensitive. 
         public let name: String
@@ -1931,22 +1768,18 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let botAlias = dictionary["aliasName"] as? String else { throw InitializableError.missingRequiredParam("aliasName") }
-            self.botAlias = botAlias
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botAlias = "aliasName"
+            case botName = "botName"
         }
     }
 
     public struct CreateBotVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string)
         ]
         /// The name of the bot that you want to create a new version of. The name is case sensitive. 
         public let name: String
@@ -1958,28 +1791,26 @@ extension LexModels {
             self.checksum = checksum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.checksum = dictionary["checksum"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case checksum = "checksum"
         }
     }
 
     public struct PutBotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "childDirected", required: true, type: .boolean), 
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "processBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "voiceId", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "childDirected", required: true, type: .boolean), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "processBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: true, type: .enum)
         ]
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
         public let childDirected: Bool
@@ -2018,36 +1849,28 @@ extension LexModels {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let childDirected = dictionary["childDirected"] as? Bool else { throw InitializableError.missingRequiredParam("childDirected") }
-            self.childDirected = childDirected
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            if let processBehavior = dictionary["processBehavior"] as? String { self.processBehavior = ProcessBehavior(rawValue: processBehavior) } else { self.processBehavior = nil }
-            self.idleSessionTTLInSeconds = dictionary["idleSessionTTLInSeconds"] as? Int32
-            if let clarificationPrompt = dictionary["clarificationPrompt"] as? [String: Any] { self.clarificationPrompt = try LexModels.Prompt(dictionary: clarificationPrompt) } else { self.clarificationPrompt = nil }
-            self.voiceId = dictionary["voiceId"] as? String
-            self.description = dictionary["description"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try Intent(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            if let abortStatement = dictionary["abortStatement"] as? [String: Any] { self.abortStatement = try LexModels.Statement(dictionary: abortStatement) } else { self.abortStatement = nil }
-            guard let rawlocale = dictionary["locale"] as? String, let locale = Locale(rawValue: rawlocale) else { throw InitializableError.missingRequiredParam("locale") }
-            self.locale = locale
+        private enum CodingKeys: String, CodingKey {
+            case childDirected = "childDirected"
+            case name = "name"
+            case processBehavior = "processBehavior"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case clarificationPrompt = "clarificationPrompt"
+            case voiceId = "voiceId"
+            case description = "description"
+            case checksum = "checksum"
+            case intents = "intents"
+            case abortStatement = "abortStatement"
+            case locale = "locale"
         }
     }
 
     public struct PutSlotTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "enumerationValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list)
         ]
         /// A description of the slot type.
         public let description: String?
@@ -2065,45 +1888,39 @@ extension LexModels {
             self.enumerationValues = enumerationValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.checksum = dictionary["checksum"] as? String
-            if let enumerationValues = dictionary["enumerationValues"] as? [[String: Any]] {
-                self.enumerationValues = try enumerationValues.map({ try EnumerationValue(dictionary: $0) })
-            } else { 
-                self.enumerationValues = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case checksum = "checksum"
+            case enumerationValues = "enumerationValues"
         }
     }
 
     public struct CreateIntentVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "fulfillmentActivity", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "followUpPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "dialogCodeHook", required: false, type: .structure), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "confirmationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "sampleUtterances", required: false, type: .list), 
-            AWSShapeProperty(label: "rejectionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "conclusionStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "parentIntentSignature", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "slots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "fulfillmentActivity", required: false, type: .structure), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "followUpPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "dialogCodeHook", required: false, type: .structure), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "confirmationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "sampleUtterances", required: false, type: .list), 
+            AWSShapeMember(label: "rejectionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "conclusionStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "parentIntentSignature", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "slots", required: false, type: .list)
         ]
         /// The name of the intent.
         public let name: String?
         ///  Describes how the intent is fulfilled. 
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// If defined, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. 
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -2113,7 +1930,7 @@ extension LexModels {
         /// Checksum of the intent version created.
         public let checksum: String?
         /// The date that the intent was updated. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it. 
         public let confirmationPrompt: Prompt?
         /// An array of sample utterances configured for the intent. 
@@ -2129,7 +1946,7 @@ extension LexModels {
         /// An array of slot types that defines the information required to fulfill the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: String? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -2147,35 +1964,30 @@ extension LexModels {
             self.slots = slots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let fulfillmentActivity = dictionary["fulfillmentActivity"] as? [String: Any] { self.fulfillmentActivity = try LexModels.FulfillmentActivity(dictionary: fulfillmentActivity) } else { self.fulfillmentActivity = nil }
-            self.createdDate = dictionary["createdDate"] as? String
-            if let followUpPrompt = dictionary["followUpPrompt"] as? [String: Any] { self.followUpPrompt = try LexModels.FollowUpPrompt(dictionary: followUpPrompt) } else { self.followUpPrompt = nil }
-            self.description = dictionary["description"] as? String
-            if let dialogCodeHook = dictionary["dialogCodeHook"] as? [String: Any] { self.dialogCodeHook = try LexModels.CodeHook(dictionary: dialogCodeHook) } else { self.dialogCodeHook = nil }
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let confirmationPrompt = dictionary["confirmationPrompt"] as? [String: Any] { self.confirmationPrompt = try LexModels.Prompt(dictionary: confirmationPrompt) } else { self.confirmationPrompt = nil }
-            self.sampleUtterances = dictionary["sampleUtterances"] as? [String]
-            if let rejectionStatement = dictionary["rejectionStatement"] as? [String: Any] { self.rejectionStatement = try LexModels.Statement(dictionary: rejectionStatement) } else { self.rejectionStatement = nil }
-            if let conclusionStatement = dictionary["conclusionStatement"] as? [String: Any] { self.conclusionStatement = try LexModels.Statement(dictionary: conclusionStatement) } else { self.conclusionStatement = nil }
-            self.parentIntentSignature = dictionary["parentIntentSignature"] as? String
-            self.version = dictionary["version"] as? String
-            if let slots = dictionary["slots"] as? [[String: Any]] {
-                self.slots = try slots.map({ try Slot(dictionary: $0) })
-            } else { 
-                self.slots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case fulfillmentActivity = "fulfillmentActivity"
+            case createdDate = "createdDate"
+            case followUpPrompt = "followUpPrompt"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case confirmationPrompt = "confirmationPrompt"
+            case sampleUtterances = "sampleUtterances"
+            case rejectionStatement = "rejectionStatement"
+            case conclusionStatement = "conclusionStatement"
+            case parentIntentSignature = "parentIntentSignature"
+            case version = "version"
+            case slots = "slots"
         }
     }
 
     public struct FollowUpPrompt: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rejectionStatement", required: true, type: .structure), 
-            AWSShapeProperty(label: "prompt", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rejectionStatement", required: true, type: .structure), 
+            AWSShapeMember(label: "prompt", required: true, type: .structure)
         ]
         /// If the user answers "no" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled. 
         public let rejectionStatement: Statement
@@ -2187,20 +1999,17 @@ extension LexModels {
             self.prompt = prompt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rejectionStatement = dictionary["rejectionStatement"] as? [String: Any] else { throw InitializableError.missingRequiredParam("rejectionStatement") }
-            self.rejectionStatement = try LexModels.Statement(dictionary: rejectionStatement)
-            guard let prompt = dictionary["prompt"] as? [String: Any] else { throw InitializableError.missingRequiredParam("prompt") }
-            self.prompt = try LexModels.Prompt(dictionary: prompt)
+        private enum CodingKeys: String, CodingKey {
+            case rejectionStatement = "rejectionStatement"
+            case prompt = "prompt"
         }
     }
 
     public struct GetBotAliasesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "BotAliases", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BotAliases", required: false, type: .list)
         ]
         /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
         public let nextToken: String?
@@ -2212,22 +2021,17 @@ extension LexModels {
             self.botAliases = botAliases
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let botAliases = dictionary["BotAliases"] as? [[String: Any]] {
-                self.botAliases = try botAliases.map({ try BotAliasMetadata(dictionary: $0) })
-            } else { 
-                self.botAliases = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case botAliases = "BotAliases"
         }
     }
 
     public struct UtteranceList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "utterances", required: false, type: .list), 
-            AWSShapeProperty(label: "botVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "utterances", required: false, type: .list), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string)
         ]
         /// One or more objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.
         public let utterances: [UtteranceData]?
@@ -2239,30 +2043,25 @@ extension LexModels {
             self.botVersion = botVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let utterances = dictionary["utterances"] as? [[String: Any]] {
-                self.utterances = try utterances.map({ try UtteranceData(dictionary: $0) })
-            } else { 
-                self.utterances = nil
-            }
-            self.botVersion = dictionary["botVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case utterances = "utterances"
+            case botVersion = "botVersion"
         }
     }
 
     public struct UtteranceData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "firstUtteredDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastUtteredDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "utteranceString", required: false, type: .string), 
-            AWSShapeProperty(label: "distinctUsers", required: false, type: .integer), 
-            AWSShapeProperty(label: "count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "firstUtteredDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUtteredDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "utteranceString", required: false, type: .string), 
+            AWSShapeMember(label: "distinctUsers", required: false, type: .integer), 
+            AWSShapeMember(label: "count", required: false, type: .integer)
         ]
         /// The date that the utterance was first recorded.
-        public let firstUtteredDate: String?
+        public let firstUtteredDate: Double?
         /// The date that the utterance was last recorded.
-        public let lastUtteredDate: String?
+        public let lastUtteredDate: Double?
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
         /// The total number of individuals that used the utterance.
@@ -2270,7 +2069,7 @@ extension LexModels {
         /// The number of times that the utterance was processed.
         public let count: Int32?
 
-        public init(firstUtteredDate: String? = nil, lastUtteredDate: String? = nil, utteranceString: String? = nil, distinctUsers: Int32? = nil, count: Int32? = nil) {
+        public init(firstUtteredDate: Double? = nil, lastUtteredDate: Double? = nil, utteranceString: String? = nil, distinctUsers: Int32? = nil, count: Int32? = nil) {
             self.firstUtteredDate = firstUtteredDate
             self.lastUtteredDate = lastUtteredDate
             self.utteranceString = utteranceString
@@ -2278,16 +2077,16 @@ extension LexModels {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.firstUtteredDate = dictionary["firstUtteredDate"] as? String
-            self.lastUtteredDate = dictionary["lastUtteredDate"] as? String
-            self.utteranceString = dictionary["utteranceString"] as? String
-            self.distinctUsers = dictionary["distinctUsers"] as? Int32
-            self.count = dictionary["count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case firstUtteredDate = "firstUtteredDate"
+            case lastUtteredDate = "lastUtteredDate"
+            case utteranceString = "utteranceString"
+            case distinctUsers = "distinctUsers"
+            case count = "count"
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible {
+    public enum ContentType: String, CustomStringConvertible, Codable {
         case plaintext = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
@@ -2295,11 +2094,10 @@ extension LexModels {
 
     public struct GetBotsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
         public let maxResults: Int32?
@@ -2314,22 +2112,21 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nameContains = dictionary["nameContains"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SlotTypeMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp)
         ]
         /// A description of the slot type.
         public let description: String?
@@ -2338,11 +2135,11 @@ extension LexModels {
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The date that the slot type was created.
-        public let createdDate: String?
+        public let createdDate: Double?
 
-        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: String? = nil, createdDate: String? = nil) {
+        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
             self.description = description
             self.version = version
             self.name = name
@@ -2350,22 +2147,21 @@ extension LexModels {
             self.createdDate = createdDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.version = dictionary["version"] as? String
-            self.name = dictionary["name"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case version = "version"
+            case name = "name"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case createdDate = "createdDate"
         }
     }
 
     public struct GetIntentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
         ]
         /// The maximum number of intents to return in the response. The default is 10.
         public let maxResults: Int32?
@@ -2380,20 +2176,19 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nameContains = dictionary["nameContains"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case nextToken = "nextToken"
         }
     }
 
     public struct Prompt: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxAttempts", required: true, type: .integer), 
-            AWSShapeProperty(label: "responseCard", required: false, type: .string), 
-            AWSShapeProperty(label: "messages", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxAttempts", required: true, type: .integer), 
+            AWSShapeMember(label: "responseCard", required: false, type: .string), 
+            AWSShapeMember(label: "messages", required: true, type: .list)
         ]
         /// The number of times to prompt the user for information.
         public let maxAttempts: Int32
@@ -2408,31 +2203,28 @@ extension LexModels {
             self.messages = messages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxAttempts = dictionary["maxAttempts"] as? Int32 else { throw InitializableError.missingRequiredParam("maxAttempts") }
-            self.maxAttempts = maxAttempts
-            self.responseCard = dictionary["responseCard"] as? String
-            guard let messages = dictionary["messages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("messages") }
-            self.messages = try messages.map({ try Message(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case maxAttempts = "maxAttempts"
+            case responseCard = "responseCard"
+            case messages = "messages"
         }
     }
 
     public struct PutSlotTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "enumerationValues", required: false, type: .list), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "enumerationValues", required: false, type: .list), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp)
         ]
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version of the slot type. For a new slot type, the version is always $LATEST. 
@@ -2442,9 +2234,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
 
-        public init(name: String? = nil, createdDate: String? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -2454,27 +2246,22 @@ extension LexModels {
             self.lastUpdatedDate = lastUpdatedDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let enumerationValues = dictionary["enumerationValues"] as? [[String: Any]] {
-                self.enumerationValues = try enumerationValues.map({ try EnumerationValue(dictionary: $0) })
-            } else { 
-                self.enumerationValues = nil
-            }
-            self.version = dictionary["version"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.description = dictionary["description"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case enumerationValues = "enumerationValues"
+            case version = "version"
+            case checksum = "checksum"
+            case description = "description"
+            case lastUpdatedDate = "lastUpdatedDate"
         }
     }
 
     public struct ResourceReference: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// The name of the resource that is using the resource that you are trying to delete.
         public let name: String?
@@ -2486,40 +2273,39 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.version = dictionary["version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct PutBotAliasResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "botVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "botVersion", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// The name of the alias.
         public let name: String?
         /// The version of the bot that the alias points to.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A description of the alias.
         public let description: String?
         /// The checksum for the current version of the alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The name of the bot that the alias points to.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: String? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -2529,23 +2315,22 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.botVersion = dictionary["botVersion"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            self.description = dictionary["description"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botVersion = "botVersion"
+            case createdDate = "createdDate"
+            case description = "description"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case botName = "botName"
         }
     }
 
     public struct GetBuiltinIntentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of builtinIntentMetadata objects, one for each intent in the response.
         public let intents: [BuiltinIntentMetadata]?
@@ -2557,23 +2342,18 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try BuiltinIntentMetadata(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case intents = "intents"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetBotChannelAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// The name of the association between the bot and the channel. The name is case sensitive. 
         public let name: String
@@ -2588,22 +2368,18 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let botAlias = dictionary["aliasName"] as? String else { throw InitializableError.missingRequiredParam("aliasName") }
-            self.botAlias = botAlias
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case botAlias = "aliasName"
+            case botName = "botName"
         }
     }
 
     public struct GetSlotTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
-            AWSShapeProperty(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", location: .uri(locationName: "name"), required: true, type: .string), 
+            AWSShapeMember(label: "version", location: .uri(locationName: "version"), required: true, type: .string)
         ]
         /// The name of the slot type. The name is case sensitive. 
         public let name: String
@@ -2615,25 +2391,22 @@ extension LexModels {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct BotChannelAssociation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "botConfiguration", required: false, type: .map), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "botName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "botConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "botName", required: false, type: .string)
         ]
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made. 
         public let botAlias: String?
@@ -2642,7 +2415,7 @@ extension LexModels {
         /// Provides information necessary to communicate with the messaging platform. 
         public let botConfiguration: [String: String]?
         /// The date that the association between the Amazon Lex bot and the channel was created. 
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A text description of the association you are creating. 
         public let description: String?
         /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
@@ -2650,7 +2423,7 @@ extension LexModels {
         /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio. 
         public let botName: String?
 
-        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: String? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
+        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: Double? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
             self.botAlias = botAlias
             self.name = name
             self.botConfiguration = botConfiguration
@@ -2660,29 +2433,24 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.botAlias = dictionary["botAlias"] as? String
-            self.name = dictionary["name"] as? String
-            if let botConfiguration = dictionary["botConfiguration"] as? [String: String] {
-                self.botConfiguration = botConfiguration
-            } else { 
-                self.botConfiguration = nil
-            }
-            self.createdDate = dictionary["createdDate"] as? String
-            self.description = dictionary["description"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = ChannelType(rawValue: `type`) } else { self.`type` = nil }
-            self.botName = dictionary["botName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "botAlias"
+            case name = "name"
+            case botConfiguration = "botConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case `type` = "type"
+            case botName = "botName"
         }
     }
 
     public struct GetBuiltinSlotTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signatureContains", location: .querystring(locationName: "signatureContains"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "locale", location: .querystring(locationName: "locale"), required: false, type: .enum)
         ]
         /// Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
         public let signatureContains: String?
@@ -2700,20 +2468,19 @@ extension LexModels {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.signatureContains = dictionary["signatureContains"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
+        private enum CodingKeys: String, CodingKey {
+            case signatureContains = "signatureContains"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case locale = "locale"
         }
     }
 
     public struct Statement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "responseCard", required: false, type: .string), 
-            AWSShapeProperty(label: "messages", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "responseCard", required: false, type: .string), 
+            AWSShapeMember(label: "messages", required: true, type: .list)
         ]
         ///  At runtime, if the client is using the API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card. 
         public let responseCard: String?
@@ -2725,22 +2492,20 @@ extension LexModels {
             self.messages = messages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.responseCard = dictionary["responseCard"] as? String
-            guard let messages = dictionary["messages"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("messages") }
-            self.messages = try messages.map({ try Message(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case responseCard = "responseCard"
+            case messages = "messages"
         }
     }
 
     public struct GetBotChannelAssociationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
-            AWSShapeProperty(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "botAlias", location: .uri(locationName: "aliasName"), required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nameContains", location: .querystring(locationName: "nameContains"), required: false, type: .string), 
+            AWSShapeMember(label: "botName", location: .uri(locationName: "botName"), required: true, type: .string)
         ]
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
@@ -2761,22 +2526,19 @@ extension LexModels {
             self.botName = botName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let botAlias = dictionary["aliasName"] as? String else { throw InitializableError.missingRequiredParam("aliasName") }
-            self.botAlias = botAlias
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nameContains = dictionary["nameContains"] as? String
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
-            self.botName = botName
+        private enum CodingKeys: String, CodingKey {
+            case botAlias = "aliasName"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case nameContains = "nameContains"
+            case botName = "botName"
         }
     }
 
     public struct BuiltinIntentSlot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// A list of the slots defined for the intent.
         public let name: String?
@@ -2785,17 +2547,16 @@ extension LexModels {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct GetSlotTypeVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "slotTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "slotTypes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
         public let slotTypes: [SlotTypeMetadata]?
@@ -2807,40 +2568,35 @@ extension LexModels {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let slotTypes = dictionary["slotTypes"] as? [[String: Any]] {
-                self.slotTypes = try slotTypes.map({ try SlotTypeMetadata(dictionary: $0) })
-            } else { 
-                self.slotTypes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case slotTypes = "slotTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct PutBotResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "createdDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "clarificationPrompt", required: false, type: .structure), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "checksum", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "abortStatement", required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", required: false, type: .enum), 
-            AWSShapeProperty(label: "childDirected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "voiceId", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "intents", required: false, type: .list), 
-            AWSShapeProperty(label: "failureReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "createdDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "clarificationPrompt", required: false, type: .structure), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "idleSessionTTLInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "checksum", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "abortStatement", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .enum), 
+            AWSShapeMember(label: "childDirected", required: false, type: .boolean), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "voiceId", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "intents", required: false, type: .list), 
+            AWSShapeMember(label: "failureReason", required: false, type: .string)
         ]
         /// The name of the bot.
         public let name: String?
         /// The date that the bot was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         ///  The prompts that Amazon Lex uses when it doesn't understand the user's intent. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -2850,7 +2606,7 @@ extension LexModels {
         /// Checksum of the bot that you created.
         public let checksum: String?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: String?
+        public let lastUpdatedDate: Double?
         /// The message that Amazon Lex uses to abort a conversation. For more information, see .
         public let abortStatement: Statement?
         ///  The target locale for the bot. 
@@ -2868,7 +2624,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: String? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: String? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt
@@ -2886,26 +2642,22 @@ extension LexModels {
             self.failureReason = failureReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.createdDate = dictionary["createdDate"] as? String
-            if let clarificationPrompt = dictionary["clarificationPrompt"] as? [String: Any] { self.clarificationPrompt = try LexModels.Prompt(dictionary: clarificationPrompt) } else { self.clarificationPrompt = nil }
-            self.description = dictionary["description"] as? String
-            self.idleSessionTTLInSeconds = dictionary["idleSessionTTLInSeconds"] as? Int32
-            self.checksum = dictionary["checksum"] as? String
-            self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? String
-            if let abortStatement = dictionary["abortStatement"] as? [String: Any] { self.abortStatement = try LexModels.Statement(dictionary: abortStatement) } else { self.abortStatement = nil }
-            if let locale = dictionary["locale"] as? String { self.locale = Locale(rawValue: locale) } else { self.locale = nil }
-            self.childDirected = dictionary["childDirected"] as? Bool
-            if let status = dictionary["status"] as? String { self.status = Status(rawValue: status) } else { self.status = nil }
-            self.voiceId = dictionary["voiceId"] as? String
-            self.version = dictionary["version"] as? String
-            if let intents = dictionary["intents"] as? [[String: Any]] {
-                self.intents = try intents.map({ try Intent(dictionary: $0) })
-            } else { 
-                self.intents = nil
-            }
-            self.failureReason = dictionary["failureReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case createdDate = "createdDate"
+            case clarificationPrompt = "clarificationPrompt"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case checksum = "checksum"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case abortStatement = "abortStatement"
+            case locale = "locale"
+            case childDirected = "childDirected"
+            case status = "status"
+            case voiceId = "voiceId"
+            case version = "version"
+            case intents = "intents"
+            case failureReason = "failureReason"
         }
     }
 

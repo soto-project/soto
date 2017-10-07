@@ -148,7 +148,7 @@ extension Member {
     }
 }
 
-extension AWSShapeProperty.PropertyType {
+extension AWSShapeMember.Shape {
     public var enumStyleDescription: String {
         return ".\(self)"
     }
@@ -173,7 +173,7 @@ extension AWSService {
         code += "\(indt(1))public init?(errorCode: String, message: String?){\n"
         code += "\(indt(2))var errorCode = errorCode\n"
         code += "\(indt(2))if let index = errorCode.index(of: \"#\") {\n"
-            code += "\(indt(3))errorCode = errorCode.substring(from: errorCode.index(index, offsetBy: 1))\n"
+            code += "\(indt(3))errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])\n"
         code += "\(indt(2))}\n"
         
         code += "\(indt(2))switch errorCode {\n"
@@ -261,11 +261,11 @@ extension AWSService {
         return code
     }
     
-    func generateParsingHints(_ structure: StructureShape) -> String {
+    func generateMembers(_ structure: StructureShape) -> String {
         var code = ""
         
-        func shape2Hint(shape: Shape) -> AWSShapeProperty.PropertyType {
-            var typeForHint: AWSShapeProperty.PropertyType
+        func shape2Hint(shape: Shape) -> AWSShapeMember.Shape {
+            var typeForHint: AWSShapeMember.Shape
             switch shape.type {
             case .structure:
                 typeForHint = .structure
@@ -302,7 +302,7 @@ extension AWSService {
             let hint = shape2Hint(shape: member.shape)
             
             var code = ""
-            code += "\(indt(3))AWSShapeProperty(label: \"\(member.name)\""
+            code += "\(indt(3))AWSShapeMember(label: \"\(member.name)\""
             if let location = member.location?.enumStyleDescription() {
                 code += ", location: \(location)"
             }
@@ -311,297 +311,13 @@ extension AWSService {
             return code
         })
         if hints.count > 0 {
-            code += "\(indt(2))public static var parsingHints: [AWSShapeProperty] = ["
+            code += "\(indt(2))public static var members: [AWSShapeMember] = ["
             code += "\n"
             code += hints.joined(separator: ", \n")
             code += "\n"
             code += "\(indt(2))]"
             code += "\n"
         }
-        return code
-    }
-    
-    // TODO refactor me with recursive pattern matching
-    func generateInitialzerFromDictionary(_ structure: StructureShape) -> String {
-        var code = ""
-        code += "\(indt(2))public init(dictionary: [String: Any]) throws {\n"
-        
-        for member in structure.members {
-            let pathForLocation: String
-            if let locationName = member.locationName {
-                pathForLocation = locationName
-            } else {
-                pathForLocation = member.name
-            }
-            
-            switch member.shape.type {
-            case .structure(_):
-                let substituting = "self.\(member.variableName) = try \(serviceName).\(member.swiftTypeName)(dictionary: \(member.variableName))"
-                
-                if member.required {
-                    code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
-                    code += "\n"
-                    code += indt(3)+substituting
-                } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
-                }
-                code += "\n"
-            case .enum:
-                if member.required {
-                    code += "\(indt(3))guard let raw\(member.name) = dictionary[\"\(pathForLocation)\"] as? String, let \(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: raw\(member.name)) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                    code += indt(3)+"self.\(member.variableName) = \(member.variableName)"
-                } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? String { self.\(member.variableName) = \(member.shape.swiftTypeName.toSwiftClassCase())(rawValue: \(member.variableName)) } else { self.\(member.variableName) = nil }"
-                }
-                code += "\n"
-                
-            case .map(let keyShape, let valueShape):
-                let dictName = "\(member.variableName)Dict"
-                var decodingCode: ((_ defaultIndentLevel: Int) -> String)?
-                var firstElementType = "[String: Any]"
-                
-                func getKey() -> String {
-                    switch keyShape.type {
-                    case .enum:
-                        return "\(keyShape.swiftTypeName)(rawValue: key)!"
-                    default:
-                        return "key"
-                    }
-                }
-                
-                switch valueShape.type {
-                case .enum:
-                    decodingCode = { defaultIndentLevel in
-                        var code = ""
-                        code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                        code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
-                        code += "\(indt(defaultIndentLevel+1))guard var \(valueShape.name.toSwiftVariableCase())Dict = value as? [String: String] else { throw InitializableError.convertingError }\n"
-                        code += "\(indt(defaultIndentLevel+1))for (key, value) in \(valueShape.name.toSwiftVariableCase())Dict {\n"
-                        code += "\(indt(defaultIndentLevel+2))guard let \(valueShape.name.toSwiftVariableCase()) = \(valueShape.swiftTypeName.toSwiftClassCase())(rawValue: value) else { continue }\n"
-                        code += "\(indt(defaultIndentLevel+2))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())\n"
-                        code += "\(indt(defaultIndentLevel+1))}\n"
-                        code += "\(indt(defaultIndentLevel))}\n"
-                        code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                        return code
-                    }
-                    
-                case .structure: // [String: AWSShape]
-                    decodingCode = { defaultIndentLevel in
-                        var code = ""
-                        code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                        code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
-                        code += "\(indt(defaultIndentLevel+1))guard let \(valueShape.name.toSwiftVariableCase())Dict = value as? [String: Any] else { throw InitializableError.convertingError }\n"
-                        code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = try \(valueShape.swiftTypeName)(dictionary: \(valueShape.name.toSwiftVariableCase())Dict)\n"
-                        code += "\(indt(defaultIndentLevel))}\n"
-                        code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                        return code
-                    }
-                    
-                case .list(let repeatedShape):
-                    switch repeatedShape.type {
-                    case .enum(_):
-                        fatalError("Unimplemented \(#file):\(#line)")
-                    
-                    case .structure(_): // [String: [Shape]]
-                        decodingCode = { defaultIndentLevel in
-                            var code = ""
-                            code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                            code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
-                            code += "\(indt(defaultIndentLevel+1))guard let \(repeatedShape.name.toSwiftVariableCase()) = value as? [[String: Any]] else { throw InitializableError.convertingError }\n"
-                            let listName = "\(repeatedShape.name.toSwiftVariableCase())List"
-                            code += "\(indt(defaultIndentLevel+1))let \(listName): \(valueShape.swiftTypeName) = try \(repeatedShape.name.toSwiftVariableCase()).map { try \(repeatedShape.swiftTypeName)(dictionary: $0) }\n"
-                            code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(listName)\n"
-                            code += "\(indt(defaultIndentLevel))}\n"
-                            code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                            return code
-                        }
-                        
-                    case .map(_, let childValueShape):  // [String: [[String: AWSShape]]]
-                        switch childValueShape.type {
-                        case .structure(_):
-                            decodingCode = { defaultIndentLevel in
-                                var code = ""
-                                code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                                code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
-                                code += "\(indt(defaultIndentLevel+1))guard let \(valueShape.name.toSwiftVariableCase()) = value as? [[String: [String: Any]]] else { throw InitializableError.convertingError }\n"
-                                code += "\(indt(defaultIndentLevel+1))var \(valueShape.name.toSwiftVariableCase())List: \(valueShape.swiftTypeName) = []\n"
-                                code += "\(indt(defaultIndentLevel+1))for item in \(valueShape.name.toSwiftVariableCase()) {\n"
-                                    code += "\(indt(defaultIndentLevel+2))var \(childValueShape.name.toSwiftVariableCase())Dict: [String: \(childValueShape.swiftTypeName)] = [:]\n"
-                                    code += "\(indt(defaultIndentLevel+2))for (key, value) in item {\n"
-                                        code += "\(indt(defaultIndentLevel+3))\(childValueShape.name.toSwiftVariableCase())Dict[key] = try \(childValueShape.swiftTypeName)(dictionary: value)\n"
-                                    code += "\(indt(defaultIndentLevel+2))}\n"
-                                    code += "\(indt(defaultIndentLevel+2))\(valueShape.name.toSwiftVariableCase())List.append(\(childValueShape.name.toSwiftVariableCase())Dict)\n"
-                                code += "\(indt(defaultIndentLevel+1))}\n"
-                                code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())List\n"
-                                code += "\(indt(defaultIndentLevel))}\n"
-                                code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                                return code
-                            }
-
-                        default:
-                            fatalError("Unimplemented \(#file):\(#line)")
-                        }
-                        
-                    case .list:
-                        // TODO implement here
-                        code += "\(indt(3))self.\(member.variableName) = [:]\n"
-                        break
-                        
-                    default:
-                        decodingCode = { defaultIndentLevel in
-                            var code = ""
-                            code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                            code += "\(indt(defaultIndentLevel))for (key, value) in \(member.name.toSwiftVariableCase()) {\n"
-                                code += "\(indt(defaultIndentLevel+1))guard let \(valueShape.name.toSwiftVariableCase()) = value as? \(valueShape.swiftTypeName) else { throw InitializableError.convertingError }\n"
-                                code += "\(indt(defaultIndentLevel+1))\(dictName)[\(getKey())] = \(valueShape.name.toSwiftVariableCase())\n"
-                            code += "\(indt(defaultIndentLevel))}\n"
-                            code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                            return code
-                        }
-                    }
-                    
-                case .map(_, let childValueShape):
-                    switch childValueShape.type {
-                    case .structure(_):  // [String: [String: AWSShape]]
-                        decodingCode = { defaultIndentLevel in
-                            var code = ""
-                            code += "\(indt(defaultIndentLevel))var \(dictName): \(member.shape.swiftTypeName) = [:]\n"
-                            code += "\(indt(defaultIndentLevel))for (key, value) in \(member.variableName) {\n"
-                                code += "\(indt(defaultIndentLevel+1))guard let value = value as? [String: [String: Any]] else { throw InitializableError.convertingError }\n"
-                                code += "\(indt(defaultIndentLevel+1))var \(valueShape.name.toSwiftVariableCase())Dict: \(valueShape.swiftTypeName) = [:]\n"
-                                code += "\(indt(defaultIndentLevel+1))for (key, value) in value {\n"
-                                    code += "\(indt(defaultIndentLevel+2))\(valueShape.name.toSwiftVariableCase())Dict[key] = try \(childValueShape.swiftTypeName)(dictionary: value)\n"
-                                code += "\(indt(defaultIndentLevel+1))}\n"
-                                code += "\(indt(defaultIndentLevel+1))\(dictName)[key] = \(valueShape.name.toSwiftVariableCase())Dict\n"
-                            code += "\(indt(defaultIndentLevel))}\n"
-                            code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(dictName)\n"
-                            return code
-                        }
-                        
-                    default:
-                        fatalError("Unimplemented \(#file):\(#line)")
-                    }
-                default:
-                    firstElementType = member.swiftTypeName
-                    decodingCode = { defaultIndentLevel in
-                        var code = ""
-                        code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(member.variableName)\n"
-                        return code
-                    }
-                }
-                
-                if let decodingCode = decodingCode {
-                    if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(firstElementType) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                        code += decodingCode(3)
-                    } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(firstElementType) {\n"
-                        code += decodingCode(4)
-                        code += "\(indt(3))} else { \n"
-                        code += "\(indt(4))self.\(member.variableName) = nil\n"
-                        code += "\(indt(3))}\n"
-                    }
-                }
-                
-            case .list(let shape): // [Foo]
-                switch shape.type {
-                case .enum(_):
-                    let substituting = "self.\(member.variableName) = \(member.variableName).flatMap({ \(shape.swiftTypeName.toSwiftClassCase())(rawValue: $0)})"
-                    if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                        code += indt(3)+substituting
-                    } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [String] { \(substituting) } else { self.\(member.variableName) = nil }"
-                    }
-                    code += "\n"
-                    
-                case .structure:
-                    if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                        code += "\(indt(3))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
-                    } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] {\n"
-                        code += "\(indt(4))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
-                        code += "\(indt(3))} else { \n"
-                        code += "\(indt(4))self.\(member.variableName) = nil\n"
-                        code += "\(indt(3))}\n"
-                    }
-                    
-                case .map(_, let valueShape):
-                    switch valueShape.type {
-                    case .enum:
-                        fatalError("Unimplemented \(#file):\(#line)")
-                        
-                    case .structure: // [[String: AWSShape]]
-                        func decodingCode(_ defaultIndentLevel: Int) -> String {
-                            var code = ""
-                            code += "\(indt(defaultIndentLevel))var \(member.variableName)List: \(member.swiftTypeName) = []\n"
-                            code += "\(indt(defaultIndentLevel))var \(valueShape.name.toSwiftVariableCase())Dict: [String: \(valueShape.swiftTypeName)] = [:]\n"
-                            code += "\(indt(defaultIndentLevel))for item in \(member.variableName) {\n"
-                            code += "\(indt(defaultIndentLevel+1))for (key, value) in item {\n"
-                            code += "\(indt(defaultIndentLevel+2))\(valueShape.name.toSwiftVariableCase())Dict[key] = try \(valueShape.swiftTypeName)(dictionary: value)\n"
-                            code += "\(indt(defaultIndentLevel+1))}\n"
-                            code += "\(indt(defaultIndentLevel+1))\(member.variableName)List.append(\(valueShape.name.toSwiftVariableCase())Dict)\n"
-                            code += "\(indt(defaultIndentLevel))}\n"
-                            code += "\(indt(defaultIndentLevel))self.\(member.variableName) = \(member.variableName)List\n"
-                            return code
-                        }
-                        
-                        if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                            code += decodingCode(3)
-                        } else {
-                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: [String: Any]]] {\n"
-                                code += decodingCode(4)
-                            code += "\(indt(3))} else { \n"
-                                code += "\(indt(4))self.\(member.variableName) = nil\n"
-                            code += "\(indt(3))}\n"
-                        }
-                    case .map, .list:
-                        fatalError("Unimplemented \(#file):\(#line)")
-                        
-                    default:
-                        if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
-                            code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
-                        } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
-                        }
-                    }
-                case .list(let childShape):
-                    switch childShape.type {
-                    case .structure, .map, .list, .enum:
-                        fatalError("Unimplemented \(#file):\(#line)")
-                        
-                    default:
-                        if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                            code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
-                        } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
-                        }
-                    }
-                default:
-                    if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                        code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
-                    } else {
-                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
-                    }
-                }
-                
-            default:
-                if member.required {
-                    code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }\n"
-                    code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
-                } else {
-                    code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(pathForLocation)\"] as? \(member.swiftTypeName)\n"
-                }
-            }
-        }
-        
-        code += "\(indt(2))}"
-        
         return code
     }
     
@@ -616,7 +332,7 @@ extension AWSService {
             if errorShapeNames.contains(shape.name) { continue }
             switch shape.type {
             case .enum(let values):
-                code += "\(indt(1))public enum \(shape.name.toSwiftClassCase().reservedwordEscaped()): String, CustomStringConvertible {\n"
+                code += "\(indt(1))public enum \(shape.name.toSwiftClassCase().reservedwordEscaped()): String, CustomStringConvertible, Codable {\n"
                 for value in values {
                     var key = value.lowercased()
                         .replacingOccurrences(of: ".", with: "_")
@@ -639,12 +355,10 @@ extension AWSService {
                 code += "\(indt(1))public struct \(shape.name): AWSShape {\n"
                 code += "\(indt(2))/// The key for the payload\n"
                 if let payload = type.payload {
-                    code += "\(indt(2))public static let payload: String? = \"\(payload)\"\n"
-                } else {
-                    code += "\(indt(2))public static let payload: String? = nil\n"
+                    code += "\(indt(2))public static let payloadPath: String? = \"\(payload)\"\n"
                 }
                 
-                code += "\(generateParsingHints(type))"
+                code += "\(generateMembers(type))"
                 
                 for member in type.members {
                     if let comment = shapeDoc[shape.name]?[member.name], !comment.isEmpty {
@@ -661,11 +375,28 @@ extension AWSService {
                         code += "\(indt(3))self.\(member.name.toSwiftVariableCase()) = \(member.name.toSwiftVariableCase())\n"
                     }
                     code += "\(indt(2))}\n\n"
+                    
+                    // CoadingKyes
+                    code += "\(indt(2))private enum CodingKeys: String, CodingKey {\n"
+                    
+                    var usedLocationPath: [String] = []
+                    
+                    for member in type.members {
+                        let locationPath = member.location?.name ?? member.name
+                        if usedLocationPath.contains(locationPath) {
+                            code += "\(indt(3))// TODO this is temporary measure for avoiding CondingKey duplication.\n"
+                            code += "\(indt(3))// Should decode duplidated paths with same type for JSON\n"
+                            code += "\(indt(3))case \(member.name.toSwiftVariableCase()) = \"_\(locationPath)\""
+                        } else {
+                            code += "\(indt(3))case \(member.name.toSwiftVariableCase()) = \"\(locationPath)\""
+                            usedLocationPath.append(locationPath)
+                        }
+                        
+                        code += "\n"
+                    }
+                    
+                    code += "\(indt(2))}\n"
                 }
-                
-                code += generateInitialzerFromDictionary(type)
-                
-                code += "\n"
                 
                 code += "\(indt(1))}"
                 
@@ -724,7 +455,7 @@ extension Shape {
             return "Data"
             
         case .timestamp:
-            return "String" // TODO
+            return "Double"
             
         case .enum(_):
             return name.toSwiftClassCase()

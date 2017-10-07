@@ -31,10 +31,9 @@ extension Kinesisanalytics {
 
     public struct ListApplicationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HasMoreApplications", required: true, type: .boolean), 
-            AWSShapeProperty(label: "ApplicationSummaries", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HasMoreApplications", required: true, type: .boolean), 
+            AWSShapeMember(label: "ApplicationSummaries", required: true, type: .list)
         ]
         /// Returns true if there are more applications to retrieve.
         public let hasMoreApplications: Bool
@@ -46,28 +45,22 @@ extension Kinesisanalytics {
             self.applicationSummaries = applicationSummaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hasMoreApplications = dictionary["HasMoreApplications"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreApplications") }
-            self.hasMoreApplications = hasMoreApplications
-            guard let applicationSummaries = dictionary["ApplicationSummaries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ApplicationSummaries") }
-            self.applicationSummaries = try applicationSummaries.map({ try ApplicationSummary(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case hasMoreApplications = "HasMoreApplications"
+            case applicationSummaries = "ApplicationSummaries"
         }
     }
 
     public struct AddApplicationReferenceDataSourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CloudWatchLoggingOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
@@ -79,19 +72,16 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logStreamARN = dictionary["LogStreamARN"] as? String else { throw InitializableError.missingRequiredParam("LogStreamARN") }
-            self.logStreamARN = logStreamARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case logStreamARN = "LogStreamARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct InputParallelismUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CountUpdate", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CountUpdate", required: false, type: .integer)
         ]
         /// Number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int32?
@@ -100,25 +90,21 @@ extension Kinesisanalytics {
             self.countUpdate = countUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.countUpdate = dictionary["CountUpdate"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case countUpdate = "CountUpdate"
         }
     }
 
     public struct UpdateApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct KinesisStreamsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the destination Amazon Kinesis stream to write to.
         public let resourceARN: String
@@ -130,24 +116,21 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct InputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NamePrefixUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "InputParallelismUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputId", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchemaUpdate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NamePrefixUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "InputParallelismUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "InputId", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisStreamsInputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseInputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "InputSchemaUpdate", required: false, type: .structure)
         ]
         /// Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.
         public let namePrefixUpdate: String?
@@ -171,23 +154,21 @@ extension Kinesisanalytics {
             self.inputSchemaUpdate = inputSchemaUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.namePrefixUpdate = dictionary["NamePrefixUpdate"] as? String
-            if let inputParallelismUpdate = dictionary["InputParallelismUpdate"] as? [String: Any] { self.inputParallelismUpdate = try Kinesisanalytics.InputParallelismUpdate(dictionary: inputParallelismUpdate) } else { self.inputParallelismUpdate = nil }
-            guard let inputId = dictionary["InputId"] as? String else { throw InitializableError.missingRequiredParam("InputId") }
-            self.inputId = inputId
-            if let kinesisStreamsInputUpdate = dictionary["KinesisStreamsInputUpdate"] as? [String: Any] { self.kinesisStreamsInputUpdate = try Kinesisanalytics.KinesisStreamsInputUpdate(dictionary: kinesisStreamsInputUpdate) } else { self.kinesisStreamsInputUpdate = nil }
-            if let kinesisFirehoseInputUpdate = dictionary["KinesisFirehoseInputUpdate"] as? [String: Any] { self.kinesisFirehoseInputUpdate = try Kinesisanalytics.KinesisFirehoseInputUpdate(dictionary: kinesisFirehoseInputUpdate) } else { self.kinesisFirehoseInputUpdate = nil }
-            if let inputSchemaUpdate = dictionary["InputSchemaUpdate"] as? [String: Any] { self.inputSchemaUpdate = try Kinesisanalytics.InputSchemaUpdate(dictionary: inputSchemaUpdate) } else { self.inputSchemaUpdate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case namePrefixUpdate = "NamePrefixUpdate"
+            case inputParallelismUpdate = "InputParallelismUpdate"
+            case inputId = "InputId"
+            case kinesisStreamsInputUpdate = "KinesisStreamsInputUpdate"
+            case kinesisFirehoseInputUpdate = "KinesisFirehoseInputUpdate"
+            case inputSchemaUpdate = "InputSchemaUpdate"
         }
     }
 
     public struct KinesisFirehoseInputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -199,18 +180,17 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct KinesisStreamsOutputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -222,19 +202,18 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
-            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case resourceARNUpdate = "ResourceARNUpdate"
         }
     }
 
     public struct AddApplicationReferenceDataSourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ReferenceDataSource", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ReferenceDataSource", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
@@ -249,22 +228,18 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let referenceDataSource = dictionary["ReferenceDataSource"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReferenceDataSource") }
-            self.referenceDataSource = try Kinesisanalytics.ReferenceDataSource(dictionary: referenceDataSource)
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case referenceDataSource = "ReferenceDataSource"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct KinesisFirehoseInputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -276,25 +251,21 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
-            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case resourceARNUpdate = "ResourceARNUpdate"
         }
     }
 
     public struct AddApplicationOutputResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationSummary", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationSummary", required: true, type: .structure)
         ]
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
         public let applicationSummary: ApplicationSummary
@@ -303,13 +274,12 @@ extension Kinesisanalytics {
             self.applicationSummary = applicationSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationSummary = dictionary["ApplicationSummary"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationSummary") }
-            self.applicationSummary = try Kinesisanalytics.ApplicationSummary(dictionary: applicationSummary)
+        private enum CodingKeys: String, CodingKey {
+            case applicationSummary = "ApplicationSummary"
         }
     }
 
-    public enum ApplicationStatus: String, CustomStringConvertible {
+    public enum ApplicationStatus: String, CustomStringConvertible, Codable {
         case deleting = "DELETING"
         case starting = "STARTING"
         case stopping = "STOPPING"
@@ -321,10 +291,9 @@ extension Kinesisanalytics {
 
     public struct StartApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputConfigurations", required: true, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputConfigurations", required: true, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
         public let inputConfigurations: [InputConfiguration]
@@ -336,19 +305,16 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let inputConfigurations = dictionary["InputConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InputConfigurations") }
-            self.inputConfigurations = try inputConfigurations.map({ try InputConfiguration(dictionary: $0) })
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case inputConfigurations = "InputConfigurations"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct StopApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Name of the running application to stop.
         public let applicationName: String
@@ -357,19 +323,17 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct S3ReferenceDataSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "FileKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "FileKey", required: true, type: .string)
         ]
         /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
         public let referenceRoleARN: String
@@ -384,22 +348,18 @@ extension Kinesisanalytics {
             self.fileKey = fileKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let referenceRoleARN = dictionary["ReferenceRoleARN"] as? String else { throw InitializableError.missingRequiredParam("ReferenceRoleARN") }
-            self.referenceRoleARN = referenceRoleARN
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            guard let fileKey = dictionary["FileKey"] as? String else { throw InitializableError.missingRequiredParam("FileKey") }
-            self.fileKey = fileKey
+        private enum CodingKeys: String, CodingKey {
+            case referenceRoleARN = "ReferenceRoleARN"
+            case bucketARN = "BucketARN"
+            case fileKey = "FileKey"
         }
     }
 
     public struct KinesisFirehoseOutputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -411,17 +371,16 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
-            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case resourceARNUpdate = "ResourceARNUpdate"
         }
     }
 
     public struct InputStartingPositionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputStartingPosition", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputStartingPosition", required: false, type: .enum)
         ]
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
         public let inputStartingPosition: InputStartingPosition?
@@ -430,18 +389,17 @@ extension Kinesisanalytics {
             self.inputStartingPosition = inputStartingPosition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inputStartingPosition = dictionary["InputStartingPosition"] as? String { self.inputStartingPosition = InputStartingPosition(rawValue: inputStartingPosition) } else { self.inputStartingPosition = nil }
+        private enum CodingKeys: String, CodingKey {
+            case inputStartingPosition = "InputStartingPosition"
         }
     }
 
     public struct S3ReferenceDataSourceUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ReferenceRoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "FileKeyUpdate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ReferenceRoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "FileKeyUpdate", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
@@ -456,27 +414,23 @@ extension Kinesisanalytics {
             self.fileKeyUpdate = fileKeyUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bucketARNUpdate = dictionary["BucketARNUpdate"] as? String
-            self.referenceRoleARNUpdate = dictionary["ReferenceRoleARNUpdate"] as? String
-            self.fileKeyUpdate = dictionary["FileKeyUpdate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bucketARNUpdate = "BucketARNUpdate"
+            case referenceRoleARNUpdate = "ReferenceRoleARNUpdate"
+            case fileKeyUpdate = "FileKeyUpdate"
         }
     }
 
     public struct AddApplicationInputResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RecordFormat: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormatType", required: true, type: .enum), 
-            AWSShapeProperty(label: "MappingParameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordFormatType", required: true, type: .enum), 
+            AWSShapeMember(label: "MappingParameters", required: false, type: .structure)
         ]
         /// The type of record format.
         public let recordFormatType: RecordFormatType
@@ -487,23 +441,21 @@ extension Kinesisanalytics {
             self.mappingParameters = mappingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawRecordFormatType = dictionary["RecordFormatType"] as? String, let recordFormatType = RecordFormatType(rawValue: rawRecordFormatType) else { throw InitializableError.missingRequiredParam("RecordFormatType") }
-            self.recordFormatType = recordFormatType
-            if let mappingParameters = dictionary["MappingParameters"] as? [String: Any] { self.mappingParameters = try Kinesisanalytics.MappingParameters(dictionary: mappingParameters) } else { self.mappingParameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordFormatType = "RecordFormatType"
+            case mappingParameters = "MappingParameters"
         }
     }
 
     public struct CreateApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Inputs", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Inputs", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string)
         ]
         /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
         public let inputs: [Input]?
@@ -527,34 +479,20 @@ extension Kinesisanalytics {
             self.applicationDescription = applicationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inputs = dictionary["Inputs"] as? [[String: Any]] {
-                self.inputs = try inputs.map({ try Input(dictionary: $0) })
-            } else { 
-                self.inputs = nil
-            }
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
-                self.outputs = try outputs.map({ try Output(dictionary: $0) })
-            } else { 
-                self.outputs = nil
-            }
-            self.applicationCode = dictionary["ApplicationCode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [[String: Any]] {
-                self.cloudWatchLoggingOptions = try cloudWatchLoggingOptions.map({ try CloudWatchLoggingOption(dictionary: $0) })
-            } else { 
-                self.cloudWatchLoggingOptions = nil
-            }
-            self.applicationDescription = dictionary["ApplicationDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case applicationName = "ApplicationName"
+            case outputs = "Outputs"
+            case applicationCode = "ApplicationCode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case applicationDescription = "ApplicationDescription"
         }
     }
 
     public struct DestinationSchema: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormatType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordFormatType", required: false, type: .enum)
         ]
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType?
@@ -563,43 +501,39 @@ extension Kinesisanalytics {
             self.recordFormatType = recordFormatType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordFormatType = dictionary["RecordFormatType"] as? String { self.recordFormatType = RecordFormatType(rawValue: recordFormatType) } else { self.recordFormatType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordFormatType = "RecordFormatType"
         }
     }
 
     public struct DeleteApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         ///  You can use the DescribeApplication operation to get this value. 
-        public let createTimestamp: String
+        public let createTimestamp: Double
         /// Name of the Amazon Kinesis Analytics application to delete.
         public let applicationName: String
 
-        public init(createTimestamp: String, applicationName: String) {
+        public init(createTimestamp: Double, applicationName: String) {
             self.createTimestamp = createTimestamp
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createTimestamp = dictionary["CreateTimestamp"] as? String else { throw InitializableError.missingRequiredParam("CreateTimestamp") }
-            self.createTimestamp = createTimestamp
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case createTimestamp = "CreateTimestamp"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct DiscoverInputSchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "InputStartingPositionConfiguration", required: true, type: .structure)
         ]
         /// Amazon Resource Name (ARN) of the streaming source.
         public let resourceARN: String
@@ -614,31 +548,24 @@ extension Kinesisanalytics {
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            guard let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStartingPositionConfiguration") }
-            self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration)
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
+            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
         }
     }
 
     public struct StopApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteApplicationOutputRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "OutputId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "OutputId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
         public let currentApplicationVersionId: Int64
@@ -653,28 +580,24 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let outputId = dictionary["OutputId"] as? String else { throw InitializableError.missingRequiredParam("OutputId") }
-            self.outputId = outputId
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case outputId = "OutputId"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct InputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputParallelism", required: false, type: .structure), 
-            AWSShapeProperty(label: "NamePrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "InAppStreamNames", required: false, type: .list), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisFirehoseInputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisStreamsInputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "InputParallelism", required: false, type: .structure), 
+            AWSShapeMember(label: "NamePrefix", required: false, type: .string), 
+            AWSShapeMember(label: "InAppStreamNames", required: false, type: .list), 
+            AWSShapeMember(label: "InputStartingPositionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "InputId", required: false, type: .string)
         ]
         /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the Firehose delivery stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
@@ -703,25 +626,24 @@ extension Kinesisanalytics {
             self.inputId = inputId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseInputDescription = dictionary["KinesisFirehoseInputDescription"] as? [String: Any] { self.kinesisFirehoseInputDescription = try Kinesisanalytics.KinesisFirehoseInputDescription(dictionary: kinesisFirehoseInputDescription) } else { self.kinesisFirehoseInputDescription = nil }
-            if let kinesisStreamsInputDescription = dictionary["KinesisStreamsInputDescription"] as? [String: Any] { self.kinesisStreamsInputDescription = try Kinesisanalytics.KinesisStreamsInputDescription(dictionary: kinesisStreamsInputDescription) } else { self.kinesisStreamsInputDescription = nil }
-            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) } else { self.inputParallelism = nil }
-            self.namePrefix = dictionary["NamePrefix"] as? String
-            self.inAppStreamNames = dictionary["InAppStreamNames"] as? [String]
-            if let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] { self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration) } else { self.inputStartingPositionConfiguration = nil }
-            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) } else { self.inputSchema = nil }
-            self.inputId = dictionary["InputId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case kinesisFirehoseInputDescription = "KinesisFirehoseInputDescription"
+            case kinesisStreamsInputDescription = "KinesisStreamsInputDescription"
+            case inputParallelism = "InputParallelism"
+            case namePrefix = "NamePrefix"
+            case inAppStreamNames = "InAppStreamNames"
+            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
+            case inputSchema = "InputSchema"
+            case inputId = "InputId"
         }
     }
 
     public struct ApplicationSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum)
         ]
         /// ARN of the application.
         public let applicationARN: String
@@ -736,21 +658,17 @@ extension Kinesisanalytics {
             self.applicationStatus = applicationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
-            self.applicationARN = applicationARN
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            guard let rawApplicationStatus = dictionary["ApplicationStatus"] as? String, let applicationStatus = ApplicationStatus(rawValue: rawApplicationStatus) else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
-            self.applicationStatus = applicationStatus
+        private enum CodingKeys: String, CodingKey {
+            case applicationARN = "ApplicationARN"
+            case applicationName = "ApplicationName"
+            case applicationStatus = "ApplicationStatus"
         }
     }
 
     public struct JSONMappingParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordRowPath", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordRowPath", required: true, type: .string)
         ]
         /// Path to the top-level parent that contains the records. For example, consider the following JSON record: In the RecordRowPath, "$" refers to the root and path "$.vehicle.Model" refers to the specific "Model" key in the JSON.
         public let recordRowPath: String
@@ -759,18 +677,16 @@ extension Kinesisanalytics {
             self.recordRowPath = recordRowPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recordRowPath = dictionary["RecordRowPath"] as? String else { throw InitializableError.missingRequiredParam("RecordRowPath") }
-            self.recordRowPath = recordRowPath
+        private enum CodingKeys: String, CodingKey {
+            case recordRowPath = "RecordRowPath"
         }
     }
 
     public struct CSVMappingParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordRowDelimiter", required: true, type: .string), 
-            AWSShapeProperty(label: "RecordColumnDelimiter", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordRowDelimiter", required: true, type: .string), 
+            AWSShapeMember(label: "RecordColumnDelimiter", required: true, type: .string)
         ]
         /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
         public let recordRowDelimiter: String
@@ -782,21 +698,18 @@ extension Kinesisanalytics {
             self.recordColumnDelimiter = recordColumnDelimiter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recordRowDelimiter = dictionary["RecordRowDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordRowDelimiter") }
-            self.recordRowDelimiter = recordRowDelimiter
-            guard let recordColumnDelimiter = dictionary["RecordColumnDelimiter"] as? String else { throw InitializableError.missingRequiredParam("RecordColumnDelimiter") }
-            self.recordColumnDelimiter = recordColumnDelimiter
+        private enum CodingKeys: String, CodingKey {
+            case recordRowDelimiter = "RecordRowDelimiter"
+            case recordColumnDelimiter = "RecordColumnDelimiter"
         }
     }
 
     public struct AddApplicationOutputRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "Output", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "Output", required: true, type: .structure)
         ]
         /// Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
         public let currentApplicationVersionId: Int64
@@ -811,22 +724,18 @@ extension Kinesisanalytics {
             self.output = output
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            guard let output = dictionary["Output"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Output") }
-            self.output = try Kinesisanalytics.Output(dictionary: output)
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case applicationName = "ApplicationName"
+            case output = "Output"
         }
     }
 
     public struct KinesisStreamsInputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -838,21 +747,20 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct Input: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseInput", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "NamePrefix", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsInput", required: false, type: .structure), 
-            AWSShapeProperty(label: "InputParallelism", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisFirehoseInput", required: false, type: .structure), 
+            AWSShapeMember(label: "InputSchema", required: true, type: .structure), 
+            AWSShapeMember(label: "NamePrefix", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisStreamsInput", required: false, type: .structure), 
+            AWSShapeMember(label: "InputParallelism", required: false, type: .structure)
         ]
         /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
         public let kinesisFirehoseInput: KinesisFirehoseInput?
@@ -873,23 +781,20 @@ extension Kinesisanalytics {
             self.inputParallelism = inputParallelism
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseInput = dictionary["KinesisFirehoseInput"] as? [String: Any] { self.kinesisFirehoseInput = try Kinesisanalytics.KinesisFirehoseInput(dictionary: kinesisFirehoseInput) } else { self.kinesisFirehoseInput = nil }
-            guard let inputSchema = dictionary["InputSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputSchema") }
-            self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema)
-            guard let namePrefix = dictionary["NamePrefix"] as? String else { throw InitializableError.missingRequiredParam("NamePrefix") }
-            self.namePrefix = namePrefix
-            if let kinesisStreamsInput = dictionary["KinesisStreamsInput"] as? [String: Any] { self.kinesisStreamsInput = try Kinesisanalytics.KinesisStreamsInput(dictionary: kinesisStreamsInput) } else { self.kinesisStreamsInput = nil }
-            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) } else { self.inputParallelism = nil }
+        private enum CodingKeys: String, CodingKey {
+            case kinesisFirehoseInput = "KinesisFirehoseInput"
+            case inputSchema = "InputSchema"
+            case namePrefix = "NamePrefix"
+            case kinesisStreamsInput = "KinesisStreamsInput"
+            case inputParallelism = "InputParallelism"
         }
     }
 
     public struct KinesisFirehoseOutputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
         public let resourceARN: String?
@@ -901,27 +806,23 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct DeleteApplicationOutputResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SourceSchema: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordFormat", required: true, type: .structure), 
-            AWSShapeProperty(label: "RecordEncoding", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordColumns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordFormat", required: true, type: .structure), 
+            AWSShapeMember(label: "RecordEncoding", required: false, type: .string), 
+            AWSShapeMember(label: "RecordColumns", required: true, type: .list)
         ]
         /// Specifies the format of the records on the streaming source.
         public let recordFormat: RecordFormat
@@ -936,21 +837,18 @@ extension Kinesisanalytics {
             self.recordColumns = recordColumns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recordFormat = dictionary["RecordFormat"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RecordFormat") }
-            self.recordFormat = try Kinesisanalytics.RecordFormat(dictionary: recordFormat)
-            self.recordEncoding = dictionary["RecordEncoding"] as? String
-            guard let recordColumns = dictionary["RecordColumns"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RecordColumns") }
-            self.recordColumns = try recordColumns.map({ try RecordColumn(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case recordFormat = "RecordFormat"
+            case recordEncoding = "RecordEncoding"
+            case recordColumns = "RecordColumns"
         }
     }
 
     public struct KinesisFirehoseInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the input Firehose delivery stream.
         public let resourceARN: String
@@ -962,20 +860,17 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct InputConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "InputStartingPositionConfiguration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "InputStartingPositionConfiguration", required: true, type: .structure)
         ]
         /// Input source ID. You can get this ID by calling the DescribeApplication operation.
         public let id: String
@@ -987,23 +882,20 @@ extension Kinesisanalytics {
             self.inputStartingPositionConfiguration = inputStartingPositionConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputStartingPositionConfiguration") }
-            self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration)
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case inputStartingPositionConfiguration = "InputStartingPositionConfiguration"
         }
     }
 
     public struct OutputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputId", required: false, type: .string), 
-            AWSShapeProperty(label: "KinesisFirehoseOutputDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisStreamsOutputDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OutputId", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisFirehoseOutputDescription", required: false, type: .structure)
         ]
         /// Describes Amazon Kinesis stream configured as the destination where output is written.
         public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
@@ -1024,21 +916,20 @@ extension Kinesisanalytics {
             self.kinesisFirehoseOutputDescription = kinesisFirehoseOutputDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let kinesisStreamsOutputDescription = dictionary["KinesisStreamsOutputDescription"] as? [String: Any] { self.kinesisStreamsOutputDescription = try Kinesisanalytics.KinesisStreamsOutputDescription(dictionary: kinesisStreamsOutputDescription) } else { self.kinesisStreamsOutputDescription = nil }
-            if let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] { self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema) } else { self.destinationSchema = nil }
-            self.name = dictionary["Name"] as? String
-            self.outputId = dictionary["OutputId"] as? String
-            if let kinesisFirehoseOutputDescription = dictionary["KinesisFirehoseOutputDescription"] as? [String: Any] { self.kinesisFirehoseOutputDescription = try Kinesisanalytics.KinesisFirehoseOutputDescription(dictionary: kinesisFirehoseOutputDescription) } else { self.kinesisFirehoseOutputDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case kinesisStreamsOutputDescription = "KinesisStreamsOutputDescription"
+            case destinationSchema = "DestinationSchema"
+            case name = "Name"
+            case outputId = "OutputId"
+            case kinesisFirehoseOutputDescription = "KinesisFirehoseOutputDescription"
         }
     }
 
     public struct KinesisFirehoseOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
         public let resourceARN: String
@@ -1050,21 +941,18 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct CloudWatchLoggingOptionDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogStreamARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogStreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
@@ -1079,20 +967,17 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logStreamARN = dictionary["LogStreamARN"] as? String else { throw InitializableError.missingRequiredParam("LogStreamARN") }
-            self.logStreamARN = logStreamARN
-            self.cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case logStreamARN = "LogStreamARN"
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct DescribeApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Name of the application.
         public let applicationName: String
@@ -1101,18 +986,16 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct KinesisStreamsInputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceARNUpdate", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceARNUpdate", required: false, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
         public let roleARNUpdate: String?
@@ -1124,19 +1007,18 @@ extension Kinesisanalytics {
             self.resourceARNUpdate = resourceARNUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
-            self.resourceARNUpdate = dictionary["ResourceARNUpdate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case resourceARNUpdate = "ResourceARNUpdate"
         }
     }
 
     public struct DiscoverInputSchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InputSchema", required: false, type: .structure), 
-            AWSShapeProperty(label: "ParsedInputRecords", required: false, type: .list), 
-            AWSShapeProperty(label: "RawInputRecords", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InputSchema", required: false, type: .structure), 
+            AWSShapeMember(label: "ParsedInputRecords", required: false, type: .list), 
+            AWSShapeMember(label: "RawInputRecords", required: false, type: .list)
         ]
         /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
@@ -1151,40 +1033,39 @@ extension Kinesisanalytics {
             self.rawInputRecords = rawInputRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) } else { self.inputSchema = nil }
-            self.parsedInputRecords = dictionary["ParsedInputRecords"] as? [[String]]
-            self.rawInputRecords = dictionary["RawInputRecords"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case inputSchema = "InputSchema"
+            case parsedInputRecords = "ParsedInputRecords"
+            case rawInputRecords = "RawInputRecords"
         }
     }
 
     public struct ApplicationDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ApplicationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "OutputDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ApplicationCode", required: false, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "OutputDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationARN", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "ReferenceDataSourceDescriptions", required: false, type: .list)
         ]
         /// Description of the application.
         public let applicationDescription: String?
         /// Status of the application.
         public let applicationStatus: ApplicationStatus
         /// Timestamp when the application was last updated.
-        public let lastUpdateTimestamp: String?
+        public let lastUpdateTimestamp: Double?
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
         public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application version was created.
-        public let createTimestamp: String?
+        public let createTimestamp: Double?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
         public let applicationCode: String?
         /// Name of the application.
@@ -1200,7 +1081,7 @@ extension Kinesisanalytics {
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, lastUpdateTimestamp: String? = nil, inputDescriptions: [InputDescription]? = nil, createTimestamp: String? = nil, applicationCode: String? = nil, applicationName: String, outputDescriptions: [OutputDescription]? = nil, applicationARN: String, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, lastUpdateTimestamp: Double? = nil, inputDescriptions: [InputDescription]? = nil, createTimestamp: Double? = nil, applicationCode: String? = nil, applicationName: String, outputDescriptions: [OutputDescription]? = nil, applicationARN: String, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationStatus = applicationStatus
             self.lastUpdateTimestamp = lastUpdateTimestamp
@@ -1215,49 +1096,28 @@ extension Kinesisanalytics {
             self.referenceDataSourceDescriptions = referenceDataSourceDescriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.applicationDescription = dictionary["ApplicationDescription"] as? String
-            guard let rawApplicationStatus = dictionary["ApplicationStatus"] as? String, let applicationStatus = ApplicationStatus(rawValue: rawApplicationStatus) else { throw InitializableError.missingRequiredParam("ApplicationStatus") }
-            self.applicationStatus = applicationStatus
-            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
-            if let inputDescriptions = dictionary["InputDescriptions"] as? [[String: Any]] {
-                self.inputDescriptions = try inputDescriptions.map({ try InputDescription(dictionary: $0) })
-            } else { 
-                self.inputDescriptions = nil
-            }
-            self.createTimestamp = dictionary["CreateTimestamp"] as? String
-            self.applicationCode = dictionary["ApplicationCode"] as? String
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            if let outputDescriptions = dictionary["OutputDescriptions"] as? [[String: Any]] {
-                self.outputDescriptions = try outputDescriptions.map({ try OutputDescription(dictionary: $0) })
-            } else { 
-                self.outputDescriptions = nil
-            }
-            guard let applicationARN = dictionary["ApplicationARN"] as? String else { throw InitializableError.missingRequiredParam("ApplicationARN") }
-            self.applicationARN = applicationARN
-            guard let applicationVersionId = dictionary["ApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("ApplicationVersionId") }
-            self.applicationVersionId = applicationVersionId
-            if let cloudWatchLoggingOptionDescriptions = dictionary["CloudWatchLoggingOptionDescriptions"] as? [[String: Any]] {
-                self.cloudWatchLoggingOptionDescriptions = try cloudWatchLoggingOptionDescriptions.map({ try CloudWatchLoggingOptionDescription(dictionary: $0) })
-            } else { 
-                self.cloudWatchLoggingOptionDescriptions = nil
-            }
-            if let referenceDataSourceDescriptions = dictionary["ReferenceDataSourceDescriptions"] as? [[String: Any]] {
-                self.referenceDataSourceDescriptions = try referenceDataSourceDescriptions.map({ try ReferenceDataSourceDescription(dictionary: $0) })
-            } else { 
-                self.referenceDataSourceDescriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case applicationDescription = "ApplicationDescription"
+            case applicationStatus = "ApplicationStatus"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case inputDescriptions = "InputDescriptions"
+            case createTimestamp = "CreateTimestamp"
+            case applicationCode = "ApplicationCode"
+            case applicationName = "ApplicationName"
+            case outputDescriptions = "OutputDescriptions"
+            case applicationARN = "ApplicationARN"
+            case applicationVersionId = "ApplicationVersionId"
+            case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
+            case referenceDataSourceDescriptions = "ReferenceDataSourceDescriptions"
         }
     }
 
     public struct InputSchemaUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordColumnUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "RecordEncodingUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "RecordFormatUpdate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordColumnUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "RecordEncodingUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "RecordFormatUpdate", required: false, type: .structure)
         ]
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
         public let recordColumnUpdates: [RecordColumn]?
@@ -1272,18 +1132,14 @@ extension Kinesisanalytics {
             self.recordFormatUpdate = recordFormatUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let recordColumnUpdates = dictionary["RecordColumnUpdates"] as? [[String: Any]] {
-                self.recordColumnUpdates = try recordColumnUpdates.map({ try RecordColumn(dictionary: $0) })
-            } else { 
-                self.recordColumnUpdates = nil
-            }
-            self.recordEncodingUpdate = dictionary["RecordEncodingUpdate"] as? String
-            if let recordFormatUpdate = dictionary["RecordFormatUpdate"] as? [String: Any] { self.recordFormatUpdate = try Kinesisanalytics.RecordFormat(dictionary: recordFormatUpdate) } else { self.recordFormatUpdate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case recordColumnUpdates = "RecordColumnUpdates"
+            case recordEncodingUpdate = "RecordEncodingUpdate"
+            case recordFormatUpdate = "RecordFormatUpdate"
         }
     }
 
-    public enum InputStartingPosition: String, CustomStringConvertible {
+    public enum InputStartingPosition: String, CustomStringConvertible, Codable {
         case now = "NOW"
         case trim_horizon = "TRIM_HORIZON"
         case last_stopped_point = "LAST_STOPPED_POINT"
@@ -1292,10 +1148,9 @@ extension Kinesisanalytics {
 
     public struct KinesisStreamsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// ARN of the input Amazon Kinesis stream to read.
         public let resourceARN: String
@@ -1307,19 +1162,16 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct InputParallelism: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
         /// Number of in-application streams to create. For more information, see Limits. 
         public let count: Int32?
@@ -1328,27 +1180,23 @@ extension Kinesisanalytics {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.count = dictionary["Count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
         }
     }
 
     public struct DeleteApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReferenceDataSourceDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReferenceSchema", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ReferenceDataSourceDescription", required: true, type: .structure), 
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReferenceSchema", required: false, type: .structure)
         ]
         /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
         public let s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription
@@ -1365,24 +1213,20 @@ extension Kinesisanalytics {
             self.referenceSchema = referenceSchema
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let s3ReferenceDataSourceDescription = dictionary["S3ReferenceDataSourceDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3ReferenceDataSourceDescription") }
-            self.s3ReferenceDataSourceDescription = try Kinesisanalytics.S3ReferenceDataSourceDescription(dictionary: s3ReferenceDataSourceDescription)
-            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
-            self.referenceId = referenceId
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] { self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema) } else { self.referenceSchema = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3ReferenceDataSourceDescription = "S3ReferenceDataSourceDescription"
+            case referenceId = "ReferenceId"
+            case tableName = "TableName"
+            case referenceSchema = "ReferenceSchema"
         }
     }
 
     public struct CloudWatchLoggingOptionUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "LogStreamARNUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "LogStreamARNUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string)
         ]
         /// IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
         public let roleARNUpdate: String?
@@ -1397,21 +1241,19 @@ extension Kinesisanalytics {
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleARNUpdate = dictionary["RoleARNUpdate"] as? String
-            self.logStreamARNUpdate = dictionary["LogStreamARNUpdate"] as? String
-            guard let cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOptionId") }
-            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+        private enum CodingKeys: String, CodingKey {
+            case roleARNUpdate = "RoleARNUpdate"
+            case logStreamARNUpdate = "LogStreamARNUpdate"
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
         }
     }
 
     public struct DeleteApplicationReferenceDataSourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
         public let currentApplicationVersionId: Int64
@@ -1426,17 +1268,14 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
-            self.referenceId = referenceId
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case referenceId = "ReferenceId"
+            case applicationName = "ApplicationName"
         }
     }
 
-    public enum RecordFormatType: String, CustomStringConvertible {
+    public enum RecordFormatType: String, CustomStringConvertible, Codable {
         case json = "JSON"
         case csv = "CSV"
         public var description: String { return self.rawValue }
@@ -1444,12 +1283,11 @@ extension Kinesisanalytics {
 
     public struct ReferenceDataSourceUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "TableNameUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "ReferenceSchemaUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReferenceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ReferenceDataSourceUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "TableNameUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "ReferenceSchemaUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ReferenceId", required: true, type: .string)
         ]
         /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
         public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
@@ -1466,23 +1304,21 @@ extension Kinesisanalytics {
             self.referenceId = referenceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3ReferenceDataSourceUpdate = dictionary["S3ReferenceDataSourceUpdate"] as? [String: Any] { self.s3ReferenceDataSourceUpdate = try Kinesisanalytics.S3ReferenceDataSourceUpdate(dictionary: s3ReferenceDataSourceUpdate) } else { self.s3ReferenceDataSourceUpdate = nil }
-            self.tableNameUpdate = dictionary["TableNameUpdate"] as? String
-            if let referenceSchemaUpdate = dictionary["ReferenceSchemaUpdate"] as? [String: Any] { self.referenceSchemaUpdate = try Kinesisanalytics.SourceSchema(dictionary: referenceSchemaUpdate) } else { self.referenceSchemaUpdate = nil }
-            guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
-            self.referenceId = referenceId
+        private enum CodingKeys: String, CodingKey {
+            case s3ReferenceDataSourceUpdate = "S3ReferenceDataSourceUpdate"
+            case tableNameUpdate = "TableNameUpdate"
+            case referenceSchemaUpdate = "ReferenceSchemaUpdate"
+            case referenceId = "ReferenceId"
         }
     }
 
     public struct Output: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KinesisFirehoseOutput", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsOutput", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KinesisFirehoseOutput", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationSchema", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "KinesisStreamsOutput", required: false, type: .structure)
         ]
         /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
         public let kinesisFirehoseOutput: KinesisFirehoseOutput?
@@ -1499,23 +1335,20 @@ extension Kinesisanalytics {
             self.kinesisStreamsOutput = kinesisStreamsOutput
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseOutput = dictionary["KinesisFirehoseOutput"] as? [String: Any] { self.kinesisFirehoseOutput = try Kinesisanalytics.KinesisFirehoseOutput(dictionary: kinesisFirehoseOutput) } else { self.kinesisFirehoseOutput = nil }
-            guard let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DestinationSchema") }
-            self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema)
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let kinesisStreamsOutput = dictionary["KinesisStreamsOutput"] as? [String: Any] { self.kinesisStreamsOutput = try Kinesisanalytics.KinesisStreamsOutput(dictionary: kinesisStreamsOutput) } else { self.kinesisStreamsOutput = nil }
+        private enum CodingKeys: String, CodingKey {
+            case kinesisFirehoseOutput = "KinesisFirehoseOutput"
+            case destinationSchema = "DestinationSchema"
+            case name = "Name"
+            case kinesisStreamsOutput = "KinesisStreamsOutput"
         }
     }
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOption", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOption", required: true, type: .structure)
         ]
         /// The version ID of the Amazon Kinesis Analytics application.
         public let currentApplicationVersionId: Int64
@@ -1530,31 +1363,24 @@ extension Kinesisanalytics {
             self.cloudWatchLoggingOption = cloudWatchLoggingOption
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
-            guard let cloudWatchLoggingOption = dictionary["CloudWatchLoggingOption"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOption") }
-            self.cloudWatchLoggingOption = try Kinesisanalytics.CloudWatchLoggingOption(dictionary: cloudWatchLoggingOption)
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case applicationName = "ApplicationName"
+            case cloudWatchLoggingOption = "CloudWatchLoggingOption"
         }
     }
 
     public struct StartApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct S3ReferenceDataSourceDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReferenceRoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "FileKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReferenceRoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "FileKey", required: true, type: .string)
         ]
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
         public let referenceRoleARN: String
@@ -1569,33 +1395,26 @@ extension Kinesisanalytics {
             self.fileKey = fileKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let referenceRoleARN = dictionary["ReferenceRoleARN"] as? String else { throw InitializableError.missingRequiredParam("ReferenceRoleARN") }
-            self.referenceRoleARN = referenceRoleARN
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            guard let fileKey = dictionary["FileKey"] as? String else { throw InitializableError.missingRequiredParam("FileKey") }
-            self.fileKey = fileKey
+        private enum CodingKeys: String, CodingKey {
+            case referenceRoleARN = "ReferenceRoleARN"
+            case bucketARN = "BucketARN"
+            case fileKey = "FileKey"
         }
     }
 
     public struct AddApplicationCloudWatchLoggingOptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ApplicationUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "ApplicationCodeUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "InputUpdates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ReferenceDataSourceUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "ApplicationCodeUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "InputUpdates", required: false, type: .list)
         ]
         /// Describes application output configuration updates.
         public let outputUpdates: [OutputUpdate]?
@@ -1616,37 +1435,20 @@ extension Kinesisanalytics {
             self.inputUpdates = inputUpdates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let outputUpdates = dictionary["OutputUpdates"] as? [[String: Any]] {
-                self.outputUpdates = try outputUpdates.map({ try OutputUpdate(dictionary: $0) })
-            } else { 
-                self.outputUpdates = nil
-            }
-            if let cloudWatchLoggingOptionUpdates = dictionary["CloudWatchLoggingOptionUpdates"] as? [[String: Any]] {
-                self.cloudWatchLoggingOptionUpdates = try cloudWatchLoggingOptionUpdates.map({ try CloudWatchLoggingOptionUpdate(dictionary: $0) })
-            } else { 
-                self.cloudWatchLoggingOptionUpdates = nil
-            }
-            if let referenceDataSourceUpdates = dictionary["ReferenceDataSourceUpdates"] as? [[String: Any]] {
-                self.referenceDataSourceUpdates = try referenceDataSourceUpdates.map({ try ReferenceDataSourceUpdate(dictionary: $0) })
-            } else { 
-                self.referenceDataSourceUpdates = nil
-            }
-            self.applicationCodeUpdate = dictionary["ApplicationCodeUpdate"] as? String
-            if let inputUpdates = dictionary["InputUpdates"] as? [[String: Any]] {
-                self.inputUpdates = try inputUpdates.map({ try InputUpdate(dictionary: $0) })
-            } else { 
-                self.inputUpdates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case outputUpdates = "OutputUpdates"
+            case cloudWatchLoggingOptionUpdates = "CloudWatchLoggingOptionUpdates"
+            case referenceDataSourceUpdates = "ReferenceDataSourceUpdates"
+            case applicationCodeUpdate = "ApplicationCodeUpdate"
+            case inputUpdates = "InputUpdates"
         }
     }
 
     public struct MappingParameters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CSVMappingParameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "JSONMappingParameters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CSVMappingParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "JSONMappingParameters", required: false, type: .structure)
         ]
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
@@ -1658,21 +1460,20 @@ extension Kinesisanalytics {
             self.jSONMappingParameters = jSONMappingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cSVMappingParameters = dictionary["CSVMappingParameters"] as? [String: Any] { self.cSVMappingParameters = try Kinesisanalytics.CSVMappingParameters(dictionary: cSVMappingParameters) } else { self.cSVMappingParameters = nil }
-            if let jSONMappingParameters = dictionary["JSONMappingParameters"] as? [String: Any] { self.jSONMappingParameters = try Kinesisanalytics.JSONMappingParameters(dictionary: jSONMappingParameters) } else { self.jSONMappingParameters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cSVMappingParameters = "CSVMappingParameters"
+            case jSONMappingParameters = "JSONMappingParameters"
         }
     }
 
     public struct OutputUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationSchemaUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "OutputId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NameUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "KinesisStreamsOutputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "KinesisFirehoseOutputUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationSchemaUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "OutputId", required: true, type: .string)
         ]
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
         public let nameUpdate: String?
@@ -1692,22 +1493,20 @@ extension Kinesisanalytics {
             self.outputId = outputId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nameUpdate = dictionary["NameUpdate"] as? String
-            if let kinesisStreamsOutputUpdate = dictionary["KinesisStreamsOutputUpdate"] as? [String: Any] { self.kinesisStreamsOutputUpdate = try Kinesisanalytics.KinesisStreamsOutputUpdate(dictionary: kinesisStreamsOutputUpdate) } else { self.kinesisStreamsOutputUpdate = nil }
-            if let kinesisFirehoseOutputUpdate = dictionary["KinesisFirehoseOutputUpdate"] as? [String: Any] { self.kinesisFirehoseOutputUpdate = try Kinesisanalytics.KinesisFirehoseOutputUpdate(dictionary: kinesisFirehoseOutputUpdate) } else { self.kinesisFirehoseOutputUpdate = nil }
-            if let destinationSchemaUpdate = dictionary["DestinationSchemaUpdate"] as? [String: Any] { self.destinationSchemaUpdate = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchemaUpdate) } else { self.destinationSchemaUpdate = nil }
-            guard let outputId = dictionary["OutputId"] as? String else { throw InitializableError.missingRequiredParam("OutputId") }
-            self.outputId = outputId
+        private enum CodingKeys: String, CodingKey {
+            case nameUpdate = "NameUpdate"
+            case kinesisStreamsOutputUpdate = "KinesisStreamsOutputUpdate"
+            case kinesisFirehoseOutputUpdate = "KinesisFirehoseOutputUpdate"
+            case destinationSchemaUpdate = "DestinationSchemaUpdate"
+            case outputId = "OutputId"
         }
     }
 
     public struct KinesisStreamsOutputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
         public let resourceARN: String?
@@ -1719,18 +1518,17 @@ extension Kinesisanalytics {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct ListApplicationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExclusiveStartApplicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExclusiveStartApplicationName", required: false, type: .string)
         ]
         /// Maximum number of applications to list.
         public let limit: Int32?
@@ -1742,27 +1540,23 @@ extension Kinesisanalytics {
             self.exclusiveStartApplicationName = exclusiveStartApplicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.exclusiveStartApplicationName = dictionary["ExclusiveStartApplicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case exclusiveStartApplicationName = "ExclusiveStartApplicationName"
         }
     }
 
     public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "CloudWatchLoggingOptionId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The version ID of the Amazon Kinesis Analytics application.
         public let currentApplicationVersionId: Int64
@@ -1777,23 +1571,19 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let cloudWatchLoggingOptionId = dictionary["CloudWatchLoggingOptionId"] as? String else { throw InitializableError.missingRequiredParam("CloudWatchLoggingOptionId") }
-            self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct RecordColumn: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Mapping", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SqlType", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mapping", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SqlType", required: true, type: .string)
         ]
         /// Reference to the data element in the streaming input of the reference data source.
         public let mapping: String?
@@ -1808,20 +1598,17 @@ extension Kinesisanalytics {
             self.sqlType = sqlType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mapping = dictionary["Mapping"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let sqlType = dictionary["SqlType"] as? String else { throw InitializableError.missingRequiredParam("SqlType") }
-            self.sqlType = sqlType
+        private enum CodingKeys: String, CodingKey {
+            case mapping = "Mapping"
+            case name = "Name"
+            case sqlType = "SqlType"
         }
     }
 
     public struct DescribeApplicationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApplicationDetail", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplicationDetail", required: true, type: .structure)
         ]
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
         public let applicationDetail: ApplicationDetail
@@ -1830,19 +1617,17 @@ extension Kinesisanalytics {
             self.applicationDetail = applicationDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationDetail = dictionary["ApplicationDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationDetail") }
-            self.applicationDetail = try Kinesisanalytics.ApplicationDetail(dictionary: applicationDetail)
+        private enum CodingKeys: String, CodingKey {
+            case applicationDetail = "ApplicationDetail"
         }
     }
 
     public struct ReferenceDataSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3ReferenceDataSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReferenceSchema", required: true, type: .structure), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3ReferenceDataSource", required: false, type: .structure), 
+            AWSShapeMember(label: "ReferenceSchema", required: true, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
         public let s3ReferenceDataSource: S3ReferenceDataSource?
         public let referenceSchema: SourceSchema
@@ -1855,22 +1640,19 @@ extension Kinesisanalytics {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3ReferenceDataSource = dictionary["S3ReferenceDataSource"] as? [String: Any] { self.s3ReferenceDataSource = try Kinesisanalytics.S3ReferenceDataSource(dictionary: s3ReferenceDataSource) } else { self.s3ReferenceDataSource = nil }
-            guard let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReferenceSchema") }
-            self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema)
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
+        private enum CodingKeys: String, CodingKey {
+            case s3ReferenceDataSource = "S3ReferenceDataSource"
+            case referenceSchema = "ReferenceSchema"
+            case tableName = "TableName"
         }
     }
 
     public struct UpdateApplicationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "ApplicationUpdate", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "ApplicationUpdate", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// The current application version ID. You can use the DescribeApplication operation to get this value.
         public let currentApplicationVersionId: Int64
@@ -1885,31 +1667,24 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let applicationUpdate = dictionary["ApplicationUpdate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ApplicationUpdate") }
-            self.applicationUpdate = try Kinesisanalytics.ApplicationUpdate(dictionary: applicationUpdate)
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case applicationUpdate = "ApplicationUpdate"
+            case applicationName = "ApplicationName"
         }
     }
 
     public struct DeleteApplicationReferenceDataSourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AddApplicationInputRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CurrentApplicationVersionId", required: true, type: .long), 
-            AWSShapeProperty(label: "Input", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApplicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentApplicationVersionId", required: true, type: .long), 
+            AWSShapeMember(label: "Input", required: true, type: .structure), 
+            AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         /// Current version of your Amazon Kinesis Analytics application. You can use the DescribeApplication operation to find the current application version.
         public let currentApplicationVersionId: Int64
@@ -1923,13 +1698,10 @@ extension Kinesisanalytics {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let currentApplicationVersionId = dictionary["CurrentApplicationVersionId"] as? Int64 else { throw InitializableError.missingRequiredParam("CurrentApplicationVersionId") }
-            self.currentApplicationVersionId = currentApplicationVersionId
-            guard let input = dictionary["Input"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Input") }
-            self.input = try Kinesisanalytics.Input(dictionary: input)
-            guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+            case input = "Input"
+            case applicationName = "ApplicationName"
         }
     }
 

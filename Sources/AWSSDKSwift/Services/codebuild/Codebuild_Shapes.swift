@@ -31,10 +31,9 @@ extension Codebuild {
 
     public struct ListProjectsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "projects", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: false, type: .list)
         ]
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
@@ -46,13 +45,13 @@ extension Codebuild {
             self.projects = projects
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.projects = dictionary["projects"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
-    public enum LanguageType: String, CustomStringConvertible {
+    public enum LanguageType: String, CustomStringConvertible, Codable {
         case java = "JAVA"
         case python = "PYTHON"
         case node_js = "NODE_JS"
@@ -66,9 +65,8 @@ extension Codebuild {
 
     public struct StopBuildOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "build", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "build", required: false, type: .structure)
         ]
         /// Information about the build.
         public let build: Build?
@@ -77,16 +75,15 @@ extension Codebuild {
             self.build = build
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) } else { self.build = nil }
+        private enum CodingKeys: String, CodingKey {
+            case build = "build"
         }
     }
 
     public struct StopBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
         /// The ID of the build.
         public let id: String
@@ -95,18 +92,16 @@ extension Codebuild {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
     public struct BatchGetProjectsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projects", required: false, type: .list), 
-            AWSShapeProperty(label: "projectsNotFound", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projects", required: false, type: .list), 
+            AWSShapeMember(label: "projectsNotFound", required: false, type: .list)
         ]
         /// Information about the requested build projects.
         public let projects: [Project]?
@@ -118,43 +113,38 @@ extension Codebuild {
             self.projectsNotFound = projectsNotFound
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let projects = dictionary["projects"] as? [[String: Any]] {
-                self.projects = try projects.map({ try Project(dictionary: $0) })
-            } else { 
-                self.projects = nil
-            }
-            self.projectsNotFound = dictionary["projectsNotFound"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case projects = "projects"
+            case projectsNotFound = "projectsNotFound"
         }
     }
 
     public struct Project: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModified", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "source", required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
-            AWSShapeProperty(label: "environment", required: false, type: .structure), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastModified", required: false, type: .timestamp), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The name of the build project.
         public let name: String?
         /// When the build project's settings were last modified, expressed in Unix time format.
-        public let lastModified: String?
+        public let lastModified: Double?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int32?
         /// When the build project was created, expressed in Unix time format.
-        public let created: String?
+        public let created: Double?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the CMK's Amazon Resource Name (ARN) or, if specified, the CMK's alias (using the format alias/alias-name ).
         public let encryptionKey: String?
         /// A description that makes the build project easy to identify.
@@ -170,7 +160,7 @@ extension Codebuild {
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
 
-        public init(name: String? = nil, lastModified: String? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: String? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, lastModified: Double? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: Double? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
             self.name = name
             self.lastModified = lastModified
             self.source = source
@@ -185,33 +175,28 @@ extension Codebuild {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.lastModified = dictionary["lastModified"] as? String
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
-            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
-            self.created = dictionary["created"] as? String
-            self.encryptionKey = dictionary["encryptionKey"] as? String
-            self.description = dictionary["description"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.serviceRole = dictionary["serviceRole"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case lastModified = "lastModified"
+            case source = "source"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case created = "created"
+            case encryptionKey = "encryptionKey"
+            case description = "description"
+            case artifacts = "artifacts"
+            case environment = "environment"
+            case tags = "tags"
+            case serviceRole = "serviceRole"
+            case arn = "arn"
         }
     }
 
     public struct BuildArtifacts: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "md5sum", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "sha256sum", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "md5sum", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "sha256sum", required: false, type: .string)
         ]
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public let md5sum: String?
@@ -226,30 +211,29 @@ extension Codebuild {
             self.sha256sum = sha256sum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.md5sum = dictionary["md5sum"] as? String
-            self.location = dictionary["location"] as? String
-            self.sha256sum = dictionary["sha256sum"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case md5sum = "md5sum"
+            case location = "location"
+            case sha256sum = "sha256sum"
         }
     }
 
     public struct BuildPhase: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "durationInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "contexts", required: false, type: .list), 
-            AWSShapeProperty(label: "phaseStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "phaseType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "durationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "contexts", required: false, type: .list), 
+            AWSShapeMember(label: "phaseStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "phaseType", required: false, type: .enum)
         ]
         /// How long, in seconds, between the starting and ending times of the build's phase.
         public let durationInSeconds: Int64?
         /// When the build phase ended, expressed in Unix time format.
-        public let endTime: String?
+        public let endTime: Double?
         /// When the build phase started, expressed in Unix time format.
-        public let startTime: String?
+        public let startTime: Double?
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
         /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
@@ -257,7 +241,7 @@ extension Codebuild {
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
         public let phaseType: BuildPhaseType?
 
-        public init(durationInSeconds: Int64? = nil, endTime: String? = nil, startTime: String? = nil, contexts: [PhaseContext]? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
+        public init(durationInSeconds: Int64? = nil, endTime: Double? = nil, startTime: Double? = nil, contexts: [PhaseContext]? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
             self.startTime = startTime
@@ -266,27 +250,22 @@ extension Codebuild {
             self.phaseType = phaseType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.durationInSeconds = dictionary["durationInSeconds"] as? Int64
-            self.endTime = dictionary["endTime"] as? String
-            self.startTime = dictionary["startTime"] as? String
-            if let contexts = dictionary["contexts"] as? [[String: Any]] {
-                self.contexts = try contexts.map({ try PhaseContext(dictionary: $0) })
-            } else { 
-                self.contexts = nil
-            }
-            if let phaseStatus = dictionary["phaseStatus"] as? String { self.phaseStatus = StatusType(rawValue: phaseStatus) } else { self.phaseStatus = nil }
-            if let phaseType = dictionary["phaseType"] as? String { self.phaseType = BuildPhaseType(rawValue: phaseType) } else { self.phaseType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case contexts = "contexts"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
         }
     }
 
     public struct LogsLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deepLink", required: false, type: .string), 
-            AWSShapeProperty(label: "groupName", required: false, type: .string), 
-            AWSShapeProperty(label: "streamName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deepLink", required: false, type: .string), 
+            AWSShapeMember(label: "groupName", required: false, type: .string), 
+            AWSShapeMember(label: "streamName", required: false, type: .string)
         ]
         /// The URL to an individual build log in Amazon CloudWatch Logs.
         public let deepLink: String?
@@ -301,19 +280,18 @@ extension Codebuild {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deepLink = dictionary["deepLink"] as? String
-            self.groupName = dictionary["groupName"] as? String
-            self.streamName = dictionary["streamName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deepLink = "deepLink"
+            case groupName = "groupName"
+            case streamName = "streamName"
         }
     }
 
     public struct SourceAuth: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "resource", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "resource", required: false, type: .string)
         ]
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
         public let `type`: SourceAuthType
@@ -325,19 +303,17 @@ extension Codebuild {
             self.resource = resource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = SourceAuthType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            self.resource = dictionary["resource"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case resource = "resource"
         }
     }
 
     public struct EnvironmentPlatform: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "languages", required: false, type: .list), 
-            AWSShapeProperty(label: "platform", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "languages", required: false, type: .list), 
+            AWSShapeMember(label: "platform", required: false, type: .enum)
         ]
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
@@ -349,24 +325,20 @@ extension Codebuild {
             self.platform = platform
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let languages = dictionary["languages"] as? [[String: Any]] {
-                self.languages = try languages.map({ try EnvironmentLanguage(dictionary: $0) })
-            } else { 
-                self.languages = nil
-            }
-            if let platform = dictionary["platform"] as? String { self.platform = PlatformType(rawValue: platform) } else { self.platform = nil }
+        private enum CodingKeys: String, CodingKey {
+            case languages = "languages"
+            case platform = "platform"
         }
     }
 
-    public enum PlatformType: String, CustomStringConvertible {
+    public enum PlatformType: String, CustomStringConvertible, Codable {
         case debian = "DEBIAN"
         case amazon_linux = "AMAZON_LINUX"
         case ubuntu = "UBUNTU"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactPackaging: String, CustomStringConvertible {
+    public enum ArtifactPackaging: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case zip = "ZIP"
         public var description: String { return self.rawValue }
@@ -374,24 +346,23 @@ extension Codebuild {
 
     public struct Build: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "phases", required: false, type: .list), 
-            AWSShapeProperty(label: "source", required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "currentPhase", required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
-            AWSShapeProperty(label: "buildStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "initiator", required: false, type: .string), 
-            AWSShapeProperty(label: "environment", required: false, type: .structure), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "projectName", required: false, type: .string), 
-            AWSShapeProperty(label: "buildComplete", required: false, type: .boolean), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "logs", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "phases", required: false, type: .list), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeMember(label: "currentPhase", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "buildStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "initiator", required: false, type: .string), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "projectName", required: false, type: .string), 
+            AWSShapeMember(label: "buildComplete", required: false, type: .boolean), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "logs", required: false, type: .structure), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
         ]
         /// Information about all previous build phases that are completed and information about any current build phase that is not yet complete.
         public let phases: [BuildPhase]?
@@ -420,13 +391,13 @@ extension Codebuild {
         /// Whether the build has finished. True if completed; otherwise, false.
         public let buildComplete: Bool?
         /// When the build process ended, expressed in Unix time format.
-        public let endTime: String?
+        public let endTime: Double?
         /// Information about the build's logs in Amazon CloudWatch Logs.
         public let logs: LogsLocation?
         /// When the build process started, expressed in Unix time format.
-        public let startTime: String?
+        public let startTime: Double?
 
-        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: StatusType? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: String? = nil, logs: LogsLocation? = nil, startTime: String? = nil) {
+        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: StatusType? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: Double? = nil, logs: LogsLocation? = nil, startTime: Double? = nil) {
             self.phases = phases
             self.source = source
             self.timeoutInMinutes = timeoutInMinutes
@@ -445,35 +416,30 @@ extension Codebuild {
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let phases = dictionary["phases"] as? [[String: Any]] {
-                self.phases = try phases.map({ try BuildPhase(dictionary: $0) })
-            } else { 
-                self.phases = nil
-            }
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
-            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
-            self.sourceVersion = dictionary["sourceVersion"] as? String
-            self.currentPhase = dictionary["currentPhase"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.BuildArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
-            if let buildStatus = dictionary["buildStatus"] as? String { self.buildStatus = StatusType(rawValue: buildStatus) } else { self.buildStatus = nil }
-            self.arn = dictionary["arn"] as? String
-            self.initiator = dictionary["initiator"] as? String
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
-            self.id = dictionary["id"] as? String
-            self.projectName = dictionary["projectName"] as? String
-            self.buildComplete = dictionary["buildComplete"] as? Bool
-            self.endTime = dictionary["endTime"] as? String
-            if let logs = dictionary["logs"] as? [String: Any] { self.logs = try Codebuild.LogsLocation(dictionary: logs) } else { self.logs = nil }
-            self.startTime = dictionary["startTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case phases = "phases"
+            case source = "source"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case sourceVersion = "sourceVersion"
+            case currentPhase = "currentPhase"
+            case artifacts = "artifacts"
+            case buildStatus = "buildStatus"
+            case arn = "arn"
+            case initiator = "initiator"
+            case environment = "environment"
+            case id = "id"
+            case projectName = "projectName"
+            case buildComplete = "buildComplete"
+            case endTime = "endTime"
+            case logs = "logs"
+            case startTime = "startTime"
         }
     }
 
     public struct DeleteProjectInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the build project.
         public let name: String
@@ -482,26 +448,22 @@ extension Codebuild {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct DeleteProjectOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum SourceAuthType: String, CustomStringConvertible {
+    public enum SourceAuthType: String, CustomStringConvertible, Codable {
         case oauth = "OAUTH"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProjectSortByType: String, CustomStringConvertible {
+    public enum ProjectSortByType: String, CustomStringConvertible, Codable {
         case name = "NAME"
         case created_time = "CREATED_TIME"
         case last_modified_time = "LAST_MODIFIED_TIME"
@@ -510,9 +472,8 @@ extension Codebuild {
 
     public struct UpdateProjectOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// Information about the build project that was changed.
         public let project: Project?
@@ -521,12 +482,12 @@ extension Codebuild {
             self.project = project
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) } else { self.project = nil }
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
         }
     }
 
-    public enum ArtifactNamespace: String, CustomStringConvertible {
+    public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case build_id = "BUILD_ID"
         public var description: String { return self.rawValue }
@@ -534,14 +495,13 @@ extension Codebuild {
 
     public struct ProjectArtifacts: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "path", required: false, type: .string), 
-            AWSShapeProperty(label: "namespaceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "packaging", required: false, type: .enum), 
-            AWSShapeProperty(label: "type", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "path", required: false, type: .string), 
+            AWSShapeMember(label: "namespaceType", required: false, type: .enum), 
+            AWSShapeMember(label: "packaging", required: false, type: .enum), 
+            AWSShapeMember(label: "type", required: true, type: .enum)
         ]
         /// Along with path and namespaceType, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output artifact object.   For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
         public let name: String?
@@ -565,31 +525,26 @@ extension Codebuild {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.location = dictionary["location"] as? String
-            self.path = dictionary["path"] as? String
-            if let namespaceType = dictionary["namespaceType"] as? String { self.namespaceType = ArtifactNamespace(rawValue: namespaceType) } else { self.namespaceType = nil }
-            if let packaging = dictionary["packaging"] as? String { self.packaging = ArtifactPackaging(rawValue: packaging) } else { self.packaging = nil }
-            guard let rawtype = dictionary["type"] as? String, let `type` = ArtifactsType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case location = "location"
+            case path = "path"
+            case namespaceType = "namespaceType"
+            case packaging = "packaging"
+            case `type` = "type"
         }
     }
 
     public struct ListCuratedEnvironmentImagesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BatchGetBuildsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "builds", required: false, type: .list), 
-            AWSShapeProperty(label: "buildsNotFound", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "builds", required: false, type: .list), 
+            AWSShapeMember(label: "buildsNotFound", required: false, type: .list)
         ]
         /// Information about the requested builds.
         public let builds: [Build]?
@@ -601,22 +556,17 @@ extension Codebuild {
             self.buildsNotFound = buildsNotFound
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let builds = dictionary["builds"] as? [[String: Any]] {
-                self.builds = try builds.map({ try Build(dictionary: $0) })
-            } else { 
-                self.builds = nil
-            }
-            self.buildsNotFound = dictionary["buildsNotFound"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case builds = "builds"
+            case buildsNotFound = "buildsNotFound"
         }
     }
 
     public struct EnvironmentLanguage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "language", required: false, type: .enum), 
-            AWSShapeProperty(label: "images", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "language", required: false, type: .enum), 
+            AWSShapeMember(label: "images", required: false, type: .list)
         ]
         /// The programming language for the Docker images.
         public let language: LanguageType?
@@ -628,21 +578,16 @@ extension Codebuild {
             self.images = images
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let language = dictionary["language"] as? String { self.language = LanguageType(rawValue: language) } else { self.language = nil }
-            if let images = dictionary["images"] as? [[String: Any]] {
-                self.images = try images.map({ try EnvironmentImage(dictionary: $0) })
-            } else { 
-                self.images = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case language = "language"
+            case images = "images"
         }
     }
 
     public struct StartBuildOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "build", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "build", required: false, type: .structure)
         ]
         /// Information about the build to be run.
         public let build: Build?
@@ -651,17 +596,16 @@ extension Codebuild {
             self.build = build
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) } else { self.build = nil }
+        private enum CodingKeys: String, CodingKey {
+            case build = "build"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The tag's key.
         public let key: String?
@@ -673,18 +617,17 @@ extension Codebuild {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["key"] as? String
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct ListBuildsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
@@ -696,23 +639,22 @@ extension Codebuild {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ids = dictionary["ids"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible {
+    public enum EnvironmentType: String, CustomStringConvertible, Codable {
         case linux_container = "LINUX_CONTAINER"
         public var description: String { return self.rawValue }
     }
 
     public struct ListBuildsForProjectOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
@@ -724,21 +666,20 @@ extension Codebuild {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ids = dictionary["ids"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ProjectEnvironment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "computeType", required: true, type: .enum), 
-            AWSShapeProperty(label: "image", required: true, type: .string), 
-            AWSShapeProperty(label: "environmentVariables", required: false, type: .list), 
-            AWSShapeProperty(label: "privilegedMode", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "computeType", required: true, type: .enum), 
+            AWSShapeMember(label: "image", required: true, type: .string), 
+            AWSShapeMember(label: "environmentVariables", required: false, type: .list), 
+            AWSShapeMember(label: "privilegedMode", required: false, type: .boolean)
         ]
         /// The type of build environment to use for related builds.
         public let `type`: EnvironmentType
@@ -759,28 +700,20 @@ extension Codebuild {
             self.privilegedMode = privilegedMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = EnvironmentType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let rawcomputeType = dictionary["computeType"] as? String, let computeType = ComputeType(rawValue: rawcomputeType) else { throw InitializableError.missingRequiredParam("computeType") }
-            self.computeType = computeType
-            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
-            self.image = image
-            if let environmentVariables = dictionary["environmentVariables"] as? [[String: Any]] {
-                self.environmentVariables = try environmentVariables.map({ try EnvironmentVariable(dictionary: $0) })
-            } else { 
-                self.environmentVariables = nil
-            }
-            self.privilegedMode = dictionary["privilegedMode"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case computeType = "computeType"
+            case image = "image"
+            case environmentVariables = "environmentVariables"
+            case privilegedMode = "privilegedMode"
         }
     }
 
     public struct ListBuildsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
@@ -792,17 +725,16 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct BatchGetProjectsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "names", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "names", required: true, type: .list)
         ]
         /// The names of the build projects.
         public let names: [String]
@@ -811,19 +743,17 @@ extension Codebuild {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let names = dictionary["names"] as? [String] else { throw InitializableError.missingRequiredParam("names") }
-            self.names = names
+        private enum CodingKeys: String, CodingKey {
+            case names = "names"
         }
     }
 
     public struct ListBuildsForProjectInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectName", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
         /// The name of the build project.
         public let projectName: String
@@ -838,22 +768,21 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
-            self.projectName = projectName
-            self.nextToken = dictionary["nextToken"] as? String
-            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
+        private enum CodingKeys: String, CodingKey {
+            case projectName = "projectName"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
-    public enum ComputeType: String, CustomStringConvertible {
+    public enum ComputeType: String, CustomStringConvertible, Codable {
         case build_general1_small = "BUILD_GENERAL1_SMALL"
         case build_general1_medium = "BUILD_GENERAL1_MEDIUM"
         case build_general1_large = "BUILD_GENERAL1_LARGE"
         public var description: String { return self.rawValue }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case codecommit = "CODECOMMIT"
         case codepipeline = "CODEPIPELINE"
         case github = "GITHUB"
@@ -863,17 +792,16 @@ extension Codebuild {
 
     public struct UpdateProjectInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "environment", required: false, type: .structure), 
-            AWSShapeProperty(label: "source", required: false, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", required: false, type: .structure), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "environment", required: false, type: .structure), 
+            AWSShapeMember(label: "source", required: false, type: .structure), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string)
         ]
         /// The name of the build project.  You cannot change a build project's name. 
         public let name: String
@@ -906,34 +834,28 @@ extension Codebuild {
             self.serviceRole = serviceRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
-            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
-            self.encryptionKey = dictionary["encryptionKey"] as? String
-            self.description = dictionary["description"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.serviceRole = dictionary["serviceRole"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case environment = "environment"
+            case source = "source"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case encryptionKey = "encryptionKey"
+            case description = "description"
+            case artifacts = "artifacts"
+            case tags = "tags"
+            case serviceRole = "serviceRole"
         }
     }
 
     public struct StartBuildInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "environmentVariablesOverride", required: false, type: .list), 
-            AWSShapeProperty(label: "artifactsOverride", required: false, type: .structure), 
-            AWSShapeProperty(label: "projectName", required: true, type: .string), 
-            AWSShapeProperty(label: "timeoutInMinutesOverride", required: false, type: .integer), 
-            AWSShapeProperty(label: "buildspecOverride", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceVersion", required: false, type: .string), 
+            AWSShapeMember(label: "environmentVariablesOverride", required: false, type: .list), 
+            AWSShapeMember(label: "artifactsOverride", required: false, type: .structure), 
+            AWSShapeMember(label: "projectName", required: true, type: .string), 
+            AWSShapeMember(label: "timeoutInMinutesOverride", required: false, type: .integer), 
+            AWSShapeMember(label: "buildspecOverride", required: false, type: .string)
         ]
         /// A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:   For AWS CodeCommit or GitHub: the commit ID to use.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.  
         public let sourceVersion: String?
@@ -957,22 +879,17 @@ extension Codebuild {
             self.buildspecOverride = buildspecOverride
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceVersion = dictionary["sourceVersion"] as? String
-            if let environmentVariablesOverride = dictionary["environmentVariablesOverride"] as? [[String: Any]] {
-                self.environmentVariablesOverride = try environmentVariablesOverride.map({ try EnvironmentVariable(dictionary: $0) })
-            } else { 
-                self.environmentVariablesOverride = nil
-            }
-            if let artifactsOverride = dictionary["artifactsOverride"] as? [String: Any] { self.artifactsOverride = try Codebuild.ProjectArtifacts(dictionary: artifactsOverride) } else { self.artifactsOverride = nil }
-            guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
-            self.projectName = projectName
-            self.timeoutInMinutesOverride = dictionary["timeoutInMinutesOverride"] as? Int32
-            self.buildspecOverride = dictionary["buildspecOverride"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceVersion = "sourceVersion"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case artifactsOverride = "artifactsOverride"
+            case projectName = "projectName"
+            case timeoutInMinutesOverride = "timeoutInMinutesOverride"
+            case buildspecOverride = "buildspecOverride"
         }
     }
 
-    public enum BuildPhaseType: String, CustomStringConvertible {
+    public enum BuildPhaseType: String, CustomStringConvertible, Codable {
         case submitted = "SUBMITTED"
         case provisioning = "PROVISIONING"
         case download_source = "DOWNLOAD_SOURCE"
@@ -988,10 +905,9 @@ extension Codebuild {
 
     public struct EnvironmentImage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// The description of the Docker image.
         public let description: String?
@@ -1003,13 +919,13 @@ extension Codebuild {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
         }
     }
 
-    public enum StatusType: String, CustomStringConvertible {
+    public enum StatusType: String, CustomStringConvertible, Codable {
         case succeeded = "SUCCEEDED"
         case failed = "FAILED"
         case fault = "FAULT"
@@ -1021,10 +937,9 @@ extension Codebuild {
 
     public struct EnvironmentVariable: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The name or key of the environment variable.
         public let name: String
@@ -1036,19 +951,16 @@ extension Codebuild {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct BatchGetBuildsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ids", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ids", required: true, type: .list)
         ]
         /// The IDs of the builds.
         public let ids: [String]
@@ -1057,18 +969,16 @@ extension Codebuild {
             self.ids = ids
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ids = dictionary["ids"] as? [String] else { throw InitializableError.missingRequiredParam("ids") }
-            self.ids = ids
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
         }
     }
 
     public struct PhaseContext: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "statusCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "statusCode", required: false, type: .string)
         ]
         /// An explanation of the build phase's context. This explanation might include a command ID and an exit code.
         public let message: String?
@@ -1080,25 +990,24 @@ extension Codebuild {
             self.statusCode = statusCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["message"] as? String
-            self.statusCode = dictionary["statusCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case statusCode = "statusCode"
         }
     }
 
     public struct CreateProjectInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "environment", required: true, type: .structure), 
-            AWSShapeProperty(label: "source", required: true, type: .structure), 
-            AWSShapeProperty(label: "timeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "encryptionKey", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "artifacts", required: true, type: .structure), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "environment", required: true, type: .structure), 
+            AWSShapeMember(label: "source", required: true, type: .structure), 
+            AWSShapeMember(label: "timeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "encryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "artifacts", required: true, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string)
         ]
         /// The name of the build project.
         public let name: String
@@ -1131,32 +1040,23 @@ extension Codebuild {
             self.serviceRole = serviceRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let environment = dictionary["environment"] as? [String: Any] else { throw InitializableError.missingRequiredParam("environment") }
-            self.environment = try Codebuild.ProjectEnvironment(dictionary: environment)
-            guard let source = dictionary["source"] as? [String: Any] else { throw InitializableError.missingRequiredParam("source") }
-            self.source = try Codebuild.ProjectSource(dictionary: source)
-            self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
-            self.encryptionKey = dictionary["encryptionKey"] as? String
-            self.description = dictionary["description"] as? String
-            guard let artifacts = dictionary["artifacts"] as? [String: Any] else { throw InitializableError.missingRequiredParam("artifacts") }
-            self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts)
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.serviceRole = dictionary["serviceRole"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case environment = "environment"
+            case source = "source"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case encryptionKey = "encryptionKey"
+            case description = "description"
+            case artifacts = "artifacts"
+            case tags = "tags"
+            case serviceRole = "serviceRole"
         }
     }
 
     public struct CreateProjectOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// Information about the build project that was created.
         public let project: Project?
@@ -1165,18 +1065,18 @@ extension Codebuild {
             self.project = project
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) } else { self.project = nil }
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
         }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible {
+    public enum SortOrderType: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactsType: String, CustomStringConvertible {
+    public enum ArtifactsType: String, CustomStringConvertible, Codable {
         case codepipeline = "CODEPIPELINE"
         case s3 = "S3"
         case no_artifacts = "NO_ARTIFACTS"
@@ -1185,12 +1085,11 @@ extension Codebuild {
 
     public struct ProjectSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "buildspec", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "auth", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "buildspec", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "auth", required: false, type: .structure)
         ]
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
         public let buildspec: String?
@@ -1208,22 +1107,20 @@ extension Codebuild {
             self.auth = auth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.buildspec = dictionary["buildspec"] as? String
-            self.location = dictionary["location"] as? String
-            guard let rawtype = dictionary["type"] as? String, let `type` = SourceType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            if let auth = dictionary["auth"] as? [String: Any] { self.auth = try Codebuild.SourceAuth(dictionary: auth) } else { self.auth = nil }
+        private enum CodingKeys: String, CodingKey {
+            case buildspec = "buildspec"
+            case location = "location"
+            case `type` = "type"
+            case auth = "auth"
         }
     }
 
     public struct ListProjectsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum)
         ]
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
         public let sortBy: ProjectSortByType?
@@ -1238,18 +1135,17 @@ extension Codebuild {
             self.sortOrder = sortOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = ProjectSortByType(rawValue: sortBy) } else { self.sortBy = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrderType(rawValue: sortOrder) } else { self.sortOrder = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "sortBy"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListCuratedEnvironmentImagesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "platforms", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "platforms", required: false, type: .list)
         ]
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
@@ -1258,12 +1154,8 @@ extension Codebuild {
             self.platforms = platforms
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platforms = dictionary["platforms"] as? [[String: Any]] {
-                self.platforms = try platforms.map({ try EnvironmentPlatform(dictionary: $0) })
-            } else { 
-                self.platforms = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "platforms"
         }
     }
 

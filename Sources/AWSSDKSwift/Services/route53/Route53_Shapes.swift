@@ -31,13 +31,12 @@ extension Route53 {
 
     public struct HostedZone: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Config", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceRecordSetCount", required: false, type: .long), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Config", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceRecordSetCount", required: false, type: .long), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// A complex type that includes the Comment and PrivateZone elements. If you omitted the HostedZoneConfig and Comment elements from the request, the Config and Comment elements don't appear in the response.
         public let config: HostedZoneConfig?
@@ -58,19 +57,16 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let config = dictionary["Config"] as? [String: Any] { self.config = try Route53.HostedZoneConfig(dictionary: config) } else { self.config = nil }
-            self.resourceRecordSetCount = dictionary["ResourceRecordSetCount"] as? Int64
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case resourceRecordSetCount = "ResourceRecordSetCount"
+            case callerReference = "CallerReference"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible {
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
         case create = "CREATE"
         case delete = "DELETE"
         case upsert = "UPSERT"
@@ -79,9 +75,8 @@ extension Route53 {
 
     public struct DelegationSetNameServers: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameServer", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NameServer", required: false, type: .list)
         ]
         public let nameServer: [String]?
 
@@ -89,12 +84,12 @@ extension Route53 {
             self.nameServer = nameServer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nameServer = dictionary["NameServer"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nameServer = "NameServer"
         }
     }
 
-    public enum HealthCheckType: String, CustomStringConvertible {
+    public enum HealthCheckType: String, CustomStringConvertible, Codable {
         case http = "HTTP"
         case https = "HTTPS"
         case http_str_match = "HTTP_STR_MATCH"
@@ -107,11 +102,10 @@ extension Route53 {
 
     public struct ListHostedZonesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSetId", location: .querystring(locationName: "delegationsetid"), required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelegationSetId", location: .querystring(locationName: "delegationsetid"), required: false, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
         public let delegationSetId: String?
@@ -126,18 +120,17 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.delegationSetId = dictionary["delegationsetid"] as? String
-            self.marker = dictionary["marker"] as? String
-            self.maxItems = dictionary["maxitems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case delegationSetId = "delegationsetid"
+            case marker = "marker"
+            case maxItems = "maxitems"
         }
     }
 
     public struct GetTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the traffic policy instance that you want to get information about.
         public let id: String
@@ -146,17 +139,15 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct TrafficPolicyInstances: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyInstance", required: false, type: .list)
         ]
         public let trafficPolicyInstance: [TrafficPolicyInstance]?
 
@@ -164,20 +155,15 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [[String: Any]] {
-                self.trafficPolicyInstance = try trafficPolicyInstance.map({ try TrafficPolicyInstance(dictionary: $0) })
-            } else { 
-                self.trafficPolicyInstance = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyInstance = "TrafficPolicyInstance"
         }
     }
 
     public struct GeoLocationDetailsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GeoLocationDetails", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GeoLocationDetails", required: false, type: .list)
         ]
         public let geoLocationDetails: [GeoLocationDetails]?
 
@@ -185,20 +171,15 @@ extension Route53 {
             self.geoLocationDetails = geoLocationDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let geoLocationDetails = dictionary["GeoLocationDetails"] as? [[String: Any]] {
-                self.geoLocationDetails = try geoLocationDetails.map({ try GeoLocationDetails(dictionary: $0) })
-            } else { 
-                self.geoLocationDetails = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case geoLocationDetails = "GeoLocationDetails"
         }
     }
 
     public struct GetHealthCheckStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservations", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckObservations", required: true, type: .structure)
         ]
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
         public let healthCheckObservations: HealthCheckObservations
@@ -207,19 +188,17 @@ extension Route53 {
             self.healthCheckObservations = healthCheckObservations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckObservations = dictionary["HealthCheckObservations"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckObservations") }
-            self.healthCheckObservations = try Route53.HealthCheckObservations(dictionary: healthCheckObservations)
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckObservations = "HealthCheckObservations"
         }
     }
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nexttoken"), required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxresults"), required: false, type: .string)
         ]
         ///  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of NextToken from the response in the nexttoken parameter in another ListVPCAssociationAuthorizations request.
         public let nextToken: String?
@@ -234,19 +213,17 @@ extension Route53 {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nexttoken"] as? String
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
-            self.maxResults = dictionary["maxresults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nexttoken"
+            case hostedZoneId = "Id"
+            case maxResults = "maxresults"
         }
     }
 
     public struct DeleteReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the reusable delegation set that you want to delete.
         public let id: String
@@ -255,18 +232,16 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct CreateHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheck", required: true, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string)
         ]
         /// A complex type that contains identifying information about the health check.
         public let healthCheck: HealthCheck
@@ -278,24 +253,21 @@ extension Route53 {
             self.location = location
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
-            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
+            case location = "Location"
         }
     }
 
     public struct TestDNSAnswerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordType", location: .querystring(locationName: "recordtype"), required: true, type: .enum), 
-            AWSShapeProperty(label: "EDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip"), required: false, type: .string), 
-            AWSShapeProperty(label: "EDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask"), required: false, type: .string), 
-            AWSShapeProperty(label: "RecordName", location: .querystring(locationName: "recordname"), required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: true, type: .string), 
-            AWSShapeProperty(label: "ResolverIP", location: .querystring(locationName: "resolverip"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordType", location: .querystring(locationName: "recordtype"), required: true, type: .enum), 
+            AWSShapeMember(label: "EDNS0ClientSubnetIP", location: .querystring(locationName: "edns0clientsubnetip"), required: false, type: .string), 
+            AWSShapeMember(label: "EDNS0ClientSubnetMask", location: .querystring(locationName: "edns0clientsubnetmask"), required: false, type: .string), 
+            AWSShapeMember(label: "RecordName", location: .querystring(locationName: "recordname"), required: true, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: true, type: .string), 
+            AWSShapeMember(label: "ResolverIP", location: .querystring(locationName: "resolverip"), required: false, type: .string)
         ]
         /// The type of the resource record set.
         public let recordType: RRType
@@ -319,27 +291,23 @@ extension Route53 {
             self.resolverIP = resolverIP
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawRecordType = dictionary["recordtype"] as? String, let recordType = RRType(rawValue: rawRecordType) else { throw InitializableError.missingRequiredParam("recordtype") }
-            self.recordType = recordType
-            self.eDNS0ClientSubnetIP = dictionary["edns0clientsubnetip"] as? String
-            self.eDNS0ClientSubnetMask = dictionary["edns0clientsubnetmask"] as? String
-            guard let recordName = dictionary["recordname"] as? String else { throw InitializableError.missingRequiredParam("recordname") }
-            self.recordName = recordName
-            guard let hostedZoneId = dictionary["hostedzoneid"] as? String else { throw InitializableError.missingRequiredParam("hostedzoneid") }
-            self.hostedZoneId = hostedZoneId
-            self.resolverIP = dictionary["resolverip"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recordType = "recordtype"
+            case eDNS0ClientSubnetIP = "edns0clientsubnetip"
+            case eDNS0ClientSubnetMask = "edns0clientsubnetmask"
+            case recordName = "recordname"
+            case hostedZoneId = "hostedzoneid"
+            case resolverIP = "resolverip"
         }
     }
 
     public struct ListTrafficPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyIdMarker", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicySummaries", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyIdMarker", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicySummaries", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
         public let isTruncated: Bool
@@ -357,23 +325,18 @@ extension Route53 {
             self.trafficPolicySummaries = trafficPolicySummaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let trafficPolicyIdMarker = dictionary["TrafficPolicyIdMarker"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyIdMarker") }
-            self.trafficPolicyIdMarker = trafficPolicyIdMarker
-            guard let trafficPolicySummaries = dictionary["TrafficPolicySummaries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicySummaries") }
-            self.trafficPolicySummaries = try Route53.TrafficPolicySummaries(dictionary: trafficPolicySummaries)
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case trafficPolicyIdMarker = "TrafficPolicyIdMarker"
+            case trafficPolicySummaries = "TrafficPolicySummaries"
         }
     }
 
     public struct GetTrafficPolicyInstanceCountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstanceCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyInstanceCount", required: true, type: .integer)
         ]
         /// The number of traffic policy instances that are associated with the current AWS account.
         public let trafficPolicyInstanceCount: Int32
@@ -382,17 +345,15 @@ extension Route53 {
             self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicyInstanceCount = dictionary["TrafficPolicyInstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyInstanceCount") }
-            self.trafficPolicyInstanceCount = trafficPolicyInstanceCount
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyInstanceCount = "TrafficPolicyInstanceCount"
         }
     }
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
         public let healthCheckId: String
@@ -401,21 +362,19 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
-            self.healthCheckId = healthCheckId
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckId = "HealthCheckId"
         }
     }
 
     public struct TrafficPolicySummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LatestVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LatestVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyCount", required: true, type: .integer), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The version number of the latest version of the traffic policy.
         public let latestVersion: Int32
@@ -436,26 +395,20 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let latestVersion = dictionary["LatestVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("LatestVersion") }
-            self.latestVersion = latestVersion
-            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let trafficPolicyCount = dictionary["TrafficPolicyCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyCount") }
-            self.trafficPolicyCount = trafficPolicyCount
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case latestVersion = "LatestVersion"
+            case `type` = "Type"
+            case name = "Name"
+            case trafficPolicyCount = "TrafficPolicyCount"
+            case id = "Id"
         }
     }
 
     public struct ChangeBatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Changes", required: true, type: .structure), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Changes", required: true, type: .structure), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
         /// Information about the changes to make to the record sets.
         public let changes: Changes
@@ -467,21 +420,19 @@ extension Route53 {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changes = dictionary["Changes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Changes") }
-            self.changes = try Route53.Changes(dictionary: changes)
-            self.comment = dictionary["Comment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case changes = "Changes"
+            case comment = "Comment"
         }
     }
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", required: true, type: .long), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TTL", required: true, type: .long), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
         public let trafficPolicyVersion: Int32
@@ -499,25 +450,20 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
-            self.trafficPolicyVersion = trafficPolicyVersion
-            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
-            self.trafficPolicyId = trafficPolicyId
-            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
-            self.tTL = tTL
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyVersion = "TrafficPolicyVersion"
+            case trafficPolicyId = "TrafficPolicyId"
+            case tTL = "TTL"
+            case id = "Id"
         }
     }
 
     public struct ListHostedZonesByNameRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeProperty(label: "DNSName", location: .querystring(locationName: "dnsname"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeMember(label: "DNSName", location: .querystring(locationName: "dnsname"), required: false, type: .string)
         ]
         /// The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones. 
         public let maxItems: String?
@@ -532,18 +478,17 @@ extension Route53 {
             self.dNSName = dNSName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["maxitems"] as? String
-            self.hostedZoneId = dictionary["hostedzoneid"] as? String
-            self.dNSName = dictionary["dnsname"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case hostedZoneId = "hostedzoneid"
+            case dNSName = "dnsname"
         }
     }
 
     public struct HealthCheckObservations: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservation", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckObservation", required: false, type: .list)
         ]
         public let healthCheckObservation: [HealthCheckObservation]?
 
@@ -551,22 +496,18 @@ extension Route53 {
             self.healthCheckObservation = healthCheckObservation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let healthCheckObservation = dictionary["HealthCheckObservation"] as? [[String: Any]] {
-                self.healthCheckObservation = try healthCheckObservation.map({ try HealthCheckObservation(dictionary: $0) })
-            } else { 
-                self.healthCheckObservation = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckObservation = "HealthCheckObservation"
         }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible {
+    public enum ChangeStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case insync = "INSYNC"
         public var description: String { return self.rawValue }
     }
 
-    public enum VPCRegion: String, CustomStringConvertible {
+    public enum VPCRegion: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_east_2 = "us-east-2"
         case us_west_1 = "us-west-1"
@@ -585,7 +526,7 @@ extension Route53 {
         public var description: String { return self.rawValue }
     }
 
-    public enum RRType: String, CustomStringConvertible {
+    public enum RRType: String, CustomStringConvertible, Codable {
         case soa = "SOA"
         case a = "A"
         case txt = "TXT"
@@ -602,9 +543,8 @@ extension Route53 {
 
     public struct UpdateHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
         public let healthCheck: HealthCheck
 
@@ -612,21 +552,19 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
-            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
         }
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
@@ -647,33 +585,26 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
-            self.trafficPolicyInstances = try Route53.TrafficPolicyInstances(dictionary: trafficPolicyInstances)
-            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
-            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case trafficPolicyInstances = "TrafficPolicyInstances"
+            case trafficPolicyInstanceTypeMarker = "TrafficPolicyInstanceTypeMarker"
+            case trafficPolicyInstanceNameMarker = "TrafficPolicyInstanceNameMarker"
         }
     }
 
     public struct DeleteVPCAssociationAuthorizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VPC", required: true, type: .structure), 
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
         /// A complex type that contains information about the VPC that you want to associate with a private hosted zone.
         public let vPC: VPC
@@ -688,20 +619,17 @@ extension Route53 {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
-            self.vPC = try Route53.VPC(dictionary: vPC)
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
-            self.comment = dictionary["Comment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vPC = "VPC"
+            case hostedZoneId = "Id"
+            case comment = "Comment"
         }
     }
 
     public struct ResourceRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string)
         ]
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public let value: String
@@ -710,17 +638,15 @@ extension Route53 {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
         }
     }
 
     public struct GetHealthCheckStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
         public let healthCheckId: String
@@ -729,18 +655,16 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
-            self.healthCheckId = healthCheckId
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckId = "HealthCheckId"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of Value depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Value is the value that you want to give the new tag.    Edit a tag: Value is the new value that you want to assign the tag.  
         public let value: String?
@@ -752,19 +676,18 @@ extension Route53 {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DelegationSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NameServers", required: true, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NameServers", required: true, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// A complex type that contains a list of the authoritative name servers for a hosted zone or for a reusable delegation set.
         public let nameServers: DelegationSetNameServers
@@ -779,19 +702,17 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nameServers = dictionary["NameServers"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NameServers") }
-            self.nameServers = try Route53.DelegationSetNameServers(dictionary: nameServers)
-            self.callerReference = dictionary["CallerReference"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nameServers = "NameServers"
+            case callerReference = "CallerReference"
+            case id = "Id"
         }
     }
 
     public struct VPCs: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VPC", required: false, type: .list)
         ]
         public let vPC: [VPC]?
 
@@ -799,20 +720,15 @@ extension Route53 {
             self.vPC = vPC
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let vPC = dictionary["VPC"] as? [[String: Any]] {
-                self.vPC = try vPC.map({ try VPC(dictionary: $0) })
-            } else { 
-                self.vPC = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case vPC = "VPC"
         }
     }
 
     public struct ChildHealthCheckList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildHealthCheck", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChildHealthCheck", required: false, type: .list)
         ]
         public let childHealthCheck: [String]?
 
@@ -820,18 +736,17 @@ extension Route53 {
             self.childHealthCheck = childHealthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.childHealthCheck = dictionary["ChildHealthCheck"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case childHealthCheck = "ChildHealthCheck"
         }
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", required: true, type: .string), 
-            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The new comment for the specified traffic policy and version.
         public let comment: String
@@ -846,22 +761,18 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
-            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
-            self.version = version
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case version = "Version"
+            case id = "Id"
         }
     }
 
     public struct CreateTrafficPolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy version.
         public let location: String
@@ -873,24 +784,21 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
-            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
-            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case trafficPolicy = "TrafficPolicy"
         }
     }
 
     public struct ListTrafficPolicyInstancesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "HostedZoneIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get more traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
         public let isTruncated: Bool
@@ -914,30 +822,26 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
-            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
-            self.trafficPolicyInstances = try Route53.TrafficPolicyInstances(dictionary: trafficPolicyInstances)
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
-            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case hostedZoneIdMarker = "HostedZoneIdMarker"
+            case trafficPolicyInstances = "TrafficPolicyInstances"
+            case maxItems = "MaxItems"
+            case trafficPolicyInstanceNameMarker = "TrafficPolicyInstanceNameMarker"
+            case trafficPolicyInstanceTypeMarker = "TrafficPolicyInstanceTypeMarker"
         }
     }
 
     public struct ListHostedZonesByNameResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZones", required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextHostedZoneId", required: false, type: .string), 
-            AWSShapeProperty(label: "DNSName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextDNSName", required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZones", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextHostedZoneId", required: false, type: .string), 
+            AWSShapeMember(label: "DNSName", required: false, type: .string), 
+            AWSShapeMember(label: "NextDNSName", required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: HostedZones
@@ -964,26 +868,22 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZones = dictionary["HostedZones"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZones") }
-            self.hostedZones = try Route53.HostedZones(dictionary: hostedZones)
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.nextHostedZoneId = dictionary["NextHostedZoneId"] as? String
-            self.dNSName = dictionary["DNSName"] as? String
-            self.nextDNSName = dictionary["NextDNSName"] as? String
-            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hostedZones = "HostedZones"
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case nextHostedZoneId = "NextHostedZoneId"
+            case dNSName = "DNSName"
+            case nextDNSName = "NextDNSName"
+            case hostedZoneId = "HostedZoneId"
         }
     }
 
     public struct CreateHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string)
         ]
         /// A complex type that contains the response to a CreateHealthCheck request. 
         public let healthCheckConfig: HealthCheckConfig
@@ -995,20 +895,17 @@ extension Route53 {
             self.callerReference = callerReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckConfig = dictionary["HealthCheckConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckConfig") }
-            self.healthCheckConfig = try Route53.HealthCheckConfig(dictionary: healthCheckConfig)
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckConfig = "HealthCheckConfig"
+            case callerReference = "CallerReference"
         }
     }
 
     public struct CreateReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeMember(label: "DelegationSet", required: true, type: .structure)
         ]
         /// The unique URL representing the new reusable delegation set.
         public let location: String
@@ -1020,19 +917,16 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
-            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
-            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case delegationSet = "DelegationSet"
         }
     }
 
     public struct AssociateVPCWithHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that describes the changes made to your hosted zone.
         public let changeInfo: ChangeInfo
@@ -1041,21 +935,19 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
     public struct HealthCheck: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckVersion", required: true, type: .long), 
-            AWSShapeProperty(label: "HealthCheckConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "CloudWatchAlarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckVersion", required: true, type: .long), 
+            AWSShapeMember(label: "HealthCheckConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "CloudWatchAlarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The version of the health check. You can optionally pass this value in a call to UpdateHealthCheck to prevent overwriting another change to the health check.
         public let healthCheckVersion: Int64
@@ -1076,31 +968,26 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckVersion = dictionary["HealthCheckVersion"] as? Int64 else { throw InitializableError.missingRequiredParam("HealthCheckVersion") }
-            self.healthCheckVersion = healthCheckVersion
-            guard let healthCheckConfig = dictionary["HealthCheckConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckConfig") }
-            self.healthCheckConfig = try Route53.HealthCheckConfig(dictionary: healthCheckConfig)
-            if let cloudWatchAlarmConfiguration = dictionary["CloudWatchAlarmConfiguration"] as? [String: Any] { self.cloudWatchAlarmConfiguration = try Route53.CloudWatchAlarmConfiguration(dictionary: cloudWatchAlarmConfiguration) } else { self.cloudWatchAlarmConfiguration = nil }
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckVersion = "HealthCheckVersion"
+            case healthCheckConfig = "HealthCheckConfig"
+            case cloudWatchAlarmConfiguration = "CloudWatchAlarmConfiguration"
+            case callerReference = "CallerReference"
+            case id = "Id"
         }
     }
 
     public struct CloudWatchAlarmConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: true, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Statistic", required: true, type: .enum), 
-            AWSShapeProperty(label: "Namespace", required: true, type: .string), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "EvaluationPeriods", required: true, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "Statistic", required: true, type: .enum), 
+            AWSShapeMember(label: "Namespace", required: true, type: .string), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .structure)
         ]
         /// For the metric that the CloudWatch alarm is associated with, the value the metric is compared with.
         public let threshold: Double
@@ -1130,30 +1017,22 @@ extension Route53 {
             self.dimensions = dimensions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
-            self.threshold = threshold
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
-            self.period = period
-            guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
-            self.evaluationPeriods = evaluationPeriods
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            guard let rawStatistic = dictionary["Statistic"] as? String, let statistic = Statistic(rawValue: rawStatistic) else { throw InitializableError.missingRequiredParam("Statistic") }
-            self.statistic = statistic
-            guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
-            self.namespace = namespace
-            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Route53.DimensionList(dictionary: dimensions) } else { self.dimensions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "Threshold"
+            case metricName = "MetricName"
+            case period = "Period"
+            case evaluationPeriods = "EvaluationPeriods"
+            case comparisonOperator = "ComparisonOperator"
+            case statistic = "Statistic"
+            case namespace = "Namespace"
+            case dimensions = "Dimensions"
         }
     }
 
     public struct DisassociateVPCFromHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that describes the changes made to the specified private hosted zone.
         public let changeInfo: ChangeInfo
@@ -1162,17 +1041,15 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
     public struct GetChangeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains information about the specified change batch.
         public let changeInfo: ChangeInfo
@@ -1181,31 +1058,29 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
     public struct UpdateHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckVersion", required: false, type: .long), 
-            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "ChildHealthChecks", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourcePath", required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Inverted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AlarmIdentifier", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Regions", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthThreshold", required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchString", required: false, type: .string), 
-            AWSShapeProperty(label: "FullyQualifiedDomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "FailureThreshold", required: false, type: .integer), 
-            AWSShapeProperty(label: "EnableSNI", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckVersion", required: false, type: .long), 
+            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Inverted", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string), 
+            AWSShapeMember(label: "Regions", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthThreshold", required: false, type: .integer), 
+            AWSShapeMember(label: "SearchString", required: false, type: .string), 
+            AWSShapeMember(label: "FullyQualifiedDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableSNI", required: false, type: .boolean), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:   If the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
         public let healthCheckVersion: Int64?
@@ -1255,32 +1130,30 @@ extension Route53 {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.healthCheckVersion = dictionary["HealthCheckVersion"] as? Int64
-            self.iPAddress = dictionary["IPAddress"] as? String
-            if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String: Any] { self.childHealthChecks = try Route53.ChildHealthCheckList(dictionary: childHealthChecks) } else { self.childHealthChecks = nil }
-            self.resourcePath = dictionary["ResourcePath"] as? String
-            if let insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String { self.insufficientDataHealthStatus = InsufficientDataHealthStatus(rawValue: insufficientDataHealthStatus) } else { self.insufficientDataHealthStatus = nil }
-            self.inverted = dictionary["Inverted"] as? Bool
-            if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) } else { self.alarmIdentifier = nil }
-            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
-            self.healthCheckId = healthCheckId
-            if let regions = dictionary["Regions"] as? [String: Any] { self.regions = try Route53.HealthCheckRegionList(dictionary: regions) } else { self.regions = nil }
-            self.healthThreshold = dictionary["HealthThreshold"] as? Int32
-            self.searchString = dictionary["SearchString"] as? String
-            self.fullyQualifiedDomainName = dictionary["FullyQualifiedDomainName"] as? String
-            self.failureThreshold = dictionary["FailureThreshold"] as? Int32
-            self.enableSNI = dictionary["EnableSNI"] as? Bool
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckVersion = "HealthCheckVersion"
+            case iPAddress = "IPAddress"
+            case childHealthChecks = "ChildHealthChecks"
+            case resourcePath = "ResourcePath"
+            case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
+            case inverted = "Inverted"
+            case alarmIdentifier = "AlarmIdentifier"
+            case healthCheckId = "HealthCheckId"
+            case regions = "Regions"
+            case healthThreshold = "HealthThreshold"
+            case searchString = "SearchString"
+            case fullyQualifiedDomainName = "FullyQualifiedDomainName"
+            case failureThreshold = "FailureThreshold"
+            case enableSNI = "EnableSNI"
+            case port = "Port"
         }
     }
 
     public struct ListReusableDelegationSetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more reusable delegation sets to get.
         public let marker: String?
@@ -1292,17 +1165,16 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.maxItems = dictionary["maxitems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case maxItems = "maxitems"
         }
     }
 
     public struct Changes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Change", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Change", required: false, type: .list)
         ]
         public let change: [Change]?
 
@@ -1310,21 +1182,16 @@ extension Route53 {
             self.change = change
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let change = dictionary["Change"] as? [[String: Any]] {
-                self.change = try change.map({ try Change(dictionary: $0) })
-            } else { 
-                self.change = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case change = "Change"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// The ID of the resource for which you want to retrieve tags.
         public let resourceId: String
@@ -1336,20 +1203,17 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct CreateTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy.
         public let location: String
@@ -1361,19 +1225,16 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
-            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
-            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case trafficPolicy = "TrafficPolicy"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTagSet", required: true, type: .structure)
         ]
         /// A ResourceTagSet containing tags associated with the specified resource.
         public let resourceTagSet: ResourceTagSet
@@ -1382,13 +1243,12 @@ extension Route53 {
             self.resourceTagSet = resourceTagSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceTagSet = dictionary["ResourceTagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceTagSet") }
-            self.resourceTagSet = try Route53.ResourceTagSet(dictionary: resourceTagSet)
+        private enum CodingKeys: String, CodingKey {
+            case resourceTagSet = "ResourceTagSet"
         }
     }
 
-    public enum TagResourceType: String, CustomStringConvertible {
+    public enum TagResourceType: String, CustomStringConvertible, Codable {
         case healthcheck = "healthcheck"
         case hostedzone = "hostedzone"
         public var description: String { return self.rawValue }
@@ -1396,11 +1256,10 @@ extension Route53 {
 
     public struct AliasTarget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DNSName", required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluateTargetHealth", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DNSName", required: true, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluateTargetHealth", required: true, type: .boolean)
         ]
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide.  Elastic Beanstalk environment  Specify the CNAME attribute for the environment. (The environment must have a regionalized domain name.) You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS Command Line Interface Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field. (If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack.)     Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancer: DescribeLoadBalancers    Application Load Balancer: DescribeLoadBalancers       AWS CLI: Use  describe-load-balancers  to get the value of DNSName.    Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint in which you created the bucket, for example, s3-website-us-east-2.amazonaws.com. For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Amazon Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  
         public let dNSName: String
@@ -1415,29 +1274,25 @@ extension Route53 {
             self.evaluateTargetHealth = evaluateTargetHealth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dNSName = dictionary["DNSName"] as? String else { throw InitializableError.missingRequiredParam("DNSName") }
-            self.dNSName = dNSName
-            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
-            self.hostedZoneId = hostedZoneId
-            guard let evaluateTargetHealth = dictionary["EvaluateTargetHealth"] as? Bool else { throw InitializableError.missingRequiredParam("EvaluateTargetHealth") }
-            self.evaluateTargetHealth = evaluateTargetHealth
+        private enum CodingKeys: String, CodingKey {
+            case dNSName = "DNSName"
+            case hostedZoneId = "HostedZoneId"
+            case evaluateTargetHealth = "EvaluateTargetHealth"
         }
     }
 
     public struct TrafficPolicyInstance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Message", required: true, type: .string), 
-            AWSShapeProperty(label: "State", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", required: true, type: .long), 
-            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyType", required: true, type: .enum), 
+            AWSShapeMember(label: "Message", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TTL", required: true, type: .long), 
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
         ]
         /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
         public let id: String
@@ -1470,33 +1325,23 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let rawTrafficPolicyType = dictionary["TrafficPolicyType"] as? String, let trafficPolicyType = RRType(rawValue: rawTrafficPolicyType) else { throw InitializableError.missingRequiredParam("TrafficPolicyType") }
-            self.trafficPolicyType = trafficPolicyType
-            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
-            self.message = message
-            guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
-            self.trafficPolicyVersion = trafficPolicyVersion
-            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
-            self.trafficPolicyId = trafficPolicyId
-            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
-            self.tTL = tTL
-            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case trafficPolicyType = "TrafficPolicyType"
+            case message = "Message"
+            case state = "State"
+            case name = "Name"
+            case trafficPolicyVersion = "TrafficPolicyVersion"
+            case trafficPolicyId = "TrafficPolicyId"
+            case tTL = "TTL"
+            case hostedZoneId = "HostedZoneId"
         }
     }
 
     public struct UpdateTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the updated traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -1505,18 +1350,16 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
-            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyInstance = "TrafficPolicyInstance"
         }
     }
 
     public struct ListTrafficPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyIdMarker", location: .querystring(locationName: "trafficpolicyid"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// (Conditional) For your first request to ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was returned in the previous response.
         public let trafficPolicyIdMarker: String?
@@ -1528,17 +1371,16 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trafficPolicyIdMarker = dictionary["trafficpolicyid"] as? String
-            self.maxItems = dictionary["maxitems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyIdMarker = "trafficpolicyid"
+            case maxItems = "maxitems"
         }
     }
 
     public struct DelegationSets: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelegationSet", required: false, type: .list)
         ]
         public let delegationSet: [DelegationSet]?
 
@@ -1546,22 +1388,17 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let delegationSet = dictionary["DelegationSet"] as? [[String: Any]] {
-                self.delegationSet = try delegationSet.map({ try DelegationSet(dictionary: $0) })
-            } else { 
-                self.delegationSet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case delegationSet = "DelegationSet"
         }
     }
 
     public struct GetGeoLocationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinentCode", location: .querystring(locationName: "continentcode"), required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", location: .querystring(locationName: "subdivisioncode"), required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", location: .querystring(locationName: "countrycode"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContinentCode", location: .querystring(locationName: "continentcode"), required: false, type: .string), 
+            AWSShapeMember(label: "SubdivisionCode", location: .querystring(locationName: "subdivisioncode"), required: false, type: .string), 
+            AWSShapeMember(label: "CountryCode", location: .querystring(locationName: "countrycode"), required: false, type: .string)
         ]
         /// Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America  
         public let continentCode: String?
@@ -1576,20 +1413,19 @@ extension Route53 {
             self.countryCode = countryCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.continentCode = dictionary["continentcode"] as? String
-            self.subdivisionCode = dictionary["subdivisioncode"] as? String
-            self.countryCode = dictionary["countrycode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case continentCode = "continentcode"
+            case subdivisionCode = "subdivisioncode"
+            case countryCode = "countrycode"
         }
     }
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPC", required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VPC", required: true, type: .structure), 
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
         /// A complex type that contains information about the VPC that you're disassociating from the specified hosted zone.
         public let vPC: VPC
@@ -1604,20 +1440,17 @@ extension Route53 {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
-            self.vPC = try Route53.VPC(dictionary: vPC)
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
-            self.comment = dictionary["Comment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vPC = "VPC"
+            case hostedZoneId = "Id"
+            case comment = "Comment"
         }
     }
 
     public struct DeleteHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The ID of the health check that you want to delete.
         public let healthCheckId: String
@@ -1626,17 +1459,15 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
-            self.healthCheckId = healthCheckId
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckId = "HealthCheckId"
         }
     }
 
     public struct HealthCheckRegionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Region", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Region", required: false, type: .list)
         ]
         public let region: [HealthCheckRegion]?
 
@@ -1644,20 +1475,19 @@ extension Route53 {
             self.region = region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let region = dictionary["Region"] as? [String] { self.region = region.flatMap({ HealthCheckRegion(rawValue: $0)}) } else { self.region = nil }
+        private enum CodingKeys: String, CodingKey {
+            case region = "Region"
         }
     }
 
     public struct CreateHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZone", required: true, type: .structure), 
-            AWSShapeProperty(label: "VPC", required: false, type: .structure), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "HostedZone", required: true, type: .structure), 
+            AWSShapeMember(label: "VPC", required: false, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeMember(label: "DelegationSet", required: true, type: .structure)
         ]
         /// A complex type that contains information about the CreateHostedZone request.
         public let changeInfo: ChangeInfo
@@ -1678,24 +1508,19 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
-            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
-            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
-            if let vPC = dictionary["VPC"] as? [String: Any] { self.vPC = try Route53.VPC(dictionary: vPC) } else { self.vPC = nil }
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
-            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
-            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
+            case hostedZone = "HostedZone"
+            case vPC = "VPC"
+            case location = "Location"
+            case delegationSet = "DelegationSet"
         }
     }
 
     public struct GetTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -1704,40 +1529,37 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
-            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicy = "TrafficPolicy"
         }
     }
 
     public struct StatusReport: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "CheckedTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "CheckedTime", required: false, type: .timestamp)
         ]
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public let status: String?
         /// The date and time that the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
-        public let checkedTime: String?
+        public let checkedTime: Double?
 
-        public init(status: String? = nil, checkedTime: String? = nil) {
+        public init(status: String? = nil, checkedTime: Double? = nil) {
             self.status = status
             self.checkedTime = checkedTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.checkedTime = dictionary["CheckedTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case checkedTime = "CheckedTime"
         }
     }
 
     public struct ResourceRecordSets: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecordSet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceRecordSet", required: false, type: .list)
         ]
         public let resourceRecordSet: [ResourceRecordSet]?
 
@@ -1745,25 +1567,20 @@ extension Route53 {
             self.resourceRecordSet = resourceRecordSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceRecordSet = dictionary["ResourceRecordSet"] as? [[String: Any]] {
-                self.resourceRecordSet = try resourceRecordSet.map({ try ResourceRecordSet(dictionary: $0) })
-            } else { 
-                self.resourceRecordSet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceRecordSet = "ResourceRecordSet"
         }
     }
 
     public struct TrafficPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: true, type: .integer), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Document", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .integer), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Document", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public let comment: String?
@@ -1787,26 +1604,20 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.comment = dictionary["Comment"] as? String
-            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
-            self.version = version
-            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
-            self.document = document
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case version = "Version"
+            case `type` = "Type"
+            case name = "Name"
+            case document = "Document"
+            case id = "Id"
         }
     }
 
     public struct GetGeoLocationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GeoLocationDetails", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GeoLocationDetails", required: true, type: .structure)
         ]
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public let geoLocationDetails: GeoLocationDetails
@@ -1815,30 +1626,25 @@ extension Route53 {
             self.geoLocationDetails = geoLocationDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let geoLocationDetails = dictionary["GeoLocationDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GeoLocationDetails") }
-            self.geoLocationDetails = try Route53.GeoLocationDetails(dictionary: geoLocationDetails)
+        private enum CodingKeys: String, CodingKey {
+            case geoLocationDetails = "GeoLocationDetails"
         }
     }
 
     public struct ChangeTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListGeoLocationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextContinentCode", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "NextSubdivisionCode", required: false, type: .string), 
-            AWSShapeProperty(label: "GeoLocationDetailsList", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextCountryCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextContinentCode", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "NextSubdivisionCode", required: false, type: .string), 
+            AWSShapeMember(label: "GeoLocationDetailsList", required: true, type: .structure), 
+            AWSShapeMember(label: "NextCountryCode", required: false, type: .string)
         ]
         /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextContinentCode in the StartContinentCode parameter in another ListGeoLocations request.
         public let nextContinentCode: String?
@@ -1862,26 +1668,22 @@ extension Route53 {
             self.nextCountryCode = nextCountryCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextContinentCode = dictionary["NextContinentCode"] as? String
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            self.nextSubdivisionCode = dictionary["NextSubdivisionCode"] as? String
-            guard let geoLocationDetailsList = dictionary["GeoLocationDetailsList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GeoLocationDetailsList") }
-            self.geoLocationDetailsList = try Route53.GeoLocationDetailsList(dictionary: geoLocationDetailsList)
-            self.nextCountryCode = dictionary["NextCountryCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextContinentCode = "NextContinentCode"
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case nextSubdivisionCode = "NextSubdivisionCode"
+            case geoLocationDetailsList = "GeoLocationDetailsList"
+            case nextCountryCode = "NextCountryCode"
         }
     }
 
     public struct HealthCheckObservation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StatusReport", required: false, type: .structure), 
-            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Region", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusReport", required: false, type: .structure), 
+            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .enum)
         ]
         /// A complex type that contains the last failure reason as reported by one Amazon Route 53 health checker and the time of the failed health check.
         public let statusReport: StatusReport?
@@ -1896,18 +1698,17 @@ extension Route53 {
             self.region = region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let statusReport = dictionary["StatusReport"] as? [String: Any] { self.statusReport = try Route53.StatusReport(dictionary: statusReport) } else { self.statusReport = nil }
-            self.iPAddress = dictionary["IPAddress"] as? String
-            if let region = dictionary["Region"] as? String { self.region = HealthCheckRegion(rawValue: region) } else { self.region = nil }
+        private enum CodingKeys: String, CodingKey {
+            case statusReport = "StatusReport"
+            case iPAddress = "IPAddress"
+            case region = "Region"
         }
     }
 
     public struct HealthChecks: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheck", required: false, type: .list)
         ]
         public let healthCheck: [HealthCheck]?
 
@@ -1915,21 +1716,16 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let healthCheck = dictionary["HealthCheck"] as? [[String: Any]] {
-                self.healthCheck = try healthCheck.map({ try HealthCheck(dictionary: $0) })
-            } else { 
-                self.healthCheck = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
         }
     }
 
     public struct Dimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// For the metric that the CloudWatch alarm is associated with, the value of one dimension.
         public let value: String
@@ -1941,19 +1737,16 @@ extension Route53 {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct GetReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the reusable delegation set that you want to get a list of name servers for.
         public let id: String
@@ -1962,18 +1755,16 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
         public let hostedZoneId: String
@@ -1985,27 +1776,21 @@ extension Route53 {
             self.vPC = vPC
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
-            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
-            self.vPC = try Route53.VPC(dictionary: vPC)
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneId = "Id"
+            case vPC = "VPC"
         }
     }
 
     public struct GetTrafficPolicyInstanceCountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct TagResourceIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .list)
         ]
         public let resourceId: [String]?
 
@@ -2013,16 +1798,15 @@ extension Route53 {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
         }
     }
 
     public struct DimensionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Dimension", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Dimension", required: false, type: .list)
         ]
         public let dimension: [Dimension]?
 
@@ -2030,16 +1814,12 @@ extension Route53 {
             self.dimension = dimension
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let dimension = dictionary["Dimension"] as? [[String: Any]] {
-                self.dimension = try dimension.map({ try Dimension(dictionary: $0) })
-            } else { 
-                self.dimension = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case dimension = "Dimension"
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
         case lessthanthreshold = "LessThanThreshold"
@@ -2049,14 +1829,13 @@ extension Route53 {
 
     public struct ListResourceRecordSetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextRecordName", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceRecordSets", required: true, type: .structure), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextRecordType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextRecordIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextRecordName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRecordSets", required: true, type: .structure), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextRecordType", required: false, type: .enum), 
+            AWSShapeMember(label: "NextRecordIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string)
         ]
         /// If the results were truncated, the name of the next record in the list. This element is present only if IsTruncated is true. 
         public let nextRecordName: String?
@@ -2080,28 +1859,24 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextRecordName = dictionary["NextRecordName"] as? String
-            guard let resourceRecordSets = dictionary["ResourceRecordSets"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceRecordSets") }
-            self.resourceRecordSets = try Route53.ResourceRecordSets(dictionary: resourceRecordSets)
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            if let nextRecordType = dictionary["NextRecordType"] as? String { self.nextRecordType = RRType(rawValue: nextRecordType) } else { self.nextRecordType = nil }
-            self.nextRecordIdentifier = dictionary["NextRecordIdentifier"] as? String
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
+        private enum CodingKeys: String, CodingKey {
+            case nextRecordName = "NextRecordName"
+            case resourceRecordSets = "ResourceRecordSets"
+            case isTruncated = "IsTruncated"
+            case nextRecordType = "NextRecordType"
+            case nextRecordIdentifier = "NextRecordIdentifier"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ListHostedZonesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZones", required: true, type: .structure), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZones", required: true, type: .structure), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string)
         ]
         /// A complex type that contains general information about the hosted zone.
         public let hostedZones: HostedZones
@@ -2122,25 +1897,20 @@ extension Route53 {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZones = dictionary["HostedZones"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZones") }
-            self.hostedZones = try Route53.HostedZones(dictionary: hostedZones)
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
+        private enum CodingKeys: String, CodingKey {
+            case hostedZones = "HostedZones"
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
         }
     }
 
     public struct CreateTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A unique URL that represents a new traffic policy instance.
         public let location: String
@@ -2152,15 +1922,13 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["Location"] as? String else { throw InitializableError.missingRequiredParam("Location") }
-            self.location = location
-            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
-            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case trafficPolicyInstance = "TrafficPolicyInstance"
         }
     }
 
-    public enum HealthCheckRegion: String, CustomStringConvertible {
+    public enum HealthCheckRegion: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_west_1 = "us-west-1"
         case us_west_2 = "us-west-2"
@@ -2174,14 +1942,13 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstances", required: true, type: .structure), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "HostedZoneIdMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstances", required: true, type: .structure), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", required: false, type: .enum)
         ]
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public let isTruncated: Bool
@@ -2205,56 +1972,49 @@ extension Route53 {
             self.trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.hostedZoneIdMarker = dictionary["HostedZoneIdMarker"] as? String
-            guard let trafficPolicyInstances = dictionary["TrafficPolicyInstances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstances") }
-            self.trafficPolicyInstances = try Route53.TrafficPolicyInstances(dictionary: trafficPolicyInstances)
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            self.trafficPolicyInstanceNameMarker = dictionary["TrafficPolicyInstanceNameMarker"] as? String
-            if let trafficPolicyInstanceTypeMarker = dictionary["TrafficPolicyInstanceTypeMarker"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case hostedZoneIdMarker = "HostedZoneIdMarker"
+            case trafficPolicyInstances = "TrafficPolicyInstances"
+            case maxItems = "MaxItems"
+            case trafficPolicyInstanceNameMarker = "TrafficPolicyInstanceNameMarker"
+            case trafficPolicyInstanceTypeMarker = "TrafficPolicyInstanceTypeMarker"
         }
     }
 
     public struct ChangeInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "SubmittedAt", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SubmittedAt", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let comment: String?
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
         public let status: ChangeStatus
         /// The date and time that the change request was submitted in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
-        public let submittedAt: String
+        public let submittedAt: Double
         /// The ID of the request.
         public let id: String
 
-        public init(comment: String? = nil, status: ChangeStatus, submittedAt: String, id: String) {
+        public init(comment: String? = nil, status: ChangeStatus, submittedAt: Double, id: String) {
             self.comment = comment
             self.status = status
             self.submittedAt = submittedAt
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.comment = dictionary["Comment"] as? String
-            guard let rawStatus = dictionary["Status"] as? String, let status = ChangeStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let submittedAt = dictionary["SubmittedAt"] as? String else { throw InitializableError.missingRequiredParam("SubmittedAt") }
-            self.submittedAt = submittedAt
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case status = "Status"
+            case submittedAt = "SubmittedAt"
+            case id = "Id"
         }
     }
 
-    public enum InsufficientDataHealthStatus: String, CustomStringConvertible {
+    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable {
         case healthy = "Healthy"
         case unhealthy = "Unhealthy"
         case lastknownstatus = "LastKnownStatus"
@@ -2263,19 +2023,15 @@ extension Route53 {
 
     public struct DeleteHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GeoLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContinentCode", required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContinentCode", required: false, type: .string), 
+            AWSShapeMember(label: "SubdivisionCode", required: false, type: .string), 
+            AWSShapeMember(label: "CountryCode", required: false, type: .string)
         ]
         /// The two-letter code for the continent. Valid values: AF | AN | AS | EU | OC | NA | SA  Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public let continentCode: String?
@@ -2290,22 +2046,21 @@ extension Route53 {
             self.countryCode = countryCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.continentCode = dictionary["ContinentCode"] as? String
-            self.subdivisionCode = dictionary["SubdivisionCode"] as? String
-            self.countryCode = dictionary["CountryCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case continentCode = "ContinentCode"
+            case subdivisionCode = "SubdivisionCode"
+            case countryCode = "CountryCode"
         }
     }
 
     public struct ListResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartRecordIdentifier", location: .querystring(locationName: "identifier"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "StartRecordName", location: .querystring(locationName: "name"), required: false, type: .string), 
-            AWSShapeProperty(label: "StartRecordType", location: .querystring(locationName: "type"), required: false, type: .enum), 
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartRecordIdentifier", location: .querystring(locationName: "identifier"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "StartRecordName", location: .querystring(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "StartRecordType", location: .querystring(locationName: "type"), required: false, type: .enum), 
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         ///  Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
         public let startRecordIdentifier: String?
@@ -2326,21 +2081,19 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startRecordIdentifier = dictionary["identifier"] as? String
-            self.maxItems = dictionary["maxitems"] as? String
-            self.startRecordName = dictionary["name"] as? String
-            if let startRecordType = dictionary["type"] as? String { self.startRecordType = RRType(rawValue: startRecordType) } else { self.startRecordType = nil }
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case startRecordIdentifier = "identifier"
+            case maxItems = "maxitems"
+            case startRecordName = "name"
+            case startRecordType = "type"
+            case hostedZoneId = "Id"
         }
     }
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckObservations", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckObservations", required: true, type: .structure)
         ]
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
         public let healthCheckObservations: HealthCheckObservations
@@ -2349,19 +2102,17 @@ extension Route53 {
             self.healthCheckObservations = healthCheckObservations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckObservations = dictionary["HealthCheckObservations"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheckObservations") }
-            self.healthCheckObservations = try Route53.HealthCheckObservations(dictionary: healthCheckObservations)
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckObservations = "HealthCheckObservations"
         }
     }
 
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy.
         public let document: String
@@ -2376,25 +2127,22 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
-            self.document = document
-            self.comment = dictionary["Comment"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case comment = "Comment"
+            case id = "Id"
         }
     }
 
     public struct GeoLocationDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubdivisionName", required: false, type: .string), 
-            AWSShapeProperty(label: "SubdivisionCode", required: false, type: .string), 
-            AWSShapeProperty(label: "CountryCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ContinentName", required: false, type: .string), 
-            AWSShapeProperty(label: "CountryName", required: false, type: .string), 
-            AWSShapeProperty(label: "ContinentCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubdivisionName", required: false, type: .string), 
+            AWSShapeMember(label: "SubdivisionCode", required: false, type: .string), 
+            AWSShapeMember(label: "CountryCode", required: false, type: .string), 
+            AWSShapeMember(label: "ContinentName", required: false, type: .string), 
+            AWSShapeMember(label: "CountryName", required: false, type: .string), 
+            AWSShapeMember(label: "ContinentCode", required: false, type: .string)
         ]
         /// The full name of the subdivision, for example, a state in the United States or a province in Canada.
         public let subdivisionName: String?
@@ -2418,29 +2166,25 @@ extension Route53 {
             self.continentCode = continentCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subdivisionName = dictionary["SubdivisionName"] as? String
-            self.subdivisionCode = dictionary["SubdivisionCode"] as? String
-            self.countryCode = dictionary["CountryCode"] as? String
-            self.continentName = dictionary["ContinentName"] as? String
-            self.countryName = dictionary["CountryName"] as? String
-            self.continentCode = dictionary["ContinentCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subdivisionName = "SubdivisionName"
+            case subdivisionCode = "SubdivisionCode"
+            case countryCode = "CountryCode"
+            case continentName = "ContinentName"
+            case countryName = "CountryName"
+            case continentCode = "ContinentCode"
         }
     }
 
     public struct GetHealthCheckCountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ResourceTagSetList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTagSet", required: false, type: .list)
         ]
         public let resourceTagSet: [ResourceTagSet]?
 
@@ -2448,31 +2192,23 @@ extension Route53 {
             self.resourceTagSet = resourceTagSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceTagSet = dictionary["ResourceTagSet"] as? [[String: Any]] {
-                self.resourceTagSet = try resourceTagSet.map({ try ResourceTagSet(dictionary: $0) })
-            } else { 
-                self.resourceTagSet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceTagSet = "ResourceTagSet"
         }
     }
 
     public struct DeleteReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListTrafficPolicyVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersionMarker", required: true, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicies", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyVersionMarker", required: true, type: .string), 
+            AWSShapeMember(label: "TrafficPolicies", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
@@ -2490,23 +2226,18 @@ extension Route53 {
             self.trafficPolicies = trafficPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let trafficPolicyVersionMarker = dictionary["TrafficPolicyVersionMarker"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyVersionMarker") }
-            self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
-            guard let trafficPolicies = dictionary["TrafficPolicies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicies") }
-            self.trafficPolicies = try Route53.TrafficPolicies(dictionary: trafficPolicies)
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case trafficPolicyVersionMarker = "TrafficPolicyVersionMarker"
+            case trafficPolicies = "TrafficPolicies"
         }
     }
 
     public struct TagList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -2514,20 +2245,15 @@ extension Route53 {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [[String: Any]] {
-                self.tag = try tag.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tag = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
         }
     }
 
     public struct GetHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckId", location: .uri(locationName: "HealthCheckId"), required: true, type: .string)
         ]
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
         public let healthCheckId: String
@@ -2536,18 +2262,16 @@ extension Route53 {
             self.healthCheckId = healthCheckId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckId = dictionary["HealthCheckId"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckId") }
-            self.healthCheckId = healthCheckId
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckId = "HealthCheckId"
         }
     }
 
     public struct ListHealthChecksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string)
         ]
         /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group, submit another ListHealthChecks request.  For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first health check that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more health checks to get.
         public let marker: String?
@@ -2559,17 +2283,16 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.maxItems = dictionary["maxitems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case maxItems = "maxitems"
         }
     }
 
     public struct RecordData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordDataEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordDataEntry", required: false, type: .list)
         ]
         public let recordDataEntry: [String]?
 
@@ -2577,16 +2300,15 @@ extension Route53 {
             self.recordDataEntry = recordDataEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.recordDataEntry = dictionary["RecordDataEntry"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case recordDataEntry = "RecordDataEntry"
         }
     }
 
     public struct ListTagsForResourcesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTagSets", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTagSets", required: true, type: .structure)
         ]
         /// A list of ResourceTagSets containing tags associated with the specified resources.
         public let resourceTagSets: ResourceTagSetList
@@ -2595,21 +2317,19 @@ extension Route53 {
             self.resourceTagSets = resourceTagSets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceTagSets = dictionary["ResourceTagSets"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceTagSets") }
-            self.resourceTagSets = try Route53.ResourceTagSetList(dictionary: resourceTagSets)
+        private enum CodingKeys: String, CodingKey {
+            case resourceTagSets = "ResourceTagSets"
         }
     }
 
     public struct ListReusableDelegationSetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "DelegationSets", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "DelegationSets", required: true, type: .structure)
         ]
         /// A flag that indicates whether there are more reusable delegation sets to be listed.
         public let isTruncated: Bool
@@ -2630,25 +2350,20 @@ extension Route53 {
             self.delegationSets = delegationSets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            guard let delegationSets = dictionary["DelegationSets"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSets") }
-            self.delegationSets = try Route53.DelegationSets(dictionary: delegationSets)
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case delegationSets = "DelegationSets"
         }
     }
 
     public struct AlarmIdentifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Region", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Region", required: true, type: .enum)
         ]
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
         public let name: String
@@ -2660,24 +2375,21 @@ extension Route53 {
             self.region = region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let rawRegion = dictionary["Region"] as? String, let region = CloudWatchRegion(rawValue: rawRegion) else { throw InitializableError.missingRequiredParam("Region") }
-            self.region = region
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case region = "Region"
         }
     }
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyVersion", location: .querystring(locationName: "version"), required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyId", location: .querystring(locationName: "id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficPolicyVersion", location: .querystring(locationName: "version"), required: true, type: .integer), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
@@ -2701,35 +2413,32 @@ extension Route53 {
             self.trafficPolicyId = trafficPolicyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["maxitems"] as? String
-            self.hostedZoneIdMarker = dictionary["hostedzoneid"] as? String
-            if let trafficPolicyInstanceTypeMarker = dictionary["trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
-            guard let trafficPolicyVersion = dictionary["version"] as? Int32 else { throw InitializableError.missingRequiredParam("version") }
-            self.trafficPolicyVersion = trafficPolicyVersion
-            self.trafficPolicyInstanceNameMarker = dictionary["trafficpolicyinstancename"] as? String
-            guard let trafficPolicyId = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.trafficPolicyId = trafficPolicyId
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case hostedZoneIdMarker = "hostedzoneid"
+            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
+            case trafficPolicyVersion = "version"
+            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
+            case trafficPolicyId = "id"
         }
     }
 
     public struct ResourceRecordSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Failover", required: false, type: .enum), 
-            AWSShapeProperty(label: "Weight", required: false, type: .long), 
-            AWSShapeProperty(label: "Region", required: false, type: .enum), 
-            AWSShapeProperty(label: "TTL", required: false, type: .long), 
-            AWSShapeProperty(label: "GeoLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "AliasTarget", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthCheckId", required: false, type: .string), 
-            AWSShapeProperty(label: "MultiValueAnswer", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceRecords", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Failover", required: false, type: .enum), 
+            AWSShapeMember(label: "Weight", required: false, type: .long), 
+            AWSShapeMember(label: "Region", required: false, type: .enum), 
+            AWSShapeMember(label: "TTL", required: false, type: .long), 
+            AWSShapeMember(label: "GeoLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "TrafficPolicyInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AliasTarget", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthCheckId", required: false, type: .string), 
+            AWSShapeMember(label: "MultiValueAnswer", required: false, type: .boolean), 
+            AWSShapeMember(label: "SetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRecords", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone   
         public let failover: ResourceRecordSetFailover?
@@ -2774,39 +2483,33 @@ extension Route53 {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failover = dictionary["Failover"] as? String { self.failover = ResourceRecordSetFailover(rawValue: failover) } else { self.failover = nil }
-            self.weight = dictionary["Weight"] as? Int64
-            if let region = dictionary["Region"] as? String { self.region = ResourceRecordSetRegion(rawValue: region) } else { self.region = nil }
-            self.tTL = dictionary["TTL"] as? Int64
-            if let geoLocation = dictionary["GeoLocation"] as? [String: Any] { self.geoLocation = try Route53.GeoLocation(dictionary: geoLocation) } else { self.geoLocation = nil }
-            self.trafficPolicyInstanceId = dictionary["TrafficPolicyInstanceId"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let aliasTarget = dictionary["AliasTarget"] as? [String: Any] { self.aliasTarget = try Route53.AliasTarget(dictionary: aliasTarget) } else { self.aliasTarget = nil }
-            self.healthCheckId = dictionary["HealthCheckId"] as? String
-            self.multiValueAnswer = dictionary["MultiValueAnswer"] as? Bool
-            self.setIdentifier = dictionary["SetIdentifier"] as? String
-            if let resourceRecords = dictionary["ResourceRecords"] as? [String: Any] { self.resourceRecords = try Route53.ResourceRecords(dictionary: resourceRecords) } else { self.resourceRecords = nil }
-            guard let rawType = dictionary["Type"] as? String, let `type` = RRType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
+        private enum CodingKeys: String, CodingKey {
+            case failover = "Failover"
+            case weight = "Weight"
+            case region = "Region"
+            case tTL = "TTL"
+            case geoLocation = "GeoLocation"
+            case trafficPolicyInstanceId = "TrafficPolicyInstanceId"
+            case name = "Name"
+            case aliasTarget = "AliasTarget"
+            case healthCheckId = "HealthCheckId"
+            case multiValueAnswer = "MultiValueAnswer"
+            case setIdentifier = "SetIdentifier"
+            case resourceRecords = "ResourceRecords"
+            case `type` = "Type"
         }
     }
 
     public struct DeleteTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version number of the traffic policy that you want to delete.
         public let version: Int32
@@ -2818,21 +2521,18 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
-            self.version = version
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case id = "Id"
         }
     }
 
     public struct ResourceTagSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID for the specified resource.
         public let resourceId: String?
@@ -2847,20 +2547,19 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Route53.TagList(dictionary: tags) } else { self.tags = nil }
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TagResourceType(rawValue: resourceType) } else { self.resourceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "VPCs", required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "VPCs", required: true, type: .structure), 
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
         ]
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the nexttoken request parameter.
         public let nextToken: String?
@@ -2875,35 +2574,32 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let vPCs = dictionary["VPCs"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPCs") }
-            self.vPCs = try Route53.VPCs(dictionary: vPCs)
-            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vPCs = "VPCs"
+            case hostedZoneId = "HostedZoneId"
         }
     }
 
     public struct HealthCheckConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "ChildHealthChecks", required: false, type: .structure), 
-            AWSShapeProperty(label: "MeasureLatency", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ResourcePath", required: false, type: .string), 
-            AWSShapeProperty(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Inverted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AlarmIdentifier", required: false, type: .structure), 
-            AWSShapeProperty(label: "Regions", required: false, type: .structure), 
-            AWSShapeProperty(label: "HealthThreshold", required: false, type: .integer), 
-            AWSShapeProperty(label: "SearchString", required: false, type: .string), 
-            AWSShapeProperty(label: "FullyQualifiedDomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestInterval", required: false, type: .integer), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "EnableSNI", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "FailureThreshold", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ChildHealthChecks", required: false, type: .structure), 
+            AWSShapeMember(label: "MeasureLatency", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeMember(label: "InsufficientDataHealthStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Inverted", required: false, type: .boolean), 
+            AWSShapeMember(label: "AlarmIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "Regions", required: false, type: .structure), 
+            AWSShapeMember(label: "HealthThreshold", required: false, type: .integer), 
+            AWSShapeMember(label: "SearchString", required: false, type: .string), 
+            AWSShapeMember(label: "FullyQualifiedDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "RequestInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "EnableSNI", required: false, type: .boolean), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "FailureThreshold", required: false, type: .integer)
         ]
         /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see HealthCheckConfig$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses    When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
         public let iPAddress: String?
@@ -2957,28 +2653,27 @@ extension Route53 {
             self.failureThreshold = failureThreshold
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iPAddress = dictionary["IPAddress"] as? String
-            if let childHealthChecks = dictionary["ChildHealthChecks"] as? [String: Any] { self.childHealthChecks = try Route53.ChildHealthCheckList(dictionary: childHealthChecks) } else { self.childHealthChecks = nil }
-            self.measureLatency = dictionary["MeasureLatency"] as? Bool
-            self.resourcePath = dictionary["ResourcePath"] as? String
-            if let insufficientDataHealthStatus = dictionary["InsufficientDataHealthStatus"] as? String { self.insufficientDataHealthStatus = InsufficientDataHealthStatus(rawValue: insufficientDataHealthStatus) } else { self.insufficientDataHealthStatus = nil }
-            self.inverted = dictionary["Inverted"] as? Bool
-            if let alarmIdentifier = dictionary["AlarmIdentifier"] as? [String: Any] { self.alarmIdentifier = try Route53.AlarmIdentifier(dictionary: alarmIdentifier) } else { self.alarmIdentifier = nil }
-            if let regions = dictionary["Regions"] as? [String: Any] { self.regions = try Route53.HealthCheckRegionList(dictionary: regions) } else { self.regions = nil }
-            self.healthThreshold = dictionary["HealthThreshold"] as? Int32
-            self.searchString = dictionary["SearchString"] as? String
-            self.fullyQualifiedDomainName = dictionary["FullyQualifiedDomainName"] as? String
-            self.requestInterval = dictionary["RequestInterval"] as? Int32
-            guard let rawType = dictionary["Type"] as? String, let `type` = HealthCheckType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            self.enableSNI = dictionary["EnableSNI"] as? Bool
-            self.port = dictionary["Port"] as? Int32
-            self.failureThreshold = dictionary["FailureThreshold"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case iPAddress = "IPAddress"
+            case childHealthChecks = "ChildHealthChecks"
+            case measureLatency = "MeasureLatency"
+            case resourcePath = "ResourcePath"
+            case insufficientDataHealthStatus = "InsufficientDataHealthStatus"
+            case inverted = "Inverted"
+            case alarmIdentifier = "AlarmIdentifier"
+            case regions = "Regions"
+            case healthThreshold = "HealthThreshold"
+            case searchString = "SearchString"
+            case fullyQualifiedDomainName = "FullyQualifiedDomainName"
+            case requestInterval = "RequestInterval"
+            case `type` = "Type"
+            case enableSNI = "EnableSNI"
+            case port = "Port"
+            case failureThreshold = "FailureThreshold"
         }
     }
 
-    public enum Statistic: String, CustomStringConvertible {
+    public enum Statistic: String, CustomStringConvertible, Codable {
         case average = "Average"
         case sum = "Sum"
         case samplecount = "SampleCount"
@@ -2989,11 +2684,10 @@ extension Route53 {
 
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyVersionMarker", location: .querystring(locationName: "trafficpolicyversion"), required: false, type: .string)
         ]
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
         public let id: String
@@ -3008,22 +2702,20 @@ extension Route53 {
             self.trafficPolicyVersionMarker = trafficPolicyVersionMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            self.maxItems = dictionary["maxitems"] as? String
-            self.trafficPolicyVersionMarker = dictionary["trafficpolicyversion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case maxItems = "maxitems"
+            case trafficPolicyVersionMarker = "trafficpolicyversion"
         }
     }
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", location: .querystring(locationName: "id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", location: .querystring(locationName: "id"), required: true, type: .string)
         ]
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
         public let maxItems: String?
@@ -3041,24 +2733,22 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["maxitems"] as? String
-            if let trafficPolicyInstanceTypeMarker = dictionary["trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
-            self.trafficPolicyInstanceNameMarker = dictionary["trafficpolicyinstancename"] as? String
-            guard let hostedZoneId = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
+            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
+            case hostedZoneId = "id"
         }
     }
 
     public struct ListHealthChecksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "HealthChecks", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "HealthChecks", required: true, type: .structure), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .string)
         ]
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of health checks by submitting another ListHealthChecks request and specifying the value of NextMarker in the marker parameter.
         public let isTruncated: Bool
@@ -3079,24 +2769,19 @@ extension Route53 {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            guard let healthChecks = dictionary["HealthChecks"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthChecks") }
-            self.healthChecks = try Route53.HealthChecks(dictionary: healthChecks)
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            guard let maxItems = dictionary["MaxItems"] as? String else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case healthChecks = "HealthChecks"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ResourceRecords: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecord", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceRecord", required: false, type: .list)
         ]
         public let resourceRecord: [ResourceRecord]?
 
@@ -3104,22 +2789,17 @@ extension Route53 {
             self.resourceRecord = resourceRecord
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceRecord = dictionary["ResourceRecord"] as? [[String: Any]] {
-                self.resourceRecord = try resourceRecord.map({ try ResourceRecord(dictionary: $0) })
-            } else { 
-                self.resourceRecord = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceRecord = "ResourceRecord"
         }
     }
 
     public struct GetHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", required: true, type: .structure), 
-            AWSShapeProperty(label: "VPCs", required: false, type: .structure), 
-            AWSShapeProperty(label: "DelegationSet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZone", required: true, type: .structure), 
+            AWSShapeMember(label: "VPCs", required: false, type: .structure), 
+            AWSShapeMember(label: "DelegationSet", required: false, type: .structure)
         ]
         /// A complex type that contains general information about the specified hosted zone.
         public let hostedZone: HostedZone
@@ -3134,22 +2814,20 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
-            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
-            if let vPCs = dictionary["VPCs"] as? [String: Any] { self.vPCs = try Route53.VPCs(dictionary: vPCs) } else { self.vPCs = nil }
-            if let delegationSet = dictionary["DelegationSet"] as? [String: Any] { self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet) } else { self.delegationSet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hostedZone = "HostedZone"
+            case vPCs = "VPCs"
+            case delegationSet = "DelegationSet"
         }
     }
 
     public struct ChangeTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddTags", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
-            AWSShapeProperty(label: "RemoveTagKeys", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddTags", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", location: .uri(locationName: "ResourceId"), required: true, type: .string), 
+            AWSShapeMember(label: "RemoveTagKeys", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
         public let addTags: TagList?
@@ -3167,22 +2845,19 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let addTags = dictionary["AddTags"] as? [String: Any] { self.addTags = try Route53.TagList(dictionary: addTags) } else { self.addTags = nil }
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            if let removeTagKeys = dictionary["RemoveTagKeys"] as? [String: Any] { self.removeTagKeys = try Route53.TagKeyList(dictionary: removeTagKeys) } else { self.removeTagKeys = nil }
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case addTags = "AddTags"
+            case resourceId = "ResourceId"
+            case removeTagKeys = "RemoveTagKeys"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct UpdateHostedZoneCommentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
         public let comment: String?
@@ -3194,18 +2869,16 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.comment = dictionary["Comment"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case id = "Id"
         }
     }
 
     public struct TagKeyList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .list)
         ]
         public let key: [String]?
 
@@ -3213,17 +2886,16 @@ extension Route53 {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
         }
     }
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, the ID of the hosted zone.
         public let hostedZoneId: String
@@ -3235,23 +2907,20 @@ extension Route53 {
             self.vPC = vPC
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
-            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
-            self.vPC = try Route53.VPC(dictionary: vPC)
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneId = "Id"
+            case vPC = "VPC"
         }
     }
 
     public struct CreateHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "VPC", required: false, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelegationSetId", required: false, type: .string), 
+            AWSShapeMember(label: "VPC", required: false, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "HostedZoneConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
         public let delegationSetId: String?
@@ -3272,22 +2941,19 @@ extension Route53 {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.delegationSetId = dictionary["DelegationSetId"] as? String
-            if let vPC = dictionary["VPC"] as? [String: Any] { self.vPC = try Route53.VPC(dictionary: vPC) } else { self.vPC = nil }
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            if let hostedZoneConfig = dictionary["HostedZoneConfig"] as? [String: Any] { self.hostedZoneConfig = try Route53.HostedZoneConfig(dictionary: hostedZoneConfig) } else { self.hostedZoneConfig = nil }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case delegationSetId = "DelegationSetId"
+            case vPC = "VPC"
+            case callerReference = "CallerReference"
+            case hostedZoneConfig = "HostedZoneConfig"
+            case name = "Name"
         }
     }
 
     public struct DeleteHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
         public let changeInfo: ChangeInfo
@@ -3296,17 +2962,15 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
     public struct GetHostedZoneCountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneCount", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneCount", required: true, type: .long)
         ]
         /// The total number of public and private hosted zones that are associated with the current AWS account.
         public let hostedZoneCount: Int64
@@ -3315,33 +2979,25 @@ extension Route53 {
             self.hostedZoneCount = hostedZoneCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZoneCount = dictionary["HostedZoneCount"] as? Int64 else { throw InitializableError.missingRequiredParam("HostedZoneCount") }
-            self.hostedZoneCount = hostedZoneCount
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneCount = "HostedZoneCount"
         }
     }
 
     public struct DeleteTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetCheckerIpRangesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheck", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheck", required: true, type: .structure)
         ]
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public let healthCheck: HealthCheck
@@ -3350,17 +3006,15 @@ extension Route53 {
             self.healthCheck = healthCheck
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheck = dictionary["HealthCheck"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HealthCheck") }
-            self.healthCheck = try Route53.HealthCheck(dictionary: healthCheck)
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
         }
     }
 
     public struct UpdateTrafficPolicyCommentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicy", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the specified traffic policy.
         public let trafficPolicy: TrafficPolicy
@@ -3369,25 +3023,20 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicy = dictionary["TrafficPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicy") }
-            self.trafficPolicy = try Route53.TrafficPolicy(dictionary: trafficPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicy = "TrafficPolicy"
         }
     }
 
     public struct GetHostedZoneCountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct HostedZones: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZone", required: false, type: .list)
         ]
         public let hostedZone: [HostedZone]?
 
@@ -3395,20 +3044,15 @@ extension Route53 {
             self.hostedZone = hostedZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hostedZone = dictionary["HostedZone"] as? [[String: Any]] {
-                self.hostedZone = try hostedZone.map({ try HostedZone(dictionary: $0) })
-            } else { 
-                self.hostedZone = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hostedZone = "HostedZone"
         }
     }
 
     public struct UpdateHostedZoneCommentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZone", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZone", required: true, type: .structure)
         ]
         public let hostedZone: HostedZone
 
@@ -3416,18 +3060,16 @@ extension Route53 {
             self.hostedZone = hostedZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZone = dictionary["HostedZone"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HostedZone") }
-            self.hostedZone = try Route53.HostedZone(dictionary: hostedZone)
+        private enum CodingKeys: String, CodingKey {
+            case hostedZone = "HostedZone"
         }
     }
 
     public struct Change: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceRecordSet", required: true, type: .structure), 
-            AWSShapeProperty(label: "Action", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceRecordSet", required: true, type: .structure), 
+            AWSShapeMember(label: "Action", required: true, type: .enum)
         ]
         /// Information about the resource record set to create, delete, or update.
         public let resourceRecordSet: ResourceRecordSet
@@ -3439,19 +3081,16 @@ extension Route53 {
             self.action = action
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceRecordSet = dictionary["ResourceRecordSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceRecordSet") }
-            self.resourceRecordSet = try Route53.ResourceRecordSet(dictionary: resourceRecordSet)
-            guard let rawAction = dictionary["Action"] as? String, let action = ChangeAction(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
+        private enum CodingKeys: String, CodingKey {
+            case resourceRecordSet = "ResourceRecordSet"
+            case action = "Action"
         }
     }
 
     public struct GetChangeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
         public let id: String
@@ -3460,17 +3099,15 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct GetCheckerIpRangesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CheckerIpRanges", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CheckerIpRanges", required: true, type: .list)
         ]
         public let checkerIpRanges: [String]
 
@@ -3478,17 +3115,15 @@ extension Route53 {
             self.checkerIpRanges = checkerIpRanges
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let checkerIpRanges = dictionary["CheckerIpRanges"] as? [String] else { throw InitializableError.missingRequiredParam("CheckerIpRanges") }
-            self.checkerIpRanges = checkerIpRanges
+        private enum CodingKeys: String, CodingKey {
+            case checkerIpRanges = "CheckerIpRanges"
         }
     }
 
     public struct GetHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the hosted zone that you want to get information about.
         public let id: String
@@ -3497,17 +3132,15 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct DeleteHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the hosted zone you want to delete.
         public let id: String
@@ -3516,18 +3149,16 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct CreateReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "HostedZoneId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
         ]
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
         public let callerReference: String
@@ -3539,18 +3170,16 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            self.hostedZoneId = dictionary["HostedZoneId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case hostedZoneId = "HostedZoneId"
         }
     }
 
     public struct GetHealthCheckCountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HealthCheckCount", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthCheckCount", required: true, type: .long)
         ]
         /// The number of health checks associated with the current AWS account.
         public let healthCheckCount: Int64
@@ -3559,18 +3188,16 @@ extension Route53 {
             self.healthCheckCount = healthCheckCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let healthCheckCount = dictionary["HealthCheckCount"] as? Int64 else { throw InitializableError.missingRequiredParam("HealthCheckCount") }
-            self.healthCheckCount = healthCheckCount
+        private enum CodingKeys: String, CodingKey {
+            case healthCheckCount = "HealthCheckCount"
         }
     }
 
     public struct HostedZoneConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PrivateZone", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PrivateZone", required: false, type: .boolean), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
         /// A value that indicates whether this is a private hosted zone.
         public let privateZone: Bool?
@@ -3582,17 +3209,16 @@ extension Route53 {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.privateZone = dictionary["PrivateZone"] as? Bool
-            self.comment = dictionary["Comment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case privateZone = "PrivateZone"
+            case comment = "Comment"
         }
     }
 
     public struct TrafficPolicySummaries: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicySummary", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicySummary", required: false, type: .list)
         ]
         public let trafficPolicySummary: [TrafficPolicySummary]?
 
@@ -3600,21 +3226,16 @@ extension Route53 {
             self.trafficPolicySummary = trafficPolicySummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trafficPolicySummary = dictionary["TrafficPolicySummary"] as? [[String: Any]] {
-                self.trafficPolicySummary = try trafficPolicySummary.map({ try TrafficPolicySummary(dictionary: $0) })
-            } else { 
-                self.trafficPolicySummary = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicySummary = "TrafficPolicySummary"
         }
     }
 
     public struct CreateVPCAssociationAuthorizationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string), 
-            AWSShapeProperty(label: "VPC", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string), 
+            AWSShapeMember(label: "VPC", required: true, type: .structure)
         ]
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public let hostedZoneId: String
@@ -3626,19 +3247,16 @@ extension Route53 {
             self.vPC = vPC
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
-            self.hostedZoneId = hostedZoneId
-            guard let vPC = dictionary["VPC"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VPC") }
-            self.vPC = try Route53.VPC(dictionary: vPC)
+        private enum CodingKeys: String, CodingKey {
+            case hostedZoneId = "HostedZoneId"
+            case vPC = "VPC"
         }
     }
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. 
         public let id: String
@@ -3647,22 +3265,20 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct TestDNSAnswerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Protocol", required: true, type: .string), 
-            AWSShapeProperty(label: "ResponseCode", required: true, type: .string), 
-            AWSShapeProperty(label: "RecordData", required: true, type: .structure), 
-            AWSShapeProperty(label: "RecordName", required: true, type: .string), 
-            AWSShapeProperty(label: "RecordType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Nameserver", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protocol", required: true, type: .string), 
+            AWSShapeMember(label: "ResponseCode", required: true, type: .string), 
+            AWSShapeMember(label: "RecordData", required: true, type: .structure), 
+            AWSShapeMember(label: "RecordName", required: true, type: .string), 
+            AWSShapeMember(label: "RecordType", required: true, type: .enum), 
+            AWSShapeMember(label: "Nameserver", required: true, type: .string)
         ]
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP. 
         public let `protocol`: String
@@ -3686,28 +3302,21 @@ extension Route53 {
             self.nameserver = nameserver
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
-            self.`protocol` = `protocol`
-            guard let responseCode = dictionary["ResponseCode"] as? String else { throw InitializableError.missingRequiredParam("ResponseCode") }
-            self.responseCode = responseCode
-            guard let recordData = dictionary["RecordData"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RecordData") }
-            self.recordData = try Route53.RecordData(dictionary: recordData)
-            guard let recordName = dictionary["RecordName"] as? String else { throw InitializableError.missingRequiredParam("RecordName") }
-            self.recordName = recordName
-            guard let rawRecordType = dictionary["RecordType"] as? String, let recordType = RRType(rawValue: rawRecordType) else { throw InitializableError.missingRequiredParam("RecordType") }
-            self.recordType = recordType
-            guard let nameserver = dictionary["Nameserver"] as? String else { throw InitializableError.missingRequiredParam("Nameserver") }
-            self.nameserver = nameserver
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+            case responseCode = "ResponseCode"
+            case recordData = "RecordData"
+            case recordName = "RecordName"
+            case recordType = "RecordType"
+            case nameserver = "Nameserver"
         }
     }
 
     public struct ChangeResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeBatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeBatch", required: true, type: .structure), 
+            AWSShapeMember(label: "HostedZoneId", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// A complex type that contains an optional comment and the Changes element.
         public let changeBatch: ChangeBatch
@@ -3719,22 +3328,19 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeBatch = dictionary["ChangeBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeBatch") }
-            self.changeBatch = try Route53.ChangeBatch(dictionary: changeBatch)
-            guard let hostedZoneId = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case changeBatch = "ChangeBatch"
+            case hostedZoneId = "Id"
         }
     }
 
     public struct ListTrafficPolicyInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
-            AWSShapeProperty(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneIdMarker", location: .querystring(locationName: "hostedzoneid"), required: false, type: .string), 
+            AWSShapeMember(label: "TrafficPolicyInstanceTypeMarker", location: .querystring(locationName: "trafficpolicyinstancetype"), required: false, type: .enum), 
+            AWSShapeMember(label: "TrafficPolicyInstanceNameMarker", location: .querystring(locationName: "trafficpolicyinstancename"), required: false, type: .string)
         ]
         /// The maximum number of traffic policy instances that you want Amazon Route 53 to return in response to a ListTrafficPolicyInstances request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
         public let maxItems: String?
@@ -3752,20 +3358,19 @@ extension Route53 {
             self.trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["maxitems"] as? String
-            self.hostedZoneIdMarker = dictionary["hostedzoneid"] as? String
-            if let trafficPolicyInstanceTypeMarker = dictionary["trafficpolicyinstancetype"] as? String { self.trafficPolicyInstanceTypeMarker = RRType(rawValue: trafficPolicyInstanceTypeMarker) } else { self.trafficPolicyInstanceTypeMarker = nil }
-            self.trafficPolicyInstanceNameMarker = dictionary["trafficpolicyinstancename"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case hostedZoneIdMarker = "hostedzoneid"
+            case trafficPolicyInstanceTypeMarker = "trafficpolicyinstancetype"
+            case trafficPolicyInstanceNameMarker = "trafficpolicyinstancename"
         }
     }
 
     public struct VPC: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VPCId", required: false, type: .string), 
-            AWSShapeProperty(label: "VPCRegion", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VPCId", required: false, type: .string), 
+            AWSShapeMember(label: "VPCRegion", required: false, type: .enum)
         ]
         public let vPCId: String?
         /// (Private hosted zones only) The region in which you created an Amazon VPC.
@@ -3776,20 +3381,19 @@ extension Route53 {
             self.vPCRegion = vPCRegion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vPCId = dictionary["VPCId"] as? String
-            if let vPCRegion = dictionary["VPCRegion"] as? String { self.vPCRegion = VPCRegion(rawValue: vPCRegion) } else { self.vPCRegion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case vPCId = "VPCId"
+            case vPCRegion = "VPCRegion"
         }
     }
 
     public struct ListGeoLocationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
-            AWSShapeProperty(label: "StartContinentCode", location: .querystring(locationName: "startcontinentcode"), required: false, type: .string), 
-            AWSShapeProperty(label: "StartSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"), required: false, type: .string), 
-            AWSShapeProperty(label: "StartCountryCode", location: .querystring(locationName: "startcountrycode"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "maxitems"), required: false, type: .string), 
+            AWSShapeMember(label: "StartContinentCode", location: .querystring(locationName: "startcontinentcode"), required: false, type: .string), 
+            AWSShapeMember(label: "StartSubdivisionCode", location: .querystring(locationName: "startsubdivisioncode"), required: false, type: .string), 
+            AWSShapeMember(label: "StartCountryCode", location: .querystring(locationName: "startcountrycode"), required: false, type: .string)
         ]
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than MaxItems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
         public let maxItems: String?
@@ -3807,19 +3411,18 @@ extension Route53 {
             self.startCountryCode = startCountryCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["maxitems"] as? String
-            self.startContinentCode = dictionary["startcontinentcode"] as? String
-            self.startSubdivisionCode = dictionary["startsubdivisioncode"] as? String
-            self.startCountryCode = dictionary["startcountrycode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxitems"
+            case startContinentCode = "startcontinentcode"
+            case startSubdivisionCode = "startsubdivisioncode"
+            case startCountryCode = "startcountrycode"
         }
     }
 
     public struct ErrorMessages: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .list)
         ]
         public let message: [String]?
 
@@ -3827,16 +3430,15 @@ extension Route53 {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
     public struct GetTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyInstance", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyInstance", required: true, type: .structure)
         ]
         /// A complex type that contains settings for the traffic policy instance.
         public let trafficPolicyInstance: TrafficPolicyInstance
@@ -3845,18 +3447,16 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicyInstance = dictionary["TrafficPolicyInstance"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrafficPolicyInstance") }
-            self.trafficPolicyInstance = try Route53.TrafficPolicyInstance(dictionary: trafficPolicyInstance)
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyInstance = "TrafficPolicyInstance"
         }
     }
 
     public struct ListTagsForResourcesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceIds", required: true, type: .structure), 
+            AWSShapeMember(label: "ResourceType", location: .uri(locationName: "ResourceType"), required: true, type: .enum)
         ]
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
         public let resourceIds: TagResourceIdList
@@ -3868,15 +3468,13 @@ extension Route53 {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceIds = dictionary["ResourceIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ResourceIds") }
-            self.resourceIds = try Route53.TagResourceIdList(dictionary: resourceIds)
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TagResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceIds = "ResourceIds"
+            case resourceType = "ResourceType"
         }
     }
 
-    public enum ResourceRecordSetRegion: String, CustomStringConvertible {
+    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_east_2 = "us-east-2"
         case us_west_1 = "us-west-1"
@@ -3897,13 +3495,12 @@ extension Route53 {
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicyVersion", required: true, type: .integer), 
-            AWSShapeProperty(label: "TrafficPolicyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "TTL", required: true, type: .long), 
-            AWSShapeProperty(label: "HostedZoneId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicyVersion", required: true, type: .integer), 
+            AWSShapeMember(label: "TrafficPolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "TTL", required: true, type: .long), 
+            AWSShapeMember(label: "HostedZoneId", required: true, type: .string)
         ]
         /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public let trafficPolicyVersion: Int32
@@ -3924,25 +3521,19 @@ extension Route53 {
             self.hostedZoneId = hostedZoneId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trafficPolicyVersion = dictionary["TrafficPolicyVersion"] as? Int32 else { throw InitializableError.missingRequiredParam("TrafficPolicyVersion") }
-            self.trafficPolicyVersion = trafficPolicyVersion
-            guard let trafficPolicyId = dictionary["TrafficPolicyId"] as? String else { throw InitializableError.missingRequiredParam("TrafficPolicyId") }
-            self.trafficPolicyId = trafficPolicyId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let tTL = dictionary["TTL"] as? Int64 else { throw InitializableError.missingRequiredParam("TTL") }
-            self.tTL = tTL
-            guard let hostedZoneId = dictionary["HostedZoneId"] as? String else { throw InitializableError.missingRequiredParam("HostedZoneId") }
-            self.hostedZoneId = hostedZoneId
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicyVersion = "TrafficPolicyVersion"
+            case trafficPolicyId = "TrafficPolicyId"
+            case name = "Name"
+            case tTL = "TTL"
+            case hostedZoneId = "HostedZoneId"
         }
     }
 
     public struct GetReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DelegationSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DelegationSet", required: true, type: .structure)
         ]
         /// A complex type that contains information about the reusable delegation set.
         public let delegationSet: DelegationSet
@@ -3951,17 +3542,15 @@ extension Route53 {
             self.delegationSet = delegationSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let delegationSet = dictionary["DelegationSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DelegationSet") }
-            self.delegationSet = try Route53.DelegationSet(dictionary: delegationSet)
+        private enum CodingKeys: String, CodingKey {
+            case delegationSet = "DelegationSet"
         }
     }
 
     public struct ChangeResourceRecordSetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChangeInfo", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChangeInfo", required: true, type: .structure)
         ]
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public let changeInfo: ChangeInfo
@@ -3970,17 +3559,15 @@ extension Route53 {
             self.changeInfo = changeInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let changeInfo = dictionary["ChangeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChangeInfo") }
-            self.changeInfo = try Route53.ChangeInfo(dictionary: changeInfo)
+        private enum CodingKeys: String, CodingKey {
+            case changeInfo = "ChangeInfo"
         }
     }
 
     public struct TrafficPolicies: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrafficPolicy", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrafficPolicy", required: false, type: .list)
         ]
         public let trafficPolicy: [TrafficPolicy]?
 
@@ -3988,22 +3575,17 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trafficPolicy = dictionary["TrafficPolicy"] as? [[String: Any]] {
-                self.trafficPolicy = try trafficPolicy.map({ try TrafficPolicy(dictionary: $0) })
-            } else { 
-                self.trafficPolicy = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case trafficPolicy = "TrafficPolicy"
         }
     }
 
     public struct CreateTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string)
         ]
         /// The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format.
         public let document: String
@@ -4018,21 +3600,18 @@ extension Route53 {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
-            self.document = document
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.comment = dictionary["Comment"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case name = "Name"
+            case comment = "Comment"
         }
     }
 
     public struct GetTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", location: .uri(locationName: "Version"), required: true, type: .integer), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The version number of the traffic policy that you want to get information about.
         public let version: Int32
@@ -4044,21 +3623,19 @@ extension Route53 {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let version = dictionary["Version"] as? Int32 else { throw InitializableError.missingRequiredParam("Version") }
-            self.version = version
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case id = "Id"
         }
     }
 
-    public enum ResourceRecordSetFailover: String, CustomStringConvertible {
+    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable {
         case primary = "PRIMARY"
         case secondary = "SECONDARY"
         public var description: String { return self.rawValue }
     }
 
-    public enum CloudWatchRegion: String, CustomStringConvertible {
+    public enum CloudWatchRegion: String, CustomStringConvertible, Codable {
         case us_east_1 = "us-east-1"
         case us_east_2 = "us-east-2"
         case us_west_1 = "us-west-1"

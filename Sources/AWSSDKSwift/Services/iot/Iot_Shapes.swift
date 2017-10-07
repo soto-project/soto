@@ -31,10 +31,9 @@ extension Iot {
 
     public struct DynamoDBv2Action: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "putItem", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "putItem", required: false, type: .structure)
         ]
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String?
@@ -46,20 +45,19 @@ extension Iot {
             self.putItem = putItem
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["roleArn"] as? String
-            if let putItem = dictionary["putItem"] as? [String: Any] { self.putItem = try Iot.PutItemInput(dictionary: putItem) } else { self.putItem = nil }
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case putItem = "putItem"
         }
     }
 
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", required: false, type: .string), 
-            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String?
@@ -77,21 +75,20 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyVersionId = dictionary["policyVersionId"] as? String
-            self.policyName = dictionary["policyName"] as? String
-            self.policyArn = dictionary["policyArn"] as? String
-            self.policyDocument = dictionary["policyDocument"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
+            case policyArn = "policyArn"
+            case policyDocument = "policyDocument"
         }
     }
 
     public struct TransferCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
+            AWSShapeMember(label: "targetAwsAccount", location: .querystring(locationName: "targetAwsAccount"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -106,31 +103,25 @@ extension Iot {
             self.targetAwsAccount = targetAwsAccount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
-            self.transferMessage = dictionary["transferMessage"] as? String
-            guard let targetAwsAccount = dictionary["targetAwsAccount"] as? String else { throw InitializableError.missingRequiredParam("targetAwsAccount") }
-            self.targetAwsAccount = targetAwsAccount
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case transferMessage = "transferMessage"
+            case targetAwsAccount = "targetAwsAccount"
         }
     }
 
     public struct GetRegistrationCodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListCertificatesByCARequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caCertificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
         public let caCertificateId: String
@@ -148,21 +139,19 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let caCertificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
-            self.caCertificateId = caCertificateId
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case caCertificateId = "caCertificateId"
+            case pageSize = "pageSize"
+            case marker = "marker"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
     public struct Policy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string)
         ]
         /// The policy ARN.
         public let policyArn: String?
@@ -174,17 +163,17 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyArn = dictionary["policyArn"] as? String
-            self.policyName = dictionary["policyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case policyName = "policyName"
         }
     }
 
     public struct SetLoggingOptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "loggingOptionsPayload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loggingOptionsPayload", required: true, type: .structure)
+        public static let payloadPath: String? = "loggingOptionsPayload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loggingOptionsPayload", required: true, type: .structure)
         ]
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload
@@ -193,18 +182,16 @@ extension Iot {
             self.loggingOptionsPayload = loggingOptionsPayload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loggingOptionsPayload = dictionary["loggingOptionsPayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("loggingOptionsPayload") }
-            self.loggingOptionsPayload = try Iot.LoggingOptionsPayload(dictionary: loggingOptionsPayload)
+        private enum CodingKeys: String, CodingKey {
+            case loggingOptionsPayload = "loggingOptionsPayload"
         }
     }
 
     public struct ListThingTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The thing types.
         public let thingTypes: [ThingTypeDefinition]?
@@ -216,33 +203,28 @@ extension Iot {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let thingTypes = dictionary["thingTypes"] as? [[String: Any]] {
-                self.thingTypes = try thingTypes.map({ try ThingTypeDefinition(dictionary: $0) })
-            } else { 
-                self.thingTypes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case thingTypes = "thingTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct Action: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "elasticsearch", required: false, type: .structure), 
-            AWSShapeProperty(label: "s3", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambda", required: false, type: .structure), 
-            AWSShapeProperty(label: "republish", required: false, type: .structure), 
-            AWSShapeProperty(label: "dynamoDB", required: false, type: .structure), 
-            AWSShapeProperty(label: "salesforce", required: false, type: .structure), 
-            AWSShapeProperty(label: "sqs", required: false, type: .structure), 
-            AWSShapeProperty(label: "sns", required: false, type: .structure), 
-            AWSShapeProperty(label: "cloudwatchMetric", required: false, type: .structure), 
-            AWSShapeProperty(label: "cloudwatchAlarm", required: false, type: .structure), 
-            AWSShapeProperty(label: "firehose", required: false, type: .structure), 
-            AWSShapeProperty(label: "dynamoDBv2", required: false, type: .structure), 
-            AWSShapeProperty(label: "kinesis", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "elasticsearch", required: false, type: .structure), 
+            AWSShapeMember(label: "s3", required: false, type: .structure), 
+            AWSShapeMember(label: "lambda", required: false, type: .structure), 
+            AWSShapeMember(label: "republish", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamoDB", required: false, type: .structure), 
+            AWSShapeMember(label: "salesforce", required: false, type: .structure), 
+            AWSShapeMember(label: "sqs", required: false, type: .structure), 
+            AWSShapeMember(label: "sns", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudwatchMetric", required: false, type: .structure), 
+            AWSShapeMember(label: "cloudwatchAlarm", required: false, type: .structure), 
+            AWSShapeMember(label: "firehose", required: false, type: .structure), 
+            AWSShapeMember(label: "dynamoDBv2", required: false, type: .structure), 
+            AWSShapeMember(label: "kinesis", required: false, type: .structure)
         ]
         /// Write data to an Amazon Elasticsearch Service domain.
         public let elasticsearch: ElasticsearchAction?
@@ -287,28 +269,27 @@ extension Iot {
             self.kinesis = kinesis
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticsearch = dictionary["elasticsearch"] as? [String: Any] { self.elasticsearch = try Iot.ElasticsearchAction(dictionary: elasticsearch) } else { self.elasticsearch = nil }
-            if let s3 = dictionary["s3"] as? [String: Any] { self.s3 = try Iot.S3Action(dictionary: s3) } else { self.s3 = nil }
-            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) } else { self.lambda = nil }
-            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) } else { self.republish = nil }
-            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) } else { self.dynamoDB = nil }
-            if let salesforce = dictionary["salesforce"] as? [String: Any] { self.salesforce = try Iot.SalesforceAction(dictionary: salesforce) } else { self.salesforce = nil }
-            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) } else { self.sqs = nil }
-            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) } else { self.sns = nil }
-            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) } else { self.cloudwatchMetric = nil }
-            if let cloudwatchAlarm = dictionary["cloudwatchAlarm"] as? [String: Any] { self.cloudwatchAlarm = try Iot.CloudwatchAlarmAction(dictionary: cloudwatchAlarm) } else { self.cloudwatchAlarm = nil }
-            if let firehose = dictionary["firehose"] as? [String: Any] { self.firehose = try Iot.FirehoseAction(dictionary: firehose) } else { self.firehose = nil }
-            if let dynamoDBv2 = dictionary["dynamoDBv2"] as? [String: Any] { self.dynamoDBv2 = try Iot.DynamoDBv2Action(dictionary: dynamoDBv2) } else { self.dynamoDBv2 = nil }
-            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) } else { self.kinesis = nil }
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearch = "elasticsearch"
+            case s3 = "s3"
+            case lambda = "lambda"
+            case republish = "republish"
+            case dynamoDB = "dynamoDB"
+            case salesforce = "salesforce"
+            case sqs = "sqs"
+            case sns = "sns"
+            case cloudwatchMetric = "cloudwatchMetric"
+            case cloudwatchAlarm = "cloudwatchAlarm"
+            case firehose = "firehose"
+            case dynamoDBv2 = "dynamoDBv2"
+            case kinesis = "kinesis"
         }
     }
 
     public struct DescribeCACertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
         ]
         /// The CA certificate description.
         public let certificateDescription: CACertificateDescription?
@@ -317,17 +298,16 @@ extension Iot {
             self.certificateDescription = certificateDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CACertificateDescription(dictionary: certificateDescription) } else { self.certificateDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificateDescription = "certificateDescription"
         }
     }
 
     public struct RepublishAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "topic", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "topic", required: true, type: .string)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -339,19 +319,16 @@ extension Iot {
             self.topic = topic
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let topic = dictionary["topic"] as? String else { throw InitializableError.missingRequiredParam("topic") }
-            self.topic = topic
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case topic = "topic"
         }
     }
 
     public struct GetTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -360,18 +337,16 @@ extension Iot {
             self.ruleName = ruleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
         }
     }
 
     public struct ListPolicyPrincipalsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "principals", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principals", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the principals.
         public let principals: [String]?
@@ -383,18 +358,17 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.principals = dictionary["principals"] as? [String]
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case principals = "principals"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct ListCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificates", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the certificates.
         public let certificates: [Certificate]?
@@ -406,24 +380,19 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificates = dictionary["certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
-            } else { 
-                self.certificates = nil
-            }
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "certificates"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct RegisterCACertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "verificationCertificate", required: true, type: .string), 
-            AWSShapeProperty(label: "caCertificate", required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allowAutoRegistration", location: .querystring(locationName: "allowAutoRegistration"), required: false, type: .boolean), 
+            AWSShapeMember(label: "verificationCertificate", required: true, type: .string), 
+            AWSShapeMember(label: "caCertificate", required: true, type: .string), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// Allows this CA certificate to be used for auto registration of device certificates.
         public let allowAutoRegistration: Bool?
@@ -441,22 +410,19 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allowAutoRegistration = dictionary["allowAutoRegistration"] as? Bool
-            guard let verificationCertificate = dictionary["verificationCertificate"] as? String else { throw InitializableError.missingRequiredParam("verificationCertificate") }
-            self.verificationCertificate = verificationCertificate
-            guard let caCertificate = dictionary["caCertificate"] as? String else { throw InitializableError.missingRequiredParam("caCertificate") }
-            self.caCertificate = caCertificate
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case allowAutoRegistration = "allowAutoRegistration"
+            case verificationCertificate = "verificationCertificate"
+            case caCertificate = "caCertificate"
+            case setAsActive = "setAsActive"
         }
     }
 
     public struct DetachThingPrincipalRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -468,20 +434,17 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
-            guard let principal = dictionary["x-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case principal = "x-amzn-principal"
         }
     }
 
     public struct CreateThingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingArn", required: false, type: .string)
         ]
         /// The name of the new thing.
         public let thingName: String?
@@ -493,13 +456,13 @@ extension Iot {
             self.thingArn = thingArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingName = dictionary["thingName"] as? String
-            self.thingArn = dictionary["thingArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingArn = "thingArn"
         }
     }
 
-    public enum CACertificateStatus: String, CustomStringConvertible {
+    public enum CACertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
@@ -507,10 +470,9 @@ extension Iot {
 
     public struct ListPrincipalThingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "things", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "things", required: false, type: .list)
         ]
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -522,18 +484,17 @@ extension Iot {
             self.things = things
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.things = dictionary["things"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case things = "things"
         }
     }
 
     public struct LoggingOptionsPayload: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "logLevel", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "logLevel", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
@@ -545,22 +506,20 @@ extension Iot {
             self.logLevel = logLevel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            if let logLevel = dictionary["logLevel"] as? String { self.logLevel = LogLevel(rawValue: logLevel) } else { self.logLevel = nil }
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case logLevel = "logLevel"
         }
     }
 
     public struct ListThingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attributeValue", location: .querystring(locationName: "attributeValue"), required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "attributeName", location: .querystring(locationName: "attributeName"), required: false, type: .string)
         ]
         /// The attribute value used to search for things.
         public let attributeValue: String?
@@ -581,22 +540,21 @@ extension Iot {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attributeValue = dictionary["attributeValue"] as? String
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.attributeName = dictionary["attributeName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeValue = "attributeValue"
+            case thingTypeName = "thingTypeName"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case attributeName = "attributeName"
         }
     }
 
     public struct ThingTypeDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
         ]
         /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
         public let thingTypeMetadata: ThingTypeMetadata?
@@ -611,21 +569,20 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) } else { self.thingTypeMetadata = nil }
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeMetadata = "thingTypeMetadata"
+            case thingTypeName = "thingTypeName"
+            case thingTypeProperties = "thingTypeProperties"
         }
     }
 
     public struct CreateKeysAndCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "keyPair", required: false, type: .structure), 
-            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "keyPair", required: false, type: .structure), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The generated key pair.
         public let keyPair: KeyPair?
@@ -643,20 +600,19 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Iot.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
-            self.certificatePem = dictionary["certificatePem"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keyPair = "keyPair"
+            case certificatePem = "certificatePem"
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct GetTopicRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "rule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
+            AWSShapeMember(label: "rule", required: false, type: .structure)
         ]
         /// The rule ARN.
         public let ruleArn: String?
@@ -668,18 +624,17 @@ extension Iot {
             self.rule = rule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleArn = dictionary["ruleArn"] as? String
-            if let rule = dictionary["rule"] as? [String: Any] { self.rule = try Iot.TopicRule(dictionary: rule) } else { self.rule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case ruleArn = "ruleArn"
+            case rule = "rule"
         }
     }
 
     public struct CreateThingTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -691,18 +646,16 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
-            self.thingTypeName = thingTypeName
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case thingTypeProperties = "thingTypeProperties"
         }
     }
 
     public struct DescribeCACertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
         ]
         /// The CA certificate identifier.
         public let certificateId: String
@@ -711,17 +664,15 @@ extension Iot {
             self.certificateId = certificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
-            self.certificateId = certificateId
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
         }
     }
 
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -730,18 +681,16 @@ extension Iot {
             self.certificateId = certificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
         }
     }
 
     public struct CreateCertificateFromCsrRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateSigningRequest", required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateSigningRequest", required: true, type: .string), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The certificate signing request (CSR).
         public let certificateSigningRequest: String
@@ -753,18 +702,16 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateSigningRequest = dictionary["certificateSigningRequest"] as? String else { throw InitializableError.missingRequiredParam("certificateSigningRequest") }
-            self.certificateSigningRequest = certificateSigningRequest
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case certificateSigningRequest = "certificateSigningRequest"
+            case setAsActive = "setAsActive"
         }
     }
 
     public struct DescribeCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateDescription", required: false, type: .structure)
         ]
         /// The description of the certificate.
         public let certificateDescription: CertificateDescription?
@@ -773,16 +720,15 @@ extension Iot {
             self.certificateDescription = certificateDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CertificateDescription(dictionary: certificateDescription) } else { self.certificateDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificateDescription = "certificateDescription"
         }
     }
 
     public struct CreateKeysAndCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
@@ -791,17 +737,16 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case setAsActive = "setAsActive"
         }
     }
 
     public struct ListPrincipalPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policies", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policies", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The policies.
         public let policies: [Policy]?
@@ -813,22 +758,17 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policies = dictionary["policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try Policy(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct DetachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The name of the policy to detach.
         public let policyName: String
@@ -840,47 +780,43 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
-            guard let principal = dictionary["x-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-iot-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case principal = "x-amzn-iot-principal"
         }
     }
 
     public struct ThingTypeMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deprecated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deprecated", required: false, type: .boolean), 
+            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp)
         ]
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public let deprecated: Bool?
         /// The date and time when the thing type was deprecated.
-        public let deprecationDate: String?
+        public let deprecationDate: Double?
         /// The date and time when the thing type was created.
-        public let creationDate: String?
+        public let creationDate: Double?
 
-        public init(deprecated: Bool? = nil, deprecationDate: String? = nil, creationDate: String? = nil) {
+        public init(deprecated: Bool? = nil, deprecationDate: Double? = nil, creationDate: Double? = nil) {
             self.deprecated = deprecated
             self.deprecationDate = deprecationDate
             self.creationDate = creationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deprecated = dictionary["deprecated"] as? Bool
-            self.deprecationDate = dictionary["deprecationDate"] as? String
-            self.creationDate = dictionary["creationDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deprecated = "deprecated"
+            case deprecationDate = "deprecationDate"
+            case creationDate = "creationDate"
         }
     }
 
     public struct EnableTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the topic rule to enable.
         public let ruleName: String
@@ -889,19 +825,17 @@ extension Iot {
             self.ruleName = ruleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
         }
     }
 
     public struct CreatePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeProperty(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyDocument", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "setAsDefault", location: .querystring(locationName: "setAsDefault"), required: false, type: .boolean), 
+            AWSShapeMember(label: "policyDocument", required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -916,22 +850,19 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
-            self.setAsDefault = dictionary["setAsDefault"] as? Bool
-            guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
-            self.policyDocument = policyDocument
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case setAsDefault = "setAsDefault"
+            case policyDocument = "policyDocument"
         }
     }
 
     public struct KinesisAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "streamName", required: true, type: .string), 
-            AWSShapeProperty(label: "partitionKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "streamName", required: true, type: .string), 
+            AWSShapeMember(label: "partitionKey", required: false, type: .string)
         ]
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
         public let roleArn: String
@@ -946,22 +877,19 @@ extension Iot {
             self.partitionKey = partitionKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let streamName = dictionary["streamName"] as? String else { throw InitializableError.missingRequiredParam("streamName") }
-            self.streamName = streamName
-            self.partitionKey = dictionary["partitionKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case streamName = "streamName"
+            case partitionKey = "partitionKey"
         }
     }
 
     public struct SqsAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "useBase64", required: false, type: .boolean), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "queueUrl", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "useBase64", required: false, type: .boolean), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "queueUrl", required: true, type: .string)
         ]
         /// Specifies whether to use Base64 encoding.
         public let useBase64: Bool?
@@ -976,28 +904,22 @@ extension Iot {
             self.queueUrl = queueUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.useBase64 = dictionary["useBase64"] as? Bool
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let queueUrl = dictionary["queueUrl"] as? String else { throw InitializableError.missingRequiredParam("queueUrl") }
-            self.queueUrl = queueUrl
+        private enum CodingKeys: String, CodingKey {
+            case useBase64 = "useBase64"
+            case roleArn = "roleArn"
+            case queueUrl = "queueUrl"
         }
     }
 
     public struct UpdateThingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListThingPrincipalsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -1006,18 +928,16 @@ extension Iot {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
         }
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -1029,21 +949,18 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
-            self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
         }
     }
 
     public struct UpdateCACertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
-            AWSShapeProperty(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: false, type: .enum), 
+            AWSShapeMember(label: "newAutoRegistrationStatus", location: .querystring(locationName: "newAutoRegistrationStatus"), required: false, type: .enum)
         ]
         /// The CA certificate identifier.
         public let certificateId: String
@@ -1058,20 +975,18 @@ extension Iot {
             self.newAutoRegistrationStatus = newAutoRegistrationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
-            self.certificateId = certificateId
-            if let newStatus = dictionary["newStatus"] as? String { self.newStatus = CACertificateStatus(rawValue: newStatus) } else { self.newStatus = nil }
-            if let newAutoRegistrationStatus = dictionary["newAutoRegistrationStatus"] as? String { self.newAutoRegistrationStatus = AutoRegistrationStatus(rawValue: newAutoRegistrationStatus) } else { self.newAutoRegistrationStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
+            case newStatus = "newStatus"
+            case newAutoRegistrationStatus = "newAutoRegistrationStatus"
         }
     }
 
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policies", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policies", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The descriptions of the policies.
         public let policies: [Policy]?
@@ -1083,25 +998,20 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policies = dictionary["policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try Policy(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policies = "policies"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct ElasticsearchAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "endpoint", required: true, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .string), 
-            AWSShapeProperty(label: "index", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "endpoint", required: true, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .string), 
+            AWSShapeMember(label: "index", required: true, type: .string)
         ]
         /// The IAM role ARN that has access to Elasticsearch.
         public let roleArn: String
@@ -1122,26 +1032,20 @@ extension Iot {
             self.index = index
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let endpoint = dictionary["endpoint"] as? String else { throw InitializableError.missingRequiredParam("endpoint") }
-            self.endpoint = endpoint
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            guard let `type` = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let index = dictionary["index"] as? String else { throw InitializableError.missingRequiredParam("index") }
-            self.index = index
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case endpoint = "endpoint"
+            case id = "id"
+            case `type` = "type"
+            case index = "index"
         }
     }
 
     public struct ListOutgoingCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "outgoingCertificates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "outgoingCertificates", required: false, type: .list)
         ]
         /// The marker for the next set of results.
         public let nextMarker: String?
@@ -1153,22 +1057,17 @@ extension Iot {
             self.outgoingCertificates = outgoingCertificates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextMarker = dictionary["nextMarker"] as? String
-            if let outgoingCertificates = dictionary["outgoingCertificates"] as? [[String: Any]] {
-                self.outgoingCertificates = try outgoingCertificates.map({ try OutgoingCertificate(dictionary: $0) })
-            } else { 
-                self.outgoingCertificates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "nextMarker"
+            case outgoingCertificates = "outgoingCertificates"
         }
     }
 
     public struct UpdateCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "newStatus", location: .querystring(locationName: "newStatus"), required: true, type: .enum)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -1180,15 +1079,13 @@ extension Iot {
             self.newStatus = newStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
-            guard let rawnewStatus = dictionary["newStatus"] as? String, let newStatus = CertificateStatus(rawValue: rawnewStatus) else { throw InitializableError.missingRequiredParam("newStatus") }
-            self.newStatus = newStatus
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case newStatus = "newStatus"
         }
     }
 
-    public enum MessageFormat: String, CustomStringConvertible {
+    public enum MessageFormat: String, CustomStringConvertible, Codable {
         case raw = "RAW"
         case json = "JSON"
         public var description: String { return self.rawValue }
@@ -1196,13 +1093,12 @@ extension Iot {
 
     public struct TopicRuleListItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "topicPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "ruleName", required: false, type: .string), 
-            AWSShapeProperty(label: "ruleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "topicPattern", required: false, type: .string), 
+            AWSShapeMember(label: "ruleName", required: false, type: .string), 
+            AWSShapeMember(label: "ruleArn", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -1213,9 +1109,9 @@ extension Iot {
         /// The rule ARN.
         public let ruleArn: String?
         /// The date and time the rule was created.
-        public let createdAt: String?
+        public let createdAt: Double?
 
-        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: String? = nil) {
+        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: Double? = nil) {
             self.ruleDisabled = ruleDisabled
             self.topicPattern = topicPattern
             self.ruleName = ruleName
@@ -1223,20 +1119,19 @@ extension Iot {
             self.createdAt = createdAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
-            self.topicPattern = dictionary["topicPattern"] as? String
-            self.ruleName = dictionary["ruleName"] as? String
-            self.ruleArn = dictionary["ruleArn"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleDisabled = "ruleDisabled"
+            case topicPattern = "topicPattern"
+            case ruleName = "ruleName"
+            case ruleArn = "ruleArn"
+            case createdAt = "createdAt"
         }
     }
 
     public struct DeleteThingTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -1245,18 +1140,16 @@ extension Iot {
             self.thingTypeName = thingTypeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
-            self.thingTypeName = thingTypeName
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
         }
     }
 
     public struct RegisterCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The certificate identifier.
         public let certificateId: String?
@@ -1268,17 +1161,16 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct PutItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tableName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tableName", required: true, type: .string)
         ]
         /// The table where the message data will be written
         public let tableName: String
@@ -1287,18 +1179,16 @@ extension Iot {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableName = dictionary["tableName"] as? String else { throw InitializableError.missingRequiredParam("tableName") }
-            self.tableName = tableName
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "tableName"
         }
     }
 
     public struct AttributePayload: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "merge", required: false, type: .boolean), 
-            AWSShapeProperty(label: "attributes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "merge", required: false, type: .boolean), 
+            AWSShapeMember(label: "attributes", required: false, type: .map)
         ]
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
         public let merge: Bool?
@@ -1310,22 +1200,17 @@ extension Iot {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.merge = dictionary["merge"] as? Bool
-            if let attributes = dictionary["attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case merge = "merge"
+            case attributes = "attributes"
         }
     }
 
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
         public let policyDocument: String
@@ -1337,20 +1222,17 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case policyName = "policyName"
         }
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -1362,43 +1244,31 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
-            self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
         }
     }
 
     public struct DeleteThingTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteRegistrationCodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetLoggingOptionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct LambdaAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "functionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "functionArn", required: true, type: .string)
         ]
         /// The ARN of the Lambda function.
         public let functionArn: String
@@ -1407,30 +1277,28 @@ extension Iot {
             self.functionArn = functionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionArn = dictionary["functionArn"] as? String else { throw InitializableError.missingRequiredParam("functionArn") }
-            self.functionArn = functionArn
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "functionArn"
         }
     }
 
     public struct TopicRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ruleName", required: false, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "actions", required: false, type: .list), 
-            AWSShapeProperty(label: "sql", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ruleName", required: false, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "actions", required: false, type: .list), 
+            AWSShapeMember(label: "sql", required: false, type: .string)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
         /// The name of the rule.
         public let ruleName: String?
         /// The date and time the rule was created.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
         /// The description of the rule.
@@ -1440,7 +1308,7 @@ extension Iot {
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
         public let sql: String?
 
-        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: String? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
+        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: Double? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
             self.ruleDisabled = ruleDisabled
             self.ruleName = ruleName
             self.createdAt = createdAt
@@ -1450,28 +1318,23 @@ extension Iot {
             self.sql = sql
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
-            self.ruleName = dictionary["ruleName"] as? String
-            self.createdAt = dictionary["createdAt"] as? String
-            self.awsIotSqlVersion = dictionary["awsIotSqlVersion"] as? String
-            self.description = dictionary["description"] as? String
-            if let actions = dictionary["actions"] as? [[String: Any]] {
-                self.actions = try actions.map({ try Action(dictionary: $0) })
-            } else { 
-                self.actions = nil
-            }
-            self.sql = dictionary["sql"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleDisabled = "ruleDisabled"
+            case ruleName = "ruleName"
+            case createdAt = "createdAt"
+            case awsIotSqlVersion = "awsIotSqlVersion"
+            case description = "description"
+            case actions = "actions"
+            case sql = "sql"
         }
     }
 
     public struct CreateThingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "attributePayload", required: false, type: .structure), 
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "attributePayload", required: false, type: .structure), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing type associated with the new thing.
         public let thingTypeName: String?
@@ -1486,35 +1349,33 @@ extension Iot {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) } else { self.attributePayload = nil }
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case attributePayload = "attributePayload"
+            case thingName = "thingName"
         }
     }
 
     public struct CertificateDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "previousOwnedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "transferData", required: false, type: .structure), 
-            AWSShapeProperty(label: "ownedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "previousOwnedBy", required: false, type: .string), 
+            AWSShapeMember(label: "transferData", required: false, type: .structure), 
+            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp)
         ]
         /// The certificate ID of the CA certificate used to sign this certificate.
         public let caCertificateId: String?
         /// The status of the certificate.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The certificate data, in PEM format.
@@ -1528,9 +1389,9 @@ extension Iot {
         /// The ARN of the certificate.
         public let certificateArn: String?
         /// The date and time the certificate was last modified.
-        public let lastModifiedDate: String?
+        public let lastModifiedDate: Double?
 
-        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: String? = nil) {
+        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Double? = nil) {
             self.caCertificateId = caCertificateId
             self.status = status
             self.creationDate = creationDate
@@ -1543,28 +1404,27 @@ extension Iot {
             self.lastModifiedDate = lastModifiedDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caCertificateId = dictionary["caCertificateId"] as? String
-            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificatePem = dictionary["certificatePem"] as? String
-            self.previousOwnedBy = dictionary["previousOwnedBy"] as? String
-            if let transferData = dictionary["transferData"] as? [String: Any] { self.transferData = try Iot.TransferData(dictionary: transferData) } else { self.transferData = nil }
-            self.ownedBy = dictionary["ownedBy"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
-            self.lastModifiedDate = dictionary["lastModifiedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case caCertificateId = "caCertificateId"
+            case status = "status"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case certificatePem = "certificatePem"
+            case previousOwnedBy = "previousOwnedBy"
+            case transferData = "transferData"
+            case ownedBy = "ownedBy"
+            case certificateArn = "certificateArn"
+            case lastModifiedDate = "lastModifiedDate"
         }
     }
 
     public struct CloudwatchAlarmAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "stateReason", required: true, type: .string), 
-            AWSShapeProperty(label: "alarmName", required: true, type: .string), 
-            AWSShapeProperty(label: "stateValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "stateReason", required: true, type: .string), 
+            AWSShapeMember(label: "alarmName", required: true, type: .string), 
+            AWSShapeMember(label: "stateValue", required: true, type: .string)
         ]
         /// The IAM role that allows access to the CloudWatch alarm.
         public let roleArn: String
@@ -1582,23 +1442,18 @@ extension Iot {
             self.stateValue = stateValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let stateReason = dictionary["stateReason"] as? String else { throw InitializableError.missingRequiredParam("stateReason") }
-            self.stateReason = stateReason
-            guard let alarmName = dictionary["alarmName"] as? String else { throw InitializableError.missingRequiredParam("alarmName") }
-            self.alarmName = alarmName
-            guard let stateValue = dictionary["stateValue"] as? String else { throw InitializableError.missingRequiredParam("stateValue") }
-            self.stateValue = stateValue
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case stateReason = "stateReason"
+            case alarmName = "alarmName"
+            case stateValue = "stateValue"
         }
     }
 
     public struct DisableTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule to disable.
         public let ruleName: String
@@ -1607,19 +1462,17 @@ extension Iot {
             self.ruleName = ruleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
         }
     }
 
     public struct ListPrincipalThingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The maximum number of results to return in this operation.
         public let maxResults: Int32?
@@ -1634,20 +1487,19 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let principal = dictionary["x-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case principal = "x-amzn-principal"
         }
     }
 
     public struct CreateTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "topicRulePayload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
-            AWSShapeProperty(label: "topicRulePayload", required: true, type: .structure)
+        public static let payloadPath: String? = "topicRulePayload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
+            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -1659,19 +1511,16 @@ extension Iot {
             self.topicRulePayload = topicRulePayload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
-            guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
-            self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+            case topicRulePayload = "topicRulePayload"
         }
     }
 
     public struct DeleteCACertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "caCertificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate to delete.
         public let certificateId: String
@@ -1680,50 +1529,47 @@ extension Iot {
             self.certificateId = certificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
-            self.certificateId = certificateId
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "caCertificateId"
         }
     }
 
     public struct CACertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
         /// The date the CA certificate was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The ID of the CA certificate.
         public let certificateId: String?
         /// The ARN of the CA certificate.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct ListPolicyVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -1732,20 +1578,18 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
         }
     }
 
     public struct ListPolicyPrincipalsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "policyName", location: .header(locationName: "x-amzn-iot-policy"), required: true, type: .string), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -1763,49 +1607,46 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            guard let policyName = dictionary["x-amzn-iot-policy"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-iot-policy") }
-            self.policyName = policyName
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case policyName = "x-amzn-iot-policy"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
     public struct PolicyVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "createDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "versionId", required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "versionId", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time the policy was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The policy version ID.
         public let versionId: String?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
 
-        public init(createDate: String? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
+        public init(createDate: Double? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
             self.versionId = versionId
             self.isDefaultVersion = isDefaultVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["createDate"] as? String
-            self.versionId = dictionary["versionId"] as? String
-            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "createDate"
+            case versionId = "versionId"
+            case isDefaultVersion = "isDefaultVersion"
         }
     }
 
     public struct AttachThingPrincipalRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-principal"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -1817,27 +1658,21 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
-            guard let principal = dictionary["x-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case principal = "x-amzn-principal"
         }
     }
 
     public struct DeleteCACertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetRegistrationCodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "registrationCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "registrationCode", required: false, type: .string)
         ]
         /// The CA certificate registration code.
         public let registrationCode: String?
@@ -1846,17 +1681,16 @@ extension Iot {
             self.registrationCode = registrationCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.registrationCode = dictionary["registrationCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case registrationCode = "registrationCode"
         }
     }
 
     public struct ListCertificatesByCAResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificates", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The device certificates signed by the specified CA certificate.
         public let certificates: [Certificate]?
@@ -1868,23 +1702,18 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificates = dictionary["certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
-            } else { 
-                self.certificates = nil
-            }
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "certificates"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -1899,20 +1728,19 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
     public struct ListCACertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -1927,19 +1755,18 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
     public struct DeprecateThingTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
-            AWSShapeProperty(label: "undoDeprecate", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string), 
+            AWSShapeMember(label: "undoDeprecate", required: false, type: .boolean)
         ]
         /// The name of the thing type to deprecate.
         public let thingTypeName: String
@@ -1951,22 +1778,20 @@ extension Iot {
             self.undoDeprecate = undoDeprecate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
-            self.thingTypeName = thingTypeName
-            self.undoDeprecate = dictionary["undoDeprecate"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case undoDeprecate = "undoDeprecate"
         }
     }
 
     public struct TopicRulePayload: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "awsIotSqlVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ruleDisabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "actions", required: true, type: .list), 
-            AWSShapeProperty(label: "sql", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "awsIotSqlVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ruleDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "actions", required: true, type: .list), 
+            AWSShapeMember(label: "sql", required: true, type: .string)
         ]
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
@@ -1987,24 +1812,21 @@ extension Iot {
             self.sql = sql
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.awsIotSqlVersion = dictionary["awsIotSqlVersion"] as? String
-            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
-            self.description = dictionary["description"] as? String
-            guard let actions = dictionary["actions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("actions") }
-            self.actions = try actions.map({ try Action(dictionary: $0) })
-            guard let sql = dictionary["sql"] as? String else { throw InitializableError.missingRequiredParam("sql") }
-            self.sql = sql
+        private enum CodingKeys: String, CodingKey {
+            case awsIotSqlVersion = "awsIotSqlVersion"
+            case ruleDisabled = "ruleDisabled"
+            case description = "description"
+            case actions = "actions"
+            case sql = "sql"
         }
     }
 
     public struct SnsAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "messageFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "targetArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "messageFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "targetArn", required: true, type: .string)
         ]
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see http://docs.aws.amazon.com/sns/latest/dg/json-formats.html refer to their official documentation.
         public let messageFormat: MessageFormat?
@@ -2019,21 +1841,18 @@ extension Iot {
             self.targetArn = targetArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageFormat = dictionary["messageFormat"] as? String { self.messageFormat = MessageFormat(rawValue: messageFormat) } else { self.messageFormat = nil }
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let targetArn = dictionary["targetArn"] as? String else { throw InitializableError.missingRequiredParam("targetArn") }
-            self.targetArn = targetArn
+        private enum CodingKeys: String, CodingKey {
+            case messageFormat = "messageFormat"
+            case roleArn = "roleArn"
+            case targetArn = "targetArn"
         }
     }
 
     public struct KeyPair: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: false, type: .string)
         ]
         /// The public key.
         public let publicKey: String?
@@ -2045,25 +1864,21 @@ extension Iot {
             self.privateKey = privateKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.publicKey = dictionary["PublicKey"] as? String
-            self.privateKey = dictionary["PrivateKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case publicKey = "PublicKey"
+            case privateKey = "PrivateKey"
         }
     }
 
     public struct DeleteRegistrationCodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersions", required: false, type: .list)
         ]
         /// The policy versions.
         public let policyVersions: [PolicyVersion]?
@@ -2072,24 +1887,19 @@ extension Iot {
             self.policyVersions = policyVersions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyVersions = dictionary["policyVersions"] as? [[String: Any]] {
-                self.policyVersions = try policyVersions.map({ try PolicyVersion(dictionary: $0) })
-            } else { 
-                self.policyVersions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case policyVersions = "policyVersions"
         }
     }
 
     public struct GetPolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "policyName", required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string)
         ]
         /// The JSON document that describes the policy.
         public let policyDocument: String?
@@ -2110,22 +1920,21 @@ extension Iot {
             self.policyArn = policyArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyDocument = dictionary["policyDocument"] as? String
-            self.policyVersionId = dictionary["policyVersionId"] as? String
-            self.policyName = dictionary["policyName"] as? String
-            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
-            self.policyArn = dictionary["policyArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
+            case isDefaultVersion = "isDefaultVersion"
+            case policyArn = "policyArn"
         }
     }
 
     public struct ListThingTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .querystring(locationName: "thingTypeName"), required: false, type: .string), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer)
         ]
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -2140,19 +1949,18 @@ extension Iot {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct CreateThingTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeArn", required: false, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String?
@@ -2164,17 +1972,16 @@ extension Iot {
             self.thingTypeArn = thingTypeArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.thingTypeArn = dictionary["thingTypeArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
+            case thingTypeArn = "thingTypeArn"
         }
     }
 
     public struct DeleteTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -2183,18 +1990,16 @@ extension Iot {
             self.ruleName = ruleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
         }
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyVersionId", location: .uri(locationName: "policyVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The policy version ID.
         public let policyVersionId: String
@@ -2206,20 +2011,17 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
-            self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyVersionId = "policyVersionId"
+            case policyName = "policyName"
         }
     }
 
     public struct ListTopicRulesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rules", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rules", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The rules.
         public let rules: [TopicRuleListItem]?
@@ -2231,24 +2033,19 @@ extension Iot {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try TopicRuleListItem(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+            case nextToken = "nextToken"
         }
     }
 
     public struct S3Action: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "cannedAcl", required: false, type: .enum), 
-            AWSShapeProperty(label: "key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bucketName", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "cannedAcl", required: false, type: .enum), 
+            AWSShapeMember(label: "key", required: true, type: .string)
         ]
         /// The Amazon S3 bucket.
         public let bucketName: String
@@ -2266,32 +2063,28 @@ extension Iot {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketName = dictionary["bucketName"] as? String else { throw InitializableError.missingRequiredParam("bucketName") }
-            self.bucketName = bucketName
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            if let cannedAcl = dictionary["cannedAcl"] as? String { self.cannedAcl = CannedAccessControlList(rawValue: cannedAcl) } else { self.cannedAcl = nil }
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case roleArn = "roleArn"
+            case cannedAcl = "cannedAcl"
+            case key = "key"
         }
     }
 
     public struct OutgoingCertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "transferredTo", required: false, type: .string), 
-            AWSShapeProperty(label: "transferDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "transferredTo", required: false, type: .string), 
+            AWSShapeMember(label: "transferDate", required: false, type: .timestamp)
         ]
         /// The transfer message.
         public let transferMessage: String?
         /// The certificate creation date.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The certificate ID.
         public let certificateId: String?
         /// The certificate ARN.
@@ -2299,9 +2092,9 @@ extension Iot {
         /// The AWS account to which the transfer was made.
         public let transferredTo: String?
         /// The date the transfer was initiated.
-        public let transferDate: String?
+        public let transferDate: Double?
 
-        public init(transferMessage: String? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: String? = nil) {
+        public init(transferMessage: String? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: Double? = nil) {
             self.transferMessage = transferMessage
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2310,23 +2103,22 @@ extension Iot {
             self.transferDate = transferDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.transferMessage = dictionary["transferMessage"] as? String
-            self.creationDate = dictionary["creationDate"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
-            self.transferredTo = dictionary["transferredTo"] as? String
-            self.transferDate = dictionary["transferDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case transferMessage = "transferMessage"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
+            case transferredTo = "transferredTo"
+            case transferDate = "transferDate"
         }
     }
 
     public struct CreateCertificateFromCsrResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string)
         ]
         /// The ID of the certificate. Certificate management operations only take a certificateId.
         public let certificateId: String?
@@ -2341,18 +2133,17 @@ extension Iot {
             self.certificatePem = certificatePem
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
-            self.certificatePem = dictionary["certificatePem"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
+            case certificatePem = "certificatePem"
         }
     }
 
     public struct TransferCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transferredCertificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transferredCertificateArn", required: false, type: .string)
         ]
         /// The ARN of the certificate.
         public let transferredCertificateArn: String?
@@ -2361,18 +2152,17 @@ extension Iot {
             self.transferredCertificateArn = transferredCertificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.transferredCertificateArn = dictionary["transferredCertificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case transferredCertificateArn = "transferredCertificateArn"
         }
     }
 
     public struct FirehoseAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "deliveryStreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "separator", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "deliveryStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "separator", required: false, type: .string)
         ]
         /// The IAM role that grants access to the Amazon Kinesis Firehost stream.
         public let roleArn: String
@@ -2387,23 +2177,20 @@ extension Iot {
             self.separator = separator
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            guard let deliveryStreamName = dictionary["deliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("deliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
-            self.separator = dictionary["separator"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case deliveryStreamName = "deliveryStreamName"
+            case separator = "separator"
         }
     }
 
     public struct CreatePolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "policyVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "isDefaultVersion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy ARN.
         public let policyArn: String?
@@ -2421,20 +2208,19 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyArn = dictionary["policyArn"] as? String
-            self.policyVersionId = dictionary["policyVersionId"] as? String
-            self.isDefaultVersion = dictionary["isDefaultVersion"] as? Bool
-            self.policyDocument = dictionary["policyDocument"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "policyArn"
+            case policyVersionId = "policyVersionId"
+            case isDefaultVersion = "isDefaultVersion"
+            case policyDocument = "policyDocument"
         }
     }
 
     public struct AcceptCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2446,18 +2232,16 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case setAsActive = "setAsActive"
         }
     }
 
     public struct CancelCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2466,18 +2250,16 @@ extension Iot {
             self.certificateId = certificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
         }
     }
 
     public struct SalesforceAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "token", required: true, type: .string), 
-            AWSShapeProperty(label: "url", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "token", required: true, type: .string), 
+            AWSShapeMember(label: "url", required: true, type: .string)
         ]
         /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
         public let token: String
@@ -2489,19 +2271,16 @@ extension Iot {
             self.url = url
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let token = dictionary["token"] as? String else { throw InitializableError.missingRequiredParam("token") }
-            self.token = token
-            guard let url = dictionary["url"] as? String else { throw InitializableError.missingRequiredParam("url") }
-            self.url = url
+        private enum CodingKeys: String, CodingKey {
+            case token = "token"
+            case url = "url"
         }
     }
 
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2510,25 +2289,20 @@ extension Iot {
             self.certificateId = certificateId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
         }
     }
 
     public struct DetachThingPrincipalResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "endpointAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "endpointAddress", required: false, type: .string)
         ]
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public let endpointAddress: String?
@@ -2537,17 +2311,16 @@ extension Iot {
             self.endpointAddress = endpointAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpointAddress = dictionary["endpointAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endpointAddress = "endpointAddress"
         }
     }
 
     public struct RejectCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
-            AWSShapeProperty(label: "rejectReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", location: .uri(locationName: "certificateId"), required: true, type: .string), 
+            AWSShapeMember(label: "rejectReason", required: false, type: .string)
         ]
         /// The ID of the certificate.
         public let certificateId: String
@@ -2559,35 +2332,33 @@ extension Iot {
             self.rejectReason = rejectReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
-            self.certificateId = certificateId
-            self.rejectReason = dictionary["rejectReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case rejectReason = "rejectReason"
         }
     }
 
     public struct TransferData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rejectDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "acceptDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "transferMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "transferDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "rejectReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rejectDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "acceptDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "transferMessage", required: false, type: .string), 
+            AWSShapeMember(label: "transferDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "rejectReason", required: false, type: .string)
         ]
         /// The date the transfer was rejected.
-        public let rejectDate: String?
+        public let rejectDate: Double?
         /// The date the transfer was accepted.
-        public let acceptDate: String?
+        public let acceptDate: Double?
         /// The transfer message.
         public let transferMessage: String?
         /// The date the transfer took place.
-        public let transferDate: String?
+        public let transferDate: Double?
         /// The reason why the transfer was rejected.
         public let rejectReason: String?
 
-        public init(rejectDate: String? = nil, acceptDate: String? = nil, transferMessage: String? = nil, transferDate: String? = nil, rejectReason: String? = nil) {
+        public init(rejectDate: Double? = nil, acceptDate: Double? = nil, transferMessage: String? = nil, transferDate: Double? = nil, rejectReason: String? = nil) {
             self.rejectDate = rejectDate
             self.acceptDate = acceptDate
             self.transferMessage = transferMessage
@@ -2595,20 +2366,19 @@ extension Iot {
             self.rejectReason = rejectReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.rejectDate = dictionary["rejectDate"] as? String
-            self.acceptDate = dictionary["acceptDate"] as? String
-            self.transferMessage = dictionary["transferMessage"] as? String
-            self.transferDate = dictionary["transferDate"] as? String
-            self.rejectReason = dictionary["rejectReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case rejectDate = "rejectDate"
+            case acceptDate = "acceptDate"
+            case transferMessage = "transferMessage"
+            case transferDate = "transferDate"
+            case rejectReason = "rejectReason"
         }
     }
 
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The name of the policy.
         public let policyName: String
@@ -2617,13 +2387,12 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
         }
     }
 
-    public enum AutoRegistrationStatus: String, CustomStringConvertible {
+    public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
         case enable = "ENABLE"
         case disable = "DISABLE"
         public var description: String { return self.rawValue }
@@ -2631,45 +2400,43 @@ extension Iot {
 
     public struct Certificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The ARN of the certificate.
         public let certificateArn: String?
 
-        public init(status: CertificateStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            self.creationDate = dictionary["creationDate"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct RegisterCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "caCertificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "certificatePem", required: true, type: .string), 
-            AWSShapeProperty(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "caCertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "certificatePem", required: true, type: .string), 
+            AWSShapeMember(label: "setAsActive", location: .querystring(locationName: "setAsActive"), required: false, type: .boolean)
         ]
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
@@ -2687,20 +2454,18 @@ extension Iot {
             self.setAsActive = setAsActive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.caCertificatePem = dictionary["caCertificatePem"] as? String
-            if let status = dictionary["status"] as? String { self.status = CertificateStatus(rawValue: status) } else { self.status = nil }
-            guard let certificatePem = dictionary["certificatePem"] as? String else { throw InitializableError.missingRequiredParam("certificatePem") }
-            self.certificatePem = certificatePem
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case caCertificatePem = "caCertificatePem"
+            case status = "status"
+            case certificatePem = "certificatePem"
+            case setAsActive = "setAsActive"
         }
     }
 
     public struct ListThingPrincipalsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "principals", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "principals", required: false, type: .list)
         ]
         /// The principals associated with the thing.
         public let principals: [String]?
@@ -2709,17 +2474,16 @@ extension Iot {
             self.principals = principals
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.principals = dictionary["principals"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case principals = "principals"
         }
     }
 
     public struct GetLoggingOptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "logLevel", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: false, type: .string), 
+            AWSShapeMember(label: "logLevel", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access.
         public let roleArn: String?
@@ -2731,19 +2495,18 @@ extension Iot {
             self.logLevel = logLevel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["roleArn"] as? String
-            if let logLevel = dictionary["logLevel"] as? String { self.logLevel = LogLevel(rawValue: logLevel) } else { self.logLevel = nil }
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case logLevel = "logLevel"
         }
     }
 
     public struct ListOutgoingCertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2758,19 +2521,18 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
     public struct ListCACertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificates", required: false, type: .list), 
-            AWSShapeProperty(label: "nextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificates", required: false, type: .list), 
+            AWSShapeMember(label: "nextMarker", required: false, type: .string)
         ]
         /// The CA certificates registered in your AWS account.
         public let certificates: [CACertificate]?
@@ -2782,22 +2544,17 @@ extension Iot {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificates = dictionary["certificates"] as? [[String: Any]] {
-                self.certificates = try certificates.map({ try CACertificate(dictionary: $0) })
-            } else { 
-                self.certificates = nil
-            }
-            self.nextMarker = dictionary["nextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "certificates"
+            case nextMarker = "nextMarker"
         }
     }
 
     public struct ThingTypeProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "searchableAttributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeDescription", required: false, type: .string), 
+            AWSShapeMember(label: "searchableAttributes", required: false, type: .list)
         ]
         /// The description of the thing type.
         public let thingTypeDescription: String?
@@ -2809,20 +2566,19 @@ extension Iot {
             self.searchableAttributes = searchableAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingTypeDescription = dictionary["thingTypeDescription"] as? String
-            self.searchableAttributes = dictionary["searchableAttributes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeDescription = "thingTypeDescription"
+            case searchableAttributes = "searchableAttributes"
         }
     }
 
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "policyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "policyDocument", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", required: false, type: .string), 
+            AWSShapeMember(label: "defaultVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "policyArn", required: false, type: .string), 
+            AWSShapeMember(label: "policyDocument", required: false, type: .string)
         ]
         /// The policy name.
         public let policyName: String?
@@ -2840,20 +2596,19 @@ extension Iot {
             self.policyDocument = policyDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyName = dictionary["policyName"] as? String
-            self.defaultVersionId = dictionary["defaultVersionId"] as? String
-            self.policyArn = dictionary["policyArn"] as? String
-            self.policyDocument = dictionary["policyDocument"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case defaultVersionId = "defaultVersionId"
+            case policyArn = "policyArn"
+            case policyDocument = "policyDocument"
         }
     }
 
     public struct ListThingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "things", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "things", required: false, type: .list)
         ]
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
@@ -2865,24 +2620,19 @@ extension Iot {
             self.things = things
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let things = dictionary["things"] as? [[String: Any]] {
-                self.things = try things.map({ try ThingAttribute(dictionary: $0) })
-            } else { 
-                self.things = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case things = "things"
         }
     }
 
     public struct ListPrincipalPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -2900,16 +2650,15 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
-            guard let principal = dictionary["x-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-iot-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
+            case principal = "x-amzn-iot-principal"
         }
     }
 
-    public enum LogLevel: String, CustomStringConvertible {
+    public enum LogLevel: String, CustomStringConvertible, Codable {
         case debug = "DEBUG"
         case info = "INFO"
         case error = "ERROR"
@@ -2920,12 +2669,11 @@ extension Iot {
 
     public struct ThingAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "version", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "version", required: false, type: .long)
         ]
         /// The name of the thing.
         public let thingName: String?
@@ -2943,23 +2691,18 @@ extension Iot {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.thingName = dictionary["thingName"] as? String
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let attributes = dictionary["attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.version = dictionary["version"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
+            case thingTypeName = "thingTypeName"
+            case attributes = "attributes"
+            case version = "version"
         }
     }
 
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string)
         ]
         /// The name of the policy to delete.
         public let policyName: String
@@ -2968,17 +2711,15 @@ extension Iot {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
         }
     }
 
     public struct DescribeThingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The name of the thing.
         public let thingName: String
@@ -2987,30 +2728,28 @@ extension Iot {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "thingName"
         }
     }
 
     public struct CACertificateDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "autoRegistrationStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "ownedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "autoRegistrationStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "ownedBy", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The status of a CA certificate.
         public let status: CACertificateStatus?
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public let autoRegistrationStatus: AutoRegistrationStatus?
         /// The date the CA certificate was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The CA certificate ID.
         public let certificateId: String?
         /// The CA certificate data, in PEM format.
@@ -3020,7 +2759,7 @@ extension Iot {
         /// The CA certificate ARN.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.autoRegistrationStatus = autoRegistrationStatus
             self.creationDate = creationDate
@@ -3030,25 +2769,24 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = CACertificateStatus(rawValue: status) } else { self.status = nil }
-            if let autoRegistrationStatus = dictionary["autoRegistrationStatus"] as? String { self.autoRegistrationStatus = AutoRegistrationStatus(rawValue: autoRegistrationStatus) } else { self.autoRegistrationStatus = nil }
-            self.creationDate = dictionary["creationDate"] as? String
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificatePem = dictionary["certificatePem"] as? String
-            self.ownedBy = dictionary["ownedBy"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case autoRegistrationStatus = "autoRegistrationStatus"
+            case creationDate = "creationDate"
+            case certificateId = "certificateId"
+            case certificatePem = "certificatePem"
+            case ownedBy = "ownedBy"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct ListTopicRulesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleDisabled", location: .querystring(locationName: "ruleDisabled"), required: false, type: .boolean), 
+            AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "topic", location: .querystring(locationName: "topic"), required: false, type: .string)
         ]
         /// Specifies whether the rule is disabled.
         public let ruleDisabled: Bool?
@@ -3066,15 +2804,15 @@ extension Iot {
             self.topic = topic
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            self.topic = dictionary["topic"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ruleDisabled = "ruleDisabled"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case topic = "topic"
         }
     }
 
-    public enum CertificateStatus: String, CustomStringConvertible {
+    public enum CertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
         case revoked = "REVOKED"
@@ -3086,13 +2824,12 @@ extension Iot {
 
     public struct DescribeThingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultClientId", required: false, type: .string), 
-            AWSShapeProperty(label: "thingName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "version", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultClientId", required: false, type: .string), 
+            AWSShapeMember(label: "thingName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "attributes", required: false, type: .map), 
+            AWSShapeMember(label: "version", required: false, type: .long)
         ]
         /// The default client ID.
         public let defaultClientId: String?
@@ -3113,24 +2850,19 @@ extension Iot {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultClientId = dictionary["defaultClientId"] as? String
-            self.thingName = dictionary["thingName"] as? String
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let attributes = dictionary["attributes"] as? [String: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.version = dictionary["version"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case defaultClientId = "defaultClientId"
+            case thingName = "thingName"
+            case thingTypeName = "thingTypeName"
+            case attributes = "attributes"
+            case version = "version"
         }
     }
 
     public struct DescribeThingTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeName", location: .uri(locationName: "thingTypeName"), required: true, type: .string)
         ]
         /// The name of the thing type.
         public let thingTypeName: String
@@ -3139,18 +2871,16 @@ extension Iot {
             self.thingTypeName = thingTypeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
-            self.thingTypeName = thingTypeName
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeName = "thingTypeName"
         }
     }
 
     public struct AttachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
-            AWSShapeProperty(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "policyName", location: .uri(locationName: "policyName"), required: true, type: .string), 
+            AWSShapeMember(label: "principal", location: .header(locationName: "x-amzn-iot-principal"), required: true, type: .string)
         ]
         /// The policy name.
         public let policyName: String
@@ -3162,23 +2892,20 @@ extension Iot {
             self.principal = principal
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
-            self.policyName = policyName
-            guard let principal = dictionary["x-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("x-amzn-iot-principal") }
-            self.principal = principal
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "policyName"
+            case principal = "x-amzn-iot-principal"
         }
     }
 
     public struct UpdateThingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "removeThingType", required: false, type: .boolean), 
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "expectedVersion", required: false, type: .long), 
-            AWSShapeProperty(label: "attributePayload", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "removeThingType", required: false, type: .boolean), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "expectedVersion", required: false, type: .long), 
+            AWSShapeMember(label: "attributePayload", required: false, type: .structure)
         ]
         /// Remove a thing type association. If true, the assocation is removed.
         public let removeThingType: Bool?
@@ -3199,25 +2926,21 @@ extension Iot {
             self.attributePayload = attributePayload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.removeThingType = dictionary["removeThingType"] as? Bool
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.expectedVersion = dictionary["expectedVersion"] as? Int64
-            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) } else { self.attributePayload = nil }
+        private enum CodingKeys: String, CodingKey {
+            case removeThingType = "removeThingType"
+            case thingName = "thingName"
+            case thingTypeName = "thingTypeName"
+            case expectedVersion = "expectedVersion"
+            case attributePayload = "attributePayload"
         }
     }
 
     public struct DeprecateThingTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum DynamoKeyType: String, CustomStringConvertible {
+    public enum DynamoKeyType: String, CustomStringConvertible, Codable {
         case string = "STRING"
         case number = "NUMBER"
         public var description: String { return self.rawValue }
@@ -3225,11 +2948,10 @@ extension Iot {
 
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
-            AWSShapeProperty(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "marker", location: .querystring(locationName: "marker"), required: false, type: .string), 
+            AWSShapeMember(label: "pageSize", location: .querystring(locationName: "pageSize"), required: false, type: .integer), 
+            AWSShapeMember(label: "ascendingOrder", location: .querystring(locationName: "isAscendingOrder"), required: false, type: .boolean)
         ]
         /// The marker for the next set of results.
         public let marker: String?
@@ -3244,14 +2966,14 @@ extension Iot {
             self.ascendingOrder = ascendingOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["isAscendingOrder"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "marker"
+            case pageSize = "pageSize"
+            case ascendingOrder = "isAscendingOrder"
         }
     }
 
-    public enum CannedAccessControlList: String, CustomStringConvertible {
+    public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
         case `private` = "private"
         case public_read = "public-read"
         case public_read_write = "public-read-write"
@@ -3265,10 +2987,10 @@ extension Iot {
 
     public struct ReplaceTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "topicRulePayload"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
-            AWSShapeProperty(label: "topicRulePayload", required: true, type: .structure)
+        public static let payloadPath: String? = "topicRulePayload"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ruleName", location: .uri(locationName: "ruleName"), required: true, type: .string), 
+            AWSShapeMember(label: "topicRulePayload", required: true, type: .structure)
         ]
         /// The name of the rule.
         public let ruleName: String
@@ -3280,24 +3002,21 @@ extension Iot {
             self.topicRulePayload = topicRulePayload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
-            self.ruleName = ruleName
-            guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
-            self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
+        private enum CodingKeys: String, CodingKey {
+            case ruleName = "ruleName"
+            case topicRulePayload = "topicRulePayload"
         }
     }
 
     public struct CloudwatchMetricAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metricValue", required: true, type: .string), 
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "metricTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "metricNamespace", required: true, type: .string), 
-            AWSShapeProperty(label: "metricName", required: true, type: .string), 
-            AWSShapeProperty(label: "metricUnit", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metricValue", required: true, type: .string), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "metricTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "metricNamespace", required: true, type: .string), 
+            AWSShapeMember(label: "metricName", required: true, type: .string), 
+            AWSShapeMember(label: "metricUnit", required: true, type: .string)
         ]
         /// The CloudWatch metric value.
         public let metricValue: String
@@ -3321,27 +3040,21 @@ extension Iot {
             self.metricUnit = metricUnit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let metricValue = dictionary["metricValue"] as? String else { throw InitializableError.missingRequiredParam("metricValue") }
-            self.metricValue = metricValue
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            self.metricTimestamp = dictionary["metricTimestamp"] as? String
-            guard let metricNamespace = dictionary["metricNamespace"] as? String else { throw InitializableError.missingRequiredParam("metricNamespace") }
-            self.metricNamespace = metricNamespace
-            guard let metricName = dictionary["metricName"] as? String else { throw InitializableError.missingRequiredParam("metricName") }
-            self.metricName = metricName
-            guard let metricUnit = dictionary["metricUnit"] as? String else { throw InitializableError.missingRequiredParam("metricUnit") }
-            self.metricUnit = metricUnit
+        private enum CodingKeys: String, CodingKey {
+            case metricValue = "metricValue"
+            case roleArn = "roleArn"
+            case metricTimestamp = "metricTimestamp"
+            case metricNamespace = "metricNamespace"
+            case metricName = "metricName"
+            case metricUnit = "metricUnit"
         }
     }
 
     public struct RegisterCACertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "certificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "certificateArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "certificateId", required: false, type: .string), 
+            AWSShapeMember(label: "certificateArn", required: false, type: .string)
         ]
         /// The CA certificate identifier.
         public let certificateId: String?
@@ -3353,19 +3066,18 @@ extension Iot {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateId = dictionary["certificateId"] as? String
-            self.certificateArn = dictionary["certificateArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "certificateId"
+            case certificateArn = "certificateArn"
         }
     }
 
     public struct DescribeThingTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "thingTypeMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "thingTypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "thingTypeProperties", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "thingTypeMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "thingTypeName", required: false, type: .string), 
+            AWSShapeMember(label: "thingTypeProperties", required: false, type: .structure)
         ]
         /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
         public let thingTypeMetadata: ThingTypeMetadata?
@@ -3380,27 +3092,26 @@ extension Iot {
             self.thingTypeProperties = thingTypeProperties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) } else { self.thingTypeMetadata = nil }
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
+        private enum CodingKeys: String, CodingKey {
+            case thingTypeMetadata = "thingTypeMetadata"
+            case thingTypeName = "thingTypeName"
+            case thingTypeProperties = "thingTypeProperties"
         }
     }
 
     public struct DynamoDBAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "rangeKeyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "rangeKeyValue", required: false, type: .string), 
-            AWSShapeProperty(label: "hashKeyValue", required: true, type: .string), 
-            AWSShapeProperty(label: "operation", required: false, type: .string), 
-            AWSShapeProperty(label: "payloadField", required: false, type: .string), 
-            AWSShapeProperty(label: "rangeKeyField", required: false, type: .string), 
-            AWSShapeProperty(label: "tableName", required: true, type: .string), 
-            AWSShapeProperty(label: "hashKeyField", required: true, type: .string), 
-            AWSShapeProperty(label: "hashKeyType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "rangeKeyType", required: false, type: .enum), 
+            AWSShapeMember(label: "rangeKeyValue", required: false, type: .string), 
+            AWSShapeMember(label: "hashKeyValue", required: true, type: .string), 
+            AWSShapeMember(label: "operation", required: false, type: .string), 
+            AWSShapeMember(label: "payloadField", required: false, type: .string), 
+            AWSShapeMember(label: "rangeKeyField", required: false, type: .string), 
+            AWSShapeMember(label: "tableName", required: true, type: .string), 
+            AWSShapeMember(label: "hashKeyField", required: true, type: .string), 
+            AWSShapeMember(label: "hashKeyType", required: false, type: .enum)
         ]
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String
@@ -3436,54 +3147,40 @@ extension Iot {
             self.hashKeyType = hashKeyType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleArn = dictionary["roleArn"] as? String else { throw InitializableError.missingRequiredParam("roleArn") }
-            self.roleArn = roleArn
-            if let rangeKeyType = dictionary["rangeKeyType"] as? String { self.rangeKeyType = DynamoKeyType(rawValue: rangeKeyType) } else { self.rangeKeyType = nil }
-            self.rangeKeyValue = dictionary["rangeKeyValue"] as? String
-            guard let hashKeyValue = dictionary["hashKeyValue"] as? String else { throw InitializableError.missingRequiredParam("hashKeyValue") }
-            self.hashKeyValue = hashKeyValue
-            self.operation = dictionary["operation"] as? String
-            self.payloadField = dictionary["payloadField"] as? String
-            self.rangeKeyField = dictionary["rangeKeyField"] as? String
-            guard let tableName = dictionary["tableName"] as? String else { throw InitializableError.missingRequiredParam("tableName") }
-            self.tableName = tableName
-            guard let hashKeyField = dictionary["hashKeyField"] as? String else { throw InitializableError.missingRequiredParam("hashKeyField") }
-            self.hashKeyField = hashKeyField
-            if let hashKeyType = dictionary["hashKeyType"] as? String { self.hashKeyType = DynamoKeyType(rawValue: hashKeyType) } else { self.hashKeyType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case rangeKeyType = "rangeKeyType"
+            case rangeKeyValue = "rangeKeyValue"
+            case hashKeyValue = "hashKeyValue"
+            case operation = "operation"
+            case payloadField = "payloadField"
+            case rangeKeyField = "rangeKeyField"
+            case tableName = "tableName"
+            case hashKeyField = "hashKeyField"
+            case hashKeyType = "hashKeyType"
         }
     }
 
     public struct AttachThingPrincipalResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteThingResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeEndpointRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteThingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
-            AWSShapeProperty(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "expectedVersion", location: .querystring(locationName: "expectedVersion"), required: false, type: .long), 
+            AWSShapeMember(label: "thingName", location: .uri(locationName: "thingName"), required: true, type: .string)
         ]
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
         public let expectedVersion: Int64?
@@ -3495,10 +3192,9 @@ extension Iot {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.expectedVersion = dictionary["expectedVersion"] as? Int64
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case expectedVersion = "expectedVersion"
+            case thingName = "thingName"
         }
     }
 

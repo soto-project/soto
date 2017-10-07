@@ -31,10 +31,9 @@ extension Budgets {
 
     public struct DeleteBudgetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let budgetName: String
@@ -44,20 +43,17 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct DescribeBudgetsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Budgets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budgets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let budgets: [Budget]?
         public let nextToken: String?
@@ -67,22 +63,17 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let budgets = dictionary["Budgets"] as? [[String: Any]] {
-                self.budgets = try budgets.map({ try Budget(dictionary: $0) })
-            } else { 
-                self.budgets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case budgets = "Budgets"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeBudgetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let budgetName: String
@@ -92,19 +83,16 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct DescribeBudgetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Budget", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Budget", required: false, type: .structure)
         ]
         public let budget: Budget?
 
@@ -112,18 +100,17 @@ extension Budgets {
             self.budget = budget
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let budget = dictionary["Budget"] as? [String: Any] { self.budget = try Budgets.Budget(dictionary: budget) } else { self.budget = nil }
+        private enum CodingKeys: String, CodingKey {
+            case budget = "Budget"
         }
     }
 
     public struct DeleteNotificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let notification: Notification
@@ -135,22 +122,18 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case notification = "Notification"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct NotificationWithSubscribers: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure)
         ]
         public let subscribers: [Subscriber]
         public let notification: Notification
@@ -160,23 +143,20 @@ extension Budgets {
             self.notification = notification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscribers = dictionary["Subscribers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Subscribers") }
-            self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
+        private enum CodingKeys: String, CodingKey {
+            case subscribers = "Subscribers"
+            case notification = "Notification"
         }
     }
 
     public struct UpdateSubscriberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "OldSubscriber", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
-            AWSShapeProperty(label: "NewSubscriber", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "OldSubscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "NewSubscriber", required: true, type: .structure)
         ]
         public let accountId: String
         public let notification: Notification
@@ -192,29 +172,21 @@ extension Budgets {
             self.newSubscriber = newSubscriber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            guard let oldSubscriber = dictionary["OldSubscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("OldSubscriber") }
-            self.oldSubscriber = try Budgets.Subscriber(dictionary: oldSubscriber)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
-            guard let newSubscriber = dictionary["NewSubscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewSubscriber") }
-            self.newSubscriber = try Budgets.Subscriber(dictionary: newSubscriber)
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case notification = "Notification"
+            case oldSubscriber = "OldSubscriber"
+            case budgetName = "BudgetName"
+            case newSubscriber = "NewSubscriber"
         }
     }
 
     public struct DeleteNotificationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible {
+    public enum SubscriptionType: String, CustomStringConvertible, Codable {
         case sns = "SNS"
         case email = "EMAIL"
         public var description: String { return self.rawValue }
@@ -222,12 +194,11 @@ extension Budgets {
 
     public struct CreateNotificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "Subscribers", required: true, type: .list), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let notification: Notification
@@ -241,32 +212,24 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            guard let subscribers = dictionary["Subscribers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Subscribers") }
-            self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case notification = "Notification"
+            case subscribers = "Subscribers"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct UpdateSubscriberResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notifications", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notifications", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let notifications: [Notification]?
         public let nextToken: String?
@@ -276,24 +239,19 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let notifications = dictionary["Notifications"] as? [[String: Any]] {
-                self.notifications = try notifications.map({ try Notification(dictionary: $0) })
-            } else { 
-                self.notifications = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case notifications = "Notifications"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteSubscriberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let subscriber: Subscriber
@@ -307,33 +265,25 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let subscriber = dictionary["Subscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subscriber") }
-            self.subscriber = try Budgets.Subscriber(dictionary: subscriber)
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case subscriber = "Subscriber"
+            case notification = "Notification"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct CreateBudgetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CostTypes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IncludeSubscription", required: true, type: .boolean), 
-            AWSShapeProperty(label: "UseBlended", required: true, type: .boolean), 
-            AWSShapeProperty(label: "IncludeTax", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IncludeSubscription", required: true, type: .boolean), 
+            AWSShapeMember(label: "UseBlended", required: true, type: .boolean), 
+            AWSShapeMember(label: "IncludeTax", required: true, type: .boolean)
         ]
         public let includeSubscription: Bool
         public let useBlended: Bool
@@ -345,31 +295,24 @@ extension Budgets {
             self.includeTax = includeTax
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let includeSubscription = dictionary["IncludeSubscription"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeSubscription") }
-            self.includeSubscription = includeSubscription
-            guard let useBlended = dictionary["UseBlended"] as? Bool else { throw InitializableError.missingRequiredParam("UseBlended") }
-            self.useBlended = useBlended
-            guard let includeTax = dictionary["IncludeTax"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeTax") }
-            self.includeTax = includeTax
+        private enum CodingKeys: String, CodingKey {
+            case includeSubscription = "IncludeSubscription"
+            case useBlended = "UseBlended"
+            case includeTax = "IncludeTax"
         }
     }
 
     public struct CreateNotificationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeBudgetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let nextToken: String?
@@ -381,29 +324,24 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteBudgetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateBudgetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Budget", required: true, type: .structure), 
-            AWSShapeProperty(label: "NotificationsWithSubscribers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Budget", required: true, type: .structure), 
+            AWSShapeMember(label: "NotificationsWithSubscribers", required: false, type: .list)
         ]
         public let accountId: String
         public let budget: Budget
@@ -415,35 +353,25 @@ extension Budgets {
             self.notificationsWithSubscribers = notificationsWithSubscribers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let budget = dictionary["Budget"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Budget") }
-            self.budget = try Budgets.Budget(dictionary: budget)
-            if let notificationsWithSubscribers = dictionary["NotificationsWithSubscribers"] as? [[String: Any]] {
-                self.notificationsWithSubscribers = try notificationsWithSubscribers.map({ try NotificationWithSubscribers(dictionary: $0) })
-            } else { 
-                self.notificationsWithSubscribers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case budget = "Budget"
+            case notificationsWithSubscribers = "NotificationsWithSubscribers"
         }
     }
 
     public struct DeleteSubscriberResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateNotificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "OldNotification", required: true, type: .structure), 
-            AWSShapeProperty(label: "NewNotification", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "OldNotification", required: true, type: .structure), 
+            AWSShapeMember(label: "NewNotification", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let oldNotification: Notification
@@ -457,35 +385,25 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let oldNotification = dictionary["OldNotification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("OldNotification") }
-            self.oldNotification = try Budgets.Notification(dictionary: oldNotification)
-            guard let newNotification = dictionary["NewNotification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewNotification") }
-            self.newNotification = try Budgets.Notification(dictionary: newNotification)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case oldNotification = "OldNotification"
+            case newNotification = "NewNotification"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct UpdateBudgetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateNotificationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum BudgetType: String, CustomStringConvertible {
+    public enum BudgetType: String, CustomStringConvertible, Codable {
         case usage = "USAGE"
         case cost = "COST"
         public var description: String { return self.rawValue }
@@ -493,13 +411,12 @@ extension Budgets {
 
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let notification: Notification
@@ -515,26 +432,22 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case notification = "Notification"
+            case nextToken = "NextToken"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateSubscriberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "Subscriber", required: true, type: .structure), 
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Subscriber", required: true, type: .structure), 
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
         ]
         public let accountId: String
         public let subscriber: Subscriber
@@ -548,33 +461,25 @@ extension Budgets {
             self.budgetName = budgetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let subscriber = dictionary["Subscriber"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Subscriber") }
-            self.subscriber = try Budgets.Subscriber(dictionary: subscriber)
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try Budgets.Notification(dictionary: notification)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case subscriber = "Subscriber"
+            case notification = "Notification"
+            case budgetName = "BudgetName"
         }
     }
 
     public struct CreateSubscriberResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Notification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "NotificationType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum)
         ]
         public let comparisonOperator: ComparisonOperator
         public let threshold: Double
@@ -586,22 +491,18 @@ extension Budgets {
             self.notificationType = notificationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
-            self.threshold = threshold
-            guard let rawNotificationType = dictionary["NotificationType"] as? String, let notificationType = NotificationType(rawValue: rawNotificationType) else { throw InitializableError.missingRequiredParam("NotificationType") }
-            self.notificationType = notificationType
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case threshold = "Threshold"
+            case notificationType = "NotificationType"
         }
     }
 
     public struct Subscriber: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionType", required: true, type: .enum)
         ]
         public let address: String
         public let subscriptionType: SubscriptionType
@@ -611,22 +512,19 @@ extension Budgets {
             self.subscriptionType = subscriptionType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let address = dictionary["Address"] as? String else { throw InitializableError.missingRequiredParam("Address") }
-            self.address = address
-            guard let rawSubscriptionType = dictionary["SubscriptionType"] as? String, let subscriptionType = SubscriptionType(rawValue: rawSubscriptionType) else { throw InitializableError.missingRequiredParam("SubscriptionType") }
-            self.subscriptionType = subscriptionType
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case subscriptionType = "SubscriptionType"
         }
     }
 
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         public let accountId: String
         public let nextToken: String?
@@ -640,22 +538,19 @@ extension Budgets {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case nextToken = "NextToken"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateBudgetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: true, type: .string), 
-            AWSShapeProperty(label: "NewBudget", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "NewBudget", required: true, type: .structure)
         ]
         public let accountId: String
         public let newBudget: Budget
@@ -665,15 +560,13 @@ extension Budgets {
             self.newBudget = newBudget
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
-            self.accountId = accountId
-            guard let newBudget = dictionary["NewBudget"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NewBudget") }
-            self.newBudget = try Budgets.Budget(dictionary: newBudget)
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case newBudget = "NewBudget"
         }
     }
 
-    public enum TimeUnit: String, CustomStringConvertible {
+    public enum TimeUnit: String, CustomStringConvertible, Codable {
         case monthly = "MONTHLY"
         case quarterly = "QUARTERLY"
         case annually = "ANNUALLY"
@@ -682,16 +575,15 @@ extension Budgets {
 
     public struct Budget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeUnit", required: true, type: .enum), 
-            AWSShapeProperty(label: "BudgetLimit", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetName", required: true, type: .string), 
-            AWSShapeProperty(label: "TimePeriod", required: true, type: .structure), 
-            AWSShapeProperty(label: "BudgetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "CostFilters", required: false, type: .map), 
-            AWSShapeProperty(label: "CalculatedSpend", required: false, type: .structure), 
-            AWSShapeProperty(label: "CostTypes", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeUnit", required: true, type: .enum), 
+            AWSShapeMember(label: "BudgetLimit", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetType", required: true, type: .enum), 
+            AWSShapeMember(label: "CostFilters", required: false, type: .map), 
+            AWSShapeMember(label: "CalculatedSpend", required: false, type: .structure), 
+            AWSShapeMember(label: "CostTypes", required: true, type: .structure)
         ]
         public let timeUnit: TimeUnit
         public let budgetLimit: Spend
@@ -713,62 +605,43 @@ extension Budgets {
             self.costTypes = costTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawTimeUnit = dictionary["TimeUnit"] as? String, let timeUnit = TimeUnit(rawValue: rawTimeUnit) else { throw InitializableError.missingRequiredParam("TimeUnit") }
-            self.timeUnit = timeUnit
-            guard let budgetLimit = dictionary["BudgetLimit"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BudgetLimit") }
-            self.budgetLimit = try Budgets.Spend(dictionary: budgetLimit)
-            guard let budgetName = dictionary["BudgetName"] as? String else { throw InitializableError.missingRequiredParam("BudgetName") }
-            self.budgetName = budgetName
-            guard let timePeriod = dictionary["TimePeriod"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimePeriod") }
-            self.timePeriod = try Budgets.TimePeriod(dictionary: timePeriod)
-            guard let rawBudgetType = dictionary["BudgetType"] as? String, let budgetType = BudgetType(rawValue: rawBudgetType) else { throw InitializableError.missingRequiredParam("BudgetType") }
-            self.budgetType = budgetType
-            if let costFilters = dictionary["CostFilters"] as? [String: Any] {
-                var costFiltersDict: [String: [String]] = [:]
-                for (key, value) in costFilters {
-                    guard let dimensionValues = value as? [String] else { throw InitializableError.convertingError }
-                    costFiltersDict[key] = dimensionValues
-                }
-                self.costFilters = costFiltersDict
-            } else { 
-                self.costFilters = nil
-            }
-            if let calculatedSpend = dictionary["CalculatedSpend"] as? [String: Any] { self.calculatedSpend = try Budgets.CalculatedSpend(dictionary: calculatedSpend) } else { self.calculatedSpend = nil }
-            guard let costTypes = dictionary["CostTypes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CostTypes") }
-            self.costTypes = try Budgets.CostTypes(dictionary: costTypes)
+        private enum CodingKeys: String, CodingKey {
+            case timeUnit = "TimeUnit"
+            case budgetLimit = "BudgetLimit"
+            case budgetName = "BudgetName"
+            case timePeriod = "TimePeriod"
+            case budgetType = "BudgetType"
+            case costFilters = "CostFilters"
+            case calculatedSpend = "CalculatedSpend"
+            case costTypes = "CostTypes"
         }
     }
 
     public struct TimePeriod: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Start", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "End", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Start", required: true, type: .timestamp), 
+            AWSShapeMember(label: "End", required: true, type: .timestamp)
         ]
-        public let start: String
-        public let end: String
+        public let start: Double
+        public let end: Double
 
-        public init(start: String, end: String) {
+        public init(start: Double, end: Double) {
             self.start = start
             self.end = end
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let start = dictionary["Start"] as? String else { throw InitializableError.missingRequiredParam("Start") }
-            self.start = start
-            guard let end = dictionary["End"] as? String else { throw InitializableError.missingRequiredParam("End") }
-            self.end = end
+        private enum CodingKeys: String, CodingKey {
+            case start = "Start"
+            case end = "End"
         }
     }
 
     public struct CalculatedSpend: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ForecastedSpend", required: false, type: .structure), 
-            AWSShapeProperty(label: "ActualSpend", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure), 
+            AWSShapeMember(label: "ActualSpend", required: true, type: .structure)
         ]
         public let forecastedSpend: Spend?
         public let actualSpend: Spend
@@ -778,19 +651,17 @@ extension Budgets {
             self.actualSpend = actualSpend
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let forecastedSpend = dictionary["ForecastedSpend"] as? [String: Any] { self.forecastedSpend = try Budgets.Spend(dictionary: forecastedSpend) } else { self.forecastedSpend = nil }
-            guard let actualSpend = dictionary["ActualSpend"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActualSpend") }
-            self.actualSpend = try Budgets.Spend(dictionary: actualSpend)
+        private enum CodingKeys: String, CodingKey {
+            case forecastedSpend = "ForecastedSpend"
+            case actualSpend = "ActualSpend"
         }
     }
 
     public struct Spend: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Unit", required: true, type: .string), 
-            AWSShapeProperty(label: "Amount", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Unit", required: true, type: .string), 
+            AWSShapeMember(label: "Amount", required: true, type: .string)
         ]
         public let unit: String
         public let amount: String
@@ -800,20 +671,17 @@ extension Budgets {
             self.amount = amount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let unit = dictionary["Unit"] as? String else { throw InitializableError.missingRequiredParam("Unit") }
-            self.unit = unit
-            guard let amount = dictionary["Amount"] as? String else { throw InitializableError.missingRequiredParam("Amount") }
-            self.amount = amount
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case amount = "Amount"
         }
     }
 
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscribers", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscribers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let subscribers: [Subscriber]?
         public let nextToken: String?
@@ -823,24 +691,20 @@ extension Budgets {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subscribers = dictionary["Subscribers"] as? [[String: Any]] {
-                self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
-            } else { 
-                self.subscribers = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscribers = "Subscribers"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greater_than = "GREATER_THAN"
         case less_than = "LESS_THAN"
         case equal_to = "EQUAL_TO"
         public var description: String { return self.rawValue }
     }
 
-    public enum NotificationType: String, CustomStringConvertible {
+    public enum NotificationType: String, CustomStringConvertible, Codable {
         case actual = "ACTUAL"
         case forecasted = "FORECASTED"
         public var description: String { return self.rawValue }

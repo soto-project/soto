@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/noppoMan/aws-sdk-swift-core.git",
         "state": {
           "branch": null,
-          "revision": "14b371ebc51951556540aaaac41b1c01a95990fe",
-          "version": "0.2.5"
+          "revision": "d0b4d8d8422e5623bec79360f292a1722c367e6f",
+          "version": "0.3.0"
         }
       },
       {

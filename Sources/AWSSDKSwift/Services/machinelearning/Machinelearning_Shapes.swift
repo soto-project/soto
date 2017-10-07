@@ -31,13 +31,12 @@ extension Machinelearning {
 
     public struct CreateBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionName", required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string), 
-            AWSShapeProperty(label: "OutputUri", required: true, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionName", required: false, type: .string), 
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string), 
+            AWSShapeMember(label: "OutputUri", required: true, type: .string), 
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
         public let batchPredictionName: String?
@@ -58,28 +57,23 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.batchPredictionName = dictionary["BatchPredictionName"] as? String
-            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
-            self.batchPredictionId = batchPredictionId
-            guard let outputUri = dictionary["OutputUri"] as? String else { throw InitializableError.missingRequiredParam("OutputUri") }
-            self.outputUri = outputUri
-            guard let batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionDataSourceId") }
-            self.batchPredictionDataSourceId = batchPredictionDataSourceId
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionName = "BatchPredictionName"
+            case batchPredictionId = "BatchPredictionId"
+            case outputUri = "OutputUri"
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct CreateDataSourceFromRedshiftInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DataSpec", required: true, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
@@ -100,23 +94,19 @@ extension Machinelearning {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
-            self.dataSourceName = dictionary["DataSourceName"] as? String
-            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
-            guard let dataSpec = dictionary["DataSpec"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DataSpec") }
-            self.dataSpec = try Machinelearning.RedshiftDataSpec(dictionary: dataSpec)
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+            case computeStatistics = "ComputeStatistics"
+            case dataSpec = "DataSpec"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct CreateDataSourceFromS3Output: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -125,19 +115,18 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSourceId = dictionary["DataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct S3DataSpec: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataLocationS3", required: true, type: .string), 
-            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSchemaLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataLocationS3", required: true, type: .string), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "DataSchemaLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string)
         ]
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public let dataLocationS3: String
@@ -155,21 +144,19 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataLocationS3 = dictionary["DataLocationS3"] as? String else { throw InitializableError.missingRequiredParam("DataLocationS3") }
-            self.dataLocationS3 = dataLocationS3
-            self.dataSchema = dictionary["DataSchema"] as? String
-            self.dataSchemaLocationS3 = dictionary["DataSchemaLocationS3"] as? String
-            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataLocationS3 = "DataLocationS3"
+            case dataSchema = "DataSchema"
+            case dataSchemaLocationS3 = "DataSchemaLocationS3"
+            case dataRearrangement = "DataRearrangement"
         }
     }
 
     public struct DescribeDataSourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Results", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
         ]
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -181,21 +168,16 @@ extension Machinelearning {
             self.results = results
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let results = dictionary["Results"] as? [[String: Any]] {
-                self.results = try results.map({ try DataSource(dictionary: $0) })
-            } else { 
-                self.results = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
         }
     }
 
     public struct DeleteBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public let batchPredictionId: String?
@@ -204,17 +186,16 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
     public struct GetMLModelInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
-            AWSShapeProperty(label: "Verbose", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
         /// The ID assigned to the MLModel at creation.
         public let mLModelId: String
@@ -226,20 +207,18 @@ extension Machinelearning {
             self.verbose = verbose
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
-            self.verbose = dictionary["Verbose"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case verbose = "Verbose"
         }
     }
 
     public struct RedshiftMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SelectSqlQuery", required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseUserName", required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftDatabase", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeMember(label: "RedshiftDatabase", required: false, type: .structure)
         ]
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
         public let selectSqlQuery: String?
@@ -252,19 +231,18 @@ extension Machinelearning {
             self.redshiftDatabase = redshiftDatabase
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.selectSqlQuery = dictionary["SelectSqlQuery"] as? String
-            self.databaseUserName = dictionary["DatabaseUserName"] as? String
-            if let redshiftDatabase = dictionary["RedshiftDatabase"] as? [String: Any] { self.redshiftDatabase = try Machinelearning.RedshiftDatabase(dictionary: redshiftDatabase) } else { self.redshiftDatabase = nil }
+        private enum CodingKeys: String, CodingKey {
+            case selectSqlQuery = "SelectSqlQuery"
+            case databaseUserName = "DatabaseUserName"
+            case redshiftDatabase = "RedshiftDatabase"
         }
     }
 
     public struct RDSDatabase: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string)
         ]
         /// The ID of an RDS DB instance.
         public let instanceIdentifier: String
@@ -275,15 +253,13 @@ extension Machinelearning {
             self.databaseName = databaseName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceIdentifier = dictionary["InstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("InstanceIdentifier") }
-            self.instanceIdentifier = instanceIdentifier
-            guard let databaseName = dictionary["DatabaseName"] as? String else { throw InitializableError.missingRequiredParam("DatabaseName") }
-            self.databaseName = databaseName
+        private enum CodingKeys: String, CodingKey {
+            case instanceIdentifier = "InstanceIdentifier"
+            case databaseName = "DatabaseName"
         }
     }
 
-    public enum MLModelFilterVariable: String, CustomStringConvertible {
+    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
         case lastupdatedat = "LastUpdatedAt"
         case status = "Status"
@@ -299,9 +275,8 @@ extension Machinelearning {
 
     public struct DeleteBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public let batchPredictionId: String
@@ -310,13 +285,12 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
-            self.batchPredictionId = batchPredictionId
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
-    public enum EntityStatus: String, CustomStringConvertible {
+    public enum EntityStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case inprogress = "INPROGRESS"
         case failed = "FAILED"
@@ -327,11 +301,10 @@ extension Machinelearning {
 
     public struct UpdateMLModelInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "MLModelName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "MLModelName", required: false, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -346,15 +319,14 @@ extension Machinelearning {
             self.mLModelName = mLModelName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
-            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
-            self.mLModelName = dictionary["MLModelName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case scoreThreshold = "ScoreThreshold"
+            case mLModelName = "MLModelName"
         }
     }
 
-    public enum EvaluationFilterVariable: String, CustomStringConvertible {
+    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
         case lastupdatedat = "LastUpdatedAt"
         case status = "Status"
@@ -368,10 +340,9 @@ extension Machinelearning {
 
     public struct DescribeMLModelsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Results", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -383,22 +354,17 @@ extension Machinelearning {
             self.results = results
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let results = dictionary["Results"] as? [[String: Any]] {
-                self.results = try results.map({ try MLModel(dictionary: $0) })
-            } else { 
-                self.results = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public let value: String?
@@ -410,13 +376,13 @@ extension Machinelearning {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
-    public enum DetailsAttributes: String, CustomStringConvertible {
+    public enum DetailsAttributes: String, CustomStringConvertible, Codable {
         case predictivemodeltype = "PredictiveModelType"
         case algorithm = "Algorithm"
         public var description: String { return self.rawValue }
@@ -424,12 +390,11 @@ extension Machinelearning {
 
     public struct CreateEvaluationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationName", required: false, type: .string), 
-            AWSShapeProperty(label: "EvaluationId", required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationName", required: false, type: .string), 
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationDataSourceId", required: true, type: .string)
         ]
         /// A user-supplied name or description of the Evaluation.
         public let evaluationName: String?
@@ -447,56 +412,51 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.evaluationName = dictionary["EvaluationName"] as? String
-            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
-            self.evaluationId = evaluationId
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
-            guard let evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationDataSourceId") }
-            self.evaluationDataSourceId = evaluationDataSourceId
+        private enum CodingKeys: String, CodingKey {
+            case evaluationName = "EvaluationName"
+            case evaluationId = "EvaluationId"
+            case mLModelId = "MLModelId"
+            case evaluationDataSourceId = "EvaluationDataSourceId"
         }
     }
 
     public struct RealtimeEndpointInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PeakRequestsPerSecond", required: false, type: .integer), 
-            AWSShapeProperty(label: "EndpointUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndpointStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PeakRequestsPerSecond", required: false, type: .integer), 
+            AWSShapeMember(label: "EndpointUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndpointStatus", required: false, type: .enum)
         ]
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public let peakRequestsPerSecond: Int32?
         /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
         public let endpointUrl: String?
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         ///  The current status of the real-time endpoint for the MLModel. This element can have one of the following values:    NONE - Endpoint does not exist or was previously deleted.  READY - Endpoint is ready to be used for real-time predictions.  UPDATING - Updating/creating the endpoint.  
         public let endpointStatus: RealtimeEndpointStatus?
 
-        public init(peakRequestsPerSecond: Int32? = nil, endpointUrl: String? = nil, createdAt: String? = nil, endpointStatus: RealtimeEndpointStatus? = nil) {
+        public init(peakRequestsPerSecond: Int32? = nil, endpointUrl: String? = nil, createdAt: Double? = nil, endpointStatus: RealtimeEndpointStatus? = nil) {
             self.peakRequestsPerSecond = peakRequestsPerSecond
             self.endpointUrl = endpointUrl
             self.createdAt = createdAt
             self.endpointStatus = endpointStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.peakRequestsPerSecond = dictionary["PeakRequestsPerSecond"] as? Int32
-            self.endpointUrl = dictionary["EndpointUrl"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let endpointStatus = dictionary["EndpointStatus"] as? String { self.endpointStatus = RealtimeEndpointStatus(rawValue: endpointStatus) } else { self.endpointStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case peakRequestsPerSecond = "PeakRequestsPerSecond"
+            case endpointUrl = "EndpointUrl"
+            case createdAt = "CreatedAt"
+            case endpointStatus = "EndpointStatus"
         }
     }
 
     public struct DescribeBatchPredictionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Results", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -508,17 +468,13 @@ extension Machinelearning {
             self.results = results
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let results = dictionary["Results"] as? [[String: Any]] {
-                self.results = try results.map({ try BatchPrediction(dictionary: $0) })
-            } else { 
-                self.results = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible {
+    public enum SortOrder: String, CustomStringConvertible, Codable {
         case asc = "asc"
         case dsc = "dsc"
         public var description: String { return self.rawValue }
@@ -526,28 +482,27 @@ extension Machinelearning {
 
     public struct GetDataSourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfFiles", required: false, type: .long), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceSchema", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "RDSMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceSchema", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// The total size of observations in the data files.
         public let dataSizeInBytes: Int64?
@@ -562,17 +517,17 @@ extension Machinelearning {
         public let createdByIamUser: String?
         public let rDSMetadata: RDSMetadata?
         /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
         public let computeTime: Int64?
         /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
         public let dataRearrangement: String?
         /// The ID assigned to the DataSource at creation. This value should be identical to the value of the DataSourceId in the request.
         public let dataSourceId: String?
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let dataLocationS3: String?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon ML submitted a request to create a DataSource.  INPROGRESS - The creation process is underway.  FAILED - The request to create a DataSource did not run to completion. It is not usable.  COMPLETED - The creation process completed successfully.  DELETED - The DataSource is marked as deleted. It is not usable. 
@@ -583,11 +538,11 @@ extension Machinelearning {
         /// A link to the file containing logs of CreateDataSourceFrom* operations.
         public let logUri: String?
         /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
-        public let startedAt: String?
+        public let startedAt: Double?
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, dataSourceSchema: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: String? = nil, computeTime: Int64? = nil, lastUpdatedAt: String? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: String? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: String? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, dataSourceSchema: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, finishedAt: Double? = nil, computeTime: Int64? = nil, lastUpdatedAt: Double? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Double? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, logUri: String? = nil, startedAt: Double? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
@@ -610,37 +565,36 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSizeInBytes = dictionary["DataSizeInBytes"] as? Int64
-            self.message = dictionary["Message"] as? String
-            self.numberOfFiles = dictionary["NumberOfFiles"] as? Int64
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.dataSourceSchema = dictionary["DataSourceSchema"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            if let rDSMetadata = dictionary["RDSMetadata"] as? [String: Any] { self.rDSMetadata = try Machinelearning.RDSMetadata(dictionary: rDSMetadata) } else { self.rDSMetadata = nil }
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.dataRearrangement = dictionary["DataRearrangement"] as? String
-            self.dataSourceId = dictionary["DataSourceId"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.dataLocationS3 = dictionary["DataLocationS3"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) } else { self.redshiftMetadata = nil }
-            self.logUri = dictionary["LogUri"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case dataSizeInBytes = "DataSizeInBytes"
+            case message = "Message"
+            case numberOfFiles = "NumberOfFiles"
+            case roleARN = "RoleARN"
+            case dataSourceSchema = "DataSourceSchema"
+            case createdByIamUser = "CreatedByIamUser"
+            case rDSMetadata = "RDSMetadata"
+            case finishedAt = "FinishedAt"
+            case computeTime = "ComputeTime"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case dataRearrangement = "DataRearrangement"
+            case dataSourceId = "DataSourceId"
+            case createdAt = "CreatedAt"
+            case dataLocationS3 = "DataLocationS3"
+            case status = "Status"
+            case name = "Name"
+            case redshiftMetadata = "RedshiftMetadata"
+            case logUri = "LogUri"
+            case startedAt = "StartedAt"
+            case computeStatistics = "ComputeStatistics"
         }
     }
 
     public struct PredictInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
-            AWSShapeProperty(label: "PredictEndpoint", required: true, type: .string), 
-            AWSShapeProperty(label: "Record", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "PredictEndpoint", required: true, type: .string), 
+            AWSShapeMember(label: "Record", required: true, type: .map)
         ]
         /// A unique identifier of the MLModel.
         public let mLModelId: String
@@ -653,22 +607,18 @@ extension Machinelearning {
             self.record = record
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
-            guard let predictEndpoint = dictionary["PredictEndpoint"] as? String else { throw InitializableError.missingRequiredParam("PredictEndpoint") }
-            self.predictEndpoint = predictEndpoint
-            guard let record = dictionary["Record"] as? [String: String] else { throw InitializableError.missingRequiredParam("Record") }
-            self.record = record
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case predictEndpoint = "PredictEndpoint"
+            case record = "Record"
         }
     }
 
     public struct DeleteRealtimeEndpointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "RealtimeEndpointInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -680,18 +630,17 @@ extension Machinelearning {
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mLModelId = dictionary["MLModelId"] as? String
-            if let realtimeEndpointInfo = dictionary["RealtimeEndpointInfo"] as? [String: Any] { self.realtimeEndpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: realtimeEndpointInfo) } else { self.realtimeEndpointInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case realtimeEndpointInfo = "RealtimeEndpointInfo"
         }
     }
 
     public struct DescribeEvaluationsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Results", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
         ]
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public let nextToken: String?
@@ -703,31 +652,26 @@ extension Machinelearning {
             self.results = results
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let results = dictionary["Results"] as? [[String: Any]] {
-                self.results = try results.map({ try Evaluation(dictionary: $0) })
-            } else { 
-                self.results = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
         }
     }
 
     public struct RDSDataSpec: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSchemaUri", required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseCredentials", required: true, type: .structure), 
-            AWSShapeProperty(label: "S3StagingLocation", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseInformation", required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetId", required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: true, type: .list), 
-            AWSShapeProperty(label: "SelectSqlQuery", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceRole", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetId", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: true, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string)
         ]
         /// The Amazon S3 location of the DataSchema. 
         public let dataSchemaUri: String?
@@ -766,37 +710,28 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSchemaUri = dictionary["DataSchemaUri"] as? String
-            guard let databaseCredentials = dictionary["DatabaseCredentials"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseCredentials") }
-            self.databaseCredentials = try Machinelearning.RDSDatabaseCredentials(dictionary: databaseCredentials)
-            guard let s3StagingLocation = dictionary["S3StagingLocation"] as? String else { throw InitializableError.missingRequiredParam("S3StagingLocation") }
-            self.s3StagingLocation = s3StagingLocation
-            guard let resourceRole = dictionary["ResourceRole"] as? String else { throw InitializableError.missingRequiredParam("ResourceRole") }
-            self.resourceRole = resourceRole
-            guard let databaseInformation = dictionary["DatabaseInformation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseInformation") }
-            self.databaseInformation = try Machinelearning.RDSDatabase(dictionary: databaseInformation)
-            self.dataSchema = dictionary["DataSchema"] as? String
-            guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
-            self.subnetId = subnetId
-            guard let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("SecurityGroupIds") }
-            self.securityGroupIds = securityGroupIds
-            guard let selectSqlQuery = dictionary["SelectSqlQuery"] as? String else { throw InitializableError.missingRequiredParam("SelectSqlQuery") }
-            self.selectSqlQuery = selectSqlQuery
-            guard let serviceRole = dictionary["ServiceRole"] as? String else { throw InitializableError.missingRequiredParam("ServiceRole") }
-            self.serviceRole = serviceRole
-            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSchemaUri = "DataSchemaUri"
+            case databaseCredentials = "DatabaseCredentials"
+            case s3StagingLocation = "S3StagingLocation"
+            case resourceRole = "ResourceRole"
+            case databaseInformation = "DatabaseInformation"
+            case dataSchema = "DataSchema"
+            case subnetId = "SubnetId"
+            case securityGroupIds = "SecurityGroupIds"
+            case selectSqlQuery = "SelectSqlQuery"
+            case serviceRole = "ServiceRole"
+            case dataRearrangement = "DataRearrangement"
         }
     }
 
     public struct Prediction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .map), 
-            AWSShapeProperty(label: "predictedScores", required: false, type: .map), 
-            AWSShapeProperty(label: "predictedLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "predictedValue", required: false, type: .float)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .map), 
+            AWSShapeMember(label: "predictedScores", required: false, type: .map), 
+            AWSShapeMember(label: "predictedLabel", required: false, type: .string), 
+            AWSShapeMember(label: "predictedValue", required: false, type: .float)
         ]
         public let details: [DetailsAttributes: String]?
         public let predictedScores: [String: Float]?
@@ -812,27 +747,18 @@ extension Machinelearning {
             self.predictedValue = predictedValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let details = dictionary["details"] as? [DetailsAttributes: String] {
-                self.details = details
-            } else { 
-                self.details = nil
-            }
-            if let predictedScores = dictionary["predictedScores"] as? [String: Float] {
-                self.predictedScores = predictedScores
-            } else { 
-                self.predictedScores = nil
-            }
-            self.predictedLabel = dictionary["predictedLabel"] as? String
-            self.predictedValue = dictionary["predictedValue"] as? Float
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case predictedScores = "predictedScores"
+            case predictedLabel = "predictedLabel"
+            case predictedValue = "predictedValue"
         }
     }
 
     public struct DeleteMLModelInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel.
         public let mLModelId: String
@@ -841,22 +767,20 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
-    public enum Algorithm: String, CustomStringConvertible {
+    public enum Algorithm: String, CustomStringConvertible, Codable {
         case sgd = "sgd"
         public var description: String { return self.rawValue }
     }
 
     public struct GetBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// An ID assigned to the BatchPrediction at creation.
         public let batchPredictionId: String
@@ -865,21 +789,19 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
-            self.batchPredictionId = batchPredictionId
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
     public struct CreateDataSourceFromRDSInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "RDSData", required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "RDSData", required: true, type: .structure), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
         public let dataSourceId: String
@@ -900,29 +822,25 @@ extension Machinelearning {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
-            guard let rDSData = dictionary["RDSData"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RDSData") }
-            self.rDSData = try Machinelearning.RDSDataSpec(dictionary: rDSData)
-            self.dataSourceName = dictionary["DataSourceName"] as? String
-            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case rDSData = "RDSData"
+            case dataSourceName = "DataSourceName"
+            case computeStatistics = "ComputeStatistics"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct RedshiftDataSpec: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSchemaUri", required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseCredentials", required: true, type: .structure), 
-            AWSShapeProperty(label: "S3StagingLocation", required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseInformation", required: true, type: .structure), 
-            AWSShapeProperty(label: "DataSchema", required: false, type: .string), 
-            AWSShapeProperty(label: "SelectSqlQuery", required: true, type: .string), 
-            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSchemaUri", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseCredentials", required: true, type: .structure), 
+            AWSShapeMember(label: "S3StagingLocation", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseInformation", required: true, type: .structure), 
+            AWSShapeMember(label: "DataSchema", required: false, type: .string), 
+            AWSShapeMember(label: "SelectSqlQuery", required: true, type: .string), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string)
         ]
         /// Describes the schema location for an Amazon Redshift DataSource.
         public let dataSchemaUri: String?
@@ -949,39 +867,34 @@ extension Machinelearning {
             self.dataRearrangement = dataRearrangement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSchemaUri = dictionary["DataSchemaUri"] as? String
-            guard let databaseCredentials = dictionary["DatabaseCredentials"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseCredentials") }
-            self.databaseCredentials = try Machinelearning.RedshiftDatabaseCredentials(dictionary: databaseCredentials)
-            guard let s3StagingLocation = dictionary["S3StagingLocation"] as? String else { throw InitializableError.missingRequiredParam("S3StagingLocation") }
-            self.s3StagingLocation = s3StagingLocation
-            guard let databaseInformation = dictionary["DatabaseInformation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DatabaseInformation") }
-            self.databaseInformation = try Machinelearning.RedshiftDatabase(dictionary: databaseInformation)
-            self.dataSchema = dictionary["DataSchema"] as? String
-            guard let selectSqlQuery = dictionary["SelectSqlQuery"] as? String else { throw InitializableError.missingRequiredParam("SelectSqlQuery") }
-            self.selectSqlQuery = selectSqlQuery
-            self.dataRearrangement = dictionary["DataRearrangement"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSchemaUri = "DataSchemaUri"
+            case databaseCredentials = "DatabaseCredentials"
+            case s3StagingLocation = "S3StagingLocation"
+            case databaseInformation = "DatabaseInformation"
+            case dataSchema = "DataSchema"
+            case selectSqlQuery = "SelectSqlQuery"
+            case dataRearrangement = "DataRearrangement"
         }
     }
 
     public struct Evaluation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PerformanceMetrics", required: false, type: .structure), 
-            AWSShapeProperty(label: "EvaluationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string)
         ]
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public let performanceMetrics: PerformanceMetrics?
@@ -994,22 +907,22 @@ extension Machinelearning {
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public let createdByIamUser: String?
         public let computeTime: Int64?
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
         public let inputDataLocationS3: String?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
         public let status: EntityStatus?
         /// A user-supplied name or description of the Evaluation. 
         public let name: String?
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The ID of the DataSource that is used to evaluate the MLModel.
         public let evaluationDataSourceId: String?
 
-        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, inputDataLocationS3: String? = nil, createdAt: String? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: String? = nil, evaluationDataSourceId: String? = nil) {
+        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, inputDataLocationS3: String? = nil, createdAt: Double? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: Double? = nil, evaluationDataSourceId: String? = nil) {
             self.performanceMetrics = performanceMetrics
             self.evaluationId = evaluationId
             self.message = message
@@ -1026,29 +939,28 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let performanceMetrics = dictionary["PerformanceMetrics"] as? [String: Any] { self.performanceMetrics = try Machinelearning.PerformanceMetrics(dictionary: performanceMetrics) } else { self.performanceMetrics = nil }
-            self.evaluationId = dictionary["EvaluationId"] as? String
-            self.message = dictionary["Message"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case performanceMetrics = "PerformanceMetrics"
+            case evaluationId = "EvaluationId"
+            case message = "Message"
+            case mLModelId = "MLModelId"
+            case createdByIamUser = "CreatedByIamUser"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case name = "Name"
+            case startedAt = "StartedAt"
+            case evaluationDataSourceId = "EvaluationDataSourceId"
         }
     }
 
     public struct CreateDataSourceFromRedshiftOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -1057,21 +969,20 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSourceId = dictionary["DataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct RDSMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DatabaseUserName", required: false, type: .string), 
-            AWSShapeProperty(label: "DataPipelineId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "Database", required: false, type: .structure), 
-            AWSShapeProperty(label: "SelectSqlQuery", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DatabaseUserName", required: false, type: .string), 
+            AWSShapeMember(label: "DataPipelineId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRole", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Database", required: false, type: .structure), 
+            AWSShapeMember(label: "SelectSqlQuery", required: false, type: .string)
         ]
         public let databaseUserName: String?
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
@@ -1094,23 +1005,22 @@ extension Machinelearning {
             self.selectSqlQuery = selectSqlQuery
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.databaseUserName = dictionary["DatabaseUserName"] as? String
-            self.dataPipelineId = dictionary["DataPipelineId"] as? String
-            self.resourceRole = dictionary["ResourceRole"] as? String
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            if let database = dictionary["Database"] as? [String: Any] { self.database = try Machinelearning.RDSDatabase(dictionary: database) } else { self.database = nil }
-            self.selectSqlQuery = dictionary["SelectSqlQuery"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case databaseUserName = "DatabaseUserName"
+            case dataPipelineId = "DataPipelineId"
+            case resourceRole = "ResourceRole"
+            case serviceRole = "ServiceRole"
+            case database = "Database"
+            case selectSqlQuery = "SelectSqlQuery"
         }
     }
 
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the tagged ML object.
         public let resourceId: String?
@@ -1125,22 +1035,17 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct CreateEvaluationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
@@ -1149,17 +1054,16 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.evaluationId = dictionary["EvaluationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the ML object that was tagged.
         public let resourceId: String?
@@ -1171,17 +1075,16 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct DeleteDataSourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource.
         public let dataSourceId: String
@@ -1190,18 +1093,16 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct UpdateDataSourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: true, type: .string)
         ]
         /// The ID assigned to the DataSource during creation.
         public let dataSourceId: String
@@ -1213,35 +1114,32 @@ extension Machinelearning {
             self.dataSourceName = dataSourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
-            guard let dataSourceName = dictionary["DataSourceName"] as? String else { throw InitializableError.missingRequiredParam("DataSourceName") }
-            self.dataSourceName = dataSourceName
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
         }
     }
 
     public struct GetBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalRecordCount", required: false, type: .long), 
-            AWSShapeProperty(label: "InvalidRecordCount", required: false, type: .long), 
-            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutputUri", required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long), 
+            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string)
         ]
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
@@ -1258,13 +1156,13 @@ extension Machinelearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
         public let computeTime: Int64?
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time when the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The status of the BatchPrediction, which can be one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.  INPROGRESS - The batch predictions are in progress.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
         public let status: EntityStatus?
         /// A user-supplied name or description of the BatchPrediction.
@@ -1272,13 +1170,13 @@ extension Machinelearning {
         /// A link to the file that contains logs of the CreateBatchPrediction operation.
         public let logUri: String?
         /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The location of an Amazon S3 bucket or directory to receive the operation results.
         public let outputUri: String?
         /// The ID of the DataSource that was used to create the BatchPrediction. 
         public let batchPredictionDataSourceId: String?
 
-        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, inputDataLocationS3: String? = nil, createdAt: String? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: String? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, inputDataLocationS3: String? = nil, createdAt: Double? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: Double? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
             self.createdByIamUser = createdByIamUser
@@ -1298,33 +1196,32 @@ extension Machinelearning {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            self.totalRecordCount = dictionary["TotalRecordCount"] as? Int64
-            self.invalidRecordCount = dictionary["InvalidRecordCount"] as? Int64
-            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.logUri = dictionary["LogUri"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.outputUri = dictionary["OutputUri"] as? String
-            self.batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case mLModelId = "MLModelId"
+            case createdByIamUser = "CreatedByIamUser"
+            case totalRecordCount = "TotalRecordCount"
+            case invalidRecordCount = "InvalidRecordCount"
+            case batchPredictionId = "BatchPredictionId"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case name = "Name"
+            case logUri = "LogUri"
+            case startedAt = "StartedAt"
+            case outputUri = "OutputUri"
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
         }
     }
 
     public struct UpdateBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionName", required: true, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionName", required: true, type: .string), 
+            AWSShapeMember(label: "BatchPredictionId", required: true, type: .string)
         ]
         /// A new user-supplied name or description of the BatchPrediction.
         public let batchPredictionName: String
@@ -1336,20 +1233,17 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let batchPredictionName = dictionary["BatchPredictionName"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionName") }
-            self.batchPredictionName = batchPredictionName
-            guard let batchPredictionId = dictionary["BatchPredictionId"] as? String else { throw InitializableError.missingRequiredParam("BatchPredictionId") }
-            self.batchPredictionId = batchPredictionId
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionName = "BatchPredictionName"
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
     public struct RedshiftDatabaseCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "Username", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
         public let password: String
         public let username: String
@@ -1359,15 +1253,13 @@ extension Machinelearning {
             self.username = username
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
-            self.username = username
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
         }
     }
 
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible {
+    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
         case lastupdatedat = "LastUpdatedAt"
         case status = "Status"
@@ -1381,9 +1273,8 @@ extension Machinelearning {
 
     public struct UpdateEvaluationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
         public let evaluationId: String?
@@ -1392,17 +1283,16 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.evaluationId = dictionary["EvaluationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 
     public struct UpdateEvaluationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationName", required: true, type: .string), 
-            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationName", required: true, type: .string), 
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
         /// A new user-supplied name or description of the Evaluation that will replace the current content. 
         public let evaluationName: String
@@ -1414,19 +1304,16 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let evaluationName = dictionary["EvaluationName"] as? String else { throw InitializableError.missingRequiredParam("EvaluationName") }
-            self.evaluationName = evaluationName
-            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
-            self.evaluationId = evaluationId
+        private enum CodingKeys: String, CodingKey {
+            case evaluationName = "EvaluationName"
+            case evaluationId = "EvaluationId"
         }
     }
 
     public struct CreateBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -1435,26 +1322,25 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
     public struct DescribeEvaluationsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", required: false, type: .string), 
-            AWSShapeProperty(label: "GT", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "LE", required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GE", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -1493,26 +1379,25 @@ extension Machinelearning {
             self.gE = gE
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nE = dictionary["NE"] as? String
-            self.eQ = dictionary["EQ"] as? String
-            self.gT = dictionary["GT"] as? String
-            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = EvaluationFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
-            self.lT = dictionary["LT"] as? String
-            self.prefix = dictionary["Prefix"] as? String
-            self.lE = dictionary["LE"] as? String
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.gE = dictionary["GE"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nE = "NE"
+            case eQ = "EQ"
+            case gT = "GT"
+            case filterVariable = "FilterVariable"
+            case lT = "LT"
+            case prefix = "Prefix"
+            case lE = "LE"
+            case sortOrder = "SortOrder"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case gE = "GE"
         }
     }
 
     public struct CreateMLModelOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
         public let mLModelId: String?
@@ -1521,17 +1406,16 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mLModelId = dictionary["MLModelId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct RedshiftDatabase: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string)
         ]
         public let clusterIdentifier: String
         public let databaseName: String
@@ -1541,19 +1425,16 @@ extension Machinelearning {
             self.databaseName = databaseName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
-            self.clusterIdentifier = clusterIdentifier
-            guard let databaseName = dictionary["DatabaseName"] as? String else { throw InitializableError.missingRequiredParam("DatabaseName") }
-            self.databaseName = databaseName
+        private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case databaseName = "DatabaseName"
         }
     }
 
     public struct UpdateMLModelOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
@@ -1562,31 +1443,30 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mLModelId = dictionary["MLModelId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct BatchPrediction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalRecordCount", required: false, type: .long), 
-            AWSShapeProperty(label: "InvalidRecordCount", required: false, type: .long), 
-            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutputUri", required: false, type: .string), 
-            AWSShapeProperty(label: "BatchPredictionDataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "TotalRecordCount", required: false, type: .long), 
+            AWSShapeMember(label: "InvalidRecordCount", required: false, type: .long), 
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OutputUri", required: false, type: .string), 
+            AWSShapeMember(label: "BatchPredictionDataSourceId", required: false, type: .string)
         ]
         /// A description of the most recent details about processing the batch prediction request.
         public let message: String?
@@ -1599,24 +1479,24 @@ extension Machinelearning {
         /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request. 
         public let batchPredictionId: String?
         public let computeTime: Int64?
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time that the BatchPrediction was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The status of the BatchPrediction. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.  INPROGRESS - The process is underway.  FAILED - The request to perform a batch prediction did not run to completion. It is not usable.  COMPLETED - The batch prediction process completed successfully.  DELETED - The BatchPrediction is marked as deleted. It is not usable. 
         public let status: EntityStatus?
         /// A user-supplied name or description of the BatchPrediction.
         public let name: String?
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
         public let outputUri: String?
         /// The ID of the DataSource that points to the group of observations to predict.
         public let batchPredictionDataSourceId: String?
 
-        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, inputDataLocationS3: String? = nil, createdAt: String? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: String? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
+        public init(message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, totalRecordCount: Int64? = nil, invalidRecordCount: Int64? = nil, batchPredictionId: String? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, inputDataLocationS3: String? = nil, createdAt: Double? = nil, status: EntityStatus? = nil, name: String? = nil, startedAt: Double? = nil, outputUri: String? = nil, batchPredictionDataSourceId: String? = nil) {
             self.message = message
             self.mLModelId = mLModelId
             self.createdByIamUser = createdByIamUser
@@ -1635,34 +1515,33 @@ extension Machinelearning {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            self.totalRecordCount = dictionary["TotalRecordCount"] as? Int64
-            self.invalidRecordCount = dictionary["InvalidRecordCount"] as? Int64
-            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.outputUri = dictionary["OutputUri"] as? String
-            self.batchPredictionDataSourceId = dictionary["BatchPredictionDataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case mLModelId = "MLModelId"
+            case createdByIamUser = "CreatedByIamUser"
+            case totalRecordCount = "TotalRecordCount"
+            case invalidRecordCount = "InvalidRecordCount"
+            case batchPredictionId = "BatchPredictionId"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case name = "Name"
+            case startedAt = "StartedAt"
+            case outputUri = "OutputUri"
+            case batchPredictionDataSourceId = "BatchPredictionDataSourceId"
         }
     }
 
     public struct CreateDataSourceFromS3Input: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DataSourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSpec", required: true, type: .structure), 
-            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "DataSourceName", required: false, type: .string), 
+            AWSShapeMember(label: "DataSpec", required: true, type: .structure), 
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// A user-supplied identifier that uniquely identifies the DataSource. 
         public let dataSourceId: String
@@ -1680,21 +1559,18 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
-            self.dataSourceName = dictionary["DataSourceName"] as? String
-            guard let dataSpec = dictionary["DataSpec"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DataSpec") }
-            self.dataSpec = try Machinelearning.S3DataSpec(dictionary: dataSpec)
-            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case dataSourceName = "DataSourceName"
+            case dataSpec = "DataSpec"
+            case computeStatistics = "ComputeStatistics"
         }
     }
 
     public struct GetEvaluationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
         public let evaluationId: String
@@ -1703,18 +1579,16 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
-            self.evaluationId = evaluationId
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 
     public struct RDSDatabaseCredentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "Username", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Username", required: true, type: .string)
         ]
         public let password: String
         public let username: String
@@ -1724,19 +1598,16 @@ extension Machinelearning {
             self.username = username
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
-            self.username = username
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
         }
     }
 
     public struct DeleteRealtimeEndpointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -1745,17 +1616,15 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct CreateRealtimeEndpointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: true, type: .string)
         ]
         /// The ID assigned to the MLModel during creation.
         public let mLModelId: String
@@ -1764,17 +1633,15 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct DeleteDataSourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -1783,39 +1650,38 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSourceId = dictionary["DataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct GetMLModelOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "Recipe", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "Schema", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", required: false, type: .enum), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrainingParameters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "Recipe", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "Schema", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: String?
+        public let scoreThresholdLastUpdatedAt: Double?
         /// A description of the most recent details about accessing the MLModel.
         public let message: String?
         /// The ID of the training DataSource.
@@ -1833,15 +1699,15 @@ extension Machinelearning {
         /// Identifies the MLModel category. The following are the available types:   REGRESSION -- Produces a numeric result. For example, "What price should a house be listed at?" BINARY -- Produces one of two possible results. For example, "Is this an e-commerce website?" MULTICLASS -- Produces one of several possible results. For example, "Is this a HIGH, LOW or MEDIUM risk trade?" 
         public let mLModelType: MLModelType?
         /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
         public let computeTime: Int64?
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The current status of the MLModel. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.  INPROGRESS - The request is processing.  FAILED - The request did not run to completion. The ML model isn't usable.  COMPLETED - The request completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
         public let status: EntityStatus?
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// A user-supplied name or description of the MLModel.
@@ -1852,11 +1718,11 @@ extension Machinelearning {
         /// A link to the file that contains logs of the CreateMLModel operation.
         public let logUri: String?
         /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
-        public let startedAt: String?
+        public let startedAt: Double?
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none. We strongly recommend that you shuffle your data.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to zero, resulting in a sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm. It controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
         public let trainingParameters: [String: String]?
 
-        public init(scoreThresholdLastUpdatedAt: String? = nil, message: String? = nil, trainingDataSourceId: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: MLModelType? = nil, finishedAt: String? = nil, computeTime: Int64? = nil, lastUpdatedAt: String? = nil, status: EntityStatus? = nil, createdAt: String? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(scoreThresholdLastUpdatedAt: Double? = nil, message: String? = nil, trainingDataSourceId: String? = nil, mLModelId: String? = nil, recipe: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, createdByIamUser: String? = nil, schema: String? = nil, mLModelType: MLModelType? = nil, finishedAt: Double? = nil, computeTime: Int64? = nil, lastUpdatedAt: Double? = nil, status: EntityStatus? = nil, createdAt: Double? = nil, inputDataLocationS3: String? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, logUri: String? = nil, startedAt: Double? = nil, trainingParameters: [String: String]? = nil) {
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
             self.message = message
             self.trainingDataSourceId = trainingDataSourceId
@@ -1880,40 +1746,35 @@ extension Machinelearning {
             self.trainingParameters = trainingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.scoreThresholdLastUpdatedAt = dictionary["ScoreThresholdLastUpdatedAt"] as? String
-            self.message = dictionary["Message"] as? String
-            self.trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.recipe = dictionary["Recipe"] as? String
-            if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) } else { self.endpointInfo = nil }
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            self.schema = dictionary["Schema"] as? String
-            if let mLModelType = dictionary["MLModelType"] as? String { self.mLModelType = MLModelType(rawValue: mLModelType) } else { self.mLModelType = nil }
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.name = dictionary["Name"] as? String
-            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
-            self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
-            self.logUri = dictionary["LogUri"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            if let trainingParameters = dictionary["TrainingParameters"] as? [String: String] {
-                self.trainingParameters = trainingParameters
-            } else { 
-                self.trainingParameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
+            case message = "Message"
+            case trainingDataSourceId = "TrainingDataSourceId"
+            case mLModelId = "MLModelId"
+            case recipe = "Recipe"
+            case endpointInfo = "EndpointInfo"
+            case createdByIamUser = "CreatedByIamUser"
+            case schema = "Schema"
+            case mLModelType = "MLModelType"
+            case finishedAt = "FinishedAt"
+            case computeTime = "ComputeTime"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case status = "Status"
+            case createdAt = "CreatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case name = "Name"
+            case scoreThreshold = "ScoreThreshold"
+            case sizeInBytes = "SizeInBytes"
+            case logUri = "LogUri"
+            case startedAt = "StartedAt"
+            case trainingParameters = "TrainingParameters"
         }
     }
 
     public struct UpdateDataSourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
         public let dataSourceId: String?
@@ -1922,17 +1783,16 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSourceId = dictionary["DataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
         /// The ID of the ML object. For example, exampleModelId. 
         public let resourceId: String
@@ -1944,19 +1804,16 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct DeleteEvaluationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: true, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public let evaluationId: String
@@ -1965,40 +1822,38 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let evaluationId = dictionary["EvaluationId"] as? String else { throw InitializableError.missingRequiredParam("EvaluationId") }
-            self.evaluationId = evaluationId
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 
     public struct MLModel: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Algorithm", required: false, type: .enum), 
-            AWSShapeProperty(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "ScoreThreshold", required: false, type: .float), 
-            AWSShapeProperty(label: "SizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrainingParameters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Algorithm", required: false, type: .enum), 
+            AWSShapeMember(label: "ScoreThresholdLastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ScoreThreshold", required: false, type: .float), 
+            AWSShapeMember(label: "SizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrainingParameters", required: false, type: .map)
         ]
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
         public let algorithm: Algorithm?
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public let scoreThresholdLastUpdatedAt: String?
+        public let scoreThresholdLastUpdatedAt: Double?
         /// A description of the most recent details about accessing the MLModel.
         public let message: String?
         /// The ID assigned to the MLModel at creation.
@@ -2012,24 +1867,24 @@ extension Machinelearning {
         /// The current endpoint of the MLModel.
         public let endpointInfo: RealtimeEndpointInfo?
         public let computeTime: Int64?
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The current status of an MLModel. This element can have one of the following values:    PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.  INPROGRESS - The creation process is underway.  FAILED - The request to create an MLModel didn't run to completion. The model isn't usable.  COMPLETED - The creation process completed successfully.  DELETED - The MLModel is marked as deleted. It isn't usable. 
         public let status: EntityStatus?
         /// A user-supplied name or description of the MLModel.
         public let name: String?
         public let scoreThreshold: Float?
         public let sizeInBytes: Int64?
-        public let startedAt: String?
+        public let startedAt: Double?
         /// A list of the training parameters in the MLModel. The list is implemented as a map of key-value pairs. The following is the current set of training parameters:    sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance.  The value is an integer that ranges from 100000 to 2147483648. The default value is 33554432.  sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel. The value is an integer that ranges from 1 to 10000. The default value is 10. sgd.shuffleType - Whether Amazon ML shuffles the training data. Shuffling the data improves a model's ability to find the optimal solution for a variety of data types. The valid values are auto and none. The default value is none.  sgd.l1RegularizationAmount - The coefficient regularization L1 norm, which controls overfitting the data by penalizing large coefficients. This parameter tends to drive coefficients to zero, resulting in sparse feature set. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L1 normalization. This parameter can't be used when L2 is specified. Use this parameter sparingly.   sgd.l2RegularizationAmount - The coefficient regularization L2 norm, which controls overfitting the data by penalizing large coefficients. This tends to drive coefficients to small, nonzero values. If you use this parameter, start by specifying a small value, such as 1.0E-08. The value is a double that ranges from 0 to MAX_DOUBLE. The default is to not use L2 normalization. This parameter can't be used when L1 is specified. Use this parameter sparingly.  
         public let trainingParameters: [String: String]?
 
-        public init(algorithm: Algorithm? = nil, scoreThresholdLastUpdatedAt: String? = nil, message: String? = nil, mLModelId: String? = nil, trainingDataSourceId: String? = nil, mLModelType: MLModelType? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, inputDataLocationS3: String? = nil, createdAt: String? = nil, status: EntityStatus? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, startedAt: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithm: Algorithm? = nil, scoreThresholdLastUpdatedAt: Double? = nil, message: String? = nil, mLModelId: String? = nil, trainingDataSourceId: String? = nil, mLModelType: MLModelType? = nil, createdByIamUser: String? = nil, endpointInfo: RealtimeEndpointInfo? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, inputDataLocationS3: String? = nil, createdAt: Double? = nil, status: EntityStatus? = nil, name: String? = nil, scoreThreshold: Float? = nil, sizeInBytes: Int64? = nil, startedAt: Double? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithm = algorithm
             self.scoreThresholdLastUpdatedAt = scoreThresholdLastUpdatedAt
             self.message = message
@@ -2051,34 +1906,30 @@ extension Machinelearning {
             self.trainingParameters = trainingParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let algorithm = dictionary["Algorithm"] as? String { self.algorithm = Algorithm(rawValue: algorithm) } else { self.algorithm = nil }
-            self.scoreThresholdLastUpdatedAt = dictionary["ScoreThresholdLastUpdatedAt"] as? String
-            self.message = dictionary["Message"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String
-            if let mLModelType = dictionary["MLModelType"] as? String { self.mLModelType = MLModelType(rawValue: mLModelType) } else { self.mLModelType = nil }
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            if let endpointInfo = dictionary["EndpointInfo"] as? [String: Any] { self.endpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: endpointInfo) } else { self.endpointInfo = nil }
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.scoreThreshold = dictionary["ScoreThreshold"] as? Float
-            self.sizeInBytes = dictionary["SizeInBytes"] as? Int64
-            self.startedAt = dictionary["StartedAt"] as? String
-            if let trainingParameters = dictionary["TrainingParameters"] as? [String: String] {
-                self.trainingParameters = trainingParameters
-            } else { 
-                self.trainingParameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "Algorithm"
+            case scoreThresholdLastUpdatedAt = "ScoreThresholdLastUpdatedAt"
+            case message = "Message"
+            case mLModelId = "MLModelId"
+            case trainingDataSourceId = "TrainingDataSourceId"
+            case mLModelType = "MLModelType"
+            case createdByIamUser = "CreatedByIamUser"
+            case endpointInfo = "EndpointInfo"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case name = "Name"
+            case scoreThreshold = "ScoreThreshold"
+            case sizeInBytes = "SizeInBytes"
+            case startedAt = "StartedAt"
+            case trainingParameters = "TrainingParameters"
         }
     }
 
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible {
+    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case ready = "READY"
         case updating = "UPDATING"
@@ -2088,26 +1939,25 @@ extension Machinelearning {
 
     public struct DataSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfFiles", required: false, type: .long), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "RDSMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataRearrangement", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RedshiftMetadata", required: false, type: .structure), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComputeStatistics", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfFiles", required: false, type: .long), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "RDSMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataRearrangement", required: false, type: .string), 
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RedshiftMetadata", required: false, type: .structure), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ComputeStatistics", required: false, type: .boolean)
         ]
         /// The total number of observations contained in the data files that the DataSource references.
         public let dataSizeInBytes: Int64?
@@ -2120,15 +1970,15 @@ extension Machinelearning {
         public let createdByIamUser: String?
         public let rDSMetadata: RDSMetadata?
         public let computeTime: Int64?
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// A JSON string that represents the splitting and rearrangement requirement used when this DataSource was created.
         public let dataRearrangement: String?
         /// The ID that is assigned to the DataSource during creation.
         public let dataSourceId: String?
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
         public let dataLocationS3: String?
         /// The current status of the DataSource. This element can have one of the following values:   PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource. INPROGRESS - The creation process is underway. FAILED - The request to create a DataSource did not run to completion. It is not usable. COMPLETED - The creation process completed successfully. DELETED - The DataSource is marked as deleted. It is not usable. 
@@ -2136,11 +1986,11 @@ extension Machinelearning {
         /// A user-supplied name or description of the DataSource.
         public let name: String?
         public let redshiftMetadata: RedshiftMetadata?
-        public let startedAt: String?
+        public let startedAt: Double?
         ///  The parameter is true if statistics need to be generated from the observation data. 
         public let computeStatistics: Bool?
 
-        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: String? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: String? = nil, computeStatistics: Bool? = nil) {
+        public init(dataSizeInBytes: Int64? = nil, message: String? = nil, numberOfFiles: Int64? = nil, roleARN: String? = nil, createdByIamUser: String? = nil, rDSMetadata: RDSMetadata? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, dataRearrangement: String? = nil, dataSourceId: String? = nil, createdAt: Double? = nil, dataLocationS3: String? = nil, status: EntityStatus? = nil, name: String? = nil, redshiftMetadata: RedshiftMetadata? = nil, startedAt: Double? = nil, computeStatistics: Bool? = nil) {
             self.dataSizeInBytes = dataSizeInBytes
             self.message = message
             self.numberOfFiles = numberOfFiles
@@ -2161,33 +2011,32 @@ extension Machinelearning {
             self.computeStatistics = computeStatistics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSizeInBytes = dictionary["DataSizeInBytes"] as? Int64
-            self.message = dictionary["Message"] as? String
-            self.numberOfFiles = dictionary["NumberOfFiles"] as? Int64
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            if let rDSMetadata = dictionary["RDSMetadata"] as? [String: Any] { self.rDSMetadata = try Machinelearning.RDSMetadata(dictionary: rDSMetadata) } else { self.rDSMetadata = nil }
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.dataRearrangement = dictionary["DataRearrangement"] as? String
-            self.dataSourceId = dictionary["DataSourceId"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.dataLocationS3 = dictionary["DataLocationS3"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            if let redshiftMetadata = dictionary["RedshiftMetadata"] as? [String: Any] { self.redshiftMetadata = try Machinelearning.RedshiftMetadata(dictionary: redshiftMetadata) } else { self.redshiftMetadata = nil }
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.computeStatistics = dictionary["ComputeStatistics"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case dataSizeInBytes = "DataSizeInBytes"
+            case message = "Message"
+            case numberOfFiles = "NumberOfFiles"
+            case roleARN = "RoleARN"
+            case createdByIamUser = "CreatedByIamUser"
+            case rDSMetadata = "RDSMetadata"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case dataRearrangement = "DataRearrangement"
+            case dataSourceId = "DataSourceId"
+            case createdAt = "CreatedAt"
+            case dataLocationS3 = "DataLocationS3"
+            case status = "Status"
+            case name = "Name"
+            case redshiftMetadata = "RedshiftMetadata"
+            case startedAt = "StartedAt"
+            case computeStatistics = "ComputeStatistics"
         }
     }
 
     public struct PredictOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Prediction", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Prediction", required: false, type: .structure)
         ]
         public let prediction: Prediction?
 
@@ -2195,16 +2044,15 @@ extension Machinelearning {
             self.prediction = prediction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let prediction = dictionary["Prediction"] as? [String: Any] { self.prediction = try Machinelearning.Prediction(dictionary: prediction) } else { self.prediction = nil }
+        private enum CodingKeys: String, CodingKey {
+            case prediction = "Prediction"
         }
     }
 
     public struct PerformanceMetrics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Properties", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Properties", required: false, type: .map)
         ]
         public let properties: [String: String]?
 
@@ -2212,30 +2060,25 @@ extension Machinelearning {
             self.properties = properties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let properties = dictionary["Properties"] as? [String: String] {
-                self.properties = properties
-            } else { 
-                self.properties = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case properties = "Properties"
         }
     }
 
     public struct DescribeMLModelsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", required: false, type: .string), 
-            AWSShapeProperty(label: "GT", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "LE", required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GE", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2274,28 +2117,27 @@ extension Machinelearning {
             self.gE = gE
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nE = dictionary["NE"] as? String
-            self.eQ = dictionary["EQ"] as? String
-            self.gT = dictionary["GT"] as? String
-            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = MLModelFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
-            self.lT = dictionary["LT"] as? String
-            self.prefix = dictionary["Prefix"] as? String
-            self.lE = dictionary["LE"] as? String
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.gE = dictionary["GE"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nE = "NE"
+            case eQ = "EQ"
+            case gT = "GT"
+            case filterVariable = "FilterVariable"
+            case lT = "LT"
+            case prefix = "Prefix"
+            case lE = "LE"
+            case sortOrder = "SortOrder"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case gE = "GE"
         }
     }
 
     public struct DeleteTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The ID of the tagged ML object. For example, exampleModelId.
         public let resourceId: String
@@ -2310,17 +2152,14 @@ extension Machinelearning {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tagKeys = "TagKeys"
         }
     }
 
-    public enum MLModelType: String, CustomStringConvertible {
+    public enum MLModelType: String, CustomStringConvertible, Codable {
         case regression = "REGRESSION"
         case binary = "BINARY"
         case multiclass = "MULTICLASS"
@@ -2329,23 +2168,22 @@ extension Machinelearning {
 
     public struct GetEvaluationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PerformanceMetrics", required: false, type: .structure), 
-            AWSShapeProperty(label: "EvaluationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedByIamUser", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeTime", required: false, type: .long), 
-            AWSShapeProperty(label: "FinishedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InputDataLocationS3", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "StartedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EvaluationDataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PerformanceMetrics", required: false, type: .structure), 
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedByIamUser", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeTime", required: false, type: .long), 
+            AWSShapeMember(label: "FinishedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataLocationS3", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "StartedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationDataSourceId", required: false, type: .string)
         ]
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public let performanceMetrics: PerformanceMetrics?
@@ -2360,13 +2198,13 @@ extension Machinelearning {
         /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
         public let computeTime: Int64?
         /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
-        public let finishedAt: String?
+        public let finishedAt: Double?
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public let inputDataLocationS3: String?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public let createdAt: String?
+        public let createdAt: Double?
         /// The status of the evaluation. This element can have one of the following values:   PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.  INPROGRESS - The evaluation is underway.  FAILED - The request to evaluate an MLModel did not run to completion. It is not usable.  COMPLETED - The evaluation process completed successfully.  DELETED - The Evaluation is marked as deleted. It is not usable. 
         public let status: EntityStatus?
         /// A user-supplied name or description of the Evaluation. 
@@ -2374,11 +2212,11 @@ extension Machinelearning {
         /// A link to the file that contains logs of the CreateEvaluation operation.
         public let logUri: String?
         /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
-        public let startedAt: String?
+        public let startedAt: Double?
         /// The DataSource used for this evaluation.
         public let evaluationDataSourceId: String?
 
-        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: String? = nil, lastUpdatedAt: String? = nil, inputDataLocationS3: String? = nil, createdAt: String? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: String? = nil, evaluationDataSourceId: String? = nil) {
+        public init(performanceMetrics: PerformanceMetrics? = nil, evaluationId: String? = nil, message: String? = nil, mLModelId: String? = nil, createdByIamUser: String? = nil, computeTime: Int64? = nil, finishedAt: Double? = nil, lastUpdatedAt: Double? = nil, inputDataLocationS3: String? = nil, createdAt: Double? = nil, status: EntityStatus? = nil, name: String? = nil, logUri: String? = nil, startedAt: Double? = nil, evaluationDataSourceId: String? = nil) {
             self.performanceMetrics = performanceMetrics
             self.evaluationId = evaluationId
             self.message = message
@@ -2396,32 +2234,31 @@ extension Machinelearning {
             self.evaluationDataSourceId = evaluationDataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let performanceMetrics = dictionary["PerformanceMetrics"] as? [String: Any] { self.performanceMetrics = try Machinelearning.PerformanceMetrics(dictionary: performanceMetrics) } else { self.performanceMetrics = nil }
-            self.evaluationId = dictionary["EvaluationId"] as? String
-            self.message = dictionary["Message"] as? String
-            self.mLModelId = dictionary["MLModelId"] as? String
-            self.createdByIamUser = dictionary["CreatedByIamUser"] as? String
-            self.computeTime = dictionary["ComputeTime"] as? Int64
-            self.finishedAt = dictionary["FinishedAt"] as? String
-            self.lastUpdatedAt = dictionary["LastUpdatedAt"] as? String
-            self.inputDataLocationS3 = dictionary["InputDataLocationS3"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let status = dictionary["Status"] as? String { self.status = EntityStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            self.logUri = dictionary["LogUri"] as? String
-            self.startedAt = dictionary["StartedAt"] as? String
-            self.evaluationDataSourceId = dictionary["EvaluationDataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case performanceMetrics = "PerformanceMetrics"
+            case evaluationId = "EvaluationId"
+            case message = "Message"
+            case mLModelId = "MLModelId"
+            case createdByIamUser = "CreatedByIamUser"
+            case computeTime = "ComputeTime"
+            case finishedAt = "FinishedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case inputDataLocationS3 = "InputDataLocationS3"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case name = "Name"
+            case logUri = "LogUri"
+            case startedAt = "StartedAt"
+            case evaluationDataSourceId = "EvaluationDataSourceId"
         }
     }
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
         /// The ID of the ML object to tag. For example, exampleModelId.
         public let resourceId: String
@@ -2436,21 +2273,17 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = TaggableResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct DeleteMLModelOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public let mLModelId: String?
@@ -2459,16 +2292,15 @@ extension Machinelearning {
             self.mLModelId = mLModelId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mLModelId = dictionary["MLModelId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
         }
     }
 
     public struct CreateDataSourceFromRDSOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public let dataSourceId: String?
@@ -2477,16 +2309,15 @@ extension Machinelearning {
             self.dataSourceId = dataSourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dataSourceId = dictionary["DataSourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
         }
     }
 
     public struct UpdateBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchPredictionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchPredictionId", required: false, type: .string)
         ]
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
         public let batchPredictionId: String?
@@ -2495,17 +2326,16 @@ extension Machinelearning {
             self.batchPredictionId = batchPredictionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.batchPredictionId = dictionary["BatchPredictionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case batchPredictionId = "BatchPredictionId"
         }
     }
 
     public struct CreateRealtimeEndpointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MLModelId", required: false, type: .string), 
-            AWSShapeProperty(label: "RealtimeEndpointInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MLModelId", required: false, type: .string), 
+            AWSShapeMember(label: "RealtimeEndpointInfo", required: false, type: .structure)
         ]
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public let mLModelId: String?
@@ -2517,23 +2347,22 @@ extension Machinelearning {
             self.realtimeEndpointInfo = realtimeEndpointInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mLModelId = dictionary["MLModelId"] as? String
-            if let realtimeEndpointInfo = dictionary["RealtimeEndpointInfo"] as? [String: Any] { self.realtimeEndpointInfo = try Machinelearning.RealtimeEndpointInfo(dictionary: realtimeEndpointInfo) } else { self.realtimeEndpointInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case mLModelId = "MLModelId"
+            case realtimeEndpointInfo = "RealtimeEndpointInfo"
         }
     }
 
     public struct CreateMLModelInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecipeUri", required: false, type: .string), 
-            AWSShapeProperty(label: "TrainingDataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MLModelId", required: true, type: .string), 
-            AWSShapeProperty(label: "Recipe", required: false, type: .string), 
-            AWSShapeProperty(label: "MLModelType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "MLModelName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecipeUri", required: false, type: .string), 
+            AWSShapeMember(label: "TrainingDataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "MLModelId", required: true, type: .string), 
+            AWSShapeMember(label: "Recipe", required: false, type: .string), 
+            AWSShapeMember(label: "MLModelType", required: true, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "MLModelName", required: false, type: .string)
         ]
         /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
         public let recipeUri: String?
@@ -2560,39 +2389,31 @@ extension Machinelearning {
             self.mLModelName = mLModelName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.recipeUri = dictionary["RecipeUri"] as? String
-            guard let trainingDataSourceId = dictionary["TrainingDataSourceId"] as? String else { throw InitializableError.missingRequiredParam("TrainingDataSourceId") }
-            self.trainingDataSourceId = trainingDataSourceId
-            guard let mLModelId = dictionary["MLModelId"] as? String else { throw InitializableError.missingRequiredParam("MLModelId") }
-            self.mLModelId = mLModelId
-            self.recipe = dictionary["Recipe"] as? String
-            guard let rawMLModelType = dictionary["MLModelType"] as? String, let mLModelType = MLModelType(rawValue: rawMLModelType) else { throw InitializableError.missingRequiredParam("MLModelType") }
-            self.mLModelType = mLModelType
-            if let parameters = dictionary["Parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
-            self.mLModelName = dictionary["MLModelName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recipeUri = "RecipeUri"
+            case trainingDataSourceId = "TrainingDataSourceId"
+            case mLModelId = "MLModelId"
+            case recipe = "Recipe"
+            case mLModelType = "MLModelType"
+            case parameters = "Parameters"
+            case mLModelName = "MLModelName"
         }
     }
 
     public struct DescribeBatchPredictionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", required: false, type: .string), 
-            AWSShapeProperty(label: "GT", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "LE", required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GE", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2631,36 +2452,35 @@ extension Machinelearning {
             self.gE = gE
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nE = dictionary["NE"] as? String
-            self.eQ = dictionary["EQ"] as? String
-            self.gT = dictionary["GT"] as? String
-            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = BatchPredictionFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
-            self.lT = dictionary["LT"] as? String
-            self.prefix = dictionary["Prefix"] as? String
-            self.lE = dictionary["LE"] as? String
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.gE = dictionary["GE"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nE = "NE"
+            case eQ = "EQ"
+            case gT = "GT"
+            case filterVariable = "FilterVariable"
+            case lT = "LT"
+            case prefix = "Prefix"
+            case lE = "LE"
+            case sortOrder = "SortOrder"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case gE = "GE"
         }
     }
 
     public struct DescribeDataSourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NE", required: false, type: .string), 
-            AWSShapeProperty(label: "EQ", required: false, type: .string), 
-            AWSShapeProperty(label: "GT", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterVariable", required: false, type: .enum), 
-            AWSShapeProperty(label: "LT", required: false, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "LE", required: false, type: .string), 
-            AWSShapeProperty(label: "SortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GE", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NE", required: false, type: .string), 
+            AWSShapeMember(label: "EQ", required: false, type: .string), 
+            AWSShapeMember(label: "GT", required: false, type: .string), 
+            AWSShapeMember(label: "FilterVariable", required: false, type: .enum), 
+            AWSShapeMember(label: "LT", required: false, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "LE", required: false, type: .string), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "GE", required: false, type: .string)
         ]
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
         public let nE: String?
@@ -2699,27 +2519,26 @@ extension Machinelearning {
             self.gE = gE
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nE = dictionary["NE"] as? String
-            self.eQ = dictionary["EQ"] as? String
-            self.gT = dictionary["GT"] as? String
-            if let filterVariable = dictionary["FilterVariable"] as? String { self.filterVariable = DataSourceFilterVariable(rawValue: filterVariable) } else { self.filterVariable = nil }
-            self.lT = dictionary["LT"] as? String
-            self.prefix = dictionary["Prefix"] as? String
-            self.lE = dictionary["LE"] as? String
-            if let sortOrder = dictionary["SortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.gE = dictionary["GE"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nE = "NE"
+            case eQ = "EQ"
+            case gT = "GT"
+            case filterVariable = "FilterVariable"
+            case lT = "LT"
+            case prefix = "Prefix"
+            case lE = "LE"
+            case sortOrder = "SortOrder"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case gE = "GE"
         }
     }
 
     public struct DeleteTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum)
         ]
         /// The ID of the ML object from which tags were deleted.
         public let resourceId: String?
@@ -2731,18 +2550,17 @@ extension Machinelearning {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = TaggableResourceType(rawValue: resourceType) } else { self.resourceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct GetDataSourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataSourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Verbose", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Verbose", required: false, type: .boolean)
         ]
         /// The ID assigned to the DataSource at creation.
         public let dataSourceId: String
@@ -2754,14 +2572,13 @@ extension Machinelearning {
             self.verbose = verbose
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataSourceId = dictionary["DataSourceId"] as? String else { throw InitializableError.missingRequiredParam("DataSourceId") }
-            self.dataSourceId = dataSourceId
-            self.verbose = dictionary["Verbose"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case verbose = "Verbose"
         }
     }
 
-    public enum TaggableResourceType: String, CustomStringConvertible {
+    public enum TaggableResourceType: String, CustomStringConvertible, Codable {
         case batchprediction = "BatchPrediction"
         case datasource = "DataSource"
         case evaluation = "Evaluation"
@@ -2769,7 +2586,7 @@ extension Machinelearning {
         public var description: String { return self.rawValue }
     }
 
-    public enum DataSourceFilterVariable: String, CustomStringConvertible {
+    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
         case lastupdatedat = "LastUpdatedAt"
         case status = "Status"
@@ -2781,9 +2598,8 @@ extension Machinelearning {
 
     public struct DeleteEvaluationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationId", required: false, type: .string)
         ]
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public let evaluationId: String?
@@ -2792,8 +2608,8 @@ extension Machinelearning {
             self.evaluationId = evaluationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.evaluationId = dictionary["EvaluationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationId = "EvaluationId"
         }
     }
 

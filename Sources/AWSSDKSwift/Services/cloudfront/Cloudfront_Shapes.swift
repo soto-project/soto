@@ -31,10 +31,10 @@ extension Cloudfront {
 
     public struct GetStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
         /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -46,18 +46,18 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case streamingDistribution = "StreamingDistribution"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Tags"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure)
+        public static let payloadPath: String? = "Tags"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "Tags"), required: true, type: .structure)
         ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
@@ -69,19 +69,16 @@ extension Cloudfront {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
-            self.resource = resource
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Cloudfront.Tags(dictionary: tags)
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case tags = "Tags"
         }
     }
 
     public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentitySummary", required: false, type: .list)
         ]
         public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
 
@@ -89,21 +86,16 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentitySummary = cloudFrontOriginAccessIdentitySummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cloudFrontOriginAccessIdentitySummary = dictionary["CloudFrontOriginAccessIdentitySummary"] as? [[String: Any]] {
-                self.cloudFrontOriginAccessIdentitySummary = try cloudFrontOriginAccessIdentitySummary.map({ try CloudFrontOriginAccessIdentitySummary(dictionary: $0) })
-            } else { 
-                self.cloudFrontOriginAccessIdentitySummary = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentitySummary = "CloudFrontOriginAccessIdentitySummary"
         }
     }
 
     public struct Signer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyPairIds", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairIds", required: false, type: .structure)
         ]
         /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
         public let awsAccountNumber: String?
@@ -115,19 +107,19 @@ extension Cloudfront {
             self.keyPairIds = keyPairIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.awsAccountNumber = dictionary["AwsAccountNumber"] as? String
-            if let keyPairIds = dictionary["KeyPairIds"] as? [String: Any] { self.keyPairIds = try Cloudfront.KeyPairIds(dictionary: keyPairIds) } else { self.keyPairIds = nil }
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountNumber = "AwsAccountNumber"
+            case keyPairIds = "KeyPairIds"
         }
     }
 
     public struct CreateStreamingDistributionWithTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
         public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
@@ -141,19 +133,19 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            self.location = dictionary["Location"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case streamingDistribution = "StreamingDistribution"
         }
     }
 
     public struct UpdateStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -165,17 +157,16 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case streamingDistribution = "StreamingDistribution"
         }
     }
 
     public struct QueryStringCacheKeysList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
 
@@ -183,12 +174,12 @@ extension Cloudfront {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
-    public enum ItemSelection: String, CustomStringConvertible {
+    public enum ItemSelection: String, CustomStringConvertible, Codable {
         case none = "none"
         case whitelist = "whitelist"
         case all = "all"
@@ -197,9 +188,8 @@ extension Cloudfront {
 
     public struct InvalidationSummaryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InvalidationSummary", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationSummary", required: false, type: .list)
         ]
         public let invalidationSummary: [InvalidationSummary]?
 
@@ -207,21 +197,16 @@ extension Cloudfront {
             self.invalidationSummary = invalidationSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let invalidationSummary = dictionary["InvalidationSummary"] as? [[String: Any]] {
-                self.invalidationSummary = try invalidationSummary.map({ try InvalidationSummary(dictionary: $0) })
-            } else { 
-                self.invalidationSummary = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case invalidationSummary = "InvalidationSummary"
         }
     }
 
     public struct InvalidationBatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "Paths", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Paths", required: true, type: .structure)
         ]
         /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
         public let callerReference: String
@@ -233,21 +218,18 @@ extension Cloudfront {
             self.paths = paths
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            guard let paths = dictionary["Paths"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Paths") }
-            self.paths = try Cloudfront.Paths(dictionary: paths)
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case paths = "Paths"
         }
     }
 
     public struct TrustedSigners: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: AwsAccountNumberList?
@@ -262,20 +244,18 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.AwsAccountNumberList(dictionary: items) } else { self.items = nil }
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case enabled = "Enabled"
+            case quantity = "Quantity"
         }
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentityList"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityList"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityList", required: false, type: .structure)
         ]
         /// The CloudFrontOriginAccessIdentityList type. 
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
@@ -284,17 +264,16 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cloudFrontOriginAccessIdentityList = dictionary["CloudFrontOriginAccessIdentityList"] as? [String: Any] { self.cloudFrontOriginAccessIdentityList = try Cloudfront.CloudFrontOriginAccessIdentityList(dictionary: cloudFrontOriginAccessIdentityList) } else { self.cloudFrontOriginAccessIdentityList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
         }
     }
 
     public struct Headers: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0, omit Items.
         public let items: HeaderList?
@@ -306,18 +285,17 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.HeaderList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct CreateStreamingDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistributionConfigWithTags"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
+        public static let payloadPath: String? = "StreamingDistributionConfigWithTags"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionConfigWithTags", location: .body(locationName: "StreamingDistributionConfigWithTags"), required: true, type: .structure)
         ]
         ///  The streaming distribution's configuration information. 
         public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
@@ -326,18 +304,16 @@ extension Cloudfront {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamingDistributionConfigWithTags = dictionary["StreamingDistributionConfigWithTags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfigWithTags") }
-            self.streamingDistributionConfigWithTags = try Cloudfront.StreamingDistributionConfigWithTags(dictionary: streamingDistributionConfigWithTags)
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionConfigWithTags = "StreamingDistributionConfigWithTags"
         }
     }
 
     public struct QueryStringCacheKeys: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
         public let items: QueryStringCacheKeysList?
@@ -349,19 +325,17 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.QueryStringCacheKeysList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct LambdaFunctionAssociations: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
         public let items: LambdaFunctionAssociationList?
@@ -373,18 +347,16 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.LambdaFunctionAssociationList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct GetStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The streaming distribution's ID.
         public let id: String
@@ -393,18 +365,16 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct Paths: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains a list of the paths that you want to invalidate.
         public let items: PathList?
@@ -416,18 +386,16 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.PathList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct SslProtocolsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SslProtocol", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SslProtocol", required: false, type: .list)
         ]
         public let sslProtocol: [SslProtocol]?
 
@@ -435,26 +403,25 @@ extension Cloudfront {
             self.sslProtocol = sslProtocol
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sslProtocol = dictionary["SslProtocol"] as? [String] { self.sslProtocol = sslProtocol.flatMap({ SslProtocol(rawValue: $0)}) } else { self.sslProtocol = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sslProtocol = "SslProtocol"
         }
     }
 
     public struct DefaultCacheBehavior: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultTTL", required: false, type: .long), 
-            AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeProperty(label: "ForwardedValues", required: true, type: .structure), 
-            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "Compress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SmoothStreaming", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxTTL", required: false, type: .long), 
-            AWSShapeProperty(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeProperty(label: "MinTTL", required: true, type: .long), 
-            AWSShapeProperty(label: "ViewerProtocolPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "AllowedMethods", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultTTL", required: false, type: .long), 
+            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "Compress", required: false, type: .boolean), 
+            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure)
         ]
         /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
         public let defaultTTL: Int64?
@@ -491,31 +458,25 @@ extension Cloudfront {
             self.allowedMethods = allowedMethods
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultTTL = dictionary["DefaultTTL"] as? Int64
-            guard let targetOriginId = dictionary["TargetOriginId"] as? String else { throw InitializableError.missingRequiredParam("TargetOriginId") }
-            self.targetOriginId = targetOriginId
-            guard let forwardedValues = dictionary["ForwardedValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ForwardedValues") }
-            self.forwardedValues = try Cloudfront.ForwardedValues(dictionary: forwardedValues)
-            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
-            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
-            self.compress = dictionary["Compress"] as? Bool
-            self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
-            self.maxTTL = dictionary["MaxTTL"] as? Int64
-            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) } else { self.lambdaFunctionAssociations = nil }
-            guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
-            self.minTTL = minTTL
-            guard let rawViewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String, let viewerProtocolPolicy = ViewerProtocolPolicy(rawValue: rawViewerProtocolPolicy) else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
-            self.viewerProtocolPolicy = viewerProtocolPolicy
-            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
+        private enum CodingKeys: String, CodingKey {
+            case defaultTTL = "DefaultTTL"
+            case targetOriginId = "TargetOriginId"
+            case forwardedValues = "ForwardedValues"
+            case trustedSigners = "TrustedSigners"
+            case compress = "Compress"
+            case smoothStreaming = "SmoothStreaming"
+            case maxTTL = "MaxTTL"
+            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
+            case minTTL = "MinTTL"
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+            case allowedMethods = "AllowedMethods"
         }
     }
 
     public struct PathList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .list)
         ]
         public let path: [String]?
 
@@ -523,54 +484,48 @@ extension Cloudfront {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.path = dictionary["Path"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
         }
     }
 
     public struct Invalidation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InvalidationBatch", required: true, type: .structure), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationBatch", required: true, type: .structure), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The current invalidation information for the batch request. 
         public let invalidationBatch: InvalidationBatch
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
         /// The date and time the invalidation request was first made. 
-        public let createTime: String
+        public let createTime: Double
         /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
         public let id: String
 
-        public init(invalidationBatch: InvalidationBatch, status: String, createTime: String, id: String) {
+        public init(invalidationBatch: InvalidationBatch, status: String, createTime: Double, id: String) {
             self.invalidationBatch = invalidationBatch
             self.status = status
             self.createTime = createTime
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let invalidationBatch = dictionary["InvalidationBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InvalidationBatch") }
-            self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let createTime = dictionary["CreateTime"] as? String else { throw InitializableError.missingRequiredParam("CreateTime") }
-            self.createTime = createTime
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case invalidationBatch = "InvalidationBatch"
+            case status = "Status"
+            case createTime = "CreateTime"
+            case id = "Id"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         public let value: String?
@@ -582,18 +537,17 @@ extension Cloudfront {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct CreateDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
         ]
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
@@ -602,17 +556,15 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
-            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        private enum CodingKeys: String, CodingKey {
+            case distributionConfig = "DistributionConfig"
         }
     }
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identity's ID.
         public let id: String
@@ -621,13 +573,12 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
-    public enum ViewerProtocolPolicy: String, CustomStringConvertible {
+    public enum ViewerProtocolPolicy: String, CustomStringConvertible, Codable {
         case allow_all = "allow-all"
         case https_only = "https-only"
         case redirect_to_https = "redirect-to-https"
@@ -636,11 +587,11 @@ extension Cloudfront {
 
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
         ]
         /// The identity's id.
         public let id: String
@@ -655,20 +606,18 @@ extension Cloudfront {
             self.ifMatch = ifMatch
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudFrontOriginAccessIdentityConfig") }
-            self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig)
-            self.ifMatch = dictionary["If-Match"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+            case ifMatch = "If-Match"
         }
     }
 
     public struct GetInvalidationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Invalidation"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
+        public static let payloadPath: String? = "Invalidation"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Invalidation", required: false, type: .structure)
         ]
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
         public let invalidation: Invalidation?
@@ -677,17 +626,17 @@ extension Cloudfront {
             self.invalidation = invalidation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) } else { self.invalidation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case invalidation = "Invalidation"
         }
     }
 
     public struct CreateInvalidationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Invalidation"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "Invalidation", required: false, type: .structure)
+        public static let payloadPath: String? = "Invalidation"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "Invalidation", required: false, type: .structure)
         ]
         /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
         public let location: String?
@@ -699,30 +648,29 @@ extension Cloudfront {
             self.invalidation = invalidation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.location = dictionary["Location"] as? String
-            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) } else { self.invalidation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
+            case invalidation = "Invalidation"
         }
     }
 
     public struct StreamingDistributionSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Aliases", required: true, type: .structure), 
-            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "S3Origin", required: true, type: .structure), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "PriceClass", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "PriceClass", required: true, type: .enum)
         ]
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: String
+        public let lastModifiedTime: Double
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
@@ -743,7 +691,7 @@ extension Cloudfront {
         public let domainName: String
         public let priceClass: PriceClass
 
-        public init(lastModifiedTime: String, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
+        public init(lastModifiedTime: Double, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.id = id
@@ -757,48 +705,36 @@ extension Cloudfront {
             self.priceClass = priceClass
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
-            self.lastModifiedTime = lastModifiedTime
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let aliases = dictionary["Aliases"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Aliases") }
-            self.aliases = try Cloudfront.Aliases(dictionary: aliases)
-            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
-            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
-            guard let s3Origin = dictionary["S3Origin"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Origin") }
-            self.s3Origin = try Cloudfront.S3Origin(dictionary: s3Origin)
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            guard let rawPriceClass = dictionary["PriceClass"] as? String, let priceClass = PriceClass(rawValue: rawPriceClass) else { throw InitializableError.missingRequiredParam("PriceClass") }
-            self.priceClass = priceClass
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case id = "Id"
+            case aliases = "Aliases"
+            case trustedSigners = "TrustedSigners"
+            case s3Origin = "S3Origin"
+            case comment = "Comment"
+            case enabled = "Enabled"
+            case aRN = "ARN"
+            case domainName = "DomainName"
+            case priceClass = "PriceClass"
         }
     }
 
     public struct CacheBehavior: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeProperty(label: "PathPattern", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowedMethods", required: false, type: .structure), 
-            AWSShapeProperty(label: "ForwardedValues", required: true, type: .structure), 
-            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "Compress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LambdaFunctionAssociations", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxTTL", required: false, type: .long), 
-            AWSShapeProperty(label: "SmoothStreaming", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MinTTL", required: true, type: .long), 
-            AWSShapeProperty(label: "ViewerProtocolPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "DefaultTTL", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
+            AWSShapeMember(label: "PathPattern", required: true, type: .string), 
+            AWSShapeMember(label: "AllowedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "ForwardedValues", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "Compress", required: false, type: .boolean), 
+            AWSShapeMember(label: "LambdaFunctionAssociations", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxTTL", required: false, type: .long), 
+            AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
+            AWSShapeMember(label: "MinTTL", required: true, type: .long), 
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultTTL", required: false, type: .long)
         ]
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
         public let targetOriginId: String
@@ -839,34 +775,27 @@ extension Cloudfront {
             self.defaultTTL = defaultTTL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetOriginId = dictionary["TargetOriginId"] as? String else { throw InitializableError.missingRequiredParam("TargetOriginId") }
-            self.targetOriginId = targetOriginId
-            guard let pathPattern = dictionary["PathPattern"] as? String else { throw InitializableError.missingRequiredParam("PathPattern") }
-            self.pathPattern = pathPattern
-            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
-            guard let forwardedValues = dictionary["ForwardedValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ForwardedValues") }
-            self.forwardedValues = try Cloudfront.ForwardedValues(dictionary: forwardedValues)
-            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
-            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
-            self.compress = dictionary["Compress"] as? Bool
-            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) } else { self.lambdaFunctionAssociations = nil }
-            self.maxTTL = dictionary["MaxTTL"] as? Int64
-            self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
-            guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
-            self.minTTL = minTTL
-            guard let rawViewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String, let viewerProtocolPolicy = ViewerProtocolPolicy(rawValue: rawViewerProtocolPolicy) else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
-            self.viewerProtocolPolicy = viewerProtocolPolicy
-            self.defaultTTL = dictionary["DefaultTTL"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case targetOriginId = "TargetOriginId"
+            case pathPattern = "PathPattern"
+            case allowedMethods = "AllowedMethods"
+            case forwardedValues = "ForwardedValues"
+            case trustedSigners = "TrustedSigners"
+            case compress = "Compress"
+            case lambdaFunctionAssociations = "LambdaFunctionAssociations"
+            case maxTTL = "MaxTTL"
+            case smoothStreaming = "SmoothStreaming"
+            case minTTL = "MinTTL"
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+            case defaultTTL = "DefaultTTL"
         }
     }
 
     public struct DistributionConfigWithTags: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
-            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure)
         ]
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
@@ -878,19 +807,17 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Cloudfront.Tags(dictionary: tags)
-            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
-            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case distributionConfig = "DistributionConfig"
         }
     }
 
     public struct ListStreamingDistributionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistributionList"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingDistributionList", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistributionList"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionList", required: false, type: .structure)
         ]
         /// The StreamingDistributionList type. 
         public let streamingDistributionList: StreamingDistributionList?
@@ -899,17 +826,16 @@ extension Cloudfront {
             self.streamingDistributionList = streamingDistributionList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let streamingDistributionList = dictionary["StreamingDistributionList"] as? [String: Any] { self.streamingDistributionList = try Cloudfront.StreamingDistributionList(dictionary: streamingDistributionList) } else { self.streamingDistributionList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionList = "StreamingDistributionList"
         }
     }
 
     public struct Origins: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains origins for this distribution.
         public let items: OriginList?
@@ -921,19 +847,18 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.OriginList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct GetDistributionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "DistributionConfig", required: false, type: .structure)
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -945,22 +870,21 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] { self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig) } else { self.distributionConfig = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case distributionConfig = "DistributionConfig"
         }
     }
 
     public struct InvalidationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The value that you provided for the MaxItems request parameter.
         public let maxItems: Int32
@@ -984,26 +908,21 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.InvalidationSummaryList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct GetInvalidationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The distribution's ID.
         public let distributionId: String
@@ -1015,22 +934,19 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
-            self.distributionId = distributionId
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+            case id = "Id"
         }
     }
 
     public struct ForwardedValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QueryString", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Headers", required: false, type: .structure), 
-            AWSShapeProperty(label: "Cookies", required: true, type: .structure), 
-            AWSShapeProperty(label: "QueryStringCacheKeys", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QueryString", required: true, type: .boolean), 
+            AWSShapeMember(label: "Headers", required: false, type: .structure), 
+            AWSShapeMember(label: "Cookies", required: true, type: .structure), 
+            AWSShapeMember(label: "QueryStringCacheKeys", required: false, type: .structure)
         ]
         /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
         public let queryString: Bool
@@ -1048,17 +964,15 @@ extension Cloudfront {
             self.queryStringCacheKeys = queryStringCacheKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let queryString = dictionary["QueryString"] as? Bool else { throw InitializableError.missingRequiredParam("QueryString") }
-            self.queryString = queryString
-            if let headers = dictionary["Headers"] as? [String: Any] { self.headers = try Cloudfront.Headers(dictionary: headers) } else { self.headers = nil }
-            guard let cookies = dictionary["Cookies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Cookies") }
-            self.cookies = try Cloudfront.CookiePreference(dictionary: cookies)
-            if let queryStringCacheKeys = dictionary["QueryStringCacheKeys"] as? [String: Any] { self.queryStringCacheKeys = try Cloudfront.QueryStringCacheKeys(dictionary: queryStringCacheKeys) } else { self.queryStringCacheKeys = nil }
+        private enum CodingKeys: String, CodingKey {
+            case queryString = "QueryString"
+            case headers = "Headers"
+            case cookies = "Cookies"
+            case queryStringCacheKeys = "QueryStringCacheKeys"
         }
     }
 
-    public enum GeoRestrictionType: String, CustomStringConvertible {
+    public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
         case blacklist = "blacklist"
         case whitelist = "whitelist"
         case none = "none"
@@ -1067,9 +981,8 @@ extension Cloudfront {
 
     public struct LocationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Location", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Location", required: false, type: .list)
         ]
         public let location: [String]?
 
@@ -1077,16 +990,15 @@ extension Cloudfront {
             self.location = location
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.location = dictionary["Location"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
         }
     }
 
     public struct SignerList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Signer", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Signer", required: false, type: .list)
         ]
         public let signer: [Signer]?
 
@@ -1094,22 +1006,18 @@ extension Cloudfront {
             self.signer = signer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let signer = dictionary["Signer"] as? [[String: Any]] {
-                self.signer = try signer.map({ try Signer(dictionary: $0) })
-            } else { 
-                self.signer = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case signer = "Signer"
         }
     }
 
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeProperty(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
+        public static let payloadPath: String? = "DistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", location: .body(locationName: "DistributionConfig"), required: true, type: .structure)
         ]
         /// The distribution's id.
         public let id: String
@@ -1124,20 +1032,17 @@ extension Cloudfront {
             self.distributionConfig = distributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            self.ifMatch = dictionary["If-Match"] as? String
-            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
-            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+            case distributionConfig = "DistributionConfig"
         }
     }
 
     public struct CacheBehaviorList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheBehavior", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheBehavior", required: false, type: .list)
         ]
         public let cacheBehavior: [CacheBehavior]?
 
@@ -1145,21 +1050,16 @@ extension Cloudfront {
             self.cacheBehavior = cacheBehavior
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cacheBehavior = dictionary["CacheBehavior"] as? [[String: Any]] {
-                self.cacheBehavior = try cacheBehavior.map({ try CacheBehavior(dictionary: $0) })
-            } else { 
-                self.cacheBehavior = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "CacheBehavior"
         }
     }
 
     public struct LambdaFunctionAssociation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventType", required: false, type: .enum), 
-            AWSShapeProperty(label: "LambdaFunctionARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventType", required: false, type: .enum), 
+            AWSShapeMember(label: "LambdaFunctionARN", required: false, type: .string)
         ]
         /// Specifies the event type that triggers a Lambda function invocation. Valid values are:    viewer-request     origin-request     viewer-response     origin-response   
         public let eventType: EventType?
@@ -1171,17 +1071,16 @@ extension Cloudfront {
             self.lambdaFunctionARN = lambdaFunctionARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventType = dictionary["EventType"] as? String { self.eventType = EventType(rawValue: eventType) } else { self.eventType = nil }
-            self.lambdaFunctionARN = dictionary["LambdaFunctionARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "EventType"
+            case lambdaFunctionARN = "LambdaFunctionARN"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string)
         ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
@@ -1190,18 +1089,16 @@ extension Cloudfront {
             self.resource = resource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
-            self.resource = resource
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
         }
     }
 
     public struct OriginCustomHeader: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HeaderName", required: true, type: .string), 
-            AWSShapeProperty(label: "HeaderValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HeaderName", required: true, type: .string), 
+            AWSShapeMember(label: "HeaderValue", required: true, type: .string)
         ]
         /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
         public let headerName: String
@@ -1213,21 +1110,18 @@ extension Cloudfront {
             self.headerValue = headerValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let headerName = dictionary["HeaderName"] as? String else { throw InitializableError.missingRequiredParam("HeaderName") }
-            self.headerName = headerName
-            guard let headerValue = dictionary["HeaderValue"] as? String else { throw InitializableError.missingRequiredParam("HeaderValue") }
-            self.headerValue = headerValue
+        private enum CodingKeys: String, CodingKey {
+            case headerName = "HeaderName"
+            case headerValue = "HeaderValue"
         }
     }
 
     public struct ListInvalidationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
-            AWSShapeProperty(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
         ]
         /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
         public let marker: String?
@@ -1242,20 +1136,18 @@ extension Cloudfront {
             self.distributionId = distributionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? String
-            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
-            self.distributionId = distributionId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case distributionId = "DistributionId"
         }
     }
 
     public struct CacheBehaviors: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
         public let items: CacheBehaviorList?
@@ -1267,14 +1159,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CacheBehaviorList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
-    public enum CertificateSource: String, CustomStringConvertible {
+    public enum CertificateSource: String, CustomStringConvertible, Codable {
         case cloudfront = "cloudfront"
         case iam = "iam"
         case acm = "acm"
@@ -1283,11 +1174,11 @@ extension Cloudfront {
 
     public struct CreateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentity"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
         /// The current version of the origin access identity created.
         public let eTag: String?
@@ -1302,20 +1193,19 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            self.location = dictionary["Location"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
         }
     }
 
     public struct AllowedMethods: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "CachedMethods", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "CachedMethods", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
         public let items: MethodsList
@@ -1329,20 +1219,18 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Cloudfront.MethodsList(dictionary: items)
-            if let cachedMethods = dictionary["CachedMethods"] as? [String: Any] { self.cachedMethods = try Cloudfront.CachedMethods(dictionary: cachedMethods) } else { self.cachedMethods = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case cachedMethods = "CachedMethods"
+            case quantity = "Quantity"
         }
     }
 
     public struct CreateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure)
         ]
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
@@ -1351,18 +1239,16 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
-            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionConfig = "StreamingDistributionConfig"
         }
     }
 
     public struct ListStreamingDistributionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
         /// The value that you provided for the Marker request parameter.
         public let marker: String?
@@ -1374,17 +1260,17 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ListDistributionsByWebACLIdResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionList"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
+        public static let payloadPath: String? = "DistributionList"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -1393,18 +1279,17 @@ extension Cloudfront {
             self.distributionList = distributionList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) } else { self.distributionList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
         }
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
-            AWSShapeProperty(label: "WebACLId", location: .uri(locationName: "WebACLId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string), 
+            AWSShapeMember(label: "WebACLId", location: .uri(locationName: "WebACLId"), required: true, type: .string)
         ]
         /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
         public let marker: String?
@@ -1419,19 +1304,17 @@ extension Cloudfront {
             self.webACLId = webACLId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? String
-            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
-            self.webACLId = webACLId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case webACLId = "WebACLId"
         }
     }
 
     public struct S3OriginConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string)
         ]
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
@@ -1440,18 +1323,16 @@ extension Cloudfront {
             self.originAccessIdentity = originAccessIdentity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let originAccessIdentity = dictionary["OriginAccessIdentity"] as? String else { throw InitializableError.missingRequiredParam("OriginAccessIdentity") }
-            self.originAccessIdentity = originAccessIdentity
+        private enum CodingKeys: String, CodingKey {
+            case originAccessIdentity = "OriginAccessIdentity"
         }
     }
 
     public struct CookiePreference: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Forward", required: true, type: .enum), 
-            AWSShapeProperty(label: "WhitelistedNames", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Forward", required: true, type: .enum), 
+            AWSShapeMember(label: "WhitelistedNames", required: false, type: .structure)
         ]
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
         public let forward: ItemSelection
@@ -1463,19 +1344,17 @@ extension Cloudfront {
             self.whitelistedNames = whitelistedNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawForward = dictionary["Forward"] as? String, let forward = ItemSelection(rawValue: rawForward) else { throw InitializableError.missingRequiredParam("Forward") }
-            self.forward = forward
-            if let whitelistedNames = dictionary["WhitelistedNames"] as? [String: Any] { self.whitelistedNames = try Cloudfront.CookieNames(dictionary: whitelistedNames) } else { self.whitelistedNames = nil }
+        private enum CodingKeys: String, CodingKey {
+            case forward = "Forward"
+            case whitelistedNames = "WhitelistedNames"
         }
     }
 
     public struct OriginSslProtocols: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         public let items: SslProtocolsList
@@ -1487,15 +1366,13 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Cloudfront.SslProtocolsList(dictionary: items)
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
-    public enum MinimumProtocolVersion: String, CustomStringConvertible {
+    public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
         case sslv3 = "SSLv3"
         case tlsv1 = "TLSv1"
         public var description: String { return self.rawValue }
@@ -1503,9 +1380,9 @@ extension Cloudfront {
 
     public struct CreateDistributionWithTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionConfigWithTags"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
+        public static let payloadPath: String? = "DistributionConfigWithTags"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionConfigWithTags", location: .body(locationName: "DistributionConfigWithTags"), required: true, type: .structure)
         ]
         /// The distribution's configuration information. 
         public let distributionConfigWithTags: DistributionConfigWithTags
@@ -1514,19 +1391,18 @@ extension Cloudfront {
             self.distributionConfigWithTags = distributionConfigWithTags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let distributionConfigWithTags = dictionary["DistributionConfigWithTags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfigWithTags") }
-            self.distributionConfigWithTags = try Cloudfront.DistributionConfigWithTags(dictionary: distributionConfigWithTags)
+        private enum CodingKeys: String, CodingKey {
+            case distributionConfigWithTags = "DistributionConfigWithTags"
         }
     }
 
     public struct CreateDistributionWithTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Distribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        public static let payloadPath: String? = "Distribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
         /// The current version of the distribution created.
         public let eTag: String?
@@ -1541,20 +1417,20 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            self.location = dictionary["Location"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case distribution = "Distribution"
         }
     }
 
     public struct CreateDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Distribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        public static let payloadPath: String? = "Distribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
         /// The current version of the distribution created.
         public let eTag: String?
@@ -1569,18 +1445,18 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            self.location = dictionary["Location"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case distribution = "Distribution"
         }
     }
 
     public struct ListDistributionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "DistributionList"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionList", required: false, type: .structure)
+        public static let payloadPath: String? = "DistributionList"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionList", required: false, type: .structure)
         ]
         /// The DistributionList type. 
         public let distributionList: DistributionList?
@@ -1589,21 +1465,20 @@ extension Cloudfront {
             self.distributionList = distributionList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) } else { self.distributionList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case distributionList = "DistributionList"
         }
     }
 
     public struct DistributionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The value you provided for the MaxItems request parameter.
         public let maxItems: Int32
@@ -1627,25 +1502,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.DistributionSummaryList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct TagKeys: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag key elements.
         public let items: TagKeyList?
@@ -1654,12 +1524,12 @@ extension Cloudfront {
             self.items = items
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.TagKeyList(dictionary: items) } else { self.items = nil }
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
         }
     }
 
-    public enum EventType: String, CustomStringConvertible {
+    public enum EventType: String, CustomStringConvertible, Codable {
         case viewer_request = "viewer-request"
         case viewer_response = "viewer-response"
         case origin_request = "origin-request"
@@ -1669,12 +1539,11 @@ extension Cloudfront {
 
     public struct LoggingConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "IncludeCookies", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "IncludeCookies", required: true, type: .boolean)
         ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
@@ -1692,24 +1561,19 @@ extension Cloudfront {
             self.includeCookies = includeCookies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
-            self.bucket = bucket
-            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
-            self.prefix = prefix
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let includeCookies = dictionary["IncludeCookies"] as? Bool else { throw InitializableError.missingRequiredParam("IncludeCookies") }
-            self.includeCookies = includeCookies
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case prefix = "Prefix"
+            case enabled = "Enabled"
+            case includeCookies = "IncludeCookies"
         }
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
         public let marker: String?
@@ -1721,17 +1585,17 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Tags"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .structure)
+        public static let payloadPath: String? = "Tags"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure)
         ]
         ///  A complex type that contains zero or more Tag elements.
         public let tags: Tags
@@ -1740,17 +1604,15 @@ extension Cloudfront {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Cloudfront.Tags(dictionary: tags)
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
     public struct HeaderList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
 
@@ -1758,17 +1620,16 @@ extension Cloudfront {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ListDistributionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
         ]
         /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
         public let marker: String?
@@ -1780,32 +1641,31 @@ extension Cloudfront {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct DistributionConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HttpVersion", required: false, type: .enum), 
-            AWSShapeProperty(label: "DefaultRootObject", required: false, type: .string), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomErrorResponses", required: false, type: .structure), 
-            AWSShapeProperty(label: "Origins", required: true, type: .structure), 
-            AWSShapeProperty(label: "WebACLId", required: false, type: .string), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "IsIPV6Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PriceClass", required: false, type: .enum), 
-            AWSShapeProperty(label: "ViewerCertificate", required: false, type: .structure), 
-            AWSShapeProperty(label: "Restrictions", required: false, type: .structure), 
-            AWSShapeProperty(label: "Aliases", required: false, type: .structure), 
-            AWSShapeProperty(label: "Logging", required: false, type: .structure), 
-            AWSShapeProperty(label: "CacheBehaviors", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultCacheBehavior", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultRootObject", required: false, type: .string), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "CustomErrorResponses", required: false, type: .structure), 
+            AWSShapeMember(label: "Origins", required: true, type: .structure), 
+            AWSShapeMember(label: "WebACLId", required: false, type: .string), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "IsIPV6Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "PriceClass", required: false, type: .enum), 
+            AWSShapeMember(label: "ViewerCertificate", required: false, type: .structure), 
+            AWSShapeMember(label: "Restrictions", required: false, type: .structure), 
+            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
+            AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheBehaviors", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure)
         ]
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
         public let httpVersion: HttpVersion?
@@ -1857,36 +1717,30 @@ extension Cloudfront {
             self.defaultCacheBehavior = defaultCacheBehavior
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let httpVersion = dictionary["HttpVersion"] as? String { self.httpVersion = HttpVersion(rawValue: httpVersion) } else { self.httpVersion = nil }
-            self.defaultRootObject = dictionary["DefaultRootObject"] as? String
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            if let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] { self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses) } else { self.customErrorResponses = nil }
-            guard let origins = dictionary["Origins"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Origins") }
-            self.origins = try Cloudfront.Origins(dictionary: origins)
-            self.webACLId = dictionary["WebACLId"] as? String
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            self.isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool
-            if let priceClass = dictionary["PriceClass"] as? String { self.priceClass = PriceClass(rawValue: priceClass) } else { self.priceClass = nil }
-            if let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] { self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate) } else { self.viewerCertificate = nil }
-            if let restrictions = dictionary["Restrictions"] as? [String: Any] { self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions) } else { self.restrictions = nil }
-            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) } else { self.aliases = nil }
-            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.LoggingConfig(dictionary: logging) } else { self.logging = nil }
-            if let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] { self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors) } else { self.cacheBehaviors = nil }
-            guard let defaultCacheBehavior = dictionary["DefaultCacheBehavior"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultCacheBehavior") }
-            self.defaultCacheBehavior = try Cloudfront.DefaultCacheBehavior(dictionary: defaultCacheBehavior)
+        private enum CodingKeys: String, CodingKey {
+            case httpVersion = "HttpVersion"
+            case defaultRootObject = "DefaultRootObject"
+            case callerReference = "CallerReference"
+            case customErrorResponses = "CustomErrorResponses"
+            case origins = "Origins"
+            case webACLId = "WebACLId"
+            case comment = "Comment"
+            case enabled = "Enabled"
+            case isIPV6Enabled = "IsIPV6Enabled"
+            case priceClass = "PriceClass"
+            case viewerCertificate = "ViewerCertificate"
+            case restrictions = "Restrictions"
+            case aliases = "Aliases"
+            case logging = "Logging"
+            case cacheBehaviors = "CacheBehaviors"
+            case defaultCacheBehavior = "DefaultCacheBehavior"
         }
     }
 
     public struct Restrictions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GeoRestriction", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GeoRestriction", required: true, type: .structure)
         ]
         public let geoRestriction: GeoRestriction
 
@@ -1894,23 +1748,21 @@ extension Cloudfront {
             self.geoRestriction = geoRestriction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let geoRestriction = dictionary["GeoRestriction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GeoRestriction") }
-            self.geoRestriction = try Cloudfront.GeoRestriction(dictionary: geoRestriction)
+        private enum CodingKeys: String, CodingKey {
+            case geoRestriction = "GeoRestriction"
         }
     }
 
     public struct ViewerCertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SSLSupportMethod", required: false, type: .enum), 
-            AWSShapeProperty(label: "IAMCertificateId", required: false, type: .string), 
-            AWSShapeProperty(label: "MinimumProtocolVersion", required: false, type: .enum), 
-            AWSShapeProperty(label: "ACMCertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Certificate", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CertificateSource", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSLSupportMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "IAMCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumProtocolVersion", required: false, type: .enum), 
+            AWSShapeMember(label: "ACMCertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "Certificate", required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontDefaultCertificate", required: false, type: .boolean), 
+            AWSShapeMember(label: "CertificateSource", required: false, type: .enum)
         ]
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
         public let sSLSupportMethod: SSLSupportMethod?
@@ -1934,23 +1786,23 @@ extension Cloudfront {
             self.certificateSource = certificateSource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sSLSupportMethod = dictionary["SSLSupportMethod"] as? String { self.sSLSupportMethod = SSLSupportMethod(rawValue: sSLSupportMethod) } else { self.sSLSupportMethod = nil }
-            self.iAMCertificateId = dictionary["IAMCertificateId"] as? String
-            if let minimumProtocolVersion = dictionary["MinimumProtocolVersion"] as? String { self.minimumProtocolVersion = MinimumProtocolVersion(rawValue: minimumProtocolVersion) } else { self.minimumProtocolVersion = nil }
-            self.aCMCertificateArn = dictionary["ACMCertificateArn"] as? String
-            self.certificate = dictionary["Certificate"] as? String
-            self.cloudFrontDefaultCertificate = dictionary["CloudFrontDefaultCertificate"] as? Bool
-            if let certificateSource = dictionary["CertificateSource"] as? String { self.certificateSource = CertificateSource(rawValue: certificateSource) } else { self.certificateSource = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sSLSupportMethod = "SSLSupportMethod"
+            case iAMCertificateId = "IAMCertificateId"
+            case minimumProtocolVersion = "MinimumProtocolVersion"
+            case aCMCertificateArn = "ACMCertificateArn"
+            case certificate = "Certificate"
+            case cloudFrontDefaultCertificate = "CloudFrontDefaultCertificate"
+            case certificateSource = "CertificateSource"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "TagKeys"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
+        public static let payloadPath: String? = "TagKeys"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Resource", location: .querystring(locationName: "Resource"), required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", location: .body(locationName: "TagKeys"), required: true, type: .structure)
         ]
         ///  An ARN of a CloudFront resource.
         public let resource: String
@@ -1962,19 +1814,16 @@ extension Cloudfront {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resource = dictionary["Resource"] as? String else { throw InitializableError.missingRequiredParam("Resource") }
-            self.resource = resource
-            guard let tagKeys = dictionary["TagKeys"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = try Cloudfront.TagKeys(dictionary: tagKeys)
+        private enum CodingKeys: String, CodingKey {
+            case resource = "Resource"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct GetStreamingDistributionConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The streaming distribution's ID.
         public let id: String
@@ -1983,26 +1832,24 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct StreamingDistribution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "ActiveTrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The date and time that the distribution was last modified. 
-        public let lastModifiedTime: String?
+        public let lastModifiedTime: Double?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
         /// The current configuration information for the RTMP distribution.
@@ -2015,7 +1862,7 @@ extension Cloudfront {
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
 
-        public init(lastModifiedTime: String? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
+        public init(lastModifiedTime: Double? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -2025,29 +1872,22 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastModifiedTime = dictionary["LastModifiedTime"] as? String
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
-            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
-            guard let activeTrustedSigners = dictionary["ActiveTrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActiveTrustedSigners") }
-            self.activeTrustedSigners = try Cloudfront.ActiveTrustedSigners(dictionary: activeTrustedSigners)
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+            case activeTrustedSigners = "ActiveTrustedSigners"
+            case aRN = "ARN"
+            case domainName = "DomainName"
+            case id = "Id"
         }
     }
 
     public struct CustomHeaders: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
         public let items: OriginCustomHeadersList?
@@ -2059,19 +1899,17 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.OriginCustomHeadersList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct CachedMethods: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
         public let items: MethodsList
@@ -2083,36 +1921,33 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Cloudfront.MethodsList(dictionary: items)
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct DistributionSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HttpVersion", required: true, type: .enum), 
-            AWSShapeProperty(label: "CustomErrorResponses", required: true, type: .structure), 
-            AWSShapeProperty(label: "Origins", required: true, type: .structure), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "WebACLId", required: true, type: .string), 
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "IsIPV6Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Restrictions", required: true, type: .structure), 
-            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ViewerCertificate", required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "Aliases", required: true, type: .structure), 
-            AWSShapeProperty(label: "PriceClass", required: true, type: .enum), 
-            AWSShapeProperty(label: "CacheBehaviors", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultCacheBehavior", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HttpVersion", required: true, type: .enum), 
+            AWSShapeMember(label: "CustomErrorResponses", required: true, type: .structure), 
+            AWSShapeMember(label: "Origins", required: true, type: .structure), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "WebACLId", required: true, type: .string), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "IsIPV6Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Restrictions", required: true, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ViewerCertificate", required: true, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "Aliases", required: true, type: .structure), 
+            AWSShapeMember(label: "PriceClass", required: true, type: .enum), 
+            AWSShapeMember(label: "CacheBehaviors", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultCacheBehavior", required: true, type: .structure)
         ]
         ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
         public let httpVersion: HttpVersion
@@ -2132,7 +1967,7 @@ extension Cloudfront {
         public let isIPV6Enabled: Bool
         public let restrictions: Restrictions
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: String
+        public let lastModifiedTime: Double
         public let viewerCertificate: ViewerCertificate
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
         public let id: String
@@ -2148,7 +1983,7 @@ extension Cloudfront {
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
-        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: String, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Double, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.customErrorResponses = customErrorResponses
             self.origins = origins
@@ -2169,56 +2004,37 @@ extension Cloudfront {
             self.defaultCacheBehavior = defaultCacheBehavior
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawHttpVersion = dictionary["HttpVersion"] as? String, let httpVersion = HttpVersion(rawValue: rawHttpVersion) else { throw InitializableError.missingRequiredParam("HttpVersion") }
-            self.httpVersion = httpVersion
-            guard let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CustomErrorResponses") }
-            self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses)
-            guard let origins = dictionary["Origins"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Origins") }
-            self.origins = try Cloudfront.Origins(dictionary: origins)
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let webACLId = dictionary["WebACLId"] as? String else { throw InitializableError.missingRequiredParam("WebACLId") }
-            self.webACLId = webACLId
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("IsIPV6Enabled") }
-            self.isIPV6Enabled = isIPV6Enabled
-            guard let restrictions = dictionary["Restrictions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Restrictions") }
-            self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions)
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
-            self.lastModifiedTime = lastModifiedTime
-            guard let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ViewerCertificate") }
-            self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let aliases = dictionary["Aliases"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Aliases") }
-            self.aliases = try Cloudfront.Aliases(dictionary: aliases)
-            guard let rawPriceClass = dictionary["PriceClass"] as? String, let priceClass = PriceClass(rawValue: rawPriceClass) else { throw InitializableError.missingRequiredParam("PriceClass") }
-            self.priceClass = priceClass
-            guard let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CacheBehaviors") }
-            self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            guard let defaultCacheBehavior = dictionary["DefaultCacheBehavior"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultCacheBehavior") }
-            self.defaultCacheBehavior = try Cloudfront.DefaultCacheBehavior(dictionary: defaultCacheBehavior)
+        private enum CodingKeys: String, CodingKey {
+            case httpVersion = "HttpVersion"
+            case customErrorResponses = "CustomErrorResponses"
+            case origins = "Origins"
+            case comment = "Comment"
+            case enabled = "Enabled"
+            case webACLId = "WebACLId"
+            case aRN = "ARN"
+            case isIPV6Enabled = "IsIPV6Enabled"
+            case restrictions = "Restrictions"
+            case lastModifiedTime = "LastModifiedTime"
+            case viewerCertificate = "ViewerCertificate"
+            case id = "Id"
+            case status = "Status"
+            case aliases = "Aliases"
+            case priceClass = "PriceClass"
+            case cacheBehaviors = "CacheBehaviors"
+            case domainName = "DomainName"
+            case defaultCacheBehavior = "DefaultCacheBehavior"
         }
     }
 
     public struct CustomOriginConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OriginProtocolPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "HTTPPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "OriginReadTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "HTTPSPort", required: true, type: .integer), 
-            AWSShapeProperty(label: "OriginSslProtocols", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginProtocolPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "HTTPPort", required: true, type: .integer), 
+            AWSShapeMember(label: "OriginKeepaliveTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "OriginReadTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "HTTPSPort", required: true, type: .integer), 
+            AWSShapeMember(label: "OriginSslProtocols", required: false, type: .structure)
         ]
         /// The origin protocol policy to apply to your origin.
         public let originProtocolPolicy: OriginProtocolPolicy
@@ -2242,26 +2058,23 @@ extension Cloudfront {
             self.originSslProtocols = originSslProtocols
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawOriginProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String, let originProtocolPolicy = OriginProtocolPolicy(rawValue: rawOriginProtocolPolicy) else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
-            self.originProtocolPolicy = originProtocolPolicy
-            guard let hTTPPort = dictionary["HTTPPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPPort") }
-            self.hTTPPort = hTTPPort
-            self.originKeepaliveTimeout = dictionary["OriginKeepaliveTimeout"] as? Int32
-            self.originReadTimeout = dictionary["OriginReadTimeout"] as? Int32
-            guard let hTTPSPort = dictionary["HTTPSPort"] as? Int32 else { throw InitializableError.missingRequiredParam("HTTPSPort") }
-            self.hTTPSPort = hTTPSPort
-            if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) } else { self.originSslProtocols = nil }
+        private enum CodingKeys: String, CodingKey {
+            case originProtocolPolicy = "OriginProtocolPolicy"
+            case hTTPPort = "HTTPPort"
+            case originKeepaliveTimeout = "OriginKeepaliveTimeout"
+            case originReadTimeout = "OriginReadTimeout"
+            case hTTPSPort = "HTTPSPort"
+            case originSslProtocols = "OriginSslProtocols"
         }
     }
 
     public struct CreateStreamingDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistribution", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistribution", required: false, type: .structure)
         ]
         /// The current version of the streaming distribution created.
         public let eTag: String?
@@ -2276,18 +2089,17 @@ extension Cloudfront {
             self.streamingDistribution = streamingDistribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            self.location = dictionary["Location"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case location = "Location"
+            case streamingDistribution = "StreamingDistribution"
         }
     }
 
     public struct KeyPairIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyPairId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyPairId", required: false, type: .list)
         ]
         public let keyPairId: [String]?
 
@@ -2295,19 +2107,18 @@ extension Cloudfront {
             self.keyPairId = keyPairId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyPairId = dictionary["KeyPairId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case keyPairId = "KeyPairId"
         }
     }
 
     public struct CustomErrorResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResponseCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCachingMinTTL", required: false, type: .long), 
-            AWSShapeProperty(label: "ErrorCode", required: true, type: .integer), 
-            AWSShapeProperty(label: "ResponsePagePath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResponseCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCachingMinTTL", required: false, type: .long), 
+            AWSShapeMember(label: "ErrorCode", required: true, type: .integer), 
+            AWSShapeMember(label: "ResponsePagePath", required: false, type: .string)
         ]
         /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
         public let responseCode: String?
@@ -2325,16 +2136,15 @@ extension Cloudfront {
             self.responsePagePath = responsePagePath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.responseCode = dictionary["ResponseCode"] as? String
-            self.errorCachingMinTTL = dictionary["ErrorCachingMinTTL"] as? Int64
-            guard let errorCode = dictionary["ErrorCode"] as? Int32 else { throw InitializableError.missingRequiredParam("ErrorCode") }
-            self.errorCode = errorCode
-            self.responsePagePath = dictionary["ResponsePagePath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case responseCode = "ResponseCode"
+            case errorCachingMinTTL = "ErrorCachingMinTTL"
+            case errorCode = "ErrorCode"
+            case responsePagePath = "ResponsePagePath"
         }
     }
 
-    public enum HttpVersion: String, CustomStringConvertible {
+    public enum HttpVersion: String, CustomStringConvertible, Codable {
         case http1_1 = "http1.1"
         case http2 = "http2"
         public var description: String { return self.rawValue }
@@ -2342,10 +2152,10 @@ extension Cloudfront {
 
     public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -2357,19 +2167,18 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) } else { self.cloudFrontOriginAccessIdentityConfig = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
         }
     }
 
     public struct CloudFrontOriginAccessIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
         public let s3CanonicalUserId: String
@@ -2384,20 +2193,17 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let s3CanonicalUserId = dictionary["S3CanonicalUserId"] as? String else { throw InitializableError.missingRequiredParam("S3CanonicalUserId") }
-            self.s3CanonicalUserId = s3CanonicalUserId
-            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) } else { self.cloudFrontOriginAccessIdentityConfig = nil }
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case s3CanonicalUserId = "S3CanonicalUserId"
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
+            case id = "Id"
         }
     }
 
     public struct TagList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -2405,20 +2211,15 @@ extension Cloudfront {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [[String: Any]] {
-                self.tag = try tag.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tag = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
         }
     }
 
     public struct GetDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The distribution's ID.
         public let id: String
@@ -2427,13 +2228,12 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
-    public enum SslProtocol: String, CustomStringConvertible {
+    public enum SslProtocol: String, CustomStringConvertible, Codable {
         case sslv3 = "SSLv3"
         case tlsv1 = "TLSv1"
         case tlsv1_1 = "TLSv1.1"
@@ -2443,11 +2243,10 @@ extension Cloudfront {
 
     public struct StreamingLoggingConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Bucket", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Prefix", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Prefix", required: true, type: .string)
         ]
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
         public let bucket: String
@@ -2462,17 +2261,14 @@ extension Cloudfront {
             self.prefix = prefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
-            self.bucket = bucket
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
-            self.prefix = prefix
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case enabled = "Enabled"
+            case prefix = "Prefix"
         }
     }
 
-    public enum OriginProtocolPolicy: String, CustomStringConvertible {
+    public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
         case http_only = "http-only"
         case match_viewer = "match-viewer"
         case https_only = "https-only"
@@ -2481,11 +2277,10 @@ extension Cloudfront {
 
     public struct GeoRestriction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "RestrictionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "RestrictionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
         public let items: LocationList?
@@ -2500,25 +2295,22 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.LocationList(dictionary: items) } else { self.items = nil }
-            guard let rawRestrictionType = dictionary["RestrictionType"] as? String, let restrictionType = GeoRestrictionType(rawValue: rawRestrictionType) else { throw InitializableError.missingRequiredParam("RestrictionType") }
-            self.restrictionType = restrictionType
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case restrictionType = "RestrictionType"
+            case quantity = "Quantity"
         }
     }
 
     public struct StreamingDistributionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The value you provided for the MaxItems request parameter. 
         public let maxItems: Int32
@@ -2542,26 +2334,21 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.StreamingDistributionSummaryList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct S3Origin: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OriginAccessIdentity", required: true, type: .string), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginAccessIdentity", required: true, type: .string), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string)
         ]
         /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
@@ -2573,19 +2360,16 @@ extension Cloudfront {
             self.domainName = domainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let originAccessIdentity = dictionary["OriginAccessIdentity"] as? String else { throw InitializableError.missingRequiredParam("OriginAccessIdentity") }
-            self.originAccessIdentity = originAccessIdentity
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
+        private enum CodingKeys: String, CodingKey {
+            case originAccessIdentity = "OriginAccessIdentity"
+            case domainName = "DomainName"
         }
     }
 
     public struct AliasList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CNAME", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CNAME", required: false, type: .list)
         ]
         public let cNAME: [String]?
 
@@ -2593,16 +2377,16 @@ extension Cloudfront {
             self.cNAME = cNAME
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cNAME = dictionary["CNAME"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case cNAME = "CNAME"
         }
     }
 
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "InvalidationList"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InvalidationList", required: false, type: .structure)
+        public static let payloadPath: String? = "InvalidationList"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationList", required: false, type: .structure)
         ]
         /// Information about invalidation batches. 
         public let invalidationList: InvalidationList?
@@ -2611,16 +2395,15 @@ extension Cloudfront {
             self.invalidationList = invalidationList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let invalidationList = dictionary["InvalidationList"] as? [String: Any] { self.invalidationList = try Cloudfront.InvalidationList(dictionary: invalidationList) } else { self.invalidationList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case invalidationList = "InvalidationList"
         }
     }
 
     public struct CustomErrorResponseList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomErrorResponse", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomErrorResponse", required: false, type: .list)
         ]
         public let customErrorResponse: [CustomErrorResponse]?
 
@@ -2628,20 +2411,15 @@ extension Cloudfront {
             self.customErrorResponse = customErrorResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let customErrorResponse = dictionary["CustomErrorResponse"] as? [[String: Any]] {
-                self.customErrorResponse = try customErrorResponse.map({ try CustomErrorResponse(dictionary: $0) })
-            } else { 
-                self.customErrorResponse = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case customErrorResponse = "CustomErrorResponse"
         }
     }
 
     public struct DistributionSummaryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DistributionSummary", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionSummary", required: false, type: .list)
         ]
         public let distributionSummary: [DistributionSummary]?
 
@@ -2649,20 +2427,15 @@ extension Cloudfront {
             self.distributionSummary = distributionSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let distributionSummary = dictionary["DistributionSummary"] as? [[String: Any]] {
-                self.distributionSummary = try distributionSummary.map({ try DistributionSummary(dictionary: $0) })
-            } else { 
-                self.distributionSummary = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case distributionSummary = "DistributionSummary"
         }
     }
 
     public struct OriginCustomHeadersList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OriginCustomHeader", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginCustomHeader", required: false, type: .list)
         ]
         public let originCustomHeader: [OriginCustomHeader]?
 
@@ -2670,16 +2443,12 @@ extension Cloudfront {
             self.originCustomHeader = originCustomHeader
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let originCustomHeader = dictionary["OriginCustomHeader"] as? [[String: Any]] {
-                self.originCustomHeader = try originCustomHeader.map({ try OriginCustomHeader(dictionary: $0) })
-            } else { 
-                self.originCustomHeader = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case originCustomHeader = "OriginCustomHeader"
         }
     }
 
-    public enum SSLSupportMethod: String, CustomStringConvertible {
+    public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
         case sni_only = "sni-only"
         case vip = "vip"
         public var description: String { return self.rawValue }
@@ -2687,11 +2456,10 @@ extension Cloudfront {
 
     public struct CloudFrontOriginAccessIdentitySummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "S3CanonicalUserId", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "S3CanonicalUserId", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: true, type: .string)
         ]
         /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
         public let id: String
@@ -2706,53 +2474,45 @@ extension Cloudfront {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let s3CanonicalUserId = dictionary["S3CanonicalUserId"] as? String else { throw InitializableError.missingRequiredParam("S3CanonicalUserId") }
-            self.s3CanonicalUserId = s3CanonicalUserId
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case s3CanonicalUserId = "S3CanonicalUserId"
+            case comment = "Comment"
         }
     }
 
     public struct InvalidationSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateTime", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "CreateTime", required: true, type: .timestamp)
         ]
         /// The unique ID for an invalidation request.
         public let id: String
         /// The status of an invalidation request.
         public let status: String
-        public let createTime: String
+        public let createTime: Double
 
-        public init(id: String, status: String, createTime: String) {
+        public init(id: String, status: String, createTime: Double) {
             self.id = id
             self.status = status
             self.createTime = createTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let createTime = dictionary["CreateTime"] as? String else { throw InitializableError.missingRequiredParam("CreateTime") }
-            self.createTime = createTime
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case status = "Status"
+            case createTime = "CreateTime"
         }
     }
 
     public struct ActiveTrustedSigners: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
         public let items: SignerList?
@@ -2767,27 +2527,24 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.SignerList(dictionary: items) } else { self.items = nil }
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case enabled = "Enabled"
+            case quantity = "Quantity"
         }
     }
 
     public struct StreamingDistributionConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", required: false, type: .structure), 
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "Logging", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3Origin", required: true, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string), 
-            AWSShapeProperty(label: "TrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "PriceClass", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aliases", required: false, type: .structure), 
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "S3Origin", required: true, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Comment", required: true, type: .string), 
+            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "PriceClass", required: false, type: .enum)
         ]
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
         public let aliases: Aliases?
@@ -2817,28 +2574,22 @@ extension Cloudfront {
             self.priceClass = priceClass
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) } else { self.aliases = nil }
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.StreamingLoggingConfig(dictionary: logging) } else { self.logging = nil }
-            guard let s3Origin = dictionary["S3Origin"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Origin") }
-            self.s3Origin = try Cloudfront.S3Origin(dictionary: s3Origin)
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
-            guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
-            self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
-            if let priceClass = dictionary["PriceClass"] as? String { self.priceClass = PriceClass(rawValue: priceClass) } else { self.priceClass = nil }
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case callerReference = "CallerReference"
+            case logging = "Logging"
+            case s3Origin = "S3Origin"
+            case enabled = "Enabled"
+            case comment = "Comment"
+            case trustedSigners = "TrustedSigners"
+            case priceClass = "PriceClass"
         }
     }
 
     public struct MethodsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Method", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Method", required: false, type: .list)
         ]
         public let method: [Method]?
 
@@ -2846,17 +2597,16 @@ extension Cloudfront {
             self.method = method
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let method = dictionary["Method"] as? [String] { self.method = method.flatMap({ Method(rawValue: $0)}) } else { self.method = nil }
+        private enum CodingKeys: String, CodingKey {
+            case method = "Method"
         }
     }
 
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
@@ -2868,19 +2618,18 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["If-Match"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
         }
     }
 
     public struct CreateInvalidationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "InvalidationBatch"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure), 
-            AWSShapeProperty(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
+        public static let payloadPath: String? = "InvalidationBatch"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidationBatch", location: .body(locationName: "InvalidationBatch"), required: true, type: .structure), 
+            AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
         ]
         /// The batch information for the invalidation.
         public let invalidationBatch: InvalidationBatch
@@ -2892,19 +2641,16 @@ extension Cloudfront {
             self.distributionId = distributionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let invalidationBatch = dictionary["InvalidationBatch"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InvalidationBatch") }
-            self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
-            guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
-            self.distributionId = distributionId
+        private enum CodingKeys: String, CodingKey {
+            case invalidationBatch = "InvalidationBatch"
+            case distributionId = "DistributionId"
         }
     }
 
     public struct TagKeyList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .list)
         ]
         public let key: [String]?
 
@@ -2912,16 +2658,15 @@ extension Cloudfront {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
         }
     }
 
     public struct OriginList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Origin", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Origin", required: false, type: .list)
         ]
         public let origin: [Origin]?
 
@@ -2929,20 +2674,15 @@ extension Cloudfront {
             self.origin = origin
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let origin = dictionary["Origin"] as? [[String: Any]] {
-                self.origin = try origin.map({ try Origin(dictionary: $0) })
-            } else { 
-                self.origin = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case origin = "Origin"
         }
     }
 
     public struct GetDistributionConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The distribution's ID.
         public let id: String
@@ -2951,18 +2691,17 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct UpdateDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Distribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        public static let payloadPath: String? = "Distribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -2974,13 +2713,13 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case distribution = "Distribution"
         }
     }
 
-    public enum PriceClass: String, CustomStringConvertible {
+    public enum PriceClass: String, CustomStringConvertible, Codable {
         case priceclass_100 = "PriceClass_100"
         case priceclass_200 = "PriceClass_200"
         case priceclass_all = "PriceClass_All"
@@ -2989,10 +2728,10 @@ extension Cloudfront {
 
     public struct GetStreamingDistributionConfigResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistributionConfig", required: false, type: .structure)
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistributionConfig", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
         public let eTag: String?
@@ -3004,18 +2743,17 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] { self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig) } else { self.streamingDistributionConfig = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
         }
     }
 
     public struct KeyPairIds: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let items: KeyPairIdList?
@@ -3027,23 +2765,21 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.KeyPairIdList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct Origin: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomHeaders", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomOriginConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "OriginPath", required: false, type: .string), 
-            AWSShapeProperty(label: "S3OriginConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomHeaders", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomOriginConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "OriginPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// A complex type that contains names and values for the custom headers that you want.
         public let customHeaders: CustomHeaders?
@@ -3067,23 +2803,20 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let customHeaders = dictionary["CustomHeaders"] as? [String: Any] { self.customHeaders = try Cloudfront.CustomHeaders(dictionary: customHeaders) } else { self.customHeaders = nil }
-            if let customOriginConfig = dictionary["CustomOriginConfig"] as? [String: Any] { self.customOriginConfig = try Cloudfront.CustomOriginConfig(dictionary: customOriginConfig) } else { self.customOriginConfig = nil }
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            self.originPath = dictionary["OriginPath"] as? String
-            if let s3OriginConfig = dictionary["S3OriginConfig"] as? [String: Any] { self.s3OriginConfig = try Cloudfront.S3OriginConfig(dictionary: s3OriginConfig) } else { self.s3OriginConfig = nil }
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case customHeaders = "CustomHeaders"
+            case customOriginConfig = "CustomOriginConfig"
+            case domainName = "DomainName"
+            case originPath = "OriginPath"
+            case s3OriginConfig = "S3OriginConfig"
+            case id = "Id"
         }
     }
 
     public struct Tags: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure)
         ]
         ///  A complex type that contains Tag elements.
         public let items: TagList?
@@ -3092,16 +2825,15 @@ extension Cloudfront {
             self.items = items
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.TagList(dictionary: items) } else { self.items = nil }
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
         }
     }
 
     public struct LambdaFunctionAssociationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LambdaFunctionAssociation", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LambdaFunctionAssociation", required: false, type: .list)
         ]
         public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
 
@@ -3109,20 +2841,15 @@ extension Cloudfront {
             self.lambdaFunctionAssociation = lambdaFunctionAssociation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lambdaFunctionAssociation = dictionary["LambdaFunctionAssociation"] as? [[String: Any]] {
-                self.lambdaFunctionAssociation = try lambdaFunctionAssociation.map({ try LambdaFunctionAssociation(dictionary: $0) })
-            } else { 
-                self.lambdaFunctionAssociation = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case lambdaFunctionAssociation = "LambdaFunctionAssociation"
         }
     }
 
     public struct StreamingDistributionSummaryList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingDistributionSummary", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingDistributionSummary", required: false, type: .list)
         ]
         public let streamingDistributionSummary: [StreamingDistributionSummary]?
 
@@ -3130,21 +2857,17 @@ extension Cloudfront {
             self.streamingDistributionSummary = streamingDistributionSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let streamingDistributionSummary = dictionary["StreamingDistributionSummary"] as? [[String: Any]] {
-                self.streamingDistributionSummary = try streamingDistributionSummary.map({ try StreamingDistributionSummary(dictionary: $0) })
-            } else { 
-                self.streamingDistributionSummary = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case streamingDistributionSummary = "StreamingDistributionSummary"
         }
     }
 
     public struct GetCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentity"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
         /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -3156,18 +2879,18 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
         }
     }
 
     public struct GetDistributionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "Distribution"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "Distribution", required: false, type: .structure)
+        public static let payloadPath: String? = "Distribution"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "Distribution", required: false, type: .structure)
         ]
         /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -3179,19 +2902,19 @@ extension Cloudfront {
             self.distribution = distribution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case distribution = "Distribution"
         }
     }
 
     public struct UpdateStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "StreamingDistributionConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeProperty(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static let payloadPath: String? = "StreamingDistributionConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "StreamingDistributionConfig", location: .body(locationName: "StreamingDistributionConfig"), required: true, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
@@ -3206,25 +2929,22 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["If-Match"] as? String
-            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
-            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
+            case id = "Id"
         }
     }
 
     public struct CloudFrontOriginAccessIdentityList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: true, type: .integer), 
-            AWSShapeProperty(label: "IsTruncated", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: true, type: .string), 
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "IsTruncated", required: true, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: true, type: .string), 
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The maximum number of origin access identities you want in the response body. 
         public let maxItems: Int32
@@ -3248,25 +2968,20 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxItems = dictionary["MaxItems"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxItems") }
-            self.maxItems = maxItems
-            guard let isTruncated = dictionary["IsTruncated"] as? Bool else { throw InitializableError.missingRequiredParam("IsTruncated") }
-            self.isTruncated = isTruncated
-            self.nextMarker = dictionary["NextMarker"] as? String
-            guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
-            self.marker = marker
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CloudFrontOriginAccessIdentitySummaryList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case isTruncated = "IsTruncated"
+            case nextMarker = "NextMarker"
+            case marker = "Marker"
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The identity's ID. 
         public let id: String
@@ -3275,17 +2990,16 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentityConfig"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentityConfig", location: .body(locationName: "CloudFrontOriginAccessIdentityConfig"), required: true, type: .structure)
         ]
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
@@ -3294,27 +3008,25 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudFrontOriginAccessIdentityConfig") }
-            self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig)
+        private enum CodingKeys: String, CodingKey {
+            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
         }
     }
 
     public struct Distribution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: true, type: .string), 
-            AWSShapeProperty(label: "ActiveTrustedSigners", required: true, type: .structure), 
-            AWSShapeProperty(label: "ARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DistributionConfig", required: true, type: .structure), 
-            AWSShapeProperty(label: "DomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "InProgressInvalidationBatches", required: true, type: .integer), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: true, type: .string), 
+            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "ARN", required: true, type: .string), 
+            AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "DomainName", required: true, type: .string), 
+            AWSShapeMember(label: "InProgressInvalidationBatches", required: true, type: .integer), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The date and time the distribution was last modified. 
-        public let lastModifiedTime: String
+        public let lastModifiedTime: Double
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
@@ -3330,7 +3042,7 @@ extension Cloudfront {
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
         public let id: String
 
-        public init(lastModifiedTime: String, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
+        public init(lastModifiedTime: Double, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.activeTrustedSigners = activeTrustedSigners
@@ -3341,32 +3053,23 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let lastModifiedTime = dictionary["LastModifiedTime"] as? String else { throw InitializableError.missingRequiredParam("LastModifiedTime") }
-            self.lastModifiedTime = lastModifiedTime
-            guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let activeTrustedSigners = dictionary["ActiveTrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActiveTrustedSigners") }
-            self.activeTrustedSigners = try Cloudfront.ActiveTrustedSigners(dictionary: activeTrustedSigners)
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
-            self.aRN = aRN
-            guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
-            self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
-            guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
-            self.domainName = domainName
-            guard let inProgressInvalidationBatches = dictionary["InProgressInvalidationBatches"] as? Int32 else { throw InitializableError.missingRequiredParam("InProgressInvalidationBatches") }
-            self.inProgressInvalidationBatches = inProgressInvalidationBatches
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case status = "Status"
+            case activeTrustedSigners = "ActiveTrustedSigners"
+            case aRN = "ARN"
+            case distributionConfig = "DistributionConfig"
+            case domainName = "DomainName"
+            case inProgressInvalidationBatches = "InProgressInvalidationBatches"
+            case id = "Id"
         }
     }
 
     public struct StreamingDistributionConfigWithTags: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .structure), 
-            AWSShapeProperty(label: "StreamingDistributionConfig", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .structure), 
+            AWSShapeMember(label: "StreamingDistributionConfig", required: true, type: .structure)
         ]
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
@@ -3378,20 +3081,17 @@ extension Cloudfront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Cloudfront.Tags(dictionary: tags)
-            guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
-            self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case streamingDistributionConfig = "StreamingDistributionConfig"
         }
     }
 
     public struct CloudFrontOriginAccessIdentityConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CallerReference", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CallerReference", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: true, type: .string)
         ]
         /// A unique number that ensures the request can't be replayed. If the CallerReference is new (no matter the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
         public let callerReference: String
@@ -3403,20 +3103,18 @@ extension Cloudfront {
             self.comment = comment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
-            self.callerReference = callerReference
-            guard let comment = dictionary["Comment"] as? String else { throw InitializableError.missingRequiredParam("Comment") }
-            self.comment = comment
+        private enum CodingKeys: String, CodingKey {
+            case callerReference = "CallerReference"
+            case comment = "Comment"
         }
     }
 
     public struct UpdateCloudFrontOriginAccessIdentityResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "CloudFrontOriginAccessIdentity"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
-            AWSShapeProperty(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
+        public static let payloadPath: String? = "CloudFrontOriginAccessIdentity"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "CloudFrontOriginAccessIdentity", required: false, type: .structure)
         ]
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
@@ -3428,18 +3126,17 @@ extension Cloudfront {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
         }
     }
 
     public struct DeleteStreamingDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
@@ -3451,19 +3148,17 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["If-Match"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
         }
     }
 
     public struct CustomErrorResponses: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
         public let items: CustomErrorResponseList?
@@ -3475,19 +3170,17 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CustomErrorResponseList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct CookieNames: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
         public let items: CookieNameList?
@@ -3499,18 +3192,16 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CookieNameList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct CookieNameList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .list)
         ]
         public let name: [String]?
 
@@ -3518,12 +3209,12 @@ extension Cloudfront {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
-    public enum Method: String, CustomStringConvertible {
+    public enum Method: String, CustomStringConvertible, Codable {
         case get = "GET"
         case head = "HEAD"
         case post = "POST"
@@ -3536,9 +3227,8 @@ extension Cloudfront {
 
     public struct AwsAccountNumberList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AwsAccountNumber", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsAccountNumber", required: false, type: .list)
         ]
         public let awsAccountNumber: [String]?
 
@@ -3546,17 +3236,16 @@ extension Cloudfront {
             self.awsAccountNumber = awsAccountNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.awsAccountNumber = dictionary["AwsAccountNumber"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountNumber = "AwsAccountNumber"
         }
     }
 
     public struct Aliases: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: false, type: .structure), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .structure), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
         public let items: AliasList?
@@ -3568,19 +3257,17 @@ extension Cloudfront {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.AliasList(dictionary: items) } else { self.items = nil }
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
     public struct DeleteDistributionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
-            AWSShapeProperty(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
         /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
         public let ifMatch: String?
@@ -3592,10 +3279,9 @@ extension Cloudfront {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["If-Match"] as? String
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case ifMatch = "If-Match"
+            case id = "Id"
         }
     }
 

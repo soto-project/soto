@@ -31,29 +31,28 @@ extension MturkRequester {
 
     public struct HIT: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
-            AWSShapeProperty(label: "NumberOfAssignmentsAvailable", required: false, type: .integer), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HITGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "Reward", required: false, type: .string), 
-            AWSShapeProperty(label: "HITReviewStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "HITTypeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeProperty(label: "HITId", required: false, type: .string), 
-            AWSShapeProperty(label: "HITStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
-            AWSShapeProperty(label: "Question", required: false, type: .string), 
-            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string), 
-            AWSShapeProperty(label: "NumberOfAssignmentsPending", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfAssignmentsCompleted", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfAssignmentsAvailable", required: false, type: .integer), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HITGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Reward", required: false, type: .string), 
+            AWSShapeMember(label: "HITReviewStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "HITStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfAssignmentsPending", required: false, type: .integer)
         ]
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
         public let autoApprovalDelayInSeconds: Int64?
@@ -68,7 +67,7 @@ extension MturkRequester {
         ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
         public let assignmentDurationInSeconds: Int64?
         ///  The date and time the HIT was created.
-        public let creationTime: String?
+        public let creationTime: Double?
         ///  The ID of the HIT Group of this HIT.
         public let hITGroupId: String?
         public let reward: String?
@@ -85,7 +84,7 @@ extension MturkRequester {
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
         public let hITStatus: HITStatus?
         /// The date and time the HIT expires.
-        public let expiration: String?
+        public let expiration: Double?
         ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
         public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
@@ -97,7 +96,7 @@ extension MturkRequester {
         ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
         public let numberOfAssignmentsPending: Int32?
 
-        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: String? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: HITStatus? = nil, expiration: String? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Double? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: HITStatus? = nil, expiration: Double? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.hITLayoutId = hITLayoutId
             self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
@@ -121,40 +120,35 @@ extension MturkRequester {
             self.numberOfAssignmentsPending = numberOfAssignmentsPending
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
-            self.hITLayoutId = dictionary["HITLayoutId"] as? String
-            self.numberOfAssignmentsCompleted = dictionary["NumberOfAssignmentsCompleted"] as? Int32
-            self.numberOfAssignmentsAvailable = dictionary["NumberOfAssignmentsAvailable"] as? Int32
-            self.title = dictionary["Title"] as? String
-            self.assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.hITGroupId = dictionary["HITGroupId"] as? String
-            self.reward = dictionary["Reward"] as? String
-            if let hITReviewStatus = dictionary["HITReviewStatus"] as? String { self.hITReviewStatus = HITReviewStatus(rawValue: hITReviewStatus) } else { self.hITReviewStatus = nil }
-            self.hITTypeId = dictionary["HITTypeId"] as? String
-            self.description = dictionary["Description"] as? String
-            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
-            self.hITId = dictionary["HITId"] as? String
-            if let hITStatus = dictionary["HITStatus"] as? String { self.hITStatus = HITStatus(rawValue: hITStatus) } else { self.hITStatus = nil }
-            self.expiration = dictionary["Expiration"] as? String
-            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
-                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
-            } else { 
-                self.qualificationRequirements = nil
-            }
-            self.keywords = dictionary["Keywords"] as? String
-            self.question = dictionary["Question"] as? String
-            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
-            self.numberOfAssignmentsPending = dictionary["NumberOfAssignmentsPending"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case hITLayoutId = "HITLayoutId"
+            case numberOfAssignmentsCompleted = "NumberOfAssignmentsCompleted"
+            case numberOfAssignmentsAvailable = "NumberOfAssignmentsAvailable"
+            case title = "Title"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case creationTime = "CreationTime"
+            case hITGroupId = "HITGroupId"
+            case reward = "Reward"
+            case hITReviewStatus = "HITReviewStatus"
+            case hITTypeId = "HITTypeId"
+            case description = "Description"
+            case maxAssignments = "MaxAssignments"
+            case hITId = "HITId"
+            case hITStatus = "HITStatus"
+            case expiration = "Expiration"
+            case qualificationRequirements = "QualificationRequirements"
+            case keywords = "Keywords"
+            case question = "Question"
+            case requesterAnnotation = "RequesterAnnotation"
+            case numberOfAssignmentsPending = "NumberOfAssignmentsPending"
         }
     }
 
     public struct DeleteQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// The ID of the QualificationType to dispose.
         public let qualificationTypeId: String
@@ -163,20 +157,18 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct ListAssignmentsForHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentStatuses", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the HIT.
         public let hITId: String
@@ -193,32 +185,25 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
-            self.nextToken = dictionary["NextToken"] as? String
-            if let assignmentStatuses = dictionary["AssignmentStatuses"] as? [String] { self.assignmentStatuses = assignmentStatuses.flatMap({ AssignmentStatus(rawValue: $0)}) } else { self.assignmentStatuses = nil }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+            case nextToken = "NextToken"
+            case assignmentStatuses = "AssignmentStatuses"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateHITReviewStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum NotificationTransport: String, CustomStringConvertible {
+    public enum NotificationTransport: String, CustomStringConvertible, Codable {
         case email = "Email"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
@@ -226,11 +211,10 @@ extension MturkRequester {
 
     public struct NotifyWorkersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subject", required: true, type: .string), 
-            AWSShapeProperty(label: "MessageText", required: true, type: .string), 
-            AWSShapeProperty(label: "WorkerIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subject", required: true, type: .string), 
+            AWSShapeMember(label: "MessageText", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerIds", required: true, type: .list)
         ]
         /// The subject line of the email message to send. Can include up to 200 characters.
         public let subject: String
@@ -245,21 +229,17 @@ extension MturkRequester {
             self.workerIds = workerIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subject = dictionary["Subject"] as? String else { throw InitializableError.missingRequiredParam("Subject") }
-            self.subject = subject
-            guard let messageText = dictionary["MessageText"] as? String else { throw InitializableError.missingRequiredParam("MessageText") }
-            self.messageText = messageText
-            guard let workerIds = dictionary["WorkerIds"] as? [String] else { throw InitializableError.missingRequiredParam("WorkerIds") }
-            self.workerIds = workerIds
+        private enum CodingKeys: String, CodingKey {
+            case subject = "Subject"
+            case messageText = "MessageText"
+            case workerIds = "WorkerIds"
         }
     }
 
     public struct CreateHITTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITTypeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string)
         ]
         ///  The ID of the newly registered HIT type.
         public let hITTypeId: String?
@@ -268,18 +248,17 @@ extension MturkRequester {
             self.hITTypeId = hITTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hITTypeId = dictionary["HITTypeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hITTypeId = "HITTypeId"
         }
     }
 
     public struct ListAssignmentsForHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Assignments", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Assignments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         ///  The collection of Assignment data structures returned by this call.
         public let assignments: [Assignment]?
@@ -293,26 +272,21 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let assignments = dictionary["Assignments"] as? [[String: Any]] {
-                self.assignments = try assignments.map({ try Assignment(dictionary: $0) })
-            } else { 
-                self.assignments = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case assignments = "Assignments"
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
     public struct ListQualificationTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MustBeRequestable", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Query", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MustBeOwnedByCaller", required: false, type: .boolean), 
+            AWSShapeMember(label: "MustBeRequestable", required: true, type: .boolean), 
+            AWSShapeMember(label: "Query", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
         public let mustBeOwnedByCaller: Bool?
@@ -332,23 +306,21 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mustBeOwnedByCaller = dictionary["MustBeOwnedByCaller"] as? Bool
-            guard let mustBeRequestable = dictionary["MustBeRequestable"] as? Bool else { throw InitializableError.missingRequiredParam("MustBeRequestable") }
-            self.mustBeRequestable = mustBeRequestable
-            self.query = dictionary["Query"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case mustBeOwnedByCaller = "MustBeOwnedByCaller"
+            case mustBeRequestable = "MustBeRequestable"
+            case query = "Query"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListQualificationRequestsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         /// The ID of the QualificationType.
@@ -362,14 +334,14 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case qualificationTypeId = "QualificationTypeId"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum NotifyWorkersFailureCode: String, CustomStringConvertible {
+    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
         case softfailure = "SoftFailure"
         case hardfailure = "HardFailure"
         public var description: String { return self.rawValue }
@@ -377,11 +349,10 @@ extension MturkRequester {
 
     public struct ListReviewableHITsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
@@ -395,22 +366,17 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hITs = dictionary["HITs"] as? [[String: Any]] {
-                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
-            } else { 
-                self.hITs = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case hITs = "HITs"
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
     public struct GetFileUploadURLResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileUploadURL", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileUploadURL", required: false, type: .string)
         ]
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
         public let fileUploadURL: String?
@@ -419,17 +385,16 @@ extension MturkRequester {
             self.fileUploadURL = fileUploadURL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileUploadURL = dictionary["FileUploadURL"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileUploadURL = "FileUploadURL"
         }
     }
 
     public struct HITLayoutParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The value substituted for the parameter referenced in the HITLayout. 
         public let value: String?
@@ -441,13 +406,13 @@ extension MturkRequester {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
-    public enum HITReviewStatus: String, CustomStringConvertible {
+    public enum HITReviewStatus: String, CustomStringConvertible, Codable {
         case notreviewed = "NotReviewed"
         case markedforreview = "MarkedForReview"
         case reviewedappropriate = "ReviewedAppropriate"
@@ -457,21 +422,20 @@ extension MturkRequester {
 
     public struct QualificationType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "QualificationTypeStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Test", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
-            AWSShapeProperty(label: "IsRequestable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "IsRequestable", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string)
         ]
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
         public let testDurationInSeconds: Int64?
@@ -480,7 +444,7 @@ extension MturkRequester {
         ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
         public let qualificationTypeStatus: QualificationTypeStatus?
         ///  The date and time the Qualification type was created. 
-        public let creationTime: String?
+        public let creationTime: Double?
         /// The answers to the Qualification test specified in the Test parameter.
         public let answerKey: String?
         ///  A long description for the Qualification type. 
@@ -500,7 +464,7 @@ extension MturkRequester {
         ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
         public let qualificationTypeId: String?
 
-        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: String? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
+        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: Double? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
             self.retryDelayInSeconds = retryDelayInSeconds
             self.qualificationTypeStatus = qualificationTypeStatus
@@ -516,56 +480,51 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
-            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
-            if let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String { self.qualificationTypeStatus = QualificationTypeStatus(rawValue: qualificationTypeStatus) } else { self.qualificationTypeStatus = nil }
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.answerKey = dictionary["AnswerKey"] as? String
-            self.description = dictionary["Description"] as? String
-            self.autoGranted = dictionary["AutoGranted"] as? Bool
-            self.test = dictionary["Test"] as? String
-            self.name = dictionary["Name"] as? String
-            self.keywords = dictionary["Keywords"] as? String
-            self.isRequestable = dictionary["IsRequestable"] as? Bool
-            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
-            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case testDurationInSeconds = "TestDurationInSeconds"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case creationTime = "CreationTime"
+            case answerKey = "AnswerKey"
+            case description = "Description"
+            case autoGranted = "AutoGranted"
+            case test = "Test"
+            case name = "Name"
+            case keywords = "Keywords"
+            case isRequestable = "IsRequestable"
+            case autoGrantedValue = "AutoGrantedValue"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct UpdateExpirationForHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpireAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpireAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         ///  The date and time at which you want the HIT to expire 
-        public let expireAt: String?
+        public let expireAt: Double?
         ///  The HIT to update. 
         public let hITId: String
 
-        public init(expireAt: String? = nil, hITId: String) {
+        public init(expireAt: Double? = nil, hITId: String) {
             self.expireAt = expireAt
             self.hITId = hITId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.expireAt = dictionary["ExpireAt"] as? String
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
+        private enum CodingKeys: String, CodingKey {
+            case expireAt = "ExpireAt"
+            case hITId = "HITId"
         }
     }
 
     public struct UpdateHITTypeOfHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ReviewActionStatus: String, CustomStringConvertible {
+    public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
         case intended = "Intended"
         case succeeded = "Succeeded"
         case failed = "Failed"
@@ -575,19 +534,15 @@ extension MturkRequester {
 
     public struct DisassociateQualificationFromWorkerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListQualificationTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypes", required: false, type: .list), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         ///  The list of QualificationType elements returned by the query. 
@@ -601,31 +556,23 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let qualificationTypes = dictionary["QualificationTypes"] as? [[String: Any]] {
-                self.qualificationTypes = try qualificationTypes.map({ try QualificationType(dictionary: $0) })
-            } else { 
-                self.qualificationTypes = nil
-            }
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case qualificationTypes = "QualificationTypes"
+            case numResults = "NumResults"
         }
     }
 
     public struct SendBonusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReviewPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         /// Name of the parameter from the Review policy.
         public let parameters: [PolicyParameter]?
@@ -637,17 +584,13 @@ extension MturkRequester {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try PolicyParameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case policyName = "PolicyName"
         }
     }
 
-    public enum ReviewableHITStatus: String, CustomStringConvertible {
+    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable {
         case reviewable = "Reviewable"
         case reviewing = "Reviewing"
         public var description: String { return self.rawValue }
@@ -655,9 +598,8 @@ extension MturkRequester {
 
     public struct GetHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the requested HIT data.
         public let hIT: HIT?
@@ -666,18 +608,17 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hIT = "HIT"
         }
     }
 
     public struct NotifyWorkersFailureStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotifyWorkersFailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
-            AWSShapeProperty(label: "NotifyWorkersFailureCode", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotifyWorkersFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "NotifyWorkersFailureCode", required: false, type: .enum)
         ]
         ///  A message detailing the reason the Worker could not be notified. 
         public let notifyWorkersFailureMessage: String?
@@ -692,28 +633,24 @@ extension MturkRequester {
             self.notifyWorkersFailureCode = notifyWorkersFailureCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notifyWorkersFailureMessage = dictionary["NotifyWorkersFailureMessage"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
-            if let notifyWorkersFailureCode = dictionary["NotifyWorkersFailureCode"] as? String { self.notifyWorkersFailureCode = NotifyWorkersFailureCode(rawValue: notifyWorkersFailureCode) } else { self.notifyWorkersFailureCode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case notifyWorkersFailureMessage = "NotifyWorkersFailureMessage"
+            case workerId = "WorkerId"
+            case notifyWorkersFailureCode = "NotifyWorkersFailureCode"
         }
     }
 
     public struct DeleteQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListHITsForQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
@@ -727,45 +664,37 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hITs = dictionary["HITs"] as? [[String: Any]] {
-                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
-            } else { 
-                self.hITs = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case hITs = "HITs"
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
     public struct DeleteWorkerBlockResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "HITLayoutParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeProperty(label: "Title", required: true, type: .string), 
-            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: true, type: .long), 
-            AWSShapeProperty(label: "Reward", required: true, type: .string), 
-            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
-            AWSShapeProperty(label: "Question", required: false, type: .string), 
-            AWSShapeProperty(label: "LifetimeInSeconds", required: true, type: .long), 
-            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "Title", required: true, type: .string), 
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "Reward", required: true, type: .string), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string), 
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string)
         ]
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public let autoApprovalDelayInSeconds: Int64?
@@ -819,45 +748,31 @@ extension MturkRequester {
             self.requesterAnnotation = requesterAnnotation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
-            if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
-                self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
-            } else { 
-                self.hITLayoutParameters = nil
-            }
-            self.hITLayoutId = dictionary["HITLayoutId"] as? String
-            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
-            self.title = title
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
-            guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
-            self.assignmentDurationInSeconds = assignmentDurationInSeconds
-            guard let reward = dictionary["Reward"] as? String else { throw InitializableError.missingRequiredParam("Reward") }
-            self.reward = reward
-            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
-            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
-            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
-                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
-            } else { 
-                self.qualificationRequirements = nil
-            }
-            self.keywords = dictionary["Keywords"] as? String
-            self.question = dictionary["Question"] as? String
-            guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
-            self.lifetimeInSeconds = lifetimeInSeconds
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
-            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case hITLayoutParameters = "HITLayoutParameters"
+            case hITLayoutId = "HITLayoutId"
+            case title = "Title"
+            case hITReviewPolicy = "HITReviewPolicy"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case reward = "Reward"
+            case uniqueRequestToken = "UniqueRequestToken"
+            case description = "Description"
+            case maxAssignments = "MaxAssignments"
+            case qualificationRequirements = "QualificationRequirements"
+            case keywords = "Keywords"
+            case question = "Question"
+            case lifetimeInSeconds = "LifetimeInSeconds"
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
+            case requesterAnnotation = "RequesterAnnotation"
         }
     }
 
     public struct ListWorkerBlocksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Pagination token
         public let nextToken: String?
@@ -868,41 +783,31 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct AcceptQualificationRequestResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RejectQualificationRequestResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SendTestEventNotificationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetQualificationScoreResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Qualification", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Qualification", required: false, type: .structure)
         ]
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
         public let qualification: Qualification?
@@ -911,25 +816,21 @@ extension MturkRequester {
             self.qualification = qualification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let qualification = dictionary["Qualification"] as? [String: Any] { self.qualification = try MturkRequester.Qualification(dictionary: qualification) } else { self.qualification = nil }
+        private enum CodingKeys: String, CodingKey {
+            case qualification = "Qualification"
         }
     }
 
     public struct UpdateNotificationSettingsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateHITReviewStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITId", required: true, type: .string), 
-            AWSShapeProperty(label: "Revert", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "Revert", required: false, type: .boolean)
         ]
         ///  The ID of the HIT to update. 
         public let hITId: String
@@ -941,21 +842,19 @@ extension MturkRequester {
             self.revert = revert
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
-            self.revert = dictionary["Revert"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+            case revert = "Revert"
         }
     }
 
     public struct AssociateQualificationWithWorkerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "SendNotification", required: false, type: .boolean), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "SendNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// The value of the Qualification to assign.
         public let integerValue: Int32?
@@ -973,21 +872,18 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.integerValue = dictionary["IntegerValue"] as? Int32
-            self.sendNotification = dictionary["SendNotification"] as? Bool
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
+        private enum CodingKeys: String, CodingKey {
+            case integerValue = "IntegerValue"
+            case sendNotification = "SendNotification"
+            case workerId = "WorkerId"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct DeleteHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         /// The ID of the HIT to be deleted.
         public let hITId: String
@@ -996,13 +892,12 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
         }
     }
 
-    public enum QualificationTypeStatus: String, CustomStringConvertible {
+    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
@@ -1010,17 +905,16 @@ extension MturkRequester {
 
     public struct UpdateQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Test", required: false, type: .string), 
-            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "QualificationTypeStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
@@ -1053,21 +947,20 @@ extension MturkRequester {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
-            self.autoGranted = dictionary["AutoGranted"] as? Bool
-            self.test = dictionary["Test"] as? String
-            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
-            if let qualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String { self.qualificationTypeStatus = QualificationTypeStatus(rawValue: qualificationTypeStatus) } else { self.qualificationTypeStatus = nil }
-            self.answerKey = dictionary["AnswerKey"] as? String
-            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case testDurationInSeconds = "TestDurationInSeconds"
+            case autoGranted = "AutoGranted"
+            case test = "Test"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case answerKey = "AnswerKey"
+            case autoGrantedValue = "AutoGrantedValue"
+            case qualificationTypeId = "QualificationTypeId"
+            case description = "Description"
         }
     }
 
-    public enum Comparator: String, CustomStringConvertible {
+    public enum Comparator: String, CustomStringConvertible, Codable {
         case lessthan = "LessThan"
         case lessthanorequalto = "LessThanOrEqualTo"
         case greaterthan = "GreaterThan"
@@ -1083,14 +976,13 @@ extension MturkRequester {
 
     public struct Qualification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "LocaleValue", required: false, type: .structure), 
-            AWSShapeProperty(label: "GrantTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "LocaleValue", required: false, type: .structure), 
+            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string)
         ]
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
         public let integerValue: Int32?
@@ -1098,13 +990,13 @@ extension MturkRequester {
         public let status: QualificationStatus?
         public let localeValue: Locale?
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        public let grantTime: String?
+        public let grantTime: Double?
         ///  The ID of the Worker who possesses the Qualification. 
         public let workerId: String?
         ///  The ID of the Qualification type for the Qualification.
         public let qualificationTypeId: String?
 
-        public init(integerValue: Int32? = nil, status: QualificationStatus? = nil, localeValue: Locale? = nil, grantTime: String? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
+        public init(integerValue: Int32? = nil, status: QualificationStatus? = nil, localeValue: Locale? = nil, grantTime: Double? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
             self.integerValue = integerValue
             self.status = status
             self.localeValue = localeValue
@@ -1113,38 +1005,31 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.integerValue = dictionary["IntegerValue"] as? Int32
-            if let status = dictionary["Status"] as? String { self.status = QualificationStatus(rawValue: status) } else { self.status = nil }
-            if let localeValue = dictionary["LocaleValue"] as? [String: Any] { self.localeValue = try MturkRequester.Locale(dictionary: localeValue) } else { self.localeValue = nil }
-            self.grantTime = dictionary["GrantTime"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
-            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case integerValue = "IntegerValue"
+            case status = "Status"
+            case localeValue = "LocaleValue"
+            case grantTime = "GrantTime"
+            case workerId = "WorkerId"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct AssociateQualificationWithWorkerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateExpirationForHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateWorkerBlockRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: true, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
         /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
         public let reason: String
@@ -1156,21 +1041,18 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let reason = dictionary["Reason"] as? String else { throw InitializableError.missingRequiredParam("Reason") }
-            self.reason = reason
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
         }
     }
 
     public struct ListHITsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITs", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
@@ -1184,24 +1066,19 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hITs = dictionary["HITs"] as? [[String: Any]] {
-                self.hITs = try hITs.map({ try HIT(dictionary: $0) })
-            } else { 
-                self.hITs = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case hITs = "HITs"
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITId", required: true, type: .string), 
-            AWSShapeProperty(label: "NumberOfAdditionalAssignments", required: false, type: .integer), 
-            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "NumberOfAdditionalAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string)
         ]
         /// The ID of the HIT to extend.
         public let hITId: String
@@ -1216,20 +1093,18 @@ extension MturkRequester {
             self.uniqueRequestToken = uniqueRequestToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
-            self.numberOfAdditionalAssignments = dictionary["NumberOfAdditionalAssignments"] as? Int32
-            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
+            case numberOfAdditionalAssignments = "NumberOfAdditionalAssignments"
+            case uniqueRequestToken = "UniqueRequestToken"
         }
     }
 
     public struct GetFileUploadURLRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
-            AWSShapeProperty(label: "QuestionIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeMember(label: "QuestionIdentifier", required: true, type: .string)
         ]
         /// The ID of the assignment that contains the question with a FileUploadAnswer.
         public let assignmentId: String
@@ -1241,21 +1116,18 @@ extension MturkRequester {
             self.questionIdentifier = questionIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
-            self.assignmentId = assignmentId
-            guard let questionIdentifier = dictionary["QuestionIdentifier"] as? String else { throw InitializableError.missingRequiredParam("QuestionIdentifier") }
-            self.questionIdentifier = questionIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case questionIdentifier = "QuestionIdentifier"
         }
     }
 
     public struct ListQualificationRequestsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationRequests", required: false, type: .list), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequests", required: false, type: .list), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
@@ -1269,23 +1141,18 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let qualificationRequests = dictionary["QualificationRequests"] as? [[String: Any]] {
-                self.qualificationRequests = try qualificationRequests.map({ try QualificationRequest(dictionary: $0) })
-            } else { 
-                self.qualificationRequests = nil
-            }
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case qualificationRequests = "QualificationRequests"
+            case numResults = "NumResults"
         }
     }
 
     public struct ReviewReport: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReviewResults", required: false, type: .list), 
-            AWSShapeProperty(label: "ReviewActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReviewResults", required: false, type: .list), 
+            AWSShapeMember(label: "ReviewActions", required: false, type: .list)
         ]
         ///  A list of ReviewResults objects for each action specified in the Review Policy. 
         public let reviewResults: [ReviewResultDetail]?
@@ -1297,34 +1164,22 @@ extension MturkRequester {
             self.reviewActions = reviewActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let reviewResults = dictionary["ReviewResults"] as? [[String: Any]] {
-                self.reviewResults = try reviewResults.map({ try ReviewResultDetail(dictionary: $0) })
-            } else { 
-                self.reviewResults = nil
-            }
-            if let reviewActions = dictionary["ReviewActions"] as? [[String: Any]] {
-                self.reviewActions = try reviewActions.map({ try ReviewActionDetail(dictionary: $0) })
-            } else { 
-                self.reviewActions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case reviewResults = "ReviewResults"
+            case reviewActions = "ReviewActions"
         }
     }
 
     public struct RejectAssignmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetAssignmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HIT", required: false, type: .structure), 
-            AWSShapeProperty(label: "Assignment", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HIT", required: false, type: .structure), 
+            AWSShapeMember(label: "Assignment", required: false, type: .structure)
         ]
         ///  The HIT associated with this assignment. The response includes one HIT element.
         public let hIT: HIT?
@@ -1336,21 +1191,20 @@ extension MturkRequester {
             self.assignment = assignment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
-            if let assignment = dictionary["Assignment"] as? [String: Any] { self.assignment = try MturkRequester.Assignment(dictionary: assignment) } else { self.assignment = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hIT = "HIT"
+            case assignment = "Assignment"
         }
     }
 
     public struct QualificationRequirement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "IntegerValues", required: false, type: .list), 
-            AWSShapeProperty(label: "RequiredToPreview", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Comparator", required: true, type: .enum), 
-            AWSShapeProperty(label: "LocaleValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "IntegerValues", required: false, type: .list), 
+            AWSShapeMember(label: "RequiredToPreview", required: false, type: .boolean), 
+            AWSShapeMember(label: "Comparator", required: true, type: .enum), 
+            AWSShapeMember(label: "LocaleValues", required: false, type: .list)
         ]
         ///  The ID of the Qualification type for the requirement.
         public let qualificationTypeId: String
@@ -1371,35 +1225,25 @@ extension MturkRequester {
             self.localeValues = localeValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
-            self.integerValues = dictionary["IntegerValues"] as? [Int32]
-            self.requiredToPreview = dictionary["RequiredToPreview"] as? Bool
-            guard let rawComparator = dictionary["Comparator"] as? String, let comparator = Comparator(rawValue: rawComparator) else { throw InitializableError.missingRequiredParam("Comparator") }
-            self.comparator = comparator
-            if let localeValues = dictionary["LocaleValues"] as? [[String: Any]] {
-                self.localeValues = try localeValues.map({ try Locale(dictionary: $0) })
-            } else { 
-                self.localeValues = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
+            case integerValues = "IntegerValues"
+            case requiredToPreview = "RequiredToPreview"
+            case comparator = "Comparator"
+            case localeValues = "LocaleValues"
         }
     }
 
     public struct GetAccountBalanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Locale: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Country", required: true, type: .string), 
-            AWSShapeProperty(label: "Subdivision", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Country", required: true, type: .string), 
+            AWSShapeMember(label: "Subdivision", required: false, type: .string)
         ]
         ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
         public let country: String
@@ -1411,19 +1255,17 @@ extension MturkRequester {
             self.subdivision = subdivision
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let country = dictionary["Country"] as? String else { throw InitializableError.missingRequiredParam("Country") }
-            self.country = country
-            self.subdivision = dictionary["Subdivision"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case country = "Country"
+            case subdivision = "Subdivision"
         }
     }
 
     public struct WorkerBlock: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string)
         ]
         ///  A message explaining the reason the Worker was blocked. 
         public let reason: String?
@@ -1435,19 +1277,18 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
         }
     }
 
     public struct ListWorkersWithQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Qualifications", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Qualifications", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         ///  The list of Qualification elements returned by this call. 
         public let qualifications: [Qualification]?
@@ -1461,18 +1302,14 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let qualifications = dictionary["Qualifications"] as? [[String: Any]] {
-                self.qualifications = try qualifications.map({ try Qualification(dictionary: $0) })
-            } else { 
-                self.qualifications = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case qualifications = "Qualifications"
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
         }
     }
 
-    public enum HITStatus: String, CustomStringConvertible {
+    public enum HITStatus: String, CustomStringConvertible, Codable {
         case assignable = "Assignable"
         case unassignable = "Unassignable"
         case reviewable = "Reviewable"
@@ -1483,10 +1320,9 @@ extension MturkRequester {
 
     public struct ParameterMapEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
         public let key: String?
@@ -1498,17 +1334,16 @@ extension MturkRequester {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct CreateHITWithHITTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hIT: HIT?
@@ -1517,16 +1352,15 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hIT = "HIT"
         }
     }
 
     public struct GetHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         /// The ID of the HIT to be retrieved.
         public let hITId: String
@@ -1535,20 +1369,18 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
+        private enum CodingKeys: String, CodingKey {
+            case hITId = "HITId"
         }
     }
 
     public struct ListWorkersWithQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
         public let status: QualificationStatus?
@@ -1566,29 +1398,27 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = QualificationStatus(rawValue: status) } else { self.status = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case nextToken = "NextToken"
+            case qualificationTypeId = "QualificationTypeId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TestDurationInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "AutoGranted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Test", required: false, type: .string), 
-            AWSShapeProperty(label: "RetryDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "AnswerKey", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoGrantedValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TestDurationInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "AutoGranted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "RetryDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "AnswerKey", required: false, type: .string), 
+            AWSShapeMember(label: "AutoGrantedValue", required: false, type: .integer), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
         public let testDurationInSeconds: Int64?
@@ -1624,38 +1454,31 @@ extension MturkRequester {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.testDurationInSeconds = dictionary["TestDurationInSeconds"] as? Int64
-            self.autoGranted = dictionary["AutoGranted"] as? Bool
-            self.test = dictionary["Test"] as? String
-            self.retryDelayInSeconds = dictionary["RetryDelayInSeconds"] as? Int64
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.keywords = dictionary["Keywords"] as? String
-            guard let rawQualificationTypeStatus = dictionary["QualificationTypeStatus"] as? String, let qualificationTypeStatus = QualificationTypeStatus(rawValue: rawQualificationTypeStatus) else { throw InitializableError.missingRequiredParam("QualificationTypeStatus") }
-            self.qualificationTypeStatus = qualificationTypeStatus
-            self.answerKey = dictionary["AnswerKey"] as? String
-            self.autoGrantedValue = dictionary["AutoGrantedValue"] as? Int32
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case testDurationInSeconds = "TestDurationInSeconds"
+            case autoGranted = "AutoGranted"
+            case test = "Test"
+            case retryDelayInSeconds = "RetryDelayInSeconds"
+            case name = "Name"
+            case keywords = "Keywords"
+            case qualificationTypeStatus = "QualificationTypeStatus"
+            case answerKey = "AnswerKey"
+            case autoGrantedValue = "AutoGrantedValue"
+            case description = "Description"
         }
     }
 
     public struct CreateAdditionalAssignmentsForHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListHITsForQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Pagination Token
         public let nextToken: String?
@@ -1670,20 +1493,18 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case qualificationTypeId = "QualificationTypeId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct RejectQualificationRequestRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationRequestId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
         ]
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
         public let reason: String?
@@ -1695,14 +1516,13 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            guard let qualificationRequestId = dictionary["QualificationRequestId"] as? String else { throw InitializableError.missingRequiredParam("QualificationRequestId") }
-            self.qualificationRequestId = qualificationRequestId
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case qualificationRequestId = "QualificationRequestId"
         }
     }
 
-    public enum ReviewPolicyLevel: String, CustomStringConvertible {
+    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable {
         case assignment = "Assignment"
         case hit = "HIT"
         public var description: String { return self.rawValue }
@@ -1710,15 +1530,14 @@ extension MturkRequester {
 
     public struct CreateHITTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
-            AWSShapeProperty(label: "QualificationRequirements", required: false, type: .list), 
-            AWSShapeProperty(label: "AssignmentDurationInSeconds", required: true, type: .long), 
-            AWSShapeProperty(label: "Title", required: true, type: .string), 
-            AWSShapeProperty(label: "Reward", required: true, type: .string), 
-            AWSShapeProperty(label: "Keywords", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoApprovalDelayInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "QualificationRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "AssignmentDurationInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "Title", required: true, type: .string), 
+            AWSShapeMember(label: "Reward", required: true, type: .string), 
+            AWSShapeMember(label: "Keywords", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
         public let autoApprovalDelayInSeconds: Int64?
@@ -1745,60 +1564,51 @@ extension MturkRequester {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
-            if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
-                self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
-            } else { 
-                self.qualificationRequirements = nil
-            }
-            guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
-            self.assignmentDurationInSeconds = assignmentDurationInSeconds
-            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
-            self.title = title
-            guard let reward = dictionary["Reward"] as? String else { throw InitializableError.missingRequiredParam("Reward") }
-            self.reward = reward
-            self.keywords = dictionary["Keywords"] as? String
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case autoApprovalDelayInSeconds = "AutoApprovalDelayInSeconds"
+            case qualificationRequirements = "QualificationRequirements"
+            case assignmentDurationInSeconds = "AssignmentDurationInSeconds"
+            case title = "Title"
+            case reward = "Reward"
+            case keywords = "Keywords"
+            case description = "Description"
         }
     }
 
     public struct Assignment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoApprovalTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "HITId", required: false, type: .string), 
-            AWSShapeProperty(label: "Deadline", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "ApprovalTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
-            AWSShapeProperty(label: "AcceptTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RejectionTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Answer", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoApprovalTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "Deadline", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "ApprovalTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeMember(label: "AcceptTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RejectionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "Answer", required: false, type: .string)
         ]
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let autoApprovalTime: String?
+        public let autoApprovalTime: Double?
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let submitTime: String?
+        public let submitTime: Double?
         ///  The ID of the HIT.
         public let hITId: String?
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        public let deadline: String?
+        public let deadline: Double?
         ///  The status of the assignment.
         public let assignmentStatus: AssignmentStatus?
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        public let approvalTime: String?
+        public let approvalTime: Double?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
         public let requesterFeedback: String?
         ///  The date and time the Worker accepted the assignment.
-        public let acceptTime: String?
+        public let acceptTime: Double?
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        public let rejectionTime: String?
+        public let rejectionTime: Double?
         ///  A unique identifier for the assignment.
         public let assignmentId: String?
         ///  The ID of the Worker who accepted the HIT.
@@ -1806,7 +1616,7 @@ extension MturkRequester {
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
         public let answer: String?
 
-        public init(autoApprovalTime: String? = nil, submitTime: String? = nil, hITId: String? = nil, deadline: String? = nil, assignmentStatus: AssignmentStatus? = nil, approvalTime: String? = nil, requesterFeedback: String? = nil, acceptTime: String? = nil, rejectionTime: String? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
+        public init(autoApprovalTime: Double? = nil, submitTime: Double? = nil, hITId: String? = nil, deadline: Double? = nil, assignmentStatus: AssignmentStatus? = nil, approvalTime: Double? = nil, requesterFeedback: String? = nil, acceptTime: Double? = nil, rejectionTime: Double? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
             self.autoApprovalTime = autoApprovalTime
             self.submitTime = submitTime
             self.hITId = hITId
@@ -1821,31 +1631,30 @@ extension MturkRequester {
             self.answer = answer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoApprovalTime = dictionary["AutoApprovalTime"] as? String
-            self.submitTime = dictionary["SubmitTime"] as? String
-            self.hITId = dictionary["HITId"] as? String
-            self.deadline = dictionary["Deadline"] as? String
-            if let assignmentStatus = dictionary["AssignmentStatus"] as? String { self.assignmentStatus = AssignmentStatus(rawValue: assignmentStatus) } else { self.assignmentStatus = nil }
-            self.approvalTime = dictionary["ApprovalTime"] as? String
-            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
-            self.acceptTime = dictionary["AcceptTime"] as? String
-            self.rejectionTime = dictionary["RejectionTime"] as? String
-            self.assignmentId = dictionary["AssignmentId"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
-            self.answer = dictionary["Answer"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case autoApprovalTime = "AutoApprovalTime"
+            case submitTime = "SubmitTime"
+            case hITId = "HITId"
+            case deadline = "Deadline"
+            case assignmentStatus = "AssignmentStatus"
+            case approvalTime = "ApprovalTime"
+            case requesterFeedback = "RequesterFeedback"
+            case acceptTime = "AcceptTime"
+            case rejectionTime = "RejectionTime"
+            case assignmentId = "AssignmentId"
+            case workerId = "WorkerId"
+            case answer = "Answer"
         }
     }
 
     public struct SendBonusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
-            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
-            AWSShapeProperty(label: "BonusAmount", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "BonusAmount", required: true, type: .string)
         ]
         /// The ID of the assignment for which this bonus is paid.
         public let assignmentId: String
@@ -1866,31 +1675,24 @@ extension MturkRequester {
             self.bonusAmount = bonusAmount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
-            self.assignmentId = assignmentId
-            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
-            self.reason = dictionary["Reason"] as? String
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
-            guard let bonusAmount = dictionary["BonusAmount"] as? String else { throw InitializableError.missingRequiredParam("BonusAmount") }
-            self.bonusAmount = bonusAmount
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case uniqueRequestToken = "UniqueRequestToken"
+            case reason = "Reason"
+            case workerId = "WorkerId"
+            case bonusAmount = "BonusAmount"
         }
     }
 
     public struct CreateWorkerBlockResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         /// The created Qualification type, returned as a QualificationType data structure.
         public let qualificationType: QualificationType?
@@ -1899,21 +1701,20 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case qualificationType = "QualificationType"
         }
     }
 
     public struct ListReviewPolicyResultsForHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "HITReviewReport", required: false, type: .structure), 
-            AWSShapeProperty(label: "HITId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentReviewReport", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "HITReviewReport", required: false, type: .structure), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentReviewReport", required: false, type: .structure)
         ]
         /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
         public let hITReviewPolicy: ReviewPolicy?
@@ -1936,23 +1737,22 @@ extension MturkRequester {
             self.assignmentReviewReport = assignmentReviewReport
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
-            if let hITReviewReport = dictionary["HITReviewReport"] as? [String: Any] { self.hITReviewReport = try MturkRequester.ReviewReport(dictionary: hITReviewReport) } else { self.hITReviewReport = nil }
-            self.hITId = dictionary["HITId"] as? String
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            if let assignmentReviewReport = dictionary["AssignmentReviewReport"] as? [String: Any] { self.assignmentReviewReport = try MturkRequester.ReviewReport(dictionary: assignmentReviewReport) } else { self.assignmentReviewReport = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hITReviewPolicy = "HITReviewPolicy"
+            case hITReviewReport = "HITReviewReport"
+            case hITId = "HITId"
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
+            case nextToken = "NextToken"
+            case assignmentReviewReport = "AssignmentReviewReport"
         }
     }
 
     public struct ListBonusPaymentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "BonusPayments", required: false, type: .list), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BonusPayments", required: false, type: .list), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
@@ -1966,25 +1766,20 @@ extension MturkRequester {
             self.numResults = numResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let bonusPayments = dictionary["BonusPayments"] as? [[String: Any]] {
-                self.bonusPayments = try bonusPayments.map({ try BonusPayment(dictionary: $0) })
-            } else { 
-                self.bonusPayments = nil
-            }
-            self.numResults = dictionary["NumResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case bonusPayments = "BonusPayments"
+            case numResults = "NumResults"
         }
     }
 
     public struct ListBonusPaymentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "HITId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "HITId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
         public let assignmentId: String?
@@ -2001,35 +1796,34 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.assignmentId = dictionary["AssignmentId"] as? String
-            self.hITId = dictionary["HITId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case hITId = "HITId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct BonusPayment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentId", required: false, type: .string), 
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "GrantTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
-            AWSShapeProperty(label: "BonusAmount", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: false, type: .string), 
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "GrantTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "BonusAmount", required: false, type: .string)
         ]
         /// The ID of the assignment associated with this bonus payment.
         public let assignmentId: String?
         /// The Reason text given when the bonus was granted, if any.
         public let reason: String?
         /// The date and time of when the bonus was granted.
-        public let grantTime: String?
+        public let grantTime: Double?
         /// The ID of the Worker to whom the bonus was paid.
         public let workerId: String?
         public let bonusAmount: String?
 
-        public init(assignmentId: String? = nil, reason: String? = nil, grantTime: String? = nil, workerId: String? = nil, bonusAmount: String? = nil) {
+        public init(assignmentId: String? = nil, reason: String? = nil, grantTime: Double? = nil, workerId: String? = nil, bonusAmount: String? = nil) {
             self.assignmentId = assignmentId
             self.reason = reason
             self.grantTime = grantTime
@@ -2037,20 +1831,19 @@ extension MturkRequester {
             self.bonusAmount = bonusAmount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.assignmentId = dictionary["AssignmentId"] as? String
-            self.reason = dictionary["Reason"] as? String
-            self.grantTime = dictionary["GrantTime"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
-            self.bonusAmount = dictionary["BonusAmount"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
+            case reason = "Reason"
+            case grantTime = "GrantTime"
+            case workerId = "WorkerId"
+            case bonusAmount = "BonusAmount"
         }
     }
 
     public struct CreateHITResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HIT", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HIT", required: false, type: .structure)
         ]
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
         public let hIT: HIT?
@@ -2059,25 +1852,24 @@ extension MturkRequester {
             self.hIT = hIT
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hIT = "HIT"
         }
     }
 
     public struct CreateHITWithHITTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxAssignments", required: false, type: .integer), 
-            AWSShapeProperty(label: "HITLayoutId", required: false, type: .string), 
-            AWSShapeProperty(label: "HITLayoutParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "HITReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "Question", required: false, type: .string), 
-            AWSShapeProperty(label: "RequesterAnnotation", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentReviewPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "LifetimeInSeconds", required: true, type: .long), 
-            AWSShapeProperty(label: "UniqueRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "HITTypeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxAssignments", required: false, type: .integer), 
+            AWSShapeMember(label: "HITLayoutId", required: false, type: .string), 
+            AWSShapeMember(label: "HITLayoutParameters", required: false, type: .list), 
+            AWSShapeMember(label: "HITReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "Question", required: false, type: .string), 
+            AWSShapeMember(label: "RequesterAnnotation", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentReviewPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "LifetimeInSeconds", required: true, type: .long), 
+            AWSShapeMember(label: "UniqueRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string)
         ]
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
         public let maxAssignments: Int32?
@@ -2113,38 +1905,31 @@ extension MturkRequester {
             self.hITTypeId = hITTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxAssignments = dictionary["MaxAssignments"] as? Int32
-            self.hITLayoutId = dictionary["HITLayoutId"] as? String
-            if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
-                self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
-            } else { 
-                self.hITLayoutParameters = nil
-            }
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
-            self.question = dictionary["Question"] as? String
-            self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
-            guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
-            self.lifetimeInSeconds = lifetimeInSeconds
-            self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
-            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
-            self.hITTypeId = hITTypeId
+        private enum CodingKeys: String, CodingKey {
+            case maxAssignments = "MaxAssignments"
+            case hITLayoutId = "HITLayoutId"
+            case hITLayoutParameters = "HITLayoutParameters"
+            case hITReviewPolicy = "HITReviewPolicy"
+            case question = "Question"
+            case requesterAnnotation = "RequesterAnnotation"
+            case assignmentReviewPolicy = "AssignmentReviewPolicy"
+            case lifetimeInSeconds = "LifetimeInSeconds"
+            case uniqueRequestToken = "UniqueRequestToken"
+            case hITTypeId = "HITTypeId"
         }
     }
 
     public struct ReviewActionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActionName", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetType", required: false, type: .string), 
-            AWSShapeProperty(label: "Result", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "CompleteTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ActionName", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetType", required: false, type: .string), 
+            AWSShapeMember(label: "Result", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "CompleteTime", required: false, type: .timestamp)
         ]
         ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
         public let status: ReviewActionStatus?
@@ -2161,9 +1946,9 @@ extension MturkRequester {
         ///  Present only when the Results have a FAILED Status.
         public let errorCode: String?
         ///  The date when the action was completed.
-        public let completeTime: String?
+        public let completeTime: Double?
 
-        public init(status: ReviewActionStatus? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: String? = nil) {
+        public init(status: ReviewActionStatus? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: Double? = nil) {
             self.status = status
             self.actionName = actionName
             self.actionId = actionId
@@ -2174,24 +1959,23 @@ extension MturkRequester {
             self.completeTime = completeTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = ReviewActionStatus(rawValue: status) } else { self.status = nil }
-            self.actionName = dictionary["ActionName"] as? String
-            self.actionId = dictionary["ActionId"] as? String
-            self.targetId = dictionary["TargetId"] as? String
-            self.targetType = dictionary["TargetType"] as? String
-            self.result = dictionary["Result"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.completeTime = dictionary["CompleteTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case actionName = "ActionName"
+            case actionId = "ActionId"
+            case targetId = "TargetId"
+            case targetType = "TargetType"
+            case result = "Result"
+            case errorCode = "ErrorCode"
+            case completeTime = "CompleteTime"
         }
     }
 
     public struct UpdateHITTypeOfHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HITTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "HITId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         /// The ID of the new HIT type.
         public let hITTypeId: String
@@ -2203,35 +1987,29 @@ extension MturkRequester {
             self.hITId = hITId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
-            self.hITTypeId = hITTypeId
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
+        private enum CodingKeys: String, CodingKey {
+            case hITTypeId = "HITTypeId"
+            case hITId = "HITId"
         }
     }
 
     public struct ApproveAssignmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct QualificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubmitTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WorkerId", required: false, type: .string), 
-            AWSShapeProperty(label: "Answer", required: false, type: .string), 
-            AWSShapeProperty(label: "Test", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: false, type: .string), 
-            AWSShapeProperty(label: "QualificationRequestId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WorkerId", required: false, type: .string), 
+            AWSShapeMember(label: "Answer", required: false, type: .string), 
+            AWSShapeMember(label: "Test", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "QualificationRequestId", required: false, type: .string)
         ]
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        public let submitTime: String?
+        public let submitTime: Double?
         ///  The ID of the Worker requesting the Qualification.
         public let workerId: String?
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
@@ -2243,7 +2021,7 @@ extension MturkRequester {
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
         public let qualificationRequestId: String?
 
-        public init(submitTime: String? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
+        public init(submitTime: Double? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
             self.submitTime = submitTime
             self.workerId = workerId
             self.answer = answer
@@ -2252,23 +2030,22 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.submitTime = dictionary["SubmitTime"] as? String
-            self.workerId = dictionary["WorkerId"] as? String
-            self.answer = dictionary["Answer"] as? String
-            self.test = dictionary["Test"] as? String
-            self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
-            self.qualificationRequestId = dictionary["QualificationRequestId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case submitTime = "SubmitTime"
+            case workerId = "WorkerId"
+            case answer = "Answer"
+            case test = "Test"
+            case qualificationTypeId = "QualificationTypeId"
+            case qualificationRequestId = "QualificationRequestId"
         }
     }
 
     public struct DisassociateQualificationFromWorkerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string), 
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string), 
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
         public let reason: String?
@@ -2283,20 +2060,17 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct UpdateQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         ///  Contains a QualificationType data structure.
         public let qualificationType: QualificationType?
@@ -2305,21 +2079,20 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case qualificationType = "QualificationType"
         }
     }
 
     public struct ReviewResultDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "SubjectType", required: false, type: .string), 
-            AWSShapeProperty(label: "SubjectId", required: false, type: .string), 
-            AWSShapeProperty(label: "ActionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "QuestionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "SubjectType", required: false, type: .string), 
+            AWSShapeMember(label: "SubjectId", required: false, type: .string), 
+            AWSShapeMember(label: "ActionId", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "QuestionId", required: false, type: .string)
         ]
         ///  Key identifies the particular piece of reviewed information. 
         public let key: String?
@@ -2343,21 +2116,20 @@ extension MturkRequester {
             self.questionId = questionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.subjectType = dictionary["SubjectType"] as? String
-            self.subjectId = dictionary["SubjectId"] as? String
-            self.actionId = dictionary["ActionId"] as? String
-            self.value = dictionary["Value"] as? String
-            self.questionId = dictionary["QuestionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case subjectType = "SubjectType"
+            case subjectId = "SubjectId"
+            case actionId = "ActionId"
+            case value = "Value"
+            case questionId = "QuestionId"
         }
     }
 
     public struct GetAssignmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
         ]
         /// The ID of the Assignment to be retrieved.
         public let assignmentId: String
@@ -2366,18 +2138,16 @@ extension MturkRequester {
             self.assignmentId = assignmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
-            self.assignmentId = assignmentId
+        private enum CodingKeys: String, CodingKey {
+            case assignmentId = "AssignmentId"
         }
     }
 
     public struct ListHITsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Pagination token
         public let nextToken: String?
@@ -2388,17 +2158,16 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct NotifyWorkersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotifyWorkersFailureStatuses", required: false, type: .list)
         ]
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
         public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
@@ -2407,16 +2176,12 @@ extension MturkRequester {
             self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let notifyWorkersFailureStatuses = dictionary["NotifyWorkersFailureStatuses"] as? [[String: Any]] {
-                self.notifyWorkersFailureStatuses = try notifyWorkersFailureStatuses.map({ try NotifyWorkersFailureStatus(dictionary: $0) })
-            } else { 
-                self.notifyWorkersFailureStatuses = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case notifyWorkersFailureStatuses = "NotifyWorkersFailureStatuses"
         }
     }
 
-    public enum EventType: String, CustomStringConvertible {
+    public enum EventType: String, CustomStringConvertible, Codable {
         case assignmentaccepted = "AssignmentAccepted"
         case assignmentabandoned = "AssignmentAbandoned"
         case assignmentreturned = "AssignmentReturned"
@@ -2434,9 +2199,8 @@ extension MturkRequester {
 
     public struct GetQualificationTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationType", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationType", required: false, type: .structure)
         ]
         ///  The returned Qualification Type
         public let qualificationType: QualificationType?
@@ -2445,18 +2209,17 @@ extension MturkRequester {
             self.qualificationType = qualificationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case qualificationType = "QualificationType"
         }
     }
 
     public struct PolicyParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MapEntries", required: false, type: .list), 
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MapEntries", required: false, type: .list), 
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         ///  List of ParameterMapEntry objects. 
         public let mapEntries: [ParameterMapEntry]?
@@ -2471,23 +2234,18 @@ extension MturkRequester {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let mapEntries = dictionary["MapEntries"] as? [[String: Any]] {
-                self.mapEntries = try mapEntries.map({ try ParameterMapEntry(dictionary: $0) })
-            } else { 
-                self.mapEntries = nil
-            }
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case mapEntries = "MapEntries"
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct DeleteWorkerBlockRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
         /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
         public let reason: String?
@@ -2499,14 +2257,13 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case workerId = "WorkerId"
         }
     }
 
-    public enum AssignmentStatus: String, CustomStringConvertible {
+    public enum AssignmentStatus: String, CustomStringConvertible, Codable {
         case submitted = "Submitted"
         case approved = "Approved"
         case rejected = "Rejected"
@@ -2515,10 +2272,9 @@ extension MturkRequester {
 
     public struct RejectAssignmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string)
         ]
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String?
@@ -2530,19 +2286,17 @@ extension MturkRequester {
             self.assignmentId = assignmentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
-            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
-            self.assignmentId = assignmentId
+        private enum CodingKeys: String, CodingKey {
+            case requesterFeedback = "RequesterFeedback"
+            case assignmentId = "AssignmentId"
         }
     }
 
     public struct AcceptQualificationRequestRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "QualificationRequestId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "QualificationRequestId", required: true, type: .string)
         ]
         ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
         public let integerValue: Int32?
@@ -2554,21 +2308,19 @@ extension MturkRequester {
             self.qualificationRequestId = qualificationRequestId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.integerValue = dictionary["IntegerValue"] as? Int32
-            guard let qualificationRequestId = dictionary["QualificationRequestId"] as? String else { throw InitializableError.missingRequiredParam("QualificationRequestId") }
-            self.qualificationRequestId = qualificationRequestId
+        private enum CodingKeys: String, CodingKey {
+            case integerValue = "IntegerValue"
+            case qualificationRequestId = "QualificationRequestId"
         }
     }
 
     public struct ListReviewableHITsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "HITTypeId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "HITTypeId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
         public let status: ReviewableHITStatus?
@@ -2586,20 +2338,19 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = ReviewableHITStatus(rawValue: status) } else { self.status = nil }
-            self.hITTypeId = dictionary["HITTypeId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case hITTypeId = "HITTypeId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct SendTestEventNotificationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notification", required: true, type: .structure), 
-            AWSShapeProperty(label: "TestEventType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: true, type: .structure), 
+            AWSShapeMember(label: "TestEventType", required: true, type: .enum)
         ]
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
         public let notification: NotificationSpecification
@@ -2611,21 +2362,18 @@ extension MturkRequester {
             self.testEventType = testEventType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let notification = dictionary["Notification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Notification") }
-            self.notification = try MturkRequester.NotificationSpecification(dictionary: notification)
-            guard let rawTestEventType = dictionary["TestEventType"] as? String, let testEventType = EventType(rawValue: rawTestEventType) else { throw InitializableError.missingRequiredParam("TestEventType") }
-            self.testEventType = testEventType
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case testEventType = "TestEventType"
         }
     }
 
     public struct ApproveAssignmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequesterFeedback", required: false, type: .string), 
-            AWSShapeProperty(label: "AssignmentId", required: true, type: .string), 
-            AWSShapeProperty(label: "OverrideRejection", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequesterFeedback", required: false, type: .string), 
+            AWSShapeMember(label: "AssignmentId", required: true, type: .string), 
+            AWSShapeMember(label: "OverrideRejection", required: false, type: .boolean)
         ]
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
         public let requesterFeedback: String?
@@ -2640,20 +2388,18 @@ extension MturkRequester {
             self.overrideRejection = overrideRejection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requesterFeedback = dictionary["RequesterFeedback"] as? String
-            guard let assignmentId = dictionary["AssignmentId"] as? String else { throw InitializableError.missingRequiredParam("AssignmentId") }
-            self.assignmentId = assignmentId
-            self.overrideRejection = dictionary["OverrideRejection"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case requesterFeedback = "RequesterFeedback"
+            case assignmentId = "AssignmentId"
+            case overrideRejection = "OverrideRejection"
         }
     }
 
     public struct GetAccountBalanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OnHoldBalance", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailableBalance", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnHoldBalance", required: false, type: .string), 
+            AWSShapeMember(label: "AvailableBalance", required: false, type: .string)
         ]
         public let onHoldBalance: String?
         public let availableBalance: String?
@@ -2663,18 +2409,17 @@ extension MturkRequester {
             self.availableBalance = availableBalance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.onHoldBalance = dictionary["OnHoldBalance"] as? String
-            self.availableBalance = dictionary["AvailableBalance"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case onHoldBalance = "OnHoldBalance"
+            case availableBalance = "AvailableBalance"
         }
     }
 
     public struct GetQualificationScoreRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "WorkerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkerId", required: true, type: .string)
         ]
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
@@ -2686,21 +2431,18 @@ extension MturkRequester {
             self.workerId = workerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
-            guard let workerId = dictionary["WorkerId"] as? String else { throw InitializableError.missingRequiredParam("WorkerId") }
-            self.workerId = workerId
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
+            case workerId = "WorkerId"
         }
     }
 
     public struct ListWorkerBlocksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NumResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "WorkerBlocks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NumResults", required: false, type: .integer), 
+            AWSShapeMember(label: "WorkerBlocks", required: false, type: .list)
         ]
         public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
@@ -2714,24 +2456,19 @@ extension MturkRequester {
             self.workerBlocks = workerBlocks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.numResults = dictionary["NumResults"] as? Int32
-            if let workerBlocks = dictionary["WorkerBlocks"] as? [[String: Any]] {
-                self.workerBlocks = try workerBlocks.map({ try WorkerBlock(dictionary: $0) })
-            } else { 
-                self.workerBlocks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case numResults = "NumResults"
+            case workerBlocks = "WorkerBlocks"
         }
     }
 
     public struct UpdateNotificationSettingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Notification", required: false, type: .structure), 
-            AWSShapeProperty(label: "HITTypeId", required: true, type: .string), 
-            AWSShapeProperty(label: "Active", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Notification", required: false, type: .structure), 
+            AWSShapeMember(label: "HITTypeId", required: true, type: .string), 
+            AWSShapeMember(label: "Active", required: false, type: .boolean)
         ]
         ///  The notification specification for the HIT type. 
         public let notification: NotificationSpecification?
@@ -2746,19 +2483,17 @@ extension MturkRequester {
             self.active = active
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try MturkRequester.NotificationSpecification(dictionary: notification) } else { self.notification = nil }
-            guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
-            self.hITTypeId = hITTypeId
-            self.active = dictionary["Active"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case notification = "Notification"
+            case hITTypeId = "HITTypeId"
+            case active = "Active"
         }
     }
 
     public struct GetQualificationTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "QualificationTypeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "QualificationTypeId", required: true, type: .string)
         ]
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
@@ -2767,20 +2502,18 @@ extension MturkRequester {
             self.qualificationTypeId = qualificationTypeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
-            self.qualificationTypeId = qualificationTypeId
+        private enum CodingKeys: String, CodingKey {
+            case qualificationTypeId = "QualificationTypeId"
         }
     }
 
     public struct NotificationSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "Destination", required: true, type: .string), 
-            AWSShapeProperty(label: "Transport", required: true, type: .enum), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Destination", required: true, type: .string), 
+            AWSShapeMember(label: "Transport", required: true, type: .enum), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
         public let eventTypes: [EventType]?
@@ -2798,26 +2531,23 @@ extension MturkRequester {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventTypes = dictionary["EventTypes"] as? [String] { self.eventTypes = eventTypes.flatMap({ EventType(rawValue: $0)}) } else { self.eventTypes = nil }
-            guard let destination = dictionary["Destination"] as? String else { throw InitializableError.missingRequiredParam("Destination") }
-            self.destination = destination
-            guard let rawTransport = dictionary["Transport"] as? String, let transport = NotificationTransport(rawValue: rawTransport) else { throw InitializableError.missingRequiredParam("Transport") }
-            self.transport = transport
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventTypes = "EventTypes"
+            case destination = "Destination"
+            case transport = "Transport"
+            case version = "Version"
         }
     }
 
     public struct ListReviewPolicyResultsForHITRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyLevels", required: false, type: .list), 
-            AWSShapeProperty(label: "HITId", required: true, type: .string), 
-            AWSShapeProperty(label: "RetrieveResults", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RetrieveActions", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyLevels", required: false, type: .list), 
+            AWSShapeMember(label: "HITId", required: true, type: .string), 
+            AWSShapeMember(label: "RetrieveResults", required: false, type: .boolean), 
+            AWSShapeMember(label: "RetrieveActions", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Pagination token
         public let nextToken: String?
@@ -2841,18 +2571,17 @@ extension MturkRequester {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let policyLevels = dictionary["PolicyLevels"] as? [String] { self.policyLevels = policyLevels.flatMap({ ReviewPolicyLevel(rawValue: $0)}) } else { self.policyLevels = nil }
-            guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
-            self.hITId = hITId
-            self.retrieveResults = dictionary["RetrieveResults"] as? Bool
-            self.retrieveActions = dictionary["RetrieveActions"] as? Bool
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case policyLevels = "PolicyLevels"
+            case hITId = "HITId"
+            case retrieveResults = "RetrieveResults"
+            case retrieveActions = "RetrieveActions"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum QualificationStatus: String, CustomStringConvertible {
+    public enum QualificationStatus: String, CustomStringConvertible, Codable {
         case granted = "Granted"
         case revoked = "Revoked"
         public var description: String { return self.rawValue }

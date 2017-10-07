@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Streamsdynamodb {
 
-    public enum ShardIteratorType: String, CustomStringConvertible {
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
         case trim_horizon = "TRIM_HORIZON"
         case latest = "LATEST"
         case at_sequence_number = "AT_SEQUENCE_NUMBER"
@@ -39,11 +39,10 @@ extension Streamsdynamodb {
 
     public struct DescribeStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ExclusiveStartShardId", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamArn", required: true, type: .string), 
+            AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
@@ -58,20 +57,18 @@ extension Streamsdynamodb {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamArn = dictionary["StreamArn"] as? String else { throw InitializableError.missingRequiredParam("StreamArn") }
-            self.streamArn = streamArn
-            self.exclusiveStartShardId = dictionary["ExclusiveStartShardId"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "StreamArn"
+            case exclusiveStartShardId = "ExclusiveStartShardId"
+            case limit = "Limit"
         }
     }
 
     public struct KeySchemaElement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "KeyType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "KeyType", required: true, type: .enum)
         ]
         /// The name of a key attribute.
         public let attributeName: String
@@ -83,21 +80,18 @@ extension Streamsdynamodb {
             self.keyType = keyType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            guard let rawKeyType = dictionary["KeyType"] as? String, let keyType = KeyType(rawValue: rawKeyType) else { throw InitializableError.missingRequiredParam("KeyType") }
-            self.keyType = keyType
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case keyType = "KeyType"
         }
     }
 
     public struct Shard: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardId", required: false, type: .string), 
-            AWSShapeProperty(label: "SequenceNumberRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "ParentShardId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardId", required: false, type: .string), 
+            AWSShapeMember(label: "SequenceNumberRange", required: false, type: .structure), 
+            AWSShapeMember(label: "ParentShardId", required: false, type: .string)
         ]
         /// The system-generated identifier for this shard.
         public let shardId: String?
@@ -112,18 +106,17 @@ extension Streamsdynamodb {
             self.parentShardId = parentShardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shardId = dictionary["ShardId"] as? String
-            if let sequenceNumberRange = dictionary["SequenceNumberRange"] as? [String: Any] { self.sequenceNumberRange = try Streamsdynamodb.SequenceNumberRange(dictionary: sequenceNumberRange) } else { self.sequenceNumberRange = nil }
-            self.parentShardId = dictionary["ParentShardId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shardId = "ShardId"
+            case sequenceNumberRange = "SequenceNumberRange"
+            case parentShardId = "ParentShardId"
         }
     }
 
     public struct DescribeStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamDescription", required: false, type: .structure)
         ]
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
@@ -132,12 +125,12 @@ extension Streamsdynamodb {
             self.streamDescription = streamDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let streamDescription = dictionary["StreamDescription"] as? [String: Any] { self.streamDescription = try Streamsdynamodb.StreamDescription(dictionary: streamDescription) } else { self.streamDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case streamDescription = "StreamDescription"
         }
     }
 
-    public enum KeyType: String, CustomStringConvertible {
+    public enum KeyType: String, CustomStringConvertible, Codable {
         case hash = "HASH"
         case range = "RANGE"
         public var description: String { return self.rawValue }
@@ -145,15 +138,14 @@ extension Streamsdynamodb {
 
     public struct Record: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventName", required: false, type: .enum), 
-            AWSShapeProperty(label: "eventSource", required: false, type: .string), 
-            AWSShapeProperty(label: "userIdentity", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventID", required: false, type: .string), 
-            AWSShapeProperty(label: "dynamodb", required: false, type: .structure), 
-            AWSShapeProperty(label: "awsRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "eventVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventName", required: false, type: .enum), 
+            AWSShapeMember(label: "eventSource", required: false, type: .string), 
+            AWSShapeMember(label: "userIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "eventID", required: false, type: .string), 
+            AWSShapeMember(label: "dynamodb", required: false, type: .structure), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "eventVersion", required: false, type: .string)
         ]
         /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
         public let eventName: OperationType?
@@ -180,25 +172,24 @@ extension Streamsdynamodb {
             self.eventVersion = eventVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventName = dictionary["eventName"] as? String { self.eventName = OperationType(rawValue: eventName) } else { self.eventName = nil }
-            self.eventSource = dictionary["eventSource"] as? String
-            if let userIdentity = dictionary["userIdentity"] as? [String: Any] { self.userIdentity = try Streamsdynamodb.Identity(dictionary: userIdentity) } else { self.userIdentity = nil }
-            self.eventID = dictionary["eventID"] as? String
-            if let dynamodb = dictionary["dynamodb"] as? [String: Any] { self.dynamodb = try Streamsdynamodb.StreamRecord(dictionary: dynamodb) } else { self.dynamodb = nil }
-            self.awsRegion = dictionary["awsRegion"] as? String
-            self.eventVersion = dictionary["eventVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case userIdentity = "userIdentity"
+            case eventID = "eventID"
+            case dynamodb = "dynamodb"
+            case awsRegion = "awsRegion"
+            case eventVersion = "eventVersion"
         }
     }
 
     public struct GetShardIteratorInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardIteratorType", required: true, type: .enum), 
-            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "StreamArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StreamArn", required: true, type: .string), 
+            AWSShapeMember(label: "ShardId", required: true, type: .string)
         ]
         /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
@@ -216,18 +207,15 @@ extension Streamsdynamodb {
             self.shardId = shardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawShardIteratorType = dictionary["ShardIteratorType"] as? String, let shardIteratorType = ShardIteratorType(rawValue: rawShardIteratorType) else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
-            self.shardIteratorType = shardIteratorType
-            self.sequenceNumber = dictionary["SequenceNumber"] as? String
-            guard let streamArn = dictionary["StreamArn"] as? String else { throw InitializableError.missingRequiredParam("StreamArn") }
-            self.streamArn = streamArn
-            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
-            self.shardId = shardId
+        private enum CodingKeys: String, CodingKey {
+            case shardIteratorType = "ShardIteratorType"
+            case sequenceNumber = "SequenceNumber"
+            case streamArn = "StreamArn"
+            case shardId = "ShardId"
         }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible {
+    public enum StreamViewType: String, CustomStringConvertible, Codable {
         case new_image = "NEW_IMAGE"
         case old_image = "OLD_IMAGE"
         case new_and_old_images = "NEW_AND_OLD_IMAGES"
@@ -237,10 +225,9 @@ extension Streamsdynamodb {
 
     public struct SequenceNumberRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndingSequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "StartingSequenceNumber", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string)
         ]
         /// The last sequence number.
         public let endingSequenceNumber: String?
@@ -252,13 +239,13 @@ extension Streamsdynamodb {
             self.startingSequenceNumber = startingSequenceNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endingSequenceNumber = dictionary["EndingSequenceNumber"] as? String
-            self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endingSequenceNumber = "EndingSequenceNumber"
+            case startingSequenceNumber = "StartingSequenceNumber"
         }
     }
 
-    public enum OperationType: String, CustomStringConvertible {
+    public enum OperationType: String, CustomStringConvertible, Codable {
         case insert = "INSERT"
         case modify = "MODIFY"
         case remove = "REMOVE"
@@ -267,11 +254,10 @@ extension Streamsdynamodb {
 
     public struct Stream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamArn", required: false, type: .string), 
-            AWSShapeProperty(label: "StreamLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
@@ -286,19 +272,18 @@ extension Streamsdynamodb {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.streamArn = dictionary["StreamArn"] as? String
-            self.streamLabel = dictionary["StreamLabel"] as? String
-            self.tableName = dictionary["TableName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case streamArn = "StreamArn"
+            case streamLabel = "StreamLabel"
+            case tableName = "TableName"
         }
     }
 
     public struct GetRecordsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ShardIterator", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
         ]
         /// The maximum number of records to return from the shard. The upper limit is 1000.
         public let limit: Int32?
@@ -310,18 +295,16 @@ extension Streamsdynamodb {
             self.shardIterator = shardIterator
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            guard let shardIterator = dictionary["ShardIterator"] as? String else { throw InitializableError.missingRequiredParam("ShardIterator") }
-            self.shardIterator = shardIterator
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case shardIterator = "ShardIterator"
         }
     }
 
     public struct GetShardIteratorOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardIterator", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
@@ -330,17 +313,16 @@ extension Streamsdynamodb {
             self.shardIterator = shardIterator
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shardIterator = dictionary["ShardIterator"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shardIterator = "ShardIterator"
         }
     }
 
     public struct Identity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "PrincipalId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string)
         ]
         /// The type of the identity. For Time To Live, the type is "Service".
         public let `type`: String?
@@ -352,26 +334,25 @@ extension Streamsdynamodb {
             self.principalId = principalId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.principalId = dictionary["PrincipalId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case principalId = "PrincipalId"
         }
     }
 
     public struct AttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NS", required: false, type: .list), 
-            AWSShapeProperty(label: "N", required: false, type: .string), 
-            AWSShapeProperty(label: "BOOL", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BS", required: false, type: .list), 
-            AWSShapeProperty(label: "L", required: false, type: .list), 
-            AWSShapeProperty(label: "NULL", required: false, type: .boolean), 
-            AWSShapeProperty(label: "B", required: false, type: .blob), 
-            AWSShapeProperty(label: "M", required: false, type: .map), 
-            AWSShapeProperty(label: "SS", required: false, type: .list), 
-            AWSShapeProperty(label: "S", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NS", required: false, type: .list), 
+            AWSShapeMember(label: "N", required: false, type: .string), 
+            AWSShapeMember(label: "BOOL", required: false, type: .boolean), 
+            AWSShapeMember(label: "BS", required: false, type: .list), 
+            AWSShapeMember(label: "L", required: false, type: .list), 
+            AWSShapeMember(label: "NULL", required: false, type: .boolean), 
+            AWSShapeMember(label: "B", required: false, type: .blob), 
+            AWSShapeMember(label: "M", required: false, type: .map), 
+            AWSShapeMember(label: "SS", required: false, type: .list), 
+            AWSShapeMember(label: "S", required: false, type: .string)
         ]
         /// A Number Set data type.
         public let nS: [String]?
@@ -407,39 +388,25 @@ extension Streamsdynamodb {
             self.s = s
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nS = dictionary["NS"] as? [String]
-            self.n = dictionary["N"] as? String
-            self.bOOL = dictionary["BOOL"] as? Bool
-            self.bS = dictionary["BS"] as? [Data]
-            if let l = dictionary["L"] as? [[String: Any]] {
-                self.l = try l.map({ try AttributeValue(dictionary: $0) })
-            } else { 
-                self.l = nil
-            }
-            self.nULL = dictionary["NULL"] as? Bool
-            self.b = dictionary["B"] as? Data
-            if let m = dictionary["M"] as? [String: Any] {
-                var mDict: [String: AttributeValue] = [:]
-                for (key, value) in m {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    mDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.m = mDict
-            } else { 
-                self.m = nil
-            }
-            self.sS = dictionary["SS"] as? [String]
-            self.s = dictionary["S"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nS = "NS"
+            case n = "N"
+            case bOOL = "BOOL"
+            case bS = "BS"
+            case l = "L"
+            case nULL = "NULL"
+            case b = "B"
+            case m = "M"
+            case sS = "SS"
+            case s = "S"
         }
     }
 
     public struct ListStreamsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Streams", required: false, type: .list), 
-            AWSShapeProperty(label: "LastEvaluatedStreamArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Streams", required: false, type: .list), 
+            AWSShapeMember(label: "LastEvaluatedStreamArn", required: false, type: .string)
         ]
         /// A list of stream descriptors associated with the current account and endpoint.
         public let streams: [Stream]?
@@ -451,23 +418,18 @@ extension Streamsdynamodb {
             self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let streams = dictionary["Streams"] as? [[String: Any]] {
-                self.streams = try streams.map({ try Stream(dictionary: $0) })
-            } else { 
-                self.streams = nil
-            }
-            self.lastEvaluatedStreamArn = dictionary["LastEvaluatedStreamArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case streams = "Streams"
+            case lastEvaluatedStreamArn = "LastEvaluatedStreamArn"
         }
     }
 
     public struct ListStreamsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartStreamArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartStreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
         public let exclusiveStartStreamArn: String?
@@ -482,19 +444,18 @@ extension Streamsdynamodb {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exclusiveStartStreamArn = dictionary["ExclusiveStartStreamArn"] as? String
-            self.tableName = dictionary["TableName"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartStreamArn = "ExclusiveStartStreamArn"
+            case tableName = "TableName"
+            case limit = "Limit"
         }
     }
 
     public struct GetRecordsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextShardIterator", required: false, type: .string), 
-            AWSShapeProperty(label: "Records", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
+            AWSShapeMember(label: "Records", required: false, type: .list)
         ]
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
@@ -506,27 +467,22 @@ extension Streamsdynamodb {
             self.records = records
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextShardIterator = dictionary["NextShardIterator"] as? String
-            if let records = dictionary["Records"] as? [[String: Any]] {
-                self.records = try records.map({ try Record(dictionary: $0) })
-            } else { 
-                self.records = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextShardIterator = "NextShardIterator"
+            case records = "Records"
         }
     }
 
     public struct StreamRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "Keys", required: false, type: .map), 
-            AWSShapeProperty(label: "NewImage", required: false, type: .map), 
-            AWSShapeProperty(label: "SizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OldImage", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Keys", required: false, type: .map), 
+            AWSShapeMember(label: "NewImage", required: false, type: .map), 
+            AWSShapeMember(label: "SizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeMember(label: "ApproximateCreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OldImage", required: false, type: .map)
         ]
         /// The sequence number of the stream record.
         public let sequenceNumber: String?
@@ -539,11 +495,11 @@ extension Streamsdynamodb {
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
         public let streamViewType: StreamViewType?
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
-        public let approximateCreationDateTime: String?
+        public let approximateCreationDateTime: Double?
         /// The item in the DynamoDB table as it appeared before it was modified.
         public let oldImage: [String: AttributeValue]?
 
-        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil, approximateCreationDateTime: String? = nil, oldImage: [String: AttributeValue]? = nil) {
+        public init(sequenceNumber: String? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil, approximateCreationDateTime: Double? = nil, oldImage: [String: AttributeValue]? = nil) {
             self.sequenceNumber = sequenceNumber
             self.keys = keys
             self.newImage = newImage
@@ -553,64 +509,36 @@ extension Streamsdynamodb {
             self.oldImage = oldImage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sequenceNumber = dictionary["SequenceNumber"] as? String
-            if let keys = dictionary["Keys"] as? [String: Any] {
-                var keysDict: [String: AttributeValue] = [:]
-                for (key, value) in keys {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    keysDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.keys = keysDict
-            } else { 
-                self.keys = nil
-            }
-            if let newImage = dictionary["NewImage"] as? [String: Any] {
-                var newImageDict: [String: AttributeValue] = [:]
-                for (key, value) in newImage {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    newImageDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.newImage = newImageDict
-            } else { 
-                self.newImage = nil
-            }
-            self.sizeBytes = dictionary["SizeBytes"] as? Int64
-            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
-            self.approximateCreationDateTime = dictionary["ApproximateCreationDateTime"] as? String
-            if let oldImage = dictionary["OldImage"] as? [String: Any] {
-                var oldImageDict: [String: AttributeValue] = [:]
-                for (key, value) in oldImage {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    oldImageDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.oldImage = oldImageDict
-            } else { 
-                self.oldImage = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sequenceNumber = "SequenceNumber"
+            case keys = "Keys"
+            case newImage = "NewImage"
+            case sizeBytes = "SizeBytes"
+            case streamViewType = "StreamViewType"
+            case approximateCreationDateTime = "ApproximateCreationDateTime"
+            case oldImage = "OldImage"
         }
     }
 
     public struct StreamDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
-            AWSShapeProperty(label: "StreamArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationRequestDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Shards", required: false, type: .list), 
-            AWSShapeProperty(label: "StreamLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
-            AWSShapeProperty(label: "StreamStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "LastEvaluatedShardId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
+            AWSShapeMember(label: "StreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationRequestDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Shards", required: false, type: .list), 
+            AWSShapeMember(label: "StreamLabel", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeMember(label: "StreamStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastEvaluatedShardId", required: false, type: .string)
         ]
         /// The key attribute(s) of the stream's DynamoDB table.
         public let keySchema: [KeySchemaElement]?
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
         /// The date and time when the request to create this stream was issued.
-        public let creationRequestDateTime: String?
+        public let creationRequestDateTime: Double?
         /// The shards that comprise the stream.
         public let shards: [Shard]?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
@@ -624,7 +552,7 @@ extension Streamsdynamodb {
         /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
         public let lastEvaluatedShardId: String?
 
-        public init(keySchema: [KeySchemaElement]? = nil, streamArn: String? = nil, creationRequestDateTime: String? = nil, shards: [Shard]? = nil, streamLabel: String? = nil, tableName: String? = nil, streamViewType: StreamViewType? = nil, streamStatus: StreamStatus? = nil, lastEvaluatedShardId: String? = nil) {
+        public init(keySchema: [KeySchemaElement]? = nil, streamArn: String? = nil, creationRequestDateTime: Double? = nil, shards: [Shard]? = nil, streamLabel: String? = nil, tableName: String? = nil, streamViewType: StreamViewType? = nil, streamStatus: StreamStatus? = nil, lastEvaluatedShardId: String? = nil) {
             self.keySchema = keySchema
             self.streamArn = streamArn
             self.creationRequestDateTime = creationRequestDateTime
@@ -636,28 +564,20 @@ extension Streamsdynamodb {
             self.lastEvaluatedShardId = lastEvaluatedShardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
-                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            } else { 
-                self.keySchema = nil
-            }
-            self.streamArn = dictionary["StreamArn"] as? String
-            self.creationRequestDateTime = dictionary["CreationRequestDateTime"] as? String
-            if let shards = dictionary["Shards"] as? [[String: Any]] {
-                self.shards = try shards.map({ try Shard(dictionary: $0) })
-            } else { 
-                self.shards = nil
-            }
-            self.streamLabel = dictionary["StreamLabel"] as? String
-            self.tableName = dictionary["TableName"] as? String
-            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
-            if let streamStatus = dictionary["StreamStatus"] as? String { self.streamStatus = StreamStatus(rawValue: streamStatus) } else { self.streamStatus = nil }
-            self.lastEvaluatedShardId = dictionary["LastEvaluatedShardId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keySchema = "KeySchema"
+            case streamArn = "StreamArn"
+            case creationRequestDateTime = "CreationRequestDateTime"
+            case shards = "Shards"
+            case streamLabel = "StreamLabel"
+            case tableName = "TableName"
+            case streamViewType = "StreamViewType"
+            case streamStatus = "StreamStatus"
+            case lastEvaluatedShardId = "LastEvaluatedShardId"
         }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible {
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
         case enabling = "ENABLING"
         case enabled = "ENABLED"
         case disabling = "DISABLING"

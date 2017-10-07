@@ -31,9 +31,8 @@ extension Firehose {
 
     public struct DescribeDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryStreamDescription", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamDescription", required: true, type: .structure)
         ]
         /// Information about the delivery stream.
         public let deliveryStreamDescription: DeliveryStreamDescription
@@ -42,13 +41,12 @@ extension Firehose {
             self.deliveryStreamDescription = deliveryStreamDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryStreamDescription = dictionary["DeliveryStreamDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DeliveryStreamDescription") }
-            self.deliveryStreamDescription = try Firehose.DeliveryStreamDescription(dictionary: deliveryStreamDescription)
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamDescription = "DeliveryStreamDescription"
         }
     }
 
-    public enum ProcessorParameterName: String, CustomStringConvertible {
+    public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
         case lambdaarn = "LambdaArn"
         case numberofretries = "NumberOfRetries"
         public var description: String { return self.rawValue }
@@ -56,10 +54,9 @@ extension Firehose {
 
     public struct ProcessingConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Processors", required: false, type: .list), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Processors", required: false, type: .list), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// The data processors.
         public let processors: [Processor]?
@@ -71,36 +68,31 @@ extension Firehose {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let processors = dictionary["Processors"] as? [[String: Any]] {
-                self.processors = try processors.map({ try Processor(dictionary: $0) })
-            } else { 
-                self.processors = nil
-            }
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case processors = "Processors"
+            case enabled = "Enabled"
         }
     }
 
-    public enum NoEncryptionConfig: String, CustomStringConvertible {
+    public enum NoEncryptionConfig: String, CustomStringConvertible, Codable {
         case noencryption = "NoEncryption"
         public var description: String { return self.rawValue }
     }
 
     public struct RedshiftDestinationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CopyCommand", required: true, type: .structure), 
-            AWSShapeProperty(label: "S3Configuration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Username", required: true, type: .string), 
-            AWSShapeProperty(label: "S3BackupConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterJDBCURL", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CopyCommand", required: true, type: .structure), 
+            AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterJDBCURL", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum)
         ]
         /// The COPY command.
         public let copyCommand: CopyCommand
@@ -139,34 +131,27 @@ extension Firehose {
             self.s3BackupMode = s3BackupMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let copyCommand = dictionary["CopyCommand"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CopyCommand") }
-            self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand)
-            guard let s3Configuration = dictionary["S3Configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Configuration") }
-            self.s3Configuration = try Firehose.S3DestinationConfiguration(dictionary: s3Configuration)
-            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
-            self.username = username
-            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) } else { self.s3BackupConfiguration = nil }
-            guard let clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String else { throw InitializableError.missingRequiredParam("ClusterJDBCURL") }
-            self.clusterJDBCURL = clusterJDBCURL
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = RedshiftS3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case copyCommand = "CopyCommand"
+            case s3Configuration = "S3Configuration"
+            case username = "Username"
+            case s3BackupConfiguration = "S3BackupConfiguration"
+            case clusterJDBCURL = "ClusterJDBCURL"
+            case roleARN = "RoleARN"
+            case processingConfiguration = "ProcessingConfiguration"
+            case password = "Password"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
+            case s3BackupMode = "S3BackupMode"
         }
     }
 
     public struct CopyCommand: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataTableName", required: true, type: .string), 
-            AWSShapeProperty(label: "DataTableColumns", required: false, type: .string), 
-            AWSShapeProperty(label: "CopyOptions", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTableName", required: true, type: .string), 
+            AWSShapeMember(label: "DataTableColumns", required: false, type: .string), 
+            AWSShapeMember(label: "CopyOptions", required: false, type: .string)
         ]
         /// The name of the target table. The table must already exist in the database.
         public let dataTableName: String
@@ -181,28 +166,26 @@ extension Firehose {
             self.copyOptions = copyOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let dataTableName = dictionary["DataTableName"] as? String else { throw InitializableError.missingRequiredParam("DataTableName") }
-            self.dataTableName = dataTableName
-            self.dataTableColumns = dictionary["DataTableColumns"] as? String
-            self.copyOptions = dictionary["CopyOptions"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dataTableName = "DataTableName"
+            case dataTableColumns = "DataTableColumns"
+            case copyOptions = "CopyOptions"
         }
     }
 
     public struct ExtendedS3DestinationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "S3BackupConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "S3BackupConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
@@ -238,23 +221,21 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) } else { self.s3BackupConfiguration = nil }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = S3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let compressionFormat = dictionary["CompressionFormat"] as? String { self.compressionFormat = CompressionFormat(rawValue: compressionFormat) } else { self.compressionFormat = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case roleARN = "RoleARN"
+            case s3BackupConfiguration = "S3BackupConfiguration"
+            case processingConfiguration = "ProcessingConfiguration"
+            case prefix = "Prefix"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
-    public enum S3BackupMode: String, CustomStringConvertible {
+    public enum S3BackupMode: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
@@ -262,9 +243,8 @@ extension Firehose {
 
     public struct ElasticsearchRetryOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DurationInSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int32?
@@ -273,16 +253,15 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.durationInSeconds = dictionary["DurationInSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
         }
     }
 
     public struct PutRecordOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordId", required: true, type: .string)
         ]
         /// The ID of the record.
         public let recordId: String
@@ -291,13 +270,12 @@ extension Firehose {
             self.recordId = recordId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recordId = dictionary["RecordId"] as? String else { throw InitializableError.missingRequiredParam("RecordId") }
-            self.recordId = recordId
+        private enum CodingKeys: String, CodingKey {
+            case recordId = "RecordId"
         }
     }
 
-    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible {
+    public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
         case faileddocumentsonly = "FailedDocumentsOnly"
         case alldocuments = "AllDocuments"
         public var description: String { return self.rawValue }
@@ -305,13 +283,12 @@ extension Firehose {
 
     public struct DestinationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3DestinationDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "DestinationId", required: true, type: .string), 
-            AWSShapeProperty(label: "RedshiftDestinationDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExtendedS3DestinationDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "ElasticsearchDestinationDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "DestinationId", required: true, type: .string), 
+            AWSShapeMember(label: "RedshiftDestinationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "ExtendedS3DestinationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticsearchDestinationDescription", required: false, type: .structure)
         ]
         /// [Deprecated] The destination in Amazon S3.
         public let s3DestinationDescription: S3DestinationDescription?
@@ -332,27 +309,25 @@ extension Firehose {
             self.elasticsearchDestinationDescription = elasticsearchDestinationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) } else { self.s3DestinationDescription = nil }
-            guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
-            self.destinationId = destinationId
-            if let redshiftDestinationDescription = dictionary["RedshiftDestinationDescription"] as? [String: Any] { self.redshiftDestinationDescription = try Firehose.RedshiftDestinationDescription(dictionary: redshiftDestinationDescription) } else { self.redshiftDestinationDescription = nil }
-            if let extendedS3DestinationDescription = dictionary["ExtendedS3DestinationDescription"] as? [String: Any] { self.extendedS3DestinationDescription = try Firehose.ExtendedS3DestinationDescription(dictionary: extendedS3DestinationDescription) } else { self.extendedS3DestinationDescription = nil }
-            if let elasticsearchDestinationDescription = dictionary["ElasticsearchDestinationDescription"] as? [String: Any] { self.elasticsearchDestinationDescription = try Firehose.ElasticsearchDestinationDescription(dictionary: elasticsearchDestinationDescription) } else { self.elasticsearchDestinationDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3DestinationDescription = "S3DestinationDescription"
+            case destinationId = "DestinationId"
+            case redshiftDestinationDescription = "RedshiftDestinationDescription"
+            case extendedS3DestinationDescription = "ExtendedS3DestinationDescription"
+            case elasticsearchDestinationDescription = "ElasticsearchDestinationDescription"
         }
     }
 
     public struct UpdateDestinationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticsearchDestinationUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "CurrentDeliveryStreamVersionId", required: true, type: .string), 
-            AWSShapeProperty(label: "DestinationId", required: true, type: .string), 
-            AWSShapeProperty(label: "ExtendedS3DestinationUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "RedshiftDestinationUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3DestinationUpdate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticsearchDestinationUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "CurrentDeliveryStreamVersionId", required: true, type: .string), 
+            AWSShapeMember(label: "DestinationId", required: true, type: .string), 
+            AWSShapeMember(label: "ExtendedS3DestinationUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftDestinationUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "S3DestinationUpdate", required: false, type: .structure)
         ]
         /// Describes an update for a destination in Amazon ES.
         public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
@@ -379,26 +354,22 @@ extension Firehose {
             self.s3DestinationUpdate = s3DestinationUpdate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticsearchDestinationUpdate = dictionary["ElasticsearchDestinationUpdate"] as? [String: Any] { self.elasticsearchDestinationUpdate = try Firehose.ElasticsearchDestinationUpdate(dictionary: elasticsearchDestinationUpdate) } else { self.elasticsearchDestinationUpdate = nil }
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
-            guard let currentDeliveryStreamVersionId = dictionary["CurrentDeliveryStreamVersionId"] as? String else { throw InitializableError.missingRequiredParam("CurrentDeliveryStreamVersionId") }
-            self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
-            guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
-            self.destinationId = destinationId
-            if let extendedS3DestinationUpdate = dictionary["ExtendedS3DestinationUpdate"] as? [String: Any] { self.extendedS3DestinationUpdate = try Firehose.ExtendedS3DestinationUpdate(dictionary: extendedS3DestinationUpdate) } else { self.extendedS3DestinationUpdate = nil }
-            if let redshiftDestinationUpdate = dictionary["RedshiftDestinationUpdate"] as? [String: Any] { self.redshiftDestinationUpdate = try Firehose.RedshiftDestinationUpdate(dictionary: redshiftDestinationUpdate) } else { self.redshiftDestinationUpdate = nil }
-            if let s3DestinationUpdate = dictionary["S3DestinationUpdate"] as? [String: Any] { self.s3DestinationUpdate = try Firehose.S3DestinationUpdate(dictionary: s3DestinationUpdate) } else { self.s3DestinationUpdate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchDestinationUpdate = "ElasticsearchDestinationUpdate"
+            case deliveryStreamName = "DeliveryStreamName"
+            case currentDeliveryStreamVersionId = "CurrentDeliveryStreamVersionId"
+            case destinationId = "DestinationId"
+            case extendedS3DestinationUpdate = "ExtendedS3DestinationUpdate"
+            case redshiftDestinationUpdate = "RedshiftDestinationUpdate"
+            case s3DestinationUpdate = "S3DestinationUpdate"
         }
     }
 
     public struct ListDeliveryStreamsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryStreamNames", required: true, type: .list), 
-            AWSShapeProperty(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamNames", required: true, type: .list), 
+            AWSShapeMember(label: "HasMoreDeliveryStreams", required: true, type: .boolean)
         ]
         /// The names of the delivery streams.
         public let deliveryStreamNames: [String]
@@ -410,28 +381,25 @@ extension Firehose {
             self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryStreamNames = dictionary["DeliveryStreamNames"] as? [String] else { throw InitializableError.missingRequiredParam("DeliveryStreamNames") }
-            self.deliveryStreamNames = deliveryStreamNames
-            guard let hasMoreDeliveryStreams = dictionary["HasMoreDeliveryStreams"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreDeliveryStreams") }
-            self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamNames = "DeliveryStreamNames"
+            case hasMoreDeliveryStreams = "HasMoreDeliveryStreams"
         }
     }
 
     public struct RedshiftDestinationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3BackupDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "CopyCommand", required: true, type: .structure), 
-            AWSShapeProperty(label: "Username", required: true, type: .string), 
-            AWSShapeProperty(label: "S3DestinationDescription", required: true, type: .structure), 
-            AWSShapeProperty(label: "ClusterJDBCURL", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "CopyCommand", required: true, type: .structure), 
+            AWSShapeMember(label: "Username", required: true, type: .string), 
+            AWSShapeMember(label: "S3DestinationDescription", required: true, type: .structure), 
+            AWSShapeMember(label: "ClusterJDBCURL", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure)
         ]
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
@@ -467,31 +435,25 @@ extension Firehose {
             self.retryOptions = retryOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) } else { self.s3BackupDescription = nil }
-            guard let copyCommand = dictionary["CopyCommand"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CopyCommand") }
-            self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand)
-            guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
-            self.username = username
-            guard let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3DestinationDescription") }
-            self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription)
-            guard let clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String else { throw InitializableError.missingRequiredParam("ClusterJDBCURL") }
-            self.clusterJDBCURL = clusterJDBCURL
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = RedshiftS3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3BackupDescription = "S3BackupDescription"
+            case copyCommand = "CopyCommand"
+            case username = "Username"
+            case s3DestinationDescription = "S3DestinationDescription"
+            case clusterJDBCURL = "ClusterJDBCURL"
+            case roleARN = "RoleARN"
+            case processingConfiguration = "ProcessingConfiguration"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
         }
     }
 
     public struct ListDeliveryStreamsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExclusiveStartDeliveryStreamName", required: false, type: .string)
         ]
         /// The maximum number of delivery streams to list.
         public let limit: Int32?
@@ -503,35 +465,34 @@ extension Firehose {
             self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.exclusiveStartDeliveryStreamName = dictionary["ExclusiveStartDeliveryStreamName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case exclusiveStartDeliveryStreamName = "ExclusiveStartDeliveryStreamName"
         }
     }
 
-    public enum DeliveryStreamStatus: String, CustomStringConvertible {
+    public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
-    public enum ProcessorType: String, CustomStringConvertible {
+    public enum ProcessorType: String, CustomStringConvertible, Codable {
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
     }
 
     public struct S3DestinationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
@@ -558,30 +519,27 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let compressionFormat = dictionary["CompressionFormat"] as? String { self.compressionFormat = CompressionFormat(rawValue: compressionFormat) } else { self.compressionFormat = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case prefix = "Prefix"
+            case roleARN = "RoleARN"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct S3DestinationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: true, type: .structure)
         ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String
@@ -608,27 +566,21 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            guard let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EncryptionConfiguration") }
-            self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration)
-            self.prefix = dictionary["Prefix"] as? String
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            guard let rawCompressionFormat = dictionary["CompressionFormat"] as? String, let compressionFormat = CompressionFormat(rawValue: rawCompressionFormat) else { throw InitializableError.missingRequiredParam("CompressionFormat") }
-            self.compressionFormat = compressionFormat
-            guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
-            self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints)
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case prefix = "Prefix"
+            case roleARN = "RoleARN"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct DeleteDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
         /// The name of the delivery stream.
         public let deliveryStreamName: String
@@ -637,35 +589,30 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
     public struct UpdateDestinationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RedshiftDestinationUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CopyCommand", required: false, type: .structure), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterJDBCURL", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Update", required: false, type: .structure), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CopyCommand", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterJDBCURL", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3Update", required: false, type: .structure), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure)
         ]
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
@@ -704,27 +651,26 @@ extension Firehose {
             self.retryOptions = retryOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            if let copyCommand = dictionary["CopyCommand"] as? [String: Any] { self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand) } else { self.copyCommand = nil }
-            self.username = dictionary["Username"] as? String
-            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) } else { self.s3BackupUpdate = nil }
-            self.clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = RedshiftS3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            self.roleARN = dictionary["RoleARN"] as? String
-            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) } else { self.s3Update = nil }
-            self.password = dictionary["Password"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
+        private enum CodingKeys: String, CodingKey {
+            case processingConfiguration = "ProcessingConfiguration"
+            case copyCommand = "CopyCommand"
+            case username = "Username"
+            case s3BackupUpdate = "S3BackupUpdate"
+            case clusterJDBCURL = "ClusterJDBCURL"
+            case s3BackupMode = "S3BackupMode"
+            case roleARN = "RoleARN"
+            case s3Update = "S3Update"
+            case password = "Password"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
         }
     }
 
     public struct BufferingHints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntervalInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "SizeInMBs", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer)
         ]
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
         public let intervalInSeconds: Int32?
@@ -736,17 +682,16 @@ extension Firehose {
             self.sizeInMBs = sizeInMBs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.intervalInSeconds = dictionary["IntervalInSeconds"] as? Int32
-            self.sizeInMBs = dictionary["SizeInMBs"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case intervalInSeconds = "IntervalInSeconds"
+            case sizeInMBs = "SizeInMBs"
         }
     }
 
     public struct RedshiftRetryOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DurationInSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DurationInSeconds", required: false, type: .integer)
         ]
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public let durationInSeconds: Int32?
@@ -755,22 +700,21 @@ extension Firehose {
             self.durationInSeconds = durationInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.durationInSeconds = dictionary["DurationInSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
         }
     }
 
     public struct S3DestinationUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARN", required: false, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String?
@@ -797,23 +741,22 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bucketARN = dictionary["BucketARN"] as? String
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let compressionFormat = dictionary["CompressionFormat"] as? String { self.compressionFormat = CompressionFormat(rawValue: compressionFormat) } else { self.compressionFormat = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case prefix = "Prefix"
+            case roleARN = "RoleARN"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct PutRecordBatchOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequestResponses", required: true, type: .list), 
-            AWSShapeProperty(label: "FailedPutCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequestResponses", required: true, type: .list), 
+            AWSShapeMember(label: "FailedPutCount", required: true, type: .integer)
         ]
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public let requestResponses: [PutRecordBatchResponseEntry]
@@ -825,15 +768,13 @@ extension Firehose {
             self.failedPutCount = failedPutCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let requestResponses = dictionary["RequestResponses"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RequestResponses") }
-            self.requestResponses = try requestResponses.map({ try PutRecordBatchResponseEntry(dictionary: $0) })
-            guard let failedPutCount = dictionary["FailedPutCount"] as? Int32 else { throw InitializableError.missingRequiredParam("FailedPutCount") }
-            self.failedPutCount = failedPutCount
+        private enum CodingKeys: String, CodingKey {
+            case requestResponses = "RequestResponses"
+            case failedPutCount = "FailedPutCount"
         }
     }
 
-    public enum RedshiftS3BackupMode: String, CustomStringConvertible {
+    public enum RedshiftS3BackupMode: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
         case enabled = "Enabled"
         public var description: String { return self.rawValue }
@@ -841,9 +782,8 @@ extension Firehose {
 
     public struct CreateDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryStreamARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryStreamARN", required: false, type: .string)
         ]
         /// The ARN of the delivery stream.
         public let deliveryStreamARN: String?
@@ -852,25 +792,24 @@ extension Firehose {
             self.deliveryStreamARN = deliveryStreamARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStreamARN = "DeliveryStreamARN"
         }
     }
 
     public struct ElasticsearchDestinationUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeProperty(label: "DomainARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Update", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3Update", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The Elasticsearch type name.
         public let typeName: String?
@@ -906,29 +845,28 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.typeName = dictionary["TypeName"] as? String
-            self.indexName = dictionary["IndexName"] as? String
-            if let indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String { self.indexRotationPeriod = ElasticsearchIndexRotationPeriod(rawValue: indexRotationPeriod) } else { self.indexRotationPeriod = nil }
-            self.domainARN = dictionary["DomainARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
-            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) } else { self.s3Update = nil }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
+            case indexName = "IndexName"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case domainARN = "DomainARN"
+            case roleARN = "RoleARN"
+            case s3Update = "S3Update"
+            case processingConfiguration = "ProcessingConfiguration"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct CreateDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticsearchDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ExtendedS3DestinationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3DestinationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "RedshiftDestinationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticsearchDestinationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ExtendedS3DestinationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3DestinationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftDestinationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
         /// The destination in Amazon ES. You can specify only one destination.
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
@@ -949,31 +887,29 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticsearchDestinationConfiguration = dictionary["ElasticsearchDestinationConfiguration"] as? [String: Any] { self.elasticsearchDestinationConfiguration = try Firehose.ElasticsearchDestinationConfiguration(dictionary: elasticsearchDestinationConfiguration) } else { self.elasticsearchDestinationConfiguration = nil }
-            if let extendedS3DestinationConfiguration = dictionary["ExtendedS3DestinationConfiguration"] as? [String: Any] { self.extendedS3DestinationConfiguration = try Firehose.ExtendedS3DestinationConfiguration(dictionary: extendedS3DestinationConfiguration) } else { self.extendedS3DestinationConfiguration = nil }
-            if let s3DestinationConfiguration = dictionary["S3DestinationConfiguration"] as? [String: Any] { self.s3DestinationConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3DestinationConfiguration) } else { self.s3DestinationConfiguration = nil }
-            if let redshiftDestinationConfiguration = dictionary["RedshiftDestinationConfiguration"] as? [String: Any] { self.redshiftDestinationConfiguration = try Firehose.RedshiftDestinationConfiguration(dictionary: redshiftDestinationConfiguration) } else { self.redshiftDestinationConfiguration = nil }
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
+        private enum CodingKeys: String, CodingKey {
+            case elasticsearchDestinationConfiguration = "ElasticsearchDestinationConfiguration"
+            case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
+            case s3DestinationConfiguration = "S3DestinationConfiguration"
+            case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
     public struct ElasticsearchDestinationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: true, type: .string), 
-            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3Configuration", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeProperty(label: "DomainARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: true, type: .string), 
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Configuration", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainARN", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The Elasticsearch type name.
         public let typeName: String
@@ -1012,31 +948,25 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
-            guard let s3Configuration = dictionary["S3Configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Configuration") }
-            self.s3Configuration = try Firehose.S3DestinationConfiguration(dictionary: s3Configuration)
-            if let indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String { self.indexRotationPeriod = ElasticsearchIndexRotationPeriod(rawValue: indexRotationPeriod) } else { self.indexRotationPeriod = nil }
-            guard let domainARN = dictionary["DomainARN"] as? String else { throw InitializableError.missingRequiredParam("DomainARN") }
-            self.domainARN = domainARN
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = ElasticsearchS3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
+            case indexName = "IndexName"
+            case s3Configuration = "S3Configuration"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case domainARN = "DomainARN"
+            case roleARN = "RoleARN"
+            case processingConfiguration = "ProcessingConfiguration"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct Record: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Data", required: true, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
         public let data: Data
@@ -1045,18 +975,16 @@ extension Firehose {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
         }
     }
 
     public struct PutRecordBatchInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Records", required: true, type: .list), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Records", required: true, type: .list), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
         /// One or more records.
         public let records: [Record]
@@ -1068,20 +996,17 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
-            self.records = try records.map({ try Record(dictionary: $0) })
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
+        private enum CodingKeys: String, CodingKey {
+            case records = "Records"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
     public struct ProcessorParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterName", required: true, type: .enum), 
-            AWSShapeProperty(label: "ParameterValue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterName", required: true, type: .enum), 
+            AWSShapeMember(label: "ParameterValue", required: true, type: .string)
         ]
         /// The name of the parameter.
         public let parameterName: ProcessorParameterName
@@ -1093,19 +1018,16 @@ extension Firehose {
             self.parameterValue = parameterValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawParameterName = dictionary["ParameterName"] as? String, let parameterName = ProcessorParameterName(rawValue: rawParameterName) else { throw InitializableError.missingRequiredParam("ParameterName") }
-            self.parameterName = parameterName
-            guard let parameterValue = dictionary["ParameterValue"] as? String else { throw InitializableError.missingRequiredParam("ParameterValue") }
-            self.parameterValue = parameterValue
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "ParameterName"
+            case parameterValue = "ParameterValue"
         }
     }
 
     public struct KMSEncryptionConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AWSKMSKeyARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AWSKMSKeyARN", required: true, type: .string)
         ]
         /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
         public let aWSKMSKeyARN: String
@@ -1114,26 +1036,24 @@ extension Firehose {
             self.aWSKMSKeyARN = aWSKMSKeyARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aWSKMSKeyARN = dictionary["AWSKMSKeyARN"] as? String else { throw InitializableError.missingRequiredParam("AWSKMSKeyARN") }
-            self.aWSKMSKeyARN = aWSKMSKeyARN
+        private enum CodingKeys: String, CodingKey {
+            case aWSKMSKeyARN = "AWSKMSKeyARN"
         }
     }
 
     public struct ExtendedS3DestinationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3BackupDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "BucketARN", required: true, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3BackupDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "BucketARN", required: true, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: true, type: .structure)
         ]
         /// The configuration for backup in Amazon S3.
         public let s3BackupDescription: S3DestinationDescription?
@@ -1169,26 +1089,21 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) } else { self.s3BackupDescription = nil }
-            guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
-            self.bucketARN = bucketARN
-            guard let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EncryptionConfiguration") }
-            self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration)
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = S3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            guard let rawCompressionFormat = dictionary["CompressionFormat"] as? String, let compressionFormat = CompressionFormat(rawValue: rawCompressionFormat) else { throw InitializableError.missingRequiredParam("CompressionFormat") }
-            self.compressionFormat = compressionFormat
-            guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
-            self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints)
+        private enum CodingKeys: String, CodingKey {
+            case s3BackupDescription = "S3BackupDescription"
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case roleARN = "RoleARN"
+            case processingConfiguration = "ProcessingConfiguration"
+            case prefix = "Prefix"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
-    public enum CompressionFormat: String, CustomStringConvertible {
+    public enum CompressionFormat: String, CustomStringConvertible, Codable {
         case uncompressed = "UNCOMPRESSED"
         case gzip = "GZIP"
         case zip = "ZIP"
@@ -1198,10 +1113,9 @@ extension Firehose {
 
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Record", required: true, type: .structure), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Record", required: true, type: .structure), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
         /// The record.
         public let record: Record
@@ -1213,23 +1127,18 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let record = dictionary["Record"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Record") }
-            self.record = try Firehose.Record(dictionary: record)
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
+        private enum CodingKeys: String, CodingKey {
+            case record = "Record"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
     public struct DeleteDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible {
+    public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
         case norotation = "NoRotation"
         case onehour = "OneHour"
         case oneday = "OneDay"
@@ -1240,10 +1149,9 @@ extension Firehose {
 
     public struct Processor: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list)
         ]
         /// The type of processor.
         public let `type`: ProcessorType
@@ -1255,31 +1163,25 @@ extension Firehose {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = ProcessorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try ProcessorParameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case parameters = "Parameters"
         }
     }
 
     public struct ExtendedS3DestinationUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketARN", required: false, type: .string), 
-            AWSShapeProperty(label: "EncryptionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupUpdate", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompressionFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketARN", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupUpdate", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "CompressionFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The ARN of the S3 bucket.
         public let bucketARN: String?
@@ -1315,27 +1217,26 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bucketARN = dictionary["BucketARN"] as? String
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
-            self.roleARN = dictionary["RoleARN"] as? String
-            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) } else { self.s3BackupUpdate = nil }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            self.prefix = dictionary["Prefix"] as? String
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = S3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let compressionFormat = dictionary["CompressionFormat"] as? String { self.compressionFormat = CompressionFormat(rawValue: compressionFormat) } else { self.compressionFormat = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case roleARN = "RoleARN"
+            case s3BackupUpdate = "S3BackupUpdate"
+            case processingConfiguration = "ProcessingConfiguration"
+            case prefix = "Prefix"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case compressionFormat = "CompressionFormat"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct CloudWatchLoggingOptions: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogStreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "LogGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
         public let logStreamName: String?
@@ -1350,20 +1251,19 @@ extension Firehose {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.logStreamName = dictionary["LogStreamName"] as? String
-            self.logGroupName = dictionary["LogGroupName"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case logStreamName = "LogStreamName"
+            case logGroupName = "LogGroupName"
+            case enabled = "Enabled"
         }
     }
 
     public struct DescribeDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartDestinationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartDestinationId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string)
         ]
         /// The ID of the destination to start returning the destination information. Currently Firehose supports one destination per delivery stream.
         public let exclusiveStartDestinationId: String?
@@ -1378,20 +1278,18 @@ extension Firehose {
             self.deliveryStreamName = deliveryStreamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exclusiveStartDestinationId = dictionary["ExclusiveStartDestinationId"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartDestinationId = "ExclusiveStartDestinationId"
+            case limit = "Limit"
+            case deliveryStreamName = "DeliveryStreamName"
         }
     }
 
     public struct EncryptionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSEncryptionConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "NoEncryptionConfig", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSEncryptionConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "NoEncryptionConfig", required: false, type: .enum)
         ]
         /// The encryption key.
         public let kMSEncryptionConfig: KMSEncryptionConfig?
@@ -1403,43 +1301,42 @@ extension Firehose {
             self.noEncryptionConfig = noEncryptionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let kMSEncryptionConfig = dictionary["KMSEncryptionConfig"] as? [String: Any] { self.kMSEncryptionConfig = try Firehose.KMSEncryptionConfig(dictionary: kMSEncryptionConfig) } else { self.kMSEncryptionConfig = nil }
-            if let noEncryptionConfig = dictionary["NoEncryptionConfig"] as? String { self.noEncryptionConfig = NoEncryptionConfig(rawValue: noEncryptionConfig) } else { self.noEncryptionConfig = nil }
+        private enum CodingKeys: String, CodingKey {
+            case kMSEncryptionConfig = "KMSEncryptionConfig"
+            case noEncryptionConfig = "NoEncryptionConfig"
         }
     }
 
     public struct DeliveryStreamDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Destinations", required: true, type: .list), 
-            AWSShapeProperty(label: "DeliveryStreamStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeliveryStreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeliveryStreamARN", required: true, type: .string), 
-            AWSShapeProperty(label: "HasMoreDestinations", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Destinations", required: true, type: .list), 
+            AWSShapeMember(label: "DeliveryStreamStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "LastUpdateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeliveryStreamName", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: true, type: .string), 
+            AWSShapeMember(label: "CreateTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeliveryStreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "HasMoreDestinations", required: true, type: .boolean)
         ]
         /// The destinations.
         public let destinations: [DestinationDescription]
         /// The status of the delivery stream.
         public let deliveryStreamStatus: DeliveryStreamStatus
         /// The date and time that the delivery stream was last updated.
-        public let lastUpdateTimestamp: String?
+        public let lastUpdateTimestamp: Double?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
         /// The date and time that the delivery stream was created.
-        public let createTimestamp: String?
+        public let createTimestamp: Double?
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let deliveryStreamARN: String
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
 
-        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: String? = nil, deliveryStreamName: String, versionId: String, createTimestamp: String? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
+        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: Double? = nil, deliveryStreamName: String, versionId: String, createTimestamp: Double? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
             self.destinations = destinations
             self.deliveryStreamStatus = deliveryStreamStatus
             self.lastUpdateTimestamp = lastUpdateTimestamp
@@ -1450,39 +1347,32 @@ extension Firehose {
             self.hasMoreDestinations = hasMoreDestinations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinations = dictionary["Destinations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Destinations") }
-            self.destinations = try destinations.map({ try DestinationDescription(dictionary: $0) })
-            guard let rawDeliveryStreamStatus = dictionary["DeliveryStreamStatus"] as? String, let deliveryStreamStatus = DeliveryStreamStatus(rawValue: rawDeliveryStreamStatus) else { throw InitializableError.missingRequiredParam("DeliveryStreamStatus") }
-            self.deliveryStreamStatus = deliveryStreamStatus
-            self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? String
-            guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
-            self.deliveryStreamName = deliveryStreamName
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
-            self.createTimestamp = dictionary["CreateTimestamp"] as? String
-            guard let deliveryStreamARN = dictionary["DeliveryStreamARN"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamARN") }
-            self.deliveryStreamARN = deliveryStreamARN
-            guard let hasMoreDestinations = dictionary["HasMoreDestinations"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreDestinations") }
-            self.hasMoreDestinations = hasMoreDestinations
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
+            case deliveryStreamStatus = "DeliveryStreamStatus"
+            case lastUpdateTimestamp = "LastUpdateTimestamp"
+            case deliveryStreamName = "DeliveryStreamName"
+            case versionId = "VersionId"
+            case createTimestamp = "CreateTimestamp"
+            case deliveryStreamARN = "DeliveryStreamARN"
+            case hasMoreDestinations = "HasMoreDestinations"
         }
     }
 
     public struct ElasticsearchDestinationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "IndexRotationPeriod", required: false, type: .enum), 
-            AWSShapeProperty(label: "DomainARN", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "S3DestinationDescription", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProcessingConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "S3BackupMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "RetryOptions", required: false, type: .structure), 
-            AWSShapeProperty(label: "BufferingHints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "IndexRotationPeriod", required: false, type: .enum), 
+            AWSShapeMember(label: "DomainARN", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "S3DestinationDescription", required: false, type: .structure), 
+            AWSShapeMember(label: "ProcessingConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "S3BackupMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CloudWatchLoggingOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryOptions", required: false, type: .structure), 
+            AWSShapeMember(label: "BufferingHints", required: false, type: .structure)
         ]
         /// The Elasticsearch type name.
         public let typeName: String?
@@ -1521,27 +1411,26 @@ extension Firehose {
             self.bufferingHints = bufferingHints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.typeName = dictionary["TypeName"] as? String
-            self.indexName = dictionary["IndexName"] as? String
-            if let indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String { self.indexRotationPeriod = ElasticsearchIndexRotationPeriod(rawValue: indexRotationPeriod) } else { self.indexRotationPeriod = nil }
-            self.domainARN = dictionary["DomainARN"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
-            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) } else { self.s3DestinationDescription = nil }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
-            if let s3BackupMode = dictionary["S3BackupMode"] as? String { self.s3BackupMode = ElasticsearchS3BackupMode(rawValue: s3BackupMode) } else { self.s3BackupMode = nil }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
+            case indexName = "IndexName"
+            case indexRotationPeriod = "IndexRotationPeriod"
+            case domainARN = "DomainARN"
+            case roleARN = "RoleARN"
+            case s3DestinationDescription = "S3DestinationDescription"
+            case processingConfiguration = "ProcessingConfiguration"
+            case s3BackupMode = "S3BackupMode"
+            case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+            case retryOptions = "RetryOptions"
+            case bufferingHints = "BufferingHints"
         }
     }
 
     public struct ElasticsearchBufferingHints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SizeInMBs", required: false, type: .integer), 
-            AWSShapeProperty(label: "IntervalInSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SizeInMBs", required: false, type: .integer), 
+            AWSShapeMember(label: "IntervalInSeconds", required: false, type: .integer)
         ]
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public let sizeInMBs: Int32?
@@ -1553,19 +1442,18 @@ extension Firehose {
             self.intervalInSeconds = intervalInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sizeInMBs = dictionary["SizeInMBs"] as? Int32
-            self.intervalInSeconds = dictionary["IntervalInSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case sizeInMBs = "SizeInMBs"
+            case intervalInSeconds = "IntervalInSeconds"
         }
     }
 
     public struct PutRecordBatchResponseEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecordId", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecordId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string)
         ]
         /// The ID of the record.
         public let recordId: String?
@@ -1580,10 +1468,10 @@ extension Firehose {
             self.errorMessage = errorMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.recordId = dictionary["RecordId"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.errorMessage = dictionary["ErrorMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recordId = "RecordId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
         }
     }
 

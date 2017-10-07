@@ -31,11 +31,10 @@ extension Batch {
 
     public struct RegisterJobDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .integer), 
-            AWSShapeProperty(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .integer), 
+            AWSShapeMember(label: "jobDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string)
         ]
         /// The revision of the job definition.
         public let revision: Int32
@@ -50,22 +49,18 @@ extension Batch {
             self.jobDefinitionName = jobDefinitionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let revision = dictionary["revision"] as? Int32 else { throw InitializableError.missingRequiredParam("revision") }
-            self.revision = revision
-            guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
-            self.jobDefinitionArn = jobDefinitionArn
-            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
-            self.jobDefinitionName = jobDefinitionName
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case jobDefinitionArn = "jobDefinitionArn"
+            case jobDefinitionName = "jobDefinitionName"
         }
     }
 
     public struct TerminateJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: true, type: .string)
         ]
         /// Job IDs to be terminated. Up to 100 jobs can be specified.
         public let jobId: String
@@ -77,15 +72,13 @@ extension Batch {
             self.reason = reason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
-            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
-            self.reason = reason
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case reason = "reason"
         }
     }
 
-    public enum JobStatus: String, CustomStringConvertible {
+    public enum JobStatus: String, CustomStringConvertible, Codable {
         case submitted = "SUBMITTED"
         case pending = "PENDING"
         case runnable = "RUNNABLE"
@@ -98,10 +91,9 @@ extension Batch {
 
     public struct JobSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "jobName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "jobName", required: true, type: .string)
         ]
         /// The ID of the job.
         public let jobId: String
@@ -113,15 +105,13 @@ extension Batch {
             self.jobName = jobName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
-            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
-            self.jobName = jobName
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case jobName = "jobName"
         }
     }
 
-    public enum JQState: String, CustomStringConvertible {
+    public enum JQState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
@@ -129,20 +119,16 @@ extension Batch {
 
     public struct DeregisterJobDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AttemptDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "startedAt", required: false, type: .long), 
-            AWSShapeProperty(label: "container", required: false, type: .structure), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "startedAt", required: false, type: .long), 
+            AWSShapeMember(label: "container", required: false, type: .structure), 
+            AWSShapeMember(label: "stoppedAt", required: false, type: .long)
         ]
         /// A short, human-readable string to provide additional details about the current status of the job attempt.
         public let statusReason: String?
@@ -160,25 +146,24 @@ extension Batch {
             self.stoppedAt = stoppedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.statusReason = dictionary["statusReason"] as? String
-            self.startedAt = dictionary["startedAt"] as? Int64
-            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.AttemptContainerDetail(dictionary: container) } else { self.container = nil }
-            self.stoppedAt = dictionary["stoppedAt"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case statusReason = "statusReason"
+            case startedAt = "startedAt"
+            case container = "container"
+            case stoppedAt = "stoppedAt"
         }
     }
 
     public struct JobQueueDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: true, type: .enum), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeProperty(label: "jobQueueArn", required: true, type: .string), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "priority", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: true, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "computeEnvironmentOrder", required: true, type: .list), 
+            AWSShapeMember(label: "jobQueueArn", required: true, type: .string), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "jobQueueName", required: true, type: .string), 
+            AWSShapeMember(label: "priority", required: true, type: .integer)
         ]
         /// Describes the ability of the queue to accept new jobs.
         public let state: JQState
@@ -205,28 +190,22 @@ extension Batch {
             self.priority = priority
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstate = dictionary["state"] as? String, let state = JQState(rawValue: rawstate) else { throw InitializableError.missingRequiredParam("state") }
-            self.state = state
-            if let status = dictionary["status"] as? String { self.status = JQStatus(rawValue: status) } else { self.status = nil }
-            guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
-            self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
-            guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
-            self.jobQueueArn = jobQueueArn
-            self.statusReason = dictionary["statusReason"] as? String
-            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
-            self.jobQueueName = jobQueueName
-            guard let priority = dictionary["priority"] as? Int32 else { throw InitializableError.missingRequiredParam("priority") }
-            self.priority = priority
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case status = "status"
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case jobQueueArn = "jobQueueArn"
+            case statusReason = "statusReason"
+            case jobQueueName = "jobQueueName"
+            case priority = "priority"
         }
     }
 
     public struct SubmitJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobName", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The name of the job. 
         public let jobName: String
@@ -238,30 +217,27 @@ extension Batch {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
-            self.jobName = jobName
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "jobName"
+            case jobId = "jobId"
         }
     }
 
     public struct ContainerProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "image", required: true, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "vcpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "jobRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "user", required: false, type: .string), 
+            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
+            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
+            AWSShapeMember(label: "image", required: true, type: .string), 
+            AWSShapeMember(label: "volumes", required: false, type: .list), 
+            AWSShapeMember(label: "vcpus", required: true, type: .integer), 
+            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
+            AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "command", required: false, type: .list), 
+            AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "ulimits", required: false, type: .list), 
+            AWSShapeMember(label: "memory", required: true, type: .integer)
         ]
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public let user: String?
@@ -303,49 +279,29 @@ extension Batch {
             self.memory = memory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.user = dictionary["user"] as? String
-            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
-            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
-                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
-            } else { 
-                self.mountPoints = nil
-            }
-            guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
-            self.image = image
-            if let volumes = dictionary["volumes"] as? [[String: Any]] {
-                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
-            } else { 
-                self.volumes = nil
-            }
-            guard let vcpus = dictionary["vcpus"] as? Int32 else { throw InitializableError.missingRequiredParam("vcpus") }
-            self.vcpus = vcpus
-            self.privileged = dictionary["privileged"] as? Bool
-            if let environment = dictionary["environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.command = dictionary["command"] as? [String]
-            self.jobRoleArn = dictionary["jobRoleArn"] as? String
-            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
-                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
-            } else { 
-                self.ulimits = nil
-            }
-            guard let memory = dictionary["memory"] as? Int32 else { throw InitializableError.missingRequiredParam("memory") }
-            self.memory = memory
+        private enum CodingKeys: String, CodingKey {
+            case user = "user"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case mountPoints = "mountPoints"
+            case image = "image"
+            case volumes = "volumes"
+            case vcpus = "vcpus"
+            case privileged = "privileged"
+            case environment = "environment"
+            case command = "command"
+            case jobRoleArn = "jobRoleArn"
+            case ulimits = "ulimits"
+            case memory = "memory"
         }
     }
 
     public struct AttemptContainerDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "taskArn", required: false, type: .string), 
+            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "exitCode", required: false, type: .integer)
         ]
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
@@ -363,36 +319,35 @@ extension Batch {
             self.exitCode = exitCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["reason"] as? String
-            self.taskArn = dictionary["taskArn"] as? String
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.exitCode = dictionary["exitCode"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case taskArn = "taskArn"
+            case containerInstanceArn = "containerInstanceArn"
+            case exitCode = "exitCode"
         }
     }
 
-    public enum JobDefinitionType: String, CustomStringConvertible {
+    public enum JobDefinitionType: String, CustomStringConvertible, Codable {
         case container = "container"
         public var description: String { return self.rawValue }
     }
 
     public struct ComputeResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ec2KeyPair", required: false, type: .string), 
-            AWSShapeProperty(label: "maxvCpus", required: true, type: .integer), 
-            AWSShapeProperty(label: "imageId", required: false, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "bidPercentage", required: false, type: .integer), 
-            AWSShapeProperty(label: "instanceTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "subnets", required: true, type: .list), 
-            AWSShapeProperty(label: "spotIamFleetRole", required: false, type: .string), 
-            AWSShapeProperty(label: "securityGroupIds", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "minvCpus", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ec2KeyPair", required: false, type: .string), 
+            AWSShapeMember(label: "maxvCpus", required: true, type: .integer), 
+            AWSShapeMember(label: "imageId", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "bidPercentage", required: false, type: .integer), 
+            AWSShapeMember(label: "instanceTypes", required: true, type: .list), 
+            AWSShapeMember(label: "subnets", required: true, type: .list), 
+            AWSShapeMember(label: "spotIamFleetRole", required: false, type: .string), 
+            AWSShapeMember(label: "securityGroupIds", required: true, type: .list), 
+            AWSShapeMember(label: "instanceRole", required: true, type: .string), 
+            AWSShapeMember(label: "desiredvCpus", required: false, type: .integer), 
+            AWSShapeMember(label: "minvCpus", required: true, type: .integer)
         ]
         /// The EC2 key pair that is used for instances launched in the compute environment.
         public let ec2KeyPair: String?
@@ -437,47 +392,35 @@ extension Batch {
             self.minvCpus = minvCpus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ec2KeyPair = dictionary["ec2KeyPair"] as? String
-            guard let maxvCpus = dictionary["maxvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("maxvCpus") }
-            self.maxvCpus = maxvCpus
-            self.imageId = dictionary["imageId"] as? String
-            if let tags = dictionary["tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
-            guard let rawtype = dictionary["type"] as? String, let `type` = CRType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            self.bidPercentage = dictionary["bidPercentage"] as? Int32
-            guard let instanceTypes = dictionary["instanceTypes"] as? [String] else { throw InitializableError.missingRequiredParam("instanceTypes") }
-            self.instanceTypes = instanceTypes
-            guard let subnets = dictionary["subnets"] as? [String] else { throw InitializableError.missingRequiredParam("subnets") }
-            self.subnets = subnets
-            self.spotIamFleetRole = dictionary["spotIamFleetRole"] as? String
-            guard let securityGroupIds = dictionary["securityGroupIds"] as? [String] else { throw InitializableError.missingRequiredParam("securityGroupIds") }
-            self.securityGroupIds = securityGroupIds
-            guard let instanceRole = dictionary["instanceRole"] as? String else { throw InitializableError.missingRequiredParam("instanceRole") }
-            self.instanceRole = instanceRole
-            self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
-            guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
-            self.minvCpus = minvCpus
+        private enum CodingKeys: String, CodingKey {
+            case ec2KeyPair = "ec2KeyPair"
+            case maxvCpus = "maxvCpus"
+            case imageId = "imageId"
+            case tags = "tags"
+            case `type` = "type"
+            case bidPercentage = "bidPercentage"
+            case instanceTypes = "instanceTypes"
+            case subnets = "subnets"
+            case spotIamFleetRole = "spotIamFleetRole"
+            case securityGroupIds = "securityGroupIds"
+            case instanceRole = "instanceRole"
+            case desiredvCpus = "desiredvCpus"
+            case minvCpus = "minvCpus"
         }
     }
 
     public struct ComputeEnvironmentDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "ecsClusterArn", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "computeEnvironmentArn", required: true, type: .string), 
+            AWSShapeMember(label: "computeEnvironmentName", required: true, type: .string), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "ecsClusterArn", required: true, type: .string), 
+            AWSShapeMember(label: "computeResources", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string)
         ]
         /// The state of the compute environment. The valid values are ENABLED or DISABLED. An ENABLED state indicates that you can register instances with the compute environment and that the associated instances can accept jobs. 
         public let state: CEState?
@@ -510,23 +453,20 @@ extension Batch {
             self.serviceRole = serviceRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
-            if let status = dictionary["status"] as? String { self.status = CEStatus(rawValue: status) } else { self.status = nil }
-            guard let computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentArn") }
-            self.computeEnvironmentArn = computeEnvironmentArn
-            guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
-            self.computeEnvironmentName = computeEnvironmentName
-            self.statusReason = dictionary["statusReason"] as? String
-            guard let ecsClusterArn = dictionary["ecsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("ecsClusterArn") }
-            self.ecsClusterArn = ecsClusterArn
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) } else { self.computeResources = nil }
-            if let `type` = dictionary["type"] as? String { self.`type` = CEType(rawValue: `type`) } else { self.`type` = nil }
-            self.serviceRole = dictionary["serviceRole"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case status = "status"
+            case computeEnvironmentArn = "computeEnvironmentArn"
+            case computeEnvironmentName = "computeEnvironmentName"
+            case statusReason = "statusReason"
+            case ecsClusterArn = "ecsClusterArn"
+            case computeResources = "computeResources"
+            case `type` = "type"
+            case serviceRole = "serviceRole"
         }
     }
 
-    public enum JQStatus: String, CustomStringConvertible {
+    public enum JQStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case updating = "UPDATING"
         case deleting = "DELETING"
@@ -538,18 +478,14 @@ extension Batch {
 
     public struct DeleteJobQueueResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateComputeEnvironmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string)
         ]
         /// The name of compute environment.
         public let computeEnvironmentName: String?
@@ -561,20 +497,19 @@ extension Batch {
             self.computeEnvironmentArn = computeEnvironmentArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.computeEnvironmentName = dictionary["computeEnvironmentName"] as? String
-            self.computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironmentName = "computeEnvironmentName"
+            case computeEnvironmentArn = "computeEnvironmentArn"
         }
     }
 
     public struct UpdateJobQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: false, type: .list), 
-            AWSShapeProperty(label: "priority", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
+            AWSShapeMember(label: "computeEnvironmentOrder", required: false, type: .list), 
+            AWSShapeMember(label: "priority", required: false, type: .integer)
         ]
         /// Describes the queue's ability to accept new jobs.
         public let state: JQState?
@@ -592,28 +527,22 @@ extension Batch {
             self.priority = priority
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = JQState(rawValue: state) } else { self.state = nil }
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
-            if let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] {
-                self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
-            } else { 
-                self.computeEnvironmentOrder = nil
-            }
-            self.priority = dictionary["priority"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case jobQueue = "jobQueue"
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case priority = "priority"
         }
     }
 
     public struct CreateComputeEnvironmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "serviceRole", required: true, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentName", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "serviceRole", required: true, type: .string), 
+            AWSShapeMember(label: "computeEnvironmentName", required: true, type: .string), 
+            AWSShapeMember(label: "computeResources", required: false, type: .structure)
         ]
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
         public let state: CEState?
@@ -634,33 +563,26 @@ extension Batch {
             self.computeResources = computeResources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
-            guard let rawtype = dictionary["type"] as? String, let `type` = CEType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let serviceRole = dictionary["serviceRole"] as? String else { throw InitializableError.missingRequiredParam("serviceRole") }
-            self.serviceRole = serviceRole
-            guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
-            self.computeEnvironmentName = computeEnvironmentName
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) } else { self.computeResources = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case `type` = "type"
+            case serviceRole = "serviceRole"
+            case computeEnvironmentName = "computeEnvironmentName"
+            case computeResources = "computeResources"
         }
     }
 
     public struct TerminateJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeComputeEnvironmentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironments", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
         public let computeEnvironments: [String]?
@@ -675,18 +597,17 @@ extension Batch {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.computeEnvironments = dictionary["computeEnvironments"] as? [String]
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironments = "computeEnvironments"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteComputeEnvironmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironment", required: true, type: .string)
         ]
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete. 
         public let computeEnvironment: String
@@ -695,18 +616,16 @@ extension Batch {
             self.computeEnvironment = computeEnvironment
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
-            self.computeEnvironment = computeEnvironment
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironment = "computeEnvironment"
         }
     }
 
     public struct DescribeComputeEnvironmentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironments", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironments", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of compute environments.
         public let computeEnvironments: [ComputeEnvironmentDetail]?
@@ -718,21 +637,16 @@ extension Batch {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let computeEnvironments = dictionary["computeEnvironments"] as? [[String: Any]] {
-                self.computeEnvironments = try computeEnvironments.map({ try ComputeEnvironmentDetail(dictionary: $0) })
-            } else { 
-                self.computeEnvironments = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironments = "computeEnvironments"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeregisterJobDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDefinition", required: true, type: .string)
         ]
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister. 
         public let jobDefinition: String
@@ -741,40 +655,35 @@ extension Batch {
             self.jobDefinition = jobDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
-            self.jobDefinition = jobDefinition
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinition = "jobDefinition"
         }
     }
 
     public struct CancelJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ContainerDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "readonlyRootFilesystem", required: false, type: .boolean), 
-            AWSShapeProperty(label: "mountPoints", required: false, type: .list), 
-            AWSShapeProperty(label: "user", required: false, type: .string), 
-            AWSShapeProperty(label: "vcpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "ulimits", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "containerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "image", required: false, type: .string), 
-            AWSShapeProperty(label: "volumes", required: false, type: .list), 
-            AWSShapeProperty(label: "privileged", required: false, type: .boolean), 
-            AWSShapeProperty(label: "exitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "jobRoleArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
+            AWSShapeMember(label: "mountPoints", required: false, type: .list), 
+            AWSShapeMember(label: "user", required: false, type: .string), 
+            AWSShapeMember(label: "vcpus", required: false, type: .integer), 
+            AWSShapeMember(label: "ulimits", required: false, type: .list), 
+            AWSShapeMember(label: "memory", required: false, type: .integer), 
+            AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "image", required: false, type: .string), 
+            AWSShapeMember(label: "volumes", required: false, type: .list), 
+            AWSShapeMember(label: "privileged", required: false, type: .boolean), 
+            AWSShapeMember(label: "exitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "taskArn", required: false, type: .string), 
+            AWSShapeMember(label: "command", required: false, type: .list), 
+            AWSShapeMember(label: "jobRoleArn", required: false, type: .string)
         ]
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
@@ -828,49 +737,32 @@ extension Batch {
             self.jobRoleArn = jobRoleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["reason"] as? String
-            self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
-            if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
-                self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
-            } else { 
-                self.mountPoints = nil
-            }
-            self.user = dictionary["user"] as? String
-            self.vcpus = dictionary["vcpus"] as? Int32
-            if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
-                self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
-            } else { 
-                self.ulimits = nil
-            }
-            self.memory = dictionary["memory"] as? Int32
-            if let environment = dictionary["environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
-            self.image = dictionary["image"] as? String
-            if let volumes = dictionary["volumes"] as? [[String: Any]] {
-                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
-            } else { 
-                self.volumes = nil
-            }
-            self.privileged = dictionary["privileged"] as? Bool
-            self.exitCode = dictionary["exitCode"] as? Int32
-            self.taskArn = dictionary["taskArn"] as? String
-            self.command = dictionary["command"] as? [String]
-            self.jobRoleArn = dictionary["jobRoleArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case mountPoints = "mountPoints"
+            case user = "user"
+            case vcpus = "vcpus"
+            case ulimits = "ulimits"
+            case memory = "memory"
+            case environment = "environment"
+            case containerInstanceArn = "containerInstanceArn"
+            case image = "image"
+            case volumes = "volumes"
+            case privileged = "privileged"
+            case exitCode = "exitCode"
+            case taskArn = "taskArn"
+            case command = "command"
+            case jobRoleArn = "jobRoleArn"
         }
     }
 
     public struct MountPoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourceVolume", required: false, type: .string), 
-            AWSShapeProperty(label: "readOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "containerPath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourceVolume", required: false, type: .string), 
+            AWSShapeMember(label: "readOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "containerPath", required: false, type: .string)
         ]
         /// The name of the volume to mount.
         public let sourceVolume: String?
@@ -885,21 +777,20 @@ extension Batch {
             self.containerPath = containerPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceVolume = dictionary["sourceVolume"] as? String
-            self.readOnly = dictionary["readOnly"] as? Bool
-            self.containerPath = dictionary["containerPath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceVolume = "sourceVolume"
+            case readOnly = "readOnly"
+            case containerPath = "containerPath"
         }
     }
 
     public struct UpdateComputeEnvironmentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeProperty(label: "computeResources", required: false, type: .structure), 
-            AWSShapeProperty(label: "serviceRole", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "computeEnvironment", required: true, type: .string), 
+            AWSShapeMember(label: "computeResources", required: false, type: .structure), 
+            AWSShapeMember(label: "serviceRole", required: false, type: .string)
         ]
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues.
         public let state: CEState?
@@ -917,21 +808,19 @@ extension Batch {
             self.serviceRole = serviceRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = CEState(rawValue: state) } else { self.state = nil }
-            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
-            self.computeEnvironment = computeEnvironment
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResourceUpdate(dictionary: computeResources) } else { self.computeResources = nil }
-            self.serviceRole = dictionary["serviceRole"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case computeEnvironment = "computeEnvironment"
+            case computeResources = "computeResources"
+            case serviceRole = "serviceRole"
         }
     }
 
     public struct CreateJobQueueResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string), 
-            AWSShapeProperty(label: "jobQueueArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueueName", required: true, type: .string), 
+            AWSShapeMember(label: "jobQueueArn", required: true, type: .string)
         ]
         /// The name of the job queue.
         public let jobQueueName: String
@@ -943,15 +832,13 @@ extension Batch {
             self.jobQueueArn = jobQueueArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
-            self.jobQueueName = jobQueueName
-            guard let jobQueueArn = dictionary["jobQueueArn"] as? String else { throw InitializableError.missingRequiredParam("jobQueueArn") }
-            self.jobQueueArn = jobQueueArn
+        private enum CodingKeys: String, CodingKey {
+            case jobQueueName = "jobQueueName"
+            case jobQueueArn = "jobQueueArn"
         }
     }
 
-    public enum CEState: String, CustomStringConvertible {
+    public enum CEState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         public var description: String { return self.rawValue }
@@ -959,9 +846,8 @@ extension Batch {
 
     public struct Host: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sourcePath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sourcePath", required: false, type: .string)
         ]
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public let sourcePath: String?
@@ -970,16 +856,15 @@ extension Batch {
             self.sourcePath = sourcePath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourcePath = dictionary["sourcePath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourcePath = "sourcePath"
         }
     }
 
     public struct DescribeJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: true, type: .list)
         ]
         /// A space-separated list of up to 100 job IDs.
         public let jobs: [String]
@@ -988,20 +873,18 @@ extension Batch {
             self.jobs = jobs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobs = dictionary["jobs"] as? [String] else { throw InitializableError.missingRequiredParam("jobs") }
-            self.jobs = jobs
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
         }
     }
 
     public struct ContainerOverrides: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "vcpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "environment", required: false, type: .list), 
-            AWSShapeProperty(label: "command", required: false, type: .list), 
-            AWSShapeProperty(label: "memory", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vcpus", required: false, type: .integer), 
+            AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "command", required: false, type: .list), 
+            AWSShapeMember(label: "memory", required: false, type: .integer)
         ]
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
         public let vcpus: Int32?
@@ -1019,36 +902,31 @@ extension Batch {
             self.memory = memory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vcpus = dictionary["vcpus"] as? Int32
-            if let environment = dictionary["environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.command = dictionary["command"] as? [String]
-            self.memory = dictionary["memory"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case vcpus = "vcpus"
+            case environment = "environment"
+            case command = "command"
+            case memory = "memory"
         }
     }
 
     public struct JobDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "createdAt", required: false, type: .long), 
-            AWSShapeProperty(label: "startedAt", required: true, type: .long), 
-            AWSShapeProperty(label: "statusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "container", required: false, type: .structure), 
-            AWSShapeProperty(label: "dependsOn", required: false, type: .list), 
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "attempts", required: false, type: .list), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "stoppedAt", required: false, type: .long), 
-            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "jobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobName", required: true, type: .string), 
+            AWSShapeMember(label: "createdAt", required: false, type: .long), 
+            AWSShapeMember(label: "startedAt", required: true, type: .long), 
+            AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "container", required: false, type: .structure), 
+            AWSShapeMember(label: "dependsOn", required: false, type: .list), 
+            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "attempts", required: false, type: .list), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "stoppedAt", required: false, type: .long), 
+            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "jobId", required: true, type: .string)
         ]
         /// The name of the job.
         public let jobName: String
@@ -1096,53 +974,34 @@ extension Batch {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
-            self.jobName = jobName
-            self.createdAt = dictionary["createdAt"] as? Int64
-            guard let startedAt = dictionary["startedAt"] as? Int64 else { throw InitializableError.missingRequiredParam("startedAt") }
-            self.startedAt = startedAt
-            self.statusReason = dictionary["statusReason"] as? String
-            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) } else { self.container = nil }
-            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
-                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
-            } else { 
-                self.dependsOn = nil
-            }
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
-            guard let rawstatus = dictionary["status"] as? String, let status = JobStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            if let attempts = dictionary["attempts"] as? [[String: Any]] {
-                self.attempts = try attempts.map({ try AttemptDetail(dictionary: $0) })
-            } else { 
-                self.attempts = nil
-            }
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
-            self.stoppedAt = dictionary["stoppedAt"] as? Int64
-            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
-            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
-            self.jobDefinition = jobDefinition
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "jobName"
+            case createdAt = "createdAt"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
+            case container = "container"
+            case dependsOn = "dependsOn"
+            case jobQueue = "jobQueue"
+            case status = "status"
+            case attempts = "attempts"
+            case parameters = "parameters"
+            case stoppedAt = "stoppedAt"
+            case retryStrategy = "retryStrategy"
+            case jobDefinition = "jobDefinition"
+            case jobId = "jobId"
         }
     }
 
     public struct SubmitJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "jobName", required: true, type: .string), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeProperty(label: "jobDefinition", required: true, type: .string), 
-            AWSShapeProperty(label: "containerOverrides", required: false, type: .structure), 
-            AWSShapeProperty(label: "dependsOn", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
+            AWSShapeMember(label: "jobName", required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
+            AWSShapeMember(label: "containerOverrides", required: false, type: .structure), 
+            AWSShapeMember(label: "dependsOn", required: false, type: .list)
         ]
         /// The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue. 
         public let jobQueue: String
@@ -1169,33 +1028,21 @@ extension Batch {
             self.dependsOn = dependsOn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
-            guard let jobName = dictionary["jobName"] as? String else { throw InitializableError.missingRequiredParam("jobName") }
-            self.jobName = jobName
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
-            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
-            guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
-            self.jobDefinition = jobDefinition
-            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) } else { self.containerOverrides = nil }
-            if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
-                self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
-            } else { 
-                self.dependsOn = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobQueue = "jobQueue"
+            case jobName = "jobName"
+            case parameters = "parameters"
+            case retryStrategy = "retryStrategy"
+            case jobDefinition = "jobDefinition"
+            case containerOverrides = "containerOverrides"
+            case dependsOn = "dependsOn"
         }
     }
 
     public struct DescribeJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
         /// The list of jobs. 
         public let jobs: [JobDetail]?
@@ -1204,16 +1051,12 @@ extension Batch {
             self.jobs = jobs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobs = dictionary["jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try JobDetail(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
         }
     }
 
-    public enum CEType: String, CustomStringConvertible {
+    public enum CEType: String, CustomStringConvertible, Codable {
         case managed = "MANAGED"
         case unmanaged = "UNMANAGED"
         public var description: String { return self.rawValue }
@@ -1221,18 +1064,14 @@ extension Batch {
 
     public struct DeleteComputeEnvironmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobSummaryList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "jobSummaryList", required: true, type: .list)
         ]
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1244,22 +1083,20 @@ extension Batch {
             self.jobSummaryList = jobSummaryList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let jobSummaryList = dictionary["jobSummaryList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("jobSummaryList") }
-            self.jobSummaryList = try jobSummaryList.map({ try JobSummary(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case jobSummaryList = "jobSummaryList"
         }
     }
 
     public struct DescribeJobDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinitionName", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDefinitionName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "jobDefinitions", required: false, type: .list)
         ]
         /// The name of the job definition to describe.
         public let jobDefinitionName: String?
@@ -1280,24 +1117,23 @@ extension Batch {
             self.jobDefinitions = jobDefinitions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobDefinitionName = dictionary["jobDefinitionName"] as? String
-            self.status = dictionary["status"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            self.jobDefinitions = dictionary["jobDefinitions"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "jobDefinitionName"
+            case status = "status"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case jobDefinitions = "jobDefinitions"
         }
     }
 
     public struct RegisterJobDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "containerProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "containerProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "parameters", required: false, type: .map)
         ]
         /// The name of the job definition to register. 
         public let jobDefinitionName: String
@@ -1318,29 +1154,22 @@ extension Batch {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
-            self.jobDefinitionName = jobDefinitionName
-            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
-            guard let rawtype = dictionary["type"] as? String, let `type` = JobDefinitionType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobDefinitionName = "jobDefinitionName"
+            case retryStrategy = "retryStrategy"
+            case `type` = "type"
+            case containerProperties = "containerProperties"
+            case parameters = "parameters"
         }
     }
 
     public struct ListJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "jobStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueue", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "jobStatus", required: false, type: .enum)
         ]
         /// The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
         public let jobQueue: String
@@ -1358,22 +1187,20 @@ extension Batch {
             self.jobStatus = jobStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let jobStatus = dictionary["jobStatus"] as? String { self.jobStatus = JobStatus(rawValue: jobStatus) } else { self.jobStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case jobQueue = "jobQueue"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case jobStatus = "jobStatus"
         }
     }
 
     public struct DescribeJobQueuesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueues", required: false, type: .list), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueues", required: false, type: .list), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
         public let jobQueues: [String]?
@@ -1388,19 +1215,18 @@ extension Batch {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobQueues = dictionary["jobQueues"] as? [String]
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobQueues = "jobQueues"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeJobQueuesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueues", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueues", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of job queues. 
         public let jobQueues: [JobQueueDetail]?
@@ -1412,22 +1238,17 @@ extension Batch {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobQueues = dictionary["jobQueues"] as? [[String: Any]] {
-                self.jobQueues = try jobQueues.map({ try JobQueueDetail(dictionary: $0) })
-            } else { 
-                self.jobQueues = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobQueues = "jobQueues"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeJobDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "jobDefinitions", required: false, type: .list)
         ]
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1439,21 +1260,16 @@ extension Batch {
             self.jobDefinitions = jobDefinitions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let jobDefinitions = dictionary["jobDefinitions"] as? [[String: Any]] {
-                self.jobDefinitions = try jobDefinitions.map({ try JobDefinition(dictionary: $0) })
-            } else { 
-                self.jobDefinitions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case jobDefinitions = "jobDefinitions"
         }
     }
 
     public struct DeleteJobQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueue", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueue", required: true, type: .string)
         ]
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete. 
         public let jobQueue: String
@@ -1462,24 +1278,22 @@ extension Batch {
             self.jobQueue = jobQueue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobQueue = dictionary["jobQueue"] as? String else { throw InitializableError.missingRequiredParam("jobQueue") }
-            self.jobQueue = jobQueue
+        private enum CodingKeys: String, CodingKey {
+            case jobQueue = "jobQueue"
         }
     }
 
     public struct JobDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .integer), 
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "jobDefinitionName", required: true, type: .string), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "jobDefinitionArn", required: true, type: .string), 
-            AWSShapeProperty(label: "retryStrategy", required: false, type: .structure), 
-            AWSShapeProperty(label: "type", required: true, type: .string), 
-            AWSShapeProperty(label: "containerProperties", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .integer), 
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "jobDefinitionName", required: true, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map), 
+            AWSShapeMember(label: "jobDefinitionArn", required: true, type: .string), 
+            AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "type", required: true, type: .string), 
+            AWSShapeMember(label: "containerProperties", required: false, type: .structure)
         ]
         /// The revision of the job definition.
         public let revision: Int32
@@ -1509,32 +1323,23 @@ extension Batch {
             self.containerProperties = containerProperties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let revision = dictionary["revision"] as? Int32 else { throw InitializableError.missingRequiredParam("revision") }
-            self.revision = revision
-            self.status = dictionary["status"] as? String
-            guard let jobDefinitionName = dictionary["jobDefinitionName"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionName") }
-            self.jobDefinitionName = jobDefinitionName
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
-            guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
-            self.jobDefinitionArn = jobDefinitionArn
-            if let retryStrategy = dictionary["retryStrategy"] as? [String: Any] { self.retryStrategy = try Batch.RetryStrategy(dictionary: retryStrategy) } else { self.retryStrategy = nil }
-            guard let `type` = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case status = "status"
+            case jobDefinitionName = "jobDefinitionName"
+            case parameters = "parameters"
+            case jobDefinitionArn = "jobDefinitionArn"
+            case retryStrategy = "retryStrategy"
+            case `type` = "type"
+            case containerProperties = "containerProperties"
         }
     }
 
     public struct KeyValuePair: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
@@ -1546,20 +1351,19 @@ extension Batch {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct CreateJobQueueRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "computeEnvironmentOrder", required: true, type: .list), 
-            AWSShapeProperty(label: "priority", required: true, type: .integer), 
-            AWSShapeProperty(label: "jobQueueName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "computeEnvironmentOrder", required: true, type: .list), 
+            AWSShapeMember(label: "priority", required: true, type: .integer), 
+            AWSShapeMember(label: "jobQueueName", required: true, type: .string)
         ]
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
         public let state: JQState?
@@ -1577,23 +1381,19 @@ extension Batch {
             self.jobQueueName = jobQueueName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = JQState(rawValue: state) } else { self.state = nil }
-            guard let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("computeEnvironmentOrder") }
-            self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
-            guard let priority = dictionary["priority"] as? Int32 else { throw InitializableError.missingRequiredParam("priority") }
-            self.priority = priority
-            guard let jobQueueName = dictionary["jobQueueName"] as? String else { throw InitializableError.missingRequiredParam("jobQueueName") }
-            self.jobQueueName = jobQueueName
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case computeEnvironmentOrder = "computeEnvironmentOrder"
+            case priority = "priority"
+            case jobQueueName = "jobQueueName"
         }
     }
 
     public struct CancelJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: true, type: .string)
         ]
         /// A list of up to 100 job IDs to cancel.
         public let jobId: String
@@ -1605,20 +1405,17 @@ extension Batch {
             self.reason = reason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
-            self.jobId = jobId
-            guard let reason = dictionary["reason"] as? String else { throw InitializableError.missingRequiredParam("reason") }
-            self.reason = reason
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case reason = "reason"
         }
     }
 
     public struct CreateComputeEnvironmentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironmentName", required: false, type: .string), 
-            AWSShapeProperty(label: "computeEnvironmentArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironmentName", required: false, type: .string), 
+            AWSShapeMember(label: "computeEnvironmentArn", required: false, type: .string)
         ]
         /// The name of the compute environment.
         public let computeEnvironmentName: String?
@@ -1630,13 +1427,13 @@ extension Batch {
             self.computeEnvironmentArn = computeEnvironmentArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.computeEnvironmentName = dictionary["computeEnvironmentName"] as? String
-            self.computeEnvironmentArn = dictionary["computeEnvironmentArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironmentName = "computeEnvironmentName"
+            case computeEnvironmentArn = "computeEnvironmentArn"
         }
     }
 
-    public enum CEStatus: String, CustomStringConvertible {
+    public enum CEStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case updating = "UPDATING"
         case deleting = "DELETING"
@@ -1648,9 +1445,8 @@ extension Batch {
 
     public struct RetryStrategy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attempts", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attempts", required: false, type: .integer)
         ]
         /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
         public let attempts: Int32?
@@ -1659,12 +1455,12 @@ extension Batch {
             self.attempts = attempts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attempts = dictionary["attempts"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case attempts = "attempts"
         }
     }
 
-    public enum CRType: String, CustomStringConvertible {
+    public enum CRType: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
@@ -1672,10 +1468,9 @@ extension Batch {
 
     public struct UpdateJobQueueResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobQueueName", required: false, type: .string), 
-            AWSShapeProperty(label: "jobQueueArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobQueueName", required: false, type: .string), 
+            AWSShapeMember(label: "jobQueueArn", required: false, type: .string)
         ]
         /// The name of the job queue.
         public let jobQueueName: String?
@@ -1687,18 +1482,17 @@ extension Batch {
             self.jobQueueArn = jobQueueArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobQueueName = dictionary["jobQueueName"] as? String
-            self.jobQueueArn = dictionary["jobQueueArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobQueueName = "jobQueueName"
+            case jobQueueArn = "jobQueueArn"
         }
     }
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "host", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "host", required: false, type: .structure)
         ]
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
@@ -1710,19 +1504,18 @@ extension Batch {
             self.host = host
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let host = dictionary["host"] as? [String: Any] { self.host = try Batch.Host(dictionary: host) } else { self.host = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case host = "host"
         }
     }
 
     public struct ComputeResourceUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxvCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "minvCpus", required: false, type: .integer), 
-            AWSShapeProperty(label: "desiredvCpus", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxvCpus", required: false, type: .integer), 
+            AWSShapeMember(label: "minvCpus", required: false, type: .integer), 
+            AWSShapeMember(label: "desiredvCpus", required: false, type: .integer)
         ]
         /// The maximum number of EC2 vCPUs that an environment can reach.
         public let maxvCpus: Int32?
@@ -1737,18 +1530,17 @@ extension Batch {
             self.desiredvCpus = desiredvCpus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxvCpus = dictionary["maxvCpus"] as? Int32
-            self.minvCpus = dictionary["minvCpus"] as? Int32
-            self.desiredvCpus = dictionary["desiredvCpus"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case maxvCpus = "maxvCpus"
+            case minvCpus = "minvCpus"
+            case desiredvCpus = "desiredvCpus"
         }
     }
 
     public struct JobDependency: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "jobId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobId", required: false, type: .string)
         ]
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
@@ -1757,18 +1549,17 @@ extension Batch {
             self.jobId = jobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobId = dictionary["jobId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
         }
     }
 
     public struct Ulimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "softLimit", required: true, type: .integer), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "hardLimit", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "softLimit", required: true, type: .integer), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "hardLimit", required: true, type: .integer)
         ]
         /// The soft limit for the ulimit type.
         public let softLimit: Int32
@@ -1783,22 +1574,18 @@ extension Batch {
             self.hardLimit = hardLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let softLimit = dictionary["softLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("softLimit") }
-            self.softLimit = softLimit
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let hardLimit = dictionary["hardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("hardLimit") }
-            self.hardLimit = hardLimit
+        private enum CodingKeys: String, CodingKey {
+            case softLimit = "softLimit"
+            case name = "name"
+            case hardLimit = "hardLimit"
         }
     }
 
     public struct ComputeEnvironmentOrder: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "computeEnvironment", required: true, type: .string), 
-            AWSShapeProperty(label: "order", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "computeEnvironment", required: true, type: .string), 
+            AWSShapeMember(label: "order", required: true, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironment: String
@@ -1810,11 +1597,9 @@ extension Batch {
             self.order = order
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
-            self.computeEnvironment = computeEnvironment
-            guard let order = dictionary["order"] as? Int32 else { throw InitializableError.missingRequiredParam("order") }
-            self.order = order
+        private enum CodingKeys: String, CodingKey {
+            case computeEnvironment = "computeEnvironment"
+            case order = "order"
         }
     }
 

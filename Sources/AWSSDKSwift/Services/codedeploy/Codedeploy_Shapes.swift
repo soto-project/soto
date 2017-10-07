@@ -31,11 +31,10 @@ extension Codedeploy {
 
     public struct RevisionLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "s3Location", required: false, type: .structure), 
-            AWSShapeProperty(label: "gitHubLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3Location", required: false, type: .structure), 
+            AWSShapeMember(label: "gitHubLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionType", required: false, type: .enum)
         ]
         /// Information about the location of application artifacts stored in Amazon S3. 
         public let s3Location: S3Location?
@@ -50,18 +49,17 @@ extension Codedeploy {
             self.revisionType = revisionType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codedeploy.S3Location(dictionary: s3Location) } else { self.s3Location = nil }
-            if let gitHubLocation = dictionary["gitHubLocation"] as? [String: Any] { self.gitHubLocation = try Codedeploy.GitHubLocation(dictionary: gitHubLocation) } else { self.gitHubLocation = nil }
-            if let revisionType = dictionary["revisionType"] as? String { self.revisionType = RevisionLocationType(rawValue: revisionType) } else { self.revisionType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+            case gitHubLocation = "gitHubLocation"
+            case revisionType = "revisionType"
         }
     }
 
     public struct GetDeploymentConfigOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigInfo", required: false, type: .structure)
         ]
         /// Information about the deployment configuration.
         public let deploymentConfigInfo: DeploymentConfigInfo?
@@ -70,12 +68,12 @@ extension Codedeploy {
             self.deploymentConfigInfo = deploymentConfigInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentConfigInfo = dictionary["deploymentConfigInfo"] as? [String: Any] { self.deploymentConfigInfo = try Codedeploy.DeploymentConfigInfo(dictionary: deploymentConfigInfo) } else { self.deploymentConfigInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigInfo = "deploymentConfigInfo"
         }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
         case registered = "Registered"
         case deregistered = "Deregistered"
         public var description: String { return self.rawValue }
@@ -83,9 +81,8 @@ extension Codedeploy {
 
     public struct CreateDeploymentOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// A unique deployment ID.
         public let deploymentId: String?
@@ -94,16 +91,15 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct ListGitHubAccountTokenNamesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
         public let nextToken: String?
@@ -112,16 +108,15 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetDeploymentOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentInfo", required: false, type: .structure)
         ]
         /// Information about the deployment.
         public let deploymentInfo: DeploymentInfo?
@@ -130,16 +125,15 @@ extension Codedeploy {
             self.deploymentInfo = deploymentInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentInfo = dictionary["deploymentInfo"] as? [String: Any] { self.deploymentInfo = try Codedeploy.DeploymentInfo(dictionary: deploymentInfo) } else { self.deploymentInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentInfo = "deploymentInfo"
         }
     }
 
     public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
         public let deploymentId: String?
@@ -148,17 +142,16 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct BatchGetDeploymentInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instancesSummary", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instancesSummary", required: false, type: .list), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string)
         ]
         /// Information about the instance.
         public let instancesSummary: [InstanceSummary]?
@@ -170,21 +163,16 @@ extension Codedeploy {
             self.errorMessage = errorMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instancesSummary = dictionary["instancesSummary"] as? [[String: Any]] {
-                self.instancesSummary = try instancesSummary.map({ try InstanceSummary(dictionary: $0) })
-            } else { 
-                self.instancesSummary = nil
-            }
-            self.errorMessage = dictionary["errorMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instancesSummary = "instancesSummary"
+            case errorMessage = "errorMessage"
         }
     }
 
     public struct GetDeploymentInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
         /// A deployment ID associated with the applicable IAM user or AWS account.
         public let deploymentId: String
@@ -193,18 +181,16 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
-            self.deploymentId = deploymentId
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct DeploymentStyle: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "deploymentOption", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "deploymentOption", required: false, type: .enum)
         ]
         /// Indicates whether to run an in-place deployment or a blue/green deployment.
         public let deploymentType: DeploymentType?
@@ -216,41 +202,40 @@ extension Codedeploy {
             self.deploymentOption = deploymentOption
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentType = dictionary["deploymentType"] as? String { self.deploymentType = DeploymentType(rawValue: deploymentType) } else { self.deploymentType = nil }
-            if let deploymentOption = dictionary["deploymentOption"] as? String { self.deploymentOption = DeploymentOption(rawValue: deploymentOption) } else { self.deploymentOption = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "deploymentType"
+            case deploymentOption = "deploymentOption"
         }
     }
 
     public struct DeploymentInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "creator", required: false, type: .enum), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "previousRevision", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentOverview", required: false, type: .structure), 
-            AWSShapeProperty(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "rollbackInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "additionalDeploymentStatusInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "fileExistsBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "errorInformation", required: false, type: .structure), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "creator", required: false, type: .enum), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "revision", required: false, type: .structure), 
+            AWSShapeMember(label: "previousRevision", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentOverview", required: false, type: .structure), 
+            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
+            AWSShapeMember(label: "completeTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "instanceTerminationWaitTimeStarted", required: false, type: .boolean), 
+            AWSShapeMember(label: "rollbackInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "additionalDeploymentStatusInfo", required: false, type: .string), 
+            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "errorInformation", required: false, type: .structure), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp)
         ]
         /// The deployment group name.
         public let deploymentGroupName: String?
@@ -271,7 +256,7 @@ extension Codedeploy {
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
         public let targetInstances: TargetInstances?
         /// A timestamp indicating when the deployment was complete.
-        public let completeTime: String?
+        public let completeTime: Double?
         /// Indicates whether the wait period set for the termination of instances in the original environment has started. Status is 'false' if the KEEP_ALIVE option is specified; otherwise, 'true' as soon as the termination wait period starts.
         public let instanceTerminationWaitTimeStarted: Bool?
         /// Information about a deployment rollback.
@@ -299,11 +284,11 @@ extension Codedeploy {
         /// Information about the automatic rollback configuration associated with the deployment.
         public let autoRollbackConfiguration: AutoRollbackConfiguration?
         /// A timestamp indicating when the deployment was created.
-        public let createTime: String?
+        public let createTime: Double?
         /// A timestamp indicating when the deployment was deployed to the deployment group. In some cases, the reported value of the start time may be later than the complete time. This is due to differences in the clock settings of back-end servers that participate in the deployment process.
-        public let startTime: String?
+        public let startTime: Double?
 
-        public init(deploymentGroupName: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, creator: DeploymentCreator? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, revision: RevisionLocation? = nil, previousRevision: RevisionLocation? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, targetInstances: TargetInstances? = nil, completeTime: String? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, ignoreApplicationStopFailures: Bool? = nil, description: String? = nil, additionalDeploymentStatusInfo: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, applicationName: String? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, fileExistsBehavior: FileExistsBehavior? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, createTime: String? = nil, startTime: String? = nil) {
+        public init(deploymentGroupName: String? = nil, loadBalancerInfo: LoadBalancerInfo? = nil, creator: DeploymentCreator? = nil, blueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration? = nil, revision: RevisionLocation? = nil, previousRevision: RevisionLocation? = nil, deploymentId: String? = nil, deploymentOverview: DeploymentOverview? = nil, targetInstances: TargetInstances? = nil, completeTime: Double? = nil, instanceTerminationWaitTimeStarted: Bool? = nil, rollbackInfo: RollbackInfo? = nil, ignoreApplicationStopFailures: Bool? = nil, description: String? = nil, additionalDeploymentStatusInfo: String? = nil, updateOutdatedInstancesOnly: Bool? = nil, applicationName: String? = nil, status: DeploymentStatus? = nil, deploymentConfigName: String? = nil, deploymentStyle: DeploymentStyle? = nil, fileExistsBehavior: FileExistsBehavior? = nil, errorInformation: ErrorInformation? = nil, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, createTime: Double? = nil, startTime: Double? = nil) {
             self.deploymentGroupName = deploymentGroupName
             self.loadBalancerInfo = loadBalancerInfo
             self.creator = creator
@@ -331,42 +316,42 @@ extension Codedeploy {
             self.startTime = startTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
-            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
-            if let creator = dictionary["creator"] as? String { self.creator = DeploymentCreator(rawValue: creator) } else { self.creator = nil }
-            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
-            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
-            if let previousRevision = dictionary["previousRevision"] as? [String: Any] { self.previousRevision = try Codedeploy.RevisionLocation(dictionary: previousRevision) } else { self.previousRevision = nil }
-            self.deploymentId = dictionary["deploymentId"] as? String
-            if let deploymentOverview = dictionary["deploymentOverview"] as? [String: Any] { self.deploymentOverview = try Codedeploy.DeploymentOverview(dictionary: deploymentOverview) } else { self.deploymentOverview = nil }
-            if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) } else { self.targetInstances = nil }
-            self.completeTime = dictionary["completeTime"] as? String
-            self.instanceTerminationWaitTimeStarted = dictionary["instanceTerminationWaitTimeStarted"] as? Bool
-            if let rollbackInfo = dictionary["rollbackInfo"] as? [String: Any] { self.rollbackInfo = try Codedeploy.RollbackInfo(dictionary: rollbackInfo) } else { self.rollbackInfo = nil }
-            self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
-            self.description = dictionary["description"] as? String
-            self.additionalDeploymentStatusInfo = dictionary["additionalDeploymentStatusInfo"] as? String
-            self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
-            self.applicationName = dictionary["applicationName"] as? String
-            if let status = dictionary["status"] as? String { self.status = DeploymentStatus(rawValue: status) } else { self.status = nil }
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
-            if let fileExistsBehavior = dictionary["fileExistsBehavior"] as? String { self.fileExistsBehavior = FileExistsBehavior(rawValue: fileExistsBehavior) } else { self.fileExistsBehavior = nil }
-            if let errorInformation = dictionary["errorInformation"] as? [String: Any] { self.errorInformation = try Codedeploy.ErrorInformation(dictionary: errorInformation) } else { self.errorInformation = nil }
-            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
-            self.createTime = dictionary["createTime"] as? String
-            self.startTime = dictionary["startTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupName = "deploymentGroupName"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case creator = "creator"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case revision = "revision"
+            case previousRevision = "previousRevision"
+            case deploymentId = "deploymentId"
+            case deploymentOverview = "deploymentOverview"
+            case targetInstances = "targetInstances"
+            case completeTime = "completeTime"
+            case instanceTerminationWaitTimeStarted = "instanceTerminationWaitTimeStarted"
+            case rollbackInfo = "rollbackInfo"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case description = "description"
+            case additionalDeploymentStatusInfo = "additionalDeploymentStatusInfo"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
+            case applicationName = "applicationName"
+            case status = "status"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentStyle = "deploymentStyle"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case errorInformation = "errorInformation"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case createTime = "createTime"
+            case startTime = "startTime"
         }
     }
 
-    public enum GreenFleetProvisioningAction: String, CustomStringConvertible {
+    public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
         case discover_existing = "DISCOVER_EXISTING"
         case copy_auto_scaling_group = "COPY_AUTO_SCALING_GROUP"
         public var description: String { return self.rawValue }
     }
 
-    public enum AutoRollbackEvent: String, CustomStringConvertible {
+    public enum AutoRollbackEvent: String, CustomStringConvertible, Codable {
         case deployment_failure = "DEPLOYMENT_FAILURE"
         case deployment_stop_on_alarm = "DEPLOYMENT_STOP_ON_ALARM"
         case deployment_stop_on_request = "DEPLOYMENT_STOP_ON_REQUEST"
@@ -375,10 +360,9 @@ extension Codedeploy {
 
     public struct BatchGetApplicationRevisionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: true, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisions", required: true, type: .list), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// Information to get about the application revisions, including type and location.
         public let revisions: [RevisionLocation]
@@ -390,43 +374,39 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let revisions = dictionary["revisions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("revisions") }
-            self.revisions = try revisions.map({ try RevisionLocation(dictionary: $0) })
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case revisions = "revisions"
+            case applicationName = "applicationName"
         }
     }
 
     public struct TimeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "start", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "end", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "start", required: false, type: .timestamp), 
+            AWSShapeMember(label: "end", required: false, type: .timestamp)
         ]
         /// The start time of the time range.  Specify null to leave the start time open-ended. 
-        public let start: String?
+        public let start: Double?
         /// The end time of the time range.  Specify null to leave the end time open-ended. 
-        public let end: String?
+        public let end: Double?
 
-        public init(start: String? = nil, end: String? = nil) {
+        public init(start: Double? = nil, end: Double? = nil) {
             self.start = start
             self.end = end
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.start = dictionary["start"] as? String
-            self.end = dictionary["end"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case start = "start"
+            case end = "end"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The tag's value.
         public let value: String?
@@ -438,17 +418,16 @@ extension Codedeploy {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct BatchGetOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: false, type: .list)
         ]
         /// The names of the on-premises instances about which to get information.
         public let instanceNames: [String]?
@@ -457,12 +436,12 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceNames = dictionary["instanceNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
         }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible {
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
         case in_place = "IN_PLACE"
         case blue_green = "BLUE_GREEN"
         public var description: String { return self.rawValue }
@@ -470,11 +449,10 @@ extension Codedeploy {
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public let `type`: TagFilterType?
@@ -489,14 +467,14 @@ extension Codedeploy {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = TagFilterType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+            case key = "Key"
         }
     }
 
-    public enum DeploymentCreator: String, CustomStringConvertible {
+    public enum DeploymentCreator: String, CustomStringConvertible, Codable {
         case user = "user"
         case autoscaling = "autoscaling"
         case codedeployrollback = "codeDeployRollback"
@@ -505,10 +483,9 @@ extension Codedeploy {
 
     public struct ErrorInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "code", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "code", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
         public let code: ErrorCode?
@@ -520,23 +497,22 @@ extension Codedeploy {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["code"] as? String { self.code = ErrorCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct ListApplicationRevisionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "sortOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "s3Bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "deployed", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "sortOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "s3Bucket", required: false, type: .string), 
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "deployed", required: false, type: .enum)
         ]
         /// An identifier returned from the previous list application revisions call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -563,23 +539,21 @@ extension Codedeploy {
             self.deployed = deployed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let sortOrder = dictionary["sortOrder"] as? String { self.sortOrder = SortOrder(rawValue: sortOrder) } else { self.sortOrder = nil }
-            self.s3KeyPrefix = dictionary["s3KeyPrefix"] as? String
-            self.s3Bucket = dictionary["s3Bucket"] as? String
-            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = ApplicationRevisionSortBy(rawValue: sortBy) } else { self.sortBy = nil }
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
-            if let deployed = dictionary["deployed"] as? String { self.deployed = ListStateFilterAction(rawValue: deployed) } else { self.deployed = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case s3Bucket = "s3Bucket"
+            case sortBy = "sortBy"
+            case applicationName = "applicationName"
+            case deployed = "deployed"
         }
     }
 
     public struct BatchGetDeploymentsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentsInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentsInfo", required: false, type: .list)
         ]
         /// Information about the deployments.
         public let deploymentsInfo: [DeploymentInfo]?
@@ -588,20 +562,15 @@ extension Codedeploy {
             self.deploymentsInfo = deploymentsInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentsInfo = dictionary["deploymentsInfo"] as? [[String: Any]] {
-                self.deploymentsInfo = try deploymentsInfo.map({ try DeploymentInfo(dictionary: $0) })
-            } else { 
-                self.deploymentsInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentsInfo = "deploymentsInfo"
         }
     }
 
     public struct CreateApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -610,17 +579,15 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
         }
     }
 
     public struct UpdateDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hooksNotCleanedUp", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
@@ -629,20 +596,15 @@ extension Codedeploy {
             self.hooksNotCleanedUp = hooksNotCleanedUp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hooksNotCleanedUp = dictionary["hooksNotCleanedUp"] as? [[String: Any]] {
-                self.hooksNotCleanedUp = try hooksNotCleanedUp.map({ try AutoScalingGroup(dictionary: $0) })
-            } else { 
-                self.hooksNotCleanedUp = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 
     public struct Alarm: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public let name: String?
@@ -651,16 +613,15 @@ extension Codedeploy {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct CreateDeploymentConfigOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
         ]
         /// A unique deployment configuration ID.
         public let deploymentConfigId: String?
@@ -669,16 +630,15 @@ extension Codedeploy {
             self.deploymentConfigId = deploymentConfigId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentConfigId = dictionary["deploymentConfigId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigId = "deploymentConfigId"
         }
     }
 
     public struct GetOnPremisesInstanceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceInfo", required: false, type: .structure)
         ]
         /// Information about the on-premises instance.
         public let instanceInfo: InstanceInfo?
@@ -687,16 +647,15 @@ extension Codedeploy {
             self.instanceInfo = instanceInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInfo = dictionary["instanceInfo"] as? [String: Any] { self.instanceInfo = try Codedeploy.InstanceInfo(dictionary: instanceInfo) } else { self.instanceInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceInfo = "instanceInfo"
         }
     }
 
     public struct GetDeploymentInstanceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceSummary", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceSummary", required: false, type: .structure)
         ]
         /// Information about the instance.
         public let instanceSummary: InstanceSummary?
@@ -705,17 +664,16 @@ extension Codedeploy {
             self.instanceSummary = instanceSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceSummary = dictionary["instanceSummary"] as? [String: Any] { self.instanceSummary = try Codedeploy.InstanceSummary(dictionary: instanceSummary) } else { self.instanceSummary = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceSummary = "instanceSummary"
         }
     }
 
     public struct DeploymentReadyOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "actionOnTimeout", required: false, type: .enum), 
-            AWSShapeProperty(label: "waitTimeInMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "actionOnTimeout", required: false, type: .enum), 
+            AWSShapeMember(label: "waitTimeInMinutes", required: false, type: .integer)
         ]
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.  
         public let actionOnTimeout: DeploymentReadyAction?
@@ -727,19 +685,18 @@ extension Codedeploy {
             self.waitTimeInMinutes = waitTimeInMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionOnTimeout = dictionary["actionOnTimeout"] as? String { self.actionOnTimeout = DeploymentReadyAction(rawValue: actionOnTimeout) } else { self.actionOnTimeout = nil }
-            self.waitTimeInMinutes = dictionary["waitTimeInMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case actionOnTimeout = "actionOnTimeout"
+            case waitTimeInMinutes = "waitTimeInMinutes"
         }
     }
 
     public struct RollbackInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rollbackDeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "rollbackTriggeringDeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "rollbackMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rollbackDeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "rollbackTriggeringDeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "rollbackMessage", required: false, type: .string)
         ]
         /// The ID of the deployment rollback.
         public let rollbackDeploymentId: String?
@@ -754,22 +711,21 @@ extension Codedeploy {
             self.rollbackMessage = rollbackMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.rollbackDeploymentId = dictionary["rollbackDeploymentId"] as? String
-            self.rollbackTriggeringDeploymentId = dictionary["rollbackTriggeringDeploymentId"] as? String
-            self.rollbackMessage = dictionary["rollbackMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case rollbackDeploymentId = "rollbackDeploymentId"
+            case rollbackTriggeringDeploymentId = "rollbackTriggeringDeploymentId"
+            case rollbackMessage = "rollbackMessage"
         }
     }
 
     public struct ListDeploymentsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "createTimeRange", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "includeOnlyStatuses", required: false, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "createTimeRange", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "includeOnlyStatuses", required: false, type: .list), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
         /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
         public let nextToken: String?
@@ -790,20 +746,19 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let createTimeRange = dictionary["createTimeRange"] as? [String: Any] { self.createTimeRange = try Codedeploy.TimeRange(dictionary: createTimeRange) } else { self.createTimeRange = nil }
-            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
-            if let includeOnlyStatuses = dictionary["includeOnlyStatuses"] as? [String] { self.includeOnlyStatuses = includeOnlyStatuses.flatMap({ DeploymentStatus(rawValue: $0)}) } else { self.includeOnlyStatuses = nil }
-            self.applicationName = dictionary["applicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case createTimeRange = "createTimeRange"
+            case deploymentGroupName = "deploymentGroupName"
+            case includeOnlyStatuses = "includeOnlyStatuses"
+            case applicationName = "applicationName"
         }
     }
 
     public struct BatchGetDeploymentsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentIds", required: false, type: .list)
         ]
         /// A list of deployment IDs, separated by spaces.
         public let deploymentIds: [String]?
@@ -812,12 +767,12 @@ extension Codedeploy {
             self.deploymentIds = deploymentIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentIds = dictionary["deploymentIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case deploymentIds = "deploymentIds"
         }
     }
 
-    public enum InstanceType: String, CustomStringConvertible {
+    public enum InstanceType: String, CustomStringConvertible, Codable {
         case blue = "Blue"
         case green = "Green"
         public var description: String { return self.rawValue }
@@ -825,9 +780,8 @@ extension Codedeploy {
 
     public struct DeleteDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hooksNotCleanedUp", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hooksNotCleanedUp", required: false, type: .list)
         ]
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
@@ -836,21 +790,16 @@ extension Codedeploy {
             self.hooksNotCleanedUp = hooksNotCleanedUp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hooksNotCleanedUp = dictionary["hooksNotCleanedUp"] as? [[String: Any]] {
-                self.hooksNotCleanedUp = try hooksNotCleanedUp.map({ try AutoScalingGroup(dictionary: $0) })
-            } else { 
-                self.hooksNotCleanedUp = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 
     public struct ListApplicationRevisionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisions", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of locations that contain the matching revisions.
         public let revisions: [RevisionLocation]?
@@ -862,17 +811,13 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let revisions = dictionary["revisions"] as? [[String: Any]] {
-                self.revisions = try revisions.map({ try RevisionLocation(dictionary: $0) })
-            } else { 
-                self.revisions = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revisions = "revisions"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum EC2TagFilterType: String, CustomStringConvertible {
+    public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
         case key_only = "KEY_ONLY"
         case value_only = "VALUE_ONLY"
         case key_and_value = "KEY_AND_VALUE"
@@ -881,10 +826,9 @@ extension Codedeploy {
 
     public struct ListOnPremisesInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceNames", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceNames", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The list of matching on-premises instance names.
         public let instanceNames: [String]?
@@ -896,17 +840,16 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceNames = dictionary["instanceNames"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceNames = "instanceNames"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentConfigsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous list deployment configurations call. It can be used to return the next set of deployment configurations in the list. 
         public let nextToken: String?
@@ -915,12 +858,12 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
-    public enum InstanceAction: String, CustomStringConvertible {
+    public enum InstanceAction: String, CustomStringConvertible, Codable {
         case terminate = "TERMINATE"
         case keep_alive = "KEEP_ALIVE"
         public var description: String { return self.rawValue }
@@ -928,9 +871,8 @@ extension Codedeploy {
 
     public struct BatchGetApplicationsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationsInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationsInfo", required: false, type: .list)
         ]
         /// Information about the applications.
         public let applicationsInfo: [ApplicationInfo]?
@@ -939,16 +881,12 @@ extension Codedeploy {
             self.applicationsInfo = applicationsInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let applicationsInfo = dictionary["applicationsInfo"] as? [[String: Any]] {
-                self.applicationsInfo = try applicationsInfo.map({ try ApplicationInfo(dictionary: $0) })
-            } else { 
-                self.applicationsInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case applicationsInfo = "applicationsInfo"
         }
     }
 
-    public enum LifecycleErrorCode: String, CustomStringConvertible {
+    public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
         case success = "Success"
         case scriptmissing = "ScriptMissing"
         case scriptnotexecutable = "ScriptNotExecutable"
@@ -960,11 +898,10 @@ extension Codedeploy {
 
     public struct BlueGreenDeploymentConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
-            AWSShapeProperty(label: "greenFleetProvisioningOption", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentReadyOption", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "terminateBlueInstancesOnDeploymentSuccess", required: false, type: .structure), 
+            AWSShapeMember(label: "greenFleetProvisioningOption", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentReadyOption", required: false, type: .structure)
         ]
         /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
         public let terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption?
@@ -979,19 +916,18 @@ extension Codedeploy {
             self.deploymentReadyOption = deploymentReadyOption
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let terminateBlueInstancesOnDeploymentSuccess = dictionary["terminateBlueInstancesOnDeploymentSuccess"] as? [String: Any] { self.terminateBlueInstancesOnDeploymentSuccess = try Codedeploy.BlueInstanceTerminationOption(dictionary: terminateBlueInstancesOnDeploymentSuccess) } else { self.terminateBlueInstancesOnDeploymentSuccess = nil }
-            if let greenFleetProvisioningOption = dictionary["greenFleetProvisioningOption"] as? [String: Any] { self.greenFleetProvisioningOption = try Codedeploy.GreenFleetProvisioningOption(dictionary: greenFleetProvisioningOption) } else { self.greenFleetProvisioningOption = nil }
-            if let deploymentReadyOption = dictionary["deploymentReadyOption"] as? [String: Any] { self.deploymentReadyOption = try Codedeploy.DeploymentReadyOption(dictionary: deploymentReadyOption) } else { self.deploymentReadyOption = nil }
+        private enum CodingKeys: String, CodingKey {
+            case terminateBlueInstancesOnDeploymentSuccess = "terminateBlueInstancesOnDeploymentSuccess"
+            case greenFleetProvisioningOption = "greenFleetProvisioningOption"
+            case deploymentReadyOption = "deploymentReadyOption"
         }
     }
 
     public struct BatchGetDeploymentGroupsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupsInfo", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupsInfo", required: false, type: .list), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string)
         ]
         /// Information about the deployment groups.
         public let deploymentGroupsInfo: [DeploymentGroupInfo]?
@@ -1003,21 +939,16 @@ extension Codedeploy {
             self.errorMessage = errorMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentGroupsInfo = dictionary["deploymentGroupsInfo"] as? [[String: Any]] {
-                self.deploymentGroupsInfo = try deploymentGroupsInfo.map({ try DeploymentGroupInfo(dictionary: $0) })
-            } else { 
-                self.deploymentGroupsInfo = nil
-            }
-            self.errorMessage = dictionary["errorMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupsInfo = "deploymentGroupsInfo"
+            case errorMessage = "errorMessage"
         }
     }
 
     public struct ContinueDeploymentInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string)
         ]
         /// The deployment ID of the blue/green deployment for which you want to start rerouting traffic to the replacement environment.
         public let deploymentId: String?
@@ -1026,16 +957,15 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct DeleteDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public let deploymentConfigName: String
@@ -1044,18 +974,16 @@ extension Codedeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
-            self.deploymentConfigName = deploymentConfigName
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "hook", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "hook", required: false, type: .string)
         ]
         /// The Auto Scaling group name.
         public let name: String?
@@ -1067,18 +995,17 @@ extension Codedeploy {
             self.hook = hook
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.hook = dictionary["hook"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case hook = "hook"
         }
     }
 
     public struct ListDeploymentGroupsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
         public let nextToken: String?
@@ -1090,21 +1017,19 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case applicationName = "applicationName"
         }
     }
 
     public struct ListDeploymentInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceStatusFilter", required: false, type: .list), 
-            AWSShapeProperty(label: "instanceTypeFilter", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceStatusFilter", required: false, type: .list), 
+            AWSShapeMember(label: "instanceTypeFilter", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
         /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
         public let instanceStatusFilter: [InstanceStatus]?
@@ -1122,28 +1047,27 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceStatusFilter = dictionary["instanceStatusFilter"] as? [String] { self.instanceStatusFilter = instanceStatusFilter.flatMap({ InstanceStatus(rawValue: $0)}) } else { self.instanceStatusFilter = nil }
-            if let instanceTypeFilter = dictionary["instanceTypeFilter"] as? [String] { self.instanceTypeFilter = instanceTypeFilter.flatMap({ InstanceType(rawValue: $0)}) } else { self.instanceTypeFilter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
-            self.deploymentId = deploymentId
+        private enum CodingKeys: String, CodingKey {
+            case instanceStatusFilter = "instanceStatusFilter"
+            case instanceTypeFilter = "instanceTypeFilter"
+            case nextToken = "nextToken"
+            case deploymentId = "deploymentId"
         }
     }
 
-    public enum StopStatus: String, CustomStringConvertible {
+    public enum StopStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
-    public enum RevisionLocationType: String, CustomStringConvertible {
+    public enum RevisionLocationType: String, CustomStringConvertible, Codable {
         case s3 = "S3"
         case github = "GitHub"
         public var description: String { return self.rawValue }
     }
 
-    public enum TriggerEventType: String, CustomStringConvertible {
+    public enum TriggerEventType: String, CustomStringConvertible, Codable {
         case deploymentstart = "DeploymentStart"
         case deploymentsuccess = "DeploymentSuccess"
         case deploymentfailure = "DeploymentFailure"
@@ -1157,7 +1081,7 @@ extension Codedeploy {
         public var description: String { return self.rawValue }
     }
 
-    public enum ListStateFilterAction: String, CustomStringConvertible {
+    public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
         case include = "include"
         case exclude = "exclude"
         case ignore = "ignore"
@@ -1166,9 +1090,8 @@ extension Codedeploy {
 
     public struct DeleteApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -1177,29 +1100,27 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
         }
     }
 
     public struct CreateDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "serviceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure)
         ]
         /// The name of a new deployment group for the specified application.
         public let deploymentGroupName: String
@@ -1244,51 +1165,32 @@ extension Codedeploy {
             self.autoRollbackConfiguration = autoRollbackConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
-            self.deploymentGroupName = deploymentGroupName
-            guard let serviceRoleArn = dictionary["serviceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("serviceRoleArn") }
-            self.serviceRoleArn = serviceRoleArn
-            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
-            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) } else { self.alarmConfiguration = nil }
-            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
-            self.autoScalingGroups = dictionary["autoScalingGroups"] as? [String]
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
-                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
-            } else { 
-                self.triggerConfigurations = nil
-            }
-            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
-            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
-                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
-            } else { 
-                self.ec2TagFilters = nil
-            }
-            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
-                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.onPremisesInstanceTagFilters = nil
-            }
-            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupName = "deploymentGroupName"
+            case serviceRoleArn = "serviceRoleArn"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case alarmConfiguration = "alarmConfiguration"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case applicationName = "applicationName"
+            case autoScalingGroups = "autoScalingGroups"
+            case deploymentConfigName = "deploymentConfigName"
+            case triggerConfigurations = "triggerConfigurations"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
         }
     }
 
     public struct GitHubAccountTokenDoesNotExistException: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct LoadBalancerInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "elbInfoList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "elbInfoList", required: false, type: .list)
         ]
         /// An array containing information about the load balancer in Elastic Load Balancing to use in a deployment.
         public let elbInfoList: [ELBInfo]?
@@ -1297,21 +1199,16 @@ extension Codedeploy {
             self.elbInfoList = elbInfoList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elbInfoList = dictionary["elbInfoList"] as? [[String: Any]] {
-                self.elbInfoList = try elbInfoList.map({ try ELBInfo(dictionary: $0) })
-            } else { 
-                self.elbInfoList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case elbInfoList = "elbInfoList"
         }
     }
 
     public struct BatchGetDeploymentInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string), 
-            AWSShapeProperty(label: "instanceIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
+            AWSShapeMember(label: "instanceIds", required: true, type: .list)
         ]
         /// The unique ID of a deployment.
         public let deploymentId: String
@@ -1323,19 +1220,16 @@ extension Codedeploy {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
-            self.deploymentId = deploymentId
-            guard let instanceIds = dictionary["instanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("instanceIds") }
-            self.instanceIds = instanceIds
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case instanceIds = "instanceIds"
         }
     }
 
     public struct BatchGetOnPremisesInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceInfos", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceInfos", required: false, type: .list)
         ]
         /// Information about the on-premises instances.
         public let instanceInfos: [InstanceInfo]?
@@ -1344,16 +1238,12 @@ extension Codedeploy {
             self.instanceInfos = instanceInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInfos = dictionary["instanceInfos"] as? [[String: Any]] {
-                self.instanceInfos = try instanceInfos.map({ try InstanceInfo(dictionary: $0) })
-            } else { 
-                self.instanceInfos = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceInfos = "instanceInfos"
         }
     }
 
-    public enum LifecycleEventStatus: String, CustomStringConvertible {
+    public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
@@ -1365,10 +1255,9 @@ extension Codedeploy {
 
     public struct StopDeploymentOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "statusMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
         public let status: StopStatus?
@@ -1380,18 +1269,17 @@ extension Codedeploy {
             self.statusMessage = statusMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = StopStatus(rawValue: status) } else { self.status = nil }
-            self.statusMessage = dictionary["statusMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
     public struct AutoRollbackConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean)
         ]
         /// The event type or types that trigger a rollback.
         public let events: [AutoRollbackEvent]?
@@ -1403,19 +1291,18 @@ extension Codedeploy {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let events = dictionary["events"] as? [String] { self.events = events.flatMap({ AutoRollbackEvent(rawValue: $0)}) } else { self.events = nil }
-            self.enabled = dictionary["enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case enabled = "enabled"
         }
     }
 
     public struct ListDeploymentGroupsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroups", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
         /// A list of corresponding deployment group names.
         public let deploymentGroups: [String]?
@@ -1430,14 +1317,14 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentGroups = dictionary["deploymentGroups"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
-            self.applicationName = dictionary["applicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroups = "deploymentGroups"
+            case nextToken = "nextToken"
+            case applicationName = "applicationName"
         }
     }
 
-    public enum FileExistsBehavior: String, CustomStringConvertible {
+    public enum FileExistsBehavior: String, CustomStringConvertible, Codable {
         case disallow = "DISALLOW"
         case overwrite = "OVERWRITE"
         case retain = "RETAIN"
@@ -1446,10 +1333,9 @@ extension Codedeploy {
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list)
         ]
         /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
         public let tags: [Tag]
@@ -1461,15 +1347,13 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
-            self.instanceNames = instanceNames
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case instanceNames = "instanceNames"
         }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible {
+    public enum InstanceStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
@@ -1482,10 +1366,9 @@ extension Codedeploy {
 
     public struct ListDeploymentConfigsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deploymentConfigsList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "deploymentConfigsList", required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
         public let nextToken: String?
@@ -1497,18 +1380,17 @@ extension Codedeploy {
             self.deploymentConfigsList = deploymentConfigsList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.deploymentConfigsList = dictionary["deploymentConfigsList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case deploymentConfigsList = "deploymentConfigsList"
         }
     }
 
     public struct GitHubLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commitId", required: false, type: .string), 
-            AWSShapeProperty(label: "repository", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: false, type: .string), 
+            AWSShapeMember(label: "repository", required: false, type: .string)
         ]
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public let commitId: String?
@@ -1520,18 +1402,17 @@ extension Codedeploy {
             self.repository = repository
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.commitId = dictionary["commitId"] as? String
-            self.repository = dictionary["repository"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case repository = "repository"
         }
     }
 
     public struct CreateDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string), 
-            AWSShapeProperty(label: "minimumHealthyHosts", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure)
         ]
         /// The name of the deployment configuration to create.
         public let deploymentConfigName: String
@@ -1543,20 +1424,18 @@ extension Codedeploy {
             self.minimumHealthyHosts = minimumHealthyHosts
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
-            self.deploymentConfigName = deploymentConfigName
-            if let minimumHealthyHosts = dictionary["minimumHealthyHosts"] as? [String: Any] { self.minimumHealthyHosts = try Codedeploy.MinimumHealthyHosts(dictionary: minimumHealthyHosts) } else { self.minimumHealthyHosts = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
         }
     }
 
     public struct ListOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "registrationStatus", required: false, type: .enum)
         ]
         /// The on-premises instance tags that will be used to restrict the corresponding on-premises instance names returned.
         public let tagFilters: [TagFilter]?
@@ -1571,24 +1450,19 @@ extension Codedeploy {
             self.registrationStatus = registrationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagFilters = dictionary["tagFilters"] as? [[String: Any]] {
-                self.tagFilters = try tagFilters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.tagFilters = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
-            if let registrationStatus = dictionary["registrationStatus"] as? String { self.registrationStatus = RegistrationStatus(rawValue: registrationStatus) } else { self.registrationStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagFilters = "tagFilters"
+            case nextToken = "nextToken"
+            case registrationStatus = "registrationStatus"
         }
     }
 
     public struct RegisterApplicationRevisionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "revision", required: true, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "revision", required: true, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// A comment about the revision.
         public let description: String?
@@ -1603,20 +1477,17 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let revision = dictionary["revision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("revision") }
-            self.revision = try Codedeploy.RevisionLocation(dictionary: revision)
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case revision = "revision"
+            case applicationName = "applicationName"
         }
     }
 
     public struct CreateApplicationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationId", required: false, type: .string)
         ]
         /// A unique application ID.
         public let applicationId: String?
@@ -1625,17 +1496,16 @@ extension Codedeploy {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.applicationId = dictionary["applicationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
         }
     }
 
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tags", required: true, type: .list), 
-            AWSShapeProperty(label: "instanceNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: true, type: .list), 
+            AWSShapeMember(label: "instanceNames", required: true, type: .list)
         ]
         /// The tag key-value pairs to remove from the on-premises instances.
         public let tags: [Tag]
@@ -1647,20 +1517,17 @@ extension Codedeploy {
             self.instanceNames = instanceNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let instanceNames = dictionary["instanceNames"] as? [String] else { throw InitializableError.missingRequiredParam("instanceNames") }
-            self.instanceNames = instanceNames
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+            case instanceNames = "instanceNames"
         }
     }
 
     public struct RevisionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "genericRevisionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionLocation", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "genericRevisionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionLocation", required: false, type: .structure)
         ]
         /// Information about an application revision, including usage details and associated deployment groups.
         public let genericRevisionInfo: GenericRevisionInfo?
@@ -1672,19 +1539,18 @@ extension Codedeploy {
             self.revisionLocation = revisionLocation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let genericRevisionInfo = dictionary["genericRevisionInfo"] as? [String: Any] { self.genericRevisionInfo = try Codedeploy.GenericRevisionInfo(dictionary: genericRevisionInfo) } else { self.genericRevisionInfo = nil }
-            if let revisionLocation = dictionary["revisionLocation"] as? [String: Any] { self.revisionLocation = try Codedeploy.RevisionLocation(dictionary: revisionLocation) } else { self.revisionLocation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case genericRevisionInfo = "genericRevisionInfo"
+            case revisionLocation = "revisionLocation"
         }
     }
 
     public struct EC2TagFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public let `type`: EC2TagFilterType?
@@ -1699,34 +1565,33 @@ extension Codedeploy {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = EC2TagFilterType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DeploymentGroupInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lastSuccessfulDeployment", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "lastAttemptedDeployment", required: false, type: .structure), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "targetRevision", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastSuccessfulDeployment", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "lastAttemptedDeployment", required: false, type: .structure), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "targetRevision", required: false, type: .structure)
         ]
         /// Information about the most recent successful deployment to the deployment group.
         public let lastSuccessfulDeployment: LastDeploymentInfo?
@@ -1783,48 +1648,31 @@ extension Codedeploy {
             self.targetRevision = targetRevision
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lastSuccessfulDeployment = dictionary["lastSuccessfulDeployment"] as? [String: Any] { self.lastSuccessfulDeployment = try Codedeploy.LastDeploymentInfo(dictionary: lastSuccessfulDeployment) } else { self.lastSuccessfulDeployment = nil }
-            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
-            self.serviceRoleArn = dictionary["serviceRoleArn"] as? String
-            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
-            self.deploymentGroupId = dictionary["deploymentGroupId"] as? String
-            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) } else { self.alarmConfiguration = nil }
-            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
-            self.applicationName = dictionary["applicationName"] as? String
-            if let autoScalingGroups = dictionary["autoScalingGroups"] as? [[String: Any]] {
-                self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
-            } else { 
-                self.autoScalingGroups = nil
-            }
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
-                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
-            } else { 
-                self.triggerConfigurations = nil
-            }
-            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
-            if let lastAttemptedDeployment = dictionary["lastAttemptedDeployment"] as? [String: Any] { self.lastAttemptedDeployment = try Codedeploy.LastDeploymentInfo(dictionary: lastAttemptedDeployment) } else { self.lastAttemptedDeployment = nil }
-            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
-                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.onPremisesInstanceTagFilters = nil
-            }
-            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
-                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
-            } else { 
-                self.ec2TagFilters = nil
-            }
-            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
-            if let targetRevision = dictionary["targetRevision"] as? [String: Any] { self.targetRevision = try Codedeploy.RevisionLocation(dictionary: targetRevision) } else { self.targetRevision = nil }
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulDeployment = "lastSuccessfulDeployment"
+            case deploymentGroupName = "deploymentGroupName"
+            case serviceRoleArn = "serviceRoleArn"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case deploymentGroupId = "deploymentGroupId"
+            case alarmConfiguration = "alarmConfiguration"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case applicationName = "applicationName"
+            case autoScalingGroups = "autoScalingGroups"
+            case deploymentConfigName = "deploymentConfigName"
+            case triggerConfigurations = "triggerConfigurations"
+            case deploymentStyle = "deploymentStyle"
+            case lastAttemptedDeployment = "lastAttemptedDeployment"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case ec2TagFilters = "ec2TagFilters"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case targetRevision = "targetRevision"
         }
     }
 
     public struct ListApplicationsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
@@ -1833,17 +1681,16 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct StopDeploymentInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string), 
-            AWSShapeProperty(label: "autoRollbackEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: true, type: .string), 
+            AWSShapeMember(label: "autoRollbackEnabled", required: false, type: .boolean)
         ]
         /// The unique ID of a deployment.
         public let deploymentId: String
@@ -1855,14 +1702,13 @@ extension Codedeploy {
             self.autoRollbackEnabled = autoRollbackEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
-            self.deploymentId = deploymentId
-            self.autoRollbackEnabled = dictionary["autoRollbackEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case autoRollbackEnabled = "autoRollbackEnabled"
         }
     }
 
-    public enum ApplicationRevisionSortBy: String, CustomStringConvertible {
+    public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
         case registertime = "registerTime"
         case firstusedtime = "firstUsedTime"
         case lastusedtime = "lastUsedTime"
@@ -1871,32 +1717,31 @@ extension Codedeploy {
 
     public struct InstanceInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "deregisterTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "instanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "iamUserArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceName", required: false, type: .string), 
+            AWSShapeMember(label: "deregisterTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "instanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "iamUserArn", required: false, type: .string)
         ]
         /// The ARN of the IAM session associated with the on-premises instance.
         public let iamSessionArn: String?
         /// The name of the on-premises instance.
         public let instanceName: String?
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
-        public let deregisterTime: String?
+        public let deregisterTime: Double?
         /// The tags currently associated with the on-premises instance.
         public let tags: [Tag]?
         /// The time at which the on-premises instance was registered.
-        public let registerTime: String?
+        public let registerTime: Double?
         /// The ARN of the on-premises instance.
         public let instanceArn: String?
         /// The IAM user ARN associated with the on-premises instance.
         public let iamUserArn: String?
 
-        public init(iamSessionArn: String? = nil, instanceName: String? = nil, deregisterTime: String? = nil, tags: [Tag]? = nil, registerTime: String? = nil, instanceArn: String? = nil, iamUserArn: String? = nil) {
+        public init(iamSessionArn: String? = nil, instanceName: String? = nil, deregisterTime: Double? = nil, tags: [Tag]? = nil, registerTime: Double? = nil, instanceArn: String? = nil, iamUserArn: String? = nil) {
             self.iamSessionArn = iamSessionArn
             self.instanceName = instanceName
             self.deregisterTime = deregisterTime
@@ -1906,27 +1751,22 @@ extension Codedeploy {
             self.iamUserArn = iamUserArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamSessionArn = dictionary["iamSessionArn"] as? String
-            self.instanceName = dictionary["instanceName"] as? String
-            self.deregisterTime = dictionary["deregisterTime"] as? String
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.registerTime = dictionary["registerTime"] as? String
-            self.instanceArn = dictionary["instanceArn"] as? String
-            self.iamUserArn = dictionary["iamUserArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamSessionArn = "iamSessionArn"
+            case instanceName = "instanceName"
+            case deregisterTime = "deregisterTime"
+            case tags = "tags"
+            case registerTime = "registerTime"
+            case instanceArn = "instanceArn"
+            case iamUserArn = "iamUserArn"
         }
     }
 
     public struct ListApplicationsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "applications", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "applications", required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications, will also be returned. in the list.
         public let nextToken: String?
@@ -1938,20 +1778,19 @@ extension Codedeploy {
             self.applications = applications
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.applications = dictionary["applications"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case applications = "applications"
         }
     }
 
     public struct Diagnostics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scriptName", required: false, type: .string), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "errorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "logTail", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scriptName", required: false, type: .string), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "logTail", required: false, type: .string)
         ]
         /// The name of the script.
         public let scriptName: String?
@@ -1969,36 +1808,35 @@ extension Codedeploy {
             self.logTail = logTail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.scriptName = dictionary["scriptName"] as? String
-            self.message = dictionary["message"] as? String
-            if let errorCode = dictionary["errorCode"] as? String { self.errorCode = LifecycleErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
-            self.logTail = dictionary["logTail"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scriptName = "scriptName"
+            case message = "message"
+            case errorCode = "errorCode"
+            case logTail = "logTail"
         }
     }
 
     public struct GenericRevisionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "firstUsedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastUsedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "registerTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "firstUsedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastUsedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "registerTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentGroups", required: false, type: .list)
         ]
         /// A comment about the revision.
         public let description: String?
         /// When the revision was first used by AWS CodeDeploy.
-        public let firstUsedTime: String?
+        public let firstUsedTime: Double?
         /// When the revision was last used by AWS CodeDeploy.
-        public let lastUsedTime: String?
+        public let lastUsedTime: Double?
         /// When the revision was registered with AWS CodeDeploy.
-        public let registerTime: String?
+        public let registerTime: Double?
         /// The deployment groups for which this is the current target revision.
         public let deploymentGroups: [String]?
 
-        public init(description: String? = nil, firstUsedTime: String? = nil, lastUsedTime: String? = nil, registerTime: String? = nil, deploymentGroups: [String]? = nil) {
+        public init(description: String? = nil, firstUsedTime: Double? = nil, lastUsedTime: Double? = nil, registerTime: Double? = nil, deploymentGroups: [String]? = nil) {
             self.description = description
             self.firstUsedTime = firstUsedTime
             self.lastUsedTime = lastUsedTime
@@ -2006,16 +1844,16 @@ extension Codedeploy {
             self.deploymentGroups = deploymentGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.firstUsedTime = dictionary["firstUsedTime"] as? String
-            self.lastUsedTime = dictionary["lastUsedTime"] as? String
-            self.registerTime = dictionary["registerTime"] as? String
-            self.deploymentGroups = dictionary["deploymentGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case firstUsedTime = "firstUsedTime"
+            case lastUsedTime = "lastUsedTime"
+            case registerTime = "registerTime"
+            case deploymentGroups = "deploymentGroups"
         }
     }
 
-    public enum SortOrder: String, CustomStringConvertible {
+    public enum SortOrder: String, CustomStringConvertible, Codable {
         case ascending = "ascending"
         case descending = "descending"
         public var description: String { return self.rawValue }
@@ -2023,9 +1861,8 @@ extension Codedeploy {
 
     public struct BatchGetApplicationsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationNames", required: false, type: .list)
         ]
         /// A list of application names separated by spaces.
         public let applicationNames: [String]?
@@ -2034,17 +1871,16 @@ extension Codedeploy {
             self.applicationNames = applicationNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.applicationNames = dictionary["applicationNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case applicationNames = "applicationNames"
         }
     }
 
     public struct GetApplicationRevisionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: true, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: true, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// Information about the application revision to get, including type and location.
         public let revision: RevisionLocation
@@ -2056,15 +1892,13 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let revision = dictionary["revision"] as? [String: Any] else { throw InitializableError.missingRequiredParam("revision") }
-            self.revision = try Codedeploy.RevisionLocation(dictionary: revision)
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case applicationName = "applicationName"
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible {
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
         case deployment_group_missing = "DEPLOYMENT_GROUP_MISSING"
         case application_missing = "APPLICATION_MISSING"
         case revision_missing = "REVISION_MISSING"
@@ -2088,26 +1922,25 @@ extension Codedeploy {
 
     public struct ApplicationInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "gitHubAccountName", required: false, type: .string), 
-            AWSShapeProperty(label: "linkedToGitHub", required: false, type: .boolean), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "gitHubAccountName", required: false, type: .string), 
+            AWSShapeMember(label: "linkedToGitHub", required: false, type: .boolean), 
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string), 
+            AWSShapeMember(label: "applicationId", required: false, type: .string)
         ]
         /// The name for a connection to a GitHub account.
         public let gitHubAccountName: String?
         /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
         public let linkedToGitHub: Bool?
         /// The time at which the application was created.
-        public let createTime: String?
+        public let createTime: Double?
         /// The application name.
         public let applicationName: String?
         /// The application ID.
         public let applicationId: String?
 
-        public init(gitHubAccountName: String? = nil, linkedToGitHub: Bool? = nil, createTime: String? = nil, applicationName: String? = nil, applicationId: String? = nil) {
+        public init(gitHubAccountName: String? = nil, linkedToGitHub: Bool? = nil, createTime: Double? = nil, applicationName: String? = nil, applicationId: String? = nil) {
             self.gitHubAccountName = gitHubAccountName
             self.linkedToGitHub = linkedToGitHub
             self.createTime = createTime
@@ -2115,16 +1948,16 @@ extension Codedeploy {
             self.applicationId = applicationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gitHubAccountName = dictionary["gitHubAccountName"] as? String
-            self.linkedToGitHub = dictionary["linkedToGitHub"] as? Bool
-            self.createTime = dictionary["createTime"] as? String
-            self.applicationName = dictionary["applicationName"] as? String
-            self.applicationId = dictionary["applicationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gitHubAccountName = "gitHubAccountName"
+            case linkedToGitHub = "linkedToGitHub"
+            case createTime = "createTime"
+            case applicationName = "applicationName"
+            case applicationId = "applicationId"
         }
     }
 
-    public enum MinimumHealthyHostsType: String, CustomStringConvertible {
+    public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
         case host_count = "HOST_COUNT"
         case fleet_percent = "FLEET_PERCENT"
         public var description: String { return self.rawValue }
@@ -2132,9 +1965,8 @@ extension Codedeploy {
 
     public struct GetDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupInfo", required: false, type: .structure)
         ]
         /// Information about the deployment group.
         public let deploymentGroupInfo: DeploymentGroupInfo?
@@ -2143,17 +1975,16 @@ extension Codedeploy {
             self.deploymentGroupInfo = deploymentGroupInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deploymentGroupInfo = dictionary["deploymentGroupInfo"] as? [String: Any] { self.deploymentGroupInfo = try Codedeploy.DeploymentGroupInfo(dictionary: deploymentGroupInfo) } else { self.deploymentGroupInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupInfo = "deploymentGroupInfo"
         }
     }
 
     public struct BlueInstanceTerminationOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "action", required: false, type: .enum), 
-            AWSShapeProperty(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: false, type: .enum), 
+            AWSShapeMember(label: "terminationWaitTimeInMinutes", required: false, type: .integer)
         ]
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public let action: InstanceAction?
@@ -2165,19 +1996,18 @@ extension Codedeploy {
             self.terminationWaitTimeInMinutes = terminationWaitTimeInMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let action = dictionary["action"] as? String { self.action = InstanceAction(rawValue: action) } else { self.action = nil }
-            self.terminationWaitTimeInMinutes = dictionary["terminationWaitTimeInMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
         }
     }
 
     public struct TriggerConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggerEvents", required: false, type: .list), 
-            AWSShapeProperty(label: "triggerName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerTargetArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "triggerEvents", required: false, type: .list), 
+            AWSShapeMember(label: "triggerName", required: false, type: .string), 
+            AWSShapeMember(label: "triggerTargetArn", required: false, type: .string)
         ]
         /// The event type or types for which notifications are triggered.
         public let triggerEvents: [TriggerEventType]?
@@ -2192,21 +2022,21 @@ extension Codedeploy {
             self.triggerTargetArn = triggerTargetArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let triggerEvents = dictionary["triggerEvents"] as? [String] { self.triggerEvents = triggerEvents.flatMap({ TriggerEventType(rawValue: $0)}) } else { self.triggerEvents = nil }
-            self.triggerName = dictionary["triggerName"] as? String
-            self.triggerTargetArn = dictionary["triggerTargetArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case triggerEvents = "triggerEvents"
+            case triggerName = "triggerName"
+            case triggerTargetArn = "triggerTargetArn"
         }
     }
 
-    public enum BundleType: String, CustomStringConvertible {
+    public enum BundleType: String, CustomStringConvertible, Codable {
         case tar = "tar"
         case tgz = "tgz"
         case zip = "zip"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible {
+    public enum DeploymentStatus: String, CustomStringConvertible, Codable {
         case created = "Created"
         case queued = "Queued"
         case inprogress = "InProgress"
@@ -2219,10 +2049,9 @@ extension Codedeploy {
 
     public struct ListGitHubAccountTokenNamesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "tokenNameList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "tokenNameList", required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list. 
         public let nextToken: String?
@@ -2234,18 +2063,17 @@ extension Codedeploy {
             self.tokenNameList = tokenNameList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.tokenNameList = dictionary["tokenNameList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tokenNameList = "tokenNameList"
         }
     }
 
     public struct GetDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an existing deployment group for the specified application.
         public let deploymentGroupName: String
@@ -2257,21 +2085,18 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
-            self.deploymentGroupName = deploymentGroupName
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupName = "deploymentGroupName"
+            case applicationName = "applicationName"
         }
     }
 
     public struct AlarmConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ignorePollAlarmFailure", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "alarms", required: false, type: .list), 
+            AWSShapeMember(label: "enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "ignorePollAlarmFailure", required: false, type: .boolean)
         ]
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public let alarms: [Alarm]?
@@ -2286,23 +2111,18 @@ extension Codedeploy {
             self.ignorePollAlarmFailure = ignorePollAlarmFailure
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let alarms = dictionary["alarms"] as? [[String: Any]] {
-                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
-            } else { 
-                self.alarms = nil
-            }
-            self.enabled = dictionary["enabled"] as? Bool
-            self.ignorePollAlarmFailure = dictionary["ignorePollAlarmFailure"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
+            case enabled = "enabled"
+            case ignorePollAlarmFailure = "ignorePollAlarmFailure"
         }
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupNames", required: true, type: .list), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupNames", required: true, type: .list), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The deployment groups' names.
         public let deploymentGroupNames: [String]
@@ -2314,28 +2134,25 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentGroupNames = dictionary["deploymentGroupNames"] as? [String] else { throw InitializableError.missingRequiredParam("deploymentGroupNames") }
-            self.deploymentGroupNames = deploymentGroupNames
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupNames = "deploymentGroupNames"
+            case applicationName = "applicationName"
         }
     }
 
     public struct CreateDeploymentInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "targetInstances", required: false, type: .structure), 
-            AWSShapeProperty(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
-            AWSShapeProperty(label: "deploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "fileExistsBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: false, type: .structure), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "targetInstances", required: false, type: .structure), 
+            AWSShapeMember(label: "ignoreApplicationStopFailures", required: false, type: .boolean), 
+            AWSShapeMember(label: "deploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "updateOutdatedInstancesOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "fileExistsBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The type and location of the revision to deploy.
         public let revision: RevisionLocation?
@@ -2371,30 +2188,28 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let targetInstances = dictionary["targetInstances"] as? [String: Any] { self.targetInstances = try Codedeploy.TargetInstances(dictionary: targetInstances) } else { self.targetInstances = nil }
-            self.ignoreApplicationStopFailures = dictionary["ignoreApplicationStopFailures"] as? Bool
-            self.deploymentGroupName = dictionary["deploymentGroupName"] as? String
-            self.updateOutdatedInstancesOnly = dictionary["updateOutdatedInstancesOnly"] as? Bool
-            self.description = dictionary["description"] as? String
-            if let fileExistsBehavior = dictionary["fileExistsBehavior"] as? String { self.fileExistsBehavior = FileExistsBehavior(rawValue: fileExistsBehavior) } else { self.fileExistsBehavior = nil }
-            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case deploymentConfigName = "deploymentConfigName"
+            case targetInstances = "targetInstances"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case deploymentGroupName = "deploymentGroupName"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
+            case description = "description"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case applicationName = "applicationName"
         }
     }
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bundleType", required: false, type: .enum), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "bucket", required: false, type: .string), 
-            AWSShapeProperty(label: "key", required: false, type: .string), 
-            AWSShapeProperty(label: "eTag", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bundleType", required: false, type: .enum), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "bucket", required: false, type: .string), 
+            AWSShapeMember(label: "key", required: false, type: .string), 
+            AWSShapeMember(label: "eTag", required: false, type: .string)
         ]
         /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
         public let bundleType: BundleType?
@@ -2415,20 +2230,19 @@ extension Codedeploy {
             self.eTag = eTag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let bundleType = dictionary["bundleType"] as? String { self.bundleType = BundleType(rawValue: bundleType) } else { self.bundleType = nil }
-            self.version = dictionary["version"] as? String
-            self.bucket = dictionary["bucket"] as? String
-            self.key = dictionary["key"] as? String
-            self.eTag = dictionary["eTag"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bundleType = "bundleType"
+            case version = "version"
+            case bucket = "bucket"
+            case key = "key"
+            case eTag = "eTag"
         }
     }
 
     public struct GetApplicationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "application", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "application", required: false, type: .structure)
         ]
         /// Information about the application.
         public let application: ApplicationInfo?
@@ -2437,16 +2251,15 @@ extension Codedeploy {
             self.application = application
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let application = dictionary["application"] as? [String: Any] { self.application = try Codedeploy.ApplicationInfo(dictionary: application) } else { self.application = nil }
+        private enum CodingKeys: String, CodingKey {
+            case application = "application"
         }
     }
 
     public struct ELBInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string)
         ]
         /// For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
         public let name: String?
@@ -2455,16 +2268,15 @@ extension Codedeploy {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct GetDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: true, type: .string)
         ]
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public let deploymentConfigName: String
@@ -2473,13 +2285,12 @@ extension Codedeploy {
             self.deploymentConfigName = deploymentConfigName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentConfigName = dictionary["deploymentConfigName"] as? String else { throw InitializableError.missingRequiredParam("deploymentConfigName") }
-            self.deploymentConfigName = deploymentConfigName
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
-    public enum TagFilterType: String, CustomStringConvertible {
+    public enum TagFilterType: String, CustomStringConvertible, Codable {
         case key_only = "KEY_ONLY"
         case value_only = "VALUE_ONLY"
         case key_and_value = "KEY_AND_VALUE"
@@ -2488,10 +2299,9 @@ extension Codedeploy {
 
     public struct ListDeploymentsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deployments", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deployments", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of deployment IDs.
         public let deployments: [String]?
@@ -2503,18 +2313,17 @@ extension Codedeploy {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deployments = dictionary["deployments"] as? [String]
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "deployments"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an existing deployment group for the specified application.
         public let deploymentGroupName: String
@@ -2526,20 +2335,17 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentGroupName = dictionary["deploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("deploymentGroupName") }
-            self.deploymentGroupName = deploymentGroupName
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupName = "deploymentGroupName"
+            case applicationName = "applicationName"
         }
     }
 
     public struct ListDeploymentInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "instancesList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "instancesList", required: false, type: .list)
         ]
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
         public let nextToken: String?
@@ -2551,50 +2357,48 @@ extension Codedeploy {
             self.instancesList = instancesList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.instancesList = dictionary["instancesList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case instancesList = "instancesList"
         }
     }
 
     public struct LastDeploymentInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp)
         ]
         /// The deployment ID.
         public let deploymentId: String?
         /// The status of the most recent deployment.
         public let status: DeploymentStatus?
         /// A timestamp indicating when the most recent deployment to the deployment group completed.
-        public let endTime: String?
+        public let endTime: Double?
         /// A timestamp indicating when the most recent deployment to the deployment group started.
-        public let createTime: String?
+        public let createTime: Double?
 
-        public init(deploymentId: String? = nil, status: DeploymentStatus? = nil, endTime: String? = nil, createTime: String? = nil) {
+        public init(deploymentId: String? = nil, status: DeploymentStatus? = nil, endTime: Double? = nil, createTime: Double? = nil) {
             self.deploymentId = deploymentId
             self.status = status
             self.endTime = endTime
             self.createTime = createTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
-            if let status = dictionary["status"] as? String { self.status = DeploymentStatus(rawValue: status) } else { self.status = nil }
-            self.endTime = dictionary["endTime"] as? String
-            self.createTime = dictionary["createTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "deploymentId"
+            case status = "status"
+            case endTime = "endTime"
+            case createTime = "createTime"
         }
     }
 
     public struct DeregisterOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the on-premises instance to deregister.
         public let instanceName: String
@@ -2603,19 +2407,17 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct BatchGetApplicationRevisionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revisions", required: false, type: .list), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revisions", required: false, type: .list), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
         /// Additional information about the revisions, including the type and location.
         public let revisions: [RevisionInfo]?
@@ -2630,22 +2432,17 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let revisions = dictionary["revisions"] as? [[String: Any]] {
-                self.revisions = try revisions.map({ try RevisionInfo(dictionary: $0) })
-            } else { 
-                self.revisions = nil
-            }
-            self.errorMessage = dictionary["errorMessage"] as? String
-            self.applicationName = dictionary["applicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revisions = "revisions"
+            case errorMessage = "errorMessage"
+            case applicationName = "applicationName"
         }
     }
 
     public struct GetApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "applicationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "applicationName", required: true, type: .string)
         ]
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
@@ -2654,17 +2451,15 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
         }
     }
 
     public struct GetOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The name of the on-premises instance about which to get information.
         public let instanceName: String
@@ -2673,19 +2468,17 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetApplicationRevisionOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "revision", required: false, type: .structure), 
-            AWSShapeProperty(label: "revisionInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "revision", required: false, type: .structure), 
+            AWSShapeMember(label: "revisionInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
         /// Additional information about the revision, including type and location.
         public let revision: RevisionLocation?
@@ -2700,18 +2493,17 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let revision = dictionary["revision"] as? [String: Any] { self.revision = try Codedeploy.RevisionLocation(dictionary: revision) } else { self.revision = nil }
-            if let revisionInfo = dictionary["revisionInfo"] as? [String: Any] { self.revisionInfo = try Codedeploy.GenericRevisionInfo(dictionary: revisionInfo) } else { self.revisionInfo = nil }
-            self.applicationName = dictionary["applicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case revision = "revision"
+            case revisionInfo = "revisionInfo"
+            case applicationName = "applicationName"
         }
     }
 
     public struct GreenFleetProvisioningOption: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "action", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: false, type: .enum)
         ]
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
         public let action: GreenFleetProvisioningAction?
@@ -2720,21 +2512,20 @@ extension Codedeploy {
             self.action = action
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let action = dictionary["action"] as? String { self.action = GreenFleetProvisioningAction(rawValue: action) } else { self.action = nil }
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
         }
     }
 
     public struct DeploymentOverview: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InProgress", required: false, type: .long), 
-            AWSShapeProperty(label: "Pending", required: false, type: .long), 
-            AWSShapeProperty(label: "Skipped", required: false, type: .long), 
-            AWSShapeProperty(label: "Succeeded", required: false, type: .long), 
-            AWSShapeProperty(label: "Ready", required: false, type: .long), 
-            AWSShapeProperty(label: "Failed", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InProgress", required: false, type: .long), 
+            AWSShapeMember(label: "Pending", required: false, type: .long), 
+            AWSShapeMember(label: "Skipped", required: false, type: .long), 
+            AWSShapeMember(label: "Succeeded", required: false, type: .long), 
+            AWSShapeMember(label: "Ready", required: false, type: .long), 
+            AWSShapeMember(label: "Failed", required: false, type: .long)
         ]
         /// The number of instances in which the deployment is in progress.
         public let inProgress: Int64?
@@ -2758,22 +2549,21 @@ extension Codedeploy {
             self.failed = failed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.inProgress = dictionary["InProgress"] as? Int64
-            self.pending = dictionary["Pending"] as? Int64
-            self.skipped = dictionary["Skipped"] as? Int64
-            self.succeeded = dictionary["Succeeded"] as? Int64
-            self.ready = dictionary["Ready"] as? Int64
-            self.failed = dictionary["Failed"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case inProgress = "InProgress"
+            case pending = "Pending"
+            case skipped = "Skipped"
+            case succeeded = "Succeeded"
+            case ready = "Ready"
+            case failed = "Failed"
         }
     }
 
     public struct UpdateApplicationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "newApplicationName", required: false, type: .string), 
-            AWSShapeProperty(label: "applicationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "newApplicationName", required: false, type: .string), 
+            AWSShapeMember(label: "applicationName", required: false, type: .string)
         ]
         /// The new name to give the application.
         public let newApplicationName: String?
@@ -2785,30 +2575,29 @@ extension Codedeploy {
             self.applicationName = applicationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.newApplicationName = dictionary["newApplicationName"] as? String
-            self.applicationName = dictionary["applicationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case newApplicationName = "newApplicationName"
+            case applicationName = "applicationName"
         }
     }
 
     public struct UpdateDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serviceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "newDeploymentGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "loadBalancerInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "alarmConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "applicationName", required: true, type: .string), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "triggerConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "deploymentStyle", required: false, type: .structure), 
-            AWSShapeProperty(label: "currentDeploymentGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "ec2TagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoRollbackConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serviceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "newDeploymentGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "loadBalancerInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "alarmConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "blueGreenDeploymentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "applicationName", required: true, type: .string), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "triggerConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "deploymentStyle", required: false, type: .structure), 
+            AWSShapeMember(label: "currentDeploymentGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "onPremisesInstanceTagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "ec2TagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "autoRollbackConfiguration", required: false, type: .structure)
         ]
         /// A replacement ARN for the service role, if you want to change it.
         public let serviceRoleArn: String?
@@ -2856,43 +2645,28 @@ extension Codedeploy {
             self.autoRollbackConfiguration = autoRollbackConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serviceRoleArn = dictionary["serviceRoleArn"] as? String
-            self.newDeploymentGroupName = dictionary["newDeploymentGroupName"] as? String
-            if let loadBalancerInfo = dictionary["loadBalancerInfo"] as? [String: Any] { self.loadBalancerInfo = try Codedeploy.LoadBalancerInfo(dictionary: loadBalancerInfo) } else { self.loadBalancerInfo = nil }
-            if let alarmConfiguration = dictionary["alarmConfiguration"] as? [String: Any] { self.alarmConfiguration = try Codedeploy.AlarmConfiguration(dictionary: alarmConfiguration) } else { self.alarmConfiguration = nil }
-            if let blueGreenDeploymentConfiguration = dictionary["blueGreenDeploymentConfiguration"] as? [String: Any] { self.blueGreenDeploymentConfiguration = try Codedeploy.BlueGreenDeploymentConfiguration(dictionary: blueGreenDeploymentConfiguration) } else { self.blueGreenDeploymentConfiguration = nil }
-            guard let applicationName = dictionary["applicationName"] as? String else { throw InitializableError.missingRequiredParam("applicationName") }
-            self.applicationName = applicationName
-            self.autoScalingGroups = dictionary["autoScalingGroups"] as? [String]
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let triggerConfigurations = dictionary["triggerConfigurations"] as? [[String: Any]] {
-                self.triggerConfigurations = try triggerConfigurations.map({ try TriggerConfig(dictionary: $0) })
-            } else { 
-                self.triggerConfigurations = nil
-            }
-            if let deploymentStyle = dictionary["deploymentStyle"] as? [String: Any] { self.deploymentStyle = try Codedeploy.DeploymentStyle(dictionary: deploymentStyle) } else { self.deploymentStyle = nil }
-            guard let currentDeploymentGroupName = dictionary["currentDeploymentGroupName"] as? String else { throw InitializableError.missingRequiredParam("currentDeploymentGroupName") }
-            self.currentDeploymentGroupName = currentDeploymentGroupName
-            if let onPremisesInstanceTagFilters = dictionary["onPremisesInstanceTagFilters"] as? [[String: Any]] {
-                self.onPremisesInstanceTagFilters = try onPremisesInstanceTagFilters.map({ try TagFilter(dictionary: $0) })
-            } else { 
-                self.onPremisesInstanceTagFilters = nil
-            }
-            if let ec2TagFilters = dictionary["ec2TagFilters"] as? [[String: Any]] {
-                self.ec2TagFilters = try ec2TagFilters.map({ try EC2TagFilter(dictionary: $0) })
-            } else { 
-                self.ec2TagFilters = nil
-            }
-            if let autoRollbackConfiguration = dictionary["autoRollbackConfiguration"] as? [String: Any] { self.autoRollbackConfiguration = try Codedeploy.AutoRollbackConfiguration(dictionary: autoRollbackConfiguration) } else { self.autoRollbackConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case serviceRoleArn = "serviceRoleArn"
+            case newDeploymentGroupName = "newDeploymentGroupName"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case alarmConfiguration = "alarmConfiguration"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case applicationName = "applicationName"
+            case autoScalingGroups = "autoScalingGroups"
+            case deploymentConfigName = "deploymentConfigName"
+            case triggerConfigurations = "triggerConfigurations"
+            case deploymentStyle = "deploymentStyle"
+            case currentDeploymentGroupName = "currentDeploymentGroupName"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case ec2TagFilters = "ec2TagFilters"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
         }
     }
 
     public struct CreateDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentGroupId", required: false, type: .string)
         ]
         /// A unique deployment group ID.
         public let deploymentGroupId: String?
@@ -2901,21 +2675,20 @@ extension Codedeploy {
             self.deploymentGroupId = deploymentGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentGroupId = dictionary["deploymentGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentGroupId = "deploymentGroupId"
         }
     }
 
     public struct InstanceSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "instanceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "lastUpdatedAt", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "lifecycleEvents", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceId", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "instanceType", required: false, type: .enum), 
+            AWSShapeMember(label: "lastUpdatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "lifecycleEvents", required: false, type: .list)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -2924,13 +2697,13 @@ extension Codedeploy {
         /// Information about which environment an instance belongs to in a blue/green deployment.   BLUE: The instance is part of the original environment.   GREEN: The instance is part of the replacement environment.  
         public let instanceType: InstanceType?
         /// A timestamp indicating when the instance information was last updated.
-        public let lastUpdatedAt: String?
+        public let lastUpdatedAt: Double?
         /// The deployment ID.
         public let deploymentId: String?
         /// A list of lifecycle events for this instance.
         public let lifecycleEvents: [LifecycleEvent]?
 
-        public init(instanceId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: String? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
+        public init(instanceId: String? = nil, status: InstanceStatus? = nil, instanceType: InstanceType? = nil, lastUpdatedAt: Double? = nil, deploymentId: String? = nil, lifecycleEvents: [LifecycleEvent]? = nil) {
             self.instanceId = instanceId
             self.status = status
             self.instanceType = instanceType
@@ -2939,27 +2712,22 @@ extension Codedeploy {
             self.lifecycleEvents = lifecycleEvents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["instanceId"] as? String
-            if let status = dictionary["status"] as? String { self.status = InstanceStatus(rawValue: status) } else { self.status = nil }
-            if let instanceType = dictionary["instanceType"] as? String { self.instanceType = InstanceType(rawValue: instanceType) } else { self.instanceType = nil }
-            self.lastUpdatedAt = dictionary["lastUpdatedAt"] as? String
-            self.deploymentId = dictionary["deploymentId"] as? String
-            if let lifecycleEvents = dictionary["lifecycleEvents"] as? [[String: Any]] {
-                self.lifecycleEvents = try lifecycleEvents.map({ try LifecycleEvent(dictionary: $0) })
-            } else { 
-                self.lifecycleEvents = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case status = "status"
+            case instanceType = "instanceType"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case deploymentId = "deploymentId"
+            case lifecycleEvents = "lifecycleEvents"
         }
     }
 
     public struct RegisterOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "iamSessionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "iamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "instanceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamSessionArn", required: false, type: .string), 
+            AWSShapeMember(label: "iamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "instanceName", required: true, type: .string)
         ]
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
@@ -2974,21 +2742,20 @@ extension Codedeploy {
             self.instanceName = instanceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamSessionArn = dictionary["iamSessionArn"] as? String
-            self.iamUserArn = dictionary["iamUserArn"] as? String
-            guard let instanceName = dictionary["instanceName"] as? String else { throw InitializableError.missingRequiredParam("instanceName") }
-            self.instanceName = instanceName
+        private enum CodingKeys: String, CodingKey {
+            case iamSessionArn = "iamSessionArn"
+            case iamUserArn = "iamUserArn"
+            case instanceName = "instanceName"
         }
     }
 
-    public enum DeploymentOption: String, CustomStringConvertible {
+    public enum DeploymentOption: String, CustomStringConvertible, Codable {
         case with_traffic_control = "WITH_TRAFFIC_CONTROL"
         case without_traffic_control = "WITHOUT_TRAFFIC_CONTROL"
         public var description: String { return self.rawValue }
     }
 
-    public enum DeploymentReadyAction: String, CustomStringConvertible {
+    public enum DeploymentReadyAction: String, CustomStringConvertible, Codable {
         case continue_deployment = "CONTINUE_DEPLOYMENT"
         case stop_deployment = "STOP_DEPLOYMENT"
         public var description: String { return self.rawValue }
@@ -2996,59 +2763,57 @@ extension Codedeploy {
 
     public struct DeploymentConfigInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deploymentConfigName", required: false, type: .string), 
-            AWSShapeProperty(label: "minimumHealthyHosts", required: false, type: .structure), 
-            AWSShapeProperty(label: "createTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deploymentConfigId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deploymentConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "minimumHealthyHosts", required: false, type: .structure), 
+            AWSShapeMember(label: "createTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deploymentConfigId", required: false, type: .string)
         ]
         /// The deployment configuration name.
         public let deploymentConfigName: String?
         /// Information about the number or percentage of minimum healthy instance.
         public let minimumHealthyHosts: MinimumHealthyHosts?
         /// The time at which the deployment configuration was created.
-        public let createTime: String?
+        public let createTime: Double?
         /// The deployment configuration ID.
         public let deploymentConfigId: String?
 
-        public init(deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, createTime: String? = nil, deploymentConfigId: String? = nil) {
+        public init(deploymentConfigName: String? = nil, minimumHealthyHosts: MinimumHealthyHosts? = nil, createTime: Double? = nil, deploymentConfigId: String? = nil) {
             self.deploymentConfigName = deploymentConfigName
             self.minimumHealthyHosts = minimumHealthyHosts
             self.createTime = createTime
             self.deploymentConfigId = deploymentConfigId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentConfigName = dictionary["deploymentConfigName"] as? String
-            if let minimumHealthyHosts = dictionary["minimumHealthyHosts"] as? [String: Any] { self.minimumHealthyHosts = try Codedeploy.MinimumHealthyHosts(dictionary: minimumHealthyHosts) } else { self.minimumHealthyHosts = nil }
-            self.createTime = dictionary["createTime"] as? String
-            self.deploymentConfigId = dictionary["deploymentConfigId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case createTime = "createTime"
+            case deploymentConfigId = "deploymentConfigId"
         }
     }
 
     public struct LifecycleEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "diagnostics", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lifecycleEventName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "diagnostics", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lifecycleEventName", required: false, type: .string)
         ]
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
         /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
         public let status: LifecycleEventStatus?
         /// A timestamp indicating when the deployment lifecycle event ended.
-        public let endTime: String?
+        public let endTime: Double?
         /// A timestamp indicating when the deployment lifecycle event started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall, AfterInstall, ApplicationStart, or ValidateService.
         public let lifecycleEventName: String?
 
-        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, endTime: String? = nil, startTime: String? = nil, lifecycleEventName: String? = nil) {
+        public init(diagnostics: Diagnostics? = nil, status: LifecycleEventStatus? = nil, endTime: Double? = nil, startTime: Double? = nil, lifecycleEventName: String? = nil) {
             self.diagnostics = diagnostics
             self.status = status
             self.endTime = endTime
@@ -3056,21 +2821,20 @@ extension Codedeploy {
             self.lifecycleEventName = lifecycleEventName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let diagnostics = dictionary["diagnostics"] as? [String: Any] { self.diagnostics = try Codedeploy.Diagnostics(dictionary: diagnostics) } else { self.diagnostics = nil }
-            if let status = dictionary["status"] as? String { self.status = LifecycleEventStatus(rawValue: status) } else { self.status = nil }
-            self.endTime = dictionary["endTime"] as? String
-            self.startTime = dictionary["startTime"] as? String
-            self.lifecycleEventName = dictionary["lifecycleEventName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case diagnostics = "diagnostics"
+            case status = "status"
+            case endTime = "endTime"
+            case startTime = "startTime"
+            case lifecycleEventName = "lifecycleEventName"
         }
     }
 
     public struct TargetInstances: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tagFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "autoScalingGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tagFilters", required: false, type: .list), 
+            AWSShapeMember(label: "autoScalingGroups", required: false, type: .list)
         ]
         /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment.
         public let tagFilters: [EC2TagFilter]?
@@ -3082,22 +2846,17 @@ extension Codedeploy {
             self.autoScalingGroups = autoScalingGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagFilters = dictionary["tagFilters"] as? [[String: Any]] {
-                self.tagFilters = try tagFilters.map({ try EC2TagFilter(dictionary: $0) })
-            } else { 
-                self.tagFilters = nil
-            }
-            self.autoScalingGroups = dictionary["autoScalingGroups"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case tagFilters = "tagFilters"
+            case autoScalingGroups = "autoScalingGroups"
         }
     }
 
     public struct GetDeploymentInstanceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "instanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "deploymentId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "instanceId", required: true, type: .string), 
+            AWSShapeMember(label: "deploymentId", required: true, type: .string)
         ]
         /// The unique ID of an instance in the deployment group.
         public let instanceId: String
@@ -3109,20 +2868,17 @@ extension Codedeploy {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["instanceId"] as? String else { throw InitializableError.missingRequiredParam("instanceId") }
-            self.instanceId = instanceId
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
-            self.deploymentId = deploymentId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct MinimumHealthyHosts: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "value", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: false, type: .integer)
         ]
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let `type`: MinimumHealthyHostsType?
@@ -3134,9 +2890,9 @@ extension Codedeploy {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = MinimumHealthyHostsType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["value"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case value = "value"
         }
     }
 

@@ -31,46 +31,40 @@ extension Meteringmarketplace {
 
     public struct UsageRecord: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Dimension", required: true, type: .string), 
-            AWSShapeProperty(label: "Quantity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Dimension", required: true, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
-        public let timestamp: String
+        public let timestamp: Double
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time.
         public let quantity: Int32
 
-        public init(customerIdentifier: String, timestamp: String, dimension: String, quantity: Int32) {
+        public init(customerIdentifier: String, timestamp: Double, dimension: String, quantity: Int32) {
             self.customerIdentifier = customerIdentifier
             self.timestamp = timestamp
             self.dimension = dimension
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let customerIdentifier = dictionary["CustomerIdentifier"] as? String else { throw InitializableError.missingRequiredParam("CustomerIdentifier") }
-            self.customerIdentifier = customerIdentifier
-            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
-            self.timestamp = timestamp
-            guard let dimension = dictionary["Dimension"] as? String else { throw InitializableError.missingRequiredParam("Dimension") }
-            self.dimension = dimension
-            guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
-            self.quantity = quantity
+        private enum CodingKeys: String, CodingKey {
+            case customerIdentifier = "CustomerIdentifier"
+            case timestamp = "Timestamp"
+            case dimension = "Dimension"
+            case quantity = "Quantity"
         }
     }
 
     public struct ResolveCustomerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RegistrationToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistrationToken", required: true, type: .string)
         ]
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
@@ -79,24 +73,22 @@ extension Meteringmarketplace {
             self.registrationToken = registrationToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let registrationToken = dictionary["RegistrationToken"] as? String else { throw InitializableError.missingRequiredParam("RegistrationToken") }
-            self.registrationToken = registrationToken
+        private enum CodingKeys: String, CodingKey {
+            case registrationToken = "RegistrationToken"
         }
     }
 
     public struct MeterUsageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "DryRun", required: true, type: .boolean), 
-            AWSShapeProperty(label: "UsageDimension", required: true, type: .string), 
-            AWSShapeProperty(label: "UsageQuantity", required: true, type: .integer), 
-            AWSShapeProperty(label: "ProductCode", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "DryRun", required: true, type: .boolean), 
+            AWSShapeMember(label: "UsageDimension", required: true, type: .string), 
+            AWSShapeMember(label: "UsageQuantity", required: true, type: .integer), 
+            AWSShapeMember(label: "ProductCode", required: true, type: .string)
         ]
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
-        public let timestamp: String
+        public let timestamp: Double
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
         public let dryRun: Bool
         /// It will be one of the fcp dimension name provided during the publishing of the product.
@@ -106,7 +98,7 @@ extension Meteringmarketplace {
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
 
-        public init(timestamp: String, dryRun: Bool, usageDimension: String, usageQuantity: Int32, productCode: String) {
+        public init(timestamp: Double, dryRun: Bool, usageDimension: String, usageQuantity: Int32, productCode: String) {
             self.timestamp = timestamp
             self.dryRun = dryRun
             self.usageDimension = usageDimension
@@ -114,21 +106,16 @@ extension Meteringmarketplace {
             self.productCode = productCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
-            self.timestamp = timestamp
-            guard let dryRun = dictionary["DryRun"] as? Bool else { throw InitializableError.missingRequiredParam("DryRun") }
-            self.dryRun = dryRun
-            guard let usageDimension = dictionary["UsageDimension"] as? String else { throw InitializableError.missingRequiredParam("UsageDimension") }
-            self.usageDimension = usageDimension
-            guard let usageQuantity = dictionary["UsageQuantity"] as? Int32 else { throw InitializableError.missingRequiredParam("UsageQuantity") }
-            self.usageQuantity = usageQuantity
-            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
-            self.productCode = productCode
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case dryRun = "DryRun"
+            case usageDimension = "UsageDimension"
+            case usageQuantity = "UsageQuantity"
+            case productCode = "ProductCode"
         }
     }
 
-    public enum UsageRecordResultStatus: String, CustomStringConvertible {
+    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
         case success = "Success"
         case customernotsubscribed = "CustomerNotSubscribed"
         case duplicaterecord = "DuplicateRecord"
@@ -137,10 +124,9 @@ extension Meteringmarketplace {
 
     public struct BatchMeterUsageResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedRecords", required: false, type: .list), 
-            AWSShapeProperty(label: "Results", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedRecords", required: false, type: .list), 
+            AWSShapeMember(label: "Results", required: false, type: .list)
         ]
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
@@ -152,26 +138,17 @@ extension Meteringmarketplace {
             self.results = results
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let unprocessedRecords = dictionary["UnprocessedRecords"] as? [[String: Any]] {
-                self.unprocessedRecords = try unprocessedRecords.map({ try UsageRecord(dictionary: $0) })
-            } else { 
-                self.unprocessedRecords = nil
-            }
-            if let results = dictionary["Results"] as? [[String: Any]] {
-                self.results = try results.map({ try UsageRecordResult(dictionary: $0) })
-            } else { 
-                self.results = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedRecords = "UnprocessedRecords"
+            case results = "Results"
         }
     }
 
     public struct ResolveCustomerResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ProductCode", required: false, type: .string)
         ]
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
@@ -183,17 +160,16 @@ extension Meteringmarketplace {
             self.productCode = productCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerIdentifier = dictionary["CustomerIdentifier"] as? String
-            self.productCode = dictionary["ProductCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case customerIdentifier = "CustomerIdentifier"
+            case productCode = "ProductCode"
         }
     }
 
     public struct MeterUsageResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string)
         ]
         public let meteringRecordId: String?
 
@@ -201,17 +177,16 @@ extension Meteringmarketplace {
             self.meteringRecordId = meteringRecordId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.meteringRecordId = dictionary["MeteringRecordId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case meteringRecordId = "MeteringRecordId"
         }
     }
 
     public struct BatchMeterUsageRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
-            AWSShapeProperty(label: "UsageRecords", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProductCode", required: true, type: .string), 
+            AWSShapeMember(label: "UsageRecords", required: true, type: .list)
         ]
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
@@ -223,21 +198,18 @@ extension Meteringmarketplace {
             self.usageRecords = usageRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
-            self.productCode = productCode
-            guard let usageRecords = dictionary["UsageRecords"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("UsageRecords") }
-            self.usageRecords = try usageRecords.map({ try UsageRecord(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case productCode = "ProductCode"
+            case usageRecords = "UsageRecords"
         }
     }
 
     public struct UsageRecordResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MeteringRecordId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "UsageRecord", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MeteringRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "UsageRecord", required: false, type: .structure)
         ]
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
@@ -252,10 +224,10 @@ extension Meteringmarketplace {
             self.usageRecord = usageRecord
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.meteringRecordId = dictionary["MeteringRecordId"] as? String
-            if let status = dictionary["Status"] as? String { self.status = UsageRecordResultStatus(rawValue: status) } else { self.status = nil }
-            if let usageRecord = dictionary["UsageRecord"] as? [String: Any] { self.usageRecord = try Meteringmarketplace.UsageRecord(dictionary: usageRecord) } else { self.usageRecord = nil }
+        private enum CodingKeys: String, CodingKey {
+            case meteringRecordId = "MeteringRecordId"
+            case status = "Status"
+            case usageRecord = "UsageRecord"
         }
     }
 

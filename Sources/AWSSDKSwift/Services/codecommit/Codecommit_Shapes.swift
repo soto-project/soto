@@ -31,10 +31,9 @@ extension Codecommit {
 
     public struct ListRepositoriesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositories", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Lists the repositories called by the list repositories operation.
         public let repositories: [RepositoryNameIdPair]?
@@ -46,23 +45,18 @@ extension Codecommit {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repositories = dictionary["repositories"] as? [[String: Any]] {
-                self.repositories = try repositories.map({ try RepositoryNameIdPair(dictionary: $0) })
-            } else { 
-                self.repositories = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositories = "repositories"
+            case nextToken = "nextToken"
         }
     }
 
     public struct UserInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "date", required: false, type: .string), 
-            AWSShapeProperty(label: "email", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "date", required: false, type: .string), 
+            AWSShapeMember(label: "email", required: false, type: .string)
         ]
         /// The name of the user who made the specified commit.
         public let name: String?
@@ -77,19 +71,18 @@ extension Codecommit {
             self.email = email
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.date = dictionary["date"] as? String
-            self.email = dictionary["email"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case date = "date"
+            case email = "email"
         }
     }
 
     public struct BranchInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", required: false, type: .string), 
-            AWSShapeProperty(label: "commitId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: false, type: .string), 
+            AWSShapeMember(label: "commitId", required: false, type: .string)
         ]
         /// The name of the branch.
         public let branchName: String?
@@ -101,17 +94,16 @@ extension Codecommit {
             self.commitId = commitId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.branchName = dictionary["branchName"] as? String
-            self.commitId = dictionary["commitId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case commitId = "commitId"
         }
     }
 
     public struct GetCommitOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commit", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commit", required: true, type: .structure)
         ]
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
@@ -120,17 +112,15 @@ extension Codecommit {
             self.commit = commit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let commit = dictionary["commit"] as? [String: Any] else { throw InitializableError.missingRequiredParam("commit") }
-            self.commit = try Codecommit.Commit(dictionary: commit)
+        private enum CodingKeys: String, CodingKey {
+            case commit = "commit"
         }
     }
 
     public struct DeleteRepositoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryId", required: false, type: .string)
         ]
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
@@ -139,25 +129,24 @@ extension Codecommit {
             self.repositoryId = repositoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.repositoryId = dictionary["repositoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryId = "repositoryId"
         }
     }
 
     public struct RepositoryMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string), 
-            AWSShapeProperty(label: "creationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "cloneUrlSsh", required: false, type: .string), 
-            AWSShapeProperty(label: "accountId", required: false, type: .string), 
-            AWSShapeProperty(label: "cloneUrlHttp", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "defaultBranch", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string), 
+            AWSShapeMember(label: "creationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "cloneUrlSsh", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "cloneUrlHttp", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultBranch", required: false, type: .string)
         ]
         /// A comment or description about the repository.
         public let repositoryDescription: String?
@@ -166,7 +155,7 @@ extension Codecommit {
         /// The repository's name.
         public let repositoryName: String?
         /// The date and time the repository was created, in timestamp format.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The URL to use for cloning the repository over SSH.
         public let cloneUrlSsh: String?
         /// The ID of the AWS account associated with the repository.
@@ -176,11 +165,11 @@ extension Codecommit {
         /// The ID of the repository.
         public let repositoryId: String?
         /// The date and time the repository was last modified, in timestamp format.
-        public let lastModifiedDate: String?
+        public let lastModifiedDate: Double?
         /// The repository's default branch name.
         public let defaultBranch: String?
 
-        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: String? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: String? = nil, defaultBranch: String? = nil) {
+        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: Double? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: Double? = nil, defaultBranch: String? = nil) {
             self.repositoryDescription = repositoryDescription
             self.arn = arn
             self.repositoryName = repositoryName
@@ -193,26 +182,25 @@ extension Codecommit {
             self.defaultBranch = defaultBranch
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.repositoryDescription = dictionary["repositoryDescription"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
-            self.creationDate = dictionary["creationDate"] as? String
-            self.cloneUrlSsh = dictionary["cloneUrlSsh"] as? String
-            self.accountId = dictionary["accountId"] as? String
-            self.cloneUrlHttp = dictionary["cloneUrlHttp"] as? String
-            self.repositoryId = dictionary["repositoryId"] as? String
-            self.lastModifiedDate = dictionary["lastModifiedDate"] as? String
-            self.defaultBranch = dictionary["defaultBranch"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryDescription = "repositoryDescription"
+            case arn = "Arn"
+            case repositoryName = "repositoryName"
+            case creationDate = "creationDate"
+            case cloneUrlSsh = "cloneUrlSsh"
+            case accountId = "accountId"
+            case cloneUrlHttp = "cloneUrlHttp"
+            case repositoryId = "repositoryId"
+            case lastModifiedDate = "lastModifiedDate"
+            case defaultBranch = "defaultBranch"
         }
     }
 
     public struct ListBranchesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "branches", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "branches", required: false, type: .list)
         ]
         /// An enumeration token that returns the batch of the results.
         public let nextToken: String?
@@ -224,21 +212,20 @@ extension Codecommit {
             self.branches = branches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.branches = dictionary["branches"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case branches = "branches"
         }
     }
 
     public struct RepositoryTrigger: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "destinationArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "branches", required: false, type: .list), 
-            AWSShapeProperty(label: "customData", required: false, type: .string), 
-            AWSShapeProperty(label: "events", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "destinationArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "branches", required: false, type: .list), 
+            AWSShapeMember(label: "customData", required: false, type: .string), 
+            AWSShapeMember(label: "events", required: true, type: .list)
         ]
         /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
         public let destinationArn: String
@@ -259,25 +246,21 @@ extension Codecommit {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationArn = dictionary["destinationArn"] as? String else { throw InitializableError.missingRequiredParam("destinationArn") }
-            self.destinationArn = destinationArn
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.branches = dictionary["branches"] as? [String]
-            self.customData = dictionary["customData"] as? String
-            guard let events = dictionary["events"] as? [String] else { throw InitializableError.missingRequiredParam("events") }
-            self.events = events.flatMap({ RepositoryTriggerEventEnum(rawValue: $0)})
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "destinationArn"
+            case name = "name"
+            case branches = "branches"
+            case customData = "customData"
+            case events = "events"
         }
     }
 
     public struct BlobMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "blobId", required: false, type: .string), 
-            AWSShapeProperty(label: "mode", required: false, type: .string), 
-            AWSShapeProperty(label: "path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobId", required: false, type: .string), 
+            AWSShapeMember(label: "mode", required: false, type: .string), 
+            AWSShapeMember(label: "path", required: false, type: .string)
         ]
         /// The full ID of the blob.
         public let blobId: String?
@@ -292,23 +275,22 @@ extension Codecommit {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.blobId = dictionary["blobId"] as? String
-            self.mode = dictionary["mode"] as? String
-            self.path = dictionary["path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case blobId = "blobId"
+            case mode = "mode"
+            case path = "path"
         }
     }
 
     public struct Commit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "parents", required: false, type: .list), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "author", required: false, type: .structure), 
-            AWSShapeProperty(label: "treeId", required: false, type: .string), 
-            AWSShapeProperty(label: "additionalData", required: false, type: .string), 
-            AWSShapeProperty(label: "committer", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "parents", required: false, type: .list), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "author", required: false, type: .structure), 
+            AWSShapeMember(label: "treeId", required: false, type: .string), 
+            AWSShapeMember(label: "additionalData", required: false, type: .string), 
+            AWSShapeMember(label: "committer", required: false, type: .structure)
         ]
         /// The parent list for the specified commit.
         public let parents: [String]?
@@ -332,22 +314,21 @@ extension Codecommit {
             self.committer = committer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parents = dictionary["parents"] as? [String]
-            self.message = dictionary["message"] as? String
-            if let author = dictionary["author"] as? [String: Any] { self.author = try Codecommit.UserInfo(dictionary: author) } else { self.author = nil }
-            self.treeId = dictionary["treeId"] as? String
-            self.additionalData = dictionary["additionalData"] as? String
-            if let committer = dictionary["committer"] as? [String: Any] { self.committer = try Codecommit.UserInfo(dictionary: committer) } else { self.committer = nil }
+        private enum CodingKeys: String, CodingKey {
+            case parents = "parents"
+            case message = "message"
+            case author = "author"
+            case treeId = "treeId"
+            case additionalData = "additionalData"
+            case committer = "committer"
         }
     }
 
     public struct UpdateDefaultBranchInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultBranchName", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultBranchName", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the branch to set as the default.
         public let defaultBranchName: String
@@ -359,15 +340,13 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let defaultBranchName = dictionary["defaultBranchName"] as? String else { throw InitializableError.missingRequiredParam("defaultBranchName") }
-            self.defaultBranchName = defaultBranchName
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case defaultBranchName = "defaultBranchName"
+            case repositoryName = "repositoryName"
         }
     }
 
-    public enum OrderEnum: String, CustomStringConvertible {
+    public enum OrderEnum: String, CustomStringConvertible, Codable {
         case ascending = "ascending"
         case descending = "descending"
         public var description: String { return self.rawValue }
@@ -375,9 +354,8 @@ extension Codecommit {
 
     public struct GetRepositoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
         ]
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -386,17 +364,16 @@ extension Codecommit {
             self.repositoryMetadata = repositoryMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) } else { self.repositoryMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case repositoryMetadata = "repositoryMetadata"
         }
     }
 
     public struct TestRepositoryTriggersOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "successfulExecutions", required: false, type: .list), 
-            AWSShapeProperty(label: "failedExecutions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "successfulExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "failedExecutions", required: false, type: .list)
         ]
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
         public let successfulExecutions: [String]?
@@ -408,22 +385,17 @@ extension Codecommit {
             self.failedExecutions = failedExecutions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.successfulExecutions = dictionary["successfulExecutions"] as? [String]
-            if let failedExecutions = dictionary["failedExecutions"] as? [[String: Any]] {
-                self.failedExecutions = try failedExecutions.map({ try RepositoryTriggerExecutionFailure(dictionary: $0) })
-            } else { 
-                self.failedExecutions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case successfulExecutions = "successfulExecutions"
+            case failedExecutions = "failedExecutions"
         }
     }
 
     public struct TestRepositoryTriggersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggers", required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "triggers", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The list of triggers to test.
         public let triggers: [RepositoryTrigger]
@@ -435,15 +407,13 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let triggers = dictionary["triggers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("triggers") }
-            self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case triggers = "triggers"
+            case repositoryName = "repositoryName"
         }
     }
 
-    public enum ChangeTypeEnum: String, CustomStringConvertible {
+    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
         case a = "A"
         case m = "M"
         case d = "D"
@@ -452,10 +422,9 @@ extension Codecommit {
 
     public struct UpdateRepositoryDescriptionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string)
         ]
         /// The name of the repository to set or change the comment or description for.
         public let repositoryName: String
@@ -467,18 +436,16 @@ extension Codecommit {
             self.repositoryDescription = repositoryDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.repositoryDescription = dictionary["repositoryDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case repositoryDescription = "repositoryDescription"
         }
     }
 
     public struct PutRepositoryTriggersOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
@@ -487,17 +454,16 @@ extension Codecommit {
             self.configurationId = configurationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationId = dictionary["configurationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
         }
     }
 
     public struct GetBranchInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
         /// The name of the branch for which you want to retrieve information.
         public let branchName: String?
@@ -509,17 +475,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.branchName = dictionary["branchName"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct CreateRepositoryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryMetadata", required: false, type: .structure)
         ]
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
@@ -528,12 +493,12 @@ extension Codecommit {
             self.repositoryMetadata = repositoryMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) } else { self.repositoryMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case repositoryMetadata = "repositoryMetadata"
         }
     }
 
-    public enum SortByEnum: String, CustomStringConvertible {
+    public enum SortByEnum: String, CustomStringConvertible, Codable {
         case repositoryname = "repositoryName"
         case lastmodifieddate = "lastModifiedDate"
         public var description: String { return self.rawValue }
@@ -541,11 +506,10 @@ extension Codecommit {
 
     public struct Difference: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "changeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "afterBlob", required: false, type: .structure), 
-            AWSShapeProperty(label: "beforeBlob", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "changeType", required: false, type: .enum), 
+            AWSShapeMember(label: "afterBlob", required: false, type: .structure), 
+            AWSShapeMember(label: "beforeBlob", required: false, type: .structure)
         ]
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
         public let changeType: ChangeTypeEnum?
@@ -560,19 +524,18 @@ extension Codecommit {
             self.beforeBlob = beforeBlob
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let changeType = dictionary["changeType"] as? String { self.changeType = ChangeTypeEnum(rawValue: changeType) } else { self.changeType = nil }
-            if let afterBlob = dictionary["afterBlob"] as? [String: Any] { self.afterBlob = try Codecommit.BlobMetadata(dictionary: afterBlob) } else { self.afterBlob = nil }
-            if let beforeBlob = dictionary["beforeBlob"] as? [String: Any] { self.beforeBlob = try Codecommit.BlobMetadata(dictionary: beforeBlob) } else { self.beforeBlob = nil }
+        private enum CodingKeys: String, CodingKey {
+            case changeType = "changeType"
+            case afterBlob = "afterBlob"
+            case beforeBlob = "beforeBlob"
         }
     }
 
     public struct RepositoryNameIdPair: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryId", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: false, type: .string)
         ]
         /// The ID associated with the repository.
         public let repositoryId: String?
@@ -584,13 +547,13 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.repositoryId = dictionary["repositoryId"] as? String
-            self.repositoryName = dictionary["repositoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryId = "repositoryId"
+            case repositoryName = "repositoryName"
         }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible {
+    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
         case all = "all"
         case updatereference = "updateReference"
         case createreference = "createReference"
@@ -600,15 +563,14 @@ extension Codecommit {
 
     public struct GetDifferencesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "afterCommitSpecifier", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "beforeCommitSpecifier", required: false, type: .string), 
-            AWSShapeProperty(label: "beforePath", required: false, type: .string), 
-            AWSShapeProperty(label: "afterPath", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "afterCommitSpecifier", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "beforeCommitSpecifier", required: false, type: .string), 
+            AWSShapeMember(label: "beforePath", required: false, type: .string), 
+            AWSShapeMember(label: "afterPath", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         public let afterCommitSpecifier: String
@@ -635,26 +597,23 @@ extension Codecommit {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let afterCommitSpecifier = dictionary["afterCommitSpecifier"] as? String else { throw InitializableError.missingRequiredParam("afterCommitSpecifier") }
-            self.afterCommitSpecifier = afterCommitSpecifier
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.beforeCommitSpecifier = dictionary["beforeCommitSpecifier"] as? String
-            self.beforePath = dictionary["beforePath"] as? String
-            self.afterPath = dictionary["afterPath"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case afterCommitSpecifier = "afterCommitSpecifier"
+            case repositoryName = "repositoryName"
+            case beforeCommitSpecifier = "beforeCommitSpecifier"
+            case beforePath = "beforePath"
+            case afterPath = "afterPath"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateBranchInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branchName", required: true, type: .string), 
-            AWSShapeProperty(label: "commitId", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branchName", required: true, type: .string), 
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the new branch to create.
         public let branchName: String
@@ -669,21 +628,17 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let branchName = dictionary["branchName"] as? String else { throw InitializableError.missingRequiredParam("branchName") }
-            self.branchName = branchName
-            guard let commitId = dictionary["commitId"] as? String else { throw InitializableError.missingRequiredParam("commitId") }
-            self.commitId = commitId
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct DeleteRepositoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository to delete.
         public let repositoryName: String
@@ -692,18 +647,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct ListBranchesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// An enumeration token that allows the operation to batch the results.
         public let nextToken: String?
@@ -715,18 +668,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetBranchOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "branch", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "branch", required: false, type: .structure)
         ]
         /// The name of the branch.
         public let branch: BranchInfo?
@@ -735,17 +686,16 @@ extension Codecommit {
             self.branch = branch
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let branch = dictionary["branch"] as? [String: Any] { self.branch = try Codecommit.BranchInfo(dictionary: branch) } else { self.branch = nil }
+        private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
         }
     }
 
     public struct GetCommitInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "commitId", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "commitId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The commit ID.
         public let commitId: String
@@ -757,19 +707,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let commitId = dictionary["commitId"] as? String else { throw InitializableError.missingRequiredParam("commitId") }
-            self.commitId = commitId
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case commitId = "commitId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetRepositoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository to get information about.
         public let repositoryName: String
@@ -778,18 +725,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct GetRepositoryTriggersOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationId", required: false, type: .string), 
-            AWSShapeProperty(label: "triggers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationId", required: false, type: .string), 
+            AWSShapeMember(label: "triggers", required: false, type: .list)
         ]
         /// The system-generated unique ID for the trigger.
         public let configurationId: String?
@@ -801,21 +746,16 @@ extension Codecommit {
             self.triggers = triggers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationId = dictionary["configurationId"] as? String
-            if let triggers = dictionary["triggers"] as? [[String: Any]] {
-                self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
-            } else { 
-                self.triggers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+            case triggers = "triggers"
         }
     }
 
     public struct GetRepositoryTriggersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
@@ -824,18 +764,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct UpdateRepositoryNameInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "oldName", required: true, type: .string), 
-            AWSShapeProperty(label: "newName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "oldName", required: true, type: .string), 
+            AWSShapeMember(label: "newName", required: true, type: .string)
         ]
         /// The existing name of the repository.
         public let oldName: String
@@ -847,20 +785,17 @@ extension Codecommit {
             self.newName = newName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let oldName = dictionary["oldName"] as? String else { throw InitializableError.missingRequiredParam("oldName") }
-            self.oldName = oldName
-            guard let newName = dictionary["newName"] as? String else { throw InitializableError.missingRequiredParam("newName") }
-            self.newName = newName
+        private enum CodingKeys: String, CodingKey {
+            case oldName = "oldName"
+            case newName = "newName"
         }
     }
 
     public struct BatchGetRepositoriesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositories", required: false, type: .list), 
-            AWSShapeProperty(label: "repositoriesNotFound", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositories", required: false, type: .list), 
+            AWSShapeMember(label: "repositoriesNotFound", required: false, type: .list)
         ]
         /// A list of repositories returned by the batch get repositories operation.
         public let repositories: [RepositoryMetadata]?
@@ -872,22 +807,17 @@ extension Codecommit {
             self.repositoriesNotFound = repositoriesNotFound
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let repositories = dictionary["repositories"] as? [[String: Any]] {
-                self.repositories = try repositories.map({ try RepositoryMetadata(dictionary: $0) })
-            } else { 
-                self.repositories = nil
-            }
-            self.repositoriesNotFound = dictionary["repositoriesNotFound"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case repositories = "repositories"
+            case repositoriesNotFound = "repositoriesNotFound"
         }
     }
 
     public struct GetDifferencesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "differences", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "differences", required: false, type: .list)
         ]
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
@@ -899,23 +829,18 @@ extension Codecommit {
             self.differences = differences
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let differences = dictionary["differences"] as? [[String: Any]] {
-                self.differences = try differences.map({ try Difference(dictionary: $0) })
-            } else { 
-                self.differences = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case differences = "differences"
         }
     }
 
     public struct ListRepositoriesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sortBy", required: false, type: .enum), 
-            AWSShapeProperty(label: "order", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "order", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The criteria used to sort the results of a list repositories operation.
         public let sortBy: SortByEnum?
@@ -930,18 +855,17 @@ extension Codecommit {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sortBy = dictionary["sortBy"] as? String { self.sortBy = SortByEnum(rawValue: sortBy) } else { self.sortBy = nil }
-            if let order = dictionary["order"] as? String { self.order = OrderEnum(rawValue: order) } else { self.order = nil }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "sortBy"
+            case order = "order"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetBlobOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "content", required: true, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "content", required: true, type: .blob)
         ]
         /// The content of the blob, usually a file.
         public let content: Data
@@ -950,18 +874,16 @@ extension Codecommit {
             self.content = content
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["content"] as? Data else { throw InitializableError.missingRequiredParam("content") }
-            self.content = content
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
         }
     }
 
     public struct RepositoryTriggerExecutionFailure: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "trigger", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "trigger", required: false, type: .string)
         ]
         /// Additional message information about the trigger that did not run.
         public let failureMessage: String?
@@ -973,18 +895,17 @@ extension Codecommit {
             self.trigger = trigger
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failureMessage = dictionary["failureMessage"] as? String
-            self.trigger = dictionary["trigger"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case failureMessage = "failureMessage"
+            case trigger = "trigger"
         }
     }
 
     public struct GetBlobInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "blobId", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "blobId", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The ID of the blob, which is its SHA-1 pointer.
         public let blobId: String
@@ -996,20 +917,17 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let blobId = dictionary["blobId"] as? String else { throw InitializableError.missingRequiredParam("blobId") }
-            self.blobId = blobId
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case blobId = "blobId"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct CreateRepositoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string), 
-            AWSShapeProperty(label: "repositoryDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryName", required: true, type: .string), 
+            AWSShapeMember(label: "repositoryDescription", required: false, type: .string)
         ]
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
         public let repositoryName: String
@@ -1021,19 +939,17 @@ extension Codecommit {
             self.repositoryDescription = repositoryDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
-            self.repositoryDescription = dictionary["repositoryDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case repositoryName = "repositoryName"
+            case repositoryDescription = "repositoryDescription"
         }
     }
 
     public struct PutRepositoryTriggersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "triggers", required: true, type: .list), 
-            AWSShapeProperty(label: "repositoryName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "triggers", required: true, type: .list), 
+            AWSShapeMember(label: "repositoryName", required: true, type: .string)
         ]
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]
@@ -1045,19 +961,16 @@ extension Codecommit {
             self.repositoryName = repositoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let triggers = dictionary["triggers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("triggers") }
-            self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
-            guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
-            self.repositoryName = repositoryName
+        private enum CodingKeys: String, CodingKey {
+            case triggers = "triggers"
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct BatchGetRepositoriesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "repositoryNames", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "repositoryNames", required: true, type: .list)
         ]
         /// The names of the repositories to get information about.
         public let repositoryNames: [String]
@@ -1066,9 +979,8 @@ extension Codecommit {
             self.repositoryNames = repositoryNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let repositoryNames = dictionary["repositoryNames"] as? [String] else { throw InitializableError.missingRequiredParam("repositoryNames") }
-            self.repositoryNames = repositoryNames
+        private enum CodingKeys: String, CodingKey {
+            case repositoryNames = "repositoryNames"
         }
     }
 

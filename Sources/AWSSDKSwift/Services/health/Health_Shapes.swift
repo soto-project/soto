@@ -31,9 +31,8 @@ extension Health {
 
     public struct DescribeEntityAggregatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "entityAggregates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entityAggregates", required: false, type: .list)
         ]
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
@@ -42,29 +41,24 @@ extension Health {
             self.entityAggregates = entityAggregates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let entityAggregates = dictionary["entityAggregates"] as? [[String: Any]] {
-                self.entityAggregates = try entityAggregates.map({ try EntityAggregate(dictionary: $0) })
-            } else { 
-                self.entityAggregates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case entityAggregates = "entityAggregates"
         }
     }
 
     public struct AffectedEntity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "entityArn", required: false, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "awsAccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
-            AWSShapeProperty(label: "entityValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "entityArn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "awsAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "eventArn", required: false, type: .string), 
+            AWSShapeMember(label: "entityValue", required: false, type: .string)
         ]
         /// The most recent time that the entity was updated.
-        public let lastUpdatedTime: String?
+        public let lastUpdatedTime: Double?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
@@ -78,7 +72,7 @@ extension Health {
         /// The ID of the affected entity.
         public let entityValue: String?
 
-        public init(lastUpdatedTime: String? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
+        public init(lastUpdatedTime: Double? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.statusCode = statusCode
             self.entityArn = entityArn
@@ -88,28 +82,23 @@ extension Health {
             self.entityValue = entityValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? String
-            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = EntityStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
-            self.entityArn = dictionary["entityArn"] as? String
-            if let tags = dictionary["tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
-            self.awsAccountId = dictionary["awsAccountId"] as? String
-            self.eventArn = dictionary["eventArn"] as? String
-            self.entityValue = dictionary["entityValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "lastUpdatedTime"
+            case statusCode = "statusCode"
+            case entityArn = "entityArn"
+            case tags = "tags"
+            case awsAccountId = "awsAccountId"
+            case eventArn = "eventArn"
+            case entityValue = "entityValue"
         }
     }
 
     public struct EventDetailsErrorItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
-            AWSShapeProperty(label: "errorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "errorName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArn", required: false, type: .string), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "errorName", required: false, type: .string)
         ]
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let eventArn: String?
@@ -124,20 +113,19 @@ extension Health {
             self.errorName = errorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventArn = dictionary["eventArn"] as? String
-            self.errorMessage = dictionary["errorMessage"] as? String
-            self.errorName = dictionary["errorName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventArn = "eventArn"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
         }
     }
 
     public struct EventTypeFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
-            AWSShapeProperty(label: "services", required: false, type: .list), 
-            AWSShapeProperty(label: "eventTypeCodes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list)
         ]
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
@@ -152,19 +140,18 @@ extension Health {
             self.eventTypeCodes = eventTypeCodes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] { self.eventTypeCategories = eventTypeCategories.flatMap({ EventTypeCategory(rawValue: $0)}) } else { self.eventTypeCategories = nil }
-            self.services = dictionary["services"] as? [String]
-            self.eventTypeCodes = dictionary["eventTypeCodes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case eventTypeCategories = "eventTypeCategories"
+            case services = "services"
+            case eventTypeCodes = "eventTypeCodes"
         }
     }
 
     public struct DescribeAffectedEntitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "entities", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entities", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The entities that match the filter criteria.
         public let entities: [AffectedEntity]?
@@ -176,17 +163,13 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let entities = dictionary["entities"] as? [[String: Any]] {
-                self.entities = try entities.map({ try AffectedEntity(dictionary: $0) })
-            } else { 
-                self.entities = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum EventTypeCategory: String, CustomStringConvertible {
+    public enum EventTypeCategory: String, CustomStringConvertible, Codable {
         case issue = "issue"
         case accountnotification = "accountNotification"
         case scheduledchange = "scheduledChange"
@@ -195,25 +178,24 @@ extension Health {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .string), 
-            AWSShapeProperty(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "lastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "statusCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "eventTypeCategory", required: false, type: .enum), 
-            AWSShapeProperty(label: "region", required: false, type: .string), 
-            AWSShapeProperty(label: "endTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "eventTypeCode", required: false, type: .string), 
-            AWSShapeProperty(label: "startTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "lastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "statusCode", required: false, type: .enum), 
+            AWSShapeMember(label: "eventTypeCategory", required: false, type: .enum), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "endTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "eventTypeCode", required: false, type: .string), 
+            AWSShapeMember(label: "startTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         public let availabilityZone: String?
         /// The most recent date and time that the event was updated.
-        public let lastUpdatedTime: String?
+        public let lastUpdatedTime: Double?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
         /// The 
@@ -221,15 +203,15 @@ extension Health {
         /// The AWS region name of the event.
         public let region: String?
         /// The date and time that the event ended.
-        public let endTime: String?
+        public let endTime: Double?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let eventTypeCode: String?
         /// The date and time that the event began.
-        public let startTime: String?
+        public let startTime: Double?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let arn: String?
 
-        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: String? = nil, statusCode: EventStatusCode? = nil, eventTypeCategory: EventTypeCategory? = nil, region: String? = nil, endTime: String? = nil, eventTypeCode: String? = nil, startTime: String? = nil, arn: String? = nil) {
+        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Double? = nil, statusCode: EventStatusCode? = nil, eventTypeCategory: EventTypeCategory? = nil, region: String? = nil, endTime: Double? = nil, eventTypeCode: String? = nil, startTime: Double? = nil, arn: String? = nil) {
             self.service = service
             self.availabilityZone = availabilityZone
             self.lastUpdatedTime = lastUpdatedTime
@@ -242,26 +224,25 @@ extension Health {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.service = dictionary["service"] as? String
-            self.availabilityZone = dictionary["availabilityZone"] as? String
-            self.lastUpdatedTime = dictionary["lastUpdatedTime"] as? String
-            if let statusCode = dictionary["statusCode"] as? String { self.statusCode = EventStatusCode(rawValue: statusCode) } else { self.statusCode = nil }
-            if let eventTypeCategory = dictionary["eventTypeCategory"] as? String { self.eventTypeCategory = EventTypeCategory(rawValue: eventTypeCategory) } else { self.eventTypeCategory = nil }
-            self.region = dictionary["region"] as? String
-            self.endTime = dictionary["endTime"] as? String
-            self.eventTypeCode = dictionary["eventTypeCode"] as? String
-            self.startTime = dictionary["startTime"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
+            case availabilityZone = "availabilityZone"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case statusCode = "statusCode"
+            case eventTypeCategory = "eventTypeCategory"
+            case region = "region"
+            case endTime = "endTime"
+            case eventTypeCode = "eventTypeCode"
+            case startTime = "startTime"
+            case arn = "arn"
         }
     }
 
     public struct DescribeEventDetailsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "failedSet", required: false, type: .list), 
-            AWSShapeProperty(label: "successfulSet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "failedSet", required: false, type: .list), 
+            AWSShapeMember(label: "successfulSet", required: false, type: .list)
         ]
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [EventDetailsErrorItem]?
@@ -273,26 +254,17 @@ extension Health {
             self.successfulSet = successfulSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedSet = dictionary["failedSet"] as? [[String: Any]] {
-                self.failedSet = try failedSet.map({ try EventDetailsErrorItem(dictionary: $0) })
-            } else { 
-                self.failedSet = nil
-            }
-            if let successfulSet = dictionary["successfulSet"] as? [[String: Any]] {
-                self.successfulSet = try successfulSet.map({ try EventDetails(dictionary: $0) })
-            } else { 
-                self.successfulSet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
         }
     }
 
     public struct DescribeEventDetailsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventArns", required: true, type: .list), 
-            AWSShapeProperty(label: "locale", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArns", required: true, type: .list), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]
@@ -304,14 +276,13 @@ extension Health {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventArns = dictionary["eventArns"] as? [String] else { throw InitializableError.missingRequiredParam("eventArns") }
-            self.eventArns = eventArns
-            self.locale = dictionary["locale"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventArns = "eventArns"
+            case locale = "locale"
         }
     }
 
-    public enum EventStatusCode: String, CustomStringConvertible {
+    public enum EventStatusCode: String, CustomStringConvertible, Codable {
         case open = "open"
         case closed = "closed"
         case upcoming = "upcoming"
@@ -320,9 +291,8 @@ extension Health {
 
     public struct EventDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "latestDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "latestDescription", required: false, type: .string)
         ]
         /// The most recent description of the event.
         public let latestDescription: String?
@@ -331,17 +301,16 @@ extension Health {
             self.latestDescription = latestDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.latestDescription = dictionary["latestDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case latestDescription = "latestDescription"
         }
     }
 
     public struct DescribeEventAggregatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventAggregates", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventAggregates", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The number of events in each category that meet the optional filter criteria.
         public let eventAggregates: [EventAggregate]?
@@ -353,24 +322,19 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventAggregates = dictionary["eventAggregates"] as? [[String: Any]] {
-                self.eventAggregates = try eventAggregates.map({ try EventAggregate(dictionary: $0) })
-            } else { 
-                self.eventAggregates = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventAggregates = "eventAggregates"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventAggregatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "aggregateField", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "aggregateField", required: true, type: .enum)
         ]
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -388,32 +352,30 @@ extension Health {
             self.aggregateField = aggregateField
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) } else { self.filter = nil }
-            self.maxResults = dictionary["maxResults"] as? Int32
-            guard let rawaggregateField = dictionary["aggregateField"] as? String, let aggregateField = EventAggregateField(rawValue: rawaggregateField) else { throw InitializableError.missingRequiredParam("aggregateField") }
-            self.aggregateField = aggregateField
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case aggregateField = "aggregateField"
         }
     }
 
     public struct EventFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventTypeCategories", required: false, type: .list), 
-            AWSShapeProperty(label: "eventArns", required: false, type: .list), 
-            AWSShapeProperty(label: "eventStatusCodes", required: false, type: .list), 
-            AWSShapeProperty(label: "lastUpdatedTimes", required: false, type: .list), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "eventTypeCodes", required: false, type: .list), 
-            AWSShapeProperty(label: "entityArns", required: false, type: .list), 
-            AWSShapeProperty(label: "entityValues", required: false, type: .list), 
-            AWSShapeProperty(label: "availabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "services", required: false, type: .list), 
-            AWSShapeProperty(label: "endTimes", required: false, type: .list), 
-            AWSShapeProperty(label: "regions", required: false, type: .list), 
-            AWSShapeProperty(label: "startTimes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventTypeCategories", required: false, type: .list), 
+            AWSShapeMember(label: "eventArns", required: false, type: .list), 
+            AWSShapeMember(label: "eventStatusCodes", required: false, type: .list), 
+            AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "eventTypeCodes", required: false, type: .list), 
+            AWSShapeMember(label: "entityArns", required: false, type: .list), 
+            AWSShapeMember(label: "entityValues", required: false, type: .list), 
+            AWSShapeMember(label: "availabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "services", required: false, type: .list), 
+            AWSShapeMember(label: "endTimes", required: false, type: .list), 
+            AWSShapeMember(label: "regions", required: false, type: .list), 
+            AWSShapeMember(label: "startTimes", required: false, type: .list)
         ]
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
@@ -458,41 +420,28 @@ extension Health {
             self.startTimes = startTimes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] { self.eventTypeCategories = eventTypeCategories.flatMap({ EventTypeCategory(rawValue: $0)}) } else { self.eventTypeCategories = nil }
-            self.eventArns = dictionary["eventArns"] as? [String]
-            if let eventStatusCodes = dictionary["eventStatusCodes"] as? [String] { self.eventStatusCodes = eventStatusCodes.flatMap({ EventStatusCode(rawValue: $0)}) } else { self.eventStatusCodes = nil }
-            if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
-                self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
-            } else { 
-                self.lastUpdatedTimes = nil
-            }
-            self.tags = dictionary["tags"] as? [[String: String]]
-            self.eventTypeCodes = dictionary["eventTypeCodes"] as? [String]
-            self.entityArns = dictionary["entityArns"] as? [String]
-            self.entityValues = dictionary["entityValues"] as? [String]
-            self.availabilityZones = dictionary["availabilityZones"] as? [String]
-            self.services = dictionary["services"] as? [String]
-            if let endTimes = dictionary["endTimes"] as? [[String: Any]] {
-                self.endTimes = try endTimes.map({ try DateTimeRange(dictionary: $0) })
-            } else { 
-                self.endTimes = nil
-            }
-            self.regions = dictionary["regions"] as? [String]
-            if let startTimes = dictionary["startTimes"] as? [[String: Any]] {
-                self.startTimes = try startTimes.map({ try DateTimeRange(dictionary: $0) })
-            } else { 
-                self.startTimes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventTypeCategories = "eventTypeCategories"
+            case eventArns = "eventArns"
+            case eventStatusCodes = "eventStatusCodes"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case tags = "tags"
+            case eventTypeCodes = "eventTypeCodes"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case availabilityZones = "availabilityZones"
+            case services = "services"
+            case endTimes = "endTimes"
+            case regions = "regions"
+            case startTimes = "startTimes"
         }
     }
 
     public struct EventAggregate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "count", required: false, type: .integer), 
-            AWSShapeProperty(label: "aggregateValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "count", required: false, type: .integer), 
+            AWSShapeMember(label: "aggregateValue", required: false, type: .string)
         ]
         /// The number of events of the associated issue type.
         public let count: Int32?
@@ -504,23 +453,22 @@ extension Health {
             self.aggregateValue = aggregateValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.count = dictionary["count"] as? Int32
-            self.aggregateValue = dictionary["aggregateValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case aggregateValue = "aggregateValue"
         }
     }
 
-    public enum EventAggregateField: String, CustomStringConvertible {
+    public enum EventAggregateField: String, CustomStringConvertible, Codable {
         case eventtypecategory = "eventTypeCategory"
         public var description: String { return self.rawValue }
     }
 
     public struct EntityAggregate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventArn", required: false, type: .string), 
-            AWSShapeProperty(label: "count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArn", required: false, type: .string), 
+            AWSShapeMember(label: "count", required: false, type: .integer)
         ]
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let eventArn: String?
@@ -532,19 +480,18 @@ extension Health {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventArn = dictionary["eventArn"] as? String
-            self.count = dictionary["count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case eventArn = "eventArn"
+            case count = "count"
         }
     }
 
     public struct EventType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "service", required: false, type: .string), 
-            AWSShapeProperty(label: "category", required: false, type: .enum), 
-            AWSShapeProperty(label: "code", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "service", required: false, type: .string), 
+            AWSShapeMember(label: "category", required: false, type: .enum), 
+            AWSShapeMember(label: "code", required: false, type: .string)
         ]
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
@@ -559,18 +506,17 @@ extension Health {
             self.code = code
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.service = dictionary["service"] as? String
-            if let category = dictionary["category"] as? String { self.category = EventTypeCategory(rawValue: category) } else { self.category = nil }
-            self.code = dictionary["code"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
+            case category = "category"
+            case code = "code"
         }
     }
 
     public struct DescribeEntityAggregatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArns", required: false, type: .list)
         ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]?
@@ -579,17 +525,16 @@ extension Health {
             self.eventArns = eventArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventArns = dictionary["eventArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case eventArns = "eventArns"
         }
     }
 
     public struct DescribeEventTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventTypes", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public let eventTypes: [EventType]?
@@ -601,23 +546,18 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventTypes = dictionary["eventTypes"] as? [[String: Any]] {
-                self.eventTypes = try eventTypes.map({ try EventType(dictionary: $0) })
-            } else { 
-                self.eventTypes = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventTypes = "eventTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct EventDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventMetadata", required: false, type: .map), 
-            AWSShapeProperty(label: "event", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventMetadata", required: false, type: .map), 
+            AWSShapeMember(label: "event", required: false, type: .structure), 
+            AWSShapeMember(label: "eventDescription", required: false, type: .structure)
         ]
         /// Additional metadata about the event.
         public let eventMetadata: [String: String]?
@@ -632,25 +572,20 @@ extension Health {
             self.eventDescription = eventDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventMetadata = dictionary["eventMetadata"] as? [String: String] {
-                self.eventMetadata = eventMetadata
-            } else { 
-                self.eventMetadata = nil
-            }
-            if let event = dictionary["event"] as? [String: Any] { self.event = try Health.Event(dictionary: event) } else { self.event = nil }
-            if let eventDescription = dictionary["eventDescription"] as? [String: Any] { self.eventDescription = try Health.EventDescription(dictionary: eventDescription) } else { self.eventDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventMetadata = "eventMetadata"
+            case event = "event"
+            case eventDescription = "eventDescription"
         }
     }
 
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: true, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "locale", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: true, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
@@ -668,23 +603,21 @@ extension Health {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            guard let filter = dictionary["filter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("filter") }
-            self.filter = try Health.EntityFilter(dictionary: filter)
-            self.nextToken = dictionary["nextToken"] as? String
-            self.locale = dictionary["locale"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case locale = "locale"
         }
     }
 
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "locale", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
@@ -702,47 +635,45 @@ extension Health {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.locale = dictionary["locale"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case locale = "locale"
         }
     }
 
     public struct DateTimeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "to", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "from", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "to", required: false, type: .timestamp), 
+            AWSShapeMember(label: "from", required: false, type: .timestamp)
         ]
         /// The ending date and time of a time range.
-        public let to: String?
+        public let to: Double?
         /// The starting date and time of a time range.
-        public let from: String?
+        public let from: Double?
 
-        public init(to: String? = nil, from: String? = nil) {
+        public init(to: Double? = nil, from: Double? = nil) {
             self.to = to
             self.from = from
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.to = dictionary["to"] as? String
-            self.from = dictionary["from"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case to = "to"
+            case from = "from"
         }
     }
 
     public struct EntityFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "eventArns", required: true, type: .list), 
-            AWSShapeProperty(label: "lastUpdatedTimes", required: false, type: .list), 
-            AWSShapeProperty(label: "statusCodes", required: false, type: .list), 
-            AWSShapeProperty(label: "tags", required: false, type: .list), 
-            AWSShapeProperty(label: "entityArns", required: false, type: .list), 
-            AWSShapeProperty(label: "entityValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "eventArns", required: true, type: .list), 
+            AWSShapeMember(label: "lastUpdatedTimes", required: false, type: .list), 
+            AWSShapeMember(label: "statusCodes", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .list), 
+            AWSShapeMember(label: "entityArns", required: false, type: .list), 
+            AWSShapeMember(label: "entityValues", required: false, type: .list)
         ]
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public let eventArns: [String]
@@ -766,22 +697,17 @@ extension Health {
             self.entityValues = entityValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let eventArns = dictionary["eventArns"] as? [String] else { throw InitializableError.missingRequiredParam("eventArns") }
-            self.eventArns = eventArns
-            if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
-                self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
-            } else { 
-                self.lastUpdatedTimes = nil
-            }
-            if let statusCodes = dictionary["statusCodes"] as? [String] { self.statusCodes = statusCodes.flatMap({ EntityStatusCode(rawValue: $0)}) } else { self.statusCodes = nil }
-            self.tags = dictionary["tags"] as? [[String: String]]
-            self.entityArns = dictionary["entityArns"] as? [String]
-            self.entityValues = dictionary["entityValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case eventArns = "eventArns"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case statusCodes = "statusCodes"
+            case tags = "tags"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
         }
     }
 
-    public enum EntityStatusCode: String, CustomStringConvertible {
+    public enum EntityStatusCode: String, CustomStringConvertible, Codable {
         case impaired = "IMPAIRED"
         case unimpaired = "UNIMPAIRED"
         case unknown = "UNKNOWN"
@@ -790,12 +716,11 @@ extension Health {
 
     public struct DescribeEventTypesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "filter", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "locale", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "filter", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "locale", required: false, type: .string)
         ]
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int32?
@@ -813,20 +738,19 @@ extension Health {
             self.locale = locale
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventTypeFilter(dictionary: filter) } else { self.filter = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.locale = dictionary["locale"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case filter = "filter"
+            case nextToken = "nextToken"
+            case locale = "locale"
         }
     }
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "events", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "events", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The events that match the specified filter criteria.
         public let events: [Event]?
@@ -838,13 +762,9 @@ extension Health {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let events = dictionary["events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 

@@ -31,12 +31,11 @@ extension Clouddirectory {
 
     public struct FacetAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeDefinition", required: false, type: .structure), 
-            AWSShapeProperty(label: "AttributeReference", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "RequiredBehavior", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeReference", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RequiredBehavior", required: false, type: .enum)
         ]
         /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
         public let attributeDefinition: FacetAttributeDefinition?
@@ -54,21 +53,19 @@ extension Clouddirectory {
             self.requiredBehavior = requiredBehavior
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeDefinition = dictionary["AttributeDefinition"] as? [String: Any] { self.attributeDefinition = try Clouddirectory.FacetAttributeDefinition(dictionary: attributeDefinition) } else { self.attributeDefinition = nil }
-            if let attributeReference = dictionary["AttributeReference"] as? [String: Any] { self.attributeReference = try Clouddirectory.FacetAttributeReference(dictionary: attributeReference) } else { self.attributeReference = nil }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let requiredBehavior = dictionary["RequiredBehavior"] as? String { self.requiredBehavior = RequiredAttributeBehavior(rawValue: requiredBehavior) } else { self.requiredBehavior = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attributeDefinition = "AttributeDefinition"
+            case attributeReference = "AttributeReference"
+            case name = "Name"
+            case requiredBehavior = "RequiredBehavior"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
@@ -80,19 +77,16 @@ extension Clouddirectory {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
         }
     }
 
     public struct UpdateSchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The ARN that is associated with the updated schema. For more information, see arns.
         public let schemaArn: String?
@@ -101,17 +95,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArn = dictionary["SchemaArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
         }
     }
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map)
         ]
         /// The type of attribute validation rule.
         public let `type`: RuleType?
@@ -123,21 +116,16 @@ extension Clouddirectory {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = RuleType(rawValue: `type`) } else { self.`type` = nil }
-            if let parameters = dictionary["Parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case parameters = "Parameters"
         }
     }
 
     public struct GetDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory.
         public let directoryArn: String
@@ -146,18 +134,16 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ListObjectChildrenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Children", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Children", required: false, type: .map)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -169,25 +155,18 @@ extension Clouddirectory {
             self.children = children
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let children = dictionary["Children"] as? [String: String] {
-                self.children = children
-            } else { 
-                self.children = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case children = "Children"
         }
     }
 
     public struct AddFacetToObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum BatchReadExceptionType: String, CustomStringConvertible {
+    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
         case validationexception = "ValidationException"
         case invalidarnexception = "InvalidArnException"
         case resourcenotfoundexception = "ResourceNotFoundException"
@@ -199,12 +178,11 @@ extension Clouddirectory {
 
     public struct TypedAttributeValueRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndValue", required: false, type: .structure), 
-            AWSShapeProperty(label: "EndMode", required: true, type: .enum), 
-            AWSShapeProperty(label: "StartValue", required: false, type: .structure), 
-            AWSShapeProperty(label: "StartMode", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndValue", required: false, type: .structure), 
+            AWSShapeMember(label: "EndMode", required: true, type: .enum), 
+            AWSShapeMember(label: "StartValue", required: false, type: .structure), 
+            AWSShapeMember(label: "StartMode", required: true, type: .enum)
         ]
         /// The attribute value to terminate the range at.
         public let endValue: TypedAttributeValue?
@@ -222,17 +200,15 @@ extension Clouddirectory {
             self.startMode = startMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let endValue = dictionary["EndValue"] as? [String: Any] { self.endValue = try Clouddirectory.TypedAttributeValue(dictionary: endValue) } else { self.endValue = nil }
-            guard let rawEndMode = dictionary["EndMode"] as? String, let endMode = RangeMode(rawValue: rawEndMode) else { throw InitializableError.missingRequiredParam("EndMode") }
-            self.endMode = endMode
-            if let startValue = dictionary["StartValue"] as? [String: Any] { self.startValue = try Clouddirectory.TypedAttributeValue(dictionary: startValue) } else { self.startValue = nil }
-            guard let rawStartMode = dictionary["StartMode"] as? String, let startMode = RangeMode(rawValue: rawStartMode) else { throw InitializableError.missingRequiredParam("StartMode") }
-            self.startMode = startMode
+        private enum CodingKeys: String, CodingKey {
+            case endValue = "EndValue"
+            case endMode = "EndMode"
+            case startValue = "StartValue"
+            case startMode = "StartMode"
         }
     }
 
-    public enum RangeMode: String, CustomStringConvertible {
+    public enum RangeMode: String, CustomStringConvertible, Codable {
         case first = "FIRST"
         case last = "LAST"
         case last_before_missing_values = "LAST_BEFORE_MISSING_VALUES"
@@ -243,10 +219,9 @@ extension Clouddirectory {
 
     public struct GetSchemaAsJsonResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The JSON representation of the schema document.
         public let document: String?
@@ -258,20 +233,19 @@ extension Clouddirectory {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.document = dictionary["Document"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case name = "Name"
         }
     }
 
     public struct AddFacetToObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectAttributeList", required: false, type: .list), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
@@ -289,22 +263,15 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
-            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
-            if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
-                self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
-            } else { 
-                self.objectAttributeList = nil
-            }
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case schemaFacet = "SchemaFacet"
+            case objectAttributeList = "ObjectAttributeList"
+            case objectReference = "ObjectReference"
         }
     }
 
-    public enum ObjectType: String, CustomStringConvertible {
+    public enum ObjectType: String, CustomStringConvertible, Codable {
         case node = "NODE"
         case leaf_node = "LEAF_NODE"
         case policy = "POLICY"
@@ -314,10 +281,9 @@ extension Clouddirectory {
 
     public struct ListDevelopmentSchemaArnsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -329,23 +295,22 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Directory: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DirectoryArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
         ]
         /// The date and time when the directory was created.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see arns.
         public let directoryArn: String?
         /// The name of the directory.
@@ -353,26 +318,25 @@ extension Clouddirectory {
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
 
-        public init(creationDateTime: String? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
+        public init(creationDateTime: Double? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
             self.name = name
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.directoryArn = dictionary["DirectoryArn"] as? String
-            self.name = dictionary["Name"] as? String
-            if let state = dictionary["State"] as? String { self.state = DirectoryState(rawValue: state) } else { self.state = nil }
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime = "CreationDateTime"
+            case directoryArn = "DirectoryArn"
+            case name = "Name"
+            case state = "State"
         }
     }
 
     public struct GetTypedLinkFacetInformationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityAttributeOrder", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityAttributeOrder", required: false, type: .list)
         ]
         /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed link.
         public let identityAttributeOrder: [String]?
@@ -381,17 +345,16 @@ extension Clouddirectory {
             self.identityAttributeOrder = identityAttributeOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityAttributeOrder = dictionary["IdentityAttributeOrder"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case identityAttributeOrder = "IdentityAttributeOrder"
         }
     }
 
     public struct LookupPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyToPathList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyToPathList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType. For more information, see Policies.
         public let policyToPathList: [PolicyToPath]?
@@ -403,29 +366,21 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyToPathList = dictionary["PolicyToPathList"] as? [[String: Any]] {
-                self.policyToPathList = try policyToPathList.map({ try PolicyToPath(dictionary: $0) })
-            } else { 
-                self.policyToPathList = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyToPathList = "PolicyToPathList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct BatchRemoveFacetFromObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateSchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
         public let schemaArn: String?
@@ -434,18 +389,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArn = dictionary["SchemaArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
         }
     }
 
     public struct RemoveFacetFromObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The facet to remove.
         public let schemaFacet: SchemaFacet
@@ -460,22 +414,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
-            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ObjectAttributeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Range", required: false, type: .structure), 
-            AWSShapeProperty(label: "AttributeKey", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Range", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeKey", required: false, type: .structure)
         ]
         /// The range of attribute values being selected.
         public let range: TypedAttributeValueRange?
@@ -487,18 +437,17 @@ extension Clouddirectory {
             self.attributeKey = attributeKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let range = dictionary["Range"] as? [String: Any] { self.range = try Clouddirectory.TypedAttributeValueRange(dictionary: range) } else { self.range = nil }
-            if let attributeKey = dictionary["AttributeKey"] as? [String: Any] { self.attributeKey = try Clouddirectory.AttributeKey(dictionary: attributeKey) } else { self.attributeKey = nil }
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
+            case attributeKey = "AttributeKey"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value that is associated with the tag.
         public let value: String?
@@ -510,23 +459,22 @@ extension Clouddirectory {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct BatchWriteOperationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "UpdateObjectAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "RemoveFacetFromObject", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure)
         ]
         /// The result of an add facet to object batch operation.
         public let addFacetToObject: BatchAddFacetToObjectResponse?
@@ -553,18 +501,18 @@ extension Clouddirectory {
             self.removeFacetFromObject = removeFacetFromObject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObjectResponse(dictionary: addFacetToObject) } else { self.addFacetToObject = nil }
-            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributesResponse(dictionary: updateObjectAttributes) } else { self.updateObjectAttributes = nil }
-            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObjectResponse(dictionary: detachObject) } else { self.detachObject = nil }
-            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObjectResponse(dictionary: attachObject) } else { self.attachObject = nil }
-            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObjectResponse(dictionary: createObject) } else { self.createObject = nil }
-            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObjectResponse(dictionary: deleteObject) } else { self.deleteObject = nil }
-            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObjectResponse(dictionary: removeFacetFromObject) } else { self.removeFacetFromObject = nil }
+        private enum CodingKeys: String, CodingKey {
+            case addFacetToObject = "AddFacetToObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
+            case detachObject = "DetachObject"
+            case attachObject = "AttachObject"
+            case createObject = "CreateObject"
+            case deleteObject = "DeleteObject"
+            case removeFacetFromObject = "RemoveFacetFromObject"
         }
     }
 
-    public enum RuleType: String, CustomStringConvertible {
+    public enum RuleType: String, CustomStringConvertible, Codable {
         case binary_length = "BINARY_LENGTH"
         case number_comparison = "NUMBER_COMPARISON"
         case string_from_set = "STRING_FROM_SET"
@@ -574,15 +522,14 @@ extension Clouddirectory {
 
     public struct ListOutgoingTypedLinksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeProperty(label: "FilterTypedLink", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure)
         ]
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
@@ -609,29 +556,22 @@ extension Clouddirectory {
             self.filterTypedLink = filterTypedLink
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["ConsistencyLevel"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filterAttributeRanges = dictionary["FilterAttributeRanges"] as? [[String: Any]] {
-                self.filterAttributeRanges = try filterAttributeRanges.map({ try TypedLinkAttributeRange(dictionary: $0) })
-            } else { 
-                self.filterAttributeRanges = nil
-            }
-            if let filterTypedLink = dictionary["FilterTypedLink"] as? [String: Any] { self.filterTypedLink = try Clouddirectory.TypedLinkSchemaAndFacetName(dictionary: filterTypedLink) } else { self.filterTypedLink = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "ConsistencyLevel"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case filterTypedLink = "FilterTypedLink"
         }
     }
 
     public struct ApplySchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublishedSchemaArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublishedSchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
         public let publishedSchemaArn: String
@@ -643,24 +583,21 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let publishedSchemaArn = dictionary["PublishedSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("PublishedSchemaArn") }
-            self.publishedSchemaArn = publishedSchemaArn
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case publishedSchemaArn = "PublishedSchemaArn"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ListIndexRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "RangesOnIndexedValues", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "RangesOnIndexedValues", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The reference to the index to list.
         public let indexReference: ObjectReference
@@ -684,30 +621,23 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
-            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            if let rangesOnIndexedValues = dictionary["RangesOnIndexedValues"] as? [[String: Any]] {
-                self.rangesOnIndexedValues = try rangesOnIndexedValues.map({ try ObjectAttributeRange(dictionary: $0) })
-            } else { 
-                self.rangesOnIndexedValues = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case indexReference = "IndexReference"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "x-amz-consistency-level"
+            case rangesOnIndexedValues = "RangesOnIndexedValues"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListTypedLinkFacetAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -725,22 +655,19 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct TypedLinkFacetAttributeUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .enum), 
-            AWSShapeProperty(label: "Attribute", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: true, type: .enum), 
+            AWSShapeMember(label: "Attribute", required: true, type: .structure)
         ]
         /// The action to perform when updating the attribute.
         public let action: UpdateActionType
@@ -752,21 +679,18 @@ extension Clouddirectory {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAction = dictionary["Action"] as? String, let action = UpdateActionType(rawValue: rawAction) else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = action
-            guard let attribute = dictionary["Attribute"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attribute") }
-            self.attribute = try Clouddirectory.TypedLinkAttributeDefinition(dictionary: attribute)
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case attribute = "Attribute"
         }
     }
 
     public struct AttachToIndexRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// A reference to the object that you are attaching to the index.
         public let targetReference: ObjectReference
@@ -781,22 +705,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
-            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
-            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
-            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case targetReference = "TargetReference"
+            case indexReference = "IndexReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct DeleteTypedLinkFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The unique name of the typed link facet.
         public let name: String
@@ -808,20 +728,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct ListTypedLinkFacetAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -833,22 +750,17 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try TypedLinkAttributeDefinition(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
         }
     }
 
     public struct BatchListObjectAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -860,21 +772,16 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
         }
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory to delete.
         public let directoryArn: String
@@ -883,18 +790,16 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct DetachTypedLinkRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "TypedLinkSpecifier", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifier", required: true, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
         public let directoryArn: String
@@ -906,27 +811,21 @@ extension Clouddirectory {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            guard let typedLinkSpecifier = dictionary["TypedLinkSpecifier"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TypedLinkSpecifier") }
-            self.typedLinkSpecifier = try Clouddirectory.TypedLinkSpecifier(dictionary: typedLinkSpecifier)
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
 
     public struct DeleteFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BatchWriteResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Responses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Responses", required: false, type: .list)
         ]
         /// A list of all the responses for each batch write.
         public let responses: [BatchWriteOperationResponse]?
@@ -935,20 +834,15 @@ extension Clouddirectory {
             self.responses = responses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let responses = dictionary["Responses"] as? [[String: Any]] {
-                self.responses = try responses.map({ try BatchWriteOperationResponse(dictionary: $0) })
-            } else { 
-                self.responses = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
         }
     }
 
     public struct DeleteDirectoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the deleted directory.
         public let directoryArn: String
@@ -957,20 +851,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
         }
     }
 
     public struct AttachObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "LinkName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string)
         ]
         /// The parent object reference.
         public let parentReference: ObjectReference
@@ -988,25 +880,20 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
-            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let childReference = dictionary["ChildReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChildReference") }
-            self.childReference = try Clouddirectory.ObjectReference(dictionary: childReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
-            self.linkName = linkName
+        private enum CodingKeys: String, CodingKey {
+            case parentReference = "ParentReference"
+            case childReference = "ChildReference"
+            case directoryArn = "x-amz-data-partition"
+            case linkName = "LinkName"
         }
     }
 
     public struct GetObjectInformationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The consistency level at which to retrieve the object information.
         public let consistencyLevel: ConsistencyLevel?
@@ -1021,41 +908,32 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case consistencyLevel = "x-amz-consistency-level"
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct DeleteObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteTypedLinkFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct TypedLinkAttributeDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Rules", required: false, type: .map), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "RequiredBehavior", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Rules", required: false, type: .map), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "RequiredBehavior", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .structure)
         ]
         /// Whether the attribute is mutable or not.
         public let isImmutable: Bool?
@@ -1079,37 +957,24 @@ extension Clouddirectory {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isImmutable = dictionary["IsImmutable"] as? Bool
-            if let rules = dictionary["Rules"] as? [String: Any] {
-                var rulesDict: [String: Rule] = [:]
-                for (key, value) in rules {
-                    guard let ruleDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    rulesDict[key] = try Rule(dictionary: ruleDict)
-                }
-                self.rules = rulesDict
-            } else { 
-                self.rules = nil
-            }
-            guard let rawType = dictionary["Type"] as? String, let `type` = FacetAttributeType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let rawRequiredBehavior = dictionary["RequiredBehavior"] as? String, let requiredBehavior = RequiredAttributeBehavior(rawValue: rawRequiredBehavior) else { throw InitializableError.missingRequiredParam("RequiredBehavior") }
-            self.requiredBehavior = requiredBehavior
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) } else { self.defaultValue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case isImmutable = "IsImmutable"
+            case rules = "Rules"
+            case `type` = "Type"
+            case requiredBehavior = "RequiredBehavior"
+            case name = "Name"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct ListAttachedIndicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ARN of the directory.
         public let directoryArn: String
@@ -1130,22 +995,19 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
-            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
-            self.nextToken = dictionary["NextToken"] as? String
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
+            case targetReference = "TargetReference"
+            case nextToken = "NextToken"
+            case consistencyLevel = "x-amz-consistency-level"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateIndexResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the index created by this operation.
         public let objectIdentifier: String?
@@ -1154,17 +1016,16 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct TypedLinkAttributeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Range", required: true, type: .structure), 
-            AWSShapeProperty(label: "AttributeName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Range", required: true, type: .structure), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string)
         ]
         /// The range of attribute values that are being selected.
         public let range: TypedAttributeValueRange
@@ -1176,20 +1037,18 @@ extension Clouddirectory {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let range = dictionary["Range"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Range") }
-            self.range = try Clouddirectory.TypedAttributeValueRange(dictionary: range)
-            self.attributeName = dictionary["AttributeName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case range = "Range"
+            case attributeName = "AttributeName"
         }
     }
 
     public struct PolicyAttachment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyType", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string)
         ]
         /// The type of policy that can be associated with PolicyAttachment.
         public let policyType: String?
@@ -1204,19 +1063,18 @@ extension Clouddirectory {
             self.policyId = policyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyType = dictionary["PolicyType"] as? String
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
-            self.policyId = dictionary["PolicyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyType = "PolicyType"
+            case objectIdentifier = "ObjectIdentifier"
+            case policyId = "PolicyId"
         }
     }
 
     public struct ListAppliedSchemaArnsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The ARNs of schemas that are applied to the directory.
         public let schemaArns: [String]?
@@ -1228,17 +1086,16 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArns = dictionary["SchemaArns"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArns = "SchemaArns"
+            case nextToken = "NextToken"
         }
     }
 
     public struct EnableDirectoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the enabled directory.
         public let directoryArn: String
@@ -1247,19 +1104,17 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
@@ -1274,20 +1129,18 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
@@ -1299,22 +1152,17 @@ extension Clouddirectory {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct ListPolicyAttachmentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectIdentifiers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -1326,21 +1174,20 @@ extension Clouddirectory {
             self.objectIdentifiers = objectIdentifiers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case objectIdentifiers = "ObjectIdentifiers"
         }
     }
 
     public struct ListObjectParentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -1361,23 +1208,20 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "x-amz-consistency-level"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct PutSchemaFromJsonRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The replacement JSON schema.
         public let document: String
@@ -1389,21 +1233,18 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
-            self.document = document
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct ListAppliedSchemaArnsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
@@ -1418,20 +1259,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case directoryArn = "DirectoryArn"
         }
     }
 
     public struct ObjectAttributeAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectAttributeActionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ObjectAttributeUpdateValue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectAttributeActionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectAttributeUpdateValue", required: false, type: .structure)
         ]
         /// A type that can be either Update or Delete.
         public let objectAttributeActionType: UpdateActionType?
@@ -1443,19 +1282,18 @@ extension Clouddirectory {
             self.objectAttributeUpdateValue = objectAttributeUpdateValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let objectAttributeActionType = dictionary["ObjectAttributeActionType"] as? String { self.objectAttributeActionType = UpdateActionType(rawValue: objectAttributeActionType) } else { self.objectAttributeActionType = nil }
-            if let objectAttributeUpdateValue = dictionary["ObjectAttributeUpdateValue"] as? [String: Any] { self.objectAttributeUpdateValue = try Clouddirectory.TypedAttributeValue(dictionary: objectAttributeUpdateValue) } else { self.objectAttributeUpdateValue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case objectAttributeActionType = "ObjectAttributeActionType"
+            case objectAttributeUpdateValue = "ObjectAttributeUpdateValue"
         }
     }
 
     public struct DetachObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LinkName", required: true, type: .string), 
-            AWSShapeProperty(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkName", required: true, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The link name associated with the object that needs to be detached.
         public let linkName: String
@@ -1470,23 +1308,19 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
-            self.linkName = linkName
-            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
-            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case linkName = "LinkName"
+            case parentReference = "ParentReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct DetachPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// Reference that identifies the policy object.
         public let policyReference: ObjectReference
@@ -1501,21 +1335,17 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
-            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case policyReference = "PolicyReference"
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct AttachTypedLinkResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypedLinkSpecifier", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkSpecifier", required: false, type: .structure)
         ]
         /// Returns a typed link specifier as output.
         public let typedLinkSpecifier: TypedLinkSpecifier?
@@ -1524,19 +1354,18 @@ extension Clouddirectory {
             self.typedLinkSpecifier = typedLinkSpecifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let typedLinkSpecifier = dictionary["TypedLinkSpecifier"] as? [String: Any] { self.typedLinkSpecifier = try Clouddirectory.TypedLinkSpecifier(dictionary: typedLinkSpecifier) } else { self.typedLinkSpecifier = nil }
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkSpecifier = "TypedLinkSpecifier"
         }
     }
 
     public struct TypedLinkSpecifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "IdentityAttributeValues", required: true, type: .list), 
-            AWSShapeProperty(label: "TypedLinkFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "SourceObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IdentityAttributeValues", required: true, type: .list), 
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
         ]
         /// Identifies the target object that the typed link will attach to.
         public let targetObjectReference: ObjectReference
@@ -1554,24 +1383,19 @@ extension Clouddirectory {
             self.sourceObjectReference = sourceObjectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetObjectReference = dictionary["TargetObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetObjectReference") }
-            self.targetObjectReference = try Clouddirectory.ObjectReference(dictionary: targetObjectReference)
-            guard let identityAttributeValues = dictionary["IdentityAttributeValues"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IdentityAttributeValues") }
-            self.identityAttributeValues = try identityAttributeValues.map({ try AttributeNameAndValue(dictionary: $0) })
-            guard let typedLinkFacet = dictionary["TypedLinkFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TypedLinkFacet") }
-            self.typedLinkFacet = try Clouddirectory.TypedLinkSchemaAndFacetName(dictionary: typedLinkFacet)
-            guard let sourceObjectReference = dictionary["SourceObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SourceObjectReference") }
-            self.sourceObjectReference = try Clouddirectory.ObjectReference(dictionary: sourceObjectReference)
+        private enum CodingKeys: String, CodingKey {
+            case targetObjectReference = "TargetObjectReference"
+            case identityAttributeValues = "IdentityAttributeValues"
+            case typedLinkFacet = "TypedLinkFacet"
+            case sourceObjectReference = "SourceObjectReference"
         }
     }
 
     public struct ListOutgoingTypedLinksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TypedLinkSpecifiers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TypedLinkSpecifiers", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -1583,22 +1407,17 @@ extension Clouddirectory {
             self.typedLinkSpecifiers = typedLinkSpecifiers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let typedLinkSpecifiers = dictionary["TypedLinkSpecifiers"] as? [[String: Any]] {
-                self.typedLinkSpecifiers = try typedLinkSpecifiers.map({ try TypedLinkSpecifier(dictionary: $0) })
-            } else { 
-                self.typedLinkSpecifiers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case typedLinkSpecifiers = "TypedLinkSpecifiers"
         }
     }
 
     public struct SchemaFacet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "FacetName", required: false, type: .string)
         ]
         /// The ARN of the schema that contains the facet.
         public let schemaArn: String?
@@ -1610,19 +1429,18 @@ extension Clouddirectory {
             self.facetName = facetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArn = dictionary["SchemaArn"] as? String
-            self.facetName = dictionary["FacetName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
+            case facetName = "FacetName"
         }
     }
 
     public struct PublishSchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DevelopmentSchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
         public let developmentSchemaArn: String
@@ -1637,20 +1455,17 @@ extension Clouddirectory {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let developmentSchemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.developmentSchemaArn = developmentSchemaArn
-            self.name = dictionary["Name"] as? String
-            guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case developmentSchemaArn = "x-amz-data-partition"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct GetDirectoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Directory", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directory", required: true, type: .structure)
         ]
         /// Metadata about the directory.
         public let directory: Directory
@@ -1659,17 +1474,15 @@ extension Clouddirectory {
             self.directory = directory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directory = dictionary["Directory"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Directory") }
-            self.directory = try Clouddirectory.Directory(dictionary: directory)
+        private enum CodingKeys: String, CodingKey {
+            case directory = "Directory"
         }
     }
 
     public struct BatchReadResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Responses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Responses", required: false, type: .list)
         ]
         /// A list of all the responses for each batch read.
         public let responses: [BatchReadOperationResponse]?
@@ -1678,20 +1491,15 @@ extension Clouddirectory {
             self.responses = responses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let responses = dictionary["Responses"] as? [[String: Any]] {
-                self.responses = try responses.map({ try BatchReadOperationResponse(dictionary: $0) })
-            } else { 
-                self.responses = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case responses = "Responses"
         }
     }
 
     public struct BatchDetachObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "detachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "detachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the detached object.
         public let detachedObjectIdentifier: String?
@@ -1700,17 +1508,16 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.detachedObjectIdentifier = dictionary["detachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "detachedObjectIdentifier"
         }
     }
 
     public struct FacetAttributeReference: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetAttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetFacetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetAttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetFacetName", required: true, type: .string)
         ]
         /// The target attribute name that is associated with the facet reference. See Attribute References for more information.
         public let targetAttributeName: String
@@ -1722,19 +1529,16 @@ extension Clouddirectory {
             self.targetFacetName = targetFacetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetAttributeName = dictionary["TargetAttributeName"] as? String else { throw InitializableError.missingRequiredParam("TargetAttributeName") }
-            self.targetAttributeName = targetAttributeName
-            guard let targetFacetName = dictionary["TargetFacetName"] as? String else { throw InitializableError.missingRequiredParam("TargetFacetName") }
-            self.targetFacetName = targetFacetName
+        private enum CodingKeys: String, CodingKey {
+            case targetAttributeName = "TargetAttributeName"
+            case targetFacetName = "TargetFacetName"
         }
     }
 
     public struct BatchDeleteObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The reference that identifies the object.
         public let objectReference: ObjectReference
@@ -1743,21 +1547,19 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct CreateObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaFacets", required: true, type: .list), 
-            AWSShapeProperty(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ObjectAttributeList", required: false, type: .list), 
-            AWSShapeProperty(label: "LinkName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacets", required: true, type: .list), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ObjectAttributeList", required: false, type: .list), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string)
         ]
         /// A list of schema facets to be associated with the object that contains SchemaArn and facet name. For more information, see arns.
         public let schemaFacets: [SchemaFacet]
@@ -1778,27 +1580,20 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacets") }
-            self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
-            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
-                self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
-            } else { 
-                self.objectAttributeList = nil
-            }
-            self.linkName = dictionary["LinkName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacets = "SchemaFacets"
+            case parentReference = "ParentReference"
+            case directoryArn = "x-amz-data-partition"
+            case objectAttributeList = "ObjectAttributeList"
+            case linkName = "LinkName"
         }
     }
 
     public struct TypedLinkSchemaAndFacetName: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypedLinkName", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypedLinkName", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string)
         ]
         /// The unique name of the typed link facet.
         public let typedLinkName: String
@@ -1810,20 +1605,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typedLinkName = dictionary["TypedLinkName"] as? String else { throw InitializableError.missingRequiredParam("TypedLinkName") }
-            self.typedLinkName = typedLinkName
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case typedLinkName = "TypedLinkName"
+            case schemaArn = "SchemaArn"
         }
     }
 
     public struct ApplySchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AppliedSchemaArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppliedSchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryArn", required: false, type: .string)
         ]
         /// The applied schema ARN that is associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
         public let appliedSchemaArn: String?
@@ -1835,28 +1627,24 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.appliedSchemaArn = dictionary["AppliedSchemaArn"] as? String
-            self.directoryArn = dictionary["DirectoryArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case appliedSchemaArn = "AppliedSchemaArn"
+            case directoryArn = "DirectoryArn"
         }
     }
 
     public struct CreateFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct LookupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -1874,22 +1662,19 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct BatchReadOperationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExceptionResponse", required: false, type: .structure), 
-            AWSShapeProperty(label: "SuccessfulResponse", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExceptionResponse", required: false, type: .structure), 
+            AWSShapeMember(label: "SuccessfulResponse", required: false, type: .structure)
         ]
         /// Identifies which operation in a batch has failed.
         public let exceptionResponse: BatchReadException?
@@ -1901,18 +1686,17 @@ extension Clouddirectory {
             self.successfulResponse = successfulResponse
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let exceptionResponse = dictionary["ExceptionResponse"] as? [String: Any] { self.exceptionResponse = try Clouddirectory.BatchReadException(dictionary: exceptionResponse) } else { self.exceptionResponse = nil }
-            if let successfulResponse = dictionary["SuccessfulResponse"] as? [String: Any] { self.successfulResponse = try Clouddirectory.BatchReadSuccessfulResponse(dictionary: successfulResponse) } else { self.successfulResponse = nil }
+        private enum CodingKeys: String, CodingKey {
+            case exceptionResponse = "ExceptionResponse"
+            case successfulResponse = "SuccessfulResponse"
         }
     }
 
     public struct ListAttachedIndicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The indices attached to the specified object.
         public let indexAttachments: [IndexAttachment]?
@@ -1924,25 +1708,18 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
-                self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
-            } else { 
-                self.indexAttachments = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateTypedLinkFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum BatchWriteExceptionType: String, CustomStringConvertible {
+    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable {
         case internalserviceexception = "InternalServiceException"
         case validationexception = "ValidationException"
         case invalidarnexception = "InvalidArnException"
@@ -1957,11 +1734,10 @@ extension Clouddirectory {
 
     public struct BatchAddFacetToObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectAttributeList", required: true, type: .list), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// Represents the facet being added to the object.
         public let schemaFacet: SchemaFacet
@@ -1976,22 +1752,18 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
-            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
-            guard let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ObjectAttributeList") }
-            self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case objectAttributeList = "ObjectAttributeList"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct ListObjectAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2003,17 +1775,13 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
         }
     }
 
-    public enum ConsistencyLevel: String, CustomStringConvertible {
+    public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
         case serializable = "SERIALIZABLE"
         case eventual = "EVENTUAL"
         public var description: String { return self.rawValue }
@@ -2021,10 +1789,9 @@ extension Clouddirectory {
 
     public struct BatchUpdateObjectAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// Attributes update structure.
         public let attributeUpdates: [ObjectAttributeUpdate]
@@ -2036,22 +1803,19 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
-            self.attributeUpdates = try attributeUpdates.map({ try ObjectAttributeUpdate(dictionary: $0) })
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case attributeUpdates = "AttributeUpdates"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct CreateFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectType", required: true, type: .enum), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
         public let objectType: ObjectType
@@ -2069,35 +1833,24 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawObjectType = dictionary["ObjectType"] as? String, let objectType = ObjectType(rawValue: rawObjectType) else { throw InitializableError.missingRequiredParam("ObjectType") }
-            self.objectType = objectType
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case objectType = "ObjectType"
+            case attributes = "Attributes"
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct RemoveFacetFromObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListFacetNamesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FacetNames", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2109,20 +1862,19 @@ extension Clouddirectory {
             self.facetNames = facetNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.facetNames = dictionary["FacetNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case facetNames = "FacetNames"
         }
     }
 
     public struct CreateDirectoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ObjectIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "AppliedSchemaArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ObjectIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "AppliedSchemaArn", required: true, type: .string)
         ]
         /// The ARN that is associated with the Directory. For more information, see arns.
         public let directoryArn: String
@@ -2140,43 +1892,32 @@ extension Clouddirectory {
             self.appliedSchemaArn = appliedSchemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
-            self.directoryArn = directoryArn
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let objectIdentifier = dictionary["ObjectIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ObjectIdentifier") }
-            self.objectIdentifier = objectIdentifier
-            guard let appliedSchemaArn = dictionary["AppliedSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("AppliedSchemaArn") }
-            self.appliedSchemaArn = appliedSchemaArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
+            case name = "Name"
+            case objectIdentifier = "ObjectIdentifier"
+            case appliedSchemaArn = "AppliedSchemaArn"
         }
     }
 
     public struct AttachPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateTypedLinkFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BatchCreateObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "SchemaFacet", required: true, type: .list), 
-            AWSShapeProperty(label: "BatchReferenceName", required: true, type: .string), 
-            AWSShapeProperty(label: "ObjectAttributeList", required: true, type: .list), 
-            AWSShapeProperty(label: "LinkName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .list), 
+            AWSShapeMember(label: "BatchReferenceName", required: true, type: .string), 
+            AWSShapeMember(label: "ObjectAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string)
         ]
         /// If specified, the parent reference to which this object will be attached.
         public let parentReference: ObjectReference
@@ -2197,26 +1938,20 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
-            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let schemaFacet = dictionary["SchemaFacet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
-            self.schemaFacet = try schemaFacet.map({ try SchemaFacet(dictionary: $0) })
-            guard let batchReferenceName = dictionary["BatchReferenceName"] as? String else { throw InitializableError.missingRequiredParam("BatchReferenceName") }
-            self.batchReferenceName = batchReferenceName
-            guard let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ObjectAttributeList") }
-            self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
-            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
-            self.linkName = linkName
+        private enum CodingKeys: String, CodingKey {
+            case parentReference = "ParentReference"
+            case schemaFacet = "SchemaFacet"
+            case batchReferenceName = "BatchReferenceName"
+            case objectAttributeList = "ObjectAttributeList"
+            case linkName = "LinkName"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
         public let resourceArn: String
@@ -2228,20 +1963,17 @@ extension Clouddirectory {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ListDirectoriesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Directories", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directories", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Lists all directories that are associated with your account in pagination fashion.
         public let directories: [Directory]
@@ -2253,22 +1985,20 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directories = dictionary["Directories"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Directories") }
-            self.directories = try directories.map({ try Directory(dictionary: $0) })
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directories = "Directories"
+            case nextToken = "NextToken"
         }
     }
 
     public struct AttachTypedLinkRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .list), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "TypedLinkFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "SourceObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "TypedLinkFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "SourceObjectReference", required: true, type: .structure)
         ]
         /// Identifies the target object that the typed link will attach to.
         public let targetObjectReference: ObjectReference
@@ -2289,26 +2019,20 @@ extension Clouddirectory {
             self.sourceObjectReference = sourceObjectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetObjectReference = dictionary["TargetObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetObjectReference") }
-            self.targetObjectReference = try Clouddirectory.ObjectReference(dictionary: targetObjectReference)
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try AttributeNameAndValue(dictionary: $0) })
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            guard let typedLinkFacet = dictionary["TypedLinkFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TypedLinkFacet") }
-            self.typedLinkFacet = try Clouddirectory.TypedLinkSchemaAndFacetName(dictionary: typedLinkFacet)
-            guard let sourceObjectReference = dictionary["SourceObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SourceObjectReference") }
-            self.sourceObjectReference = try Clouddirectory.ObjectReference(dictionary: sourceObjectReference)
+        private enum CodingKeys: String, CodingKey {
+            case targetObjectReference = "TargetObjectReference"
+            case attributes = "Attributes"
+            case directoryArn = "x-amz-data-partition"
+            case typedLinkFacet = "TypedLinkFacet"
+            case sourceObjectReference = "SourceObjectReference"
         }
     }
 
     public struct BatchListObjectChildrenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Children", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Children", required: false, type: .map)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2320,25 +2044,20 @@ extension Clouddirectory {
             self.children = children
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let children = dictionary["Children"] as? [String: String] {
-                self.children = children
-            } else { 
-                self.children = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case children = "Children"
         }
     }
 
     public struct ListObjectPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -2359,22 +2078,19 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "x-amz-consistency-level"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct DisableDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory to disable.
         public let directoryArn: String
@@ -2383,17 +2099,15 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct DetachFromIndexResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DetachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that was detached from the index.
         public let detachedObjectIdentifier: String?
@@ -2402,27 +2116,23 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.detachedObjectIdentifier = dictionary["DetachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
         }
     }
 
     public struct BatchAddFacetToObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BatchListObjectAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// Used to filter the list of object attributes that are associated with a certain facet.
         public let facetFilter: SchemaFacet?
@@ -2440,20 +2150,18 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let facetFilter = dictionary["FacetFilter"] as? [String: Any] { self.facetFilter = try Clouddirectory.SchemaFacet(dictionary: facetFilter) } else { self.facetFilter = nil }
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case facetFilter = "FacetFilter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct AttachObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
         ]
         /// The attached ObjectIdentifier, which is the child ObjectIdentifier.
         public let attachedObjectIdentifier: String?
@@ -2462,19 +2170,18 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachedObjectIdentifier = dictionary["AttachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
         }
     }
 
     public struct ListObjectParentPathsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -2492,22 +2199,19 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct CreateDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The name of the Directory. Should be unique per account, per region.
         public let name: String
@@ -2519,19 +2223,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct GetSchemaAsJsonRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the schema to retrieve.
         public let schemaArn: String
@@ -2540,20 +2241,18 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct UpdateFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AttributeUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
         public let objectType: ObjectType?
@@ -2571,27 +2270,20 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let objectType = dictionary["ObjectType"] as? String { self.objectType = ObjectType(rawValue: objectType) } else { self.objectType = nil }
-            if let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] {
-                self.attributeUpdates = try attributeUpdates.map({ try FacetAttributeUpdate(dictionary: $0) })
-            } else { 
-                self.attributeUpdates = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case objectType = "ObjectType"
+            case attributeUpdates = "AttributeUpdates"
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct ListTypedLinkFacetNamesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2606,19 +2298,17 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DisableDirectoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", required: true, type: .string)
         ]
         /// The ARN of the directory that has been disabled.
         public let directoryArn: String
@@ -2627,19 +2317,17 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "DirectoryArn"
         }
     }
 
     public struct AttachPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: false, type: .string)
         ]
         /// The reference that is associated with the policy object.
         public let policyReference: ObjectReference
@@ -2654,16 +2342,14 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
-            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            self.directoryArn = dictionary["x-amz-data-partition"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyReference = "PolicyReference"
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
-    public enum DirectoryState: String, CustomStringConvertible {
+    public enum DirectoryState: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
         case deleted = "DELETED"
@@ -2672,10 +2358,9 @@ extension Clouddirectory {
 
     public struct ListDevelopmentSchemaArnsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The ARNs of retrieved development schemas.
         public let schemaArns: [String]?
@@ -2687,18 +2372,17 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArns = dictionary["SchemaArns"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArns = "SchemaArns"
+            case nextToken = "NextToken"
         }
     }
 
     public struct BatchWriteRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Operations", required: true, type: .list), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Operations", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// A list of operations that are part of the batch.
         public let operations: [BatchWriteOperation]
@@ -2710,20 +2394,17 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
-            self.operations = try operations.map({ try BatchWriteOperation(dictionary: $0) })
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case operations = "Operations"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ListTypedLinkFacetNamesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FacetNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FacetNames", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2735,13 +2416,13 @@ extension Clouddirectory {
             self.facetNames = facetNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.facetNames = dictionary["FacetNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case facetNames = "FacetNames"
         }
     }
 
-    public enum UpdateActionType: String, CustomStringConvertible {
+    public enum UpdateActionType: String, CustomStringConvertible, Codable {
         case create_or_update = "CREATE_OR_UPDATE"
         case delete = "DELETE"
         public var description: String { return self.rawValue }
@@ -2749,9 +2430,8 @@ extension Clouddirectory {
 
     public struct BatchCreateObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ID that is associated with the object.
         public let objectIdentifier: String?
@@ -2760,16 +2440,15 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct BatchUpdateObjectAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// ID that is associated with the object.
         public let objectIdentifier: String?
@@ -2778,18 +2457,17 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct BatchReadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "Operations", required: true, type: .list), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "Operations", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
@@ -2804,21 +2482,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
-            self.operations = try operations.map({ try BatchReadOperation(dictionary: $0) })
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case consistencyLevel = "x-amz-consistency-level"
+            case operations = "Operations"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ListPublishedSchemaArnsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArns", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArns", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The ARNs of published schemas.
         public let schemaArns: [String]?
@@ -2830,18 +2505,17 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArns = dictionary["SchemaArns"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArns = "SchemaArns"
+            case nextToken = "NextToken"
         }
     }
 
     public struct BatchReadSuccessfulResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeProperty(label: "ListObjectAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure)
         ]
         /// Returns a paginated list of child objects that are associated with a given object.
         public let listObjectChildren: BatchListObjectChildrenResponse?
@@ -2853,21 +2527,20 @@ extension Clouddirectory {
             self.listObjectAttributes = listObjectAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildrenResponse(dictionary: listObjectChildren) } else { self.listObjectChildren = nil }
-            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributesResponse(dictionary: listObjectAttributes) } else { self.listObjectAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case listObjectChildren = "ListObjectChildren"
+            case listObjectAttributes = "ListObjectAttributes"
         }
     }
 
     public struct TypedAttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
-            AWSShapeProperty(label: "BinaryValue", required: false, type: .blob), 
-            AWSShapeProperty(label: "BooleanValue", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DatetimeValue", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NumberValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "BinaryValue", required: false, type: .blob), 
+            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean), 
+            AWSShapeMember(label: "DatetimeValue", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NumberValue", required: false, type: .string)
         ]
         /// A string data value.
         public let stringValue: String?
@@ -2876,11 +2549,11 @@ extension Clouddirectory {
         /// A Boolean data value.
         public let booleanValue: Bool?
         /// A date and time value.
-        public let datetimeValue: String?
+        public let datetimeValue: Double?
         /// A number data value.
         public let numberValue: String?
 
-        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: String? = nil, numberValue: String? = nil) {
+        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: Double? = nil, numberValue: String? = nil) {
             self.stringValue = stringValue
             self.binaryValue = binaryValue
             self.booleanValue = booleanValue
@@ -2888,21 +2561,20 @@ extension Clouddirectory {
             self.numberValue = numberValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stringValue = dictionary["StringValue"] as? String
-            self.binaryValue = dictionary["BinaryValue"] as? Data
-            self.booleanValue = dictionary["BooleanValue"] as? Bool
-            self.datetimeValue = dictionary["DatetimeValue"] as? String
-            self.numberValue = dictionary["NumberValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stringValue = "StringValue"
+            case binaryValue = "BinaryValue"
+            case booleanValue = "BooleanValue"
+            case datetimeValue = "DatetimeValue"
+            case numberValue = "NumberValue"
         }
     }
 
     public struct ListObjectParentPathsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "PathToObjectIdentifiersList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PathToObjectIdentifiersList", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -2914,23 +2586,18 @@ extension Clouddirectory {
             self.pathToObjectIdentifiersList = pathToObjectIdentifiersList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let pathToObjectIdentifiersList = dictionary["PathToObjectIdentifiersList"] as? [[String: Any]] {
-                self.pathToObjectIdentifiersList = try pathToObjectIdentifiersList.map({ try PathToObjectIdentifiers(dictionary: $0) })
-            } else { 
-                self.pathToObjectIdentifiersList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pathToObjectIdentifiersList = "PathToObjectIdentifiersList"
         }
     }
 
     public struct AttributeKey: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", required: true, type: .string), 
-            AWSShapeProperty(label: "FacetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", required: true, type: .string), 
+            AWSShapeMember(label: "FacetName", required: true, type: .string)
         ]
         /// The name of the attribute.
         public let name: String
@@ -2945,22 +2612,18 @@ extension Clouddirectory {
             self.facetName = facetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
-            self.schemaArn = schemaArn
-            guard let facetName = dictionary["FacetName"] as? String else { throw InitializableError.missingRequiredParam("FacetName") }
-            self.facetName = facetName
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "SchemaArn"
+            case facetName = "FacetName"
         }
     }
 
     public struct PathToObjectIdentifiers: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifiers", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// Lists ObjectIdentifiers starting from directory root to the object in the request.
         public let objectIdentifiers: [String]?
@@ -2972,18 +2635,17 @@ extension Clouddirectory {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String]
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifiers = "ObjectIdentifiers"
+            case path = "Path"
         }
     }
 
     public struct AttributeNameAndValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "Value", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "Value", required: true, type: .structure)
         ]
         /// The attribute name of the typed link.
         public let attributeName: String
@@ -2995,21 +2657,18 @@ extension Clouddirectory {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            guard let value = dictionary["Value"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = try Clouddirectory.TypedAttributeValue(dictionary: value)
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case value = "Value"
         }
     }
 
     public struct BatchDetachObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BatchReferenceName", required: true, type: .string), 
-            AWSShapeProperty(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "LinkName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BatchReferenceName", required: true, type: .string), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string)
         ]
         /// The batch reference name. See Batches for more information.
         public let batchReferenceName: String
@@ -3024,22 +2683,18 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let batchReferenceName = dictionary["BatchReferenceName"] as? String else { throw InitializableError.missingRequiredParam("BatchReferenceName") }
-            self.batchReferenceName = batchReferenceName
-            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
-            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
-            self.linkName = linkName
+        private enum CodingKeys: String, CodingKey {
+            case batchReferenceName = "BatchReferenceName"
+            case parentReference = "ParentReference"
+            case linkName = "LinkName"
         }
     }
 
     public struct GetFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The name of the facet to retrieve.
         public let name: String
@@ -3051,20 +2706,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct UpdateSchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The name of the schema.
         public let name: String
@@ -3076,20 +2728,17 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct IndexAttachment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexedAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexedAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The indexed attribute values.
         public let indexedAttributes: [AttributeKeyAndValue]?
@@ -3101,22 +2750,17 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let indexedAttributes = dictionary["IndexedAttributes"] as? [[String: Any]] {
-                self.indexedAttributes = try indexedAttributes.map({ try AttributeKeyAndValue(dictionary: $0) })
-            } else { 
-                self.indexedAttributes = nil
-            }
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case indexedAttributes = "IndexedAttributes"
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct ObjectAttributeUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectAttributeKey", required: false, type: .structure), 
-            AWSShapeProperty(label: "ObjectAttributeAction", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectAttributeKey", required: false, type: .structure), 
+            AWSShapeMember(label: "ObjectAttributeAction", required: false, type: .structure)
         ]
         /// The key of the attribute being updated.
         public let objectAttributeKey: AttributeKey?
@@ -3128,21 +2772,20 @@ extension Clouddirectory {
             self.objectAttributeAction = objectAttributeAction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let objectAttributeKey = dictionary["ObjectAttributeKey"] as? [String: Any] { self.objectAttributeKey = try Clouddirectory.AttributeKey(dictionary: objectAttributeKey) } else { self.objectAttributeKey = nil }
-            if let objectAttributeAction = dictionary["ObjectAttributeAction"] as? [String: Any] { self.objectAttributeAction = try Clouddirectory.ObjectAttributeAction(dictionary: objectAttributeAction) } else { self.objectAttributeAction = nil }
+        private enum CodingKeys: String, CodingKey {
+            case objectAttributeKey = "ObjectAttributeKey"
+            case objectAttributeAction = "ObjectAttributeAction"
         }
     }
 
     public struct CreateIndexRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrderedIndexedAttributeList", required: true, type: .list), 
-            AWSShapeProperty(label: "IsUnique", required: true, type: .boolean), 
-            AWSShapeProperty(label: "ParentReference", required: false, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "LinkName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderedIndexedAttributeList", required: true, type: .list), 
+            AWSShapeMember(label: "IsUnique", required: true, type: .boolean), 
+            AWSShapeMember(label: "ParentReference", required: false, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "LinkName", required: false, type: .string)
         ]
         /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
         public let orderedIndexedAttributeList: [AttributeKey]
@@ -3163,24 +2806,20 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let orderedIndexedAttributeList = dictionary["OrderedIndexedAttributeList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("OrderedIndexedAttributeList") }
-            self.orderedIndexedAttributeList = try orderedIndexedAttributeList.map({ try AttributeKey(dictionary: $0) })
-            guard let isUnique = dictionary["IsUnique"] as? Bool else { throw InitializableError.missingRequiredParam("IsUnique") }
-            self.isUnique = isUnique
-            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            self.linkName = dictionary["LinkName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case orderedIndexedAttributeList = "OrderedIndexedAttributeList"
+            case isUnique = "IsUnique"
+            case parentReference = "ParentReference"
+            case directoryArn = "x-amz-data-partition"
+            case linkName = "LinkName"
         }
     }
 
     public struct Facet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectType", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The object type that is associated with the facet. See CreateFacetRequest$ObjectType for more details.
         public let objectType: ObjectType?
@@ -3192,13 +2831,13 @@ extension Clouddirectory {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let objectType = dictionary["ObjectType"] as? String { self.objectType = ObjectType(rawValue: objectType) } else { self.objectType = nil }
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectType = "ObjectType"
+            case name = "Name"
         }
     }
 
-    public enum FacetAttributeType: String, CustomStringConvertible {
+    public enum FacetAttributeType: String, CustomStringConvertible, Codable {
         case string = "STRING"
         case binary = "BINARY"
         case boolean = "BOOLEAN"
@@ -3209,11 +2848,10 @@ extension Clouddirectory {
 
     public struct ListDirectoriesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
@@ -3228,21 +2866,20 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = DirectoryState(rawValue: state) } else { self.state = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct FacetAttributeDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsImmutable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Rules", required: false, type: .map), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsImmutable", required: false, type: .boolean), 
+            AWSShapeMember(label: "Rules", required: false, type: .map), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .structure)
         ]
         /// Whether the attribute is mutable or not.
         public let isImmutable: Bool?
@@ -3260,42 +2897,28 @@ extension Clouddirectory {
             self.defaultValue = defaultValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isImmutable = dictionary["IsImmutable"] as? Bool
-            if let rules = dictionary["Rules"] as? [String: Any] {
-                var rulesDict: [String: Rule] = [:]
-                for (key, value) in rules {
-                    guard let ruleDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    rulesDict[key] = try Rule(dictionary: ruleDict)
-                }
-                self.rules = rulesDict
-            } else { 
-                self.rules = nil
-            }
-            guard let rawType = dictionary["Type"] as? String, let `type` = FacetAttributeType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) } else { self.defaultValue = nil }
+        private enum CodingKeys: String, CodingKey {
+            case isImmutable = "IsImmutable"
+            case rules = "Rules"
+            case `type` = "Type"
+            case defaultValue = "DefaultValue"
         }
     }
 
     public struct DetachPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListObjectAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "FacetFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "FacetFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -3319,23 +2942,20 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            if let facetFilter = dictionary["FacetFilter"] as? [String: Any] { self.facetFilter = try Clouddirectory.SchemaFacet(dictionary: facetFilter) } else { self.facetFilter = nil }
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case facetFilter = "FacetFilter"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "x-amz-consistency-level"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct PublishSchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PublishedSchemaArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PublishedSchemaArn", required: false, type: .string)
         ]
         /// The ARN that is associated with the published schema. For more information, see arns.
         public let publishedSchemaArn: String?
@@ -3344,17 +2964,16 @@ extension Clouddirectory {
             self.publishedSchemaArn = publishedSchemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.publishedSchemaArn = dictionary["PublishedSchemaArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case publishedSchemaArn = "PublishedSchemaArn"
         }
     }
 
     public struct CreateTypedLinkFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Facet", required: true, type: .structure), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Facet", required: true, type: .structure), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         ///  Facet structure that is associated with the typed link facet.
         public let facet: TypedLinkFacet
@@ -3366,19 +2985,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let facet = dictionary["Facet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Facet") }
-            self.facet = try Clouddirectory.TypedLinkFacet(dictionary: facet)
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case facet = "Facet"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct CreateObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The identifier that is associated with the object.
         public let objectIdentifier: String?
@@ -3387,17 +3003,16 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct ListIncomingTypedLinksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LinkSpecifiers", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkSpecifiers", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Returns one or more typed link specifiers as output.
         public let linkSpecifiers: [TypedLinkSpecifier]?
@@ -3409,21 +3024,16 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let linkSpecifiers = dictionary["LinkSpecifiers"] as? [[String: Any]] {
-                self.linkSpecifiers = try linkSpecifiers.map({ try TypedLinkSpecifier(dictionary: $0) })
-            } else { 
-                self.linkSpecifiers = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case linkSpecifiers = "LinkSpecifiers"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteSchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
         public let schemaArn: String
@@ -3432,18 +3042,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct GetObjectInformationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaFacets", required: false, type: .list), 
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacets", required: false, type: .list), 
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The facets attached to the specified object.
         public let schemaFacets: [SchemaFacet]?
@@ -3455,27 +3063,22 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] {
-                self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
-            } else { 
-                self.schemaFacets = nil
-            }
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacets = "SchemaFacets"
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct ListIncomingTypedLinksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", required: false, type: .enum), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FilterAttributeRanges", required: false, type: .list), 
-            AWSShapeProperty(label: "FilterTypedLink", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FilterAttributeRanges", required: false, type: .list), 
+            AWSShapeMember(label: "FilterTypedLink", required: false, type: .structure)
         ]
         /// The maximum number of results to retrieve.
         public let maxResults: Int32?
@@ -3502,37 +3105,27 @@ extension Clouddirectory {
             self.filterTypedLink = filterTypedLink
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["ConsistencyLevel"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filterAttributeRanges = dictionary["FilterAttributeRanges"] as? [[String: Any]] {
-                self.filterAttributeRanges = try filterAttributeRanges.map({ try TypedLinkAttributeRange(dictionary: $0) })
-            } else { 
-                self.filterAttributeRanges = nil
-            }
-            if let filterTypedLink = dictionary["FilterTypedLink"] as? [String: Any] { self.filterTypedLink = try Clouddirectory.TypedLinkSchemaAndFacetName(dictionary: filterTypedLink) } else { self.filterTypedLink = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "ConsistencyLevel"
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case filterAttributeRanges = "FilterAttributeRanges"
+            case filterTypedLink = "FilterTypedLink"
         }
     }
 
     public struct TagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListIndexResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexAttachments", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexAttachments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The objects and indexed values attached to the index.
         public let indexAttachments: [IndexAttachment]?
@@ -3544,23 +3137,18 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
-                self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
-            } else { 
-                self.indexAttachments = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case indexAttachments = "IndexAttachments"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateObjectAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The reference that identifies the object.
         public let objectReference: ObjectReference
@@ -3575,27 +3163,23 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
-            self.attributeUpdates = try attributeUpdates.map({ try ObjectAttributeUpdate(dictionary: $0) })
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case attributeUpdates = "AttributeUpdates"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct BatchWriteOperation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AddFacetToObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "UpdateObjectAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "DetachObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "AttachObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreateObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "DeleteObject", required: false, type: .structure), 
-            AWSShapeProperty(label: "RemoveFacetFromObject", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AddFacetToObject", required: false, type: .structure), 
+            AWSShapeMember(label: "UpdateObjectAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "DetachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "AttachObject", required: false, type: .structure), 
+            AWSShapeMember(label: "CreateObject", required: false, type: .structure), 
+            AWSShapeMember(label: "DeleteObject", required: false, type: .structure), 
+            AWSShapeMember(label: "RemoveFacetFromObject", required: false, type: .structure)
         ]
         /// A batch operation that adds a facet to an object.
         public let addFacetToObject: BatchAddFacetToObject?
@@ -3622,22 +3206,21 @@ extension Clouddirectory {
             self.removeFacetFromObject = removeFacetFromObject
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObject(dictionary: addFacetToObject) } else { self.addFacetToObject = nil }
-            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributes(dictionary: updateObjectAttributes) } else { self.updateObjectAttributes = nil }
-            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObject(dictionary: detachObject) } else { self.detachObject = nil }
-            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObject(dictionary: attachObject) } else { self.attachObject = nil }
-            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObject(dictionary: createObject) } else { self.createObject = nil }
-            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObject(dictionary: deleteObject) } else { self.deleteObject = nil }
-            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObject(dictionary: removeFacetFromObject) } else { self.removeFacetFromObject = nil }
+        private enum CodingKeys: String, CodingKey {
+            case addFacetToObject = "AddFacetToObject"
+            case updateObjectAttributes = "UpdateObjectAttributes"
+            case detachObject = "DetachObject"
+            case attachObject = "AttachObject"
+            case createObject = "CreateObject"
+            case deleteObject = "DeleteObject"
+            case removeFacetFromObject = "RemoveFacetFromObject"
         }
     }
 
     public struct DeleteSchemaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string)
         ]
         /// The input ARN that is returned as part of the response. For more information, see arns.
         public let schemaArn: String?
@@ -3646,20 +3229,19 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaArn = dictionary["SchemaArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaArn = "SchemaArn"
         }
     }
 
     public struct ListObjectChildrenRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
         public let maxResults: Int32?
@@ -3680,23 +3262,20 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case directoryArn = "x-amz-data-partition"
+            case consistencyLevel = "x-amz-consistency-level"
+            case nextToken = "NextToken"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct ListPublishedSchemaArnsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -3708,18 +3287,17 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetTypedLinkFacetInformationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The unique name of the typed link facet.
         public let name: String
@@ -3731,19 +3309,16 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 
     public struct CreateSchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name that is associated with the schema. This is unique to each account and in each region.
         public let name: String
@@ -3752,17 +3327,15 @@ extension Clouddirectory {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct GetFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Facet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Facet", required: false, type: .structure)
         ]
         /// The Facet structure that is associated with the facet.
         public let facet: Facet?
@@ -3771,17 +3344,16 @@ extension Clouddirectory {
             self.facet = facet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let facet = dictionary["Facet"] as? [String: Any] { self.facet = try Clouddirectory.Facet(dictionary: facet) } else { self.facet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case facet = "Facet"
         }
     }
 
     public struct ListObjectPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachedPolicyIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedPolicyIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of policy ObjectIdentifiers, that are attached to the object.
         public let attachedPolicyIds: [String]?
@@ -3793,17 +3365,16 @@ extension Clouddirectory {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachedPolicyIds = dictionary["AttachedPolicyIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachedPolicyIds = "AttachedPolicyIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct PutSchemaFromJsonResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
         /// The ARN of the schema to update.
         public let arn: String?
@@ -3812,18 +3383,17 @@ extension Clouddirectory {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
     public struct BatchAttachObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChildReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "ParentReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "LinkName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChildReference", required: true, type: .structure), 
+            AWSShapeMember(label: "ParentReference", required: true, type: .structure), 
+            AWSShapeMember(label: "LinkName", required: true, type: .string)
         ]
         /// The child object reference that is to be attached to the object.
         public let childReference: ObjectReference
@@ -3838,21 +3408,17 @@ extension Clouddirectory {
             self.linkName = linkName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let childReference = dictionary["ChildReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChildReference") }
-            self.childReference = try Clouddirectory.ObjectReference(dictionary: childReference)
-            guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
-            self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
-            self.linkName = linkName
+        private enum CodingKeys: String, CodingKey {
+            case childReference = "ChildReference"
+            case parentReference = "ParentReference"
+            case linkName = "LinkName"
         }
     }
 
     public struct DetachObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DetachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier that was detached from the object.
         public let detachedObjectIdentifier: String?
@@ -3861,17 +3427,16 @@ extension Clouddirectory {
             self.detachedObjectIdentifier = detachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.detachedObjectIdentifier = dictionary["DetachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case detachedObjectIdentifier = "DetachedObjectIdentifier"
         }
     }
 
     public struct AttributeKeyAndValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .structure), 
-            AWSShapeProperty(label: "Key", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .structure), 
+            AWSShapeMember(label: "Key", required: true, type: .structure)
         ]
         /// The value of the attribute.
         public let value: TypedAttributeValue
@@ -3883,19 +3448,16 @@ extension Clouddirectory {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = try Clouddirectory.TypedAttributeValue(dictionary: value)
-            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = try Clouddirectory.AttributeKey(dictionary: key)
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct EnableDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The ARN of the directory to enable.
         public let directoryArn: String
@@ -3904,18 +3466,16 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct ListFacetAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .list)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -3927,22 +3487,17 @@ extension Clouddirectory {
             self.attributes = attributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attributes = "Attributes"
         }
     }
 
     public struct BatchReadOperation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ListObjectChildren", required: false, type: .structure), 
-            AWSShapeProperty(label: "ListObjectAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ListObjectChildren", required: false, type: .structure), 
+            AWSShapeMember(label: "ListObjectAttributes", required: false, type: .structure)
         ]
         /// Returns a paginated list of child objects that are associated with a given object.
         public let listObjectChildren: BatchListObjectChildren?
@@ -3954,20 +3509,19 @@ extension Clouddirectory {
             self.listObjectAttributes = listObjectAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildren(dictionary: listObjectChildren) } else { self.listObjectChildren = nil }
-            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributes(dictionary: listObjectAttributes) } else { self.listObjectAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case listObjectChildren = "ListObjectChildren"
+            case listObjectAttributes = "ListObjectAttributes"
         }
     }
 
     public struct ListFacetAttributesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -3985,22 +3539,19 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct BatchReadException: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// A type of exception, such as InvalidArnException.
         public let `type`: BatchReadExceptionType?
@@ -4012,13 +3563,13 @@ extension Clouddirectory {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = BatchReadExceptionType(rawValue: `type`) } else { self.`type` = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case message = "Message"
         }
     }
 
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible {
+    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
         case required_always = "REQUIRED_ALWAYS"
         case not_required = "NOT_REQUIRED"
         public var description: String { return self.rawValue }
@@ -4026,10 +3577,9 @@ extension Clouddirectory {
 
     public struct DeleteObjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// A reference that identifies the object.
         public let objectReference: ObjectReference
@@ -4041,21 +3591,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct BatchListObjectChildren: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Reference of the object for which child objects are being listed.
         public let objectReference: ObjectReference
@@ -4070,28 +3617,23 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case objectReference = "ObjectReference"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UntagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PolicyToPath: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policies", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// List of policy objects.
         public let policies: [PolicyAttachment]?
@@ -4103,21 +3645,16 @@ extension Clouddirectory {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policies = dictionary["Policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try PolicyAttachment(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policies = "Policies"
+            case path = "Path"
         }
     }
 
     public struct ObjectReference: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Selector", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Selector", required: false, type: .string)
         ]
         /// A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Accessing Objects. You can identify an object in one of the following ways:    $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An object’s identifier is immutable and no two objects will ever share the same object identifier    /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
         public let selector: String?
@@ -4126,19 +3663,18 @@ extension Clouddirectory {
             self.selector = selector
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.selector = dictionary["Selector"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case selector = "Selector"
         }
     }
 
     public struct UpdateTypedLinkFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeUpdates", required: true, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityAttributeOrder", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeUpdates", required: true, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list)
         ]
         /// Attributes update structure.
         public let attributeUpdates: [TypedLinkFacetAttributeUpdate]
@@ -4156,31 +3692,23 @@ extension Clouddirectory {
             self.identityAttributeOrder = identityAttributeOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
-            self.attributeUpdates = try attributeUpdates.map({ try TypedLinkFacetAttributeUpdate(dictionary: $0) })
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
-            guard let identityAttributeOrder = dictionary["IdentityAttributeOrder"] as? [String] else { throw InitializableError.missingRequiredParam("IdentityAttributeOrder") }
-            self.identityAttributeOrder = identityAttributeOrder
+        private enum CodingKeys: String, CodingKey {
+            case attributeUpdates = "AttributeUpdates"
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
+            case identityAttributeOrder = "IdentityAttributeOrder"
         }
     }
 
     public struct UpdateFacetResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AttachToIndexResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that was attached to the index.
         public let attachedObjectIdentifier: String?
@@ -4189,18 +3717,17 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachedObjectIdentifier = dictionary["AttachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "AttachedObjectIdentifier"
         }
     }
 
     public struct DetachFromIndexRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetReference", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// A reference to the object being detached from the index.
         public let targetReference: ObjectReference
@@ -4215,22 +3742,18 @@ extension Clouddirectory {
             self.directoryArn = directoryArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
-            self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
-            guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
-            self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
+        private enum CodingKeys: String, CodingKey {
+            case targetReference = "TargetReference"
+            case indexReference = "IndexReference"
+            case directoryArn = "x-amz-data-partition"
         }
     }
 
     public struct BatchRemoveFacetFromObject: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaFacet", required: true, type: .structure), 
-            AWSShapeProperty(label: "ObjectReference", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaFacet", required: true, type: .structure), 
+            AWSShapeMember(label: "ObjectReference", required: true, type: .structure)
         ]
         /// The facet to remove from the object.
         public let schemaFacet: SchemaFacet
@@ -4242,21 +3765,18 @@ extension Clouddirectory {
             self.objectReference = objectReference
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
-            self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
-            guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
-            self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
+        private enum CodingKeys: String, CodingKey {
+            case schemaFacet = "SchemaFacet"
+            case objectReference = "ObjectReference"
         }
     }
 
     public struct TypedLinkFacet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .list), 
-            AWSShapeProperty(label: "IdentityAttributeOrder", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .list), 
+            AWSShapeMember(label: "IdentityAttributeOrder", required: true, type: .list)
         ]
         /// The unique name of the typed link facet.
         public let name: String
@@ -4271,23 +3791,19 @@ extension Clouddirectory {
             self.identityAttributeOrder = identityAttributeOrder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try TypedLinkAttributeDefinition(dictionary: $0) })
-            guard let identityAttributeOrder = dictionary["IdentityAttributeOrder"] as? [String] else { throw InitializableError.missingRequiredParam("IdentityAttributeOrder") }
-            self.identityAttributeOrder = identityAttributeOrder
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case attributes = "Attributes"
+            case identityAttributeOrder = "IdentityAttributeOrder"
         }
     }
 
     public struct ListFacetNamesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -4302,19 +3818,17 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaArn = "x-amz-data-partition"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct BatchAttachObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attachedObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attachedObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the object that has been attached.
         public let attachedObjectIdentifier: String?
@@ -4323,17 +3837,16 @@ extension Clouddirectory {
             self.attachedObjectIdentifier = attachedObjectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.attachedObjectIdentifier = dictionary["attachedObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attachedObjectIdentifier = "attachedObjectIdentifier"
         }
     }
 
     public struct FacetAttributeUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Attribute", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Attribute", required: false, type: .structure)
         ]
         /// The action to perform when updating the attribute.
         public let action: UpdateActionType?
@@ -4345,17 +3858,16 @@ extension Clouddirectory {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let action = dictionary["Action"] as? String { self.action = UpdateActionType(rawValue: action) } else { self.action = nil }
-            if let attribute = dictionary["Attribute"] as? [String: Any] { self.attribute = try Clouddirectory.FacetAttribute(dictionary: attribute) } else { self.attribute = nil }
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case attribute = "Attribute"
         }
     }
 
     public struct UpdateObjectAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ObjectIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ObjectIdentifier", required: false, type: .string)
         ]
         /// The ObjectIdentifier of the updated object.
         public let objectIdentifier: String?
@@ -4364,28 +3876,24 @@ extension Clouddirectory {
             self.objectIdentifier = objectIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
         }
     }
 
     public struct BatchDeleteObjectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListPolicyAttachmentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyReference", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyReference", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConsistencyLevel", location: .header(locationName: "x-amz-consistency-level"), required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The reference that identifies the policy object.
         public let policyReference: ObjectReference
@@ -4406,23 +3914,20 @@ extension Clouddirectory {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
-            self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
-            guard let directoryArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.directoryArn = directoryArn
-            self.nextToken = dictionary["NextToken"] as? String
-            if let consistencyLevel = dictionary["x-amz-consistency-level"] as? String { self.consistencyLevel = ConsistencyLevel(rawValue: consistencyLevel) } else { self.consistencyLevel = nil }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policyReference = "PolicyReference"
+            case directoryArn = "x-amz-data-partition"
+            case nextToken = "NextToken"
+            case consistencyLevel = "x-amz-consistency-level"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListObjectParentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Parents", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Parents", required: false, type: .map)
         ]
         /// The pagination token.
         public let nextToken: String?
@@ -4434,22 +3939,17 @@ extension Clouddirectory {
             self.parents = parents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let parents = dictionary["Parents"] as? [String: String] {
-                self.parents = parents
-            } else { 
-                self.parents = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parents = "Parents"
         }
     }
 
     public struct DeleteFacetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SchemaArn", location: .header(locationName: "x-amz-data-partition"), required: true, type: .string)
         ]
         /// The name of the facet to delete.
         public let name: String
@@ -4461,11 +3961,9 @@ extension Clouddirectory {
             self.schemaArn = schemaArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let schemaArn = dictionary["x-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("x-amz-data-partition") }
-            self.schemaArn = schemaArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case schemaArn = "x-amz-data-partition"
         }
     }
 

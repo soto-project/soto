@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Shield {
 
-    public enum SubResourceType: String, CustomStringConvertible {
+    public enum SubResourceType: String, CustomStringConvertible, Codable {
         case ip = "IP"
         case url = "URL"
         public var description: String { return self.rawValue }
@@ -37,11 +37,10 @@ extension Shield {
 
     public struct Protection: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
         public let resourceArn: String?
@@ -56,35 +55,31 @@ extension Shield {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceArn = dictionary["ResourceArn"] as? String
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct DeleteSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AttackSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "AttackVectors", required: false, type: .list), 
-            AWSShapeProperty(label: "AttackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "AttackVectors", required: false, type: .list), 
+            AWSShapeMember(label: "AttackId", required: false, type: .string)
         ]
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
-        public let startTime: String?
+        public let startTime: Double?
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
-        public let endTime: String?
+        public let endTime: Double?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The list of attacks for a specified time period.
@@ -92,7 +87,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: String? = nil, endTime: String? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
+        public init(startTime: Double? = nil, endTime: Double? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.resourceArn = resourceArn
@@ -100,62 +95,56 @@ extension Shield {
             self.attackId = attackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.resourceArn = dictionary["ResourceArn"] as? String
-            if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
-                self.attackVectors = try attackVectors.map({ try AttackVectorDescription(dictionary: $0) })
-            } else { 
-                self.attackVectors = nil
-            }
-            self.attackId = dictionary["AttackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case endTime = "EndTime"
+            case resourceArn = "ResourceArn"
+            case attackVectors = "AttackVectors"
+            case attackId = "AttackId"
         }
     }
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TimeCommitmentInSeconds", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TimeCommitmentInSeconds", required: false, type: .long)
         ]
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
-        public let startTime: String?
+        public let startTime: Double?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(startTime: String? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(startTime: Double? = nil, timeCommitmentInSeconds: Int64? = nil) {
             self.startTime = startTime
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.timeCommitmentInSeconds = dictionary["TimeCommitmentInSeconds"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case timeCommitmentInSeconds = "TimeCommitmentInSeconds"
         }
     }
 
     public struct AttackDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Mitigations", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SubResources", required: false, type: .list), 
-            AWSShapeProperty(label: "AttackCounters", required: false, type: .list), 
-            AWSShapeProperty(label: "AttackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Mitigations", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubResources", required: false, type: .list), 
+            AWSShapeMember(label: "AttackCounters", required: false, type: .list), 
+            AWSShapeMember(label: "AttackId", required: false, type: .string)
         ]
         /// The time the attack started, in the format 2016-12-16T13:50Z.
-        public let startTime: String?
+        public let startTime: Double?
         /// List of mitigation actions taken for the attack.
         public let mitigations: [Mitigation]?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The time the attack ended, in the format 2016-12-16T13:50Z.
-        public let endTime: String?
+        public let endTime: Double?
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
         public let subResources: [SubResourceSummary]?
         /// List of counters that describe the attack for the specified time period.
@@ -163,7 +152,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: String? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: String? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
+        public init(startTime: Double? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: Double? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.mitigations = mitigations
             self.resourceArn = resourceArn
@@ -173,35 +162,22 @@ extension Shield {
             self.attackId = attackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            if let mitigations = dictionary["Mitigations"] as? [[String: Any]] {
-                self.mitigations = try mitigations.map({ try Mitigation(dictionary: $0) })
-            } else { 
-                self.mitigations = nil
-            }
-            self.resourceArn = dictionary["ResourceArn"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            if let subResources = dictionary["SubResources"] as? [[String: Any]] {
-                self.subResources = try subResources.map({ try SubResourceSummary(dictionary: $0) })
-            } else { 
-                self.subResources = nil
-            }
-            if let attackCounters = dictionary["AttackCounters"] as? [[String: Any]] {
-                self.attackCounters = try attackCounters.map({ try SummarizedCounter(dictionary: $0) })
-            } else { 
-                self.attackCounters = nil
-            }
-            self.attackId = dictionary["AttackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case mitigations = "Mitigations"
+            case resourceArn = "ResourceArn"
+            case endTime = "EndTime"
+            case subResources = "SubResources"
+            case attackCounters = "AttackCounters"
+            case attackId = "AttackId"
         }
     }
 
     public struct ListAttacksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AttackSummaries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AttackSummaries", required: false, type: .list)
         ]
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items.
         public let nextToken: String?
@@ -213,21 +189,16 @@ extension Shield {
             self.attackSummaries = attackSummaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let attackSummaries = dictionary["AttackSummaries"] as? [[String: Any]] {
-                self.attackSummaries = try attackSummaries.map({ try AttackSummary(dictionary: $0) })
-            } else { 
-                self.attackSummaries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case attackSummaries = "AttackSummaries"
         }
     }
 
     public struct DescribeAttackResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attack", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attack", required: false, type: .structure)
         ]
         /// The attack that is described.
         public let attack: AttackDetail?
@@ -236,17 +207,16 @@ extension Shield {
             self.attack = attack
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attack = dictionary["Attack"] as? [String: Any] { self.attack = try Shield.AttackDetail(dictionary: attack) } else { self.attack = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attack = "Attack"
         }
     }
 
     public struct ListProtectionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Protections", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Protections", required: false, type: .list)
         ]
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections.
         public let nextToken: String?
@@ -258,26 +228,21 @@ extension Shield {
             self.protections = protections
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let protections = dictionary["Protections"] as? [[String: Any]] {
-                self.protections = try protections.map({ try Protection(dictionary: $0) })
-            } else { 
-                self.protections = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case protections = "Protections"
         }
     }
 
     public struct SummarizedCounter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Unit", required: false, type: .string), 
-            AWSShapeProperty(label: "Average", required: false, type: .double), 
-            AWSShapeProperty(label: "N", required: false, type: .integer), 
-            AWSShapeProperty(label: "Max", required: false, type: .double), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Sum", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Unit", required: false, type: .string), 
+            AWSShapeMember(label: "Average", required: false, type: .double), 
+            AWSShapeMember(label: "N", required: false, type: .integer), 
+            AWSShapeMember(label: "Max", required: false, type: .double), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Sum", required: false, type: .double)
         ]
         /// The unit of the counters.
         public let unit: String?
@@ -301,22 +266,21 @@ extension Shield {
             self.sum = sum
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.unit = dictionary["Unit"] as? String
-            self.average = dictionary["Average"] as? Double
-            self.n = dictionary["N"] as? Int32
-            self.max = dictionary["Max"] as? Double
-            self.name = dictionary["Name"] as? String
-            self.sum = dictionary["Sum"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case unit = "Unit"
+            case average = "Average"
+            case n = "N"
+            case max = "Max"
+            case name = "Name"
+            case sum = "Sum"
         }
     }
 
     public struct CreateProtectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// Friendly name for the Protection you are creating.
         public let name: String
@@ -328,19 +292,16 @@ extension Shield {
             self.resourceArn = resourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case resourceArn = "ResourceArn"
         }
     }
 
     public struct DescribeProtectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectionId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object that is described.
         public let protectionId: String
@@ -349,17 +310,15 @@ extension Shield {
             self.protectionId = protectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let protectionId = dictionary["ProtectionId"] as? String else { throw InitializableError.missingRequiredParam("ProtectionId") }
-            self.protectionId = protectionId
+        private enum CodingKeys: String, CodingKey {
+            case protectionId = "ProtectionId"
         }
     }
 
     public struct DescribeAttackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttackId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
@@ -368,17 +327,15 @@ extension Shield {
             self.attackId = attackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attackId = dictionary["AttackId"] as? String else { throw InitializableError.missingRequiredParam("AttackId") }
-            self.attackId = attackId
+        private enum CodingKeys: String, CodingKey {
+            case attackId = "AttackId"
         }
     }
 
     public struct DescribeProtectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Protection", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Protection", required: false, type: .structure)
         ]
         /// The Protection object that is described.
         public let protection: Protection?
@@ -387,16 +344,15 @@ extension Shield {
             self.protection = protection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let protection = dictionary["Protection"] as? [String: Any] { self.protection = try Shield.Protection(dictionary: protection) } else { self.protection = nil }
+        private enum CodingKeys: String, CodingKey {
+            case protection = "Protection"
         }
     }
 
     public struct DeleteProtectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectionId", required: true, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
@@ -405,56 +361,47 @@ extension Shield {
             self.protectionId = protectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let protectionId = dictionary["ProtectionId"] as? String else { throw InitializableError.missingRequiredParam("ProtectionId") }
-            self.protectionId = protectionId
+        private enum CodingKeys: String, CodingKey {
+            case protectionId = "ProtectionId"
         }
     }
 
     public struct DeleteSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct TimeRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ToExclusive", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FromInclusive", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ToExclusive", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FromInclusive", required: false, type: .timestamp)
         ]
         /// The end time, in the format 2016-12-16T15:50Z.
-        public let toExclusive: String?
+        public let toExclusive: Double?
         /// The start time, in the format 2016-12-16T13:50Z.
-        public let fromInclusive: String?
+        public let fromInclusive: Double?
 
-        public init(toExclusive: String? = nil, fromInclusive: String? = nil) {
+        public init(toExclusive: Double? = nil, fromInclusive: Double? = nil) {
             self.toExclusive = toExclusive
             self.fromInclusive = fromInclusive
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.toExclusive = dictionary["ToExclusive"] as? String
-            self.fromInclusive = dictionary["FromInclusive"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case toExclusive = "ToExclusive"
+            case fromInclusive = "FromInclusive"
         }
     }
 
     public struct CreateSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateProtectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectionId", required: false, type: .string)
         ]
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
@@ -463,17 +410,16 @@ extension Shield {
             self.protectionId = protectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.protectionId = dictionary["ProtectionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case protectionId = "ProtectionId"
         }
     }
 
     public struct SummarizedAttackVector: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VectorCounters", required: false, type: .list), 
-            AWSShapeProperty(label: "VectorType", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VectorCounters", required: false, type: .list), 
+            AWSShapeMember(label: "VectorType", required: true, type: .string)
         ]
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
@@ -485,22 +431,16 @@ extension Shield {
             self.vectorType = vectorType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let vectorCounters = dictionary["VectorCounters"] as? [[String: Any]] {
-                self.vectorCounters = try vectorCounters.map({ try SummarizedCounter(dictionary: $0) })
-            } else { 
-                self.vectorCounters = nil
-            }
-            guard let vectorType = dictionary["VectorType"] as? String else { throw InitializableError.missingRequiredParam("VectorType") }
-            self.vectorType = vectorType
+        private enum CodingKeys: String, CodingKey {
+            case vectorCounters = "VectorCounters"
+            case vectorType = "VectorType"
         }
     }
 
     public struct Mitigation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MitigationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MitigationName", required: false, type: .string)
         ]
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
@@ -509,16 +449,15 @@ extension Shield {
             self.mitigationName = mitigationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mitigationName = dictionary["MitigationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mitigationName = "MitigationName"
         }
     }
 
     public struct DescribeSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscription", required: false, type: .structure)
         ]
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
@@ -527,28 +466,24 @@ extension Shield {
             self.subscription = subscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Shield.Subscription(dictionary: subscription) } else { self.subscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subscription = "Subscription"
         }
     }
 
     public struct CreateSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListAttacksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceArns", required: false, type: .list), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "EndTime", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The time period for the attacks.
         public let startTime: TimeRange?
@@ -569,20 +504,19 @@ extension Shield {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let startTime = dictionary["StartTime"] as? [String: Any] { self.startTime = try Shield.TimeRange(dictionary: startTime) } else { self.startTime = nil }
-            self.resourceArns = dictionary["ResourceArns"] as? [String]
-            if let endTime = dictionary["EndTime"] as? [String: Any] { self.endTime = try Shield.TimeRange(dictionary: endTime) } else { self.endTime = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case resourceArns = "ResourceArns"
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct AttackVectorDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VectorType", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VectorType", required: true, type: .string)
         ]
         /// The attack type, for example, SNMP reflection or SYN flood.
         public let vectorType: String
@@ -591,20 +525,18 @@ extension Shield {
             self.vectorType = vectorType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let vectorType = dictionary["VectorType"] as? String else { throw InitializableError.missingRequiredParam("VectorType") }
-            self.vectorType = vectorType
+        private enum CodingKeys: String, CodingKey {
+            case vectorType = "VectorType"
         }
     }
 
     public struct SubResourceSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Counters", required: false, type: .list), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "AttackVectors", required: false, type: .list), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Counters", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "AttackVectors", required: false, type: .list), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The counters that describe the details of the attack.
         public let counters: [SummarizedCounter]?
@@ -622,28 +554,19 @@ extension Shield {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let counters = dictionary["Counters"] as? [[String: Any]] {
-                self.counters = try counters.map({ try SummarizedCounter(dictionary: $0) })
-            } else { 
-                self.counters = nil
-            }
-            if let `type` = dictionary["Type"] as? String { self.`type` = SubResourceType(rawValue: `type`) } else { self.`type` = nil }
-            if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
-                self.attackVectors = try attackVectors.map({ try SummarizedAttackVector(dictionary: $0) })
-            } else { 
-                self.attackVectors = nil
-            }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case counters = "Counters"
+            case `type` = "Type"
+            case attackVectors = "AttackVectors"
+            case id = "Id"
         }
     }
 
     public struct ListProtectionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
         public let nextToken: String?
@@ -655,26 +578,20 @@ extension Shield {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteProtectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
 }

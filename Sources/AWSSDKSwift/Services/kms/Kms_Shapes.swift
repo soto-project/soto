@@ -31,11 +31,10 @@ extension Kms {
 
     public struct ListKeyPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -50,25 +49,24 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["Truncated"] as? Bool
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "Truncated"
+            case policyNames = "PolicyNames"
+            case nextMarker = "NextMarker"
         }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible {
+    public enum WrappingKeySpec: String, CustomStringConvertible, Codable {
         case rsa_2048 = "RSA_2048"
         public var description: String { return self.rawValue }
     }
 
     public struct GetParametersForImportRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "WrappingAlgorithm", required: true, type: .enum), 
-            AWSShapeProperty(label: "WrappingKeySpec", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "WrappingAlgorithm", required: true, type: .enum), 
+            AWSShapeMember(label: "WrappingKeySpec", required: true, type: .enum)
         ]
         /// The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -83,22 +81,18 @@ extension Kms {
             self.wrappingKeySpec = wrappingKeySpec
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            guard let rawWrappingAlgorithm = dictionary["WrappingAlgorithm"] as? String, let wrappingAlgorithm = AlgorithmSpec(rawValue: rawWrappingAlgorithm) else { throw InitializableError.missingRequiredParam("WrappingAlgorithm") }
-            self.wrappingAlgorithm = wrappingAlgorithm
-            guard let rawWrappingKeySpec = dictionary["WrappingKeySpec"] as? String, let wrappingKeySpec = WrappingKeySpec(rawValue: rawWrappingKeySpec) else { throw InitializableError.missingRequiredParam("WrappingKeySpec") }
-            self.wrappingKeySpec = wrappingKeySpec
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case wrappingAlgorithm = "WrappingAlgorithm"
+            case wrappingKeySpec = "WrappingKeySpec"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// One or more tags. Each tag consists of a tag key and a tag value.
         public let tags: [Tag]
@@ -110,19 +104,16 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case keyId = "KeyId"
         }
     }
 
     public struct GenerateRandomRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer)
         ]
         /// The length of the byte string.
         public let numberOfBytes: Int32?
@@ -131,17 +122,16 @@ extension Kms {
             self.numberOfBytes = numberOfBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case numberOfBytes = "NumberOfBytes"
         }
     }
 
     public struct UpdateAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
         /// String that contains the name of the alias to be modified. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/aws" are reserved.
         public let aliasName: String
@@ -153,23 +143,20 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
-            self.aliasName = aliasName
-            guard let targetKeyId = dictionary["TargetKeyId"] as? String else { throw InitializableError.missingRequiredParam("TargetKeyId") }
-            self.targetKeyId = targetKeyId
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case targetKeyId = "TargetKeyId"
         }
     }
 
     public struct ReEncryptRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationEncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "CiphertextBlob", required: true, type: .blob), 
-            AWSShapeProperty(label: "SourceEncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "DestinationKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationEncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeMember(label: "SourceEncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "DestinationKeyId", required: true, type: .string)
         ]
         /// Encryption context to use when the data is reencrypted.
         public let destinationEncryptionContext: [String: String]?
@@ -190,26 +177,16 @@ extension Kms {
             self.destinationKeyId = destinationKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let destinationEncryptionContext = dictionary["DestinationEncryptionContext"] as? [String: String] {
-                self.destinationEncryptionContext = destinationEncryptionContext
-            } else { 
-                self.destinationEncryptionContext = nil
-            }
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
-            guard let ciphertextBlob = dictionary["CiphertextBlob"] as? Data else { throw InitializableError.missingRequiredParam("CiphertextBlob") }
-            self.ciphertextBlob = ciphertextBlob
-            if let sourceEncryptionContext = dictionary["SourceEncryptionContext"] as? [String: String] {
-                self.sourceEncryptionContext = sourceEncryptionContext
-            } else { 
-                self.sourceEncryptionContext = nil
-            }
-            guard let destinationKeyId = dictionary["DestinationKeyId"] as? String else { throw InitializableError.missingRequiredParam("DestinationKeyId") }
-            self.destinationKeyId = destinationKeyId
+        private enum CodingKeys: String, CodingKey {
+            case destinationEncryptionContext = "DestinationEncryptionContext"
+            case grantTokens = "GrantTokens"
+            case ciphertextBlob = "CiphertextBlob"
+            case sourceEncryptionContext = "SourceEncryptionContext"
+            case destinationKeyId = "DestinationKeyId"
         }
     }
 
-    public enum DataKeySpec: String, CustomStringConvertible {
+    public enum DataKeySpec: String, CustomStringConvertible, Codable {
         case aes_256 = "AES_256"
         case aes_128 = "AES_128"
         public var description: String { return self.rawValue }
@@ -217,11 +194,10 @@ extension Kms {
 
     public struct ReEncryptResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
-            AWSShapeProperty(label: "SourceKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "SourceKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The reencrypted data.
         public let ciphertextBlob: Data?
@@ -236,19 +212,18 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
-            self.sourceKeyId = dictionary["SourceKeyId"] as? String
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ciphertextBlob = "CiphertextBlob"
+            case sourceKeyId = "SourceKeyId"
+            case keyId = "KeyId"
         }
     }
 
     public struct KeyListEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// ARN of the key.
         public let keyArn: String?
@@ -260,18 +235,17 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyArn = dictionary["KeyArn"] as? String
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
+            case keyId = "KeyId"
         }
     }
 
     public struct DescribeKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
@@ -283,14 +257,13 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case grantTokens = "GrantTokens"
+            case keyId = "KeyId"
         }
     }
 
-    public enum AlgorithmSpec: String, CustomStringConvertible {
+    public enum AlgorithmSpec: String, CustomStringConvertible, Codable {
         case rsaes_pkcs1_v1_5 = "RSAES_PKCS1_V1_5"
         case rsaes_oaep_sha_1 = "RSAES_OAEP_SHA_1"
         case rsaes_oaep_sha_256 = "RSAES_OAEP_SHA_256"
@@ -299,9 +272,8 @@ extension Kms {
 
     public struct GetKeyPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .string)
         ]
         /// A policy document in JSON format.
         public let policy: String?
@@ -310,18 +282,17 @@ extension Kms {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policy = dictionary["Policy"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct DecryptRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", required: true, type: .blob), 
-            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CiphertextBlob", required: true, type: .blob), 
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list)
         ]
         /// Ciphertext to be decrypted. The blob includes metadata.
         public let ciphertextBlob: Data
@@ -336,25 +307,19 @@ extension Kms {
             self.grantTokens = grantTokens
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ciphertextBlob = dictionary["CiphertextBlob"] as? Data else { throw InitializableError.missingRequiredParam("CiphertextBlob") }
-            self.ciphertextBlob = ciphertextBlob
-            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
-                self.encryptionContext = encryptionContext
-            } else { 
-                self.encryptionContext = nil
-            }
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case ciphertextBlob = "CiphertextBlob"
+            case encryptionContext = "EncryptionContext"
+            case grantTokens = "GrantTokens"
         }
     }
 
     public struct ListAliasesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Aliases", required: false, type: .list), 
-            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Aliases", required: false, type: .list), 
+            AWSShapeMember(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// A list of key aliases in the user's account.
         public let aliases: [AliasListEntry]?
@@ -369,23 +334,18 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let aliases = dictionary["Aliases"] as? [[String: Any]] {
-                self.aliases = try aliases.map({ try AliasListEntry(dictionary: $0) })
-            } else { 
-                self.aliases = nil
-            }
-            self.truncated = dictionary["Truncated"] as? Bool
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case aliases = "Aliases"
+            case truncated = "Truncated"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagValue", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagValue", required: true, type: .string), 
+            AWSShapeMember(label: "TagKey", required: true, type: .string)
         ]
         /// The value of the tag.
         public let tagValue: String
@@ -397,19 +357,16 @@ extension Kms {
             self.tagKey = tagKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tagValue = dictionary["TagValue"] as? String else { throw InitializableError.missingRequiredParam("TagValue") }
-            self.tagValue = tagValue
-            guard let tagKey = dictionary["TagKey"] as? String else { throw InitializableError.missingRequiredParam("TagKey") }
-            self.tagKey = tagKey
+        private enum CodingKeys: String, CodingKey {
+            case tagValue = "TagValue"
+            case tagKey = "TagKey"
         }
     }
 
     public struct GetKeyRotationStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyRotationEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyRotationEnabled", required: false, type: .boolean)
         ]
         /// A Boolean value that specifies whether key rotation is enabled.
         public let keyRotationEnabled: Bool?
@@ -418,19 +375,18 @@ extension Kms {
             self.keyRotationEnabled = keyRotationEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyRotationEnabled = dictionary["KeyRotationEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case keyRotationEnabled = "KeyRotationEnabled"
         }
     }
 
     public struct PutKeyPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Policy", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Policy", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
@@ -448,33 +404,29 @@ extension Kms {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bypassPolicyLockoutSafetyCheck = dictionary["BypassPolicyLockoutSafetyCheck"] as? Bool
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
-            self.policy = policy
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case keyId = "KeyId"
+            case policy = "Policy"
+            case policyName = "PolicyName"
         }
     }
 
     public struct KeyMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Origin", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpirationModel", required: false, type: .enum), 
-            AWSShapeProperty(label: "AWSAccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyState", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "KeyUsage", required: false, type: .enum), 
-            AWSShapeProperty(label: "ValidTo", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Origin", required: false, type: .enum), 
+            AWSShapeMember(label: "ExpirationModel", required: false, type: .enum), 
+            AWSShapeMember(label: "AWSAccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyState", required: false, type: .enum), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeMember(label: "ValidTo", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the CMK. For examples, see AWS Key Management Service (AWS KMS) in the Example ARNs section of the AWS General Reference.
         public let arn: String?
@@ -491,17 +443,17 @@ extension Kms {
         /// The state of the CMK. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
         public let keyState: KeyState?
         /// The date and time when the CMK was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The cryptographic operations for which you can use the CMK. Currently the only allowed value is ENCRYPT_DECRYPT, which means you can use the CMK for the Encrypt and Decrypt operations.
         public let keyUsage: KeyUsageType?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
-        public let validTo: String?
+        public let validTo: Double?
         /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion, otherwise this value is omitted.
-        public let deletionDate: String?
+        public let deletionDate: Double?
         /// The description of the CMK.
         public let description: String?
 
-        public init(arn: String? = nil, keyId: String, origin: OriginType? = nil, expirationModel: ExpirationModelType? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: KeyState? = nil, creationDate: String? = nil, keyUsage: KeyUsageType? = nil, validTo: String? = nil, deletionDate: String? = nil, description: String? = nil) {
+        public init(arn: String? = nil, keyId: String, origin: OriginType? = nil, expirationModel: ExpirationModelType? = nil, aWSAccountId: String? = nil, enabled: Bool? = nil, keyState: KeyState? = nil, creationDate: Double? = nil, keyUsage: KeyUsageType? = nil, validTo: Double? = nil, deletionDate: Double? = nil, description: String? = nil) {
             self.arn = arn
             self.keyId = keyId
             self.origin = origin
@@ -516,28 +468,26 @@ extension Kms {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            if let origin = dictionary["Origin"] as? String { self.origin = OriginType(rawValue: origin) } else { self.origin = nil }
-            if let expirationModel = dictionary["ExpirationModel"] as? String { self.expirationModel = ExpirationModelType(rawValue: expirationModel) } else { self.expirationModel = nil }
-            self.aWSAccountId = dictionary["AWSAccountId"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            if let keyState = dictionary["KeyState"] as? String { self.keyState = KeyState(rawValue: keyState) } else { self.keyState = nil }
-            self.creationDate = dictionary["CreationDate"] as? String
-            if let keyUsage = dictionary["KeyUsage"] as? String { self.keyUsage = KeyUsageType(rawValue: keyUsage) } else { self.keyUsage = nil }
-            self.validTo = dictionary["ValidTo"] as? String
-            self.deletionDate = dictionary["DeletionDate"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case keyId = "KeyId"
+            case origin = "Origin"
+            case expirationModel = "ExpirationModel"
+            case aWSAccountId = "AWSAccountId"
+            case enabled = "Enabled"
+            case keyState = "KeyState"
+            case creationDate = "CreationDate"
+            case keyUsage = "KeyUsage"
+            case validTo = "ValidTo"
+            case deletionDate = "DeletionDate"
+            case description = "Description"
         }
     }
 
     public struct CancelKeyDeletionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// The unique identifier for the customer master key (CMK) for which to cancel deletion. To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey.
         public let keyId: String
@@ -546,19 +496,17 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct ListKeyPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -573,20 +521,18 @@ extension Kms {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case keyId = "KeyId"
+            case limit = "Limit"
         }
     }
 
     public struct CreateAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: true, type: .string), 
+            AWSShapeMember(label: "TargetKeyId", required: true, type: .string)
         ]
         /// String that contains the display name. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
         public let aliasName: String
@@ -598,25 +544,22 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
-            self.aliasName = aliasName
-            guard let targetKeyId = dictionary["TargetKeyId"] as? String else { throw InitializableError.missingRequiredParam("TargetKeyId") }
-            self.targetKeyId = targetKeyId
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case targetKeyId = "TargetKeyId"
         }
     }
 
-    public enum KeyUsageType: String, CustomStringConvertible {
+    public enum KeyUsageType: String, CustomStringConvertible, Codable {
         case encrypt_decrypt = "ENCRYPT_DECRYPT"
         public var description: String { return self.rawValue }
     }
 
     public struct ScheduleKeyDeletionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PendingWindowInDays", required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PendingWindowInDays", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
         public let pendingWindowInDays: Int32?
@@ -628,19 +571,17 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pendingWindowInDays = dictionary["PendingWindowInDays"] as? Int32
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case pendingWindowInDays = "PendingWindowInDays"
+            case keyId = "KeyId"
         }
     }
 
     public struct CreateGrantResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GrantId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantToken", required: false, type: .string), 
+            AWSShapeMember(label: "GrantId", required: false, type: .string)
         ]
         /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
         public let grantToken: String?
@@ -652,19 +593,18 @@ extension Kms {
             self.grantId = grantId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.grantToken = dictionary["GrantToken"] as? String
-            self.grantId = dictionary["GrantId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case grantToken = "GrantToken"
+            case grantId = "GrantId"
         }
     }
 
     public struct ListRetirableGrantsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "RetiringPrincipal", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -679,20 +619,18 @@ extension Kms {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let retiringPrincipal = dictionary["RetiringPrincipal"] as? String else { throw InitializableError.missingRequiredParam("RetiringPrincipal") }
-            self.retiringPrincipal = retiringPrincipal
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case retiringPrincipal = "RetiringPrincipal"
+            case limit = "Limit"
         }
     }
 
     public struct ListKeysRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -704,20 +642,19 @@ extension Kms {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case limit = "Limit"
         }
     }
 
     public struct GetParametersForImportResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportToken", required: false, type: .blob), 
-            AWSShapeProperty(label: "PublicKey", required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "ParametersValidTo", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportToken", required: false, type: .blob), 
+            AWSShapeMember(label: "PublicKey", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "ParametersValidTo", required: false, type: .timestamp)
         ]
         /// The import token to send in a subsequent ImportKeyMaterial request.
         public let importToken: Data?
@@ -726,28 +663,27 @@ extension Kms {
         /// The identifier of the CMK to use in a subsequent ImportKeyMaterial request. This is the same CMK specified in the GetParametersForImport request.
         public let keyId: String?
         /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an ImportKeyMaterial request and you must send another GetParametersForImport request to retrieve new ones.
-        public let parametersValidTo: String?
+        public let parametersValidTo: Double?
 
-        public init(importToken: Data? = nil, publicKey: Data? = nil, keyId: String? = nil, parametersValidTo: String? = nil) {
+        public init(importToken: Data? = nil, publicKey: Data? = nil, keyId: String? = nil, parametersValidTo: Double? = nil) {
             self.importToken = importToken
             self.publicKey = publicKey
             self.keyId = keyId
             self.parametersValidTo = parametersValidTo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.importToken = dictionary["ImportToken"] as? Data
-            self.publicKey = dictionary["PublicKey"] as? Data
-            self.keyId = dictionary["KeyId"] as? String
-            self.parametersValidTo = dictionary["ParametersValidTo"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case importToken = "ImportToken"
+            case publicKey = "PublicKey"
+            case keyId = "KeyId"
+            case parametersValidTo = "ParametersValidTo"
         }
     }
 
     public struct DisableKeyRotationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -756,19 +692,17 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct ListResourceTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -783,19 +717,17 @@ extension Kms {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case keyId = "KeyId"
+            case limit = "Limit"
         }
     }
 
     public struct EnableKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -804,28 +736,23 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct ImportKeyMaterialResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct EncryptRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "Plaintext", required: true, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "Plaintext", required: true, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list)
         ]
         /// Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context.
         public let encryptionContext: [String: String]?
@@ -843,21 +770,15 @@ extension Kms {
             self.grantTokens = grantTokens
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
-                self.encryptionContext = encryptionContext
-            } else { 
-                self.encryptionContext = nil
-            }
-            guard let plaintext = dictionary["Plaintext"] as? Data else { throw InitializableError.missingRequiredParam("Plaintext") }
-            self.plaintext = plaintext
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "EncryptionContext"
+            case plaintext = "Plaintext"
+            case keyId = "KeyId"
+            case grantTokens = "GrantTokens"
         }
     }
 
-    public enum ExpirationModelType: String, CustomStringConvertible {
+    public enum ExpirationModelType: String, CustomStringConvertible, Codable {
         case key_material_expires = "KEY_MATERIAL_EXPIRES"
         case key_material_does_not_expire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
         public var description: String { return self.rawValue }
@@ -865,9 +786,8 @@ extension Kms {
 
     public struct EnableKeyRotationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -876,18 +796,16 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct RevokeGrantRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantId", required: true, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantId", required: true, type: .string), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// Identifier of the grant to be revoked.
         public let grantId: String
@@ -899,21 +817,18 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let grantId = dictionary["GrantId"] as? String else { throw InitializableError.missingRequiredParam("GrantId") }
-            self.grantId = grantId
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case grantId = "GrantId"
+            case keyId = "KeyId"
         }
     }
 
     public struct RetireGrantRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GrantToken", required: false, type: .string), 
-            AWSShapeProperty(label: "GrantId", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GrantToken", required: false, type: .string), 
+            AWSShapeMember(label: "GrantId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// Token that identifies the grant to be retired.
         public let grantToken: String?
@@ -928,18 +843,17 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.grantToken = dictionary["GrantToken"] as? String
-            self.grantId = dictionary["GrantId"] as? String
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case grantToken = "GrantToken"
+            case grantId = "GrantId"
+            case keyId = "KeyId"
         }
     }
 
     public struct CancelKeyDeletionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The unique identifier of the master key for which deletion is canceled.
         public let keyId: String?
@@ -948,16 +862,15 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct GenerateRandomResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Plaintext", required: false, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Plaintext", required: false, type: .blob)
         ]
         /// The random byte string.
         public let plaintext: Data?
@@ -966,22 +879,21 @@ extension Kms {
             self.plaintext = plaintext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.plaintext = dictionary["Plaintext"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case plaintext = "Plaintext"
         }
     }
 
     public struct CreateGrantRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Operations", required: false, type: .list), 
-            AWSShapeProperty(label: "GranteePrincipal", required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "RetiringPrincipal", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Operations", required: false, type: .list), 
+            AWSShapeMember(label: "GranteePrincipal", required: true, type: .string), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "Constraints", required: false, type: .structure)
         ]
         /// The unique identifier for the customer master key (CMK) that the grant applies to. To specify this value, use the globally unique key ID or the Amazon Resource Name (ARN) of the key. Examples:   Globally unique key ID: 12345678-1234-1234-1234-123456789012   Key ARN: arn:aws:kms:us-west-2:123456789012:key/12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1008,24 +920,21 @@ extension Kms {
             self.constraints = constraints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
-            self.name = dictionary["Name"] as? String
-            if let operations = dictionary["Operations"] as? [String] { self.operations = operations.flatMap({ GrantOperation(rawValue: $0)}) } else { self.operations = nil }
-            guard let granteePrincipal = dictionary["GranteePrincipal"] as? String else { throw InitializableError.missingRequiredParam("GranteePrincipal") }
-            self.granteePrincipal = granteePrincipal
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
-            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Kms.GrantConstraints(dictionary: constraints) } else { self.constraints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case retiringPrincipal = "RetiringPrincipal"
+            case name = "Name"
+            case operations = "Operations"
+            case granteePrincipal = "GranteePrincipal"
+            case grantTokens = "GrantTokens"
+            case constraints = "Constraints"
         }
     }
 
     public struct DescribeKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyMetadata", required: false, type: .structure)
         ]
         /// Metadata associated with the key.
         public let keyMetadata: KeyMetadata?
@@ -1034,17 +943,16 @@ extension Kms {
             self.keyMetadata = keyMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keyMetadata = dictionary["KeyMetadata"] as? [String: Any] { self.keyMetadata = try Kms.KeyMetadata(dictionary: keyMetadata) } else { self.keyMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyMetadata = "KeyMetadata"
         }
     }
 
     public struct UpdateKeyDescriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// A unique identifier for the CMK. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1056,20 +964,17 @@ extension Kms {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case description = "Description"
         }
     }
 
     public struct GetKeyPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1081,23 +986,20 @@ extension Kms {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case policyName = "PolicyName"
         }
     }
 
     public struct GenerateDataKeyWithoutPlaintextRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "KeySpec", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeySpec", required: false, type: .enum)
         ]
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
@@ -1118,21 +1020,16 @@ extension Kms {
             self.keySpec = keySpec
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
-                self.encryptionContext = encryptionContext
-            } else { 
-                self.encryptionContext = nil
-            }
-            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
-            if let keySpec = dictionary["KeySpec"] as? String { self.keySpec = DataKeySpec(rawValue: keySpec) } else { self.keySpec = nil }
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "EncryptionContext"
+            case numberOfBytes = "NumberOfBytes"
+            case keyId = "KeyId"
+            case grantTokens = "GrantTokens"
+            case keySpec = "KeySpec"
         }
     }
 
-    public enum KeyState: String, CustomStringConvertible {
+    public enum KeyState: String, CustomStringConvertible, Codable {
         case enabled = "Enabled"
         case disabled = "Disabled"
         case pendingdeletion = "PendingDeletion"
@@ -1142,11 +1039,10 @@ extension Kms {
 
     public struct ListKeysResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Keys", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Keys", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1161,24 +1057,19 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["Truncated"] as? Bool
-            if let keys = dictionary["Keys"] as? [[String: Any]] {
-                self.keys = try keys.map({ try KeyListEntry(dictionary: $0) })
-            } else { 
-                self.keys = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "Truncated"
+            case keys = "Keys"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct ListGrantsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Grants", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Grants", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1193,22 +1084,17 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["Truncated"] as? Bool
-            if let grants = dictionary["Grants"] as? [[String: Any]] {
-                self.grants = try grants.map({ try GrantListEntry(dictionary: $0) })
-            } else { 
-                self.grants = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "Truncated"
+            case grants = "Grants"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct DeleteAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: true, type: .string)
         ]
         /// The alias to be deleted. The name must start with the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/AWS" are reserved.
         public let aliasName: String
@@ -1217,18 +1103,16 @@ extension Kms {
             self.aliasName = aliasName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aliasName = dictionary["AliasName"] as? String else { throw InitializableError.missingRequiredParam("AliasName") }
-            self.aliasName = aliasName
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
         }
     }
 
     public struct ListAliasesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -1240,18 +1124,17 @@ extension Kms {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case limit = "Limit"
         }
     }
 
     public struct DecryptResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Plaintext", required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Plaintext", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// Decrypted plaintext data. This value may not be returned if the customer master key is not available or if you didn't have permission to use it.
         public let plaintext: Data?
@@ -1263,19 +1146,18 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.plaintext = dictionary["Plaintext"] as? Data
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case plaintext = "Plaintext"
+            case keyId = "KeyId"
         }
     }
 
     public struct GenerateDataKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
-            AWSShapeProperty(label: "Plaintext", required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "Plaintext", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted data encryption key.
         public let ciphertextBlob: Data?
@@ -1290,14 +1172,14 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
-            self.plaintext = dictionary["Plaintext"] as? Data
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ciphertextBlob = "CiphertextBlob"
+            case plaintext = "Plaintext"
+            case keyId = "KeyId"
         }
     }
 
-    public enum GrantOperation: String, CustomStringConvertible {
+    public enum GrantOperation: String, CustomStringConvertible, Codable {
         case decrypt = "Decrypt"
         case encrypt = "Encrypt"
         case generatedatakey = "GenerateDataKey"
@@ -1312,32 +1194,30 @@ extension Kms {
 
     public struct ScheduleKeyDeletionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The date and time after which AWS KMS deletes the customer master key (CMK).
-        public let deletionDate: String?
+        public let deletionDate: Double?
         /// The unique identifier of the customer master key (CMK) for which deletion is scheduled.
         public let keyId: String?
 
-        public init(deletionDate: String? = nil, keyId: String? = nil) {
+        public init(deletionDate: Double? = nil, keyId: String? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deletionDate = dictionary["DeletionDate"] as? String
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deletionDate = "DeletionDate"
+            case keyId = "KeyId"
         }
     }
 
     public struct DeleteImportedKeyMaterialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// The identifier of the CMK whose key material to delete. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -1346,21 +1226,19 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct GenerateDataKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContext", required: false, type: .map), 
-            AWSShapeProperty(label: "NumberOfBytes", required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "GrantTokens", required: false, type: .list), 
-            AWSShapeProperty(label: "KeySpec", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContext", required: false, type: .map), 
+            AWSShapeMember(label: "NumberOfBytes", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "GrantTokens", required: false, type: .list), 
+            AWSShapeMember(label: "KeySpec", required: false, type: .enum)
         ]
         /// A set of key-value pairs that represents additional authenticated data. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
@@ -1381,25 +1259,19 @@ extension Kms {
             self.keySpec = keySpec
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let encryptionContext = dictionary["EncryptionContext"] as? [String: String] {
-                self.encryptionContext = encryptionContext
-            } else { 
-                self.encryptionContext = nil
-            }
-            self.numberOfBytes = dictionary["NumberOfBytes"] as? Int32
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.grantTokens = dictionary["GrantTokens"] as? [String]
-            if let keySpec = dictionary["KeySpec"] as? String { self.keySpec = DataKeySpec(rawValue: keySpec) } else { self.keySpec = nil }
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "EncryptionContext"
+            case numberOfBytes = "NumberOfBytes"
+            case keyId = "KeyId"
+            case grantTokens = "GrantTokens"
+            case keySpec = "KeySpec"
         }
     }
 
     public struct CreateKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyMetadata", required: false, type: .structure)
         ]
         /// Metadata associated with the CMK.
         public let keyMetadata: KeyMetadata?
@@ -1408,24 +1280,23 @@ extension Kms {
             self.keyMetadata = keyMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let keyMetadata = dictionary["KeyMetadata"] as? [String: Any] { self.keyMetadata = try Kms.KeyMetadata(dictionary: keyMetadata) } else { self.keyMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyMetadata = "KeyMetadata"
         }
     }
 
     public struct GrantListEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "RetiringPrincipal", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Operations", required: false, type: .list), 
-            AWSShapeProperty(label: "GrantId", required: false, type: .string), 
-            AWSShapeProperty(label: "IssuingAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GranteePrincipal", required: false, type: .string), 
-            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "RetiringPrincipal", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Operations", required: false, type: .list), 
+            AWSShapeMember(label: "GrantId", required: false, type: .string), 
+            AWSShapeMember(label: "IssuingAccount", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GranteePrincipal", required: false, type: .string), 
+            AWSShapeMember(label: "Constraints", required: false, type: .structure)
         ]
         /// The unique identifier for the customer master key (CMK) to which the grant applies.
         public let keyId: String?
@@ -1440,13 +1311,13 @@ extension Kms {
         /// The AWS account under which the grant was issued.
         public let issuingAccount: String?
         /// The date and time when the grant was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// The principal that receives the grant's permissions.
         public let granteePrincipal: String?
         /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
         public let constraints: GrantConstraints?
 
-        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: String? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
+        public init(keyId: String? = nil, retiringPrincipal: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, grantId: String? = nil, issuingAccount: String? = nil, creationDate: Double? = nil, granteePrincipal: String? = nil, constraints: GrantConstraints? = nil) {
             self.keyId = keyId
             self.retiringPrincipal = retiringPrincipal
             self.name = name
@@ -1458,26 +1329,25 @@ extension Kms {
             self.constraints = constraints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["KeyId"] as? String
-            self.retiringPrincipal = dictionary["RetiringPrincipal"] as? String
-            self.name = dictionary["Name"] as? String
-            if let operations = dictionary["Operations"] as? [String] { self.operations = operations.flatMap({ GrantOperation(rawValue: $0)}) } else { self.operations = nil }
-            self.grantId = dictionary["GrantId"] as? String
-            self.issuingAccount = dictionary["IssuingAccount"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.granteePrincipal = dictionary["GranteePrincipal"] as? String
-            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Kms.GrantConstraints(dictionary: constraints) } else { self.constraints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case retiringPrincipal = "RetiringPrincipal"
+            case name = "Name"
+            case operations = "Operations"
+            case grantId = "GrantId"
+            case issuingAccount = "IssuingAccount"
+            case creationDate = "CreationDate"
+            case granteePrincipal = "GranteePrincipal"
+            case constraints = "Constraints"
         }
     }
 
     public struct ListGrantsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
@@ -1492,20 +1362,18 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case limit = "Limit"
+            case keyId = "KeyId"
         }
     }
 
     public struct GrantConstraints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EncryptionContextSubset", required: false, type: .map), 
-            AWSShapeProperty(label: "EncryptionContextEquals", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EncryptionContextSubset", required: false, type: .map), 
+            AWSShapeMember(label: "EncryptionContextEquals", required: false, type: .map)
         ]
         /// A list of key-value pairs, all of which must be present in the encryption context of certain subsequent operations that the grant allows. When certain subsequent operations allowed by the grant include encryption context that matches this list or is a superset of this list, the grant allows the operation. Otherwise, the grant does not allow the operation.
         public let encryptionContextSubset: [String: String]?
@@ -1517,25 +1385,16 @@ extension Kms {
             self.encryptionContextEquals = encryptionContextEquals
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let encryptionContextSubset = dictionary["EncryptionContextSubset"] as? [String: String] {
-                self.encryptionContextSubset = encryptionContextSubset
-            } else { 
-                self.encryptionContextSubset = nil
-            }
-            if let encryptionContextEquals = dictionary["EncryptionContextEquals"] as? [String: String] {
-                self.encryptionContextEquals = encryptionContextEquals
-            } else { 
-                self.encryptionContextEquals = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContextSubset = "EncryptionContextSubset"
+            case encryptionContextEquals = "EncryptionContextEquals"
         }
     }
 
     public struct GetKeyRotationStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.   Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012  
         public let keyId: String
@@ -1544,17 +1403,15 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
     public struct DisableKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string)
         ]
         /// A unique identifier for the CMK. Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:   Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab  
         public let keyId: String
@@ -1563,13 +1420,12 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
         }
     }
 
-    public enum OriginType: String, CustomStringConvertible {
+    public enum OriginType: String, CustomStringConvertible, Codable {
         case aws_kms = "AWS_KMS"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
@@ -1577,11 +1433,10 @@ extension Kms {
 
     public struct AliasListEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AliasName", required: false, type: .string), 
-            AWSShapeProperty(label: "AliasArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AliasName", required: false, type: .string), 
+            AWSShapeMember(label: "AliasArn", required: false, type: .string), 
+            AWSShapeMember(label: "TargetKeyId", required: false, type: .string)
         ]
         /// String that contains the alias.
         public let aliasName: String?
@@ -1596,22 +1451,21 @@ extension Kms {
             self.targetKeyId = targetKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.aliasName = dictionary["AliasName"] as? String
-            self.aliasArn = dictionary["AliasArn"] as? String
-            self.targetKeyId = dictionary["TargetKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case aliasArn = "AliasArn"
+            case targetKeyId = "TargetKeyId"
         }
     }
 
     public struct ImportKeyMaterialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ImportToken", required: true, type: .blob), 
-            AWSShapeProperty(label: "EncryptedKeyMaterial", required: true, type: .blob), 
-            AWSShapeProperty(label: "ExpirationModel", required: false, type: .enum), 
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "ValidTo", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImportToken", required: true, type: .blob), 
+            AWSShapeMember(label: "EncryptedKeyMaterial", required: true, type: .blob), 
+            AWSShapeMember(label: "ExpirationModel", required: false, type: .enum), 
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "ValidTo", required: false, type: .timestamp)
         ]
         /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
         public let importToken: Data
@@ -1622,9 +1476,9 @@ extension Kms {
         /// The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL. A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
-        public let validTo: String?
+        public let validTo: Double?
 
-        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, keyId: String, validTo: String? = nil) {
+        public init(importToken: Data, encryptedKeyMaterial: Data, expirationModel: ExpirationModelType? = nil, keyId: String, validTo: Double? = nil) {
             self.importToken = importToken
             self.encryptedKeyMaterial = encryptedKeyMaterial
             self.expirationModel = expirationModel
@@ -1632,24 +1486,20 @@ extension Kms {
             self.validTo = validTo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let importToken = dictionary["ImportToken"] as? Data else { throw InitializableError.missingRequiredParam("ImportToken") }
-            self.importToken = importToken
-            guard let encryptedKeyMaterial = dictionary["EncryptedKeyMaterial"] as? Data else { throw InitializableError.missingRequiredParam("EncryptedKeyMaterial") }
-            self.encryptedKeyMaterial = encryptedKeyMaterial
-            if let expirationModel = dictionary["ExpirationModel"] as? String { self.expirationModel = ExpirationModelType(rawValue: expirationModel) } else { self.expirationModel = nil }
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            self.validTo = dictionary["ValidTo"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case importToken = "ImportToken"
+            case encryptedKeyMaterial = "EncryptedKeyMaterial"
+            case expirationModel = "ExpirationModel"
+            case keyId = "KeyId"
+            case validTo = "ValidTo"
         }
     }
 
     public struct EncryptResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted plaintext. If you are using the CLI, the value is Base64 encoded. Otherwise, it is not encoded.
         public let ciphertextBlob: Data?
@@ -1661,22 +1511,21 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ciphertextBlob = "CiphertextBlob"
+            case keyId = "KeyId"
         }
     }
 
     public struct CreateKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "KeyUsage", required: false, type: .enum), 
-            AWSShapeProperty(label: "Origin", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Policy", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BypassPolicyLockoutSafetyCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "KeyUsage", required: false, type: .enum), 
+            AWSShapeMember(label: "Origin", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Policy", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
@@ -1700,26 +1549,21 @@ extension Kms {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bypassPolicyLockoutSafetyCheck = dictionary["BypassPolicyLockoutSafetyCheck"] as? Bool
-            if let keyUsage = dictionary["KeyUsage"] as? String { self.keyUsage = KeyUsageType(rawValue: keyUsage) } else { self.keyUsage = nil }
-            if let origin = dictionary["Origin"] as? String { self.origin = OriginType(rawValue: origin) } else { self.origin = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.policy = dictionary["Policy"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case keyUsage = "KeyUsage"
+            case origin = "Origin"
+            case tags = "Tags"
+            case policy = "Policy"
+            case description = "Description"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// A unique identifier for the CMK from which you are removing tags. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:   Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab   
         public let keyId: String
@@ -1731,21 +1575,18 @@ extension Kms {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
-            self.keyId = keyId
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ListResourceTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To retrieve more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1760,23 +1601,18 @@ extension Kms {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["Truncated"] as? Bool
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "Truncated"
+            case tags = "Tags"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct GenerateDataKeyWithoutPlaintextResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CiphertextBlob", required: false, type: .blob), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CiphertextBlob", required: false, type: .blob), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string)
         ]
         /// The encrypted data encryption key.
         public let ciphertextBlob: Data?
@@ -1788,9 +1624,9 @@ extension Kms {
             self.keyId = keyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ciphertextBlob = dictionary["CiphertextBlob"] as? Data
-            self.keyId = dictionary["KeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ciphertextBlob = "CiphertextBlob"
+            case keyId = "KeyId"
         }
     }
 

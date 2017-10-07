@@ -31,13 +31,12 @@ extension Directconnect {
 
     public struct CreateLagRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "location", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionsBandwidth", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "numberOfConnections", required: true, type: .integer), 
-            AWSShapeProperty(label: "lagName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "connectionsBandwidth", required: true, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "numberOfConnections", required: true, type: .integer), 
+            AWSShapeMember(label: "lagName", required: true, type: .string)
         ]
         /// The AWS Direct Connect location in which the LAG should be allocated. Example: EqSV5 Default: None
         public let location: String
@@ -58,24 +57,19 @@ extension Directconnect {
             self.lagName = lagName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
-            self.location = location
-            guard let connectionsBandwidth = dictionary["connectionsBandwidth"] as? String else { throw InitializableError.missingRequiredParam("connectionsBandwidth") }
-            self.connectionsBandwidth = connectionsBandwidth
-            self.connectionId = dictionary["connectionId"] as? String
-            guard let numberOfConnections = dictionary["numberOfConnections"] as? Int32 else { throw InitializableError.missingRequiredParam("numberOfConnections") }
-            self.numberOfConnections = numberOfConnections
-            guard let lagName = dictionary["lagName"] as? String else { throw InitializableError.missingRequiredParam("lagName") }
-            self.lagName = lagName
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case connectionsBandwidth = "connectionsBandwidth"
+            case connectionId = "connectionId"
+            case numberOfConnections = "numberOfConnections"
+            case lagName = "lagName"
         }
     }
 
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceTags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceTags", required: false, type: .list)
         ]
         /// Information about the tags.
         public let resourceTags: [ResourceTag]?
@@ -84,20 +78,15 @@ extension Directconnect {
             self.resourceTags = resourceTags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceTags = dictionary["resourceTags"] as? [[String: Any]] {
-                self.resourceTags = try resourceTags.map({ try ResourceTag(dictionary: $0) })
-            } else { 
-                self.resourceTags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceTags = "resourceTags"
         }
     }
 
     public struct VirtualGateways: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualGateways", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualGateways", required: false, type: .list)
         ]
         /// A list of virtual private gateways.
         public let virtualGateways: [VirtualGateway]?
@@ -106,21 +95,16 @@ extension Directconnect {
             self.virtualGateways = virtualGateways
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualGateways = dictionary["virtualGateways"] as? [[String: Any]] {
-                self.virtualGateways = try virtualGateways.map({ try VirtualGateway(dictionary: $0) })
-            } else { 
-                self.virtualGateways = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case virtualGateways = "virtualGateways"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the Direct Connect resource. Example: arn:aws:directconnect:us-east-1:123456789012:dxcon/dxcon-fg5678gh
         public let resourceArn: String
@@ -132,23 +116,20 @@ extension Directconnect {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct AllocateHostedConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ownerAccount", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionName", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer), 
-            AWSShapeProperty(label: "bandwidth", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string)
         ]
         /// The numeric account ID of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
         public let ownerAccount: String
@@ -169,36 +150,30 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
-            self.ownerAccount = ownerAccount
-            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
-            self.connectionName = connectionName
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
-            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
-            self.bandwidth = bandwidth
+        private enum CodingKeys: String, CodingKey {
+            case ownerAccount = "ownerAccount"
+            case connectionName = "connectionName"
+            case connectionId = "connectionId"
+            case vlan = "vlan"
+            case bandwidth = "bandwidth"
         }
     }
 
     public struct Lag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connections", required: false, type: .list), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "lagId", required: false, type: .string), 
-            AWSShapeProperty(label: "lagState", required: false, type: .enum), 
-            AWSShapeProperty(label: "awsDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "numberOfConnections", required: false, type: .integer), 
-            AWSShapeProperty(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "region", required: false, type: .string), 
-            AWSShapeProperty(label: "minimumLinks", required: false, type: .integer), 
-            AWSShapeProperty(label: "allowsHostedConnections", required: false, type: .boolean), 
-            AWSShapeProperty(label: "connectionsBandwidth", required: false, type: .string), 
-            AWSShapeProperty(label: "lagName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connections", required: false, type: .list), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "lagState", required: false, type: .enum), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "numberOfConnections", required: false, type: .integer), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
+            AWSShapeMember(label: "allowsHostedConnections", required: false, type: .boolean), 
+            AWSShapeMember(label: "connectionsBandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "lagName", required: false, type: .string)
         ]
         /// A list of connections bundled by this LAG.
         public let connections: [Connection]?
@@ -236,31 +211,26 @@ extension Directconnect {
             self.lagName = lagName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connections = dictionary["connections"] as? [[String: Any]] {
-                self.connections = try connections.map({ try Connection(dictionary: $0) })
-            } else { 
-                self.connections = nil
-            }
-            self.location = dictionary["location"] as? String
-            self.lagId = dictionary["lagId"] as? String
-            if let lagState = dictionary["lagState"] as? String { self.lagState = LagState(rawValue: lagState) } else { self.lagState = nil }
-            self.awsDevice = dictionary["awsDevice"] as? String
-            self.numberOfConnections = dictionary["numberOfConnections"] as? Int32
-            self.ownerAccount = dictionary["ownerAccount"] as? String
-            self.region = dictionary["region"] as? String
-            self.minimumLinks = dictionary["minimumLinks"] as? Int32
-            self.allowsHostedConnections = dictionary["allowsHostedConnections"] as? Bool
-            self.connectionsBandwidth = dictionary["connectionsBandwidth"] as? String
-            self.lagName = dictionary["lagName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case connections = "connections"
+            case location = "location"
+            case lagId = "lagId"
+            case lagState = "lagState"
+            case awsDevice = "awsDevice"
+            case numberOfConnections = "numberOfConnections"
+            case ownerAccount = "ownerAccount"
+            case region = "region"
+            case minimumLinks = "minimumLinks"
+            case allowsHostedConnections = "allowsHostedConnections"
+            case connectionsBandwidth = "connectionsBandwidth"
+            case lagName = "lagName"
         }
     }
 
     public struct DeleteVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -268,17 +238,16 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
     public struct AssociateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
         /// The ID of the virtual interface. Example: dxvif-123dfg56 Default: None
         public let virtualInterfaceId: String
@@ -290,15 +259,13 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
-            self.virtualInterfaceId = virtualInterfaceId
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+            case connectionId = "connectionId"
         }
     }
 
-    public enum BGPPeerState: String, CustomStringConvertible {
+    public enum BGPPeerState: String, CustomStringConvertible, Codable {
         case verifying = "verifying"
         case pending = "pending"
         case available = "available"
@@ -309,9 +276,8 @@ extension Directconnect {
 
     public struct CreateBGPPeerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterface", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
         public let virtualInterface: VirtualInterface?
 
@@ -319,16 +285,15 @@ extension Directconnect {
             self.virtualInterface = virtualInterface
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) } else { self.virtualInterface = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
         }
     }
 
     public struct DescribeLagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lagId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lagId", required: false, type: .string)
         ]
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
         public let lagId: String?
@@ -337,16 +302,15 @@ extension Directconnect {
             self.lagId = lagId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lagId = dictionary["lagId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lagId = "lagId"
         }
     }
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArns", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArns", required: true, type: .list)
         ]
         /// The Amazon Resource Names (ARNs) of the Direct Connect resources.
         public let resourceArns: [String]
@@ -355,17 +319,15 @@ extension Directconnect {
             self.resourceArns = resourceArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArns = dictionary["resourceArns"] as? [String] else { throw InitializableError.missingRequiredParam("resourceArns") }
-            self.resourceArns = resourceArns
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "resourceArns"
         }
     }
 
     public struct DescribeConnectionLoaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loa", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loa", required: false, type: .structure)
         ]
         public let loa: Loa?
 
@@ -373,12 +335,12 @@ extension Directconnect {
             self.loa = loa
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) } else { self.loa = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loa = "loa"
         }
     }
 
-    public enum LagState: String, CustomStringConvertible {
+    public enum LagState: String, CustomStringConvertible, Codable {
         case requested = "requested"
         case pending = "pending"
         case available = "available"
@@ -390,16 +352,15 @@ extension Directconnect {
 
     public struct NewPublicVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: true, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
         public let customerAddress: String?
         public let virtualInterfaceName: String
@@ -421,26 +382,19 @@ extension Directconnect {
             self.vlan = vlan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerAddress = dictionary["customerAddress"] as? String
-            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
-            self.virtualInterfaceName = virtualInterfaceName
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
-            self.asn = asn
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
-                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
-            } else { 
-                self.routeFilterPrefixes = nil
-            }
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case vlan = "vlan"
         }
     }
 
-    public enum InterconnectState: String, CustomStringConvertible {
+    public enum InterconnectState: String, CustomStringConvertible, Codable {
         case requested = "requested"
         case pending = "pending"
         case available = "available"
@@ -452,10 +406,9 @@ extension Directconnect {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .string), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The key of the tag.
         public let key: String
@@ -467,19 +420,17 @@ extension Directconnect {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "newPrivateVirtualInterface", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPrivateVirtualInterface", required: true, type: .structure)
         ]
         public let connectionId: String
         /// Detailed information for the private virtual interface to be created. Default: None
@@ -490,20 +441,17 @@ extension Directconnect {
             self.newPrivateVirtualInterface = newPrivateVirtualInterface
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let newPrivateVirtualInterface = dictionary["newPrivateVirtualInterface"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPrivateVirtualInterface") }
-            self.newPrivateVirtualInterface = try Directconnect.NewPrivateVirtualInterface(dictionary: newPrivateVirtualInterface)
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
         }
     }
 
     public struct AssociateHostedConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "parentConnectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "parentConnectionId", required: true, type: .string)
         ]
         /// The ID of the hosted connection. Example: dxcon-abc123 Default: None
         public let connectionId: String
@@ -515,19 +463,16 @@ extension Directconnect {
             self.parentConnectionId = parentConnectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let parentConnectionId = dictionary["parentConnectionId"] as? String else { throw InitializableError.missingRequiredParam("parentConnectionId") }
-            self.parentConnectionId = parentConnectionId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case parentConnectionId = "parentConnectionId"
         }
     }
 
     public struct DeleteInterconnectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "interconnectId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: true, type: .string)
         ]
         public let interconnectId: String
 
@@ -535,19 +480,17 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
-            self.interconnectId = interconnectId
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
         }
     }
 
     public struct DescribeInterconnectLoaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "providerName", required: false, type: .string), 
-            AWSShapeProperty(label: "loaContentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "interconnectId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "interconnectId", required: true, type: .string)
         ]
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
         public let providerName: String?
@@ -560,26 +503,24 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.providerName = dictionary["providerName"] as? String
-            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
-            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
-            self.interconnectId = interconnectId
+        private enum CodingKeys: String, CodingKey {
+            case providerName = "providerName"
+            case loaContentType = "loaContentType"
+            case interconnectId = "interconnectId"
         }
     }
 
     public struct NewPublicVirtualInterface: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: true, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
         public let customerAddress: String?
         public let virtualInterfaceName: String
@@ -601,30 +542,22 @@ extension Directconnect {
             self.vlan = vlan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerAddress = dictionary["customerAddress"] as? String
-            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
-            self.virtualInterfaceName = virtualInterfaceName
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
-            self.asn = asn
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
-                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
-            } else { 
-                self.routeFilterPrefixes = nil
-            }
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case vlan = "vlan"
         }
     }
 
     public struct Interconnects: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "interconnects", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnects", required: false, type: .list)
         ]
         /// A list of interconnects.
         public let interconnects: [Interconnect]?
@@ -633,22 +566,17 @@ extension Directconnect {
             self.interconnects = interconnects
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let interconnects = dictionary["interconnects"] as? [[String: Any]] {
-                self.interconnects = try interconnects.map({ try Interconnect(dictionary: $0) })
-            } else { 
-                self.interconnects = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case interconnects = "interconnects"
         }
     }
 
     public struct AllocatePrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
-            AWSShapeProperty(label: "ownerAccount", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPrivateVirtualInterfaceAllocation", required: true, type: .structure), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
         /// The connection ID on which the private virtual interface is provisioned. Default: None
         public let connectionId: String
@@ -663,21 +591,17 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let newPrivateVirtualInterfaceAllocation = dictionary["newPrivateVirtualInterfaceAllocation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPrivateVirtualInterfaceAllocation") }
-            self.newPrivateVirtualInterfaceAllocation = try Directconnect.NewPrivateVirtualInterfaceAllocation(dictionary: newPrivateVirtualInterfaceAllocation)
-            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
-            self.ownerAccount = ownerAccount
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPrivateVirtualInterfaceAllocation = "newPrivateVirtualInterfaceAllocation"
+            case ownerAccount = "ownerAccount"
         }
     }
 
     public struct DeleteLagRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lagId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
         /// The ID of the LAG to delete. Example: dxlag-abc123 Default: None
         public let lagId: String
@@ -686,19 +610,17 @@ extension Directconnect {
             self.lagId = lagId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
-            self.lagId = lagId
+        private enum CodingKeys: String, CodingKey {
+            case lagId = "lagId"
         }
     }
 
     public struct UpdateLagRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "minimumLinks", required: false, type: .integer), 
-            AWSShapeProperty(label: "lagId", required: true, type: .string), 
-            AWSShapeProperty(label: "lagName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "minimumLinks", required: false, type: .integer), 
+            AWSShapeMember(label: "lagId", required: true, type: .string), 
+            AWSShapeMember(label: "lagName", required: false, type: .string)
         ]
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. Default: None
         public let minimumLinks: Int32?
@@ -713,26 +635,24 @@ extension Directconnect {
             self.lagName = lagName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.minimumLinks = dictionary["minimumLinks"] as? Int32
-            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
-            self.lagId = lagId
-            self.lagName = dictionary["lagName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case minimumLinks = "minimumLinks"
+            case lagId = "lagId"
+            case lagName = "lagName"
         }
     }
 
     public struct NewPrivateVirtualInterface: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: true, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "virtualGatewayId", required: true, type: .string), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
         public let customerAddress: String?
         public let virtualInterfaceName: String
@@ -754,27 +674,22 @@ extension Directconnect {
             self.vlan = vlan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerAddress = dictionary["customerAddress"] as? String
-            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
-            self.virtualInterfaceName = virtualInterfaceName
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
-            self.asn = asn
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            guard let virtualGatewayId = dictionary["virtualGatewayId"] as? String else { throw InitializableError.missingRequiredParam("virtualGatewayId") }
-            self.virtualGatewayId = virtualGatewayId
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
+            case virtualGatewayId = "virtualGatewayId"
+            case vlan = "vlan"
         }
     }
 
     public struct DescribeHostedConnectionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
         /// The ID of the interconnect or LAG on which the hosted connections are provisioned. Example: dxcon-abc123 or dxlag-abc123 Default: None
         public let connectionId: String
@@ -783,17 +698,15 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
         }
     }
 
     public struct DeleteConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
         public let connectionId: String
 
@@ -801,23 +714,21 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
         }
     }
 
     public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceName", required: true, type: .string), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: true, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: true, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: true, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer)
         ]
         public let customerAddress: String?
         public let virtualInterfaceName: String
@@ -837,26 +748,22 @@ extension Directconnect {
             self.vlan = vlan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerAddress = dictionary["customerAddress"] as? String
-            guard let virtualInterfaceName = dictionary["virtualInterfaceName"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceName") }
-            self.virtualInterfaceName = virtualInterfaceName
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            guard let asn = dictionary["asn"] as? Int32 else { throw InitializableError.missingRequiredParam("asn") }
-            self.asn = asn
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
+            case vlan = "vlan"
         }
     }
 
     public struct CreatePublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "newPublicVirtualInterface", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "newPublicVirtualInterface", required: true, type: .structure)
         ]
         public let connectionId: String
         /// Detailed information for the public virtual interface to be created. Default: None
@@ -867,15 +774,13 @@ extension Directconnect {
             self.newPublicVirtualInterface = newPublicVirtualInterface
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let newPublicVirtualInterface = dictionary["newPublicVirtualInterface"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPublicVirtualInterface") }
-            self.newPublicVirtualInterface = try Directconnect.NewPublicVirtualInterface(dictionary: newPublicVirtualInterface)
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case newPublicVirtualInterface = "newPublicVirtualInterface"
         }
     }
 
-    public enum VirtualInterfaceState: String, CustomStringConvertible {
+    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
         case confirming = "confirming"
         case verifying = "verifying"
         case pending = "pending"
@@ -889,9 +794,8 @@ extension Directconnect {
 
     public struct DescribeInterconnectsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "interconnectId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: false, type: .string)
         ]
         public let interconnectId: String?
 
@@ -899,17 +803,16 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.interconnectId = dictionary["interconnectId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
         }
     }
 
     public struct ResourceTag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
         public let resourceArn: String?
@@ -921,21 +824,16 @@ extension Directconnect {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceArn = dictionary["resourceArn"] as? String
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct ConfirmConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string)
         ]
         public let connectionId: String
 
@@ -943,18 +841,16 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
         }
     }
 
     public struct AssociateConnectionWithLagRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "lagId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
         /// The ID of the connection. Example: dxcon-abc123 Default: None
         public let connectionId: String
@@ -966,15 +862,13 @@ extension Directconnect {
             self.lagId = lagId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
-            self.lagId = lagId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case lagId = "lagId"
         }
     }
 
-    public enum AddressFamily: String, CustomStringConvertible {
+    public enum AddressFamily: String, CustomStringConvertible, Codable {
         case ipv4 = "ipv4"
         case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
@@ -982,11 +876,10 @@ extension Directconnect {
 
     public struct AllocatePublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "ownerAccount", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "newPublicVirtualInterfaceAllocation", required: true, type: .structure), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
         /// Detailed information for the public virtual interface to be provisioned. Default: None
         public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
@@ -1001,21 +894,17 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let newPublicVirtualInterfaceAllocation = dictionary["newPublicVirtualInterfaceAllocation"] as? [String: Any] else { throw InitializableError.missingRequiredParam("newPublicVirtualInterfaceAllocation") }
-            self.newPublicVirtualInterfaceAllocation = try Directconnect.NewPublicVirtualInterfaceAllocation(dictionary: newPublicVirtualInterfaceAllocation)
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
-            self.ownerAccount = ownerAccount
+        private enum CodingKeys: String, CodingKey {
+            case newPublicVirtualInterfaceAllocation = "newPublicVirtualInterfaceAllocation"
+            case connectionId = "connectionId"
+            case ownerAccount = "ownerAccount"
         }
     }
 
     public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
         public let virtualInterfaceId: String
 
@@ -1023,20 +912,18 @@ extension Directconnect {
             self.virtualInterfaceId = virtualInterfaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
-            self.virtualInterfaceId = virtualInterfaceId
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
     public struct CreateInterconnectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "location", required: true, type: .string), 
-            AWSShapeProperty(label: "lagId", required: false, type: .string), 
-            AWSShapeProperty(label: "interconnectName", required: true, type: .string), 
-            AWSShapeProperty(label: "bandwidth", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "interconnectName", required: true, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string)
         ]
         /// Where the interconnect is located Example: EqSV5 Default: None
         public let location: String
@@ -1053,22 +940,18 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
-            self.location = location
-            self.lagId = dictionary["lagId"] as? String
-            guard let interconnectName = dictionary["interconnectName"] as? String else { throw InitializableError.missingRequiredParam("interconnectName") }
-            self.interconnectName = interconnectName
-            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
-            self.bandwidth = bandwidth
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+            case lagId = "lagId"
+            case interconnectName = "interconnectName"
+            case bandwidth = "bandwidth"
         }
     }
 
     public struct Connections: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connections", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connections", required: false, type: .list)
         ]
         /// A list of connections.
         public let connections: [Connection]?
@@ -1077,20 +960,15 @@ extension Directconnect {
             self.connections = connections
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connections = dictionary["connections"] as? [[String: Any]] {
-                self.connections = try connections.map({ try Connection(dictionary: $0) })
-            } else { 
-                self.connections = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case connections = "connections"
         }
     }
 
     public struct DescribeInterconnectLoaResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loa", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loa", required: false, type: .structure)
         ]
         public let loa: Loa?
 
@@ -1098,30 +976,29 @@ extension Directconnect {
             self.loa = loa
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) } else { self.loa = nil }
+        private enum CodingKeys: String, CodingKey {
+            case loa = "loa"
         }
     }
 
     public struct Connection: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loaIssueTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "bandwidth", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "lagId", required: false, type: .string), 
-            AWSShapeProperty(label: "awsDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "region", required: false, type: .string), 
-            AWSShapeProperty(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionState", required: false, type: .enum), 
-            AWSShapeProperty(label: "connectionName", required: false, type: .string), 
-            AWSShapeProperty(label: "vlan", required: false, type: .integer), 
-            AWSShapeProperty(label: "partnerName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "bandwidth", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "connectionState", required: false, type: .enum), 
+            AWSShapeMember(label: "connectionName", required: false, type: .string), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer), 
+            AWSShapeMember(label: "partnerName", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: String?
+        public let loaIssueTime: Double?
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
         public let bandwidth: String?
         public let location: String?
@@ -1138,7 +1015,7 @@ extension Directconnect {
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
 
-        public init(loaIssueTime: String? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
+        public init(loaIssueTime: Double? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.bandwidth = bandwidth
             self.location = location
@@ -1153,27 +1030,26 @@ extension Directconnect {
             self.partnerName = partnerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loaIssueTime = dictionary["loaIssueTime"] as? String
-            self.bandwidth = dictionary["bandwidth"] as? String
-            self.location = dictionary["location"] as? String
-            self.lagId = dictionary["lagId"] as? String
-            self.awsDevice = dictionary["awsDevice"] as? String
-            self.connectionId = dictionary["connectionId"] as? String
-            self.region = dictionary["region"] as? String
-            self.ownerAccount = dictionary["ownerAccount"] as? String
-            if let connectionState = dictionary["connectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
-            self.connectionName = dictionary["connectionName"] as? String
-            self.vlan = dictionary["vlan"] as? Int32
-            self.partnerName = dictionary["partnerName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loaIssueTime = "loaIssueTime"
+            case bandwidth = "bandwidth"
+            case location = "location"
+            case lagId = "lagId"
+            case awsDevice = "awsDevice"
+            case connectionId = "connectionId"
+            case region = "region"
+            case ownerAccount = "ownerAccount"
+            case connectionState = "connectionState"
+            case connectionName = "connectionName"
+            case vlan = "vlan"
+            case partnerName = "partnerName"
         }
     }
 
     public struct DescribeConnectionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: false, type: .string)
         ]
         public let connectionId: String?
 
@@ -1181,16 +1057,15 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.connectionId = dictionary["connectionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
         }
     }
 
     public struct Lags: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lags", required: false, type: .list)
         ]
         /// A list of LAGs.
         public let lags: [Lag]?
@@ -1199,20 +1074,15 @@ extension Directconnect {
             self.lags = lags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lags = dictionary["lags"] as? [[String: Any]] {
-                self.lags = try lags.map({ try Lag(dictionary: $0) })
-            } else { 
-                self.lags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case lags = "lags"
         }
     }
 
     public struct DeleteInterconnectResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "interconnectState", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectState", required: false, type: .enum)
         ]
         public let interconnectState: InterconnectState?
 
@@ -1220,30 +1090,26 @@ extension Directconnect {
             self.interconnectState = interconnectState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let interconnectState = dictionary["interconnectState"] as? String { self.interconnectState = InterconnectState(rawValue: interconnectState) } else { self.interconnectState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case interconnectState = "interconnectState"
         }
     }
 
     public struct TagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct BGPPeer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bgpPeerState", required: false, type: .enum), 
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "bgpStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: false, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bgpPeerState", required: false, type: .enum), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "bgpStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum)
         ]
         public let bgpPeerState: BGPPeerState?
         public let customerAddress: String?
@@ -1263,23 +1129,22 @@ extension Directconnect {
             self.addressFamily = addressFamily
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let bgpPeerState = dictionary["bgpPeerState"] as? String { self.bgpPeerState = BGPPeerState(rawValue: bgpPeerState) } else { self.bgpPeerState = nil }
-            self.customerAddress = dictionary["customerAddress"] as? String
-            if let bgpStatus = dictionary["bgpStatus"] as? String { self.bgpStatus = BGPStatus(rawValue: bgpStatus) } else { self.bgpStatus = nil }
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            self.asn = dictionary["asn"] as? Int32
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bgpPeerState = "bgpPeerState"
+            case customerAddress = "customerAddress"
+            case bgpStatus = "bgpStatus"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
         }
     }
 
     public struct DisassociateConnectionFromLagRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "lagId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: true, type: .string)
         ]
         /// The ID of the connection to disassociate from the LAG. Example: dxcon-abc123 Default: None
         public let connectionId: String
@@ -1291,20 +1156,17 @@ extension Directconnect {
             self.lagId = lagId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            guard let lagId = dictionary["lagId"] as? String else { throw InitializableError.missingRequiredParam("lagId") }
-            self.lagId = lagId
+        private enum CodingKeys: String, CodingKey {
+            case connectionId = "connectionId"
+            case lagId = "lagId"
         }
     }
 
     public struct CreateBGPPeerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "newBGPPeer", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "newBGPPeer", required: false, type: .structure)
         ]
         /// The ID of the virtual interface on which the BGP peer will be provisioned. Example: dxvif-456abc78 Default: None
         public let virtualInterfaceId: String?
@@ -1316,13 +1178,13 @@ extension Directconnect {
             self.newBGPPeer = newBGPPeer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            if let newBGPPeer = dictionary["newBGPPeer"] as? [String: Any] { self.newBGPPeer = try Directconnect.NewBGPPeer(dictionary: newBGPPeer) } else { self.newBGPPeer = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+            case newBGPPeer = "newBGPPeer"
         }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible {
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
         case ordering = "ordering"
         case requested = "requested"
         case pending = "pending"
@@ -1336,9 +1198,8 @@ extension Directconnect {
 
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -1346,16 +1207,15 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
     public struct DeleteBGPPeerResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterface", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterface", required: false, type: .structure)
         ]
         public let virtualInterface: VirtualInterface?
 
@@ -1363,17 +1223,16 @@ extension Directconnect {
             self.virtualInterface = virtualInterface
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) } else { self.virtualInterface = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterface = "virtualInterface"
         }
     }
 
     public struct DescribeVirtualInterfacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string)
         ]
         public let virtualInterfaceId: String?
         public let connectionId: String?
@@ -1383,19 +1242,18 @@ extension Directconnect {
             self.connectionId = connectionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            self.connectionId = dictionary["connectionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+            case connectionId = "connectionId"
         }
     }
 
     public struct DescribeLoaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "providerName", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "loaContentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum)
         ]
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
         public let providerName: String?
@@ -1410,21 +1268,19 @@ extension Directconnect {
             self.loaContentType = loaContentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.providerName = dictionary["providerName"] as? String
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case providerName = "providerName"
+            case connectionId = "connectionId"
+            case loaContentType = "loaContentType"
         }
     }
 
     public struct DeleteBGPPeerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: false, type: .integer), 
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string)
         ]
         /// The ID of the virtual interface from which the BGP peer will be deleted. Example: dxvif-456abc78 Default: None
         public let virtualInterfaceId: String?
@@ -1437,29 +1293,28 @@ extension Directconnect {
             self.customerAddress = customerAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            self.asn = dictionary["asn"] as? Int32
-            self.customerAddress = dictionary["customerAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+            case asn = "asn"
+            case customerAddress = "customerAddress"
         }
     }
 
     public struct Interconnect: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loaIssueTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "interconnectState", required: false, type: .enum), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "awsDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "lagId", required: false, type: .string), 
-            AWSShapeProperty(label: "region", required: false, type: .string), 
-            AWSShapeProperty(label: "interconnectName", required: false, type: .string), 
-            AWSShapeProperty(label: "interconnectId", required: false, type: .string), 
-            AWSShapeProperty(label: "bandwidth", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loaIssueTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "interconnectState", required: false, type: .enum), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "awsDevice", required: false, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "region", required: false, type: .string), 
+            AWSShapeMember(label: "interconnectName", required: false, type: .string), 
+            AWSShapeMember(label: "interconnectId", required: false, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        public let loaIssueTime: String?
+        public let loaIssueTime: Double?
         public let interconnectState: InterconnectState?
         public let location: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
@@ -1470,7 +1325,7 @@ extension Directconnect {
         public let interconnectId: String?
         public let bandwidth: String?
 
-        public init(loaIssueTime: String? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
+        public init(loaIssueTime: Double? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.interconnectState = interconnectState
             self.location = location
@@ -1482,28 +1337,27 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loaIssueTime = dictionary["loaIssueTime"] as? String
-            if let interconnectState = dictionary["interconnectState"] as? String { self.interconnectState = InterconnectState(rawValue: interconnectState) } else { self.interconnectState = nil }
-            self.location = dictionary["location"] as? String
-            self.awsDevice = dictionary["awsDevice"] as? String
-            self.lagId = dictionary["lagId"] as? String
-            self.region = dictionary["region"] as? String
-            self.interconnectName = dictionary["interconnectName"] as? String
-            self.interconnectId = dictionary["interconnectId"] as? String
-            self.bandwidth = dictionary["bandwidth"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loaIssueTime = "loaIssueTime"
+            case interconnectState = "interconnectState"
+            case location = "location"
+            case awsDevice = "awsDevice"
+            case lagId = "lagId"
+            case region = "region"
+            case interconnectName = "interconnectName"
+            case interconnectId = "interconnectId"
+            case bandwidth = "bandwidth"
         }
     }
 
     public struct AllocateConnectionOnInterconnectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "bandwidth", required: true, type: .string), 
-            AWSShapeProperty(label: "connectionName", required: true, type: .string), 
-            AWSShapeProperty(label: "interconnectId", required: true, type: .string), 
-            AWSShapeProperty(label: "vlan", required: true, type: .integer), 
-            AWSShapeProperty(label: "ownerAccount", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "bandwidth", required: true, type: .string), 
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
+            AWSShapeMember(label: "interconnectId", required: true, type: .string), 
+            AWSShapeMember(label: "vlan", required: true, type: .integer), 
+            AWSShapeMember(label: "ownerAccount", required: true, type: .string)
         ]
         /// Bandwidth of the connection. Example: "500Mbps" Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
         public let bandwidth: String
@@ -1524,25 +1378,19 @@ extension Directconnect {
             self.ownerAccount = ownerAccount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
-            self.bandwidth = bandwidth
-            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
-            self.connectionName = connectionName
-            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
-            self.interconnectId = interconnectId
-            guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
-            self.vlan = vlan
-            guard let ownerAccount = dictionary["ownerAccount"] as? String else { throw InitializableError.missingRequiredParam("ownerAccount") }
-            self.ownerAccount = ownerAccount
+        private enum CodingKeys: String, CodingKey {
+            case bandwidth = "bandwidth"
+            case connectionName = "connectionName"
+            case interconnectId = "interconnectId"
+            case vlan = "vlan"
+            case ownerAccount = "ownerAccount"
         }
     }
 
     public struct DescribeConnectionsOnInterconnectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "interconnectId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "interconnectId", required: true, type: .string)
         ]
         /// ID of the interconnect on which a list of connection is provisioned. Example: dxcon-abc123 Default: None
         public let interconnectId: String
@@ -1551,22 +1399,20 @@ extension Directconnect {
             self.interconnectId = interconnectId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let interconnectId = dictionary["interconnectId"] as? String else { throw InitializableError.missingRequiredParam("interconnectId") }
-            self.interconnectId = interconnectId
+        private enum CodingKeys: String, CodingKey {
+            case interconnectId = "interconnectId"
         }
     }
 
-    public enum LoaContentType: String, CustomStringConvertible {
+    public enum LoaContentType: String, CustomStringConvertible, Codable {
         case application_pdf = "application/pdf"
         public var description: String { return self.rawValue }
     }
 
     public struct VirtualInterfaces: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaces", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaces", required: false, type: .list)
         ]
         /// A list of virtual interfaces.
         public let virtualInterfaces: [VirtualInterface]?
@@ -1575,16 +1421,12 @@ extension Directconnect {
             self.virtualInterfaces = virtualInterfaces
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterfaces = dictionary["virtualInterfaces"] as? [[String: Any]] {
-                self.virtualInterfaces = try virtualInterfaces.map({ try VirtualInterface(dictionary: $0) })
-            } else { 
-                self.virtualInterfaces = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaces = "virtualInterfaces"
         }
     }
 
-    public enum BGPStatus: String, CustomStringConvertible {
+    public enum BGPStatus: String, CustomStringConvertible, Codable {
         case up = "up"
         case down = "down"
         public var description: String { return self.rawValue }
@@ -1592,18 +1434,14 @@ extension Directconnect {
 
     public struct UntagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Location: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "locationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "locationName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locationCode", required: false, type: .string), 
+            AWSShapeMember(label: "locationName", required: false, type: .string)
         ]
         /// The code used to indicate the AWS Direct Connect location.
         public let locationCode: String?
@@ -1615,18 +1453,17 @@ extension Directconnect {
             self.locationName = locationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.locationCode = dictionary["locationCode"] as? String
-            self.locationName = dictionary["locationName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case locationCode = "locationCode"
+            case locationName = "locationName"
         }
     }
 
     public struct Loa: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "loaContentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "loaContent", required: false, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum), 
+            AWSShapeMember(label: "loaContent", required: false, type: .blob)
         ]
         public let loaContentType: LoaContentType?
         public let loaContent: Data?
@@ -1636,33 +1473,32 @@ extension Directconnect {
             self.loaContent = loaContent
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
-            self.loaContent = dictionary["loaContent"] as? Data
+        private enum CodingKeys: String, CodingKey {
+            case loaContentType = "loaContentType"
+            case loaContent = "loaContent"
         }
     }
 
     public struct VirtualInterface: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceType", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: false, type: .string), 
-            AWSShapeProperty(label: "ownerAccount", required: false, type: .string), 
-            AWSShapeProperty(label: "asn", required: false, type: .integer), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "routeFilterPrefixes", required: false, type: .list), 
-            AWSShapeProperty(label: "location", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceName", required: false, type: .string), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string), 
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "customerRouterConfig", required: false, type: .string), 
-            AWSShapeProperty(label: "bgpPeers", required: false, type: .list), 
-            AWSShapeProperty(label: "virtualGatewayId", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum), 
-            AWSShapeProperty(label: "vlan", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceType", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: false, type: .string), 
+            AWSShapeMember(label: "ownerAccount", required: false, type: .string), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "routeFilterPrefixes", required: false, type: .list), 
+            AWSShapeMember(label: "location", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceName", required: false, type: .string), 
+            AWSShapeMember(label: "authKey", required: false, type: .string), 
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "customerRouterConfig", required: false, type: .string), 
+            AWSShapeMember(label: "bgpPeers", required: false, type: .list), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum), 
+            AWSShapeMember(label: "vlan", required: false, type: .integer)
         ]
         public let customerAddress: String?
         public let virtualInterfaceType: String?
@@ -1704,40 +1540,31 @@ extension Directconnect {
             self.vlan = vlan
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerAddress = dictionary["customerAddress"] as? String
-            self.virtualInterfaceType = dictionary["virtualInterfaceType"] as? String
-            self.connectionId = dictionary["connectionId"] as? String
-            self.ownerAccount = dictionary["ownerAccount"] as? String
-            self.asn = dictionary["asn"] as? Int32
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
-                self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
-            } else { 
-                self.routeFilterPrefixes = nil
-            }
-            self.location = dictionary["location"] as? String
-            self.virtualInterfaceName = dictionary["virtualInterfaceName"] as? String
-            self.authKey = dictionary["authKey"] as? String
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            self.customerRouterConfig = dictionary["customerRouterConfig"] as? String
-            if let bgpPeers = dictionary["bgpPeers"] as? [[String: Any]] {
-                self.bgpPeers = try bgpPeers.map({ try BGPPeer(dictionary: $0) })
-            } else { 
-                self.bgpPeers = nil
-            }
-            self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
-            self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
-            self.vlan = dictionary["vlan"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case customerAddress = "customerAddress"
+            case virtualInterfaceType = "virtualInterfaceType"
+            case connectionId = "connectionId"
+            case ownerAccount = "ownerAccount"
+            case asn = "asn"
+            case addressFamily = "addressFamily"
+            case routeFilterPrefixes = "routeFilterPrefixes"
+            case location = "location"
+            case virtualInterfaceName = "virtualInterfaceName"
+            case authKey = "authKey"
+            case amazonAddress = "amazonAddress"
+            case customerRouterConfig = "customerRouterConfig"
+            case bgpPeers = "bgpPeers"
+            case virtualGatewayId = "virtualGatewayId"
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceState = "virtualInterfaceState"
+            case vlan = "vlan"
         }
     }
 
     public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceState", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceState", required: false, type: .enum)
         ]
         public let virtualInterfaceState: VirtualInterfaceState?
 
@@ -1745,16 +1572,15 @@ extension Directconnect {
             self.virtualInterfaceState = virtualInterfaceState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let virtualInterfaceState = dictionary["virtualInterfaceState"] as? String { self.virtualInterfaceState = VirtualInterfaceState(rawValue: virtualInterfaceState) } else { self.virtualInterfaceState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceState = "virtualInterfaceState"
         }
     }
 
     public struct Locations: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "locations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "locations", required: false, type: .list)
         ]
         /// A list of colocation hubs where network providers have equipment. Most regions have multiple locations available.
         public let locations: [Location]?
@@ -1763,23 +1589,18 @@ extension Directconnect {
             self.locations = locations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let locations = dictionary["locations"] as? [[String: Any]] {
-                self.locations = try locations.map({ try Location(dictionary: $0) })
-            } else { 
-                self.locations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case locations = "locations"
         }
     }
 
     public struct CreateConnectionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionName", required: true, type: .string), 
-            AWSShapeProperty(label: "location", required: true, type: .string), 
-            AWSShapeProperty(label: "lagId", required: false, type: .string), 
-            AWSShapeProperty(label: "bandwidth", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionName", required: true, type: .string), 
+            AWSShapeMember(label: "location", required: true, type: .string), 
+            AWSShapeMember(label: "lagId", required: false, type: .string), 
+            AWSShapeMember(label: "bandwidth", required: true, type: .string)
         ]
         public let connectionName: String
         public let location: String
@@ -1793,24 +1614,20 @@ extension Directconnect {
             self.bandwidth = bandwidth
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectionName = dictionary["connectionName"] as? String else { throw InitializableError.missingRequiredParam("connectionName") }
-            self.connectionName = connectionName
-            guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
-            self.location = location
-            self.lagId = dictionary["lagId"] as? String
-            guard let bandwidth = dictionary["bandwidth"] as? String else { throw InitializableError.missingRequiredParam("bandwidth") }
-            self.bandwidth = bandwidth
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "connectionName"
+            case location = "location"
+            case lagId = "lagId"
+            case bandwidth = "bandwidth"
         }
     }
 
     public struct DescribeConnectionLoaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "providerName", required: false, type: .string), 
-            AWSShapeProperty(label: "connectionId", required: true, type: .string), 
-            AWSShapeProperty(label: "loaContentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "providerName", required: false, type: .string), 
+            AWSShapeMember(label: "connectionId", required: true, type: .string), 
+            AWSShapeMember(label: "loaContentType", required: false, type: .enum)
         ]
         /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
         public let providerName: String?
@@ -1823,20 +1640,18 @@ extension Directconnect {
             self.loaContentType = loaContentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.providerName = dictionary["providerName"] as? String
-            guard let connectionId = dictionary["connectionId"] as? String else { throw InitializableError.missingRequiredParam("connectionId") }
-            self.connectionId = connectionId
-            if let loaContentType = dictionary["loaContentType"] as? String { self.loaContentType = LoaContentType(rawValue: loaContentType) } else { self.loaContentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case providerName = "providerName"
+            case connectionId = "connectionId"
+            case loaContentType = "loaContentType"
         }
     }
 
     public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "virtualGatewayId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: true, type: .string)
         ]
         public let virtualInterfaceId: String
         /// ID of the virtual private gateway that will be attached to the virtual interface.  A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action. Default: None
@@ -1847,23 +1662,20 @@ extension Directconnect {
             self.virtualGatewayId = virtualGatewayId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
-            self.virtualInterfaceId = virtualInterfaceId
-            guard let virtualGatewayId = dictionary["virtualGatewayId"] as? String else { throw InitializableError.missingRequiredParam("virtualGatewayId") }
-            self.virtualGatewayId = virtualGatewayId
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualGatewayId = "virtualGatewayId"
         }
     }
 
     public struct NewBGPPeer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "amazonAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "customerAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "addressFamily", required: false, type: .enum), 
-            AWSShapeProperty(label: "asn", required: false, type: .integer), 
-            AWSShapeProperty(label: "authKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "amazonAddress", required: false, type: .string), 
+            AWSShapeMember(label: "customerAddress", required: false, type: .string), 
+            AWSShapeMember(label: "addressFamily", required: false, type: .enum), 
+            AWSShapeMember(label: "asn", required: false, type: .integer), 
+            AWSShapeMember(label: "authKey", required: false, type: .string)
         ]
         public let amazonAddress: String?
         public let customerAddress: String?
@@ -1879,20 +1691,19 @@ extension Directconnect {
             self.authKey = authKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amazonAddress = dictionary["amazonAddress"] as? String
-            self.customerAddress = dictionary["customerAddress"] as? String
-            if let addressFamily = dictionary["addressFamily"] as? String { self.addressFamily = AddressFamily(rawValue: addressFamily) } else { self.addressFamily = nil }
-            self.asn = dictionary["asn"] as? Int32
-            self.authKey = dictionary["authKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case amazonAddress = "amazonAddress"
+            case customerAddress = "customerAddress"
+            case addressFamily = "addressFamily"
+            case asn = "asn"
+            case authKey = "authKey"
         }
     }
 
     public struct ConfirmConnectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectionState", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectionState", required: false, type: .enum)
         ]
         public let connectionState: ConnectionState?
 
@@ -1900,16 +1711,15 @@ extension Directconnect {
             self.connectionState = connectionState
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connectionState = dictionary["connectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
+        private enum CodingKeys: String, CodingKey {
+            case connectionState = "connectionState"
         }
     }
 
     public struct RouteFilterPrefix: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cidr", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cidr", required: false, type: .string)
         ]
         /// CIDR notation for the advertised route. Multiple routes are separated by commas. IPv6 CIDRs must be at least a /64 or shorter Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
         public let cidr: String?
@@ -1918,16 +1728,15 @@ extension Directconnect {
             self.cidr = cidr
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cidr = dictionary["cidr"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
         }
     }
 
     public struct DeleteVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualInterfaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualInterfaceId", required: true, type: .string)
         ]
         public let virtualInterfaceId: String
 
@@ -1935,18 +1744,16 @@ extension Directconnect {
             self.virtualInterfaceId = virtualInterfaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualInterfaceId = dictionary["virtualInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("virtualInterfaceId") }
-            self.virtualInterfaceId = virtualInterfaceId
+        private enum CodingKeys: String, CodingKey {
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "tagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
         public let resourceArn: String
@@ -1958,20 +1765,17 @@ extension Directconnect {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["resourceArn"] as? String else { throw InitializableError.missingRequiredParam("resourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagKeys = dictionary["tagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("tagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct VirtualGateway: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "virtualGatewayState", required: false, type: .string), 
-            AWSShapeProperty(label: "virtualGatewayId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "virtualGatewayState", required: false, type: .string), 
+            AWSShapeMember(label: "virtualGatewayId", required: false, type: .string)
         ]
         public let virtualGatewayState: String?
         public let virtualGatewayId: String?
@@ -1981,9 +1785,9 @@ extension Directconnect {
             self.virtualGatewayId = virtualGatewayId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.virtualGatewayState = dictionary["virtualGatewayState"] as? String
-            self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case virtualGatewayState = "virtualGatewayState"
+            case virtualGatewayId = "virtualGatewayId"
         }
     }
 

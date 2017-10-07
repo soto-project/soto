@@ -31,9 +31,8 @@ extension Storagegateway {
 
     public struct DeleteSnapshotScheduleOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         public let volumeARN: String?
 
@@ -41,16 +40,15 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeARN = dictionary["VolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct DeleteTapeArchiveOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the virtual tape shelf (VTS).
         public let tapeARN: String?
@@ -59,16 +57,15 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct ResetCacheInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -76,17 +73,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeGatewayInformationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -94,18 +89,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct SetLocalConsolePasswordInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LocalConsolePassword", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LocalConsolePassword", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The password you want to set for your VM local console.
         public let localConsolePassword: String
@@ -116,20 +109,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let localConsolePassword = dictionary["LocalConsolePassword"] as? String else { throw InitializableError.missingRequiredParam("LocalConsolePassword") }
-            self.localConsolePassword = localConsolePassword
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case localConsolePassword = "LocalConsolePassword"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeTapesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Tapes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Tapes", required: false, type: .list)
         ]
         /// An opaque string which can be used as part of a subsequent DescribeTapes call to retrieve the next page of results. If a response does not contain a marker, then there are no more results to be retrieved.
         public let marker: String?
@@ -141,21 +131,16 @@ extension Storagegateway {
             self.tapes = tapes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let tapes = dictionary["Tapes"] as? [[String: Any]] {
-                self.tapes = try tapes.map({ try Tape(dictionary: $0) })
-            } else { 
-                self.tapes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tapes = "Tapes"
         }
     }
 
     public struct AddUploadBufferOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -163,17 +148,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct RetrieveTapeArchiveInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -185,19 +169,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct RefreshCacheOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         public let fileShareARN: String?
 
@@ -205,18 +186,17 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareARN = dictionary["FileShareARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct CreateTapeWithBarcodeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "TapeBarcode", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "TapeBarcode", required: true, type: .string)
         ]
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String
@@ -231,22 +211,18 @@ extension Storagegateway {
             self.tapeBarcode = tapeBarcode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("TapeSizeInBytes") }
-            self.tapeSizeInBytes = tapeSizeInBytes
-            guard let tapeBarcode = dictionary["TapeBarcode"] as? String else { throw InitializableError.missingRequiredParam("TapeBarcode") }
-            self.tapeBarcode = tapeBarcode
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case tapeBarcode = "TapeBarcode"
         }
     }
 
     public struct CancelArchivalInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel archiving for.
         public let tapeARN: String
@@ -257,19 +233,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteGatewayOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -277,22 +250,21 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeCacheOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CacheAllocatedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CacheUsedPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheDirtyPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheHitPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "CacheMissPercentage", required: false, type: .double), 
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "CacheUsedPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "CacheDirtyPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "CacheHitPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "CacheMissPercentage", required: false, type: .double), 
+            AWSShapeMember(label: "DiskIds", required: false, type: .list)
         ]
         public let cacheAllocatedInBytes: Int64?
         public let gatewayARN: String?
@@ -312,22 +284,21 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cacheAllocatedInBytes = dictionary["CacheAllocatedInBytes"] as? Int64
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.cacheUsedPercentage = dictionary["CacheUsedPercentage"] as? Double
-            self.cacheDirtyPercentage = dictionary["CacheDirtyPercentage"] as? Double
-            self.cacheHitPercentage = dictionary["CacheHitPercentage"] as? Double
-            self.cacheMissPercentage = dictionary["CacheMissPercentage"] as? Double
-            self.diskIds = dictionary["DiskIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case cacheAllocatedInBytes = "CacheAllocatedInBytes"
+            case gatewayARN = "GatewayARN"
+            case cacheUsedPercentage = "CacheUsedPercentage"
+            case cacheDirtyPercentage = "CacheDirtyPercentage"
+            case cacheHitPercentage = "CacheHitPercentage"
+            case cacheMissPercentage = "CacheMissPercentage"
+            case diskIds = "DiskIds"
         }
     }
 
     public struct DescribeNFSFileSharesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NFSFileShareInfoList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NFSFileShareInfoList", required: false, type: .list)
         ]
         /// An array containing a description for each requested file share. 
         public let nFSFileShareInfoList: [NFSFileShareInfo]?
@@ -336,23 +307,18 @@ extension Storagegateway {
             self.nFSFileShareInfoList = nFSFileShareInfoList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nFSFileShareInfoList = dictionary["NFSFileShareInfoList"] as? [[String: Any]] {
-                self.nFSFileShareInfoList = try nFSFileShareInfoList.map({ try NFSFileShareInfo(dictionary: $0) })
-            } else { 
-                self.nFSFileShareInfoList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nFSFileShareInfoList = "NFSFileShareInfoList"
         }
     }
 
     public struct NFSFileShareDefaults: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OwnerId", required: false, type: .long), 
-            AWSShapeProperty(label: "FileMode", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .long), 
-            AWSShapeProperty(label: "DirectoryMode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OwnerId", required: false, type: .long), 
+            AWSShapeMember(label: "FileMode", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .long), 
+            AWSShapeMember(label: "DirectoryMode", required: false, type: .string)
         ]
         /// The default owner ID for files in the file share (unless the files have another owner ID specified). The default value is nfsnobody. 
         public let ownerId: Int64?
@@ -370,22 +336,21 @@ extension Storagegateway {
             self.directoryMode = directoryMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ownerId = dictionary["OwnerId"] as? Int64
-            self.fileMode = dictionary["FileMode"] as? String
-            self.groupId = dictionary["GroupId"] as? Int64
-            self.directoryMode = dictionary["DirectoryMode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ownerId = "OwnerId"
+            case fileMode = "FileMode"
+            case groupId = "GroupId"
+            case directoryMode = "DirectoryMode"
         }
     }
 
     public struct DescribeTapesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         public let gatewayARN: String
         /// Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
@@ -402,22 +367,20 @@ extension Storagegateway {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            self.tapeARNs = dictionary["TapeARNs"] as? [String]
-            self.limit = dictionary["Limit"] as? Int32
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case tapeARNs = "TapeARNs"
+            case limit = "Limit"
+            case marker = "Marker"
         }
     }
 
     public struct DescribeTapeRecoveryPointsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
         public let marker: String?
@@ -431,20 +394,18 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gatewayARN = "GatewayARN"
+            case limit = "Limit"
         }
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         public let snapshotDescription: String
         public let volumeARN: String
@@ -454,20 +415,17 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotDescription = dictionary["SnapshotDescription"] as? String else { throw InitializableError.missingRequiredParam("SnapshotDescription") }
-            self.snapshotDescription = snapshotDescription
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case snapshotDescription = "SnapshotDescription"
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct AddUploadBufferInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]
         public let gatewayARN: String
         public let diskIds: [String]
@@ -477,19 +435,16 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
-            self.diskIds = diskIds
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case diskIds = "DiskIds"
         }
     }
 
     public struct ListVolumeRecoveryPointsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -497,19 +452,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct ListTagsForResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String
@@ -524,20 +477,18 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            self.marker = dictionary["Marker"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case marker = "Marker"
+            case limit = "Limit"
         }
     }
 
     public struct UpdateVTLDeviceTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceType", required: true, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceType", required: true, type: .string), 
+            AWSShapeMember(label: "VTLDeviceARN", required: true, type: .string)
         ]
         /// The type of medium changer you want to select.  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         public let deviceType: String
@@ -549,51 +500,47 @@ extension Storagegateway {
             self.vTLDeviceARN = vTLDeviceARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceType = dictionary["DeviceType"] as? String else { throw InitializableError.missingRequiredParam("DeviceType") }
-            self.deviceType = deviceType
-            guard let vTLDeviceARN = dictionary["VTLDeviceARN"] as? String else { throw InitializableError.missingRequiredParam("VTLDeviceARN") }
-            self.vTLDeviceARN = vTLDeviceARN
+        private enum CodingKeys: String, CodingKey {
+            case deviceType = "DeviceType"
+            case vTLDeviceARN = "VTLDeviceARN"
         }
     }
 
     public struct TapeRecoveryPointInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "TapeRecoveryPointTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The string format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let tapeRecoveryPointTime: String?
+        public let tapeRecoveryPointTime: Double?
         public let tapeStatus: String?
         /// The size, in bytes, of the virtual tapes to recover.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, tapeRecoveryPointTime: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, tapeRecoveryPointTime: Double? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeStatus = tapeStatus
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
-            self.tapeRecoveryPointTime = dictionary["TapeRecoveryPointTime"] as? String
-            self.tapeStatus = dictionary["TapeStatus"] as? String
-            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case tapeRecoveryPointTime = "TapeRecoveryPointTime"
+            case tapeStatus = "TapeStatus"
+            case tapeSizeInBytes = "TapeSizeInBytes"
         }
     }
 
     public struct RetrieveTapeArchiveOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
         public let tapeARN: String?
@@ -602,17 +549,16 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         public let value: String
         public let key: String
@@ -622,19 +568,16 @@ extension Storagegateway {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct AddCacheOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -642,16 +585,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct StartGatewayInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -659,18 +601,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct ListTapesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeInfos", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TapeInfos", required: false, type: .list)
         ]
         /// A string that indicates the position at which to begin returning the next list of tapes. Use the marker in your next request to continue pagination of tapes. If there are no more tapes to list, this element does not appear in the response body.
         public let marker: String?
@@ -681,25 +621,20 @@ extension Storagegateway {
             self.tapeInfos = tapeInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let tapeInfos = dictionary["TapeInfos"] as? [[String: Any]] {
-                self.tapeInfos = try tapeInfos.map({ try TapeInfo(dictionary: $0) })
-            } else { 
-                self.tapeInfos = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tapeInfos = "TapeInfos"
         }
     }
 
     public struct TapeInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of a virtual tape.
         public let tapeARN: String?
@@ -720,22 +655,21 @@ extension Storagegateway {
             self.tapeBarcode = tapeBarcode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.tapeStatus = dictionary["TapeStatus"] as? String
-            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
-            self.tapeBarcode = dictionary["TapeBarcode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
+            case tapeStatus = "TapeStatus"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case tapeBarcode = "TapeBarcode"
         }
     }
 
     public struct UpdateGatewayInformationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayTimezone: String?
         public let gatewayName: String?
@@ -747,22 +681,20 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayTimezone = dictionary["GatewayTimezone"] as? String
-            self.gatewayName = dictionary["GatewayName"] as? String
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayTimezone = "GatewayTimezone"
+            case gatewayName = "GatewayName"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct UpdateMaintenanceStartTimeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "HourOfDay", required: true, type: .integer), 
-            AWSShapeProperty(label: "MinuteOfHour", required: true, type: .integer), 
-            AWSShapeProperty(label: "DayOfWeek", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "HourOfDay", required: true, type: .integer), 
+            AWSShapeMember(label: "MinuteOfHour", required: true, type: .integer), 
+            AWSShapeMember(label: "DayOfWeek", required: true, type: .integer)
         ]
         public let gatewayARN: String
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
@@ -779,23 +711,18 @@ extension Storagegateway {
             self.dayOfWeek = dayOfWeek
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let hourOfDay = dictionary["HourOfDay"] as? Int32 else { throw InitializableError.missingRequiredParam("HourOfDay") }
-            self.hourOfDay = hourOfDay
-            guard let minuteOfHour = dictionary["MinuteOfHour"] as? Int32 else { throw InitializableError.missingRequiredParam("MinuteOfHour") }
-            self.minuteOfHour = minuteOfHour
-            guard let dayOfWeek = dictionary["DayOfWeek"] as? Int32 else { throw InitializableError.missingRequiredParam("DayOfWeek") }
-            self.dayOfWeek = dayOfWeek
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case hourOfDay = "HourOfDay"
+            case minuteOfHour = "MinuteOfHour"
+            case dayOfWeek = "DayOfWeek"
         }
     }
 
     public struct DeleteVolumeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -804,17 +731,15 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct DescribeSnapshotScheduleInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes.
         public let volumeARN: String
@@ -823,18 +748,16 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct RemoveTagsFromResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         public let resourceARN: String
@@ -846,19 +769,16 @@ extension Storagegateway {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DescribeWorkingStorageInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -866,20 +786,18 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeWorkingStorageOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "WorkingStorageAllocatedInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiskIds", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "WorkingStorageUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "WorkingStorageAllocatedInBytes", required: false, type: .long)
         ]
         /// An array of the gateway's local disk IDs that are configured as working storage. Each local disk ID is specified as a string (minimum length of 1 and maximum length of 300). If no local disks are configured as working storage, then the DiskIds array is empty.
         public let diskIds: [String]?
@@ -896,19 +814,18 @@ extension Storagegateway {
             self.workingStorageAllocatedInBytes = workingStorageAllocatedInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.diskIds = dictionary["DiskIds"] as? [String]
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.workingStorageUsedInBytes = dictionary["WorkingStorageUsedInBytes"] as? Int64
-            self.workingStorageAllocatedInBytes = dictionary["WorkingStorageAllocatedInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case diskIds = "DiskIds"
+            case gatewayARN = "GatewayARN"
+            case workingStorageUsedInBytes = "WorkingStorageUsedInBytes"
+            case workingStorageAllocatedInBytes = "WorkingStorageAllocatedInBytes"
         }
     }
 
     public struct DeleteTapeArchiveInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -917,23 +834,21 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct Disk: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DiskStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "DiskId", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskNode", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskPath", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskAllocationType", required: false, type: .string), 
-            AWSShapeProperty(label: "DiskAllocationResource", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DiskStatus", required: false, type: .string), 
+            AWSShapeMember(label: "DiskSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DiskId", required: false, type: .string), 
+            AWSShapeMember(label: "DiskNode", required: false, type: .string), 
+            AWSShapeMember(label: "DiskPath", required: false, type: .string), 
+            AWSShapeMember(label: "DiskAllocationType", required: false, type: .string), 
+            AWSShapeMember(label: "DiskAllocationResource", required: false, type: .string)
         ]
         public let diskStatus: String?
         public let diskSizeInBytes: Int64?
@@ -953,22 +868,21 @@ extension Storagegateway {
             self.diskAllocationResource = diskAllocationResource
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.diskStatus = dictionary["DiskStatus"] as? String
-            self.diskSizeInBytes = dictionary["DiskSizeInBytes"] as? Int64
-            self.diskId = dictionary["DiskId"] as? String
-            self.diskNode = dictionary["DiskNode"] as? String
-            self.diskPath = dictionary["DiskPath"] as? String
-            self.diskAllocationType = dictionary["DiskAllocationType"] as? String
-            self.diskAllocationResource = dictionary["DiskAllocationResource"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case diskStatus = "DiskStatus"
+            case diskSizeInBytes = "DiskSizeInBytes"
+            case diskId = "DiskId"
+            case diskNode = "DiskNode"
+            case diskPath = "DiskPath"
+            case diskAllocationType = "DiskAllocationType"
+            case diskAllocationResource = "DiskAllocationResource"
         }
     }
 
     public struct UpdateVTLDeviceTypeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VTLDeviceARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
         public let vTLDeviceARN: String?
@@ -977,17 +891,16 @@ extension Storagegateway {
             self.vTLDeviceARN = vTLDeviceARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vTLDeviceARN = dictionary["VTLDeviceARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vTLDeviceARN = "VTLDeviceARN"
         }
     }
 
     public struct UpdateChapCredentialsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target. This is the same target specified in the request.
         public let targetARN: String?
@@ -999,23 +912,22 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.initiatorName = dictionary["InitiatorName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case initiatorName = "InitiatorName"
         }
     }
 
     public struct ActivateGatewayInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivationKey", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "MediumChangerType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayTimezone", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayRegion", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeDriveType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivationKey", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "MediumChangerType", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayTimezone", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayRegion", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: true, type: .string), 
+            AWSShapeMember(label: "TapeDriveType", required: false, type: .string)
         ]
         /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway.
         public let activationKey: String
@@ -1042,39 +954,34 @@ extension Storagegateway {
             self.tapeDriveType = tapeDriveType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activationKey = dictionary["ActivationKey"] as? String else { throw InitializableError.missingRequiredParam("ActivationKey") }
-            self.activationKey = activationKey
-            self.gatewayType = dictionary["GatewayType"] as? String
-            self.mediumChangerType = dictionary["MediumChangerType"] as? String
-            guard let gatewayTimezone = dictionary["GatewayTimezone"] as? String else { throw InitializableError.missingRequiredParam("GatewayTimezone") }
-            self.gatewayTimezone = gatewayTimezone
-            guard let gatewayRegion = dictionary["GatewayRegion"] as? String else { throw InitializableError.missingRequiredParam("GatewayRegion") }
-            self.gatewayRegion = gatewayRegion
-            guard let gatewayName = dictionary["GatewayName"] as? String else { throw InitializableError.missingRequiredParam("GatewayName") }
-            self.gatewayName = gatewayName
-            self.tapeDriveType = dictionary["TapeDriveType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case activationKey = "ActivationKey"
+            case gatewayType = "GatewayType"
+            case mediumChangerType = "MediumChangerType"
+            case gatewayTimezone = "GatewayTimezone"
+            case gatewayRegion = "GatewayRegion"
+            case gatewayName = "GatewayName"
+            case tapeDriveType = "TapeDriveType"
         }
     }
 
     public struct NFSFileShareInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: false, type: .string), 
-            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "Squash", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "LocationARN", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: false, type: .string), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "Squash", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
         ]
         public let path: String?
         public let fileShareId: String?
@@ -1110,30 +1017,29 @@ extension Storagegateway {
             self.kMSEncrypted = kMSEncrypted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.path = dictionary["Path"] as? String
-            self.fileShareId = dictionary["FileShareId"] as? String
-            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
-            self.fileShareARN = dictionary["FileShareARN"] as? String
-            self.locationARN = dictionary["LocationARN"] as? String
-            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
-            self.fileShareStatus = dictionary["FileShareStatus"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.kMSKey = dictionary["KMSKey"] as? String
-            self.role = dictionary["Role"] as? String
-            self.readOnly = dictionary["ReadOnly"] as? Bool
-            self.clientList = dictionary["ClientList"] as? [String]
-            self.squash = dictionary["Squash"] as? String
-            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case fileShareId = "FileShareId"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case fileShareARN = "FileShareARN"
+            case locationARN = "LocationARN"
+            case defaultStorageClass = "DefaultStorageClass"
+            case fileShareStatus = "FileShareStatus"
+            case gatewayARN = "GatewayARN"
+            case kMSKey = "KMSKey"
+            case role = "Role"
+            case readOnly = "ReadOnly"
+            case clientList = "ClientList"
+            case squash = "Squash"
+            case kMSEncrypted = "KMSEncrypted"
         }
     }
 
     public struct AddTagsToResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String
@@ -1145,19 +1051,16 @@ extension Storagegateway {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceARN = dictionary["ResourceARN"] as? String else { throw InitializableError.missingRequiredParam("ResourceARN") }
-            self.resourceARN = resourceARN
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
         }
     }
 
     public struct UpdateMaintenanceStartTimeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1165,16 +1068,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct UpdateGatewaySoftwareNowOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1182,16 +1084,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct CancelArchivalOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was canceled.
         public let tapeARN: String?
@@ -1200,18 +1101,17 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct NetworkInterface: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Ipv6Address", required: false, type: .string), 
-            AWSShapeProperty(label: "MacAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Ipv4Address", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Ipv6Address", required: false, type: .string), 
+            AWSShapeMember(label: "MacAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Ipv4Address", required: false, type: .string)
         ]
         /// The Internet Protocol version 6 (IPv6) address of the interface. Currently not supported.
         public let ipv6Address: String?
@@ -1226,21 +1126,20 @@ extension Storagegateway {
             self.ipv4Address = ipv4Address
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ipv6Address = dictionary["Ipv6Address"] as? String
-            self.macAddress = dictionary["MacAddress"] as? String
-            self.ipv4Address = dictionary["Ipv4Address"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Address = "Ipv6Address"
+            case macAddress = "MacAddress"
+            case ipv4Address = "Ipv4Address"
         }
     }
 
     public struct DeviceiSCSIAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfacePort", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer)
         ]
         /// Specifies the unique Amazon Resource Name(ARN) that encodes the iSCSI qualified name(iqn) of a tape drive or media changer target.
         public let targetARN: String?
@@ -1258,20 +1157,19 @@ extension Storagegateway {
             self.networkInterfacePort = networkInterfacePort
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.chapEnabled = dictionary["ChapEnabled"] as? Bool
-            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            self.networkInterfacePort = dictionary["NetworkInterfacePort"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case chapEnabled = "ChapEnabled"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case networkInterfacePort = "NetworkInterfacePort"
         }
     }
 
     public struct CancelRetrievalInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel retrieval for.
         public let tapeARN: String
@@ -1282,19 +1180,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct ResetCacheOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1302,16 +1197,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeCachediSCSIVolumesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARNs", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
         public let volumeARNs: [String]
 
@@ -1319,30 +1213,28 @@ extension Storagegateway {
             self.volumeARNs = volumeARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARNs = dictionary["VolumeARNs"] as? [String] else { throw InitializableError.missingRequiredParam("VolumeARNs") }
-            self.volumeARNs = volumeARNs
+        private enum CodingKeys: String, CodingKey {
+            case volumeARNs = "VolumeARNs"
         }
     }
 
     public struct TapeArchive: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "CompletionTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "RetrievedTo", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "CompletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "RetrievedTo", required: false, type: .string), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
         public let tapeARN: String?
         /// The time that the archiving of the virtual tape was completed. The string format of the completion time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let completionTime: String?
-        public let tapeCreatedDate: String?
+        public let completionTime: Double?
+        public let tapeCreatedDate: Double?
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
         /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
@@ -1354,7 +1246,7 @@ extension Storagegateway {
         /// The size, in bytes, of the archived virtual tape.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, completionTime: String? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, completionTime: Double? = nil, tapeCreatedDate: Double? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.completionTime = completionTime
             self.tapeCreatedDate = tapeCreatedDate
@@ -1365,25 +1257,24 @@ extension Storagegateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
-            self.completionTime = dictionary["CompletionTime"] as? String
-            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
-            self.tapeBarcode = dictionary["TapeBarcode"] as? String
-            self.tapeUsedInBytes = dictionary["TapeUsedInBytes"] as? Int64
-            self.retrievedTo = dictionary["RetrievedTo"] as? String
-            self.tapeStatus = dictionary["TapeStatus"] as? String
-            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case completionTime = "CompletionTime"
+            case tapeCreatedDate = "TapeCreatedDate"
+            case tapeBarcode = "TapeBarcode"
+            case tapeUsedInBytes = "TapeUsedInBytes"
+            case retrievedTo = "RetrievedTo"
+            case tapeStatus = "TapeStatus"
+            case tapeSizeInBytes = "TapeSizeInBytes"
         }
     }
 
     public struct ListTapesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// A string that indicates the position at which to begin the returned list of tapes.
         public let marker: String?
@@ -1397,18 +1288,17 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.tapeARNs = dictionary["TapeARNs"] as? [String]
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tapeARNs = "TapeARNs"
+            case limit = "Limit"
         }
     }
 
     public struct ListVolumeInitiatorsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation to return a list of gateway volumes for the gateway.
         public let volumeARN: String
@@ -1417,18 +1307,16 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct CreateSnapshotOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         /// The snapshot ID that is used to refer to the snapshot in future operations such as describing snapshots (Amazon Elastic Compute Cloud API DescribeSnapshots) or creating a volume from a snapshot (CreateStorediSCSIVolume).
         public let snapshotId: String?
@@ -1440,27 +1328,26 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct CreateNFSFileShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Role", required: true, type: .string), 
-            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "Squash", required: false, type: .string), 
-            AWSShapeProperty(label: "LocationARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "Role", required: true, type: .string), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "Squash", required: false, type: .string), 
+            AWSShapeMember(label: "LocationARN", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
         public let gatewayARN: String
@@ -1499,32 +1386,27 @@ extension Storagegateway {
             self.kMSEncrypted = kMSEncrypted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
-            self.clientToken = clientToken
-            self.kMSKey = dictionary["KMSKey"] as? String
-            guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = role
-            self.readOnly = dictionary["ReadOnly"] as? Bool
-            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
-            self.clientList = dictionary["ClientList"] as? [String]
-            self.squash = dictionary["Squash"] as? String
-            guard let locationARN = dictionary["LocationARN"] as? String else { throw InitializableError.missingRequiredParam("LocationARN") }
-            self.locationARN = locationARN
-            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
-            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case clientToken = "ClientToken"
+            case kMSKey = "KMSKey"
+            case role = "Role"
+            case readOnly = "ReadOnly"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case clientList = "ClientList"
+            case squash = "Squash"
+            case locationARN = "LocationARN"
+            case defaultStorageClass = "DefaultStorageClass"
+            case kMSEncrypted = "KMSEncrypted"
         }
     }
 
     public struct ListTagsForResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// he Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceARN: String?
@@ -1539,23 +1421,18 @@ extension Storagegateway {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+            case marker = "Marker"
         }
     }
 
     public struct CreateCachediSCSIVolumeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         public let targetARN: String?
         public let volumeARN: String?
@@ -1565,19 +1442,18 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct ListVolumesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
         public let marker: String?
@@ -1591,18 +1467,17 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gatewayARN = "GatewayARN"
+            case limit = "Limit"
         }
     }
 
     public struct RemoveTagsFromResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource that the tags were removed from.
         public let resourceARN: String?
@@ -1611,19 +1486,18 @@ extension Storagegateway {
             self.resourceARN = resourceARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
         }
     }
 
     public struct UpdateChapCredentialsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateTarget", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: true, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -1641,22 +1515,18 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
-            self.targetARN = targetARN
-            self.secretToAuthenticateTarget = dictionary["SecretToAuthenticateTarget"] as? String
-            guard let secretToAuthenticateInitiator = dictionary["SecretToAuthenticateInitiator"] as? String else { throw InitializableError.missingRequiredParam("SecretToAuthenticateInitiator") }
-            self.secretToAuthenticateInitiator = secretToAuthenticateInitiator
-            guard let initiatorName = dictionary["InitiatorName"] as? String else { throw InitializableError.missingRequiredParam("InitiatorName") }
-            self.initiatorName = initiatorName
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
+            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
+            case initiatorName = "InitiatorName"
         }
     }
 
     public struct CreateNFSFileShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the newly created file share. 
         public let fileShareARN: String?
@@ -1665,16 +1535,15 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareARN = dictionary["FileShareARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct DeleteVolumeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the storage volume that was deleted. It is the same ARN you provided in the request.
         public let volumeARN: String?
@@ -1683,17 +1552,16 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeARN = dictionary["VolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct RetrieveTapeRecoveryPointInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which you want to retrieve the recovery point.
         public let tapeARN: String
@@ -1704,21 +1572,18 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeBandwidthRateLimitOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         /// The average download bandwidth rate limit in bits per second. This field does not appear in the response if the download rate limit is not set.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -1732,18 +1597,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.averageDownloadRateLimitInBitsPerSec = dictionary["AverageDownloadRateLimitInBitsPerSec"] as? Int64
-            self.averageUploadRateLimitInBitsPerSec = dictionary["AverageUploadRateLimitInBitsPerSec"] as? Int64
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct SetLocalConsolePasswordOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1751,16 +1615,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct UpdateSnapshotScheduleOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string)
         ]
         public let volumeARN: String?
 
@@ -1768,16 +1631,15 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeARN = dictionary["VolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct DescribeChapCredentialsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ChapCredentials", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ChapCredentials", required: false, type: .list)
         ]
         /// An array of ChapInfo objects that represent CHAP credentials. Each object in the array contains CHAP credential information for one target-initiator pair. If no CHAP credentials are set, an empty array is returned. CHAP credential information is provided in a JSON object with the following fields:    InitiatorName: The iSCSI initiator that connects to the target.    SecretToAuthenticateInitiator: The secret key that the initiator (for example, the Windows client) must provide to participate in mutual CHAP with the target.    SecretToAuthenticateTarget: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client).    TargetARN: The Amazon Resource Name (ARN) of the storage volume.  
         public let chapCredentials: [ChapInfo]?
@@ -1786,27 +1648,22 @@ extension Storagegateway {
             self.chapCredentials = chapCredentials
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let chapCredentials = dictionary["ChapCredentials"] as? [[String: Any]] {
-                self.chapCredentials = try chapCredentials.map({ try ChapInfo(dictionary: $0) })
-            } else { 
-                self.chapCredentials = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case chapCredentials = "ChapCredentials"
         }
     }
 
     public struct UpdateNFSFileShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KMSKey", required: false, type: .string), 
-            AWSShapeProperty(label: "ReadOnly", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NFSFileShareDefaults", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClientList", required: false, type: .list), 
-            AWSShapeProperty(label: "Squash", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultStorageClass", required: false, type: .string), 
-            AWSShapeProperty(label: "KMSEncrypted", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KMSKey", required: false, type: .string), 
+            AWSShapeMember(label: "ReadOnly", required: false, type: .boolean), 
+            AWSShapeMember(label: "NFSFileShareDefaults", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientList", required: false, type: .list), 
+            AWSShapeMember(label: "Squash", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultStorageClass", required: false, type: .string), 
+            AWSShapeMember(label: "KMSEncrypted", required: false, type: .boolean)
         ]
         /// The KMS key used for Amazon S3 server side encryption. This value can only be set when KmsEncrypted is true. Optional. 
         public let kMSKey: String?
@@ -1836,25 +1693,23 @@ extension Storagegateway {
             self.kMSEncrypted = kMSEncrypted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.kMSKey = dictionary["KMSKey"] as? String
-            self.readOnly = dictionary["ReadOnly"] as? Bool
-            if let nFSFileShareDefaults = dictionary["NFSFileShareDefaults"] as? [String: Any] { self.nFSFileShareDefaults = try Storagegateway.NFSFileShareDefaults(dictionary: nFSFileShareDefaults) } else { self.nFSFileShareDefaults = nil }
-            self.clientList = dictionary["ClientList"] as? [String]
-            self.squash = dictionary["Squash"] as? String
-            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
-            self.fileShareARN = fileShareARN
-            self.defaultStorageClass = dictionary["DefaultStorageClass"] as? String
-            self.kMSEncrypted = dictionary["KMSEncrypted"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case kMSKey = "KMSKey"
+            case readOnly = "ReadOnly"
+            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case clientList = "ClientList"
+            case squash = "Squash"
+            case fileShareARN = "FileShareARN"
+            case defaultStorageClass = "DefaultStorageClass"
+            case kMSEncrypted = "KMSEncrypted"
         }
     }
 
     public struct ListLocalDisksOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Disks", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Disks", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let disks: [Disk]?
         public let gatewayARN: String?
@@ -1864,21 +1719,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let disks = dictionary["Disks"] as? [[String: Any]] {
-                self.disks = try disks.map({ try Disk(dictionary: $0) })
-            } else { 
-                self.disks = nil
-            }
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case disks = "Disks"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteBandwidthRateLimitOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1886,17 +1736,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteBandwidthRateLimitInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BandwidthType", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BandwidthType", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload, Download, All.
         public let bandwidthType: String
@@ -1907,20 +1756,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bandwidthType = dictionary["BandwidthType"] as? String else { throw InitializableError.missingRequiredParam("BandwidthType") }
-            self.bandwidthType = bandwidthType
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case bandwidthType = "BandwidthType"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteTapeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: true, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
@@ -1932,19 +1778,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tapeARN = dictionary["TapeARN"] as? String else { throw InitializableError.missingRequiredParam("TapeARN") }
-            self.tapeARN = tapeARN
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct UpdateBandwidthRateLimitOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -1952,20 +1795,19 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct VTLDevice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VTLDeviceVendor", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceType", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "VTLDeviceProductIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VTLDeviceVendor", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceType", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceARN", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "VTLDeviceProductIdentifier", required: false, type: .string)
         ]
         public let vTLDeviceVendor: String?
         public let vTLDeviceType: String?
@@ -1983,24 +1825,23 @@ extension Storagegateway {
             self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vTLDeviceVendor = dictionary["VTLDeviceVendor"] as? String
-            self.vTLDeviceType = dictionary["VTLDeviceType"] as? String
-            self.vTLDeviceARN = dictionary["VTLDeviceARN"] as? String
-            if let deviceiSCSIAttributes = dictionary["DeviceiSCSIAttributes"] as? [String: Any] { self.deviceiSCSIAttributes = try Storagegateway.DeviceiSCSIAttributes(dictionary: deviceiSCSIAttributes) } else { self.deviceiSCSIAttributes = nil }
-            self.vTLDeviceProductIdentifier = dictionary["VTLDeviceProductIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vTLDeviceVendor = "VTLDeviceVendor"
+            case vTLDeviceType = "VTLDeviceType"
+            case vTLDeviceARN = "VTLDeviceARN"
+            case deviceiSCSIAttributes = "DeviceiSCSIAttributes"
+            case vTLDeviceProductIdentifier = "VTLDeviceProductIdentifier"
         }
     }
 
     public struct GatewayInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayOperationalState", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayOperationalState", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and region.
         public let gatewayARN: String?
@@ -2021,21 +1862,20 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.gatewayType = dictionary["GatewayType"] as? String
-            self.gatewayOperationalState = dictionary["GatewayOperationalState"] as? String
-            self.gatewayName = dictionary["GatewayName"] as? String
-            self.gatewayId = dictionary["GatewayId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case gatewayType = "GatewayType"
+            case gatewayOperationalState = "GatewayOperationalState"
+            case gatewayName = "GatewayName"
+            case gatewayId = "GatewayId"
         }
     }
 
     public struct CreateSnapshotInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotDescription", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field
         public let snapshotDescription: String
@@ -2047,21 +1887,18 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotDescription = dictionary["SnapshotDescription"] as? String else { throw InitializableError.missingRequiredParam("SnapshotDescription") }
-            self.snapshotDescription = snapshotDescription
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case snapshotDescription = "SnapshotDescription"
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct UpdateBandwidthRateLimitInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AverageDownloadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "AverageUploadRateLimitInBitsPerSec", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         /// The average download bandwidth rate limit in bits per second.
         public let averageDownloadRateLimitInBitsPerSec: Int64?
@@ -2075,19 +1912,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.averageDownloadRateLimitInBitsPerSec = dictionary["AverageDownloadRateLimitInBitsPerSec"] as? Int64
-            self.averageUploadRateLimitInBitsPerSec = dictionary["AverageUploadRateLimitInBitsPerSec"] as? Int64
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case averageDownloadRateLimitInBitsPerSec = "AverageDownloadRateLimitInBitsPerSec"
+            case averageUploadRateLimitInBitsPerSec = "AverageUploadRateLimitInBitsPerSec"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeMaintenanceStartTimeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2095,17 +1930,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct StartGatewayOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -2113,18 +1946,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct ListFileSharesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
         public let marker: String?
@@ -2139,18 +1971,17 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gatewayARN = "GatewayARN"
+            case limit = "Limit"
         }
     }
 
     public struct ActivateGatewayOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -2158,19 +1989,18 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct VolumeRecoveryPointInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeRecoveryPointTime", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeUsageInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeUsageInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long)
         ]
         public let volumeRecoveryPointTime: String?
         public let volumeARN: String?
@@ -2184,20 +2014,19 @@ extension Storagegateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeRecoveryPointTime = dictionary["VolumeRecoveryPointTime"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeUsageInBytes = dictionary["VolumeUsageInBytes"] as? Int64
-            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
+            case volumeARN = "VolumeARN"
+            case volumeUsageInBytes = "VolumeUsageInBytes"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
         }
     }
 
     public struct DescribeTapeArchivesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeArchives", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeArchives", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description includes of the Amazon Resource Name(ARN) of the virtual tapes. The information returned includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status of the tapes, progress of the description and tape barcode.
         public let tapeArchives: [TapeArchive]?
@@ -2209,31 +2038,26 @@ extension Storagegateway {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tapeArchives = dictionary["TapeArchives"] as? [[String: Any]] {
-                self.tapeArchives = try tapeArchives.map({ try TapeArchive(dictionary: $0) })
-            } else { 
-                self.tapeArchives = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeArchives = "TapeArchives"
+            case marker = "Marker"
         }
     }
 
     public struct StorediSCSIVolume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceSnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "PreservedExistingData", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeProperty(label: "VolumeDiskId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "PreservedExistingData", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
+            AWSShapeMember(label: "VolumeDiskId", required: false, type: .string)
         ]
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
@@ -2250,7 +2074,7 @@ extension Storagegateway {
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
         public let preservedExistingData: Bool?
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
@@ -2258,7 +2082,7 @@ extension Storagegateway {
         /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
         public let volumeDiskId: String?
 
-        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: String? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
+        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: Double? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
             self.volumeiSCSIAttributes = volumeiSCSIAttributes
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
@@ -2272,30 +2096,29 @@ extension Storagegateway {
             self.volumeDiskId = volumeDiskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let volumeiSCSIAttributes = dictionary["VolumeiSCSIAttributes"] as? [String: Any] { self.volumeiSCSIAttributes = try Storagegateway.VolumeiSCSIAttributes(dictionary: volumeiSCSIAttributes) } else { self.volumeiSCSIAttributes = nil }
-            self.sourceSnapshotId = dictionary["SourceSnapshotId"] as? String
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.volumeStatus = dictionary["VolumeStatus"] as? String
-            self.volumeId = dictionary["VolumeId"] as? String
-            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
-            self.preservedExistingData = dictionary["PreservedExistingData"] as? Bool
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeProgress = dictionary["VolumeProgress"] as? Double
-            self.volumeDiskId = dictionary["VolumeDiskId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
+            case sourceSnapshotId = "SourceSnapshotId"
+            case volumeType = "VolumeType"
+            case volumeStatus = "VolumeStatus"
+            case volumeId = "VolumeId"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case preservedExistingData = "PreservedExistingData"
+            case createdDate = "CreatedDate"
+            case volumeARN = "VolumeARN"
+            case volumeProgress = "VolumeProgress"
+            case volumeDiskId = "VolumeDiskId"
         }
     }
 
     public struct CreateTapesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NumTapesToCreate", required: true, type: .integer), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "TapeBarcodePrefix", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumTapesToCreate", required: true, type: .integer), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "TapeBarcodePrefix", required: true, type: .string)
         ]
         /// The number of virtual tapes that you want to create.
         public let numTapesToCreate: Int32
@@ -2316,33 +2139,27 @@ extension Storagegateway {
             self.tapeBarcodePrefix = tapeBarcodePrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let numTapesToCreate = dictionary["NumTapesToCreate"] as? Int32 else { throw InitializableError.missingRequiredParam("NumTapesToCreate") }
-            self.numTapesToCreate = numTapesToCreate
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
-            self.clientToken = clientToken
-            guard let tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("TapeSizeInBytes") }
-            self.tapeSizeInBytes = tapeSizeInBytes
-            guard let tapeBarcodePrefix = dictionary["TapeBarcodePrefix"] as? String else { throw InitializableError.missingRequiredParam("TapeBarcodePrefix") }
-            self.tapeBarcodePrefix = tapeBarcodePrefix
+        private enum CodingKeys: String, CodingKey {
+            case numTapesToCreate = "NumTapesToCreate"
+            case gatewayARN = "GatewayARN"
+            case clientToken = "ClientToken"
+            case tapeSizeInBytes = "TapeSizeInBytes"
+            case tapeBarcodePrefix = "TapeBarcodePrefix"
         }
     }
 
     public struct CachediSCSIVolume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceSnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeProgress", required: false, type: .double), 
-            AWSShapeProperty(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceSnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeProgress", required: false, type: .double), 
+            AWSShapeMember(label: "VolumeiSCSIAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp)
         ]
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
         public let sourceSnapshotId: String?
@@ -2361,9 +2178,9 @@ extension Storagegateway {
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: String?
+        public let createdDate: Double?
 
-        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: String? = nil) {
+        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: Double? = nil) {
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
             self.volumeStatus = volumeStatus
@@ -2375,24 +2192,23 @@ extension Storagegateway {
             self.createdDate = createdDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceSnapshotId = dictionary["SourceSnapshotId"] as? String
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.volumeStatus = dictionary["VolumeStatus"] as? String
-            self.volumeId = dictionary["VolumeId"] as? String
-            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeProgress = dictionary["VolumeProgress"] as? Double
-            if let volumeiSCSIAttributes = dictionary["VolumeiSCSIAttributes"] as? [String: Any] { self.volumeiSCSIAttributes = try Storagegateway.VolumeiSCSIAttributes(dictionary: volumeiSCSIAttributes) } else { self.volumeiSCSIAttributes = nil }
-            self.createdDate = dictionary["CreatedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceSnapshotId = "SourceSnapshotId"
+            case volumeType = "VolumeType"
+            case volumeStatus = "VolumeStatus"
+            case volumeId = "VolumeId"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case volumeARN = "VolumeARN"
+            case volumeProgress = "VolumeProgress"
+            case volumeiSCSIAttributes = "VolumeiSCSIAttributes"
+            case createdDate = "CreatedDate"
         }
     }
 
     public struct AddTagsToResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceARN: String?
@@ -2401,16 +2217,15 @@ extension Storagegateway {
             self.resourceARN = resourceARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceARN = dictionary["ResourceARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
         }
     }
 
     public struct DescribeChapCredentialsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -2419,17 +2234,15 @@ extension Storagegateway {
             self.targetARN = targetARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
-            self.targetARN = targetARN
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
         }
     }
 
     public struct DeleteGatewayInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2437,17 +2250,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteFileShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted file share. 
         public let fileShareARN: String?
@@ -2456,23 +2267,22 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareARN = dictionary["FileShareARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct Tape: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", required: false, type: .double), 
-            AWSShapeProperty(label: "TapeCreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TapeBarcode", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "TapeStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDevice", required: false, type: .string), 
+            AWSShapeMember(label: "Progress", required: false, type: .double), 
+            AWSShapeMember(label: "TapeCreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TapeBarcode", required: false, type: .string), 
+            AWSShapeMember(label: "TapeUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TapeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TapeSizeInBytes", required: false, type: .long)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
@@ -2481,7 +2291,7 @@ extension Storagegateway {
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
         /// The date the virtual tape was created.
-        public let tapeCreatedDate: String?
+        public let tapeCreatedDate: Double?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
         /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
@@ -2491,7 +2301,7 @@ extension Storagegateway {
         /// The size, in bytes, of the virtual tape capacity.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: String? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: Double? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.vTLDevice = vTLDevice
             self.progress = progress
@@ -2502,23 +2312,22 @@ extension Storagegateway {
             self.tapeSizeInBytes = tapeSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
-            self.vTLDevice = dictionary["VTLDevice"] as? String
-            self.progress = dictionary["Progress"] as? Double
-            self.tapeCreatedDate = dictionary["TapeCreatedDate"] as? String
-            self.tapeBarcode = dictionary["TapeBarcode"] as? String
-            self.tapeUsedInBytes = dictionary["TapeUsedInBytes"] as? Int64
-            self.tapeStatus = dictionary["TapeStatus"] as? String
-            self.tapeSizeInBytes = dictionary["TapeSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
+            case vTLDevice = "VTLDevice"
+            case progress = "Progress"
+            case tapeCreatedDate = "TapeCreatedDate"
+            case tapeBarcode = "TapeBarcode"
+            case tapeUsedInBytes = "TapeUsedInBytes"
+            case tapeStatus = "TapeStatus"
+            case tapeSizeInBytes = "TapeSizeInBytes"
         }
     }
 
     public struct DeleteTapeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted virtual tape.
         public let tapeARN: String?
@@ -2527,16 +2336,15 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct DescribeStorediSCSIVolumesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARNs", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARNs", required: true, type: .list)
         ]
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a stored volume. All of the specified stored volumes must from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
@@ -2545,19 +2353,17 @@ extension Storagegateway {
             self.volumeARNs = volumeARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARNs = dictionary["VolumeARNs"] as? [String] else { throw InitializableError.missingRequiredParam("VolumeARNs") }
-            self.volumeARNs = volumeARNs
+        private enum CodingKeys: String, CodingKey {
+            case volumeARNs = "VolumeARNs"
         }
     }
 
     public struct DescribeTapeArchivesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin describing virtual tapes.
         public let marker: String?
@@ -2572,18 +2378,17 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.tapeARNs = dictionary["TapeARNs"] as? [String]
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tapeARNs = "TapeARNs"
+            case limit = "Limit"
         }
     }
 
     public struct UpdateGatewaySoftwareNowInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2591,17 +2396,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct CreateTapeWithBarcodeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// A unique Amazon Resource Name (ARN) that represents the virtual tape that was created.
         public let tapeARN: String?
@@ -2610,17 +2413,16 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct AddWorkingStorageInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]
         public let gatewayARN: String
         /// An array of strings that identify disks that are to be configured as working storage. Each string have a minimum length of 1 and maximum length of 300. You can get the disk IDs from the ListLocalDisks API.
@@ -2631,20 +2433,17 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
-            self.diskIds = diskIds
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case diskIds = "DiskIds"
         }
     }
 
     public struct DeleteChapCredentialsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: true, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: true, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified VolumeARN.
         public let targetARN: String
@@ -2656,15 +2455,13 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetARN = dictionary["TargetARN"] as? String else { throw InitializableError.missingRequiredParam("TargetARN") }
-            self.targetARN = targetARN
-            guard let initiatorName = dictionary["InitiatorName"] as? String else { throw InitializableError.missingRequiredParam("InitiatorName") }
-            self.initiatorName = initiatorName
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case initiatorName = "InitiatorName"
         }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible {
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
         case activationkeyexpired = "ActivationKeyExpired"
         case activationkeyinvalid = "ActivationKeyInvalid"
         case activationkeynotfound = "ActivationKeyNotFound"
@@ -2731,9 +2528,8 @@ extension Storagegateway {
 
     public struct DescribeNFSFileSharesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARNList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARNList", required: true, type: .list)
         ]
         /// An array containing the Amazon Resource Name (ARN) of each file share to be described. 
         public let fileShareARNList: [String]
@@ -2742,17 +2538,15 @@ extension Storagegateway {
             self.fileShareARNList = fileShareARNList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileShareARNList = dictionary["FileShareARNList"] as? [String] else { throw InitializableError.missingRequiredParam("FileShareARNList") }
-            self.fileShareARNList = fileShareARNList
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARNList = "FileShareARNList"
         }
     }
 
     public struct DescribeStorediSCSIVolumesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorediSCSIVolumes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorediSCSIVolumes", required: false, type: .list)
         ]
         public let storediSCSIVolumes: [StorediSCSIVolume]?
 
@@ -2760,23 +2554,18 @@ extension Storagegateway {
             self.storediSCSIVolumes = storediSCSIVolumes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storediSCSIVolumes = dictionary["StorediSCSIVolumes"] as? [[String: Any]] {
-                self.storediSCSIVolumes = try storediSCSIVolumes.map({ try StorediSCSIVolume(dictionary: $0) })
-            } else { 
-                self.storediSCSIVolumes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case storediSCSIVolumes = "StorediSCSIVolumes"
         }
     }
 
     public struct DescribeUploadBufferOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "UploadBufferUsedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "DiskIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "UploadBufferUsedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "UploadBufferAllocatedInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "DiskIds", required: false, type: .list)
         ]
         public let gatewayARN: String?
         public let uploadBufferUsedInBytes: Int64?
@@ -2790,19 +2579,18 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.uploadBufferUsedInBytes = dictionary["UploadBufferUsedInBytes"] as? Int64
-            self.uploadBufferAllocatedInBytes = dictionary["UploadBufferAllocatedInBytes"] as? Int64
-            self.diskIds = dictionary["DiskIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case uploadBufferUsedInBytes = "UploadBufferUsedInBytes"
+            case uploadBufferAllocatedInBytes = "UploadBufferAllocatedInBytes"
+            case diskIds = "DiskIds"
         }
     }
 
     public struct UpdateNFSFileShareOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the updated file share. 
         public let fileShareARN: String?
@@ -2811,18 +2599,17 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareARN = dictionary["FileShareARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct ListVolumesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeInfos", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeInfos", required: false, type: .list)
         ]
         public let marker: String?
         public let gatewayARN: String?
@@ -2834,22 +2621,17 @@ extension Storagegateway {
             self.volumeInfos = volumeInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            if let volumeInfos = dictionary["VolumeInfos"] as? [[String: Any]] {
-                self.volumeInfos = try volumeInfos.map({ try VolumeInfo(dictionary: $0) })
-            } else { 
-                self.volumeInfos = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gatewayARN = "GatewayARN"
+            case volumeInfos = "VolumeInfos"
         }
     }
 
     public struct DescribeCachediSCSIVolumesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CachediSCSIVolumes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CachediSCSIVolumes", required: false, type: .list)
         ]
         /// An array of objects where each object contains metadata about one cached volume.
         public let cachediSCSIVolumes: [CachediSCSIVolume]?
@@ -2858,20 +2640,15 @@ extension Storagegateway {
             self.cachediSCSIVolumes = cachediSCSIVolumes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cachediSCSIVolumes = dictionary["CachediSCSIVolumes"] as? [[String: Any]] {
-                self.cachediSCSIVolumes = try cachediSCSIVolumes.map({ try CachediSCSIVolume(dictionary: $0) })
-            } else { 
-                self.cachediSCSIVolumes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cachediSCSIVolumes = "CachediSCSIVolumes"
         }
     }
 
     public struct DeleteSnapshotScheduleInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string)
         ]
         public let volumeARN: String
 
@@ -2879,17 +2656,15 @@ extension Storagegateway {
             self.volumeARN = volumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
         }
     }
 
     public struct CreateTapesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARNs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARNs", required: false, type: .list)
         ]
         /// A list of unique Amazon Resource Names (ARNs) that represents the virtual tapes that were created.
         public let tapeARNs: [String]?
@@ -2898,18 +2673,17 @@ extension Storagegateway {
             self.tapeARNs = tapeARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARNs = dictionary["TapeARNs"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case tapeARNs = "TapeARNs"
         }
     }
 
     public struct CreateStorediSCSIVolumeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long)
         ]
         /// he Amazon Resource Name (ARN) of the volume target that includes the iSCSI name that initiators can use to connect to the target.
         public let targetARN: String?
@@ -2924,18 +2698,17 @@ extension Storagegateway {
             self.volumeSizeInBytes = volumeSizeInBytes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case volumeARN = "VolumeARN"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
         }
     }
 
     public struct ListLocalDisksInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -2943,19 +2716,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct CreateSnapshotFromVolumeRecoveryPointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeRecoveryPointTime", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeRecoveryPointTime", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
         public let volumeARN: String?
         public let volumeRecoveryPointTime: String?
@@ -2967,26 +2738,25 @@ extension Storagegateway {
             self.snapshotId = snapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeRecoveryPointTime = dictionary["VolumeRecoveryPointTime"] as? String
-            self.snapshotId = dictionary["SnapshotId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeARN = "VolumeARN"
+            case volumeRecoveryPointTime = "VolumeRecoveryPointTime"
+            case snapshotId = "SnapshotId"
         }
     }
 
     public struct DescribeGatewayInformationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayState", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayType", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayTimezone", required: false, type: .string), 
-            AWSShapeProperty(label: "LastSoftwareUpdate", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayNetworkInterfaces", required: false, type: .list), 
-            AWSShapeProperty(label: "NextUpdateAvailabilityDate", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayState", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayType", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayTimezone", required: false, type: .string), 
+            AWSShapeMember(label: "LastSoftwareUpdate", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayNetworkInterfaces", required: false, type: .list), 
+            AWSShapeMember(label: "NextUpdateAvailabilityDate", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string)
         ]
         /// A value that indicates the operating state of the gateway.
         public let gatewayState: String?
@@ -3018,31 +2788,26 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayState = dictionary["GatewayState"] as? String
-            self.gatewayType = dictionary["GatewayType"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.gatewayTimezone = dictionary["GatewayTimezone"] as? String
-            self.lastSoftwareUpdate = dictionary["LastSoftwareUpdate"] as? String
-            if let gatewayNetworkInterfaces = dictionary["GatewayNetworkInterfaces"] as? [[String: Any]] {
-                self.gatewayNetworkInterfaces = try gatewayNetworkInterfaces.map({ try NetworkInterface(dictionary: $0) })
-            } else { 
-                self.gatewayNetworkInterfaces = nil
-            }
-            self.nextUpdateAvailabilityDate = dictionary["NextUpdateAvailabilityDate"] as? String
-            self.gatewayName = dictionary["GatewayName"] as? String
-            self.gatewayId = dictionary["GatewayId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayState = "GatewayState"
+            case gatewayType = "GatewayType"
+            case gatewayARN = "GatewayARN"
+            case gatewayTimezone = "GatewayTimezone"
+            case lastSoftwareUpdate = "LastSoftwareUpdate"
+            case gatewayNetworkInterfaces = "GatewayNetworkInterfaces"
+            case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
+            case gatewayName = "GatewayName"
+            case gatewayId = "GatewayId"
         }
     }
 
     public struct FileShareInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareId", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareId", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareStatus", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let fileShareId: String?
         public let fileShareStatus: String?
@@ -3056,22 +2821,21 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.fileShareId = dictionary["FileShareId"] as? String
-            self.fileShareStatus = dictionary["FileShareStatus"] as? String
-            self.fileShareARN = dictionary["FileShareARN"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fileShareId = "FileShareId"
+            case fileShareStatus = "FileShareStatus"
+            case fileShareARN = "FileShareARN"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct UpdateSnapshotScheduleInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RecurrenceInHours", required: true, type: .integer), 
-            AWSShapeProperty(label: "StartAt", required: true, type: .integer), 
-            AWSShapeProperty(label: "VolumeARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecurrenceInHours", required: true, type: .integer), 
+            AWSShapeMember(label: "StartAt", required: true, type: .integer), 
+            AWSShapeMember(label: "VolumeARN", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Frequency of snapshots. Specify the number of hours between snapshots.
         public let recurrenceInHours: Int32
@@ -3089,24 +2853,20 @@ extension Storagegateway {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let recurrenceInHours = dictionary["RecurrenceInHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RecurrenceInHours") }
-            self.recurrenceInHours = recurrenceInHours
-            guard let startAt = dictionary["StartAt"] as? Int32 else { throw InitializableError.missingRequiredParam("StartAt") }
-            self.startAt = startAt
-            guard let volumeARN = dictionary["VolumeARN"] as? String else { throw InitializableError.missingRequiredParam("VolumeARN") }
-            self.volumeARN = volumeARN
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case recurrenceInHours = "RecurrenceInHours"
+            case startAt = "StartAt"
+            case volumeARN = "VolumeARN"
+            case description = "Description"
         }
     }
 
     public struct DescribeVTLDevicesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDevices", required: false, type: .list), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDevices", required: false, type: .list), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
         public let marker: String?
@@ -3120,23 +2880,18 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let vTLDevices = dictionary["VTLDevices"] as? [[String: Any]] {
-                self.vTLDevices = try vTLDevices.map({ try VTLDevice(dictionary: $0) })
-            } else { 
-                self.vTLDevices = nil
-            }
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case vTLDevices = "VTLDevices"
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DeleteChapCredentialsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target.
         public let targetARN: String?
@@ -3148,18 +2903,17 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.initiatorName = dictionary["InitiatorName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case initiatorName = "InitiatorName"
         }
     }
 
     public struct UpdateGatewayInformationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayName", required: false, type: .string)
         ]
         public let gatewayARN: String?
         public let gatewayName: String?
@@ -3169,21 +2923,20 @@ extension Storagegateway {
             self.gatewayName = gatewayName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.gatewayName = dictionary["GatewayName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case gatewayName = "GatewayName"
         }
     }
 
     public struct DescribeMaintenanceStartTimeOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "HourOfDay", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinuteOfHour", required: false, type: .integer), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string), 
-            AWSShapeProperty(label: "DayOfWeek", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "HourOfDay", required: false, type: .integer), 
+            AWSShapeMember(label: "MinuteOfHour", required: false, type: .integer), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "DayOfWeek", required: false, type: .integer)
         ]
         public let gatewayARN: String?
         /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
@@ -3202,24 +2955,23 @@ extension Storagegateway {
             self.dayOfWeek = dayOfWeek
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.hourOfDay = dictionary["HourOfDay"] as? Int32
-            self.minuteOfHour = dictionary["MinuteOfHour"] as? Int32
-            self.timezone = dictionary["Timezone"] as? String
-            self.dayOfWeek = dictionary["DayOfWeek"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case hourOfDay = "HourOfDay"
+            case minuteOfHour = "MinuteOfHour"
+            case timezone = "Timezone"
+            case dayOfWeek = "DayOfWeek"
         }
     }
 
     public struct DescribeSnapshotScheduleOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartAt", required: false, type: .integer), 
-            AWSShapeProperty(label: "RecurrenceInHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Timezone", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartAt", required: false, type: .integer), 
+            AWSShapeMember(label: "RecurrenceInHours", required: false, type: .integer), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "Timezone", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         public let startAt: Int32?
         public let recurrenceInHours: Int32?
@@ -3235,20 +2987,19 @@ extension Storagegateway {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startAt = dictionary["StartAt"] as? Int32
-            self.recurrenceInHours = dictionary["RecurrenceInHours"] as? Int32
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.timezone = dictionary["Timezone"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startAt = "StartAt"
+            case recurrenceInHours = "RecurrenceInHours"
+            case volumeARN = "VolumeARN"
+            case timezone = "Timezone"
+            case description = "Description"
         }
     }
 
     public struct DeleteFileShareInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the file share to be deleted. 
         public let fileShareARN: String
@@ -3257,19 +3008,17 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
-            self.fileShareARN = fileShareARN
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct DescribeTapeRecoveryPointsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "TapeRecoveryPointInfos", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "TapeRecoveryPointInfos", required: false, type: .list)
         ]
         /// An opaque string that indicates the position at which the virtual tape recovery points that were listed for description ended. Use this marker in your next request to list the next set of virtual tape recovery points in the list. If there are no more recovery points to describe, this field does not appear in the response.
         public let marker: String?
@@ -3283,22 +3032,17 @@ extension Storagegateway {
             self.tapeRecoveryPointInfos = tapeRecoveryPointInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            if let tapeRecoveryPointInfos = dictionary["TapeRecoveryPointInfos"] as? [[String: Any]] {
-                self.tapeRecoveryPointInfos = try tapeRecoveryPointInfos.map({ try TapeRecoveryPointInfo(dictionary: $0) })
-            } else { 
-                self.tapeRecoveryPointInfos = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gatewayARN = "GatewayARN"
+            case tapeRecoveryPointInfos = "TapeRecoveryPointInfos"
         }
     }
 
     public struct DescribeCacheInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3306,17 +3050,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct RefreshCacheInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FileShareARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileShareARN", required: true, type: .string)
         ]
         public let fileShareARN: String
 
@@ -3324,17 +3066,15 @@ extension Storagegateway {
             self.fileShareARN = fileShareARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let fileShareARN = dictionary["FileShareARN"] as? String else { throw InitializableError.missingRequiredParam("FileShareARN") }
-            self.fileShareARN = fileShareARN
+        private enum CodingKeys: String, CodingKey {
+            case fileShareARN = "FileShareARN"
         }
     }
 
     public struct ShutdownGatewayOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -3342,18 +3082,17 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct ListFileSharesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "FileShareInfoList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextMarker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "FileShareInfoList", required: false, type: .list), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string)
         ]
         /// If the request includes Marker, the response returns that value in this field. 
         public let marker: String?
@@ -3368,22 +3107,17 @@ extension Storagegateway {
             self.nextMarker = nextMarker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let fileShareInfoList = dictionary["FileShareInfoList"] as? [[String: Any]] {
-                self.fileShareInfoList = try fileShareInfoList.map({ try FileShareInfo(dictionary: $0) })
-            } else { 
-                self.fileShareInfoList = nil
-            }
-            self.nextMarker = dictionary["NextMarker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case fileShareInfoList = "FileShareInfoList"
+            case nextMarker = "NextMarker"
         }
     }
 
     public struct DisableGatewayInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3391,20 +3125,18 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeVTLDevicesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "VTLDeviceARNs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "VTLDeviceARNs", required: false, type: .list)
         ]
         public let gatewayARN: String
         /// Specifies that the number of VTL devices described be limited to the specified number.
@@ -3421,24 +3153,22 @@ extension Storagegateway {
             self.vTLDeviceARNs = vTLDeviceARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            self.limit = dictionary["Limit"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            self.vTLDeviceARNs = dictionary["VTLDeviceARNs"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case limit = "Limit"
+            case marker = "Marker"
+            case vTLDeviceARNs = "VTLDeviceARNs"
         }
     }
 
     public struct VolumeiSCSIAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "ChapEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfacePort", required: false, type: .integer), 
-            AWSShapeProperty(label: "LunNumber", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "ChapEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: false, type: .string), 
+            AWSShapeMember(label: "NetworkInterfacePort", required: false, type: .integer), 
+            AWSShapeMember(label: "LunNumber", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the volume target.
         public let targetARN: String?
@@ -3459,21 +3189,20 @@ extension Storagegateway {
             self.lunNumber = lunNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.chapEnabled = dictionary["ChapEnabled"] as? Bool
-            self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            self.networkInterfacePort = dictionary["NetworkInterfacePort"] as? Int32
-            self.lunNumber = dictionary["LunNumber"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case chapEnabled = "ChapEnabled"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case networkInterfacePort = "NetworkInterfacePort"
+            case lunNumber = "LunNumber"
         }
     }
 
     public struct ListVolumeRecoveryPointsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeRecoveryPointInfos", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeRecoveryPointInfos", required: false, type: .list)
         ]
         public let gatewayARN: String?
         public let volumeRecoveryPointInfos: [VolumeRecoveryPointInfo]?
@@ -3483,22 +3212,17 @@ extension Storagegateway {
             self.volumeRecoveryPointInfos = volumeRecoveryPointInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            if let volumeRecoveryPointInfos = dictionary["VolumeRecoveryPointInfos"] as? [[String: Any]] {
-                self.volumeRecoveryPointInfos = try volumeRecoveryPointInfos.map({ try VolumeRecoveryPointInfo(dictionary: $0) })
-            } else { 
-                self.volumeRecoveryPointInfos = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case volumeRecoveryPointInfos = "VolumeRecoveryPointInfos"
         }
     }
 
     public struct ListGatewaysInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// An opaque string that indicates the position at which to begin the returned list of gateways.
         public let marker: String?
@@ -3510,22 +3234,21 @@ extension Storagegateway {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case limit = "Limit"
         }
     }
 
     public struct CreateStorediSCSIVolumeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "PreserveExistingData", required: true, type: .boolean), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskId", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "PreserveExistingData", required: true, type: .boolean), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "DiskId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetName", required: true, type: .string)
         ]
         /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot otherwise do not include this field. To list snapshots for your account use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
         public let snapshotId: String?
@@ -3548,29 +3271,23 @@ extension Storagegateway {
             self.targetName = targetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let preserveExistingData = dictionary["PreserveExistingData"] as? Bool else { throw InitializableError.missingRequiredParam("PreserveExistingData") }
-            self.preserveExistingData = preserveExistingData
-            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
-            self.networkInterfaceId = networkInterfaceId
-            guard let diskId = dictionary["DiskId"] as? String else { throw InitializableError.missingRequiredParam("DiskId") }
-            self.diskId = diskId
-            guard let targetName = dictionary["TargetName"] as? String else { throw InitializableError.missingRequiredParam("TargetName") }
-            self.targetName = targetName
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case gatewayARN = "GatewayARN"
+            case preserveExistingData = "PreserveExistingData"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case diskId = "DiskId"
+            case targetName = "TargetName"
         }
     }
 
     public struct ChapInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateTarget", required: false, type: .string), 
-            AWSShapeProperty(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
-            AWSShapeProperty(label: "InitiatorName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateTarget", required: false, type: .string), 
+            AWSShapeMember(label: "SecretToAuthenticateInitiator", required: false, type: .string), 
+            AWSShapeMember(label: "InitiatorName", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the volume.  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let targetARN: String?
@@ -3588,20 +3305,19 @@ extension Storagegateway {
             self.initiatorName = initiatorName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetARN = dictionary["TargetARN"] as? String
-            self.secretToAuthenticateTarget = dictionary["SecretToAuthenticateTarget"] as? String
-            self.secretToAuthenticateInitiator = dictionary["SecretToAuthenticateInitiator"] as? String
-            self.initiatorName = dictionary["InitiatorName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetARN = "TargetARN"
+            case secretToAuthenticateTarget = "SecretToAuthenticateTarget"
+            case secretToAuthenticateInitiator = "SecretToAuthenticateInitiator"
+            case initiatorName = "InitiatorName"
         }
     }
 
     public struct StorageGatewayError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "errorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "errorDetails", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "errorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "errorDetails", required: false, type: .map)
         ]
         /// Additional information about the error.
         public let errorCode: ErrorCode?
@@ -3613,26 +3329,21 @@ extension Storagegateway {
             self.errorDetails = errorDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let errorCode = dictionary["errorCode"] as? String { self.errorCode = ErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
-            if let errorDetails = dictionary["errorDetails"] as? [String: String] {
-                self.errorDetails = errorDetails
-            } else { 
-                self.errorDetails = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorDetails = "errorDetails"
         }
     }
 
     public struct VolumeInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeARN", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "GatewayId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeARN", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "GatewayId", required: false, type: .string)
         ]
         /// The size of the volume in bytes. Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         public let volumeSizeInBytes: Int64?
@@ -3654,21 +3365,20 @@ extension Storagegateway {
             self.gatewayId = gatewayId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64
-            self.gatewayARN = dictionary["GatewayARN"] as? String
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.volumeARN = dictionary["VolumeARN"] as? String
-            self.volumeId = dictionary["VolumeId"] as? String
-            self.gatewayId = dictionary["GatewayId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case gatewayARN = "GatewayARN"
+            case volumeType = "VolumeType"
+            case volumeARN = "VolumeARN"
+            case volumeId = "VolumeId"
+            case gatewayId = "GatewayId"
         }
     }
 
     public struct AddWorkingStorageOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         public let gatewayARN: String?
 
@@ -3676,16 +3386,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct CancelRetrievalOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was canceled.
         public let tapeARN: String?
@@ -3694,16 +3403,15 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct ListVolumeInitiatorsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Initiators", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Initiators", required: false, type: .list)
         ]
         /// The host names and port numbers of all iSCSI initiators that are connected to the gateway.
         public let initiators: [String]?
@@ -3712,16 +3420,15 @@ extension Storagegateway {
             self.initiators = initiators
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.initiators = dictionary["Initiators"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case initiators = "Initiators"
         }
     }
 
     public struct DescribeBandwidthRateLimitInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3729,17 +3436,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct DescribeUploadBufferInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3747,23 +3452,21 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct CreateCachediSCSIVolumeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "NetworkInterfaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeSizeInBytes", required: true, type: .long), 
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "TargetName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceVolumeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "NetworkInterfaceId", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeSizeInBytes", required: true, type: .long), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "TargetName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceVolumeARN", required: false, type: .string)
         ]
         public let gatewayARN: String
         public let networkInterfaceId: String
@@ -3784,28 +3487,22 @@ extension Storagegateway {
             self.sourceVolumeARN = sourceVolumeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
-            self.networkInterfaceId = networkInterfaceId
-            guard let clientToken = dictionary["ClientToken"] as? String else { throw InitializableError.missingRequiredParam("ClientToken") }
-            self.clientToken = clientToken
-            guard let volumeSizeInBytes = dictionary["VolumeSizeInBytes"] as? Int64 else { throw InitializableError.missingRequiredParam("VolumeSizeInBytes") }
-            self.volumeSizeInBytes = volumeSizeInBytes
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            guard let targetName = dictionary["TargetName"] as? String else { throw InitializableError.missingRequiredParam("TargetName") }
-            self.targetName = targetName
-            self.sourceVolumeARN = dictionary["SourceVolumeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case networkInterfaceId = "NetworkInterfaceId"
+            case clientToken = "ClientToken"
+            case volumeSizeInBytes = "VolumeSizeInBytes"
+            case snapshotId = "SnapshotId"
+            case targetName = "TargetName"
+            case sourceVolumeARN = "SourceVolumeARN"
         }
     }
 
     public struct ListGatewaysOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Gateways", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Gateways", required: false, type: .list)
         ]
         public let marker: String?
         public let gateways: [GatewayInfo]?
@@ -3815,21 +3512,16 @@ extension Storagegateway {
             self.gateways = gateways
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let gateways = dictionary["Gateways"] as? [[String: Any]] {
-                self.gateways = try gateways.map({ try GatewayInfo(dictionary: $0) })
-            } else { 
-                self.gateways = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case gateways = "Gateways"
         }
     }
 
     public struct ShutdownGatewayInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string)
         ]
         public let gatewayARN: String
 
@@ -3837,17 +3529,15 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct RetrieveTapeRecoveryPointOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TapeARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TapeARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the virtual tape for which the recovery point was retrieved.
         public let tapeARN: String?
@@ -3856,16 +3546,15 @@ extension Storagegateway {
             self.tapeARN = tapeARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tapeARN = dictionary["TapeARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tapeARN = "TapeARN"
         }
     }
 
     public struct DisableGatewayOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: false, type: .string)
         ]
         /// The unique Amazon Resource Name of the disabled gateway.
         public let gatewayARN: String?
@@ -3874,17 +3563,16 @@ extension Storagegateway {
             self.gatewayARN = gatewayARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.gatewayARN = dictionary["GatewayARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
         }
     }
 
     public struct AddCacheInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GatewayARN", required: true, type: .string), 
-            AWSShapeProperty(label: "DiskIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GatewayARN", required: true, type: .string), 
+            AWSShapeMember(label: "DiskIds", required: true, type: .list)
         ]
         public let gatewayARN: String
         public let diskIds: [String]
@@ -3894,11 +3582,9 @@ extension Storagegateway {
             self.diskIds = diskIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let gatewayARN = dictionary["GatewayARN"] as? String else { throw InitializableError.missingRequiredParam("GatewayARN") }
-            self.gatewayARN = gatewayARN
-            guard let diskIds = dictionary["DiskIds"] as? [String] else { throw InitializableError.missingRequiredParam("DiskIds") }
-            self.diskIds = diskIds
+        private enum CodingKeys: String, CodingKey {
+            case gatewayARN = "GatewayARN"
+            case diskIds = "DiskIds"
         }
     }
 

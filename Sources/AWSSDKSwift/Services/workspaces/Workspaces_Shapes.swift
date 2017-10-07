@@ -31,10 +31,9 @@ extension Workspaces {
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The resource ID of the request.
         public let resourceId: String
@@ -46,19 +45,16 @@ extension Workspaces {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
     public struct TerminateWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminateWorkspaceRequests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminateWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to terminate.
         public let terminateWorkspaceRequests: [TerminateRequest]
@@ -67,13 +63,12 @@ extension Workspaces {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let terminateWorkspaceRequests = dictionary["TerminateWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TerminateWorkspaceRequests") }
-            self.terminateWorkspaceRequests = try terminateWorkspaceRequests.map({ try TerminateRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case terminateWorkspaceRequests = "TerminateWorkspaceRequests"
         }
     }
 
-    public enum Compute: String, CustomStringConvertible {
+    public enum Compute: String, CustomStringConvertible, Codable {
         case value = "VALUE"
         case standard = "STANDARD"
         case performance = "PERFORMANCE"
@@ -82,11 +77,10 @@ extension Workspaces {
 
     public struct FailedCreateWorkspaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkspaceRequest", required: false, type: .structure), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceRequest", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string)
         ]
         /// The textual error message.
         public let errorMessage: String?
@@ -101,20 +95,19 @@ extension Workspaces {
             self.errorCode = errorCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            if let workspaceRequest = dictionary["WorkspaceRequest"] as? [String: Any] { self.workspaceRequest = try Workspaces.WorkspaceRequest(dictionary: workspaceRequest) } else { self.workspaceRequest = nil }
-            self.errorCode = dictionary["ErrorCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case workspaceRequest = "WorkspaceRequest"
+            case errorCode = "ErrorCode"
         }
     }
 
     public struct DescribeWorkspaceBundlesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "BundleIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "BundleIds", required: false, type: .list)
         ]
         /// The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter. This contains one of the following values:   null- Retrieves the bundles that belong to the account making the call.    AMAZON- Retrieves the bundles that are provided by AWS.  
         public let owner: String?
@@ -129,18 +122,17 @@ extension Workspaces {
             self.bundleIds = bundleIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.owner = dictionary["Owner"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.bundleIds = dictionary["BundleIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case owner = "Owner"
+            case nextToken = "NextToken"
+            case bundleIds = "BundleIds"
         }
     }
 
     public struct UserStorage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Capacity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Capacity", required: false, type: .string)
         ]
         /// The amount of user storage for the bundle.
         public let capacity: String?
@@ -149,21 +141,20 @@ extension Workspaces {
             self.capacity = capacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.capacity = dictionary["Capacity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "Capacity"
         }
     }
 
     public struct WorkspaceBundle: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputeType", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserStorage", required: false, type: .structure), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "BundleId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ComputeType", required: false, type: .structure), 
+            AWSShapeMember(label: "UserStorage", required: false, type: .structure), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "BundleId", required: false, type: .string)
         ]
         /// The bundle description.
         public let description: String?
@@ -187,21 +178,20 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let computeType = dictionary["ComputeType"] as? [String: Any] { self.computeType = try Workspaces.ComputeType(dictionary: computeType) } else { self.computeType = nil }
-            if let userStorage = dictionary["UserStorage"] as? [String: Any] { self.userStorage = try Workspaces.UserStorage(dictionary: userStorage) } else { self.userStorage = nil }
-            self.owner = dictionary["Owner"] as? String
-            self.name = dictionary["Name"] as? String
-            self.bundleId = dictionary["BundleId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case computeType = "ComputeType"
+            case userStorage = "UserStorage"
+            case owner = "Owner"
+            case name = "Name"
+            case bundleId = "BundleId"
         }
     }
 
     public struct RebootWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebooted.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -210,20 +200,15 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
         }
     }
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string)
         ]
         /// The resource ID of the request.
         public let resourceId: String
@@ -232,18 +217,16 @@ extension Workspaces {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
         }
     }
 
     public struct CreateWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list), 
-            AWSShapeProperty(label: "PendingRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list), 
+            AWSShapeMember(label: "PendingRequests", required: false, type: .list)
         ]
         /// An array of structures that represent the WorkSpaces that could not be created.
         public let failedRequests: [FailedCreateWorkspaceRequest]?
@@ -255,33 +238,21 @@ extension Workspaces {
             self.pendingRequests = pendingRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedCreateWorkspaceRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
-            if let pendingRequests = dictionary["PendingRequests"] as? [[String: Any]] {
-                self.pendingRequests = try pendingRequests.map({ try Workspace(dictionary: $0) })
-            } else { 
-                self.pendingRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
+            case pendingRequests = "PendingRequests"
         }
     }
 
     public struct CreateTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RebootWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RebootWorkspaceRequests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RebootWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to reboot.
         public let rebootWorkspaceRequests: [RebootRequest]
@@ -290,18 +261,16 @@ extension Workspaces {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rebootWorkspaceRequests = dictionary["RebootWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RebootWorkspaceRequests") }
-            self.rebootWorkspaceRequests = try rebootWorkspaceRequests.map({ try RebootRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case rebootWorkspaceRequests = "RebootWorkspaceRequests"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String?
@@ -313,27 +282,22 @@ extension Workspaces {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct ModifyWorkspacePropertiesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeWorkspacesConnectionStatusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspacesConnectionStatus", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspacesConnectionStatus", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The connection status of the WorkSpace.
         public let workspacesConnectionStatus: [WorkspaceConnectionStatus]?
@@ -345,17 +309,13 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let workspacesConnectionStatus = dictionary["WorkspacesConnectionStatus"] as? [[String: Any]] {
-                self.workspacesConnectionStatus = try workspacesConnectionStatus.map({ try WorkspaceConnectionStatus(dictionary: $0) })
-            } else { 
-                self.workspacesConnectionStatus = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workspacesConnectionStatus = "WorkspacesConnectionStatus"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum WorkspaceDirectoryState: String, CustomStringConvertible {
+    public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
         case registering = "REGISTERING"
         case registered = "REGISTERED"
         case deregistering = "DEREGISTERING"
@@ -364,7 +324,7 @@ extension Workspaces {
         public var description: String { return self.rawValue }
     }
 
-    public enum RunningMode: String, CustomStringConvertible {
+    public enum RunningMode: String, CustomStringConvertible, Codable {
         case auto_stop = "AUTO_STOP"
         case always_on = "ALWAYS_ON"
         public var description: String { return self.rawValue }
@@ -372,9 +332,8 @@ extension Workspaces {
 
     public struct StartWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartWorkspaceRequests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
         public let startWorkspaceRequests: [StartRequest]
@@ -383,13 +342,12 @@ extension Workspaces {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startWorkspaceRequests = dictionary["StartWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("StartWorkspaceRequests") }
-            self.startWorkspaceRequests = try startWorkspaceRequests.map({ try StartRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case startWorkspaceRequests = "StartWorkspaceRequests"
         }
     }
 
-    public enum WorkspaceState: String, CustomStringConvertible {
+    public enum WorkspaceState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case available = "AVAILABLE"
         case impaired = "IMPAIRED"
@@ -409,9 +367,8 @@ extension Workspaces {
 
     public struct ComputeType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .enum)
         ]
         /// The name of the compute type for the bundle.
         public let name: Compute?
@@ -420,18 +377,17 @@ extension Workspaces {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let name = dictionary["Name"] as? String { self.name = Compute(rawValue: name) } else { self.name = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct FailedWorkspaceChangeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The textual error message.
         public let errorMessage: String?
@@ -446,18 +402,17 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.workspaceId = dictionary["WorkspaceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case workspaceId = "WorkspaceId"
         }
     }
 
     public struct StopRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
         public let workspaceId: String?
@@ -466,16 +421,15 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workspaceId = dictionary["WorkspaceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 
     public struct StartRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string)
         ]
         /// The ID of the WorkSpace.
         public let workspaceId: String?
@@ -484,20 +438,19 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workspaceId = dictionary["WorkspaceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 
     public struct DefaultWorkspaceCreationProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultOu", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomSecurityGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "EnableInternetAccess", required: false, type: .boolean), 
-            AWSShapeProperty(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EnableWorkDocs", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultOu", required: false, type: .string), 
+            AWSShapeMember(label: "CustomSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "EnableInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserEnabledAsLocalAdministrator", required: false, type: .boolean), 
+            AWSShapeMember(label: "EnableWorkDocs", required: false, type: .boolean)
         ]
         /// The organizational unit (OU) in the directory that the WorkSpace machine accounts are placed in.
         public let defaultOu: String?
@@ -518,20 +471,19 @@ extension Workspaces {
             self.enableWorkDocs = enableWorkDocs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultOu = dictionary["DefaultOu"] as? String
-            self.customSecurityGroupId = dictionary["CustomSecurityGroupId"] as? String
-            self.enableInternetAccess = dictionary["EnableInternetAccess"] as? Bool
-            self.userEnabledAsLocalAdministrator = dictionary["UserEnabledAsLocalAdministrator"] as? Bool
-            self.enableWorkDocs = dictionary["EnableWorkDocs"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case defaultOu = "DefaultOu"
+            case customSecurityGroupId = "CustomSecurityGroupId"
+            case enableInternetAccess = "EnableInternetAccess"
+            case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
+            case enableWorkDocs = "EnableWorkDocs"
         }
     }
 
     public struct StopWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StopWorkspaceRequests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StopWorkspaceRequests", required: true, type: .list)
         ]
         /// The requests.
         public let stopWorkspaceRequests: [StopRequest]
@@ -540,22 +492,20 @@ extension Workspaces {
             self.stopWorkspaceRequests = stopWorkspaceRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stopWorkspaceRequests = dictionary["StopWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("StopWorkspaceRequests") }
-            self.stopWorkspaceRequests = try stopWorkspaceRequests.map({ try StopRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case stopWorkspaceRequests = "StopWorkspaceRequests"
         }
     }
 
     public struct DescribeWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkspaceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "BundleId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list), 
+            AWSShapeMember(label: "BundleId", required: false, type: .string)
         ]
         /// Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
         public let directoryId: String?
@@ -579,21 +529,20 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.directoryId = dictionary["DirectoryId"] as? String
-            self.userName = dictionary["UserName"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.workspaceIds = dictionary["WorkspaceIds"] as? [String]
-            self.bundleId = dictionary["BundleId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case userName = "UserName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case workspaceIds = "WorkspaceIds"
+            case bundleId = "BundleId"
         }
     }
 
     public struct RebuildWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be rebuilt.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -602,20 +551,15 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
         }
     }
 
     public struct RebootRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to reboot.
         public let workspaceId: String
@@ -624,18 +568,16 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
-            self.workspaceId = workspaceId
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 
     public struct DescribeWorkspacesConnectionStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of strings that contain the identifiers of the WorkSpaces.
         public let workspaceIds: [String]?
@@ -647,50 +589,48 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workspaceIds = dictionary["WorkspaceIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workspaceIds = "WorkspaceIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct WorkspaceConnectionStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ConnectionState", required: false, type: .enum), 
-            AWSShapeProperty(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ConnectionStateCheckTimestamp", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectionState", required: false, type: .enum), 
+            AWSShapeMember(label: "LastKnownUserConnectionTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConnectionStateCheckTimestamp", required: false, type: .timestamp)
         ]
         /// The ID of the WorkSpace.
         public let workspaceId: String?
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
         public let connectionState: ConnectionState?
         /// The timestamp of the last known user connection.
-        public let lastKnownUserConnectionTimestamp: String?
+        public let lastKnownUserConnectionTimestamp: Double?
         /// The timestamp of the connection state check.
-        public let connectionStateCheckTimestamp: String?
+        public let connectionStateCheckTimestamp: Double?
 
-        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: String? = nil, connectionStateCheckTimestamp: String? = nil) {
+        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: Double? = nil, connectionStateCheckTimestamp: Double? = nil) {
             self.workspaceId = workspaceId
             self.connectionState = connectionState
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.workspaceId = dictionary["WorkspaceId"] as? String
-            if let connectionState = dictionary["ConnectionState"] as? String { self.connectionState = ConnectionState(rawValue: connectionState) } else { self.connectionState = nil }
-            self.lastKnownUserConnectionTimestamp = dictionary["LastKnownUserConnectionTimestamp"] as? String
-            self.connectionStateCheckTimestamp = dictionary["ConnectionStateCheckTimestamp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+            case connectionState = "ConnectionState"
+            case lastKnownUserConnectionTimestamp = "LastKnownUserConnectionTimestamp"
+            case connectionStateCheckTimestamp = "ConnectionStateCheckTimestamp"
         }
     }
 
     public struct DescribeTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
         /// The list of tags.
         public let tagList: [Tag]?
@@ -699,16 +639,12 @@ extension Workspaces {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [[String: Any]] {
-                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible {
+    public enum ConnectionState: String, CustomStringConvertible, Codable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
         case unknown = "UNKNOWN"
@@ -717,10 +653,9 @@ extension Workspaces {
 
     public struct DescribeWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Workspaces", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Workspaces", required: false, type: .list)
         ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
         public let nextToken: String?
@@ -732,22 +667,17 @@ extension Workspaces {
             self.workspaces = workspaces
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let workspaces = dictionary["Workspaces"] as? [[String: Any]] {
-                self.workspaces = try workspaces.map({ try Workspace(dictionary: $0) })
-            } else { 
-                self.workspaces = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspaces = "Workspaces"
         }
     }
 
     public struct WorkspaceProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RunningMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RunningMode", required: false, type: .enum), 
+            AWSShapeMember(label: "RunningModeAutoStopTimeoutInMinutes", required: false, type: .integer)
         ]
         /// The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
         public let runningMode: RunningMode?
@@ -759,18 +689,17 @@ extension Workspaces {
             self.runningModeAutoStopTimeoutInMinutes = runningModeAutoStopTimeoutInMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let runningMode = dictionary["RunningMode"] as? String { self.runningMode = RunningMode(rawValue: runningMode) } else { self.runningMode = nil }
-            self.runningModeAutoStopTimeoutInMinutes = dictionary["RunningModeAutoStopTimeoutInMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case runningMode = "RunningMode"
+            case runningModeAutoStopTimeoutInMinutes = "RunningModeAutoStopTimeoutInMinutes"
         }
     }
 
     public struct ModifyWorkspacePropertiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: true, type: .string), 
-            AWSShapeProperty(label: "WorkspaceProperties", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string), 
+            AWSShapeMember(label: "WorkspaceProperties", required: true, type: .structure)
         ]
         /// The ID of the WorkSpace.
         public let workspaceId: String
@@ -782,20 +711,17 @@ extension Workspaces {
             self.workspaceProperties = workspaceProperties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
-            self.workspaceId = workspaceId
-            guard let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WorkspaceProperties") }
-            self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties)
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
+            case workspaceProperties = "WorkspaceProperties"
         }
     }
 
     public struct DescribeWorkspaceBundlesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Bundles", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Bundles", required: false, type: .list)
         ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
         public let nextToken: String?
@@ -807,22 +733,17 @@ extension Workspaces {
             self.bundles = bundles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let bundles = dictionary["Bundles"] as? [[String: Any]] {
-                self.bundles = try bundles.map({ try WorkspaceBundle(dictionary: $0) })
-            } else { 
-                self.bundles = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case bundles = "Bundles"
         }
     }
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The resource ID of the request.
         public let resourceId: String
@@ -834,32 +755,29 @@ extension Workspaces {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct Workspace: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkspaceProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "ComputerName", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "BundleId", required: false, type: .string), 
-            AWSShapeProperty(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "WorkspaceId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeProperty(label: "IpAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "BundleId", required: false, type: .string), 
+            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "WorkspaceId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "IpAddress", required: false, type: .string)
         ]
         /// The identifier of the subnet that the WorkSpace is in.
         public let subnetId: String?
@@ -906,29 +824,28 @@ extension Workspaces {
             self.ipAddress = ipAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetId = dictionary["SubnetId"] as? String
-            self.userName = dictionary["UserName"] as? String
-            if let state = dictionary["State"] as? String { self.state = WorkspaceState(rawValue: state) } else { self.state = nil }
-            self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
-            self.directoryId = dictionary["DirectoryId"] as? String
-            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) } else { self.workspaceProperties = nil }
-            self.computerName = dictionary["ComputerName"] as? String
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.bundleId = dictionary["BundleId"] as? String
-            self.userVolumeEncryptionEnabled = dictionary["UserVolumeEncryptionEnabled"] as? Bool
-            self.workspaceId = dictionary["WorkspaceId"] as? String
-            self.volumeEncryptionKey = dictionary["VolumeEncryptionKey"] as? String
-            self.ipAddress = dictionary["IpAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+            case userName = "UserName"
+            case state = "State"
+            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+            case directoryId = "DirectoryId"
+            case workspaceProperties = "WorkspaceProperties"
+            case computerName = "ComputerName"
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case bundleId = "BundleId"
+            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
+            case workspaceId = "WorkspaceId"
+            case volumeEncryptionKey = "VolumeEncryptionKey"
+            case ipAddress = "IpAddress"
         }
     }
 
     public struct RebuildWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RebuildWorkspaceRequests", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RebuildWorkspaceRequests", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to rebuild.
         public let rebuildWorkspaceRequests: [RebuildRequest]
@@ -937,18 +854,16 @@ extension Workspaces {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rebuildWorkspaceRequests = dictionary["RebuildWorkspaceRequests"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("RebuildWorkspaceRequests") }
-            self.rebuildWorkspaceRequests = try rebuildWorkspaceRequests.map({ try RebuildRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case rebuildWorkspaceRequests = "RebuildWorkspaceRequests"
         }
     }
 
     public struct DescribeWorkspaceDirectoriesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Directories", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Directories", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of structures that contain information about the directories.
         public let directories: [WorkspaceDirectory]?
@@ -960,21 +875,16 @@ extension Workspaces {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let directories = dictionary["Directories"] as? [[String: Any]] {
-                self.directories = try directories.map({ try WorkspaceDirectory(dictionary: $0) })
-            } else { 
-                self.directories = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directories = "Directories"
+            case nextToken = "NextToken"
         }
     }
 
     public struct TerminateWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// An array of structures representing any WorkSpaces that could not be terminated.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -983,20 +893,15 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
         }
     }
 
     public struct StopWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -1005,16 +910,12 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
         }
     }
 
-    public enum WorkspaceDirectoryType: String, CustomStringConvertible {
+    public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
         case simple_ad = "SIMPLE_AD"
         case ad_connector = "AD_CONNECTOR"
         public var description: String { return self.rawValue }
@@ -1022,9 +923,8 @@ extension Workspaces {
 
     public struct RebuildRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to rebuild.
         public let workspaceId: String
@@ -1033,17 +933,15 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
-            self.workspaceId = workspaceId
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 
     public struct CreateWorkspacesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Workspaces", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Workspaces", required: true, type: .list)
         ]
         /// An array of structures that specify the WorkSpaces to create.
         public let workspaces: [WorkspaceRequest]
@@ -1052,28 +950,26 @@ extension Workspaces {
             self.workspaces = workspaces
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workspaces = dictionary["Workspaces"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Workspaces") }
-            self.workspaces = try workspaces.map({ try WorkspaceRequest(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case workspaces = "Workspaces"
         }
     }
 
     public struct WorkspaceDirectory: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "WorkspaceCreationProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "DnsIpAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "RegistrationCode", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "CustomerUserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Alias", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "WorkspaceSecurityGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryType", required: false, type: .enum), 
-            AWSShapeProperty(label: "IamRoleId", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "WorkspaceCreationProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "DnsIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "RegistrationCode", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "WorkspaceSecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryType", required: false, type: .enum), 
+            AWSShapeMember(label: "IamRoleId", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryName", required: false, type: .string)
         ]
         /// An array of strings that contains the identifiers of the subnets used with the directory.
         public let subnetIds: [String]?
@@ -1115,34 +1011,33 @@ extension Workspaces {
             self.directoryName = directoryName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            if let workspaceCreationProperties = dictionary["WorkspaceCreationProperties"] as? [String: Any] { self.workspaceCreationProperties = try Workspaces.DefaultWorkspaceCreationProperties(dictionary: workspaceCreationProperties) } else { self.workspaceCreationProperties = nil }
-            self.dnsIpAddresses = dictionary["DnsIpAddresses"] as? [String]
-            self.registrationCode = dictionary["RegistrationCode"] as? String
-            if let state = dictionary["State"] as? String { self.state = WorkspaceDirectoryState(rawValue: state) } else { self.state = nil }
-            self.customerUserName = dictionary["CustomerUserName"] as? String
-            self.alias = dictionary["Alias"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
-            self.workspaceSecurityGroupId = dictionary["WorkspaceSecurityGroupId"] as? String
-            if let directoryType = dictionary["DirectoryType"] as? String { self.directoryType = WorkspaceDirectoryType(rawValue: directoryType) } else { self.directoryType = nil }
-            self.iamRoleId = dictionary["IamRoleId"] as? String
-            self.directoryName = dictionary["DirectoryName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case workspaceCreationProperties = "WorkspaceCreationProperties"
+            case dnsIpAddresses = "DnsIpAddresses"
+            case registrationCode = "RegistrationCode"
+            case state = "State"
+            case customerUserName = "CustomerUserName"
+            case alias = "Alias"
+            case directoryId = "DirectoryId"
+            case workspaceSecurityGroupId = "WorkspaceSecurityGroupId"
+            case directoryType = "DirectoryType"
+            case iamRoleId = "IamRoleId"
+            case directoryName = "DirectoryName"
         }
     }
 
     public struct WorkspaceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "VolumeEncryptionKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "WorkspaceProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BundleId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "VolumeEncryptionKey", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "WorkspaceProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RootVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "UserVolumeEncryptionEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "BundleId", required: true, type: .string)
         ]
         /// The username that the WorkSpace is assigned to. This username must exist in the AWS Directory Service directory specified by the DirectoryId member.
         public let userName: String
@@ -1171,30 +1066,22 @@ extension Workspaces {
             self.bundleId = bundleId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.volumeEncryptionKey = dictionary["VolumeEncryptionKey"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) } else { self.workspaceProperties = nil }
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
-            self.userVolumeEncryptionEnabled = dictionary["UserVolumeEncryptionEnabled"] as? Bool
-            guard let bundleId = dictionary["BundleId"] as? String else { throw InitializableError.missingRequiredParam("BundleId") }
-            self.bundleId = bundleId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case volumeEncryptionKey = "VolumeEncryptionKey"
+            case tags = "Tags"
+            case workspaceProperties = "WorkspaceProperties"
+            case directoryId = "DirectoryId"
+            case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
+            case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
+            case bundleId = "BundleId"
         }
     }
 
     public struct StartWorkspacesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRequests", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRequests", required: false, type: .list)
         ]
         /// The failed requests.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
@@ -1203,29 +1090,21 @@ extension Workspaces {
             self.failedRequests = failedRequests
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
-                self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
-            } else { 
-                self.failedRequests = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedRequests = "FailedRequests"
         }
     }
 
     public struct DeleteTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeWorkspaceDirectoriesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryIds", required: false, type: .list)
         ]
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
         public let nextToken: String?
@@ -1237,17 +1116,16 @@ extension Workspaces {
             self.directoryIds = directoryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.directoryIds = dictionary["DirectoryIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case directoryIds = "DirectoryIds"
         }
     }
 
     public struct TerminateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WorkspaceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WorkspaceId", required: true, type: .string)
         ]
         /// The identifier of the WorkSpace to terminate.
         public let workspaceId: String
@@ -1256,9 +1134,8 @@ extension Workspaces {
             self.workspaceId = workspaceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workspaceId = dictionary["WorkspaceId"] as? String else { throw InitializableError.missingRequiredParam("WorkspaceId") }
-            self.workspaceId = workspaceId
+        private enum CodingKeys: String, CodingKey {
+            case workspaceId = "WorkspaceId"
         }
     }
 

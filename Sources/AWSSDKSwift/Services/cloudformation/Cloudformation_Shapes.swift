@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Cloudformation {
 
-    public enum ChangeAction: String, CustomStringConvertible {
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
         case add = "Add"
         case modify = "Modify"
         case remove = "Remove"
@@ -38,10 +38,9 @@ extension Cloudformation {
 
     public struct DescribeStacksInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
@@ -53,25 +52,24 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum ChangeType: String, CustomStringConvertible {
+    public enum ChangeType: String, CustomStringConvertible, Codable {
         case resource = "Resource"
         public var description: String { return self.rawValue }
     }
 
     public struct DeleteStackInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "RetainResources", required: false, type: .list), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "RetainResources", required: false, type: .list), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
@@ -89,16 +87,15 @@ extension Cloudformation {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.retainResources = dictionary["RetainResources"] as? [String]
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case stackName = "StackName"
+            case retainResources = "RetainResources"
+            case roleARN = "RoleARN"
         }
     }
 
-    public enum ChangeSource: String, CustomStringConvertible {
+    public enum ChangeSource: String, CustomStringConvertible, Codable {
         case resourcereference = "ResourceReference"
         case parameterreference = "ParameterReference"
         case resourceattribute = "ResourceAttribute"
@@ -107,7 +104,7 @@ extension Cloudformation {
         public var description: String { return self.rawValue }
     }
 
-    public enum OnFailure: String, CustomStringConvertible {
+    public enum OnFailure: String, CustomStringConvertible, Codable {
         case do_nothing = "DO_NOTHING"
         case rollback = "ROLLBACK"
         case delete = "DELETE"
@@ -116,9 +113,8 @@ extension Cloudformation {
 
     public struct GetStackPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackPolicyBody", required: false, type: .string)
         ]
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide.)
         public let stackPolicyBody: String?
@@ -127,22 +123,21 @@ extension Cloudformation {
             self.stackPolicyBody = stackPolicyBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackPolicyBody = "StackPolicyBody"
         }
     }
 
     public struct ResourceChange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Details", required: false, type: .list), 
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Replacement", required: false, type: .enum), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Scope", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .list), 
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Replacement", required: false, type: .enum), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "Scope", required: false, type: .list)
         ]
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that AWS CloudFormation will make to the resource. 
         public let details: [ResourceChangeDetail]?
@@ -169,44 +164,39 @@ extension Cloudformation {
             self.scope = scope
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let details = dictionary["Details"] as? [[String: Any]] {
-                self.details = try details.map({ try ResourceChangeDetail(dictionary: $0) })
-            } else { 
-                self.details = nil
-            }
-            if let action = dictionary["Action"] as? String { self.action = ChangeAction(rawValue: action) } else { self.action = nil }
-            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
-            if let replacement = dictionary["Replacement"] as? String { self.replacement = Replacement(rawValue: replacement) } else { self.replacement = nil }
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            if let scope = dictionary["Scope"] as? [String] { self.scope = scope.flatMap({ ResourceAttribute(rawValue: $0)}) } else { self.scope = nil }
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case action = "Action"
+            case logicalResourceId = "LogicalResourceId"
+            case resourceType = "ResourceType"
+            case replacement = "Replacement"
+            case physicalResourceId = "PhysicalResourceId"
+            case scope = "Scope"
         }
     }
 
     public struct StackSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeletionTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "StackStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "StackStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "TemplateDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeletionTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "StackStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StackStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "TemplateDescription", required: false, type: .string)
         ]
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: String?
+        public let lastUpdatedTime: Double?
         /// The time the stack was deleted.
-        public let deletionTime: String?
+        public let deletionTime: Double?
         /// Unique stack identifier.
         public let stackId: String?
         /// The current status of the stack.
         public let stackStatus: StackStatus
         /// The time the stack was created.
-        public let creationTime: String
+        public let creationTime: Double
         /// Success/Failure message associated with the stack status.
         public let stackStatusReason: String?
         /// The name associated with the stack.
@@ -214,7 +204,7 @@ extension Cloudformation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
-        public init(lastUpdatedTime: String? = nil, deletionTime: String? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: String, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
+        public init(lastUpdatedTime: Double? = nil, deletionTime: Double? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: Double, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.deletionTime = deletionTime
             self.stackId = stackId
@@ -225,27 +215,23 @@ extension Cloudformation {
             self.templateDescription = templateDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
-            self.deletionTime = dictionary["DeletionTime"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            guard let rawStackStatus = dictionary["StackStatus"] as? String, let stackStatus = StackStatus(rawValue: rawStackStatus) else { throw InitializableError.missingRequiredParam("StackStatus") }
-            self.stackStatus = stackStatus
-            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
-            self.creationTime = creationTime
-            self.stackStatusReason = dictionary["StackStatusReason"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.templateDescription = dictionary["TemplateDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "LastUpdatedTime"
+            case deletionTime = "DeletionTime"
+            case stackId = "StackId"
+            case stackStatus = "StackStatus"
+            case creationTime = "CreationTime"
+            case stackStatusReason = "StackStatusReason"
+            case stackName = "StackName"
+            case templateDescription = "TemplateDescription"
         }
     }
 
     public struct CreateChangeSetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The unique ID of the stack.
         public let stackId: String?
@@ -257,32 +243,31 @@ extension Cloudformation {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case id = "Id"
         }
     }
 
     public struct Stack: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DisableRollback", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CreationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .list), 
-            AWSShapeProperty(label: "StackStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "LastUpdatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "DisableRollback", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list), 
+            AWSShapeMember(label: "StackStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
+            AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list)
         ]
         /// Current status of the stack.
         public let stackStatus: StackStatus
@@ -293,7 +278,7 @@ extension Cloudformation {
         /// Boolean to enable or disable rollback on stack creation failures:    true: disable rollback    false: enable rollback  
         public let disableRollback: Bool?
         /// The time at which the stack was created.
-        public let creationTime: String
+        public let creationTime: Double
         /// A list of output structures.
         public let outputs: [Output]?
         /// Success/failure message associated with the stack status.
@@ -301,7 +286,7 @@ extension Cloudformation {
         /// SNS topic ARNs to which stack related events are published.
         public let notificationARNs: [String]?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: String?
+        public let lastUpdatedTime: Double?
         /// A user-defined description associated with the stack.
         public let description: String?
         /// A list of Parameter structures.
@@ -317,7 +302,7 @@ extension Cloudformation {
         /// The capabilities allowed in the stack.
         public let capabilities: [Capability]?
 
-        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: String, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: String? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: Double, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: Double? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackStatus = stackStatus
             self.tags = tags
             self.roleARN = roleARN
@@ -336,60 +321,44 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawStackStatus = dictionary["StackStatus"] as? String, let stackStatus = StackStatus(rawValue: rawStackStatus) else { throw InitializableError.missingRequiredParam("StackStatus") }
-            self.stackStatus = stackStatus
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.disableRollback = dictionary["DisableRollback"] as? Bool
-            guard let creationTime = dictionary["CreationTime"] as? String else { throw InitializableError.missingRequiredParam("CreationTime") }
-            self.creationTime = creationTime
-            if let outputs = dictionary["Outputs"] as? [[String: Any]] {
-                self.outputs = try outputs.map({ try Output(dictionary: $0) })
-            } else { 
-                self.outputs = nil
-            }
-            self.stackStatusReason = dictionary["StackStatusReason"] as? String
-            self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            self.lastUpdatedTime = dictionary["LastUpdatedTime"] as? String
-            self.description = dictionary["Description"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.stackId = dictionary["StackId"] as? String
-            self.changeSetId = dictionary["ChangeSetId"] as? String
-            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackStatus = "StackStatus"
+            case tags = "Tags"
+            case roleARN = "RoleARN"
+            case disableRollback = "DisableRollback"
+            case creationTime = "CreationTime"
+            case outputs = "Outputs"
+            case stackStatusReason = "StackStatusReason"
+            case notificationARNs = "NotificationARNs"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case description = "Description"
+            case parameters = "Parameters"
+            case stackId = "StackId"
+            case changeSetId = "ChangeSetId"
+            case timeoutInMinutes = "TimeoutInMinutes"
+            case stackName = "StackName"
+            case capabilities = "Capabilities"
         }
     }
 
     public struct UpdateStackInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "StackPolicyDuringUpdateBody", required: false, type: .string), 
-            AWSShapeProperty(label: "UsePreviousTemplate", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StackPolicyDuringUpdateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "StackPolicyURL", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackPolicyBody", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "StackPolicyDuringUpdateBody", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
+            AWSShapeMember(label: "StackPolicyDuringUpdateURL", required: false, type: .string), 
+            AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list)
         ]
         /// Structure containing a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you do not specify a stack policy, the current policy that is associated with the stack is unchanged.
         public let stackPolicyBody: String?
@@ -440,39 +409,29 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.stackPolicyDuringUpdateBody = dictionary["StackPolicyDuringUpdateBody"] as? String
-            self.usePreviousTemplate = dictionary["UsePreviousTemplate"] as? Bool
-            self.stackPolicyDuringUpdateURL = dictionary["StackPolicyDuringUpdateURL"] as? String
-            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
-            self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.resourceTypes = dictionary["ResourceTypes"] as? [String]
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackPolicyBody = "StackPolicyBody"
+            case clientRequestToken = "ClientRequestToken"
+            case tags = "Tags"
+            case roleARN = "RoleARN"
+            case stackPolicyDuringUpdateBody = "StackPolicyDuringUpdateBody"
+            case usePreviousTemplate = "UsePreviousTemplate"
+            case stackPolicyDuringUpdateURL = "StackPolicyDuringUpdateURL"
+            case stackPolicyURL = "StackPolicyURL"
+            case notificationARNs = "NotificationARNs"
+            case parameters = "Parameters"
+            case resourceTypes = "ResourceTypes"
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
+            case stackName = "StackName"
+            case capabilities = "Capabilities"
         }
     }
 
     public struct ListExportsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
         public let nextToken: String?
@@ -481,21 +440,20 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct ParameterDeclaration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterType", required: false, type: .string), 
-            AWSShapeProperty(label: "NoEcho", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ParameterConstraints", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterType", required: false, type: .string), 
+            AWSShapeMember(label: "NoEcho", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterConstraints", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The type of parameter.
         public let parameterType: String?
@@ -519,30 +477,29 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterType = dictionary["ParameterType"] as? String
-            self.noEcho = dictionary["NoEcho"] as? Bool
-            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Cloudformation.ParameterConstraints(dictionary: parameterConstraints) } else { self.parameterConstraints = nil }
-            self.defaultValue = dictionary["DefaultValue"] as? String
-            self.parameterKey = dictionary["ParameterKey"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterType = "ParameterType"
+            case noEcho = "NoEcho"
+            case parameterConstraints = "ParameterConstraints"
+            case defaultValue = "DefaultValue"
+            case parameterKey = "ParameterKey"
+            case description = "Description"
         }
     }
 
     public struct StackResourceDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ResourceStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The content of the Metadata attribute declared for the resource. For more information, see Metadata Attribute in the AWS CloudFormation User Guide.
         public let metadata: String?
@@ -557,7 +514,7 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: String
+        public let lastUpdatedTimestamp: Double
         /// Success/failure message associated with the resource.
         public let resourceStatusReason: String?
         /// The name associated with the stack.
@@ -565,7 +522,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Double, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.metadata = metadata
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -578,31 +535,27 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metadata = dictionary["Metadata"] as? String
-            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
-            self.resourceStatus = resourceStatus
-            self.stackId = dictionary["StackId"] as? String
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
-            self.logicalResourceId = logicalResourceId
-            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
-            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
-            self.stackName = dictionary["StackName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case resourceStatus = "ResourceStatus"
+            case stackId = "StackId"
+            case resourceType = "ResourceType"
+            case physicalResourceId = "PhysicalResourceId"
+            case logicalResourceId = "LogicalResourceId"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case resourceStatusReason = "ResourceStatusReason"
+            case stackName = "StackName"
+            case description = "Description"
         }
     }
 
-    public enum Capability: String, CustomStringConvertible {
+    public enum Capability: String, CustomStringConvertible, Codable {
         case capability_iam = "CAPABILITY_IAM"
         case capability_named_iam = "CAPABILITY_NAMED_IAM"
         public var description: String { return self.rawValue }
     }
 
-    public enum RequiresRecreation: String, CustomStringConvertible {
+    public enum RequiresRecreation: String, CustomStringConvertible, Codable {
         case never = "Never"
         case conditionally = "Conditionally"
         case always = "Always"
@@ -611,10 +564,9 @@ extension Cloudformation {
 
     public struct ListImportsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ExportName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ExportName", required: true, type: .string)
         ]
         /// A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value. 
         public let nextToken: String?
@@ -626,19 +578,17 @@ extension Cloudformation {
             self.exportName = exportName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let exportName = dictionary["ExportName"] as? String else { throw InitializableError.missingRequiredParam("ExportName") }
-            self.exportName = exportName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case exportName = "ExportName"
         }
     }
 
     public struct ListChangeSetsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Summaries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Summaries", required: false, type: .list)
         ]
         /// If the output exceeds 1 MB, a string that identifies the next page of change sets. If there is no additional page, this value is null.
         public let nextToken: String?
@@ -650,22 +600,17 @@ extension Cloudformation {
             self.summaries = summaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let summaries = dictionary["Summaries"] as? [[String: Any]] {
-                self.summaries = try summaries.map({ try ChangeSetSummary(dictionary: $0) })
-            } else { 
-                self.summaries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaries = "Summaries"
         }
     }
 
     public struct DescribeStacksOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stacks", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stacks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of stack structures.
         public let stacks: [Stack]?
@@ -677,23 +622,18 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
-                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
-            } else { 
-                self.stacks = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stacks = "Stacks"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ExecuteChangeSetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: true, type: .string)
         ]
         /// If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
         public let stackName: String?
@@ -708,20 +648,18 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
-            self.changeSetName = changeSetName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case clientRequestToken = "ClientRequestToken"
+            case changeSetName = "ChangeSetName"
         }
     }
 
     public struct ListStackResourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackResourceSummaries", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackResourceSummaries", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of StackResourceSummary structures.
         public let stackResourceSummaries: [StackResourceSummary]?
@@ -733,24 +671,19 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stackResourceSummaries = dictionary["StackResourceSummaries"] as? [[String: Any]] {
-                self.stackResourceSummaries = try stackResourceSummaries.map({ try StackResourceSummary(dictionary: $0) })
-            } else { 
-                self.stackResourceSummaries = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackResourceSummaries = "StackResourceSummaries"
+            case nextToken = "NextToken"
         }
     }
 
     public struct TemplateParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoEcho", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoEcho", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Flag indicating whether the parameter should be displayed as plain text in logs and UIs.
         public let noEcho: Bool?
@@ -768,20 +701,19 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.noEcho = dictionary["NoEcho"] as? Bool
-            self.defaultValue = dictionary["DefaultValue"] as? String
-            self.parameterKey = dictionary["ParameterKey"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case noEcho = "NoEcho"
+            case defaultValue = "DefaultValue"
+            case parameterKey = "ParameterKey"
+            case description = "Description"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
         public let value: String?
@@ -793,17 +725,16 @@ extension Cloudformation {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DescribeAccountLimitsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A string that identifies the next page of limits that you want to retrieve.
         public let nextToken: String?
@@ -812,20 +743,19 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
         }
     }
 
     public struct ValidateTemplateOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CapabilitiesReason", required: false, type: .string), 
-            AWSShapeProperty(label: "DeclaredTransforms", required: false, type: .list), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CapabilitiesReason", required: false, type: .string), 
+            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The list of resources that generated the values in the Capabilities response element.
         public let capabilitiesReason: String?
@@ -846,27 +776,22 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.capabilitiesReason = dictionary["CapabilitiesReason"] as? String
-            self.declaredTransforms = dictionary["DeclaredTransforms"] as? [String]
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try TemplateParameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case capabilitiesReason = "CapabilitiesReason"
+            case declaredTransforms = "DeclaredTransforms"
+            case parameters = "Parameters"
+            case capabilities = "Capabilities"
+            case description = "Description"
         }
     }
 
     public struct ResourceChangeDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Target", required: false, type: .structure), 
-            AWSShapeProperty(label: "CausingEntity", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSource", required: false, type: .enum), 
-            AWSShapeProperty(label: "Evaluation", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Target", required: false, type: .structure), 
+            AWSShapeMember(label: "CausingEntity", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSource", required: false, type: .enum), 
+            AWSShapeMember(label: "Evaluation", required: false, type: .enum)
         ]
         /// A ResourceTargetDefinition structure that describes the field that AWS CloudFormation will change and whether the resource will be recreated.
         public let target: ResourceTargetDefinition?
@@ -884,15 +809,15 @@ extension Cloudformation {
             self.evaluation = evaluation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let target = dictionary["Target"] as? [String: Any] { self.target = try Cloudformation.ResourceTargetDefinition(dictionary: target) } else { self.target = nil }
-            self.causingEntity = dictionary["CausingEntity"] as? String
-            if let changeSource = dictionary["ChangeSource"] as? String { self.changeSource = ChangeSource(rawValue: changeSource) } else { self.changeSource = nil }
-            if let evaluation = dictionary["Evaluation"] as? String { self.evaluation = EvaluationType(rawValue: evaluation) } else { self.evaluation = nil }
+        private enum CodingKeys: String, CodingKey {
+            case target = "Target"
+            case causingEntity = "CausingEntity"
+            case changeSource = "ChangeSource"
+            case evaluation = "Evaluation"
         }
     }
 
-    public enum ChangeSetStatus: String, CustomStringConvertible {
+    public enum ChangeSetStatus: String, CustomStringConvertible, Codable {
         case create_pending = "CREATE_PENDING"
         case create_in_progress = "CREATE_IN_PROGRESS"
         case create_complete = "CREATE_COMPLETE"
@@ -903,10 +828,9 @@ extension Cloudformation {
 
     public struct ListStacksInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackStatusFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackStatusFilter", required: false, type: .list)
         ]
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
@@ -918,13 +842,13 @@ extension Cloudformation {
             self.stackStatusFilter = stackStatusFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let stackStatusFilter = dictionary["StackStatusFilter"] as? [String] { self.stackStatusFilter = stackStatusFilter.flatMap({ StackStatus(rawValue: $0)}) } else { self.stackStatusFilter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case stackStatusFilter = "StackStatusFilter"
         }
     }
 
-    public enum ChangeSetType: String, CustomStringConvertible {
+    public enum ChangeSetType: String, CustomStringConvertible, Codable {
         case create = "CREATE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
@@ -932,20 +856,16 @@ extension Cloudformation {
 
     public struct ExecuteChangeSetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SignalResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UniqueId", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UniqueId", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string)
         ]
         /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
         public let uniqueId: String
@@ -963,27 +883,20 @@ extension Cloudformation {
             self.logicalResourceId = logicalResourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let uniqueId = dictionary["UniqueId"] as? String else { throw InitializableError.missingRequiredParam("UniqueId") }
-            self.uniqueId = uniqueId
-            guard let rawStatus = dictionary["Status"] as? String, let status = ResourceSignalStatus(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
-            self.logicalResourceId = logicalResourceId
+        private enum CodingKeys: String, CodingKey {
+            case uniqueId = "UniqueId"
+            case status = "Status"
+            case stackName = "StackName"
+            case logicalResourceId = "LogicalResourceId"
         }
     }
 
     public struct DeleteChangeSetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum EvaluationType: String, CustomStringConvertible {
+    public enum EvaluationType: String, CustomStringConvertible, Codable {
         case `static` = "Static"
         case dynamic = "Dynamic"
         public var description: String { return self.rawValue }
@@ -991,10 +904,9 @@ extension Cloudformation {
 
     public struct DescribeStackResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String
@@ -1006,20 +918,17 @@ extension Cloudformation {
             self.logicalResourceId = logicalResourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
-            self.logicalResourceId = logicalResourceId
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case logicalResourceId = "LogicalResourceId"
         }
     }
 
     public struct DescribeStackEventsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
@@ -1031,19 +940,18 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetTemplateSummaryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// The name or the stack ID that is associated with the stack, which are not always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName, TemplateBody, or TemplateURL.
         public let stackName: String?
@@ -1058,20 +966,19 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
         }
     }
 
     public struct EstimateTemplateCostInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// A list of Parameter structures that specify input parameters.
         public let parameters: [Parameter]?
@@ -1086,24 +993,19 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
         }
     }
 
     public struct DescribeChangeSetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: true, type: .string)
         ]
         /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
         public let stackName: String?
@@ -1118,20 +1020,18 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
-            self.changeSetName = changeSetName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
+            case changeSetName = "ChangeSetName"
         }
     }
 
     public struct ValidateTemplateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
@@ -1143,13 +1043,13 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
         }
     }
 
-    public enum TemplateStage: String, CustomStringConvertible {
+    public enum TemplateStage: String, CustomStringConvertible, Codable {
         case original = "Original"
         case processed = "Processed"
         public var description: String { return self.rawValue }
@@ -1157,11 +1057,10 @@ extension Cloudformation {
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeProperty(label: "UsePreviousValue", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ParameterKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousValue", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterKey", required: false, type: .string)
         ]
         /// The value associated with the parameter.
         public let parameterValue: String?
@@ -1176,27 +1075,23 @@ extension Cloudformation {
             self.parameterKey = parameterKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterValue = dictionary["ParameterValue"] as? String
-            self.usePreviousValue = dictionary["UsePreviousValue"] as? Bool
-            self.parameterKey = dictionary["ParameterKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterValue = "ParameterValue"
+            case usePreviousValue = "UsePreviousValue"
+            case parameterKey = "ParameterKey"
         }
     }
 
     public struct ContinueUpdateRollbackOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListExportsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Exports", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Exports", required: false, type: .list)
         ]
         /// If the output exceeds 100 exported output values, a string that identifies the next page of exports. If there is no additional page, this value is null.
         public let nextToken: String?
@@ -1208,22 +1103,17 @@ extension Cloudformation {
             self.exports = exports
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let exports = dictionary["Exports"] as? [[String: Any]] {
-                self.exports = try exports.map({ try Export(dictionary: $0) })
-            } else { 
-                self.exports = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case exports = "Exports"
         }
     }
 
     public struct ListImportsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Imports", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Imports", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of stack names that are importing the specified exported output value. 
         public let imports: [String]?
@@ -1235,17 +1125,16 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.imports = dictionary["Imports"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case imports = "Imports"
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateStackOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -1254,17 +1143,16 @@ extension Cloudformation {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct Change: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResourceChange", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "ResourceChange", required: false, type: .structure)
         ]
         /// The type of entity that AWS CloudFormation changes. Currently, the only entity type is Resource.
         public let `type`: ChangeType?
@@ -1276,20 +1164,19 @@ extension Cloudformation {
             self.resourceChange = resourceChange
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = ChangeType(rawValue: `type`) } else { self.`type` = nil }
-            if let resourceChange = dictionary["ResourceChange"] as? [String: Any] { self.resourceChange = try Cloudformation.ResourceChange(dictionary: resourceChange) } else { self.resourceChange = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case resourceChange = "ResourceChange"
         }
     }
 
     public struct ContinueUpdateRollbackInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourcesToSkip", required: false, type: .list), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourcesToSkip", required: false, type: .list), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string)
         ]
         /// A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.   Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.   Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.  To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID. If the ResourceLogicalID is a stack resource (Type: AWS::CloudFormation::Stack), it must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED. 
         public let resourcesToSkip: [String]?
@@ -1307,34 +1194,32 @@ extension Cloudformation {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourcesToSkip = dictionary["ResourcesToSkip"] as? [String]
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.roleARN = dictionary["RoleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourcesToSkip = "ResourcesToSkip"
+            case clientRequestToken = "ClientRequestToken"
+            case stackName = "StackName"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct CreateStackInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "OnFailure", required: false, type: .enum), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "DisableRollback", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StackPolicyURL", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "TimeoutInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackPolicyBody", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "OnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "DisableRollback", required: false, type: .boolean), 
+            AWSShapeMember(label: "StackPolicyURL", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "TimeoutInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list)
         ]
         /// Structure containing the stack policy body. For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyBody: String?
@@ -1385,35 +1270,26 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            if let onFailure = dictionary["OnFailure"] as? String { self.onFailure = OnFailure(rawValue: onFailure) } else { self.onFailure = nil }
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.disableRollback = dictionary["DisableRollback"] as? Bool
-            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
-            self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.resourceTypes = dictionary["ResourceTypes"] as? [String]
-            self.timeoutInMinutes = dictionary["TimeoutInMinutes"] as? Int32
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackPolicyBody = "StackPolicyBody"
+            case clientRequestToken = "ClientRequestToken"
+            case tags = "Tags"
+            case onFailure = "OnFailure"
+            case roleARN = "RoleARN"
+            case disableRollback = "DisableRollback"
+            case stackPolicyURL = "StackPolicyURL"
+            case notificationARNs = "NotificationARNs"
+            case parameters = "Parameters"
+            case resourceTypes = "ResourceTypes"
+            case timeoutInMinutes = "TimeoutInMinutes"
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
+            case stackName = "StackName"
+            case capabilities = "Capabilities"
         }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case unavailable = "UNAVAILABLE"
         case available = "AVAILABLE"
         case execute_in_progress = "EXECUTE_IN_PROGRESS"
@@ -1425,11 +1301,10 @@ extension Cloudformation {
 
     public struct SetStackPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "StackPolicyBody", required: false, type: .string), 
-            AWSShapeProperty(label: "StackPolicyURL", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "StackPolicyBody", required: false, type: .string), 
+            AWSShapeMember(label: "StackPolicyURL", required: false, type: .string)
         ]
         /// The name or unique stack ID that you want to associate a policy with.
         public let stackName: String
@@ -1444,19 +1319,17 @@ extension Cloudformation {
             self.stackPolicyURL = stackPolicyURL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.stackPolicyBody = dictionary["StackPolicyBody"] as? String
-            self.stackPolicyURL = dictionary["StackPolicyURL"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case stackPolicyBody = "StackPolicyBody"
+            case stackPolicyURL = "StackPolicyURL"
         }
     }
 
     public struct DescribeStackResourcesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackResources", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackResources", required: false, type: .list)
         ]
         /// A list of StackResource structures.
         public let stackResources: [StackResource]?
@@ -1465,22 +1338,17 @@ extension Cloudformation {
             self.stackResources = stackResources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stackResources = dictionary["StackResources"] as? [[String: Any]] {
-                self.stackResources = try stackResources.map({ try StackResource(dictionary: $0) })
-            } else { 
-                self.stackResources = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case stackResources = "StackResources"
         }
     }
 
     public struct Export: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExportingStackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExportingStackId", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The stack that contains the exported output name and value.
         public let exportingStackId: String?
@@ -1495,25 +1363,24 @@ extension Cloudformation {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exportingStackId = dictionary["ExportingStackId"] as? String
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case exportingStackId = "ExportingStackId"
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct GetTemplateSummaryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .string), 
-            AWSShapeProperty(label: "CapabilitiesReason", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "DeclaredTransforms", required: false, type: .list), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .string), 
+            AWSShapeMember(label: "CapabilitiesReason", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "DeclaredTransforms", required: false, type: .list), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The value that is defined for the Metadata property of the template.
         public let metadata: String?
@@ -1543,28 +1410,23 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metadata = dictionary["Metadata"] as? String
-            self.capabilitiesReason = dictionary["CapabilitiesReason"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try ParameterDeclaration(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.resourceTypes = dictionary["ResourceTypes"] as? [String]
-            self.version = dictionary["Version"] as? String
-            self.declaredTransforms = dictionary["DeclaredTransforms"] as? [String]
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case capabilitiesReason = "CapabilitiesReason"
+            case parameters = "Parameters"
+            case resourceTypes = "ResourceTypes"
+            case version = "Version"
+            case declaredTransforms = "DeclaredTransforms"
+            case capabilities = "Capabilities"
+            case description = "Description"
         }
     }
 
     public struct ListStacksOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackSummaries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackSummaries", required: false, type: .list)
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -1576,22 +1438,17 @@ extension Cloudformation {
             self.stackSummaries = stackSummaries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let stackSummaries = dictionary["StackSummaries"] as? [[String: Any]] {
-                self.stackSummaries = try stackSummaries.map({ try StackSummary(dictionary: $0) })
-            } else { 
-                self.stackSummaries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case stackSummaries = "StackSummaries"
         }
     }
 
     public struct AccountLimit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The value that is associated with the account limit name.
         public let value: Int32?
@@ -1603,20 +1460,20 @@ extension Cloudformation {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? Int32
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
-    public enum Replacement: String, CustomStringConvertible {
+    public enum Replacement: String, CustomStringConvertible, Codable {
         case `true` = "True"
         case `false` = "False"
         case conditional = "Conditional"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible {
+    public enum ResourceStatus: String, CustomStringConvertible, Codable {
         case create_in_progress = "CREATE_IN_PROGRESS"
         case create_failed = "CREATE_FAILED"
         case create_complete = "CREATE_COMPLETE"
@@ -1632,11 +1489,10 @@ extension Cloudformation {
 
     public struct DescribeStackResourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value. Required: Conditional. If you do not specify StackName, you must specify PhysicalResourceId.
         public let stackName: String?
@@ -1651,32 +1507,31 @@ extension Cloudformation {
             self.physicalResourceId = physicalResourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case logicalResourceId = "LogicalResourceId"
+            case physicalResourceId = "PhysicalResourceId"
         }
     }
 
     public struct DescribeChangeSetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Changes", required: false, type: .list), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Changes", required: false, type: .list), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list)
         ]
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can’t execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because AWS CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
         public let executionStatus: ExecutionStatus?
@@ -1685,7 +1540,7 @@ extension Cloudformation {
         /// If you execute the change set, the tags that will be associated with the stack.
         public let tags: [Tag]?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: String?
+        public let creationTime: Double?
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         public let notificationARNs: [String]?
         /// Information about the change set.
@@ -1709,7 +1564,7 @@ extension Cloudformation {
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
 
-        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: String? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
+        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Double? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
@@ -1727,43 +1582,30 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let executionStatus = dictionary["ExecutionStatus"] as? String { self.executionStatus = ExecutionStatus(rawValue: executionStatus) } else { self.executionStatus = nil }
-            if let changes = dictionary["Changes"] as? [[String: Any]] {
-                self.changes = try changes.map({ try Change(dictionary: $0) })
-            } else { 
-                self.changes = nil
-            }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            self.description = dictionary["Description"] as? String
-            self.statusReason = dictionary["StatusReason"] as? String
-            if let status = dictionary["Status"] as? String { self.status = ChangeSetStatus(rawValue: status) } else { self.status = nil }
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.stackId = dictionary["StackId"] as? String
-            self.changeSetName = dictionary["ChangeSetName"] as? String
-            self.changeSetId = dictionary["ChangeSetId"] as? String
-            self.stackName = dictionary["StackName"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case executionStatus = "ExecutionStatus"
+            case changes = "Changes"
+            case tags = "Tags"
+            case creationTime = "CreationTime"
+            case notificationARNs = "NotificationARNs"
+            case description = "Description"
+            case statusReason = "StatusReason"
+            case status = "Status"
+            case parameters = "Parameters"
+            case stackId = "StackId"
+            case changeSetName = "ChangeSetName"
+            case changeSetId = "ChangeSetId"
+            case stackName = "StackName"
+            case nextToken = "NextToken"
+            case capabilities = "Capabilities"
         }
     }
 
     public struct ListStackResourcesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String
@@ -1775,18 +1617,16 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
         }
     }
 
     public struct EstimateTemplateCostOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Url", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Url", required: false, type: .string)
         ]
         /// An AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
         public let url: String?
@@ -1795,16 +1635,15 @@ extension Cloudformation {
             self.url = url
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.url = dictionary["Url"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
         }
     }
 
     public struct UpdateStackOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// Unique identifier of the stack.
         public let stackId: String?
@@ -1813,29 +1652,28 @@ extension Cloudformation {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct CreateChangeSetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "UsePreviousTemplate", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "ChangeSetName", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateURL", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "Capabilities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetType", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "UsePreviousTemplate", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationARNs", required: false, type: .list), 
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "ChangeSetName", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateURL", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "Capabilities", required: false, type: .list)
         ]
         /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that AWS CloudFormation successfully received them.
         public let clientToken: String?
@@ -1883,40 +1721,29 @@ extension Cloudformation {
             self.capabilities = capabilities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientToken = dictionary["ClientToken"] as? String
-            if let changeSetType = dictionary["ChangeSetType"] as? String { self.changeSetType = ChangeSetType(rawValue: changeSetType) } else { self.changeSetType = nil }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.usePreviousTemplate = dictionary["UsePreviousTemplate"] as? Bool
-            self.description = dictionary["Description"] as? String
-            self.notificationARNs = dictionary["NotificationARNs"] as? [String]
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
-            self.changeSetName = changeSetName
-            self.resourceTypes = dictionary["ResourceTypes"] as? [String]
-            self.templateURL = dictionary["TemplateURL"] as? String
-            self.templateBody = dictionary["TemplateBody"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            if let capabilities = dictionary["Capabilities"] as? [String] { self.capabilities = capabilities.flatMap({ Capability(rawValue: $0)}) } else { self.capabilities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case changeSetType = "ChangeSetType"
+            case tags = "Tags"
+            case roleARN = "RoleARN"
+            case usePreviousTemplate = "UsePreviousTemplate"
+            case description = "Description"
+            case notificationARNs = "NotificationARNs"
+            case parameters = "Parameters"
+            case changeSetName = "ChangeSetName"
+            case resourceTypes = "ResourceTypes"
+            case templateURL = "TemplateURL"
+            case templateBody = "TemplateBody"
+            case stackName = "StackName"
+            case capabilities = "Capabilities"
         }
     }
 
     public struct ListChangeSetsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
         public let stackName: String
@@ -1928,14 +1755,13 @@ extension Cloudformation {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum StackStatus: String, CustomStringConvertible {
+    public enum StackStatus: String, CustomStringConvertible, Codable {
         case create_in_progress = "CREATE_IN_PROGRESS"
         case create_failed = "CREATE_FAILED"
         case create_complete = "CREATE_COMPLETE"
@@ -1958,11 +1784,10 @@ extension Cloudformation {
 
     public struct GetTemplateInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeProperty(label: "TemplateStage", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
+            AWSShapeMember(label: "TemplateStage", required: false, type: .enum)
         ]
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
@@ -1977,14 +1802,14 @@ extension Cloudformation {
             self.templateStage = templateStage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            self.changeSetName = dictionary["ChangeSetName"] as? String
-            if let templateStage = dictionary["TemplateStage"] as? String { self.templateStage = TemplateStage(rawValue: templateStage) } else { self.templateStage = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case changeSetName = "ChangeSetName"
+            case templateStage = "TemplateStage"
         }
     }
 
-    public enum ResourceAttribute: String, CustomStringConvertible {
+    public enum ResourceAttribute: String, CustomStringConvertible, Codable {
         case properties = "Properties"
         case metadata = "Metadata"
         case creationpolicy = "CreationPolicy"
@@ -1996,10 +1821,9 @@ extension Cloudformation {
 
     public struct DescribeStackEventsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackEvents", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackEvents", required: false, type: .list)
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of events. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -2011,34 +1835,29 @@ extension Cloudformation {
             self.stackEvents = stackEvents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let stackEvents = dictionary["StackEvents"] as? [[String: Any]] {
-                self.stackEvents = try stackEvents.map({ try StackEvent(dictionary: $0) })
-            } else { 
-                self.stackEvents = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case stackEvents = "StackEvents"
         }
     }
 
     public struct StackEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ResourceStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "EventId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceProperties", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ResourceStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "EventId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceProperties", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: String
+        public let timestamp: Double
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus?
         /// The unique ID name of the instance of the stack.
@@ -2060,7 +1879,7 @@ extension Cloudformation {
         /// The name associated with a stack.
         public let stackName: String
 
-        public init(timestamp: String, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, clientRequestToken: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, physicalResourceId: String? = nil, stackName: String) {
+        public init(timestamp: Double, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, clientRequestToken: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, physicalResourceId: String? = nil, stackName: String) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -2074,38 +1893,33 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
-            self.timestamp = timestamp
-            if let resourceStatus = dictionary["ResourceStatus"] as? String { self.resourceStatus = ResourceStatus(rawValue: resourceStatus) } else { self.resourceStatus = nil }
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            guard let eventId = dictionary["EventId"] as? String else { throw InitializableError.missingRequiredParam("EventId") }
-            self.eventId = eventId
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.logicalResourceId = dictionary["LogicalResourceId"] as? String
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            self.resourceProperties = dictionary["ResourceProperties"] as? String
-            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case resourceStatus = "ResourceStatus"
+            case stackId = "StackId"
+            case eventId = "EventId"
+            case resourceType = "ResourceType"
+            case logicalResourceId = "LogicalResourceId"
+            case clientRequestToken = "ClientRequestToken"
+            case resourceProperties = "ResourceProperties"
+            case resourceStatusReason = "ResourceStatusReason"
+            case physicalResourceId = "PhysicalResourceId"
+            case stackName = "StackName"
         }
     }
 
     public struct ChangeSetSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetId", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The state of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
         public let status: ChangeSetStatus?
@@ -2120,13 +1934,13 @@ extension Cloudformation {
         /// The ID of the change set.
         public let changeSetId: String?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: String?
+        public let creationTime: Double?
         /// The name of the stack with which the change set is associated.
         public let stackName: String?
         /// Descriptive information about the change set.
         public let description: String?
 
-        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: Double? = nil, stackName: String? = nil, description: String? = nil) {
             self.status = status
             self.statusReason = statusReason
             self.executionStatus = executionStatus
@@ -2138,20 +1952,20 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = ChangeSetStatus(rawValue: status) } else { self.status = nil }
-            self.statusReason = dictionary["StatusReason"] as? String
-            if let executionStatus = dictionary["ExecutionStatus"] as? String { self.executionStatus = ExecutionStatus(rawValue: executionStatus) } else { self.executionStatus = nil }
-            self.stackId = dictionary["StackId"] as? String
-            self.changeSetName = dictionary["ChangeSetName"] as? String
-            self.changeSetId = dictionary["ChangeSetId"] as? String
-            self.creationTime = dictionary["CreationTime"] as? String
-            self.stackName = dictionary["StackName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case executionStatus = "ExecutionStatus"
+            case stackId = "StackId"
+            case changeSetName = "ChangeSetName"
+            case changeSetId = "ChangeSetId"
+            case creationTime = "CreationTime"
+            case stackName = "StackName"
+            case description = "Description"
         }
     }
 
-    public enum ResourceSignalStatus: String, CustomStringConvertible {
+    public enum ResourceSignalStatus: String, CustomStringConvertible, Codable {
         case success = "SUCCESS"
         case failure = "FAILURE"
         public var description: String { return self.rawValue }
@@ -2159,11 +1973,10 @@ extension Cloudformation {
 
     public struct Output: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputValue", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputValue", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKey", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The value associated with the output.
         public let outputValue: String?
@@ -2178,18 +1991,17 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputValue = dictionary["OutputValue"] as? String
-            self.outputKey = dictionary["OutputKey"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case outputValue = "OutputValue"
+            case outputKey = "OutputKey"
+            case description = "Description"
         }
     }
 
     public struct ParameterConstraints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedValues", required: false, type: .list)
         ]
         /// A list of values that are permitted for a parameter.
         public let allowedValues: [String]?
@@ -2198,18 +2010,17 @@ extension Cloudformation {
             self.allowedValues = allowedValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allowedValues = dictionary["AllowedValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
         }
     }
 
     public struct ResourceTargetDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequiresRecreation", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Attribute", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequiresRecreation", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Attribute", required: false, type: .enum)
         ]
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that property in the AWS CloudFormation User Guide.
         public let requiresRecreation: RequiresRecreation?
@@ -2224,23 +2035,22 @@ extension Cloudformation {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let requiresRecreation = dictionary["RequiresRecreation"] as? String { self.requiresRecreation = RequiresRecreation(rawValue: requiresRecreation) } else { self.requiresRecreation = nil }
-            self.name = dictionary["Name"] as? String
-            if let attribute = dictionary["Attribute"] as? String { self.attribute = ResourceAttribute(rawValue: attribute) } else { self.attribute = nil }
+        private enum CodingKeys: String, CodingKey {
+            case requiresRecreation = "RequiresRecreation"
+            case name = "Name"
+            case attribute = "Attribute"
         }
     }
 
     public struct StackResourceSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: true, type: .timestamp)
         ]
         /// Type of resource. (For more information, go to  AWS Resource Types Reference in the AWS CloudFormation User Guide.)
         public let resourceType: String
@@ -2253,9 +2063,9 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: String
+        public let lastUpdatedTimestamp: Double
 
-        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: String) {
+        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: Double) {
             self.resourceType = resourceType
             self.physicalResourceId = physicalResourceId
             self.resourceStatusReason = resourceStatusReason
@@ -2264,26 +2074,21 @@ extension Cloudformation {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
-            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
-            self.resourceStatus = resourceStatus
-            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
-            self.logicalResourceId = logicalResourceId
-            guard let lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String else { throw InitializableError.missingRequiredParam("LastUpdatedTimestamp") }
-            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "ResourceType"
+            case physicalResourceId = "PhysicalResourceId"
+            case resourceStatusReason = "ResourceStatusReason"
+            case resourceStatus = "ResourceStatus"
+            case logicalResourceId = "LogicalResourceId"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         }
     }
 
     public struct CancelUpdateStackInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
         /// A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
         public let clientRequestToken: String?
@@ -2295,18 +2100,16 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientRequestToken = dictionary["ClientRequestToken"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case stackName = "StackName"
         }
     }
 
     public struct GetStackPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
         /// The name or unique stack ID that is associated with the stack whose policy you want to get.
         public let stackName: String
@@ -2315,28 +2118,26 @@ extension Cloudformation {
             self.stackName = stackName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
         }
     }
 
     public struct StackResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Timestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ResourceStatus", required: true, type: .enum), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
-            AWSShapeProperty(label: "PhysicalResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "LogicalResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ResourceStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "PhysicalResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "LogicalResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: String
+        public let timestamp: Double
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus
         /// Unique identifier of the stack.
@@ -2354,7 +2155,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(timestamp: String, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(timestamp: Double, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -2366,29 +2167,24 @@ extension Cloudformation {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timestamp = dictionary["Timestamp"] as? String else { throw InitializableError.missingRequiredParam("Timestamp") }
-            self.timestamp = timestamp
-            guard let rawResourceStatus = dictionary["ResourceStatus"] as? String, let resourceStatus = ResourceStatus(rawValue: rawResourceStatus) else { throw InitializableError.missingRequiredParam("ResourceStatus") }
-            self.resourceStatus = resourceStatus
-            self.stackId = dictionary["StackId"] as? String
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            self.physicalResourceId = dictionary["PhysicalResourceId"] as? String
-            guard let logicalResourceId = dictionary["LogicalResourceId"] as? String else { throw InitializableError.missingRequiredParam("LogicalResourceId") }
-            self.logicalResourceId = logicalResourceId
-            self.resourceStatusReason = dictionary["ResourceStatusReason"] as? String
-            self.stackName = dictionary["StackName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timestamp = "Timestamp"
+            case resourceStatus = "ResourceStatus"
+            case stackId = "StackId"
+            case resourceType = "ResourceType"
+            case physicalResourceId = "PhysicalResourceId"
+            case logicalResourceId = "LogicalResourceId"
+            case resourceStatusReason = "ResourceStatusReason"
+            case stackName = "StackName"
+            case description = "Description"
         }
     }
 
     public struct DescribeAccountLimitsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AccountLimits", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AccountLimits", required: false, type: .list)
         ]
         /// If the output exceeds 1 MB in size, a string that identifies the next page of limits. If no additional page exists, this value is null.
         public let nextToken: String?
@@ -2400,22 +2196,17 @@ extension Cloudformation {
             self.accountLimits = accountLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let accountLimits = dictionary["AccountLimits"] as? [[String: Any]] {
-                self.accountLimits = try accountLimits.map({ try AccountLimit(dictionary: $0) })
-            } else { 
-                self.accountLimits = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case accountLimits = "AccountLimits"
         }
     }
 
     public struct DeleteChangeSetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: false, type: .string), 
-            AWSShapeProperty(label: "ChangeSetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: false, type: .string), 
+            AWSShapeMember(label: "ChangeSetName", required: true, type: .string)
         ]
         /// If you specified the name of a change set to delete, specify the stack name or ID (ARN) that is associated with it.
         public let stackName: String?
@@ -2427,19 +2218,17 @@ extension Cloudformation {
             self.changeSetName = changeSetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackName = dictionary["StackName"] as? String
-            guard let changeSetName = dictionary["ChangeSetName"] as? String else { throw InitializableError.missingRequiredParam("ChangeSetName") }
-            self.changeSetName = changeSetName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case changeSetName = "ChangeSetName"
         }
     }
 
     public struct GetTemplateOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StagesAvailable", required: false, type: .list), 
-            AWSShapeProperty(label: "TemplateBody", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StagesAvailable", required: false, type: .list), 
+            AWSShapeMember(label: "TemplateBody", required: false, type: .string)
         ]
         /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After AWS CloudFormation finishes creating the change set, the Processed template becomes available.
         public let stagesAvailable: [TemplateStage]?
@@ -2451,17 +2240,16 @@ extension Cloudformation {
             self.templateBody = templateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stagesAvailable = dictionary["StagesAvailable"] as? [String] { self.stagesAvailable = stagesAvailable.flatMap({ TemplateStage(rawValue: $0)}) } else { self.stagesAvailable = nil }
-            self.templateBody = dictionary["TemplateBody"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stagesAvailable = "StagesAvailable"
+            case templateBody = "TemplateBody"
         }
     }
 
     public struct DescribeStackResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackResourceDetail", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackResourceDetail", required: false, type: .structure)
         ]
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
@@ -2470,8 +2258,8 @@ extension Cloudformation {
             self.stackResourceDetail = stackResourceDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stackResourceDetail = dictionary["StackResourceDetail"] as? [String: Any] { self.stackResourceDetail = try Cloudformation.StackResourceDetail(dictionary: stackResourceDetail) } else { self.stackResourceDetail = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackResourceDetail = "StackResourceDetail"
         }
     }
 

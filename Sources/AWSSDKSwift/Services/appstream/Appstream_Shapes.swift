@@ -31,10 +31,9 @@ extension Appstream {
 
     public struct ListAssociatedFleetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The name of the stack whose associated fleets are listed.
         public let stackName: String
@@ -46,19 +45,17 @@ extension Appstream {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stacks", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stacks", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of stack details.
         public let stacks: [Stack]?
@@ -70,29 +67,21 @@ extension Appstream {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
-                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
-            } else { 
-                self.stacks = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stacks = "Stacks"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteStackResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ComputeCapacity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredInstances", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredInstances", required: true, type: .integer)
         ]
         /// The desired number of streaming instances.
         public let desiredInstances: Int32
@@ -101,17 +90,15 @@ extension Appstream {
             self.desiredInstances = desiredInstances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let desiredInstances = dictionary["DesiredInstances"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredInstances") }
-            self.desiredInstances = desiredInstances
+        private enum CodingKeys: String, CodingKey {
+            case desiredInstances = "DesiredInstances"
         }
     }
 
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// A specific list of images to describe.
         public let names: [String]?
@@ -120,16 +107,15 @@ extension Appstream {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
         }
     }
 
     public struct DescribeImagesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Images", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Images", required: false, type: .list)
         ]
         /// The list of images.
         public let images: [Image]?
@@ -138,16 +124,12 @@ extension Appstream {
             self.images = images
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let images = dictionary["Images"] as? [[String: Any]] {
-                self.images = try images.map({ try Image(dictionary: $0) })
-            } else { 
-                self.images = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
         }
     }
 
-    public enum FleetState: String, CustomStringConvertible {
+    public enum FleetState: String, CustomStringConvertible, Codable {
         case starting = "STARTING"
         case running = "RUNNING"
         case stopping = "STOPPING"
@@ -157,14 +139,13 @@ extension Appstream {
 
     public struct DescribeSessionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "UserId", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string)
         ]
         /// The authentication method of the user. It can be API for a user authenticated using a streaming URL, or SAML for a SAML federated user. If an authentication type is not provided, the operation defaults to users authenticated using a streaming URL.
         public let authenticationType: AuthenticationType?
@@ -188,28 +169,25 @@ extension Appstream {
             self.fleetName = fleetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let authenticationType = dictionary["AuthenticationType"] as? String { self.authenticationType = AuthenticationType(rawValue: authenticationType) } else { self.authenticationType = nil }
-            self.userId = dictionary["UserId"] as? String
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
+        private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
+            case userId = "UserId"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case stackName = "StackName"
+            case fleetName = "FleetName"
         }
     }
 
     public struct Session: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserId", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string), 
-            AWSShapeProperty(label: "Id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationType", required: false, type: .enum), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string), 
+            AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The identifier of the user for whom the session was created.
         public let userId: String
@@ -233,27 +211,21 @@ extension Appstream {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
-            if let authenticationType = dictionary["AuthenticationType"] as? String { self.authenticationType = AuthenticationType(rawValue: authenticationType) } else { self.authenticationType = nil }
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let rawState = dictionary["State"] as? String, let state = SessionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
-            guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+            case authenticationType = "AuthenticationType"
+            case stackName = "StackName"
+            case state = "State"
+            case fleetName = "FleetName"
+            case id = "Id"
         }
     }
 
     public struct ListAssociatedFleetsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -265,18 +237,17 @@ extension Appstream {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case names = "Names"
         }
     }
 
     public struct StackError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
         ]
         /// The error message of a stack error.
         public let errorMessage: String?
@@ -288,18 +259,17 @@ extension Appstream {
             self.errorCode = errorCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            if let errorCode = dictionary["ErrorCode"] as? String { self.errorCode = StackErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
         }
     }
 
     public struct DescribeFleetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -311,29 +281,28 @@ extension Appstream {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case names = "Names"
         }
     }
 
-    public enum StackErrorCode: String, CustomStringConvertible {
+    public enum StackErrorCode: String, CustomStringConvertible, Codable {
         case storage_connector_error = "STORAGE_CONNECTOR_ERROR"
         case internal_service_error = "INTERNAL_SERVICE_ERROR"
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible {
+    public enum PlatformType: String, CustomStringConvertible, Codable {
         case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
     public struct FleetError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum)
         ]
         /// The error message generated when the fleet has errors.
         public let errorMessage: String?
@@ -345,18 +314,17 @@ extension Appstream {
             self.errorCode = errorCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            if let errorCode = dictionary["ErrorCode"] as? String { self.errorCode = FleetErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
         }
     }
 
     public struct ListAssociatedStacksResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -368,22 +336,21 @@ extension Appstream {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case names = "Names"
         }
     }
 
-    public enum StorageConnectorType: String, CustomStringConvertible {
+    public enum StorageConnectorType: String, CustomStringConvertible, Codable {
         case homefolders = "HOMEFOLDERS"
         public var description: String { return self.rawValue }
     }
 
     public struct UpdateFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fleet", required: false, type: .structure)
         ]
         /// A list of fleet details.
         public let fleet: Fleet?
@@ -392,12 +359,12 @@ extension Appstream {
             self.fleet = fleet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream.Fleet(dictionary: fleet) } else { self.fleet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "Fleet"
         }
     }
 
-    public enum FleetAttribute: String, CustomStringConvertible {
+    public enum FleetAttribute: String, CustomStringConvertible, Codable {
         case vpc_configuration = "VPC_CONFIGURATION"
         case vpc_configuration_security_group_ids = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
         public var description: String { return self.rawValue }
@@ -405,31 +372,24 @@ extension Appstream {
 
     public struct ExpireSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DisassociateFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Stack: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "StackErrors", required: false, type: .list), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "StackErrors", required: false, type: .list), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ARN of the stack.
         public let arn: String?
@@ -442,11 +402,11 @@ extension Appstream {
         /// The storage connectors to be enabled for the stack.
         public let storageConnectors: [StorageConnector]?
         /// The timestamp when the stack was created.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// A meaningful description for the stack.
         public let description: String?
 
-        public init(arn: String? = nil, stackErrors: [StackError]? = nil, displayName: String? = nil, name: String, storageConnectors: [StorageConnector]? = nil, createdTime: String? = nil, description: String? = nil) {
+        public init(arn: String? = nil, stackErrors: [StackError]? = nil, displayName: String? = nil, name: String, storageConnectors: [StorageConnector]? = nil, createdTime: Double? = nil, description: String? = nil) {
             self.arn = arn
             self.stackErrors = stackErrors
             self.displayName = displayName
@@ -456,31 +416,21 @@ extension Appstream {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            if let stackErrors = dictionary["StackErrors"] as? [[String: Any]] {
-                self.stackErrors = try stackErrors.map({ try StackError(dictionary: $0) })
-            } else { 
-                self.stackErrors = nil
-            }
-            self.displayName = dictionary["DisplayName"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let storageConnectors = dictionary["StorageConnectors"] as? [[String: Any]] {
-                self.storageConnectors = try storageConnectors.map({ try StorageConnector(dictionary: $0) })
-            } else { 
-                self.storageConnectors = nil
-            }
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case stackErrors = "StackErrors"
+            case displayName = "DisplayName"
+            case name = "Name"
+            case storageConnectors = "StorageConnectors"
+            case createdTime = "CreatedTime"
+            case description = "Description"
         }
     }
 
     public struct UpdateStackResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stack", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stack", required: false, type: .structure)
         ]
         /// A list of stack details.
         public let stack: Stack?
@@ -489,25 +439,24 @@ extension Appstream {
             self.stack = stack
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream.Stack(dictionary: stack) } else { self.stack = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stack = "Stack"
         }
     }
 
     public struct CreateFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComputeCapacity", required: true, type: .structure), 
-            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputeCapacity", required: true, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The parameters for the capacity allocated to the fleet.
         public let computeCapacity: ComputeCapacity
@@ -543,48 +492,40 @@ extension Appstream {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacity") }
-            self.computeCapacity = try Appstream.ComputeCapacity(dictionary: computeCapacity)
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.displayName = dictionary["DisplayName"] as? String
-            guard let imageName = dictionary["ImageName"] as? String else { throw InitializableError.missingRequiredParam("ImageName") }
-            self.imageName = imageName
-            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
-            self.enableDefaultInternetAccess = dictionary["EnableDefaultInternetAccess"] as? Bool
-            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case computeCapacity = "ComputeCapacity"
+            case vpcConfig = "VpcConfig"
+            case name = "Name"
+            case displayName = "DisplayName"
+            case imageName = "ImageName"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case instanceType = "InstanceType"
+            case description = "Description"
         }
     }
 
     public struct DeleteFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteVpcConfig", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ComputeCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageName", required: false, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributesToDelete", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteVpcConfig", required: false, type: .boolean), 
+            AWSShapeMember(label: "ComputeCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "AttributesToDelete", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Delete the VPC association for the specified fleet.
         public let deleteVpcConfig: Bool?
@@ -626,29 +567,27 @@ extension Appstream {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deleteVpcConfig = dictionary["DeleteVpcConfig"] as? Bool
-            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream.ComputeCapacity(dictionary: computeCapacity) } else { self.computeCapacity = nil }
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.displayName = dictionary["DisplayName"] as? String
-            self.imageName = dictionary["ImageName"] as? String
-            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
-            if let attributesToDelete = dictionary["AttributesToDelete"] as? [String] { self.attributesToDelete = attributesToDelete.flatMap({ FleetAttribute(rawValue: $0)}) } else { self.attributesToDelete = nil }
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
-            self.enableDefaultInternetAccess = dictionary["EnableDefaultInternetAccess"] as? Bool
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deleteVpcConfig = "DeleteVpcConfig"
+            case computeCapacity = "ComputeCapacity"
+            case vpcConfig = "VpcConfig"
+            case name = "Name"
+            case displayName = "DisplayName"
+            case imageName = "ImageName"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case attributesToDelete = "AttributesToDelete"
+            case instanceType = "InstanceType"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case description = "Description"
         }
     }
 
     public struct DisassociateFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string)
         ]
         /// The name of the stack with which the fleet is associated.
         public let stackName: String
@@ -660,25 +599,22 @@ extension Appstream {
             self.fleetName = fleetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case fleetName = "FleetName"
         }
     }
 
     public struct Application: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .map), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LaunchPath", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchParameters", required: false, type: .string), 
-            AWSShapeProperty(label: "IconURL", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LaunchPath", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchParameters", required: false, type: .string), 
+            AWSShapeMember(label: "IconURL", required: false, type: .string)
         ]
         /// Additional attributes that describe the application.
         public let metadata: [String: String]?
@@ -705,39 +641,34 @@ extension Appstream {
             self.iconURL = iconURL
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: String] {
-                self.metadata = metadata
-            } else { 
-                self.metadata = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.displayName = dictionary["DisplayName"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.launchPath = dictionary["LaunchPath"] as? String
-            self.launchParameters = dictionary["LaunchParameters"] as? String
-            self.iconURL = dictionary["IconURL"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case name = "Name"
+            case displayName = "DisplayName"
+            case enabled = "Enabled"
+            case launchPath = "LaunchPath"
+            case launchParameters = "LaunchParameters"
+            case iconURL = "IconURL"
         }
     }
 
     public struct Fleet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "VpcConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "ComputeCapacityStatus", required: true, type: .structure), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetErrors", required: false, type: .list), 
-            AWSShapeProperty(label: "ImageName", required: true, type: .string), 
-            AWSShapeProperty(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxUserDurationInSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "VpcConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "ComputeCapacityStatus", required: true, type: .structure), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FleetErrors", required: false, type: .list), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "EnableDefaultInternetAccess", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DisconnectTimeoutInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxUserDurationInSeconds", required: false, type: .integer)
         ]
         /// The ARN for the fleet.
         public let arn: String
@@ -758,7 +689,7 @@ extension Appstream {
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
         public let instanceType: String
         /// The time at which the fleet was created.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// The description displayed to end users on the AppStream 2.0 portal.
         public let description: String?
         /// The name of the fleet.
@@ -768,7 +699,7 @@ extension Appstream {
         /// The maximum time for which a streaming session can run. The value can be any numeric value in seconds between 600 and 57600.
         public let maxUserDurationInSeconds: Int32?
 
-        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, enableDefaultInternetAccess: Bool? = nil, instanceType: String, createdTime: String? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
+        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, enableDefaultInternetAccess: Bool? = nil, instanceType: String, createdTime: Double? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
             self.arn = arn
             self.vpcConfig = vpcConfig
             self.state = state
@@ -785,39 +716,28 @@ extension Appstream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
-            guard let rawState = dictionary["State"] as? String, let state = FleetState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let computeCapacityStatus = dictionary["ComputeCapacityStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacityStatus") }
-            self.computeCapacityStatus = try Appstream.ComputeCapacityStatus(dictionary: computeCapacityStatus)
-            self.displayName = dictionary["DisplayName"] as? String
-            if let fleetErrors = dictionary["FleetErrors"] as? [[String: Any]] {
-                self.fleetErrors = try fleetErrors.map({ try FleetError(dictionary: $0) })
-            } else { 
-                self.fleetErrors = nil
-            }
-            guard let imageName = dictionary["ImageName"] as? String else { throw InitializableError.missingRequiredParam("ImageName") }
-            self.imageName = imageName
-            self.enableDefaultInternetAccess = dictionary["EnableDefaultInternetAccess"] as? Bool
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.description = dictionary["Description"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.disconnectTimeoutInSeconds = dictionary["DisconnectTimeoutInSeconds"] as? Int32
-            self.maxUserDurationInSeconds = dictionary["MaxUserDurationInSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case vpcConfig = "VpcConfig"
+            case state = "State"
+            case computeCapacityStatus = "ComputeCapacityStatus"
+            case displayName = "DisplayName"
+            case fleetErrors = "FleetErrors"
+            case imageName = "ImageName"
+            case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
+            case instanceType = "InstanceType"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case name = "Name"
+            case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
+            case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
         }
     }
 
     public struct StartFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to start.
         public let name: String
@@ -826,26 +746,21 @@ extension Appstream {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct StartFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct StorageConnector: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ConnectorType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectorType", required: true, type: .enum)
         ]
         /// The ARN associated with the storage connector.
         public let resourceIdentifier: String?
@@ -857,19 +772,17 @@ extension Appstream {
             self.connectorType = connectorType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceIdentifier = dictionary["ResourceIdentifier"] as? String
-            guard let rawConnectorType = dictionary["ConnectorType"] as? String, let connectorType = StorageConnectorType(rawValue: rawConnectorType) else { throw InitializableError.missingRequiredParam("ConnectorType") }
-            self.connectorType = connectorType
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifier = "ResourceIdentifier"
+            case connectorType = "ConnectorType"
         }
     }
 
     public struct VpcConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list)
         ]
         /// The list of subnets to which a network interface is established from the fleet instance.
         public let subnetIds: [String]?
@@ -881,18 +794,17 @@ extension Appstream {
             self.securityGroupIds = securityGroupIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case securityGroupIds = "SecurityGroupIds"
         }
     }
 
     public struct ImageStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The state change reason code of the image.
         public let code: ImageStateChangeReasonCode?
@@ -904,18 +816,17 @@ extension Appstream {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = ImageStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Names", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Names", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -927,20 +838,20 @@ extension Appstream {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.names = dictionary["Names"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case names = "Names"
         }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible {
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
         case api = "API"
         case saml = "SAML"
         case userpool = "USERPOOL"
         public var description: String { return self.rawValue }
     }
 
-    public enum VisibilityType: String, CustomStringConvertible {
+    public enum VisibilityType: String, CustomStringConvertible, Codable {
         case `public` = "PUBLIC"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
@@ -948,10 +859,9 @@ extension Appstream {
 
     public struct ListAssociatedStacksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
@@ -963,21 +873,19 @@ extension Appstream {
             self.fleetName = fleetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleetName = "FleetName"
         }
     }
 
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The storage connectors to be enabled for the stack.
         public let storageConnectors: [StorageConnector]?
@@ -995,28 +903,22 @@ extension Appstream {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let storageConnectors = dictionary["StorageConnectors"] as? [[String: Any]] {
-                self.storageConnectors = try storageConnectors.map({ try StorageConnector(dictionary: $0) })
-            } else { 
-                self.storageConnectors = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.displayName = dictionary["DisplayName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case storageConnectors = "StorageConnectors"
+            case name = "Name"
+            case displayName = "DisplayName"
+            case description = "Description"
         }
     }
 
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteStorageConnectors", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StorageConnectors", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteStorageConnectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "StorageConnectors", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Remove all the storage connectors currently enabled for the stack.
         public let deleteStorageConnectors: Bool?
@@ -1037,25 +939,19 @@ extension Appstream {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deleteStorageConnectors = dictionary["DeleteStorageConnectors"] as? Bool
-            if let storageConnectors = dictionary["StorageConnectors"] as? [[String: Any]] {
-                self.storageConnectors = try storageConnectors.map({ try StorageConnector(dictionary: $0) })
-            } else { 
-                self.storageConnectors = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.displayName = dictionary["DisplayName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deleteStorageConnectors = "DeleteStorageConnectors"
+            case storageConnectors = "StorageConnectors"
+            case name = "Name"
+            case displayName = "DisplayName"
+            case description = "Description"
         }
     }
 
     public struct StopFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to stop.
         public let name: String
@@ -1064,13 +960,12 @@ extension Appstream {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
-    public enum ImageStateChangeReasonCode: String, CustomStringConvertible {
+    public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case internal_error = "INTERNAL_ERROR"
         case image_builder_not_available = "IMAGE_BUILDER_NOT_AVAILABLE"
         public var description: String { return self.rawValue }
@@ -1078,14 +973,13 @@ extension Appstream {
 
     public struct CreateStreamingURLRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Validity", required: false, type: .long), 
-            AWSShapeProperty(label: "UserId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplicationId", required: false, type: .string), 
-            AWSShapeProperty(label: "SessionContext", required: false, type: .string), 
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Validity", required: false, type: .long), 
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "ApplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "SessionContext", required: false, type: .string), 
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string)
         ]
         /// The duration up to which the URL returned by this action is valid. The input can be any numeric value in seconds between 1 and 604800 seconds.
         public let validity: Int64?
@@ -1109,24 +1003,20 @@ extension Appstream {
             self.fleetName = fleetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validity = dictionary["Validity"] as? Int64
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
-            self.applicationId = dictionary["ApplicationId"] as? String
-            self.sessionContext = dictionary["SessionContext"] as? String
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
+        private enum CodingKeys: String, CodingKey {
+            case validity = "Validity"
+            case userId = "UserId"
+            case applicationId = "ApplicationId"
+            case sessionContext = "SessionContext"
+            case stackName = "StackName"
+            case fleetName = "FleetName"
         }
     }
 
     public struct CreateFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fleet", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fleet", required: false, type: .structure)
         ]
         /// The details for the created fleet.
         public let fleet: Fleet?
@@ -1135,42 +1025,40 @@ extension Appstream {
             self.fleet = fleet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream.Fleet(dictionary: fleet) } else { self.fleet = nil }
+        private enum CodingKeys: String, CodingKey {
+            case fleet = "Fleet"
         }
     }
 
     public struct CreateStreamingURLResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamingURL", required: false, type: .string), 
-            AWSShapeProperty(label: "Expires", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamingURL", required: false, type: .string), 
+            AWSShapeMember(label: "Expires", required: false, type: .timestamp)
         ]
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
-        public let expires: String?
+        public let expires: Double?
 
-        public init(streamingURL: String? = nil, expires: String? = nil) {
+        public init(streamingURL: String? = nil, expires: Double? = nil) {
             self.streamingURL = streamingURL
             self.expires = expires
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.streamingURL = dictionary["StreamingURL"] as? String
-            self.expires = dictionary["Expires"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case streamingURL = "StreamingURL"
+            case expires = "Expires"
         }
     }
 
     public struct ComputeCapacityStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Available", required: false, type: .integer), 
-            AWSShapeProperty(label: "InUse", required: false, type: .integer), 
-            AWSShapeProperty(label: "Desired", required: true, type: .integer), 
-            AWSShapeProperty(label: "Running", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Available", required: false, type: .integer), 
+            AWSShapeMember(label: "InUse", required: false, type: .integer), 
+            AWSShapeMember(label: "Desired", required: true, type: .integer), 
+            AWSShapeMember(label: "Running", required: false, type: .integer)
         ]
         /// The number of currently available instances that can be used to stream sessions.
         public let available: Int32?
@@ -1188,21 +1076,19 @@ extension Appstream {
             self.running = running
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.available = dictionary["Available"] as? Int32
-            self.inUse = dictionary["InUse"] as? Int32
-            guard let desired = dictionary["Desired"] as? Int32 else { throw InitializableError.missingRequiredParam("Desired") }
-            self.desired = desired
-            self.running = dictionary["Running"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case available = "Available"
+            case inUse = "InUse"
+            case desired = "Desired"
+            case running = "Running"
         }
     }
 
     public struct AssociateFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackName", required: true, type: .string), 
-            AWSShapeProperty(label: "FleetName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackName", required: true, type: .string), 
+            AWSShapeMember(label: "FleetName", required: true, type: .string)
         ]
         /// The name of the stack to which the fleet is associated.
         public let stackName: String
@@ -1214,23 +1100,18 @@ extension Appstream {
             self.fleetName = fleetName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackName = dictionary["StackName"] as? String else { throw InitializableError.missingRequiredParam("StackName") }
-            self.stackName = stackName
-            guard let fleetName = dictionary["FleetName"] as? String else { throw InitializableError.missingRequiredParam("FleetName") }
-            self.fleetName = fleetName
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case fleetName = "FleetName"
         }
     }
 
     public struct StopFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum SessionState: String, CustomStringConvertible {
+    public enum SessionState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case pending = "PENDING"
         case expired = "EXPIRED"
@@ -1239,10 +1120,9 @@ extension Appstream {
 
     public struct DescribeFleetsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Fleets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Fleets", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1254,17 +1134,13 @@ extension Appstream {
             self.fleets = fleets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let fleets = dictionary["Fleets"] as? [[String: Any]] {
-                self.fleets = try fleets.map({ try Fleet(dictionary: $0) })
-            } else { 
-                self.fleets = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case fleets = "Fleets"
         }
     }
 
-    public enum FleetErrorCode: String, CustomStringConvertible {
+    public enum FleetErrorCode: String, CustomStringConvertible, Codable {
         case iam_service_role_missing_eni_describe_action = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
         case iam_service_role_missing_eni_create_action = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
         case iam_service_role_missing_eni_delete_action = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
@@ -1281,9 +1157,8 @@ extension Appstream {
 
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the stack to delete.
         public let name: String
@@ -1292,17 +1167,15 @@ extension Appstream {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct ExpireSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SessionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SessionId", required: true, type: .string)
         ]
         /// The unique identifier of the streaming session to be stopped.
         public let sessionId: String
@@ -1311,29 +1184,27 @@ extension Appstream {
             self.sessionId = sessionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sessionId = dictionary["SessionId"] as? String else { throw InitializableError.missingRequiredParam("SessionId") }
-            self.sessionId = sessionId
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
         }
     }
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "DisplayName", required: false, type: .string), 
-            AWSShapeProperty(label: "BaseImageArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Applications", required: false, type: .list), 
-            AWSShapeProperty(label: "CreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeProperty(label: "ImageBuilderSupported", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "PublicBaseImageReleasedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Visibility", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Platform", required: false, type: .enum), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "BaseImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "ImageBuilderSupported", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PublicBaseImageReleasedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Visibility", required: false, type: .enum)
         ]
         /// The operating system platform of the image.
         public let platform: PlatformType?
@@ -1348,7 +1219,7 @@ extension Appstream {
         /// The applications associated with an image.
         public let applications: [Application]?
         /// The timestamp when the image was created.
-        public let createdTime: String?
+        public let createdTime: Double?
         /// A meaningful description for the image.
         public let description: String?
         /// The reason why the last state change occurred.
@@ -1358,11 +1229,11 @@ extension Appstream {
         /// The unique identifier for the image.
         public let name: String
         /// The AWS release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
-        public let publicBaseImageReleasedDate: String?
+        public let publicBaseImageReleasedDate: Double?
         /// The visibility of an image to the user; images can be public or private.
         public let visibility: VisibilityType?
 
-        public init(platform: PlatformType? = nil, arn: String? = nil, state: ImageState? = nil, displayName: String? = nil, baseImageArn: String? = nil, applications: [Application]? = nil, createdTime: String? = nil, description: String? = nil, stateChangeReason: ImageStateChangeReason? = nil, imageBuilderSupported: Bool? = nil, name: String, publicBaseImageReleasedDate: String? = nil, visibility: VisibilityType? = nil) {
+        public init(platform: PlatformType? = nil, arn: String? = nil, state: ImageState? = nil, displayName: String? = nil, baseImageArn: String? = nil, applications: [Application]? = nil, createdTime: Double? = nil, description: String? = nil, stateChangeReason: ImageStateChangeReason? = nil, imageBuilderSupported: Bool? = nil, name: String, publicBaseImageReleasedDate: Double? = nil, visibility: VisibilityType? = nil) {
             self.platform = platform
             self.arn = arn
             self.state = state
@@ -1378,33 +1249,27 @@ extension Appstream {
             self.visibility = visibility
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platform = dictionary["Platform"] as? String { self.platform = PlatformType(rawValue: platform) } else { self.platform = nil }
-            self.arn = dictionary["Arn"] as? String
-            if let state = dictionary["State"] as? String { self.state = ImageState(rawValue: state) } else { self.state = nil }
-            self.displayName = dictionary["DisplayName"] as? String
-            self.baseImageArn = dictionary["BaseImageArn"] as? String
-            if let applications = dictionary["Applications"] as? [[String: Any]] {
-                self.applications = try applications.map({ try Application(dictionary: $0) })
-            } else { 
-                self.applications = nil
-            }
-            self.createdTime = dictionary["CreatedTime"] as? String
-            self.description = dictionary["Description"] as? String
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream.ImageStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
-            self.imageBuilderSupported = dictionary["ImageBuilderSupported"] as? Bool
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.publicBaseImageReleasedDate = dictionary["PublicBaseImageReleasedDate"] as? String
-            if let visibility = dictionary["Visibility"] as? String { self.visibility = VisibilityType(rawValue: visibility) } else { self.visibility = nil }
+        private enum CodingKeys: String, CodingKey {
+            case platform = "Platform"
+            case arn = "Arn"
+            case state = "State"
+            case displayName = "DisplayName"
+            case baseImageArn = "BaseImageArn"
+            case applications = "Applications"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case stateChangeReason = "StateChangeReason"
+            case imageBuilderSupported = "ImageBuilderSupported"
+            case name = "Name"
+            case publicBaseImageReleasedDate = "PublicBaseImageReleasedDate"
+            case visibility = "Visibility"
         }
     }
 
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stack", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stack", required: false, type: .structure)
         ]
         /// The details for the created stack.
         public let stack: Stack?
@@ -1413,12 +1278,12 @@ extension Appstream {
             self.stack = stack
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream.Stack(dictionary: stack) } else { self.stack = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stack = "Stack"
         }
     }
 
-    public enum ImageState: String, CustomStringConvertible {
+    public enum ImageState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case available = "AVAILABLE"
         case failed = "FAILED"
@@ -1428,9 +1293,8 @@ extension Appstream {
 
     public struct DeleteFleetRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the fleet to be deleted.
         public let name: String
@@ -1439,26 +1303,21 @@ extension Appstream {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct AssociateFleetResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeSessionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Sessions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Sessions", required: false, type: .list)
         ]
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
@@ -1470,13 +1329,9 @@ extension Appstream {
             self.sessions = sessions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let sessions = dictionary["Sessions"] as? [[String: Any]] {
-                self.sessions = try sessions.map({ try Session(dictionary: $0) })
-            } else { 
-                self.sessions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sessions = "Sessions"
         }
     }
 

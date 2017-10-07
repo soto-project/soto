@@ -31,10 +31,9 @@ extension Greengrass {
 
     public struct ListLoggerDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -44,26 +43,22 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateDeviceDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListFunctionDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -73,20 +68,19 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "GroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
         ]
         /// Id of the deployment.
         public let deploymentId: String?
@@ -104,23 +98,22 @@ extension Greengrass {
             self.deploymentArn = deploymentArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.groupArn = dictionary["GroupArn"] as? String
-            self.deploymentArn = dictionary["DeploymentArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case createdAt = "CreatedAt"
+            case groupArn = "GroupArn"
+            case deploymentArn = "DeploymentArn"
         }
     }
 
     public struct GetGroupVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Unique Id for a version of the Group.
         public let version: String?
@@ -141,22 +134,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.GroupVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct GroupCertificateConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
         /// Amount of time when the certificate expires in milliseconds.
         public let certificateExpiryInMilliseconds: String?
@@ -171,35 +163,28 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateExpiryInMilliseconds = dictionary["CertificateExpiryInMilliseconds"] as? String
-            self.certificateAuthorityExpiryInMilliseconds = dictionary["CertificateAuthorityExpiryInMilliseconds"] as? String
-            self.groupId = dictionary["GroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case groupId = "GroupId"
         }
     }
 
     public struct UpdateFunctionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListFunctionDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -209,22 +194,17 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct AssociateRoleToGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         /// Role arn you wish to associate with this group.
         public let roleArn: String?
@@ -235,22 +215,18 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["RoleArn"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case groupId = "GroupId"
         }
     }
 
     public struct DeleteLoggerDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum LoggerComponent: String, CustomStringConvertible {
+    public enum LoggerComponent: String, CustomStringConvertible, Codable {
         case greengrasssystem = "GreengrassSystem"
         case lambda = "Lambda"
         public var description: String { return self.rawValue }
@@ -258,10 +234,9 @@ extension Greengrass {
 
     public struct ListVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
@@ -273,22 +248,17 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct GetFunctionDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "FunctionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId"), required: true, type: .string)
         ]
         public let functionDefinitionId: String
         public let functionDefinitionVersionId: String
@@ -298,22 +268,19 @@ extension Greengrass {
             self.functionDefinitionVersionId = functionDefinitionVersionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
-            guard let functionDefinitionVersionId = dictionary["FunctionDefinitionVersionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionVersionId") }
-            self.functionDefinitionVersionId = functionDefinitionVersionId
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case functionDefinitionVersionId = "FunctionDefinitionVersionId"
         }
     }
 
     public struct CreateLoggerDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -327,22 +294,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subject", required: false, type: .string), 
-            AWSShapeProperty(label: "Target", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "Target", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Subject of the message.
         public let subject: String?
@@ -360,22 +326,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subject = dictionary["Subject"] as? String
-            self.target = dictionary["Target"] as? String
-            self.source = dictionary["Source"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subject = "Subject"
+            case target = "Target"
+            case source = "Source"
+            case id = "Id"
         }
     }
 
     public struct CreateDeviceDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -389,21 +354,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct Function: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "FunctionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "FunctionArn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Configuration of the function
         public let functionConfiguration: FunctionConfiguration?
@@ -418,19 +382,18 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let functionConfiguration = dictionary["FunctionConfiguration"] as? [String: Any] { self.functionConfiguration = try Greengrass.FunctionConfiguration(dictionary: functionConfiguration) } else { self.functionConfiguration = nil }
-            self.functionArn = dictionary["FunctionArn"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case functionConfiguration = "FunctionConfiguration"
+            case functionArn = "FunctionArn"
+            case id = "Id"
         }
     }
 
     public struct ListFunctionDefinitionVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -440,27 +403,22 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct GetLoggerDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -480,25 +438,24 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateCoreDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -512,29 +469,25 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateDeviceDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -546,19 +499,18 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.DeviceDefinitionVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct UpdateGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let name: String?
         public let groupId: String
@@ -568,19 +520,17 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case groupId = "GroupId"
         }
     }
 
     public struct GetDeviceDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
         ]
         public let deviceDefinitionVersionId: String
         public let deviceDefinitionId: String
@@ -590,33 +540,27 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceDefinitionVersionId = dictionary["DeviceDefinitionVersionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionVersionId") }
-            self.deviceDefinitionVersionId = deviceDefinitionVersionId
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionVersionId = "DeviceDefinitionVersionId"
+            case deviceDefinitionId = "DeviceDefinitionId"
         }
     }
 
     public struct UpdateCoreDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateFunctionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -636,23 +580,22 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct UpdateDeviceDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let deviceDefinitionId: String
         public let name: String?
@@ -662,27 +605,22 @@ extension Greengrass {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case name = "Name"
         }
     }
 
     public struct DeleteFunctionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListCoreDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -692,25 +630,20 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetSubscriptionDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Version of the subscription definition version.
         public let version: String?
@@ -731,21 +664,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.SubscriptionDefinitionVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct ListLoggerDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -755,21 +687,16 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DisassociateRoleFromGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -777,17 +704,15 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct GetAssociatedRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -795,18 +720,16 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct GetConnectivityInfoResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConnectivityInfo", required: false, type: .list), 
-            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string)
         ]
         /// Connectivity info array
         public let connectivityInfo: [ConnectivityInfo]?
@@ -817,23 +740,18 @@ extension Greengrass {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connectivityInfo = dictionary["ConnectivityInfo"] as? [[String: Any]] {
-                self.connectivityInfo = try connectivityInfo.map({ try ConnectivityInfo(dictionary: $0) })
-            } else { 
-                self.connectivityInfo = nil
-            }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo = "ConnectivityInfo"
+            case message = "message"
         }
     }
 
     public struct CreateDeviceDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Devices", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
         public let amznClientToken: String?
         public let deviceDefinitionId: String
@@ -845,24 +763,18 @@ extension Greengrass {
             self.devices = devices
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
-            if let devices = dictionary["Devices"] as? [[String: Any]] {
-                self.devices = try devices.map({ try Device(dictionary: $0) })
-            } else { 
-                self.devices = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case devices = "Devices"
         }
     }
 
     public struct ListDeploymentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployments", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployments", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information on deployments
         public let deployments: [Deployment]?
@@ -874,22 +786,17 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deployments = dictionary["Deployments"] as? [[String: Any]] {
-                self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
-            } else { 
-                self.deployments = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "Deployments"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetGroupVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupVersionId", location: .uri(locationName: "GroupVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupVersionId", location: .uri(locationName: "GroupVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupVersionId: String
         public let groupId: String
@@ -899,21 +806,18 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupVersionId = dictionary["GroupVersionId"] as? String else { throw InitializableError.missingRequiredParam("GroupVersionId") }
-            self.groupVersionId = groupVersionId
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupVersionId = "GroupVersionId"
+            case groupId = "GroupId"
         }
     }
 
     public struct UpdateGroupCertificateConfigurationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
         public let certificateExpiryInMilliseconds: String?
         public let certificateAuthorityExpiryInMilliseconds: String?
@@ -925,19 +829,18 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateExpiryInMilliseconds = dictionary["CertificateExpiryInMilliseconds"] as? String
-            self.certificateAuthorityExpiryInMilliseconds = dictionary["CertificateAuthorityExpiryInMilliseconds"] as? String
-            self.groupId = dictionary["GroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case groupId = "GroupId"
         }
     }
 
     public struct ListGroupVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -947,22 +850,17 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct GetLoggerDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
         public let loggerDefinitionVersionId: String
         public let loggerDefinitionId: String
@@ -972,19 +870,16 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loggerDefinitionVersionId = dictionary["LoggerDefinitionVersionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionVersionId") }
-            self.loggerDefinitionVersionId = loggerDefinitionVersionId
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionVersionId = "LoggerDefinitionVersionId"
+            case loggerDefinitionId = "LoggerDefinitionId"
         }
     }
 
     public struct GetFunctionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
         ]
         public let functionDefinitionId: String
 
@@ -992,18 +887,16 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
         }
     }
 
     public struct UpdateGroupCertificateConfigurationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         /// Amount of time when the certificate expires in milliseconds.
         public let certificateExpiryInMilliseconds: String?
@@ -1014,19 +907,17 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateExpiryInMilliseconds = dictionary["CertificateExpiryInMilliseconds"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case groupId = "GroupId"
         }
     }
 
     public struct GetSubscriptionDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"), required: true, type: .string)
         ]
         public let subscriptionDefinitionId: String
         public let subscriptionDefinitionVersionId: String
@@ -1036,20 +927,17 @@ extension Greengrass {
             self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            guard let subscriptionDefinitionVersionId = dictionary["SubscriptionDefinitionVersionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionVersionId") }
-            self.subscriptionDefinitionVersionId = subscriptionDefinitionVersionId
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case subscriptionDefinitionVersionId = "SubscriptionDefinitionVersionId"
         }
     }
 
     public struct ListSubscriptionDefinitionVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -1059,22 +947,17 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct UpdateSubscriptionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let subscriptionDefinitionId: String
         public let name: String?
@@ -1084,20 +967,18 @@ extension Greengrass {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case name = "Name"
         }
     }
 
     public struct CreateCoreDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Cores", required: false, type: .list), 
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Cores", required: false, type: .list), 
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let amznClientToken: String?
         public let cores: [Core]?
@@ -1109,24 +990,18 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            if let cores = dictionary["Cores"] as? [[String: Any]] {
-                self.cores = try cores.map({ try Core(dictionary: $0) })
-            } else { 
-                self.cores = nil
-            }
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case cores = "Cores"
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct ListSubscriptionDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -1136,21 +1011,20 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetCoreDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Version of the core definition version.
         public let version: String?
@@ -1171,20 +1045,19 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.CoreDefinitionVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct DeleteSubscriptionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
         public let subscriptionDefinitionId: String
 
@@ -1192,18 +1065,16 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
         }
     }
 
     public struct ListGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Groups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Groups", required: false, type: .list)
         ]
         /// The token for the next set of results, or ''null'' if there are no additional results.
         public let nextToken: String?
@@ -1215,21 +1086,16 @@ extension Greengrass {
             self.groups = groups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let groups = dictionary["Groups"] as? [[String: Any]] {
-                self.groups = try groups.map({ try GroupInformation(dictionary: $0) })
-            } else { 
-                self.groups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case groups = "Groups"
         }
     }
 
     public struct CreateGroupCertificateAuthorityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupCertificateAuthorityArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
         /// Arn of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
@@ -1238,17 +1104,16 @@ extension Greengrass {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.groupCertificateAuthorityArn = dictionary["GroupCertificateAuthorityArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
         }
     }
 
     public struct ListGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -1258,18 +1123,17 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetServiceRoleForAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
         /// Role arn which is associated to the account.
         public let roleArn: String?
@@ -1281,17 +1145,16 @@ extension Greengrass {
             self.associatedAt = associatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.associatedAt = dictionary["AssociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case associatedAt = "AssociatedAt"
         }
     }
 
     public struct DeleteFunctionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
         ]
         public let functionDefinitionId: String
 
@@ -1299,21 +1162,19 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
         }
     }
 
     public struct GroupVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CoreDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string)
         ]
         /// Core definition version arn for this group.
         public let coreDefinitionVersionArn: String?
@@ -1334,22 +1195,21 @@ extension Greengrass {
             self.subscriptionDefinitionVersionArn = subscriptionDefinitionVersionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.coreDefinitionVersionArn = dictionary["CoreDefinitionVersionArn"] as? String
-            self.deviceDefinitionVersionArn = dictionary["DeviceDefinitionVersionArn"] as? String
-            self.loggerDefinitionVersionArn = dictionary["LoggerDefinitionVersionArn"] as? String
-            self.functionDefinitionVersionArn = dictionary["FunctionDefinitionVersionArn"] as? String
-            self.subscriptionDefinitionVersionArn = dictionary["SubscriptionDefinitionVersionArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
+            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
+            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
+            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
+            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
         }
     }
 
     public struct ListSubscriptionDefinitionVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let subscriptionDefinitionId: String
         public let nextToken: String?
@@ -1361,19 +1221,17 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteDeviceDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
         ]
         public let deviceDefinitionId: String
 
@@ -1381,21 +1239,19 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
         }
     }
 
     public struct GetDeviceDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Version of the device definition version.
         public let version: String?
@@ -1416,26 +1272,25 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.DeviceDefinitionVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct DefinitionInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Arn of the definition.
         public let arn: String?
@@ -1462,22 +1317,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct AssociateServiceRoleToAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
         ]
         /// Role arn you wish to associate with this account.
         public let roleArn: String?
@@ -1486,12 +1340,12 @@ extension Greengrass {
             self.roleArn = roleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["RoleArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
         }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible {
+    public enum DeploymentType: String, CustomStringConvertible, Codable {
         case newdeployment = "NewDeployment"
         case redeployment = "Redeployment"
         public var description: String { return self.rawValue }
@@ -1499,10 +1353,9 @@ extension Greengrass {
 
     public struct GeneralError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDetails", required: false, type: .list), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// Error Details
         public let errorDetails: [ErrorDetail]?
@@ -1514,23 +1367,18 @@ extension Greengrass {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let errorDetails = dictionary["ErrorDetails"] as? [[String: Any]] {
-                self.errorDetails = try errorDetails.map({ try ErrorDetail(dictionary: $0) })
-            } else { 
-                self.errorDetails = nil
-            }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case message = "Message"
         }
     }
 
     public struct ListLoggerDefinitionVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let loggerDefinitionId: String
@@ -1542,19 +1390,17 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListGroupCertificateAuthoritiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupCertificateAuthorities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorities", required: false, type: .list)
         ]
         /// List of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
@@ -1563,21 +1409,16 @@ extension Greengrass {
             self.groupCertificateAuthorities = groupCertificateAuthorities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let groupCertificateAuthorities = dictionary["GroupCertificateAuthorities"] as? [[String: Any]] {
-                self.groupCertificateAuthorities = try groupCertificateAuthorities.map({ try GroupCertificateAuthorityProperties(dictionary: $0) })
-            } else { 
-                self.groupCertificateAuthorities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorities = "GroupCertificateAuthorities"
         }
     }
 
     public struct CreateGroupCertificateAuthorityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let amznClientToken: String?
         public let groupId: String
@@ -1587,20 +1428,18 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case groupId = "GroupId"
         }
     }
 
     public struct GetGroupCertificateAuthorityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PemEncodedCertificate", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupCertificateAuthorityId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupCertificateAuthorityArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PemEncodedCertificate", required: false, type: .string), 
+            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
         /// PEM encoded certificate for the group.
         public let pemEncodedCertificate: String?
@@ -1615,19 +1454,18 @@ extension Greengrass {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pemEncodedCertificate = dictionary["PemEncodedCertificate"] as? String
-            self.groupCertificateAuthorityId = dictionary["GroupCertificateAuthorityId"] as? String
-            self.groupCertificateAuthorityArn = dictionary["GroupCertificateAuthorityArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pemEncodedCertificate = "PemEncodedCertificate"
+            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
+            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
         }
     }
 
     public struct ErrorDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DetailedErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "DetailedErrorCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DetailedErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "DetailedErrorCode", required: false, type: .string)
         ]
         /// Detailed Error Message
         public let detailedErrorMessage: String?
@@ -1639,18 +1477,17 @@ extension Greengrass {
             self.detailedErrorCode = detailedErrorCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.detailedErrorMessage = dictionary["DetailedErrorMessage"] as? String
-            self.detailedErrorCode = dictionary["DetailedErrorCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case detailedErrorMessage = "DetailedErrorMessage"
+            case detailedErrorCode = "DetailedErrorCode"
         }
     }
 
     public struct GetAssociatedRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
         /// Arn of the role that is associated with the group.
         public let roleArn: String?
@@ -1662,17 +1499,16 @@ extension Greengrass {
             self.associatedAt = associatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleArn = dictionary["RoleArn"] as? String
-            self.associatedAt = dictionary["AssociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case associatedAt = "AssociatedAt"
         }
     }
 
     public struct GetLoggerDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
         public let loggerDefinitionId: String
 
@@ -1680,18 +1516,16 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
         }
     }
 
     public struct UpdateFunctionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let functionDefinitionId: String
         public let name: String?
@@ -1701,19 +1535,17 @@ extension Greengrass {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case name = "Name"
         }
     }
 
     public struct ListSubscriptionDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -1723,21 +1555,16 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DisassociateRoleFromGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisassociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
         /// Time when the role was disassociated from the group.
         public let disassociatedAt: String?
@@ -1746,16 +1573,15 @@ extension Greengrass {
             self.disassociatedAt = disassociatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.disassociatedAt = dictionary["DisassociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedAt = "DisassociatedAt"
         }
     }
 
     public struct CoreDefinitionVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cores", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cores", required: false, type: .list)
         ]
         /// Cores in the definition version.
         public let cores: [Core]?
@@ -1764,24 +1590,19 @@ extension Greengrass {
             self.cores = cores
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cores = dictionary["Cores"] as? [[String: Any]] {
-                self.cores = try cores.map({ try Core(dictionary: $0) })
-            } else { 
-                self.cores = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cores = "Cores"
         }
     }
 
     public struct GetFunctionDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Version of the function definition version.
         public let version: String?
@@ -1802,21 +1623,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.FunctionDefinitionVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct ListDeviceDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
@@ -1826,27 +1646,22 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -1866,23 +1681,22 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct UpdateConnectivityInfoRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConnectivityInfo", required: false, type: .list), 
-            AWSShapeProperty(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectivityInfo", required: false, type: .list), 
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
         ]
         /// Connectivity info array
         public let connectivityInfo: [ConnectivityInfo]?
@@ -1893,22 +1707,16 @@ extension Greengrass {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connectivityInfo = dictionary["ConnectivityInfo"] as? [[String: Any]] {
-                self.connectivityInfo = try connectivityInfo.map({ try ConnectivityInfo(dictionary: $0) })
-            } else { 
-                self.connectivityInfo = nil
-            }
-            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo = "ConnectivityInfo"
+            case thingName = "ThingName"
         }
     }
 
     public struct GetDeviceDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string)
         ]
         public let deviceDefinitionId: String
 
@@ -1916,23 +1724,21 @@ extension Greengrass {
             self.deviceDefinitionId = deviceDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
         }
     }
 
     public struct GetDeviceDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -1952,23 +1758,22 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct UpdateLoggerDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         public let loggerDefinitionId: String
         public let name: String?
@@ -1978,19 +1783,17 @@ extension Greengrass {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case name = "Name"
         }
     }
 
     public struct ListDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Definitions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Definitions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Definitions
         public let definitions: [DefinitionInformation]?
@@ -2002,22 +1805,17 @@ extension Greengrass {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let definitions = dictionary["Definitions"] as? [[String: Any]] {
-                self.definitions = try definitions.map({ try DefinitionInformation(dictionary: $0) })
-            } else { 
-                self.definitions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case definitions = "Definitions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListLoggerDefinitionVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -2027,27 +1825,22 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct CreateGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2067,25 +1860,24 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct Core: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SyncShadow", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThingArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "ThingArn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// If true, the local shadow value automatically syncs with the cloud's shadow state.
         public let syncShadow: Bool?
@@ -2103,27 +1895,23 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.syncShadow = dictionary["SyncShadow"] as? Bool
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.thingArn = dictionary["ThingArn"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case syncShadow = "SyncShadow"
+            case certificateArn = "CertificateArn"
+            case thingArn = "ThingArn"
+            case id = "Id"
         }
     }
 
     public struct DeleteSubscriptionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteCoreDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let coreDefinitionId: String
 
@@ -2131,19 +1919,17 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct ListFunctionDefinitionVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let functionDefinitionId: String
         public let nextToken: String?
@@ -2155,21 +1941,19 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case functionDefinitionId = "FunctionDefinitionId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListDeviceDefinitionVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let deviceDefinitionId: String
         public let nextToken: String?
@@ -2181,15 +1965,14 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deviceDefinitionId = dictionary["DeviceDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("DeviceDefinitionId") }
-            self.deviceDefinitionId = deviceDefinitionId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deviceDefinitionId = "DeviceDefinitionId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum LoggerType: String, CustomStringConvertible {
+    public enum LoggerType: String, CustomStringConvertible, Codable {
         case filesystem = "FileSystem"
         case awscloudwatch = "AWSCloudWatch"
         public var description: String { return self.rawValue }
@@ -2197,10 +1980,9 @@ extension Greengrass {
 
     public struct UpdateCoreDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let name: String?
         public let coreDefinitionId: String
@@ -2210,32 +1992,27 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct UpdateGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateLoggerDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2255,24 +2032,23 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateLoggerDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -2284,20 +2060,19 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.LoggerDefinitionVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct ListGroupVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let groupId: String
@@ -2309,24 +2084,22 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case groupId = "GroupId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct FunctionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Environment", required: false, type: .structure), 
-            AWSShapeProperty(label: "Executable", required: false, type: .string), 
-            AWSShapeProperty(label: "Timeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "MemorySize", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExecArgs", required: false, type: .string), 
-            AWSShapeProperty(label: "Pinned", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Environment", required: false, type: .structure), 
+            AWSShapeMember(label: "Executable", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "MemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "ExecArgs", required: false, type: .string), 
+            AWSShapeMember(label: "Pinned", required: false, type: .boolean)
         ]
         /// Environment of the function configuration
         public let environment: FunctionConfigurationEnvironment?
@@ -2350,25 +2123,24 @@ extension Greengrass {
             self.pinned = pinned
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let environment = dictionary["Environment"] as? [String: Any] { self.environment = try Greengrass.FunctionConfigurationEnvironment(dictionary: environment) } else { self.environment = nil }
-            self.executable = dictionary["Executable"] as? String
-            self.timeout = dictionary["Timeout"] as? Int32
-            self.memorySize = dictionary["MemorySize"] as? Int32
-            self.execArgs = dictionary["ExecArgs"] as? String
-            self.pinned = dictionary["Pinned"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case executable = "Executable"
+            case timeout = "Timeout"
+            case memorySize = "MemorySize"
+            case execArgs = "ExecArgs"
+            case pinned = "Pinned"
         }
     }
 
     public struct GetLoggerDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Definition", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Version of the logger definition version.
         public let version: String?
@@ -2389,21 +2161,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Greengrass.LoggerDefinitionVersion(dictionary: definition) } else { self.definition = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case definition = "Definition"
+            case id = "Id"
         }
     }
 
     public struct GroupCertificateAuthorityProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupCertificateAuthorityId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupCertificateAuthorityArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupCertificateAuthorityId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string)
         ]
         /// Id of the certificate authority for the group.
         public let groupCertificateAuthorityId: String?
@@ -2415,19 +2186,18 @@ extension Greengrass {
             self.groupCertificateAuthorityArn = groupCertificateAuthorityArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.groupCertificateAuthorityId = dictionary["GroupCertificateAuthorityId"] as? String
-            self.groupCertificateAuthorityArn = dictionary["GroupCertificateAuthorityArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case groupCertificateAuthorityId = "GroupCertificateAuthorityId"
+            case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"
         }
     }
 
     public struct CreateFunctionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -2439,20 +2209,19 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.FunctionDefinitionVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct CreateSubscriptionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -2464,19 +2233,18 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.SubscriptionDefinitionVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct ListDeviceDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -2486,25 +2254,21 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateLoggerDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteLoggerDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string)
         ]
         public let loggerDefinitionId: String
 
@@ -2512,18 +2276,16 @@ extension Greengrass {
             self.loggerDefinitionId = loggerDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case loggerDefinitionId = "LoggerDefinitionId"
         }
     }
 
     public struct GetDeploymentStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentId", location: .uri(locationName: "DeploymentId"), required: true, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", location: .uri(locationName: "DeploymentId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let deploymentId: String
         public let groupId: String
@@ -2533,19 +2295,16 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["DeploymentId"] as? String else { throw InitializableError.missingRequiredParam("DeploymentId") }
-            self.deploymentId = deploymentId
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case groupId = "GroupId"
         }
     }
 
     public struct AssociateServiceRoleToAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
         /// Time when the service role was associated to the account.
         public let associatedAt: String?
@@ -2554,24 +2313,20 @@ extension Greengrass {
             self.associatedAt = associatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.associatedAt = dictionary["AssociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
         }
     }
 
     public struct DeleteCoreDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct FunctionConfigurationEnvironment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Variables", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Variables", required: false, type: .map)
         ]
         public let variables: [String: String]?
 
@@ -2579,22 +2334,17 @@ extension Greengrass {
             self.variables = variables
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let variables = dictionary["Variables"] as? [String: String] {
-                self.variables = variables
-            } else { 
-                self.variables = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case variables = "Variables"
         }
     }
 
     public struct CreateLoggerDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Loggers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Loggers", required: false, type: .list)
         ]
         public let amznClientToken: String?
         public let loggerDefinitionId: String
@@ -2606,25 +2356,19 @@ extension Greengrass {
             self.loggers = loggers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            guard let loggerDefinitionId = dictionary["LoggerDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("LoggerDefinitionId") }
-            self.loggerDefinitionId = loggerDefinitionId
-            if let loggers = dictionary["Loggers"] as? [[String: Any]] {
-                self.loggers = try loggers.map({ try Logger(dictionary: $0) })
-            } else { 
-                self.loggers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case loggerDefinitionId = "LoggerDefinitionId"
+            case loggers = "Loggers"
         }
     }
 
     public struct ListCoreDefinitionVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let maxResults: String?
         public let nextToken: String?
@@ -2636,25 +2380,23 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct GroupInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Arn of a group.
         public let arn: String?
@@ -2681,25 +2423,24 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateGroupVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -2713,21 +2454,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct CreateFunctionDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Functions", required: false, type: .list), 
-            AWSShapeProperty(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Functions", required: false, type: .list), 
+            AWSShapeMember(label: "FunctionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"), required: true, type: .string)
         ]
         public let amznClientToken: String?
         public let functions: [Function]?
@@ -2739,23 +2479,17 @@ extension Greengrass {
             self.functionDefinitionId = functionDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            if let functions = dictionary["Functions"] as? [[String: Any]] {
-                self.functions = try functions.map({ try Function(dictionary: $0) })
-            } else { 
-                self.functions = nil
-            }
-            guard let functionDefinitionId = dictionary["FunctionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("FunctionDefinitionId") }
-            self.functionDefinitionId = functionDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case functions = "Functions"
+            case functionDefinitionId = "FunctionDefinitionId"
         }
     }
 
     public struct GetConnectivityInfoRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
         ]
         public let thingName: String
 
@@ -2763,20 +2497,18 @@ extension Greengrass {
             self.thingName = thingName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
-            self.thingName = thingName
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "ThingName"
         }
     }
 
     public struct CreateSubscriptionDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -2790,15 +2522,15 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
-    public enum LoggerLevel: String, CustomStringConvertible {
+    public enum LoggerLevel: String, CustomStringConvertible, Codable {
         case debug = "DEBUG"
         case info = "INFO"
         case warn = "WARN"
@@ -2809,15 +2541,14 @@ extension Greengrass {
 
     public struct CreateDeviceDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2837,28 +2568,27 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct GetFunctionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -2878,26 +2608,25 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateDeploymentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentType", required: false, type: .enum), 
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         /// Id of the deployment if you wish to redeploy a previous deployment.
         public let deploymentId: String?
@@ -2916,21 +2645,19 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.groupVersionId = dictionary["GroupVersionId"] as? String
-            if let deploymentType = dictionary["DeploymentType"] as? String { self.deploymentType = DeploymentType(rawValue: deploymentType) } else { self.deploymentType = nil }
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case groupVersionId = "GroupVersionId"
+            case deploymentType = "DeploymentType"
+            case amznClientToken = "X-Amzn-Client-Token"
+            case groupId = "GroupId"
         }
     }
 
     public struct GetSubscriptionDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string)
         ]
         public let subscriptionDefinitionId: String
 
@@ -2938,20 +2665,18 @@ extension Greengrass {
             self.subscriptionDefinitionId = subscriptionDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
         }
     }
 
     public struct CreateFunctionDefinitionVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let version: String?
         public let arn: String?
@@ -2965,20 +2690,19 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct UpdateConnectivityInfoResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", location: .body(locationName: "message"), required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         public let message: String?
         /// New Version
@@ -2989,23 +2713,22 @@ extension Greengrass {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["message"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case version = "Version"
         }
     }
 
     public struct GetSubscriptionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -3025,22 +2748,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct SubscriptionDefinitionVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
         /// Subscriptions in the version.
         public let subscriptions: [Subscription]?
@@ -3049,21 +2771,16 @@ extension Greengrass {
             self.subscriptions = subscriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
-                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            } else { 
-                self.subscriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case subscriptions = "Subscriptions"
         }
     }
 
     public struct ListDeviceDefinitionVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3073,21 +2790,16 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct GetGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -3095,18 +2807,16 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct GetGroupCertificateAuthorityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId"), required: true, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId"), required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let certificateAuthorityId: String
         public let groupId: String
@@ -3116,25 +2826,22 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateAuthorityId = dictionary["CertificateAuthorityId"] as? String else { throw InitializableError.missingRequiredParam("CertificateAuthorityId") }
-            self.certificateAuthorityId = certificateAuthorityId
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityId = "CertificateAuthorityId"
+            case groupId = "GroupId"
         }
     }
 
     public struct CreateCoreDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -3154,22 +2861,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct DisassociateServiceRoleFromAccountResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DisassociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisassociatedAt", required: false, type: .string)
         ]
         /// Time when the service role was disassociated from the account.
         public let disassociatedAt: String?
@@ -3178,16 +2884,15 @@ extension Greengrass {
             self.disassociatedAt = disassociatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.disassociatedAt = dictionary["DisassociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedAt = "DisassociatedAt"
         }
     }
 
     public struct GetGroupCertificateConfigurationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -3195,21 +2900,19 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct Logger: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Level", required: false, type: .enum), 
-            AWSShapeProperty(label: "Component", required: false, type: .enum), 
-            AWSShapeProperty(label: "Space", required: false, type: .integer), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Level", required: false, type: .enum), 
+            AWSShapeMember(label: "Component", required: false, type: .enum), 
+            AWSShapeMember(label: "Space", required: false, type: .integer), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The level of the logs
         public let level: LoggerLevel?
@@ -3230,34 +2933,30 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let level = dictionary["Level"] as? String { self.level = LoggerLevel(rawValue: level) } else { self.level = nil }
-            if let component = dictionary["Component"] as? String { self.component = LoggerComponent(rawValue: component) } else { self.component = nil }
-            self.space = dictionary["Space"] as? Int32
-            if let `type` = dictionary["Type"] as? String { self.`type` = LoggerType(rawValue: `type`) } else { self.`type` = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case level = "Level"
+            case component = "Component"
+            case space = "Space"
+            case `type` = "Type"
+            case id = "Id"
         }
     }
 
     public struct Empty: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateSubscriptionDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -3277,24 +2976,23 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateSubscriptionDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "Subscriptions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"), required: true, type: .string), 
+            AWSShapeMember(label: "Subscriptions", required: false, type: .list)
         ]
         public let amznClientToken: String?
         public let subscriptionDefinitionId: String
@@ -3306,26 +3004,20 @@ extension Greengrass {
             self.subscriptions = subscriptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            guard let subscriptionDefinitionId = dictionary["SubscriptionDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionDefinitionId") }
-            self.subscriptionDefinitionId = subscriptionDefinitionId
-            if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
-                self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
-            } else { 
-                self.subscriptions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case subscriptionDefinitionId = "SubscriptionDefinitionId"
+            case subscriptions = "Subscriptions"
         }
     }
 
     public struct VersionInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Unique Id of a version.
         public let version: String?
@@ -3343,22 +3035,21 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case id = "Id"
         }
     }
 
     public struct ConnectivityInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metadata", required: false, type: .string), 
-            AWSShapeProperty(label: "PortNumber", required: false, type: .integer), 
-            AWSShapeProperty(label: "HostAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metadata", required: false, type: .string), 
+            AWSShapeMember(label: "PortNumber", required: false, type: .integer), 
+            AWSShapeMember(label: "HostAddress", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// Metadata for this endpoint.
         public let metadata: String?
@@ -3376,19 +3067,18 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metadata = dictionary["Metadata"] as? String
-            self.portNumber = dictionary["PortNumber"] as? Int32
-            self.hostAddress = dictionary["HostAddress"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "Metadata"
+            case portNumber = "PortNumber"
+            case hostAddress = "HostAddress"
+            case id = "Id"
         }
     }
 
     public struct LoggerDefinitionVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Loggers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Loggers", required: false, type: .list)
         ]
         /// List of loggers.
         public let loggers: [Logger]?
@@ -3397,22 +3087,17 @@ extension Greengrass {
             self.loggers = loggers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loggers = dictionary["Loggers"] as? [[String: Any]] {
-                self.loggers = try loggers.map({ try Logger(dictionary: $0) })
-            } else { 
-                self.loggers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case loggers = "Loggers"
         }
     }
 
     public struct CreateGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -3424,18 +3109,17 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.GroupVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct GetCoreDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let coreDefinitionId: String
 
@@ -3443,17 +3127,15 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct FunctionDefinitionVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Functions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Functions", required: false, type: .list)
         ]
         /// Lambda functions in this function definition version.
         public let functions: [Function]?
@@ -3462,30 +3144,22 @@ extension Greengrass {
             self.functions = functions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let functions = dictionary["Functions"] as? [[String: Any]] {
-                self.functions = try functions.map({ try Function(dictionary: $0) })
-            } else { 
-                self.functions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case functions = "Functions"
         }
     }
 
     public struct GetServiceRoleForAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetDeploymentStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .string)
         ]
         /// Error Message
         public let errorMessage: String?
@@ -3500,21 +3174,20 @@ extension Greengrass {
             self.deploymentStatus = deploymentStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.updatedAt = dictionary["UpdatedAt"] as? String
-            self.deploymentStatus = dictionary["DeploymentStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case updatedAt = "UpdatedAt"
+            case deploymentStatus = "DeploymentStatus"
         }
     }
 
     public struct Device: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SyncShadow", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ThingArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncShadow", required: false, type: .boolean), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "ThingArn", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// If true, the local shadow value automatically syncs with the cloud's shadow state.
         public let syncShadow: Bool?
@@ -3532,21 +3205,20 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.syncShadow = dictionary["SyncShadow"] as? Bool
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.thingArn = dictionary["ThingArn"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case syncShadow = "SyncShadow"
+            case certificateArn = "CertificateArn"
+            case thingArn = "ThingArn"
+            case id = "Id"
         }
     }
 
     public struct CreateCoreDefinitionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InitialVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InitialVersion", required: false, type: .structure)
         ]
         public let amznClientToken: String?
         public let name: String?
@@ -3558,24 +3230,23 @@ extension Greengrass {
             self.initialVersion = initialVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.name = dictionary["Name"] as? String
-            if let initialVersion = dictionary["InitialVersion"] as? [String: Any] { self.initialVersion = try Greengrass.CoreDefinitionVersion(dictionary: initialVersion) } else { self.initialVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case name = "Name"
+            case initialVersion = "InitialVersion"
         }
     }
 
     public struct GetCoreDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedTimestamp", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedTimestamp", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         public let arn: String?
         public let creationTimestamp: String?
@@ -3595,23 +3266,22 @@ extension Greengrass {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.creationTimestamp = dictionary["CreationTimestamp"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastUpdatedTimestamp = dictionary["LastUpdatedTimestamp"] as? String
-            self.latestVersionArn = dictionary["LatestVersionArn"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTimestamp = "CreationTimestamp"
+            case name = "Name"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case latestVersionArn = "LatestVersionArn"
+            case latestVersion = "LatestVersion"
+            case id = "Id"
         }
     }
 
     public struct CreateDeploymentResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentArn", required: false, type: .string)
         ]
         /// Id of the deployment.
         public let deploymentId: String?
@@ -3623,17 +3293,16 @@ extension Greengrass {
             self.deploymentArn = deploymentArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.deploymentArn = dictionary["DeploymentArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case deploymentArn = "DeploymentArn"
         }
     }
 
     public struct ListGroupCertificateAuthoritiesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -3641,17 +3310,15 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct DeviceDefinitionVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Devices", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Devices", required: false, type: .list)
         ]
         /// Devices in the definition version.
         public let devices: [Device]?
@@ -3660,22 +3327,17 @@ extension Greengrass {
             self.devices = devices
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devices = dictionary["Devices"] as? [[String: Any]] {
-                self.devices = try devices.map({ try Device(dictionary: $0) })
-            } else { 
-                self.devices = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case devices = "Devices"
         }
     }
 
     public struct GetGroupCertificateConfigurationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateAuthorityExpiryInMilliseconds", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string)
         ]
         public let certificateExpiryInMilliseconds: String?
         public let certificateAuthorityExpiryInMilliseconds: String?
@@ -3687,19 +3349,18 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateExpiryInMilliseconds = dictionary["CertificateExpiryInMilliseconds"] as? String
-            self.certificateAuthorityExpiryInMilliseconds = dictionary["CertificateAuthorityExpiryInMilliseconds"] as? String
-            self.groupId = dictionary["GroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateExpiryInMilliseconds = "CertificateExpiryInMilliseconds"
+            case certificateAuthorityExpiryInMilliseconds = "CertificateAuthorityExpiryInMilliseconds"
+            case groupId = "GroupId"
         }
     }
 
     public struct GetCoreDefinitionVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CoreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"), required: true, type: .string), 
-            AWSShapeProperty(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CoreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"), required: true, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionId", location: .uri(locationName: "CoreDefinitionId"), required: true, type: .string)
         ]
         public let coreDefinitionVersionId: String
         public let coreDefinitionId: String
@@ -3709,27 +3370,21 @@ extension Greengrass {
             self.coreDefinitionId = coreDefinitionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let coreDefinitionVersionId = dictionary["CoreDefinitionVersionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionVersionId") }
-            self.coreDefinitionVersionId = coreDefinitionVersionId
-            guard let coreDefinitionId = dictionary["CoreDefinitionId"] as? String else { throw InitializableError.missingRequiredParam("CoreDefinitionId") }
-            self.coreDefinitionId = coreDefinitionId
+        private enum CodingKeys: String, CodingKey {
+            case coreDefinitionVersionId = "CoreDefinitionVersionId"
+            case coreDefinitionId = "CoreDefinitionId"
         }
     }
 
     public struct DisassociateServiceRoleFromAccountRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AssociateRoleToGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociatedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociatedAt", required: false, type: .string)
         ]
         /// Time the role arn was associated to your group.
         public let associatedAt: String?
@@ -3738,18 +3393,17 @@ extension Greengrass {
             self.associatedAt = associatedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.associatedAt = dictionary["AssociatedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
         }
     }
 
     public struct ListDeploymentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let groupId: String
@@ -3761,25 +3415,23 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case groupId = "GroupId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateGroupVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CoreDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AmznClientToken", location: .header(locationName: "X-Amzn-Client-Token"), required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "CoreDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "LoggerDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "FunctionDefinitionVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let amznClientToken: String?
         public let subscriptionDefinitionVersionArn: String?
@@ -3799,24 +3451,22 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.amznClientToken = dictionary["X-Amzn-Client-Token"] as? String
-            self.subscriptionDefinitionVersionArn = dictionary["SubscriptionDefinitionVersionArn"] as? String
-            self.deviceDefinitionVersionArn = dictionary["DeviceDefinitionVersionArn"] as? String
-            self.coreDefinitionVersionArn = dictionary["CoreDefinitionVersionArn"] as? String
-            self.loggerDefinitionVersionArn = dictionary["LoggerDefinitionVersionArn"] as? String
-            self.functionDefinitionVersionArn = dictionary["FunctionDefinitionVersionArn"] as? String
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case amznClientToken = "X-Amzn-Client-Token"
+            case subscriptionDefinitionVersionArn = "SubscriptionDefinitionVersionArn"
+            case deviceDefinitionVersionArn = "DeviceDefinitionVersionArn"
+            case coreDefinitionVersionArn = "CoreDefinitionVersionArn"
+            case loggerDefinitionVersionArn = "LoggerDefinitionVersionArn"
+            case functionDefinitionVersionArn = "FunctionDefinitionVersionArn"
+            case groupId = "GroupId"
         }
     }
 
     public struct ListCoreDefinitionVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         public let nextToken: String?
         public let versions: [VersionInformation]?
@@ -3826,22 +3476,17 @@ extension Greengrass {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try VersionInformation(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case versions = "Versions"
         }
     }
 
     public struct ListCoreDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "NextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "MaxResults"), required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: String?
@@ -3851,17 +3496,16 @@ extension Greengrass {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", location: .uri(locationName: "GroupId"), required: true, type: .string)
         ]
         public let groupId: String
 
@@ -3869,18 +3513,14 @@ extension Greengrass {
             self.groupId = groupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
         }
     }
 
     public struct DeleteDeviceDefinitionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
 }

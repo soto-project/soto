@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Dynamodb {
 
-    public enum TimeToLiveStatus: String, CustomStringConvertible {
+    public enum TimeToLiveStatus: String, CustomStringConvertible, Codable {
         case enabling = "ENABLING"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
@@ -39,13 +39,12 @@ extension Dynamodb {
 
     public struct UpdateTableInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeDefinitions", required: false, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
-            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "GlobalSecondaryIndexUpdates", required: false, type: .list), 
+            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure)
         ]
         /// An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
         public let attributeDefinitions: [AttributeDefinition]?
@@ -66,29 +65,19 @@ extension Dynamodb {
             self.streamSpecification = streamSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] {
-                self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
-            } else { 
-                self.attributeDefinitions = nil
-            }
-            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput) } else { self.provisionedThroughput = nil }
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let globalSecondaryIndexUpdates = dictionary["GlobalSecondaryIndexUpdates"] as? [[String: Any]] {
-                self.globalSecondaryIndexUpdates = try globalSecondaryIndexUpdates.map({ try GlobalSecondaryIndexUpdate(dictionary: $0) })
-            } else { 
-                self.globalSecondaryIndexUpdates = nil
-            }
-            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) } else { self.streamSpecification = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attributeDefinitions = "AttributeDefinitions"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case tableName = "TableName"
+            case globalSecondaryIndexUpdates = "GlobalSecondaryIndexUpdates"
+            case streamSpecification = "StreamSpecification"
         }
     }
 
     public struct DeleteRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
         public let key: [String: AttributeValue]
@@ -97,25 +86,18 @@ extension Dynamodb {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
-            var keyDict: [String: AttributeValue] = [:]
-            for (key, value) in key {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.key = keyDict
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
         }
     }
 
     public struct CreateGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Projection", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
@@ -133,24 +115,19 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
-            self.projection = try Dynamodb.Projection(dictionary: projection)
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
-            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
-            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
-            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        private enum CodingKeys: String, CodingKey {
+            case projection = "Projection"
+            case indexName = "IndexName"
+            case keySchema = "KeySchema"
+            case provisionedThroughput = "ProvisionedThroughput"
         }
     }
 
     public struct Projection: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NonKeyAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "ProjectionType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NonKeyAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "ProjectionType", required: false, type: .enum)
         ]
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
@@ -162,18 +139,17 @@ extension Dynamodb {
             self.projectionType = projectionType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nonKeyAttributes = dictionary["NonKeyAttributes"] as? [String]
-            if let projectionType = dictionary["ProjectionType"] as? String { self.projectionType = ProjectionType(rawValue: projectionType) } else { self.projectionType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nonKeyAttributes = "NonKeyAttributes"
+            case projectionType = "ProjectionType"
         }
     }
 
     public struct KeySchemaElement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "KeyType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "KeyType", required: true, type: .enum)
         ]
         /// The name of a key attribute.
         public let attributeName: String
@@ -185,20 +161,17 @@ extension Dynamodb {
             self.keyType = keyType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            guard let rawKeyType = dictionary["KeyType"] as? String, let keyType = KeyType(rawValue: rawKeyType) else { throw InitializableError.missingRequiredParam("KeyType") }
-            self.keyType = keyType
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case keyType = "KeyType"
         }
     }
 
     public struct TagResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -210,20 +183,17 @@ extension Dynamodb {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
         }
     }
 
     public struct ProvisionedThroughput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WriteCapacityUnits", required: true, type: .long), 
-            AWSShapeProperty(label: "ReadCapacityUnits", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WriteCapacityUnits", required: true, type: .long), 
+            AWSShapeMember(label: "ReadCapacityUnits", required: true, type: .long)
         ]
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
         public let writeCapacityUnits: Int64
@@ -235,22 +205,20 @@ extension Dynamodb {
             self.readCapacityUnits = readCapacityUnits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let writeCapacityUnits = dictionary["WriteCapacityUnits"] as? Int64 else { throw InitializableError.missingRequiredParam("WriteCapacityUnits") }
-            self.writeCapacityUnits = writeCapacityUnits
-            guard let readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64 else { throw InitializableError.missingRequiredParam("ReadCapacityUnits") }
-            self.readCapacityUnits = readCapacityUnits
+        private enum CodingKeys: String, CodingKey {
+            case writeCapacityUnits = "WriteCapacityUnits"
+            case readCapacityUnits = "ReadCapacityUnits"
         }
     }
 
-    public enum AttributeAction: String, CustomStringConvertible {
+    public enum AttributeAction: String, CustomStringConvertible, Codable {
         case add = "ADD"
         case put = "PUT"
         case delete = "DELETE"
         public var description: String { return self.rawValue }
     }
 
-    public enum KeyType: String, CustomStringConvertible {
+    public enum KeyType: String, CustomStringConvertible, Codable {
         case hash = "HASH"
         case range = "RANGE"
         public var description: String { return self.rawValue }
@@ -258,9 +226,8 @@ extension Dynamodb {
 
     public struct DescribeTimeToLiveOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeToLiveDescription", required: false, type: .structure)
         ]
         public let timeToLiveDescription: TimeToLiveDescription?
 
@@ -268,20 +235,19 @@ extension Dynamodb {
             self.timeToLiveDescription = timeToLiveDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeToLiveDescription = dictionary["TimeToLiveDescription"] as? [String: Any] { self.timeToLiveDescription = try Dynamodb.TimeToLiveDescription(dictionary: timeToLiveDescription) } else { self.timeToLiveDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case timeToLiveDescription = "TimeToLiveDescription"
         }
     }
 
     public struct ConsumedCapacity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CapacityUnits", required: false, type: .double), 
-            AWSShapeProperty(label: "Table", required: false, type: .structure), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .map), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CapacityUnits", required: false, type: .double), 
+            AWSShapeMember(label: "Table", required: false, type: .structure), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .map), 
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .map)
         ]
         /// The total number of capacity units consumed by the operation.
         public let capacityUnits: Double?
@@ -302,34 +268,16 @@ extension Dynamodb {
             self.globalSecondaryIndexes = globalSecondaryIndexes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.capacityUnits = dictionary["CapacityUnits"] as? Double
-            if let table = dictionary["Table"] as? [String: Any] { self.table = try Dynamodb.Capacity(dictionary: table) } else { self.table = nil }
-            self.tableName = dictionary["TableName"] as? String
-            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [String: Any] {
-                var localSecondaryIndexesDict: [String: Capacity] = [:]
-                for (key, value) in localSecondaryIndexes {
-                    guard let capacityDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    localSecondaryIndexesDict[key] = try Capacity(dictionary: capacityDict)
-                }
-                self.localSecondaryIndexes = localSecondaryIndexesDict
-            } else { 
-                self.localSecondaryIndexes = nil
-            }
-            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [String: Any] {
-                var globalSecondaryIndexesDict: [String: Capacity] = [:]
-                for (key, value) in globalSecondaryIndexes {
-                    guard let capacityDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    globalSecondaryIndexesDict[key] = try Capacity(dictionary: capacityDict)
-                }
-                self.globalSecondaryIndexes = globalSecondaryIndexesDict
-            } else { 
-                self.globalSecondaryIndexes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
+            case table = "Table"
+            case tableName = "TableName"
+            case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
         }
     }
 
-    public enum Select: String, CustomStringConvertible {
+    public enum Select: String, CustomStringConvertible, Codable {
         case all_attributes = "ALL_ATTRIBUTES"
         case all_projected_attributes = "ALL_PROJECTED_ATTRIBUTES"
         case specific_attributes = "SPECIFIC_ATTRIBUTES"
@@ -339,12 +287,11 @@ extension Dynamodb {
 
     public struct ExpectedAttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeValueList", required: false, type: .list), 
-            AWSShapeProperty(label: "ComparisonOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .structure), 
-            AWSShapeProperty(label: "Exists", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeValueList", required: false, type: .list), 
+            AWSShapeMember(label: "ComparisonOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .structure), 
+            AWSShapeMember(label: "Exists", required: false, type: .boolean)
         ]
         /// One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A, and a is greater than B. For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide.
         public let attributeValueList: [AttributeValue]?
@@ -362,39 +309,34 @@ extension Dynamodb {
             self.exists = exists
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeValueList = dictionary["AttributeValueList"] as? [[String: Any]] {
-                self.attributeValueList = try attributeValueList.map({ try AttributeValue(dictionary: $0) })
-            } else { 
-                self.attributeValueList = nil
-            }
-            if let comparisonOperator = dictionary["ComparisonOperator"] as? String { self.comparisonOperator = ComparisonOperator(rawValue: comparisonOperator) } else { self.comparisonOperator = nil }
-            if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) } else { self.value = nil }
-            self.exists = dictionary["Exists"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case attributeValueList = "AttributeValueList"
+            case comparisonOperator = "ComparisonOperator"
+            case value = "Value"
+            case exists = "Exists"
         }
     }
 
     public struct QueryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "QueryFilter", required: false, type: .map), 
-            AWSShapeProperty(label: "KeyConditions", required: false, type: .map), 
-            AWSShapeProperty(label: "KeyConditionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "Select", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExclusiveStartKey", required: false, type: .map), 
-            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "ScanIndexForward", required: false, type: .boolean), 
-            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "QueryFilter", required: false, type: .map), 
+            AWSShapeMember(label: "KeyConditions", required: false, type: .map), 
+            AWSShapeMember(label: "KeyConditionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "Select", required: false, type: .enum), 
+            AWSShapeMember(label: "ExclusiveStartKey", required: false, type: .map), 
+            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "ScanIndexForward", required: false, type: .boolean), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Determines the read consistency model: If set to true, then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads. Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with ConsistentRead set to true, you will receive a ValidationException.
         public let consistentRead: Bool?
@@ -450,69 +392,28 @@ extension Dynamodb {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.projectionExpression = dictionary["ProjectionExpression"] as? String
-            if let queryFilter = dictionary["QueryFilter"] as? [String: Any] {
-                var queryFilterDict: [String: Condition] = [:]
-                for (key, value) in queryFilter {
-                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    queryFilterDict[key] = try Condition(dictionary: conditionDict)
-                }
-                self.queryFilter = queryFilterDict
-            } else { 
-                self.queryFilter = nil
-            }
-            if let keyConditions = dictionary["KeyConditions"] as? [String: Any] {
-                var keyConditionsDict: [String: Condition] = [:]
-                for (key, value) in keyConditions {
-                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    keyConditionsDict[key] = try Condition(dictionary: conditionDict)
-                }
-                self.keyConditions = keyConditionsDict
-            } else { 
-                self.keyConditions = nil
-            }
-            self.keyConditionExpression = dictionary["KeyConditionExpression"] as? String
-            self.indexName = dictionary["IndexName"] as? String
-            if let select = dictionary["Select"] as? String { self.select = Select(rawValue: select) } else { self.select = nil }
-            if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
-                var exclusiveStartKeyDict: [String: AttributeValue] = [:]
-                for (key, value) in exclusiveStartKey {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    exclusiveStartKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.exclusiveStartKey = exclusiveStartKeyDict
-            } else { 
-                self.exclusiveStartKey = nil
-            }
-            self.attributesToGet = dictionary["AttributesToGet"] as? [String]
-            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
-            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
-                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
-                for (key, value) in expressionAttributeValues {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.expressionAttributeValues = expressionAttributeValuesDict
-            } else { 
-                self.expressionAttributeValues = nil
-            }
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            self.scanIndexForward = dictionary["ScanIndexForward"] as? Bool
-            self.filterExpression = dictionary["FilterExpression"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case projectionExpression = "ProjectionExpression"
+            case queryFilter = "QueryFilter"
+            case keyConditions = "KeyConditions"
+            case keyConditionExpression = "KeyConditionExpression"
+            case indexName = "IndexName"
+            case select = "Select"
+            case exclusiveStartKey = "ExclusiveStartKey"
+            case attributesToGet = "AttributesToGet"
+            case conditionalOperator = "ConditionalOperator"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case scanIndexForward = "ScanIndexForward"
+            case filterExpression = "FilterExpression"
+            case limit = "Limit"
         }
     }
 
-    public enum ConditionalOperator: String, CustomStringConvertible {
+    public enum ConditionalOperator: String, CustomStringConvertible, Codable {
         case and = "AND"
         case or = "OR"
         public var description: String { return self.rawValue }
@@ -520,11 +421,10 @@ extension Dynamodb {
 
     public struct PutItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -539,28 +439,18 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: AttributeValue] = [:]
-                for (key, value) in attributes {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) } else { self.itemCollectionMetrics = nil }
+        private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
+            case attributes = "Attributes"
+            case itemCollectionMetrics = "ItemCollectionMetrics"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
@@ -572,25 +462,22 @@ extension Dynamodb {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct GetItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeProperty(label: "Key", required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeMember(label: "Key", required: true, type: .map), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum)
         ]
         /// Determines the read consistency model: If set to true, then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
         public let consistentRead: Bool?
@@ -616,34 +503,22 @@ extension Dynamodb {
             self.returnConsumedCapacity = returnConsumedCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.projectionExpression = dictionary["ProjectionExpression"] as? String
-            self.attributesToGet = dictionary["AttributesToGet"] as? [String]
-            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
-            var keyDict: [String: AttributeValue] = [:]
-            for (key, value) in key {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.key = keyDict
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case projectionExpression = "ProjectionExpression"
+            case attributesToGet = "AttributesToGet"
+            case key = "Key"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
         }
     }
 
     public struct AttributeValueUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .structure)
         ]
         /// Specifies how to perform the update. Valid values are PUT (default), DELETE, and ADD. The behavior depends on whether the specified primary key already exists in the table.  If an item with the specified Key is found in the table:     PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.     DELETE - If no value is specified, the attribute and its value are removed from the item. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specified [a,c], then the final attribute value would be [b]. Specifying an empty set is an error.    ADD - If the attribute does not already exist, then the attribute and its values are added to the item. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then the Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.   If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. In addition, if you use ADD to update an existing item, and intend to increment or decrement an attribute value which does not yet exist, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update does not yet have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway, even though it currently does not exist. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set, and if the Value is also a set, then the Value is added to the existing set. (This is a set operation, not mathematical addition.) For example, if the attribute value was the set [1,2], and the ADD action specified [3], then the final attribute value would be [1,2,3]. An error occurs if an Add action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings. The same holds true for number sets and binary sets.   This action is only valid for an existing attribute whose data type is number or is a set. Do not use ADD for any other data types.    If no item with the specified Key is found:     PUT - DynamoDB creates a new item with the specified primary key, and then adds the attribute.     DELETE - Nothing happens; there is no attribute to delete.    ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.  
         public let action: AttributeAction?
@@ -655,13 +530,13 @@ extension Dynamodb {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let action = dictionary["Action"] as? String { self.action = AttributeAction(rawValue: action) } else { self.action = nil }
-            if let value = dictionary["Value"] as? [String: Any] { self.value = try Dynamodb.AttributeValue(dictionary: value) } else { self.value = nil }
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case value = "Value"
         }
     }
 
-    public enum ProjectionType: String, CustomStringConvertible {
+    public enum ProjectionType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case keys_only = "KEYS_ONLY"
         case include = "INCLUDE"
@@ -670,10 +545,9 @@ extension Dynamodb {
 
     public struct WriteRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteRequest", required: false, type: .structure), 
-            AWSShapeProperty(label: "PutRequest", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteRequest", required: false, type: .structure), 
+            AWSShapeMember(label: "PutRequest", required: false, type: .structure)
         ]
         /// A request to perform a DeleteItem operation.
         public let deleteRequest: DeleteRequest?
@@ -685,17 +559,16 @@ extension Dynamodb {
             self.putRequest = putRequest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deleteRequest = dictionary["DeleteRequest"] as? [String: Any] { self.deleteRequest = try Dynamodb.DeleteRequest(dictionary: deleteRequest) } else { self.deleteRequest = nil }
-            if let putRequest = dictionary["PutRequest"] as? [String: Any] { self.putRequest = try Dynamodb.PutRequest(dictionary: putRequest) } else { self.putRequest = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deleteRequest = "DeleteRequest"
+            case putRequest = "PutRequest"
         }
     }
 
     public struct CreateTableOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -704,17 +577,16 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) } else { self.tableDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tableDescription = "TableDescription"
         }
     }
 
     public struct TimeToLiveSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeName", required: true, type: .string), 
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean)
         ]
         /// The name of the Time to Live attribute used to store the expiration time for items in the table.
         public let attributeName: String
@@ -726,20 +598,17 @@ extension Dynamodb {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
-            guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
-            self.enabled = enabled
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case enabled = "Enabled"
         }
     }
 
     public struct ListTagsOfResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -751,14 +620,13 @@ extension Dynamodb {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum IndexStatus: String, CustomStringConvertible {
+    public enum IndexStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case updating = "UPDATING"
         case deleting = "DELETING"
@@ -768,9 +636,8 @@ extension Dynamodb {
 
     public struct DeleteTableInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to delete.
         public let tableName: String
@@ -779,21 +646,19 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
         }
     }
 
     public struct ScanOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Items", required: false, type: .list), 
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastEvaluatedKey", required: false, type: .map), 
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "ScannedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
@@ -814,44 +679,22 @@ extension Dynamodb {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lastEvaluatedKey = dictionary["LastEvaluatedKey"] as? [String: Any] {
-                var lastEvaluatedKeyDict: [String: AttributeValue] = [:]
-                for (key, value) in lastEvaluatedKey {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    lastEvaluatedKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.lastEvaluatedKey = lastEvaluatedKeyDict
-            } else { 
-                self.lastEvaluatedKey = nil
-            }
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
-            self.scannedCount = dictionary["ScannedCount"] as? Int32
-            if let items = dictionary["Items"] as? [[String: [String: Any]]] {
-                var itemsList: [[String: AttributeValue]] = []
-                var attributeValueDict: [String: AttributeValue] = [:]
-                for item in items {
-                    for (key, value) in item {
-                        attributeValueDict[key] = try AttributeValue(dictionary: value)
-                    }
-                    itemsList.append(attributeValueDict)
-                }
-                self.items = itemsList
-            } else { 
-                self.items = nil
-            }
-            self.count = dictionary["Count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case lastEvaluatedKey = "LastEvaluatedKey"
+            case consumedCapacity = "ConsumedCapacity"
+            case scannedCount = "ScannedCount"
+            case items = "Items"
+            case count = "Count"
         }
     }
 
     public struct GlobalSecondaryIndex: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Projection", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -869,19 +712,15 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
-            self.projection = try Dynamodb.Projection(dictionary: projection)
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
-            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
-            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
-            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        private enum CodingKeys: String, CodingKey {
+            case projection = "Projection"
+            case indexName = "IndexName"
+            case keySchema = "KeySchema"
+            case provisionedThroughput = "ProvisionedThroughput"
         }
     }
 
-    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible {
+    public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
         case size = "SIZE"
         case none = "NONE"
         public var description: String { return self.rawValue }
@@ -889,9 +728,8 @@ extension Dynamodb {
 
     public struct PutRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: true, type: .map)
         ]
         /// A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
         public let item: [String: AttributeValue]
@@ -900,28 +738,21 @@ extension Dynamodb {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let item = dictionary["Item"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Item") }
-            var itemDict: [String: AttributeValue] = [:]
-            for (key, value) in item {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.item = itemDict
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
     public struct CreateTableInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeDefinitions", required: true, type: .list), 
-            AWSShapeProperty(label: "KeySchema", required: true, type: .list), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeDefinitions", required: true, type: .list), 
+            AWSShapeMember(label: "KeySchema", required: true, type: .list), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure), 
+            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure)
         ]
         /// An array of attributes that describe the key schema for the table and indexes.
         public let attributeDefinitions: [AttributeDefinition]
@@ -948,35 +779,22 @@ extension Dynamodb {
             self.streamSpecification = streamSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeDefinitions") }
-            self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
-            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
-            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
-            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
-            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [[String: Any]] {
-                self.localSecondaryIndexes = try localSecondaryIndexes.map({ try LocalSecondaryIndex(dictionary: $0) })
-            } else { 
-                self.localSecondaryIndexes = nil
-            }
-            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [[String: Any]] {
-                self.globalSecondaryIndexes = try globalSecondaryIndexes.map({ try GlobalSecondaryIndex(dictionary: $0) })
-            } else { 
-                self.globalSecondaryIndexes = nil
-            }
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) } else { self.streamSpecification = nil }
+        private enum CodingKeys: String, CodingKey {
+            case attributeDefinitions = "AttributeDefinitions"
+            case keySchema = "KeySchema"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case tableName = "TableName"
+            case streamSpecification = "StreamSpecification"
         }
     }
 
     public struct ListTablesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartTableName", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartTableName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
         public let exclusiveStartTableName: String?
@@ -988,18 +806,17 @@ extension Dynamodb {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exclusiveStartTableName = dictionary["ExclusiveStartTableName"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartTableName = "ExclusiveStartTableName"
+            case limit = "Limit"
         }
     }
 
     public struct TimeToLiveDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "AttributeName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeToLiveStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "AttributeName", required: false, type: .string)
         ]
         ///  The Time to Live status for the table.
         public let timeToLiveStatus: TimeToLiveStatus?
@@ -1011,18 +828,17 @@ extension Dynamodb {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeToLiveStatus = dictionary["TimeToLiveStatus"] as? String { self.timeToLiveStatus = TimeToLiveStatus(rawValue: timeToLiveStatus) } else { self.timeToLiveStatus = nil }
-            self.attributeName = dictionary["AttributeName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timeToLiveStatus = "TimeToLiveStatus"
+            case attributeName = "AttributeName"
         }
     }
 
     public struct BatchGetItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "RequestItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestItems", required: true, type: .map)
         ]
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.    ExpressionAttributeNames - One or more substitution tokens for attribute names in the ProjectionExpression parameter. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.    ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.   
@@ -1033,36 +849,29 @@ extension Dynamodb {
             self.requestItems = requestItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
-            var requestItemsDict: [String: KeysAndAttributes] = [:]
-            for (key, value) in requestItems {
-                guard let keysAndAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                requestItemsDict[key] = try KeysAndAttributes(dictionary: keysAndAttributesDict)
-            }
-            self.requestItems = requestItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case requestItems = "RequestItems"
         }
     }
 
     public struct TableDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LatestStreamArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
-            AWSShapeProperty(label: "TableArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ItemCount", required: false, type: .long), 
-            AWSShapeProperty(label: "StreamSpecification", required: false, type: .structure), 
-            AWSShapeProperty(label: "AttributeDefinitions", required: false, type: .list), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LocalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeProperty(label: "GlobalSecondaryIndexes", required: false, type: .list), 
-            AWSShapeProperty(label: "TableSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "TableStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "LatestStreamLabel", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LatestStreamArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
+            AWSShapeMember(label: "TableArn", required: false, type: .string), 
+            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
+            AWSShapeMember(label: "StreamSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "AttributeDefinitions", required: false, type: .list), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LocalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "GlobalSecondaryIndexes", required: false, type: .list), 
+            AWSShapeMember(label: "TableSizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "TableStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LatestStreamLabel", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
         public let latestStreamArn: String?
@@ -1079,7 +888,7 @@ extension Dynamodb {
         /// An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema. Each AttributeDefinition object in this array is composed of:    AttributeName - The name of the attribute.    AttributeType - The data type for the attribute.  
         public let attributeDefinitions: [AttributeDefinition]?
         /// The date and time when the table was created, in UNIX epoch time format.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:    IndexName - The name of the local secondary index.    KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.   If the table is in the DELETING state, no information about indexes will be returned.
         public let localSecondaryIndexes: [LocalSecondaryIndexDescription]?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table; it is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
@@ -1093,7 +902,7 @@ extension Dynamodb {
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name.   the StreamLabel.  
         public let latestStreamLabel: String?
 
-        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
+        public init(latestStreamArn: String? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, keySchema: [KeySchemaElement]? = nil, tableArn: String? = nil, itemCount: Int64? = nil, streamSpecification: StreamSpecification? = nil, attributeDefinitions: [AttributeDefinition]? = nil, creationDateTime: Double? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, tableSizeBytes: Int64? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil, latestStreamLabel: String? = nil) {
             self.latestStreamArn = latestStreamArn
             self.provisionedThroughput = provisionedThroughput
             self.keySchema = keySchema
@@ -1110,41 +919,25 @@ extension Dynamodb {
             self.latestStreamLabel = latestStreamLabel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.latestStreamArn = dictionary["LatestStreamArn"] as? String
-            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughputDescription(dictionary: provisionedThroughput) } else { self.provisionedThroughput = nil }
-            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
-                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            } else { 
-                self.keySchema = nil
-            }
-            self.tableArn = dictionary["TableArn"] as? String
-            self.itemCount = dictionary["ItemCount"] as? Int64
-            if let streamSpecification = dictionary["StreamSpecification"] as? [String: Any] { self.streamSpecification = try Dynamodb.StreamSpecification(dictionary: streamSpecification) } else { self.streamSpecification = nil }
-            if let attributeDefinitions = dictionary["AttributeDefinitions"] as? [[String: Any]] {
-                self.attributeDefinitions = try attributeDefinitions.map({ try AttributeDefinition(dictionary: $0) })
-            } else { 
-                self.attributeDefinitions = nil
-            }
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            if let localSecondaryIndexes = dictionary["LocalSecondaryIndexes"] as? [[String: Any]] {
-                self.localSecondaryIndexes = try localSecondaryIndexes.map({ try LocalSecondaryIndexDescription(dictionary: $0) })
-            } else { 
-                self.localSecondaryIndexes = nil
-            }
-            if let globalSecondaryIndexes = dictionary["GlobalSecondaryIndexes"] as? [[String: Any]] {
-                self.globalSecondaryIndexes = try globalSecondaryIndexes.map({ try GlobalSecondaryIndexDescription(dictionary: $0) })
-            } else { 
-                self.globalSecondaryIndexes = nil
-            }
-            self.tableSizeBytes = dictionary["TableSizeBytes"] as? Int64
-            self.tableName = dictionary["TableName"] as? String
-            if let tableStatus = dictionary["TableStatus"] as? String { self.tableStatus = TableStatus(rawValue: tableStatus) } else { self.tableStatus = nil }
-            self.latestStreamLabel = dictionary["LatestStreamLabel"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case latestStreamArn = "LatestStreamArn"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case keySchema = "KeySchema"
+            case tableArn = "TableArn"
+            case itemCount = "ItemCount"
+            case streamSpecification = "StreamSpecification"
+            case attributeDefinitions = "AttributeDefinitions"
+            case creationDateTime = "CreationDateTime"
+            case localSecondaryIndexes = "LocalSecondaryIndexes"
+            case globalSecondaryIndexes = "GlobalSecondaryIndexes"
+            case tableSizeBytes = "TableSizeBytes"
+            case tableName = "TableName"
+            case tableStatus = "TableStatus"
+            case latestStreamLabel = "LatestStreamLabel"
         }
     }
 
-    public enum ReturnValue: String, CustomStringConvertible {
+    public enum ReturnValue: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case all_old = "ALL_OLD"
         case updated_old = "UPDATED_OLD"
@@ -1155,13 +948,12 @@ extension Dynamodb {
 
     public struct QueryOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastEvaluatedKey", required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScannedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Items", required: false, type: .list), 
-            AWSShapeProperty(label: "Count", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastEvaluatedKey", required: false, type: .map), 
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "ScannedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "Count", required: false, type: .integer)
         ]
         /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
         public let lastEvaluatedKey: [String: AttributeValue]?
@@ -1182,42 +974,20 @@ extension Dynamodb {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lastEvaluatedKey = dictionary["LastEvaluatedKey"] as? [String: Any] {
-                var lastEvaluatedKeyDict: [String: AttributeValue] = [:]
-                for (key, value) in lastEvaluatedKey {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    lastEvaluatedKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.lastEvaluatedKey = lastEvaluatedKeyDict
-            } else { 
-                self.lastEvaluatedKey = nil
-            }
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
-            self.scannedCount = dictionary["ScannedCount"] as? Int32
-            if let items = dictionary["Items"] as? [[String: [String: Any]]] {
-                var itemsList: [[String: AttributeValue]] = []
-                var attributeValueDict: [String: AttributeValue] = [:]
-                for item in items {
-                    for (key, value) in item {
-                        attributeValueDict[key] = try AttributeValue(dictionary: value)
-                    }
-                    itemsList.append(attributeValueDict)
-                }
-                self.items = itemsList
-            } else { 
-                self.items = nil
-            }
-            self.count = dictionary["Count"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case lastEvaluatedKey = "LastEvaluatedKey"
+            case consumedCapacity = "ConsumedCapacity"
+            case scannedCount = "ScannedCount"
+            case items = "Items"
+            case count = "Count"
         }
     }
 
     public struct UntagResourceInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon DyanamoDB resource the tags will be removed from. This value is an Amazon Resource Name (ARN).
         public let resourceArn: String
@@ -1229,24 +999,21 @@ extension Dynamodb {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct LocalSecondaryIndexDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
-            AWSShapeProperty(label: "IndexSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "IndexArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ItemCount", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Projection", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
+            AWSShapeMember(label: "IndexSizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "IndexArn", required: false, type: .string), 
+            AWSShapeMember(label: "ItemCount", required: false, type: .long)
         ]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
@@ -1270,26 +1037,21 @@ extension Dynamodb {
             self.itemCount = itemCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let projection = dictionary["Projection"] as? [String: Any] { self.projection = try Dynamodb.Projection(dictionary: projection) } else { self.projection = nil }
-            self.indexName = dictionary["IndexName"] as? String
-            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
-                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            } else { 
-                self.keySchema = nil
-            }
-            self.indexSizeBytes = dictionary["IndexSizeBytes"] as? Int64
-            self.indexArn = dictionary["IndexArn"] as? String
-            self.itemCount = dictionary["ItemCount"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case projection = "Projection"
+            case indexName = "IndexName"
+            case keySchema = "KeySchema"
+            case indexSizeBytes = "IndexSizeBytes"
+            case indexArn = "IndexArn"
+            case itemCount = "ItemCount"
         }
     }
 
     public struct StreamSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamViewType", required: false, type: .enum), 
-            AWSShapeProperty(label: "StreamEnabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamViewType", required: false, type: .enum), 
+            AWSShapeMember(label: "StreamEnabled", required: false, type: .boolean)
         ]
         ///  When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.  
         public let streamViewType: StreamViewType?
@@ -1301,17 +1063,16 @@ extension Dynamodb {
             self.streamEnabled = streamEnabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let streamViewType = dictionary["StreamViewType"] as? String { self.streamViewType = StreamViewType(rawValue: streamViewType) } else { self.streamViewType = nil }
-            self.streamEnabled = dictionary["StreamEnabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case streamViewType = "StreamViewType"
+            case streamEnabled = "StreamEnabled"
         }
     }
 
     public struct DescribeTimeToLiveInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to be described.
         public let tableName: String
@@ -1320,34 +1081,29 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
         }
     }
 
     public struct DescribeLimitsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeMember(label: "Key", required: true, type: .map), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "Expected", required: false, type: .map), 
+            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map)
         ]
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeNames: [String: String]?
@@ -1382,50 +1138,21 @@ extension Dynamodb {
             self.expressionAttributeValues = expressionAttributeValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.conditionExpression = dictionary["ConditionExpression"] as? String
-            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
-            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
-            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
-            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
-            var keyDict: [String: AttributeValue] = [:]
-            for (key, value) in key {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.key = keyDict
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            if let expected = dictionary["Expected"] as? [String: Any] {
-                var expectedDict: [String: ExpectedAttributeValue] = [:]
-                for (key, value) in expected {
-                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
-                }
-                self.expected = expectedDict
-            } else { 
-                self.expected = nil
-            }
-            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
-                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
-                for (key, value) in expressionAttributeValues {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.expressionAttributeValues = expressionAttributeValuesDict
-            } else { 
-                self.expressionAttributeValues = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case conditionExpression = "ConditionExpression"
+            case conditionalOperator = "ConditionalOperator"
+            case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+            case returnValues = "ReturnValues"
+            case key = "Key"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case expected = "Expected"
+            case expressionAttributeValues = "ExpressionAttributeValues"
         }
     }
 
-    public enum ScalarAttributeType: String, CustomStringConvertible {
+    public enum ScalarAttributeType: String, CustomStringConvertible, Codable {
         case s = "S"
         case n = "N"
         case b = "B"
@@ -1434,9 +1161,8 @@ extension Dynamodb {
 
     public struct DescribeTableOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Table", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Table", required: false, type: .structure)
         ]
         /// The properties of the table.
         public let table: TableDescription?
@@ -1445,17 +1171,16 @@ extension Dynamodb {
             self.table = table
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let table = dictionary["Table"] as? [String: Any] { self.table = try Dynamodb.TableDescription(dictionary: table) } else { self.table = nil }
+        private enum CodingKeys: String, CodingKey {
+            case table = "Table"
         }
     }
 
     public struct UpdateTimeToLiveInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "TimeToLiveSpecification", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "TimeToLiveSpecification", required: true, type: .structure)
         ]
         /// The name of the table to be configured.
         public let tableName: String
@@ -1467,15 +1192,13 @@ extension Dynamodb {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            guard let timeToLiveSpecification = dictionary["TimeToLiveSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TimeToLiveSpecification") }
-            self.timeToLiveSpecification = try Dynamodb.TimeToLiveSpecification(dictionary: timeToLiveSpecification)
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+            case timeToLiveSpecification = "TimeToLiveSpecification"
         }
     }
 
-    public enum TableStatus: String, CustomStringConvertible {
+    public enum TableStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case updating = "UPDATING"
         case deleting = "DELETING"
@@ -1485,24 +1208,23 @@ extension Dynamodb {
 
     public struct ScanInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "ScanFilter", required: false, type: .map), 
-            AWSShapeProperty(label: "TotalSegments", required: false, type: .integer), 
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "Select", required: false, type: .enum), 
-            AWSShapeProperty(label: "ExclusiveStartKey", required: false, type: .map), 
-            AWSShapeProperty(label: "Segment", required: false, type: .integer), 
-            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "FilterExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "ScanFilter", required: false, type: .map), 
+            AWSShapeMember(label: "TotalSegments", required: false, type: .integer), 
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "Select", required: false, type: .enum), 
+            AWSShapeMember(label: "ExclusiveStartKey", required: false, type: .map), 
+            AWSShapeMember(label: "Segment", required: false, type: .integer), 
+            AWSShapeMember(label: "AttributesToGet", required: false, type: .list), 
+            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "FilterExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// A Boolean value that determines the read consistency model during the scan:   If ConsistentRead is false, then the data returned from Scan might not contain the results from other recently completed write operations (PutItem, UpdateItem or DeleteItem).   If ConsistentRead is true, then all of the write operations that completed before the Scan began are guaranteed to be contained in the Scan response.   The default setting for ConsistentRead is false. The ConsistentRead parameter is not supported on global secondary indexes. If you scan a global secondary index with ConsistentRead set to true, you will receive a ValidationException.
         public let consistentRead: Bool?
@@ -1555,65 +1277,32 @@ extension Dynamodb {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.projectionExpression = dictionary["ProjectionExpression"] as? String
-            if let scanFilter = dictionary["ScanFilter"] as? [String: Any] {
-                var scanFilterDict: [String: Condition] = [:]
-                for (key, value) in scanFilter {
-                    guard let conditionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    scanFilterDict[key] = try Condition(dictionary: conditionDict)
-                }
-                self.scanFilter = scanFilterDict
-            } else { 
-                self.scanFilter = nil
-            }
-            self.totalSegments = dictionary["TotalSegments"] as? Int32
-            self.indexName = dictionary["IndexName"] as? String
-            if let select = dictionary["Select"] as? String { self.select = Select(rawValue: select) } else { self.select = nil }
-            if let exclusiveStartKey = dictionary["ExclusiveStartKey"] as? [String: Any] {
-                var exclusiveStartKeyDict: [String: AttributeValue] = [:]
-                for (key, value) in exclusiveStartKey {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    exclusiveStartKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.exclusiveStartKey = exclusiveStartKeyDict
-            } else { 
-                self.exclusiveStartKey = nil
-            }
-            self.segment = dictionary["Segment"] as? Int32
-            self.attributesToGet = dictionary["AttributesToGet"] as? [String]
-            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
-                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
-                for (key, value) in expressionAttributeValues {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.expressionAttributeValues = expressionAttributeValuesDict
-            } else { 
-                self.expressionAttributeValues = nil
-            }
-            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            self.filterExpression = dictionary["FilterExpression"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case projectionExpression = "ProjectionExpression"
+            case scanFilter = "ScanFilter"
+            case totalSegments = "TotalSegments"
+            case indexName = "IndexName"
+            case select = "Select"
+            case exclusiveStartKey = "ExclusiveStartKey"
+            case segment = "Segment"
+            case attributesToGet = "AttributesToGet"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case conditionalOperator = "ConditionalOperator"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case filterExpression = "FilterExpression"
+            case limit = "Limit"
         }
     }
 
     public struct BatchWriteItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedItems", required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedItems", required: false, type: .map), 
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
+            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .map)
         ]
         /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value.      PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.     If there are no unprocessed items remaining, the response contains an empty UnprocessedItems map.
         public let unprocessedItems: [String: [WriteRequest]]?
@@ -1628,42 +1317,17 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let unprocessedItems = dictionary["UnprocessedItems"] as? [String: Any] {
-                var unprocessedItemsDict: [String: [WriteRequest]] = [:]
-                for (key, value) in unprocessedItems {
-                    guard let writeRequest = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                    let writeRequestList: [WriteRequest] = try writeRequest.map { try WriteRequest(dictionary: $0) }
-                    unprocessedItemsDict[key] = writeRequestList
-                }
-                self.unprocessedItems = unprocessedItemsDict
-            } else { 
-                self.unprocessedItems = nil
-            }
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [[String: Any]] {
-                self.consumedCapacity = try consumedCapacity.map({ try ConsumedCapacity(dictionary: $0) })
-            } else { 
-                self.consumedCapacity = nil
-            }
-            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] {
-                var itemCollectionMetricsDict: [String: [ItemCollectionMetrics]] = [:]
-                for (key, value) in itemCollectionMetrics {
-                    guard let itemCollectionMetrics = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                    let itemCollectionMetricsList: [ItemCollectionMetrics] = try itemCollectionMetrics.map { try ItemCollectionMetrics(dictionary: $0) }
-                    itemCollectionMetricsDict[key] = itemCollectionMetricsList
-                }
-                self.itemCollectionMetrics = itemCollectionMetricsDict
-            } else { 
-                self.itemCollectionMetrics = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedItems = "UnprocessedItems"
+            case consumedCapacity = "ConsumedCapacity"
+            case itemCollectionMetrics = "ItemCollectionMetrics"
         }
     }
 
     public struct DeleteTableOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of a table.
         public let tableDescription: TableDescription?
@@ -1672,33 +1336,32 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) } else { self.tableDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tableDescription = "TableDescription"
         }
     }
 
     public struct ProvisionedThroughputDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WriteCapacityUnits", required: false, type: .long), 
-            AWSShapeProperty(label: "LastIncreaseDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReadCapacityUnits", required: false, type: .long), 
-            AWSShapeProperty(label: "LastDecreaseDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NumberOfDecreasesToday", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WriteCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "LastIncreaseDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "LastDecreaseDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NumberOfDecreasesToday", required: false, type: .long)
         ]
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int64?
         /// The date and time of the last provisioned throughput increase for this table.
-        public let lastIncreaseDateTime: String?
+        public let lastIncreaseDateTime: Double?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
         public let readCapacityUnits: Int64?
         /// The date and time of the last provisioned throughput decrease for this table.
-        public let lastDecreaseDateTime: String?
+        public let lastDecreaseDateTime: Double?
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide.
         public let numberOfDecreasesToday: Int64?
 
-        public init(writeCapacityUnits: Int64? = nil, lastIncreaseDateTime: String? = nil, readCapacityUnits: Int64? = nil, lastDecreaseDateTime: String? = nil, numberOfDecreasesToday: Int64? = nil) {
+        public init(writeCapacityUnits: Int64? = nil, lastIncreaseDateTime: Double? = nil, readCapacityUnits: Int64? = nil, lastDecreaseDateTime: Double? = nil, numberOfDecreasesToday: Int64? = nil) {
             self.writeCapacityUnits = writeCapacityUnits
             self.lastIncreaseDateTime = lastIncreaseDateTime
             self.readCapacityUnits = readCapacityUnits
@@ -1706,29 +1369,28 @@ extension Dynamodb {
             self.numberOfDecreasesToday = numberOfDecreasesToday
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.writeCapacityUnits = dictionary["WriteCapacityUnits"] as? Int64
-            self.lastIncreaseDateTime = dictionary["LastIncreaseDateTime"] as? String
-            self.readCapacityUnits = dictionary["ReadCapacityUnits"] as? Int64
-            self.lastDecreaseDateTime = dictionary["LastDecreaseDateTime"] as? String
-            self.numberOfDecreasesToday = dictionary["NumberOfDecreasesToday"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case writeCapacityUnits = "WriteCapacityUnits"
+            case lastIncreaseDateTime = "LastIncreaseDateTime"
+            case readCapacityUnits = "ReadCapacityUnits"
+            case lastDecreaseDateTime = "LastDecreaseDateTime"
+            case numberOfDecreasesToday = "NumberOfDecreasesToday"
         }
     }
 
     public struct PutItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeProperty(label: "Item", required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeMember(label: "Item", required: true, type: .map), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "Expected", required: false, type: .map), 
+            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map)
         ]
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeNames: [String: String]?
@@ -1763,55 +1425,25 @@ extension Dynamodb {
             self.expressionAttributeValues = expressionAttributeValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.conditionExpression = dictionary["ConditionExpression"] as? String
-            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
-            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
-            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
-            guard let item = dictionary["Item"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Item") }
-            var itemDict: [String: AttributeValue] = [:]
-            for (key, value) in item {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.item = itemDict
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            if let expected = dictionary["Expected"] as? [String: Any] {
-                var expectedDict: [String: ExpectedAttributeValue] = [:]
-                for (key, value) in expected {
-                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
-                }
-                self.expected = expectedDict
-            } else { 
-                self.expected = nil
-            }
-            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
-                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
-                for (key, value) in expressionAttributeValues {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.expressionAttributeValues = expressionAttributeValuesDict
-            } else { 
-                self.expressionAttributeValues = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case conditionExpression = "ConditionExpression"
+            case conditionalOperator = "ConditionalOperator"
+            case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+            case returnValues = "ReturnValues"
+            case item = "Item"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case expected = "Expected"
+            case expressionAttributeValues = "ExpressionAttributeValues"
         }
     }
 
     public struct Condition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "AttributeValueList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "AttributeValueList", required: false, type: .list)
         ]
         /// A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available:  EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]}.     LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}.     NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.  This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NOT_NULL, the result is a Boolean true. This result is because the attribute "a" exists; its data type is not relevant to the NOT_NULL comparison operator.     NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.  This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a" is null, and you evaluate it using NULL, the result is a Boolean false. This is because the attribute "a" exists; its data type is not relevant to the NULL comparison operator.     CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS", "NS", or "BS"), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b", "a" can be a list; however, "b" cannot be a set, a map, or a list.    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).     IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"}. Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}    For usage examples of AttributeValueList and ComparisonOperator, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide.
         public let comparisonOperator: ComparisonOperator
@@ -1823,30 +1455,24 @@ extension Dynamodb {
             self.attributeValueList = attributeValueList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            if let attributeValueList = dictionary["AttributeValueList"] as? [[String: Any]] {
-                self.attributeValueList = try attributeValueList.map({ try AttributeValue(dictionary: $0) })
-            } else { 
-                self.attributeValueList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "ComparisonOperator"
+            case attributeValueList = "AttributeValueList"
         }
     }
 
     public struct GlobalSecondaryIndexDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeySchema", required: false, type: .list), 
-            AWSShapeProperty(label: "IndexArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: false, type: .structure), 
-            AWSShapeProperty(label: "ItemCount", required: false, type: .long), 
-            AWSShapeProperty(label: "Projection", required: false, type: .structure), 
-            AWSShapeProperty(label: "IndexSizeBytes", required: false, type: .long), 
-            AWSShapeProperty(label: "IndexStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Backfilling", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: false, type: .string), 
+            AWSShapeMember(label: "KeySchema", required: false, type: .list), 
+            AWSShapeMember(label: "IndexArn", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: false, type: .structure), 
+            AWSShapeMember(label: "ItemCount", required: false, type: .long), 
+            AWSShapeMember(label: "Projection", required: false, type: .structure), 
+            AWSShapeMember(label: "IndexSizeBytes", required: false, type: .long), 
+            AWSShapeMember(label: "IndexStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Backfilling", required: false, type: .boolean)
         ]
         /// The name of the global secondary index.
         public let indexName: String?
@@ -1879,30 +1505,25 @@ extension Dynamodb {
             self.backfilling = backfilling
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.indexName = dictionary["IndexName"] as? String
-            if let keySchema = dictionary["KeySchema"] as? [[String: Any]] {
-                self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
-            } else { 
-                self.keySchema = nil
-            }
-            self.indexArn = dictionary["IndexArn"] as? String
-            if let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] { self.provisionedThroughput = try Dynamodb.ProvisionedThroughputDescription(dictionary: provisionedThroughput) } else { self.provisionedThroughput = nil }
-            self.itemCount = dictionary["ItemCount"] as? Int64
-            if let projection = dictionary["Projection"] as? [String: Any] { self.projection = try Dynamodb.Projection(dictionary: projection) } else { self.projection = nil }
-            self.indexSizeBytes = dictionary["IndexSizeBytes"] as? Int64
-            if let indexStatus = dictionary["IndexStatus"] as? String { self.indexStatus = IndexStatus(rawValue: indexStatus) } else { self.indexStatus = nil }
-            self.backfilling = dictionary["Backfilling"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case keySchema = "KeySchema"
+            case indexArn = "IndexArn"
+            case provisionedThroughput = "ProvisionedThroughput"
+            case itemCount = "ItemCount"
+            case projection = "Projection"
+            case indexSizeBytes = "IndexSizeBytes"
+            case indexStatus = "IndexStatus"
+            case backfilling = "Backfilling"
         }
     }
 
     public struct DeleteItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -1917,30 +1538,20 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: AttributeValue] = [:]
-                for (key, value) in attributes {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) } else { self.itemCollectionMetrics = nil }
+        private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
+            case attributes = "Attributes"
+            case itemCollectionMetrics = "ItemCollectionMetrics"
         }
     }
 
     public struct DescribeLimitsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableMaxWriteCapacityUnits", required: false, type: .long), 
-            AWSShapeProperty(label: "TableMaxReadCapacityUnits", required: false, type: .long), 
-            AWSShapeProperty(label: "AccountMaxReadCapacityUnits", required: false, type: .long), 
-            AWSShapeProperty(label: "AccountMaxWriteCapacityUnits", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableMaxWriteCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "TableMaxReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "AccountMaxReadCapacityUnits", required: false, type: .long), 
+            AWSShapeMember(label: "AccountMaxWriteCapacityUnits", required: false, type: .long)
         ]
         /// The maximum write capacity units that your account allows you to provision for a new table that you are creating in this region, including the write capacity units provisioned for its global secondary indexes (GSIs).
         public let tableMaxWriteCapacityUnits: Int64?
@@ -1958,21 +1569,20 @@ extension Dynamodb {
             self.accountMaxWriteCapacityUnits = accountMaxWriteCapacityUnits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tableMaxWriteCapacityUnits = dictionary["TableMaxWriteCapacityUnits"] as? Int64
-            self.tableMaxReadCapacityUnits = dictionary["TableMaxReadCapacityUnits"] as? Int64
-            self.accountMaxReadCapacityUnits = dictionary["AccountMaxReadCapacityUnits"] as? Int64
-            self.accountMaxWriteCapacityUnits = dictionary["AccountMaxWriteCapacityUnits"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case tableMaxWriteCapacityUnits = "TableMaxWriteCapacityUnits"
+            case tableMaxReadCapacityUnits = "TableMaxReadCapacityUnits"
+            case accountMaxReadCapacityUnits = "AccountMaxReadCapacityUnits"
+            case accountMaxWriteCapacityUnits = "AccountMaxWriteCapacityUnits"
         }
     }
 
     public struct BatchGetItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedKeys", required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .list), 
-            AWSShapeProperty(label: "Responses", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedKeys", required: false, type: .map), 
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .list), 
+            AWSShapeMember(label: "Responses", required: false, type: .map)
         ]
         /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:    Keys - An array of primary key attribute values that define specific items in the table.    ProjectionExpression - One or more attributes to be retrieved from the table or index. By default, all attributes are returned. If a requested attribute is not found, it does not appear in the result.    ConsistentRead - The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.   If there are no unprocessed keys remaining, the response contains an empty UnprocessedKeys map.
         public let unprocessedKeys: [String: KeysAndAttributes]?
@@ -1987,51 +1597,21 @@ extension Dynamodb {
             self.responses = responses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let unprocessedKeys = dictionary["UnprocessedKeys"] as? [String: Any] {
-                var unprocessedKeysDict: [String: KeysAndAttributes] = [:]
-                for (key, value) in unprocessedKeys {
-                    guard let keysAndAttributesDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    unprocessedKeysDict[key] = try KeysAndAttributes(dictionary: keysAndAttributesDict)
-                }
-                self.unprocessedKeys = unprocessedKeysDict
-            } else { 
-                self.unprocessedKeys = nil
-            }
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [[String: Any]] {
-                self.consumedCapacity = try consumedCapacity.map({ try ConsumedCapacity(dictionary: $0) })
-            } else { 
-                self.consumedCapacity = nil
-            }
-            if let responses = dictionary["Responses"] as? [String: Any] {
-                var responsesDict: [String: [[String: AttributeValue]]] = [:]
-                for (key, value) in responses {
-                    guard let itemList = value as? [[String: [String: Any]]] else { throw InitializableError.convertingError }
-                    var itemListList: [[String: AttributeValue]] = []
-                    for item in itemList {
-                        var attributeValueDict: [String: AttributeValue] = [:]
-                        for (key, value) in item {
-                            attributeValueDict[key] = try AttributeValue(dictionary: value)
-                        }
-                        itemListList.append(attributeValueDict)
-                    }
-                    responsesDict[key] = itemListList
-                }
-                self.responses = responsesDict
-            } else { 
-                self.responses = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedKeys = "UnprocessedKeys"
+            case consumedCapacity = "ConsumedCapacity"
+            case responses = "Responses"
         }
     }
 
-    public enum ReturnConsumedCapacity: String, CustomStringConvertible {
+    public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
         case indexes = "INDEXES"
         case total = "TOTAL"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible {
+    public enum StreamViewType: String, CustomStringConvertible, Codable {
         case new_image = "NEW_IMAGE"
         case old_image = "OLD_IMAGE"
         case new_and_old_images = "NEW_AND_OLD_IMAGES"
@@ -2041,11 +1621,10 @@ extension Dynamodb {
 
     public struct BatchWriteItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "RequestItems", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "RequestItems", required: true, type: .map)
         ]
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
@@ -2059,36 +1638,28 @@ extension Dynamodb {
             self.requestItems = requestItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            guard let requestItems = dictionary["RequestItems"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestItems") }
-            var requestItemsDict: [String: [WriteRequest]] = [:]
-            for (key, value) in requestItems {
-                guard let writeRequest = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                let writeRequestList: [WriteRequest] = try writeRequest.map { try WriteRequest(dictionary: $0) }
-                requestItemsDict[key] = writeRequestList
-            }
-            self.requestItems = requestItemsDict
+        private enum CodingKeys: String, CodingKey {
+            case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case requestItems = "RequestItems"
         }
     }
 
     public struct UpdateItemInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeUpdates", required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ConditionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "ConditionalOperator", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
-            AWSShapeProperty(label: "ReturnValues", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: true, type: .map), 
-            AWSShapeProperty(label: "TableName", required: true, type: .string), 
-            AWSShapeProperty(label: "ReturnConsumedCapacity", required: false, type: .enum), 
-            AWSShapeProperty(label: "Expected", required: false, type: .map), 
-            AWSShapeProperty(label: "ExpressionAttributeValues", required: false, type: .map), 
-            AWSShapeProperty(label: "UpdateExpression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeUpdates", required: false, type: .map), 
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ConditionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "ConditionalOperator", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnItemCollectionMetrics", required: false, type: .enum), 
+            AWSShapeMember(label: "ReturnValues", required: false, type: .enum), 
+            AWSShapeMember(label: "Key", required: true, type: .map), 
+            AWSShapeMember(label: "TableName", required: true, type: .string), 
+            AWSShapeMember(label: "ReturnConsumedCapacity", required: false, type: .enum), 
+            AWSShapeMember(label: "Expected", required: false, type: .map), 
+            AWSShapeMember(label: "ExpressionAttributeValues", required: false, type: .map), 
+            AWSShapeMember(label: "UpdateExpression", required: false, type: .string)
         ]
         /// This is a legacy parameter. Use UpdateExpression instead. For more information, see AttributeUpdates in the Amazon DynamoDB Developer Guide.
         public let attributeUpdates: [String: AttributeValueUpdate]?
@@ -2129,66 +1700,27 @@ extension Dynamodb {
             self.updateExpression = updateExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attributeUpdates = dictionary["AttributeUpdates"] as? [String: Any] {
-                var attributeUpdatesDict: [String: AttributeValueUpdate] = [:]
-                for (key, value) in attributeUpdates {
-                    guard let attributeValueUpdateDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    attributeUpdatesDict[key] = try AttributeValueUpdate(dictionary: attributeValueUpdateDict)
-                }
-                self.attributeUpdates = attributeUpdatesDict
-            } else { 
-                self.attributeUpdates = nil
-            }
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.conditionExpression = dictionary["ConditionExpression"] as? String
-            if let conditionalOperator = dictionary["ConditionalOperator"] as? String { self.conditionalOperator = ConditionalOperator(rawValue: conditionalOperator) } else { self.conditionalOperator = nil }
-            if let returnItemCollectionMetrics = dictionary["ReturnItemCollectionMetrics"] as? String { self.returnItemCollectionMetrics = ReturnItemCollectionMetrics(rawValue: returnItemCollectionMetrics) } else { self.returnItemCollectionMetrics = nil }
-            if let returnValues = dictionary["ReturnValues"] as? String { self.returnValues = ReturnValue(rawValue: returnValues) } else { self.returnValues = nil }
-            guard let key = dictionary["Key"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Key") }
-            var keyDict: [String: AttributeValue] = [:]
-            for (key, value) in key {
-                guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                keyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-            }
-            self.key = keyDict
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
-            if let returnConsumedCapacity = dictionary["ReturnConsumedCapacity"] as? String { self.returnConsumedCapacity = ReturnConsumedCapacity(rawValue: returnConsumedCapacity) } else { self.returnConsumedCapacity = nil }
-            if let expected = dictionary["Expected"] as? [String: Any] {
-                var expectedDict: [String: ExpectedAttributeValue] = [:]
-                for (key, value) in expected {
-                    guard let expectedAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expectedDict[key] = try ExpectedAttributeValue(dictionary: expectedAttributeValueDict)
-                }
-                self.expected = expectedDict
-            } else { 
-                self.expected = nil
-            }
-            if let expressionAttributeValues = dictionary["ExpressionAttributeValues"] as? [String: Any] {
-                var expressionAttributeValuesDict: [String: AttributeValue] = [:]
-                for (key, value) in expressionAttributeValues {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    expressionAttributeValuesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.expressionAttributeValues = expressionAttributeValuesDict
-            } else { 
-                self.expressionAttributeValues = nil
-            }
-            self.updateExpression = dictionary["UpdateExpression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attributeUpdates = "AttributeUpdates"
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case conditionExpression = "ConditionExpression"
+            case conditionalOperator = "ConditionalOperator"
+            case returnItemCollectionMetrics = "ReturnItemCollectionMetrics"
+            case returnValues = "ReturnValues"
+            case key = "Key"
+            case tableName = "TableName"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case expected = "Expected"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case updateExpression = "UpdateExpression"
         }
     }
 
     public struct GetItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .map), 
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .map), 
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure)
         ]
         /// A map of attribute names to AttributeValue objects, as specified by ProjectionExpression.
         public let item: [String: AttributeValue]?
@@ -2200,27 +1732,17 @@ extension Dynamodb {
             self.consumedCapacity = consumedCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [String: Any] {
-                var itemDict: [String: AttributeValue] = [:]
-                for (key, value) in item {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    itemDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.item = itemDict
-            } else { 
-                self.item = nil
-            }
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case consumedCapacity = "ConsumedCapacity"
         }
     }
 
     public struct ItemCollectionMetrics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ItemCollectionKey", required: false, type: .map), 
-            AWSShapeProperty(label: "SizeEstimateRangeGB", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ItemCollectionKey", required: false, type: .map), 
+            AWSShapeMember(label: "SizeEstimateRangeGB", required: false, type: .list)
         ]
         /// The partition key value of the item collection. This value is the same as the partition key value of the item.
         public let itemCollectionKey: [String: AttributeValue]?
@@ -2232,28 +1754,18 @@ extension Dynamodb {
             self.sizeEstimateRangeGB = sizeEstimateRangeGB
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let itemCollectionKey = dictionary["ItemCollectionKey"] as? [String: Any] {
-                var itemCollectionKeyDict: [String: AttributeValue] = [:]
-                for (key, value) in itemCollectionKey {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    itemCollectionKeyDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.itemCollectionKey = itemCollectionKeyDict
-            } else { 
-                self.itemCollectionKey = nil
-            }
-            self.sizeEstimateRangeGB = dictionary["SizeEstimateRangeGB"] as? [Double]
+        private enum CodingKeys: String, CodingKey {
+            case itemCollectionKey = "ItemCollectionKey"
+            case sizeEstimateRangeGB = "SizeEstimateRangeGB"
         }
     }
 
     public struct LocalSecondaryIndex: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Projection", required: true, type: .structure), 
-            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
-            AWSShapeProperty(label: "KeySchema", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Projection", required: true, type: .structure), 
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "KeySchema", required: true, type: .list)
         ]
         /// Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
@@ -2268,21 +1780,17 @@ extension Dynamodb {
             self.keySchema = keySchema
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projection = dictionary["Projection"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Projection") }
-            self.projection = try Dynamodb.Projection(dictionary: projection)
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
-            guard let keySchema = dictionary["KeySchema"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("KeySchema") }
-            self.keySchema = try keySchema.map({ try KeySchemaElement(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case projection = "Projection"
+            case indexName = "IndexName"
+            case keySchema = "KeySchema"
         }
     }
 
     public struct DeleteGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string)
         ]
         /// The name of the global secondary index to be deleted.
         public let indexName: String
@@ -2291,17 +1799,15 @@ extension Dynamodb {
             self.indexName = indexName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
         }
     }
 
     public struct UpdateTimeToLiveOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeToLiveSpecification", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeToLiveSpecification", required: false, type: .structure)
         ]
         /// Represents the output of an UpdateTimeToLive operation.
         public let timeToLiveSpecification: TimeToLiveSpecification?
@@ -2310,17 +1816,16 @@ extension Dynamodb {
             self.timeToLiveSpecification = timeToLiveSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeToLiveSpecification = dictionary["TimeToLiveSpecification"] as? [String: Any] { self.timeToLiveSpecification = try Dynamodb.TimeToLiveSpecification(dictionary: timeToLiveSpecification) } else { self.timeToLiveSpecification = nil }
+        private enum CodingKeys: String, CodingKey {
+            case timeToLiveSpecification = "TimeToLiveSpecification"
         }
     }
 
     public struct AttributeDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttributeType", required: true, type: .enum), 
-            AWSShapeProperty(label: "AttributeName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeType", required: true, type: .enum), 
+            AWSShapeMember(label: "AttributeName", required: true, type: .string)
         ]
         /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary  
         public let attributeType: ScalarAttributeType
@@ -2332,23 +1837,20 @@ extension Dynamodb {
             self.attributeName = attributeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawAttributeType = dictionary["AttributeType"] as? String, let attributeType = ScalarAttributeType(rawValue: rawAttributeType) else { throw InitializableError.missingRequiredParam("AttributeType") }
-            self.attributeType = attributeType
-            guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
-            self.attributeName = attributeName
+        private enum CodingKeys: String, CodingKey {
+            case attributeType = "AttributeType"
+            case attributeName = "AttributeName"
         }
     }
 
     public struct KeysAndAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsistentRead", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpressionAttributeNames", required: false, type: .map), 
-            AWSShapeProperty(label: "ProjectionExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Keys", required: true, type: .list), 
-            AWSShapeProperty(label: "AttributesToGet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsistentRead", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpressionAttributeNames", required: false, type: .map), 
+            AWSShapeMember(label: "ProjectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Keys", required: true, type: .list), 
+            AWSShapeMember(label: "AttributesToGet", required: false, type: .list)
         ]
         /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
         public let consistentRead: Bool?
@@ -2369,34 +1871,20 @@ extension Dynamodb {
             self.attributesToGet = attributesToGet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.consistentRead = dictionary["ConsistentRead"] as? Bool
-            if let expressionAttributeNames = dictionary["ExpressionAttributeNames"] as? [String: String] {
-                self.expressionAttributeNames = expressionAttributeNames
-            } else { 
-                self.expressionAttributeNames = nil
-            }
-            self.projectionExpression = dictionary["ProjectionExpression"] as? String
-            guard let keys = dictionary["Keys"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam("Keys") }
-            var keysList: [[String: AttributeValue]] = []
-            var attributeValueDict: [String: AttributeValue] = [:]
-            for item in keys {
-                for (key, value) in item {
-                    attributeValueDict[key] = try AttributeValue(dictionary: value)
-                }
-                keysList.append(attributeValueDict)
-            }
-            self.keys = keysList
-            self.attributesToGet = dictionary["AttributesToGet"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case consistentRead = "ConsistentRead"
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case projectionExpression = "ProjectionExpression"
+            case keys = "Keys"
+            case attributesToGet = "AttributesToGet"
         }
     }
 
     public struct ListTagsOfResourceOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// If this value is returned, there are additional results to be displayed. To retrieve them, call ListTagsOfResource again, with NextToken set to this value.
         public let nextToken: String?
@@ -2408,21 +1896,16 @@ extension Dynamodb {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct DescribeTableInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableName", required: true, type: .string)
         ]
         /// The name of the table to describe.
         public let tableName: String
@@ -2431,18 +1914,16 @@ extension Dynamodb {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
-            self.tableName = tableName
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
         }
     }
 
     public struct ListTablesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableNames", required: false, type: .list), 
-            AWSShapeProperty(label: "LastEvaluatedTableName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableNames", required: false, type: .list), 
+            AWSShapeMember(label: "LastEvaluatedTableName", required: false, type: .string)
         ]
         /// The names of the tables associated with the current account at the current endpoint. The maximum size of this array is 100. If LastEvaluatedTableName also appears in the output, you can use this value as the ExclusiveStartTableName parameter in a subsequent ListTables request and obtain the next page of results.
         public let tableNames: [String]?
@@ -2454,26 +1935,25 @@ extension Dynamodb {
             self.lastEvaluatedTableName = lastEvaluatedTableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tableNames = dictionary["TableNames"] as? [String]
-            self.lastEvaluatedTableName = dictionary["LastEvaluatedTableName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tableNames = "TableNames"
+            case lastEvaluatedTableName = "LastEvaluatedTableName"
         }
     }
 
     public struct AttributeValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NS", required: false, type: .list), 
-            AWSShapeProperty(label: "N", required: false, type: .string), 
-            AWSShapeProperty(label: "BOOL", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BS", required: false, type: .list), 
-            AWSShapeProperty(label: "L", required: false, type: .list), 
-            AWSShapeProperty(label: "NULL", required: false, type: .boolean), 
-            AWSShapeProperty(label: "B", required: false, type: .blob), 
-            AWSShapeProperty(label: "M", required: false, type: .map), 
-            AWSShapeProperty(label: "SS", required: false, type: .list), 
-            AWSShapeProperty(label: "S", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NS", required: false, type: .list), 
+            AWSShapeMember(label: "N", required: false, type: .string), 
+            AWSShapeMember(label: "BOOL", required: false, type: .boolean), 
+            AWSShapeMember(label: "BS", required: false, type: .list), 
+            AWSShapeMember(label: "L", required: false, type: .list), 
+            AWSShapeMember(label: "NULL", required: false, type: .boolean), 
+            AWSShapeMember(label: "B", required: false, type: .blob), 
+            AWSShapeMember(label: "M", required: false, type: .map), 
+            AWSShapeMember(label: "SS", required: false, type: .list), 
+            AWSShapeMember(label: "S", required: false, type: .string)
         ]
         /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let nS: [String]?
@@ -2509,38 +1989,24 @@ extension Dynamodb {
             self.s = s
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nS = dictionary["NS"] as? [String]
-            self.n = dictionary["N"] as? String
-            self.bOOL = dictionary["BOOL"] as? Bool
-            self.bS = dictionary["BS"] as? [Data]
-            if let l = dictionary["L"] as? [[String: Any]] {
-                self.l = try l.map({ try AttributeValue(dictionary: $0) })
-            } else { 
-                self.l = nil
-            }
-            self.nULL = dictionary["NULL"] as? Bool
-            self.b = dictionary["B"] as? Data
-            if let m = dictionary["M"] as? [String: Any] {
-                var mDict: [String: AttributeValue] = [:]
-                for (key, value) in m {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    mDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.m = mDict
-            } else { 
-                self.m = nil
-            }
-            self.sS = dictionary["SS"] as? [String]
-            self.s = dictionary["S"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nS = "NS"
+            case n = "N"
+            case bOOL = "BOOL"
+            case bS = "BS"
+            case l = "L"
+            case nULL = "NULL"
+            case b = "B"
+            case m = "M"
+            case sS = "SS"
+            case s = "S"
         }
     }
 
     public struct UpdateTableOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableDescription", required: false, type: .structure)
         ]
         /// Represents the properties of the table.
         public let tableDescription: TableDescription?
@@ -2549,18 +2015,17 @@ extension Dynamodb {
             self.tableDescription = tableDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tableDescription = dictionary["TableDescription"] as? [String: Any] { self.tableDescription = try Dynamodb.TableDescription(dictionary: tableDescription) } else { self.tableDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tableDescription = "TableDescription"
         }
     }
 
     public struct UpdateItemOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConsumedCapacity", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "ItemCollectionMetrics", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConsumedCapacity", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "ItemCollectionMetrics", required: false, type: .structure)
         ]
         /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned Throughput in the Amazon DynamoDB Developer Guide.
         public let consumedCapacity: ConsumedCapacity?
@@ -2575,28 +2040,18 @@ extension Dynamodb {
             self.itemCollectionMetrics = itemCollectionMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let consumedCapacity = dictionary["ConsumedCapacity"] as? [String: Any] { self.consumedCapacity = try Dynamodb.ConsumedCapacity(dictionary: consumedCapacity) } else { self.consumedCapacity = nil }
-            if let attributes = dictionary["Attributes"] as? [String: Any] {
-                var attributesDict: [String: AttributeValue] = [:]
-                for (key, value) in attributes {
-                    guard let attributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    attributesDict[key] = try AttributeValue(dictionary: attributeValueDict)
-                }
-                self.attributes = attributesDict
-            } else { 
-                self.attributes = nil
-            }
-            if let itemCollectionMetrics = dictionary["ItemCollectionMetrics"] as? [String: Any] { self.itemCollectionMetrics = try Dynamodb.ItemCollectionMetrics(dictionary: itemCollectionMetrics) } else { self.itemCollectionMetrics = nil }
+        private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
+            case attributes = "Attributes"
+            case itemCollectionMetrics = "ItemCollectionMetrics"
         }
     }
 
     public struct UpdateGlobalSecondaryIndexAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IndexName", required: true, type: .string), 
-            AWSShapeProperty(label: "ProvisionedThroughput", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IndexName", required: true, type: .string), 
+            AWSShapeMember(label: "ProvisionedThroughput", required: true, type: .structure)
         ]
         /// The name of the global secondary index to be updated.
         public let indexName: String
@@ -2608,19 +2063,16 @@ extension Dynamodb {
             self.provisionedThroughput = provisionedThroughput
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let indexName = dictionary["IndexName"] as? String else { throw InitializableError.missingRequiredParam("IndexName") }
-            self.indexName = indexName
-            guard let provisionedThroughput = dictionary["ProvisionedThroughput"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisionedThroughput") }
-            self.provisionedThroughput = try Dynamodb.ProvisionedThroughput(dictionary: provisionedThroughput)
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case provisionedThroughput = "ProvisionedThroughput"
         }
     }
 
     public struct Capacity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CapacityUnits", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CapacityUnits", required: false, type: .double)
         ]
         /// The total number of capacity units consumed on a table or an index.
         public let capacityUnits: Double?
@@ -2629,12 +2081,12 @@ extension Dynamodb {
             self.capacityUnits = capacityUnits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.capacityUnits = dictionary["CapacityUnits"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case eq = "EQ"
         case ne = "NE"
         case `in` = "IN"
@@ -2653,11 +2105,10 @@ extension Dynamodb {
 
     public struct GlobalSecondaryIndexUpdate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Create", required: false, type: .structure), 
-            AWSShapeProperty(label: "Update", required: false, type: .structure), 
-            AWSShapeProperty(label: "Delete", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Create", required: false, type: .structure), 
+            AWSShapeMember(label: "Update", required: false, type: .structure), 
+            AWSShapeMember(label: "Delete", required: false, type: .structure)
         ]
         /// The parameters required for creating a global secondary index on an existing table:    IndexName      KeySchema      AttributeDefinitions      Projection      ProvisionedThroughput    
         public let create: CreateGlobalSecondaryIndexAction?
@@ -2672,10 +2123,10 @@ extension Dynamodb {
             self.delete = delete
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let create = dictionary["Create"] as? [String: Any] { self.create = try Dynamodb.CreateGlobalSecondaryIndexAction(dictionary: create) } else { self.create = nil }
-            if let update = dictionary["Update"] as? [String: Any] { self.update = try Dynamodb.UpdateGlobalSecondaryIndexAction(dictionary: update) } else { self.update = nil }
-            if let delete = dictionary["Delete"] as? [String: Any] { self.delete = try Dynamodb.DeleteGlobalSecondaryIndexAction(dictionary: delete) } else { self.delete = nil }
+        private enum CodingKeys: String, CodingKey {
+            case create = "Create"
+            case update = "Update"
+            case delete = "Delete"
         }
     }
 

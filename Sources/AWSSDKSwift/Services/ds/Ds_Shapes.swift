@@ -31,17 +31,13 @@ extension Ds {
 
     public struct EnableRadiusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteDirectoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The directory identifier.
         public let directoryId: String?
@@ -50,12 +46,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
-    public enum SnapshotStatus: String, CustomStringConvertible {
+    public enum SnapshotStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case completed = "Completed"
         case failed = "Failed"
@@ -64,10 +60,9 @@ extension Ds {
 
     public struct DeleteTrustRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "TrustId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteAssociatedConditionalForwarder", required: false, type: .boolean), 
+            AWSShapeMember(label: "TrustId", required: true, type: .string)
         ]
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
         public let deleteAssociatedConditionalForwarder: Bool?
@@ -79,21 +74,19 @@ extension Ds {
             self.trustId = trustId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deleteAssociatedConditionalForwarder = dictionary["DeleteAssociatedConditionalForwarder"] as? Bool
-            guard let trustId = dictionary["TrustId"] as? String else { throw InitializableError.missingRequiredParam("TrustId") }
-            self.trustId = trustId
+        private enum CodingKeys: String, CodingKey {
+            case deleteAssociatedConditionalForwarder = "DeleteAssociatedConditionalForwarder"
+            case trustId = "TrustId"
         }
     }
 
     public struct DescribeTrustsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrustIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let trustIds: [String]?
@@ -111,19 +104,18 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trustIds = dictionary["TrustIds"] as? [String]
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trustIds = "TrustIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct CreateTrustResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
@@ -132,17 +124,16 @@ extension Ds {
             self.trustId = trustId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trustId = dictionary["TrustId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
         }
     }
 
     public struct RemoveIpRoutesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "CidrIps", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "CidrIps", required: true, type: .list)
         ]
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
         public let directoryId: String
@@ -154,20 +145,17 @@ extension Ds {
             self.cidrIps = cidrIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let cidrIps = dictionary["CidrIps"] as? [String] else { throw InitializableError.missingRequiredParam("CidrIps") }
-            self.cidrIps = cidrIps
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case cidrIps = "CidrIps"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String
@@ -179,29 +167,23 @@ extension Ds {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct CreateConditionalForwarderResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Computer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComputerId", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputerName", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputerAttributes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComputerId", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list)
         ]
         /// The identifier of the computer.
         public let computerId: String?
@@ -216,18 +198,14 @@ extension Ds {
             self.computerAttributes = computerAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.computerId = dictionary["ComputerId"] as? String
-            self.computerName = dictionary["ComputerName"] as? String
-            if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
-                self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.computerAttributes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case computerId = "ComputerId"
+            case computerName = "ComputerName"
+            case computerAttributes = "ComputerAttributes"
         }
     }
 
-    public enum SchemaExtensionStatus: String, CustomStringConvertible {
+    public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
         case initializing = "Initializing"
         case creatingsnapshot = "CreatingSnapshot"
         case updatingschema = "UpdatingSchema"
@@ -242,10 +220,9 @@ extension Ds {
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The value of the attribute.
         public let value: String?
@@ -257,18 +234,17 @@ extension Ds {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct CreateAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
@@ -280,24 +256,21 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let alias = dictionary["Alias"] as? String else { throw InitializableError.missingRequiredParam("Alias") }
-            self.alias = alias
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DirectoryConnectSettingsDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomerUserName", required: false, type: .string), 
-            AWSShapeProperty(label: "ConnectIps", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "CustomerUserName", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectIps", required: false, type: .list)
         ]
         /// A list of subnet identifiers in the VPC that the AD connector is in.
         public let subnetIds: [String]?
@@ -321,22 +294,21 @@ extension Ds {
             self.connectIps = connectIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.securityGroupId = dictionary["SecurityGroupId"] as? String
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.vpcId = dictionary["VpcId"] as? String
-            self.customerUserName = dictionary["CustomerUserName"] as? String
-            self.connectIps = dictionary["ConnectIps"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case securityGroupId = "SecurityGroupId"
+            case availabilityZones = "AvailabilityZones"
+            case vpcId = "VpcId"
+            case customerUserName = "CustomerUserName"
+            case connectIps = "ConnectIps"
         }
     }
 
     public struct DescribeSnapshotsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Snapshots", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Snapshots", required: false, type: .list)
         ]
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
         public let nextToken: String?
@@ -348,22 +320,17 @@ extension Ds {
             self.snapshots = snapshots
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
-                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
-            } else { 
-                self.snapshots = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case snapshots = "Snapshots"
         }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// Identifier (ID) for the directory to which to add the tag.
         public let resourceId: String
@@ -375,19 +342,16 @@ extension Ds {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
     public struct DeleteDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The identifier of the directory to delete.
         public let directoryId: String
@@ -396,18 +360,16 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct IpRoute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CidrIp", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
@@ -419,39 +381,38 @@ extension Ds {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cidrIp = dictionary["CidrIp"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case cidrIp = "CidrIp"
+            case description = "Description"
         }
     }
 
     public struct DirectoryDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "Stage", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "SsoEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RadiusSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "StageReason", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .enum), 
-            AWSShapeProperty(label: "Alias", required: false, type: .string), 
-            AWSShapeProperty(label: "RadiusStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "ConnectSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "DnsIpAddrs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Stage", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "StageLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "SsoEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "RadiusSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "StageReason", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AccessUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .enum), 
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "RadiusStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "ConnectSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list)
         ]
         /// The short name of the directory.
         public let shortName: String?
         /// Specifies when the directory was created.
-        public let launchTime: String?
+        public let launchTime: Double?
         /// The directory identifier.
         public let directoryId: String?
         /// The current stage of the directory.
@@ -459,7 +420,7 @@ extension Ds {
         /// The textual description for the directory.
         public let description: String?
         /// The date and time that the stage was last updated.
-        public let stageLastUpdatedDateTime: String?
+        public let stageLastUpdatedDateTime: Double?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
@@ -485,7 +446,7 @@ extension Ds {
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
 
-        public init(shortName: String? = nil, launchTime: String? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: String? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: Double? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: Double? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
             self.directoryId = directoryId
@@ -506,35 +467,34 @@ extension Ds {
             self.dnsIpAddrs = dnsIpAddrs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortName = dictionary["ShortName"] as? String
-            self.launchTime = dictionary["LaunchTime"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
-            if let stage = dictionary["Stage"] as? String { self.stage = DirectoryStage(rawValue: stage) } else { self.stage = nil }
-            self.description = dictionary["Description"] as? String
-            self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? String
-            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) } else { self.vpcSettings = nil }
-            self.ssoEnabled = dictionary["SsoEnabled"] as? Bool
-            if let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] { self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings) } else { self.radiusSettings = nil }
-            self.stageReason = dictionary["StageReason"] as? String
-            self.name = dictionary["Name"] as? String
-            self.accessUrl = dictionary["AccessUrl"] as? String
-            if let size = dictionary["Size"] as? String { self.size = DirectorySize(rawValue: size) } else { self.size = nil }
-            self.alias = dictionary["Alias"] as? String
-            if let radiusStatus = dictionary["RadiusStatus"] as? String { self.radiusStatus = RadiusStatus(rawValue: radiusStatus) } else { self.radiusStatus = nil }
-            if let `type` = dictionary["Type"] as? String { self.`type` = DirectoryType(rawValue: `type`) } else { self.`type` = nil }
-            if let connectSettings = dictionary["ConnectSettings"] as? [String: Any] { self.connectSettings = try Ds.DirectoryConnectSettingsDescription(dictionary: connectSettings) } else { self.connectSettings = nil }
-            self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case shortName = "ShortName"
+            case launchTime = "LaunchTime"
+            case directoryId = "DirectoryId"
+            case stage = "Stage"
+            case description = "Description"
+            case stageLastUpdatedDateTime = "StageLastUpdatedDateTime"
+            case vpcSettings = "VpcSettings"
+            case ssoEnabled = "SsoEnabled"
+            case radiusSettings = "RadiusSettings"
+            case stageReason = "StageReason"
+            case name = "Name"
+            case accessUrl = "AccessUrl"
+            case size = "Size"
+            case alias = "Alias"
+            case radiusStatus = "RadiusStatus"
+            case `type` = "Type"
+            case connectSettings = "ConnectSettings"
+            case dnsIpAddrs = "DnsIpAddrs"
         }
     }
 
     public struct UpdateConditionalForwarderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
         public let directoryId: String
@@ -549,35 +509,31 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] else { throw InitializableError.missingRequiredParam("DnsIpAddrs") }
-            self.dnsIpAddrs = dnsIpAddrs
-            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
-            self.remoteDomainName = remoteDomainName
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case remoteDomainName = "RemoteDomainName"
         }
     }
 
     public struct Trust: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RemoteDomainName", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrustType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrustStateReason", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "TrustState", required: false, type: .enum), 
-            AWSShapeProperty(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrustId", required: false, type: .string), 
-            AWSShapeProperty(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TrustDirection", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrustType", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustStateReason", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "TrustState", required: false, type: .enum), 
+            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrustId", required: false, type: .string), 
+            AWSShapeMember(label: "StateLastUpdatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TrustDirection", required: false, type: .enum)
         ]
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
         public let remoteDomainName: String?
         /// The date and time that the trust relationship was last updated.
-        public let lastUpdatedDateTime: String?
+        public let lastUpdatedDateTime: Double?
         /// The trust relationship type.
         public let trustType: TrustType?
         /// The reason for the TrustState.
@@ -587,15 +543,15 @@ extension Ds {
         /// The trust relationship state.
         public let trustState: TrustState?
         /// The date and time that the trust relationship was created.
-        public let createdDateTime: String?
+        public let createdDateTime: Double?
         /// The unique ID of the trust relationship.
         public let trustId: String?
         /// The date and time that the TrustState was last updated.
-        public let stateLastUpdatedDateTime: String?
+        public let stateLastUpdatedDateTime: Double?
         /// The trust relationship direction.
         public let trustDirection: TrustDirection?
 
-        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: String? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: String? = nil, trustId: String? = nil, stateLastUpdatedDateTime: String? = nil, trustDirection: TrustDirection? = nil) {
+        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Double? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: Double? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Double? = nil, trustDirection: TrustDirection? = nil) {
             self.remoteDomainName = remoteDomainName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.trustType = trustType
@@ -608,27 +564,26 @@ extension Ds {
             self.trustDirection = trustDirection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.remoteDomainName = dictionary["RemoteDomainName"] as? String
-            self.lastUpdatedDateTime = dictionary["LastUpdatedDateTime"] as? String
-            if let trustType = dictionary["TrustType"] as? String { self.trustType = TrustType(rawValue: trustType) } else { self.trustType = nil }
-            self.trustStateReason = dictionary["TrustStateReason"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
-            if let trustState = dictionary["TrustState"] as? String { self.trustState = TrustState(rawValue: trustState) } else { self.trustState = nil }
-            self.createdDateTime = dictionary["CreatedDateTime"] as? String
-            self.trustId = dictionary["TrustId"] as? String
-            self.stateLastUpdatedDateTime = dictionary["StateLastUpdatedDateTime"] as? String
-            if let trustDirection = dictionary["TrustDirection"] as? String { self.trustDirection = TrustDirection(rawValue: trustDirection) } else { self.trustDirection = nil }
+        private enum CodingKeys: String, CodingKey {
+            case remoteDomainName = "RemoteDomainName"
+            case lastUpdatedDateTime = "LastUpdatedDateTime"
+            case trustType = "TrustType"
+            case trustStateReason = "TrustStateReason"
+            case directoryId = "DirectoryId"
+            case trustState = "TrustState"
+            case createdDateTime = "CreatedDateTime"
+            case trustId = "TrustId"
+            case stateLastUpdatedDateTime = "StateLastUpdatedDateTime"
+            case trustDirection = "TrustDirection"
         }
     }
 
     public struct ListIpRoutesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
@@ -643,23 +598,19 @@ extension Ds {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum RadiusStatus: String, CustomStringConvertible {
+    public enum RadiusStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case completed = "Completed"
         case failed = "Failed"
@@ -668,26 +619,25 @@ extension Ds {
 
     public struct EventTopic: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicName", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "TopicName", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The SNS topic ARN (Amazon Resource Name).
         public let topicArn: String?
         /// The name of an AWS SNS topic the receives status messages from the directory.
         public let topicName: String?
         /// The date and time of when you associated your directory with the SNS topic.
-        public let createdDateTime: String?
+        public let createdDateTime: Double?
         /// The topic registration status.
         public let status: TopicStatus?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
         public let directoryId: String?
 
-        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: String? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
+        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Double? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
             self.topicArn = topicArn
             self.topicName = topicName
             self.createdDateTime = createdDateTime
@@ -695,21 +645,20 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicArn = dictionary["TopicArn"] as? String
-            self.topicName = dictionary["TopicName"] as? String
-            self.createdDateTime = dictionary["CreatedDateTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = TopicStatus(rawValue: status) } else { self.status = nil }
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicArn = "TopicArn"
+            case topicName = "TopicName"
+            case createdDateTime = "CreatedDateTime"
+            case status = "Status"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DirectoryVpcSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcId", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list)
         ]
         /// The identifier of the VPC in which to create the directory.
         public let vpcId: String
@@ -721,21 +670,18 @@ extension Ds {
             self.subnetIds = subnetIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
-            self.vpcId = vpcId
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
+        private enum CodingKeys: String, CodingKey {
+            case vpcId = "VpcId"
+            case subnetIds = "SubnetIds"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// Identifier (ID) of the directory for which you want to retrieve tags.
         public let resourceId: String
@@ -750,20 +696,18 @@ extension Ds {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct DescribeTrustsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Trusts", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Trusts", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let trusts: [Trust]?
@@ -775,25 +719,20 @@ extension Ds {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trusts = dictionary["Trusts"] as? [[String: Any]] {
-                self.trusts = try trusts.map({ try Trust(dictionary: $0) })
-            } else { 
-                self.trusts = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trusts = "Trusts"
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateMicrosoftADRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSettings", required: true, type: .structure), 
-            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         public let vpcSettings: DirectoryVpcSettings
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
@@ -813,39 +752,32 @@ extension Ds {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let vpcSettings = dictionary["VpcSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VpcSettings") }
-            self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings)
-            self.shortName = dictionary["ShortName"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vpcSettings = "VpcSettings"
+            case shortName = "ShortName"
+            case name = "Name"
+            case password = "Password"
+            case description = "Description"
         }
     }
 
     public struct AddTagsToResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DirectoryLimits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ConnectedDirectoriesLimit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudOnlyDirectoriesLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyDirectoriesLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConnectedDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyDirectoriesCurrentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "CloudOnlyMicrosoftADLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConnectedDirectoriesLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "ConnectedDirectoriesLimit", required: false, type: .integer)
         ]
         /// The maximum number of cloud directories allowed in the region.
         public let cloudOnlyDirectoriesLimit: Int32?
@@ -878,26 +810,25 @@ extension Ds {
             self.connectedDirectoriesLimit = connectedDirectoriesLimit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cloudOnlyDirectoriesLimit = dictionary["CloudOnlyDirectoriesLimit"] as? Int32
-            self.cloudOnlyDirectoriesLimitReached = dictionary["CloudOnlyDirectoriesLimitReached"] as? Bool
-            self.connectedDirectoriesCurrentCount = dictionary["ConnectedDirectoriesCurrentCount"] as? Int32
-            self.cloudOnlyMicrosoftADCurrentCount = dictionary["CloudOnlyMicrosoftADCurrentCount"] as? Int32
-            self.cloudOnlyDirectoriesCurrentCount = dictionary["CloudOnlyDirectoriesCurrentCount"] as? Int32
-            self.cloudOnlyMicrosoftADLimit = dictionary["CloudOnlyMicrosoftADLimit"] as? Int32
-            self.cloudOnlyMicrosoftADLimitReached = dictionary["CloudOnlyMicrosoftADLimitReached"] as? Bool
-            self.connectedDirectoriesLimitReached = dictionary["ConnectedDirectoriesLimitReached"] as? Bool
-            self.connectedDirectoriesLimit = dictionary["ConnectedDirectoriesLimit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case cloudOnlyDirectoriesLimit = "CloudOnlyDirectoriesLimit"
+            case cloudOnlyDirectoriesLimitReached = "CloudOnlyDirectoriesLimitReached"
+            case connectedDirectoriesCurrentCount = "ConnectedDirectoriesCurrentCount"
+            case cloudOnlyMicrosoftADCurrentCount = "CloudOnlyMicrosoftADCurrentCount"
+            case cloudOnlyDirectoriesCurrentCount = "CloudOnlyDirectoriesCurrentCount"
+            case cloudOnlyMicrosoftADLimit = "CloudOnlyMicrosoftADLimit"
+            case cloudOnlyMicrosoftADLimitReached = "CloudOnlyMicrosoftADLimitReached"
+            case connectedDirectoriesLimitReached = "ConnectedDirectoriesLimitReached"
+            case connectedDirectoriesLimit = "ConnectedDirectoriesLimit"
         }
     }
 
     public struct ListSchemaExtensionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
@@ -912,20 +843,18 @@ extension Ds {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct DeregisterEventTopicRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicName", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicName", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The name of the SNS topic from which to remove the directory as a publisher.
         public let topicName: String
@@ -937,27 +866,21 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicName = dictionary["TopicName"] as? String else { throw InitializableError.missingRequiredParam("TopicName") }
-            self.topicName = topicName
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case topicName = "TopicName"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct EnableSsoResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetDirectoryLimitsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryLimits", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryLimits", required: false, type: .structure)
         ]
         /// A DirectoryLimits object that contains the directory limits for the current region.
         public let directoryLimits: DirectoryLimits?
@@ -966,16 +889,15 @@ extension Ds {
             self.directoryLimits = directoryLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let directoryLimits = dictionary["DirectoryLimits"] as? [String: Any] { self.directoryLimits = try Ds.DirectoryLimits(dictionary: directoryLimits) } else { self.directoryLimits = nil }
+        private enum CodingKeys: String, CodingKey {
+            case directoryLimits = "DirectoryLimits"
         }
     }
 
     public struct ConnectDirectoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The identifier of the new directory.
         public let directoryId: String?
@@ -984,12 +906,12 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
-    public enum SnapshotType: String, CustomStringConvertible {
+    public enum SnapshotType: String, CustomStringConvertible, Codable {
         case auto = "Auto"
         case manual = "Manual"
         public var description: String { return self.rawValue }
@@ -997,10 +919,9 @@ extension Ds {
 
     public struct DescribeConditionalForwardersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RemoteDomainNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RemoteDomainNames", required: false, type: .list), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
         public let remoteDomainNames: [String]?
@@ -1012,22 +933,18 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.remoteDomainNames = dictionary["RemoteDomainNames"] as? [String]
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case remoteDomainNames = "RemoteDomainNames"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct GetDirectoryLimitsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum TrustState: String, CustomStringConvertible {
+    public enum TrustState: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case created = "Created"
         case verifying = "Verifying"
@@ -1041,11 +958,10 @@ extension Ds {
 
     public struct EnableSsoRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
         public let password: String?
@@ -1060,22 +976,20 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.password = dictionary["Password"] as? String
-            self.userName = dictionary["UserName"] as? String
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct StartSchemaExtensionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
-            AWSShapeProperty(label: "LdifContent", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "CreateSnapshotBeforeSchemaExtension", required: true, type: .boolean), 
+            AWSShapeMember(label: "LdifContent", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The identifier of the directory for which the schema extension will be applied to.
         public let directoryId: String
@@ -1093,49 +1007,35 @@ extension Ds {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let createSnapshotBeforeSchemaExtension = dictionary["CreateSnapshotBeforeSchemaExtension"] as? Bool else { throw InitializableError.missingRequiredParam("CreateSnapshotBeforeSchemaExtension") }
-            self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
-            guard let ldifContent = dictionary["LdifContent"] as? String else { throw InitializableError.missingRequiredParam("LdifContent") }
-            self.ldifContent = ldifContent
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case createSnapshotBeforeSchemaExtension = "CreateSnapshotBeforeSchemaExtension"
+            case ldifContent = "LdifContent"
+            case description = "Description"
         }
     }
 
     public struct RestoreFromSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteConditionalForwarderResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct RemoveIpRoutesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ConditionalForwarder: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DnsIpAddrs", required: false, type: .list), 
-            AWSShapeProperty(label: "ReplicationScope", required: false, type: .enum), 
-            AWSShapeProperty(label: "RemoteDomainName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DnsIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationScope", required: false, type: .enum), 
+            AWSShapeMember(label: "RemoteDomainName", required: false, type: .string)
         ]
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
@@ -1150,19 +1050,18 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
-            if let replicationScope = dictionary["ReplicationScope"] as? String { self.replicationScope = ReplicationScope(rawValue: replicationScope) } else { self.replicationScope = nil }
-            self.remoteDomainName = dictionary["RemoteDomainName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case dnsIpAddrs = "DnsIpAddrs"
+            case replicationScope = "ReplicationScope"
+            case remoteDomainName = "RemoteDomainName"
         }
     }
 
     public struct EnableRadiusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RadiusSettings", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
@@ -1174,20 +1073,17 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RadiusSettings") }
-            self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings)
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case radiusSettings = "RadiusSettings"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct CreateSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The descriptive name to apply to the snapshot.
         public let name: String?
@@ -1199,19 +1095,17 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// Reserved for future use.
         public let nextToken: String?
@@ -1223,21 +1117,16 @@ extension Ds {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct GetSnapshotLimitsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotLimits", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotLimits", required: false, type: .structure)
         ]
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
@@ -1246,39 +1135,38 @@ extension Ds {
             self.snapshotLimits = snapshotLimits
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let snapshotLimits = dictionary["SnapshotLimits"] as? [String: Any] { self.snapshotLimits = try Ds.SnapshotLimits(dictionary: snapshotLimits) } else { self.snapshotLimits = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snapshotLimits = "SnapshotLimits"
         }
     }
 
     public struct SchemaExtensionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaExtensionId", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaExtensionStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string), 
-            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SchemaExtensionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaExtensionStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SchemaExtensionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier of the schema extension.
         public let schemaExtensionId: String?
         /// The reason for the SchemaExtensionStatus.
         public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension was completed.
-        public let endDateTime: String?
+        public let endDateTime: Double?
         /// The identifier of the directory to which the schema extension is applied.
         public let directoryId: String?
         /// The date and time that the schema extension started being applied to the directory.
-        public let startDateTime: String?
+        public let startDateTime: Double?
         /// The current status of the schema extension.
         public let schemaExtensionStatus: SchemaExtensionStatus?
         /// A description of the schema extension.
         public let description: String?
 
-        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: String? = nil, directoryId: String? = nil, startDateTime: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
+        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Double? = nil, directoryId: String? = nil, startDateTime: Double? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
             self.schemaExtensionStatusReason = schemaExtensionStatusReason
             self.endDateTime = endDateTime
@@ -1288,24 +1176,23 @@ extension Ds {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaExtensionId = dictionary["SchemaExtensionId"] as? String
-            self.schemaExtensionStatusReason = dictionary["SchemaExtensionStatusReason"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
-            self.startDateTime = dictionary["StartDateTime"] as? String
-            if let schemaExtensionStatus = dictionary["SchemaExtensionStatus"] as? String { self.schemaExtensionStatus = SchemaExtensionStatus(rawValue: schemaExtensionStatus) } else { self.schemaExtensionStatus = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaExtensionId = "SchemaExtensionId"
+            case schemaExtensionStatusReason = "SchemaExtensionStatusReason"
+            case endDateTime = "EndDateTime"
+            case directoryId = "DirectoryId"
+            case startDateTime = "StartDateTime"
+            case schemaExtensionStatus = "SchemaExtensionStatus"
+            case description = "Description"
         }
     }
 
     public struct DescribeDirectoriesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryIds", required: false, type: .list)
         ]
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
         public let limit: Int32?
@@ -1320,23 +1207,22 @@ extension Ds {
             self.directoryIds = directoryIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.directoryIds = dictionary["DirectoryIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case directoryIds = "DirectoryIds"
         }
     }
 
-    public enum ReplicationScope: String, CustomStringConvertible {
+    public enum ReplicationScope: String, CustomStringConvertible, Codable {
         case domain = "Domain"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateComputerResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Computer", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Computer", required: false, type: .structure)
         ]
         /// A Computer object that represents the computer account.
         public let computer: Computer?
@@ -1345,25 +1231,21 @@ extension Ds {
             self.computer = computer
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let computer = dictionary["Computer"] as? [String: Any] { self.computer = try Ds.Computer(dictionary: computer) } else { self.computer = nil }
+        private enum CodingKeys: String, CodingKey {
+            case computer = "Computer"
         }
     }
 
     public struct UpdateRadiusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteConditionalForwarderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
         /// The directory ID for which you are deleting the conditional forwarder.
         public let directoryId: String
@@ -1375,19 +1257,16 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
-            self.remoteDomainName = remoteDomainName
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case remoteDomainName = "RemoteDomainName"
         }
     }
 
     public struct StartSchemaExtensionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaExtensionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaExtensionId", required: false, type: .string)
         ]
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
@@ -1396,16 +1275,15 @@ extension Ds {
             self.schemaExtensionId = schemaExtensionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaExtensionId = dictionary["SchemaExtensionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaExtensionId = "SchemaExtensionId"
         }
     }
 
     public struct DescribeConditionalForwardersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConditionalForwarders", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConditionalForwarders", required: false, type: .list)
         ]
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
@@ -1414,22 +1292,17 @@ extension Ds {
             self.conditionalForwarders = conditionalForwarders
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let conditionalForwarders = dictionary["ConditionalForwarders"] as? [[String: Any]] {
-                self.conditionalForwarders = try conditionalForwarders.map({ try ConditionalForwarder(dictionary: $0) })
-            } else { 
-                self.conditionalForwarders = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case conditionalForwarders = "ConditionalForwarders"
         }
     }
 
     public struct SnapshotLimits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ManualSnapshotsLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ManualSnapshotsLimitReached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ManualSnapshotsCurrentCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManualSnapshotsLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ManualSnapshotsLimitReached", required: false, type: .boolean), 
+            AWSShapeMember(label: "ManualSnapshotsCurrentCount", required: false, type: .integer)
         ]
         /// The maximum number of manual snapshots allowed.
         public let manualSnapshotsLimit: Int32?
@@ -1444,22 +1317,21 @@ extension Ds {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.manualSnapshotsLimit = dictionary["ManualSnapshotsLimit"] as? Int32
-            self.manualSnapshotsLimitReached = dictionary["ManualSnapshotsLimitReached"] as? Bool
-            self.manualSnapshotsCurrentCount = dictionary["ManualSnapshotsCurrentCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case manualSnapshotsLimit = "ManualSnapshotsLimit"
+            case manualSnapshotsLimitReached = "ManualSnapshotsLimitReached"
+            case manualSnapshotsCurrentCount = "ManualSnapshotsCurrentCount"
         }
     }
 
     public struct CreateComputerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputerName", required: true, type: .string), 
-            AWSShapeProperty(label: "ComputerAttributes", required: false, type: .list), 
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationalUnitDistinguishedName", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerName", required: true, type: .string), 
+            AWSShapeMember(label: "ComputerAttributes", required: false, type: .list), 
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
         public let organizationalUnitDistinguishedName: String?
@@ -1480,23 +1352,16 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.organizationalUnitDistinguishedName = dictionary["OrganizationalUnitDistinguishedName"] as? String
-            guard let computerName = dictionary["ComputerName"] as? String else { throw InitializableError.missingRequiredParam("ComputerName") }
-            self.computerName = computerName
-            if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
-                self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.computerAttributes = nil
-            }
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
+            case computerName = "ComputerName"
+            case computerAttributes = "ComputerAttributes"
+            case password = "Password"
+            case directoryId = "DirectoryId"
         }
     }
 
-    public enum IpRouteStatusMsg: String, CustomStringConvertible {
+    public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
         case adding = "Adding"
         case added = "Added"
         case removing = "Removing"
@@ -1508,12 +1373,11 @@ extension Ds {
 
     public struct DescribeSnapshotsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotIds", required: false, type: .list), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
         public let snapshotIds: [String]?
@@ -1531,20 +1395,19 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotIds = dictionary["SnapshotIds"] as? [String]
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotIds = "SnapshotIds"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DescribeEventTopicsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicNames", required: false, type: .list), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicNames", required: false, type: .list), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
         public let topicNames: [String]?
@@ -1556,20 +1419,19 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicNames = dictionary["TopicNames"] as? [String]
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicNames = "TopicNames"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DirectoryVpcSettingsDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
         /// The identifiers of the subnets for the directory servers.
         public let subnetIds: [String]?
@@ -1587,19 +1449,18 @@ extension Ds {
             self.vpcId = vpcId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.securityGroupId = dictionary["SecurityGroupId"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case availabilityZones = "AvailabilityZones"
+            case securityGroupId = "SecurityGroupId"
+            case vpcId = "VpcId"
         }
     }
 
     public struct DeleteTrustResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
@@ -1608,17 +1469,16 @@ extension Ds {
             self.trustId = trustId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trustId = dictionary["TrustId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
         }
     }
 
     public struct CreateAliasResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Alias", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The alias for the directory.
         public let alias: String?
@@ -1630,24 +1490,23 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alias = dictionary["Alias"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct RadiusSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RadiusPort", required: false, type: .integer), 
-            AWSShapeProperty(label: "AuthenticationProtocol", required: false, type: .enum), 
-            AWSShapeProperty(label: "RadiusRetries", required: false, type: .integer), 
-            AWSShapeProperty(label: "RadiusTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "UseSameUsername", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SharedSecret", required: false, type: .string), 
-            AWSShapeProperty(label: "DisplayLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "RadiusServers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RadiusPort", required: false, type: .integer), 
+            AWSShapeMember(label: "AuthenticationProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "RadiusRetries", required: false, type: .integer), 
+            AWSShapeMember(label: "RadiusTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "UseSameUsername", required: false, type: .boolean), 
+            AWSShapeMember(label: "SharedSecret", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayLabel", required: false, type: .string), 
+            AWSShapeMember(label: "RadiusServers", required: false, type: .list)
         ]
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
         public let radiusPort: Int32?
@@ -1677,43 +1536,39 @@ extension Ds {
             self.radiusServers = radiusServers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.radiusPort = dictionary["RadiusPort"] as? Int32
-            if let authenticationProtocol = dictionary["AuthenticationProtocol"] as? String { self.authenticationProtocol = RadiusAuthenticationProtocol(rawValue: authenticationProtocol) } else { self.authenticationProtocol = nil }
-            self.radiusRetries = dictionary["RadiusRetries"] as? Int32
-            self.radiusTimeout = dictionary["RadiusTimeout"] as? Int32
-            self.useSameUsername = dictionary["UseSameUsername"] as? Bool
-            self.sharedSecret = dictionary["SharedSecret"] as? String
-            self.displayLabel = dictionary["DisplayLabel"] as? String
-            self.radiusServers = dictionary["RadiusServers"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case radiusPort = "RadiusPort"
+            case authenticationProtocol = "AuthenticationProtocol"
+            case radiusRetries = "RadiusRetries"
+            case radiusTimeout = "RadiusTimeout"
+            case useSameUsername = "UseSameUsername"
+            case sharedSecret = "SharedSecret"
+            case displayLabel = "DisplayLabel"
+            case radiusServers = "RadiusServers"
         }
     }
 
     public struct RegisterEventTopicResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The snapshot identifier.
         public let snapshotId: String?
         /// The snapshot status.
         public let status: SnapshotStatus?
         /// The date and time that the snapshot was taken.
-        public let startTime: String?
+        public let startTime: Double?
         /// The snapshot type.
         public let `type`: SnapshotType?
         /// The descriptive name of the snapshot.
@@ -1721,7 +1576,7 @@ extension Ds {
         /// The directory identifier.
         public let directoryId: String?
 
-        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: String? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
+        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: Double? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
             self.snapshotId = snapshotId
             self.status = status
             self.startTime = startTime
@@ -1730,17 +1585,17 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            if let status = dictionary["Status"] as? String { self.status = SnapshotStatus(rawValue: status) } else { self.status = nil }
-            self.startTime = dictionary["StartTime"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = SnapshotType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case status = "Status"
+            case startTime = "StartTime"
+            case `type` = "Type"
+            case name = "Name"
+            case directoryId = "DirectoryId"
         }
     }
 
-    public enum TopicStatus: String, CustomStringConvertible {
+    public enum TopicStatus: String, CustomStringConvertible, Codable {
         case registered = "Registered"
         case topic_not_found = "Topic not found"
         case failed = "Failed"
@@ -1750,9 +1605,8 @@ extension Ds {
 
     public struct RestoreFromSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
         ]
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
@@ -1761,13 +1615,12 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
-            self.snapshotId = snapshotId
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
         }
     }
 
-    public enum DirectoryStage: String, CustomStringConvertible {
+    public enum DirectoryStage: String, CustomStringConvertible, Codable {
         case requested = "Requested"
         case creating = "Creating"
         case created = "Created"
@@ -1784,9 +1637,8 @@ extension Ds {
 
     public struct DeleteSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
@@ -1795,21 +1647,20 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
         }
     }
 
     public struct CreateDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Size", required: true, type: .enum), 
-            AWSShapeProperty(label: "Password", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Size", required: true, type: .enum), 
+            AWSShapeMember(label: "Password", required: true, type: .string)
         ]
         /// A textual description for the directory.
         public let description: String?
@@ -1833,25 +1684,21 @@ extension Ds {
             self.password = password
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings) } else { self.vpcSettings = nil }
-            self.shortName = dictionary["ShortName"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let rawSize = dictionary["Size"] as? String, let size = DirectorySize(rawValue: rawSize) else { throw InitializableError.missingRequiredParam("Size") }
-            self.size = size
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case vpcSettings = "VpcSettings"
+            case shortName = "ShortName"
+            case name = "Name"
+            case size = "Size"
+            case password = "Password"
         }
     }
 
     public struct UpdateRadiusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RadiusSettings", required: true, type: .structure), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RadiusSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
@@ -1863,21 +1710,18 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RadiusSettings") }
-            self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings)
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case radiusSettings = "RadiusSettings"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DisableSsoRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
         public let password: String?
@@ -1892,19 +1736,17 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.password = dictionary["Password"] as? String
-            self.userName = dictionary["UserName"] as? String
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DeleteSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: true, type: .string)
         ]
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
@@ -1913,22 +1755,20 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
-            self.snapshotId = snapshotId
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
         }
     }
 
     public struct CreateTrustRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string), 
-            AWSShapeProperty(label: "TrustDirection", required: true, type: .enum), 
-            AWSShapeProperty(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
-            AWSShapeProperty(label: "TrustType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TrustPassword", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string), 
+            AWSShapeMember(label: "TrustDirection", required: true, type: .enum), 
+            AWSShapeMember(label: "ConditionalForwarderIpAddrs", required: false, type: .list), 
+            AWSShapeMember(label: "TrustType", required: false, type: .enum), 
+            AWSShapeMember(label: "TrustPassword", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
         public let remoteDomainName: String
@@ -1952,25 +1792,20 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
-            self.remoteDomainName = remoteDomainName
-            guard let rawTrustDirection = dictionary["TrustDirection"] as? String, let trustDirection = TrustDirection(rawValue: rawTrustDirection) else { throw InitializableError.missingRequiredParam("TrustDirection") }
-            self.trustDirection = trustDirection
-            self.conditionalForwarderIpAddrs = dictionary["ConditionalForwarderIpAddrs"] as? [String]
-            if let trustType = dictionary["TrustType"] as? String { self.trustType = TrustType(rawValue: trustType) } else { self.trustType = nil }
-            guard let trustPassword = dictionary["TrustPassword"] as? String else { throw InitializableError.missingRequiredParam("TrustPassword") }
-            self.trustPassword = trustPassword
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case remoteDomainName = "RemoteDomainName"
+            case trustDirection = "TrustDirection"
+            case conditionalForwarderIpAddrs = "ConditionalForwarderIpAddrs"
+            case trustType = "TrustType"
+            case trustPassword = "TrustPassword"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct VerifyTrustRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrustId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: true, type: .string)
         ]
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
@@ -1979,18 +1814,16 @@ extension Ds {
             self.trustId = trustId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let trustId = dictionary["TrustId"] as? String else { throw InitializableError.missingRequiredParam("TrustId") }
-            self.trustId = trustId
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
         }
     }
 
     public struct RegisterEventTopicRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicName", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicName", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
         public let topicName: String
@@ -2002,19 +1835,16 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicName = dictionary["TopicName"] as? String else { throw InitializableError.missingRequiredParam("TopicName") }
-            self.topicName = topicName
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case topicName = "TopicName"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct CreateSnapshotResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string)
         ]
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
@@ -2023,12 +1853,12 @@ extension Ds {
             self.snapshotId = snapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
         }
     }
 
-    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible {
+    public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
         case pap = "PAP"
         case chap = "CHAP"
         case ms_chapv1 = "MS-CHAPv1"
@@ -2038,11 +1868,10 @@ extension Ds {
 
     public struct AddIpRoutesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "IpRoutes", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UpdateSecurityGroupForDirectoryControllers", required: false, type: .boolean), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "IpRoutes", required: true, type: .list)
         ]
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
@@ -2057,26 +1886,23 @@ extension Ds {
             self.ipRoutes = ipRoutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.updateSecurityGroupForDirectoryControllers = dictionary["UpdateSecurityGroupForDirectoryControllers"] as? Bool
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let ipRoutes = dictionary["IpRoutes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("IpRoutes") }
-            self.ipRoutes = try ipRoutes.map({ try IpRoute(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case updateSecurityGroupForDirectoryControllers = "UpdateSecurityGroupForDirectoryControllers"
+            case directoryId = "DirectoryId"
+            case ipRoutes = "IpRoutes"
         }
     }
 
-    public enum TrustType: String, CustomStringConvertible {
+    public enum TrustType: String, CustomStringConvertible, Codable {
         case forest = "Forest"
         public var description: String { return self.rawValue }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// Identifier (ID) of the directory from which to remove the tag.
         public let resourceId: String
@@ -2088,23 +1914,18 @@ extension Ds {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct AddIpRoutesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum TrustDirection: String, CustomStringConvertible {
+    public enum TrustDirection: String, CustomStringConvertible, Codable {
         case one_way__outgoing = "One-Way: Outgoing"
         case one_way__incoming = "One-Way: Incoming"
         case two_way = "Two-Way"
@@ -2113,10 +1934,9 @@ extension Ds {
 
     public struct CancelSchemaExtensionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaExtensionId", required: true, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaExtensionId", required: true, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The identifier of the schema extension that will be canceled.
         public let schemaExtensionId: String
@@ -2128,20 +1948,17 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let schemaExtensionId = dictionary["SchemaExtensionId"] as? String else { throw InitializableError.missingRequiredParam("SchemaExtensionId") }
-            self.schemaExtensionId = schemaExtensionId
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case schemaExtensionId = "SchemaExtensionId"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DescribeDirectoriesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryDescriptions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
@@ -2153,21 +1970,16 @@ extension Ds {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let directoryDescriptions = dictionary["DirectoryDescriptions"] as? [[String: Any]] {
-                self.directoryDescriptions = try directoryDescriptions.map({ try DirectoryDescription(dictionary: $0) })
-            } else { 
-                self.directoryDescriptions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryDescriptions = "DirectoryDescriptions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct CreateMicrosoftADResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The identifier of the directory that was created.
         public let directoryId: String?
@@ -2176,16 +1988,15 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct GetSnapshotLimitsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
@@ -2194,26 +2005,21 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct DisableRadiusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListSchemaExtensionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaExtensionsInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaExtensionsInfo", required: false, type: .list)
         ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
         public let nextToken: String?
@@ -2225,29 +2031,21 @@ extension Ds {
             self.schemaExtensionsInfo = schemaExtensionsInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let schemaExtensionsInfo = dictionary["SchemaExtensionsInfo"] as? [[String: Any]] {
-                self.schemaExtensionsInfo = try schemaExtensionsInfo.map({ try SchemaExtensionInfo(dictionary: $0) })
-            } else { 
-                self.schemaExtensionsInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case schemaExtensionsInfo = "SchemaExtensionsInfo"
         }
     }
 
     public struct DeregisterEventTopicResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeEventTopicsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventTopics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventTopics", required: false, type: .list)
         ]
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
@@ -2256,32 +2054,27 @@ extension Ds {
             self.eventTopics = eventTopics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventTopics = dictionary["EventTopics"] as? [[String: Any]] {
-                self.eventTopics = try eventTopics.map({ try EventTopic(dictionary: $0) })
-            } else { 
-                self.eventTopics = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventTopics = "EventTopics"
         }
     }
 
     public struct IpRouteInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "IpRouteStatusMsg", required: false, type: .enum), 
-            AWSShapeProperty(label: "AddedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CidrIp", required: false, type: .string), 
-            AWSShapeProperty(label: "IpRouteStatusReason", required: false, type: .string), 
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "IpRouteStatusMsg", required: false, type: .enum), 
+            AWSShapeMember(label: "AddedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CidrIp", required: false, type: .string), 
+            AWSShapeMember(label: "IpRouteStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// Description of the IpRouteInfo.
         public let description: String?
         /// The status of the IP address block.
         public let ipRouteStatusMsg: IpRouteStatusMsg?
         /// The date and time the address block was added to the directory.
-        public let addedDateTime: String?
+        public let addedDateTime: Double?
         /// IP address block in the IpRoute.
         public let cidrIp: String?
         /// The reason for the IpRouteStatusMsg.
@@ -2289,7 +2082,7 @@ extension Ds {
         /// Identifier (ID) of the directory associated with the IP addresses.
         public let directoryId: String?
 
-        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: String? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
+        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: Double? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
             self.description = description
             self.ipRouteStatusMsg = ipRouteStatusMsg
             self.addedDateTime = addedDateTime
@@ -2298,26 +2091,25 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            if let ipRouteStatusMsg = dictionary["IpRouteStatusMsg"] as? String { self.ipRouteStatusMsg = IpRouteStatusMsg(rawValue: ipRouteStatusMsg) } else { self.ipRouteStatusMsg = nil }
-            self.addedDateTime = dictionary["AddedDateTime"] as? String
-            self.cidrIp = dictionary["CidrIp"] as? String
-            self.ipRouteStatusReason = dictionary["IpRouteStatusReason"] as? String
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case ipRouteStatusMsg = "IpRouteStatusMsg"
+            case addedDateTime = "AddedDateTime"
+            case cidrIp = "CidrIp"
+            case ipRouteStatusReason = "IpRouteStatusReason"
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct ConnectDirectoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ShortName", required: false, type: .string), 
-            AWSShapeProperty(label: "ConnectSettings", required: true, type: .structure), 
-            AWSShapeProperty(label: "Size", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ShortName", required: false, type: .string), 
+            AWSShapeMember(label: "ConnectSettings", required: true, type: .structure), 
+            AWSShapeMember(label: "Size", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The password for the on-premises user account.
         public let password: String
@@ -2341,25 +2133,20 @@ extension Ds {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            self.description = dictionary["Description"] as? String
-            self.shortName = dictionary["ShortName"] as? String
-            guard let connectSettings = dictionary["ConnectSettings"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConnectSettings") }
-            self.connectSettings = try Ds.DirectoryConnectSettings(dictionary: connectSettings)
-            guard let rawSize = dictionary["Size"] as? String, let size = DirectorySize(rawValue: rawSize) else { throw InitializableError.missingRequiredParam("Size") }
-            self.size = size
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case description = "Description"
+            case shortName = "ShortName"
+            case connectSettings = "ConnectSettings"
+            case size = "Size"
+            case name = "Name"
         }
     }
 
     public struct VerifyTrustResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TrustId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TrustId", required: false, type: .string)
         ]
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
@@ -2368,26 +2155,22 @@ extension Ds {
             self.trustId = trustId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.trustId = dictionary["TrustId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case trustId = "TrustId"
         }
     }
 
     public struct DisableSsoResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateConditionalForwarderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string), 
-            AWSShapeProperty(label: "DnsIpAddrs", required: true, type: .list), 
-            AWSShapeProperty(label: "RemoteDomainName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string), 
+            AWSShapeMember(label: "DnsIpAddrs", required: true, type: .list), 
+            AWSShapeMember(label: "RemoteDomainName", required: true, type: .string)
         ]
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
         public let directoryId: String
@@ -2402,37 +2185,27 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
-            guard let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] else { throw InitializableError.missingRequiredParam("DnsIpAddrs") }
-            self.dnsIpAddrs = dnsIpAddrs
-            guard let remoteDomainName = dictionary["RemoteDomainName"] as? String else { throw InitializableError.missingRequiredParam("RemoteDomainName") }
-            self.remoteDomainName = remoteDomainName
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case dnsIpAddrs = "DnsIpAddrs"
+            case remoteDomainName = "RemoteDomainName"
         }
     }
 
     public struct CancelSchemaExtensionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateConditionalForwarderResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DisableRadiusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: true, type: .string)
         ]
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
@@ -2441,20 +2214,19 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
-            self.directoryId = directoryId
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
-    public enum DirectoryType: String, CustomStringConvertible {
+    public enum DirectoryType: String, CustomStringConvertible, Codable {
         case simplead = "SimpleAD"
         case adconnector = "ADConnector"
         case microsoftad = "MicrosoftAD"
         public var description: String { return self.rawValue }
     }
 
-    public enum DirectorySize: String, CustomStringConvertible {
+    public enum DirectorySize: String, CustomStringConvertible, Codable {
         case small = "Small"
         case large = "Large"
         public var description: String { return self.rawValue }
@@ -2462,9 +2234,8 @@ extension Ds {
 
     public struct CreateDirectoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DirectoryId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string)
         ]
         /// The identifier of the directory that was created.
         public let directoryId: String?
@@ -2473,17 +2244,16 @@ extension Ds {
             self.directoryId = directoryId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.directoryId = dictionary["DirectoryId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
         }
     }
 
     public struct ListIpRoutesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IpRoutesInfo", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "IpRoutesInfo", required: false, type: .list)
         ]
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
         public let nextToken: String?
@@ -2495,24 +2265,19 @@ extension Ds {
             self.ipRoutesInfo = ipRoutesInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let ipRoutesInfo = dictionary["IpRoutesInfo"] as? [[String: Any]] {
-                self.ipRoutesInfo = try ipRoutesInfo.map({ try IpRouteInfo(dictionary: $0) })
-            } else { 
-                self.ipRoutesInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case ipRoutesInfo = "IpRoutesInfo"
         }
     }
 
     public struct DirectoryConnectSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeProperty(label: "VpcId", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomerUserName", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomerDnsIps", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "VpcId", required: true, type: .string), 
+            AWSShapeMember(label: "CustomerUserName", required: true, type: .string), 
+            AWSShapeMember(label: "CustomerDnsIps", required: true, type: .list)
         ]
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
         public let subnetIds: [String]
@@ -2530,15 +2295,11 @@ extension Ds {
             self.customerDnsIps = customerDnsIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
-            guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
-            self.vpcId = vpcId
-            guard let customerUserName = dictionary["CustomerUserName"] as? String else { throw InitializableError.missingRequiredParam("CustomerUserName") }
-            self.customerUserName = customerUserName
-            guard let customerDnsIps = dictionary["CustomerDnsIps"] as? [String] else { throw InitializableError.missingRequiredParam("CustomerDnsIps") }
-            self.customerDnsIps = customerDnsIps
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
+            case customerUserName = "CustomerUserName"
+            case customerDnsIps = "CustomerDnsIps"
         }
     }
 

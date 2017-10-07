@@ -31,18 +31,14 @@ extension Devicefarm {
 
     public struct DeleteUploadResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListDevicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -54,28 +50,27 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct NetworkProfile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -117,27 +112,26 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
-            self.name = dictionary["name"] as? String
-            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
-            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
-            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
-            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
-            self.description = dictionary["description"] as? String
-            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
-            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
-            if let `type` = dictionary["type"] as? String { self.`type` = NetworkProfileType(rawValue: `type`) } else { self.`type` = nil }
-            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case uplinkJitterMs = "uplinkJitterMs"
+            case name = "name"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case uplinkLossPercent = "uplinkLossPercent"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case description = "description"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case `type` = "type"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case arn = "arn"
         }
     }
 
     public struct GetTestResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "test", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "test", required: false, type: .structure)
         ]
         /// A test condition that is evaluated.
         public let test: Test?
@@ -146,18 +140,17 @@ extension Devicefarm {
             self.test = test
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.Test(dictionary: test) } else { self.test = nil }
+        private enum CodingKeys: String, CodingKey {
+            case test = "test"
         }
     }
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "attribute", required: false, type: .enum), 
-            AWSShapeProperty(label: "operator", required: false, type: .enum), 
-            AWSShapeProperty(label: "value", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "attribute", required: false, type: .enum), 
+            AWSShapeMember(label: "operator", required: false, type: .enum), 
+            AWSShapeMember(label: "value", required: false, type: .string)
         ]
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
         public let attribute: DeviceAttribute?
@@ -172,19 +165,18 @@ extension Devicefarm {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attribute = dictionary["attribute"] as? String { self.attribute = DeviceAttribute(rawValue: attribute) } else { self.attribute = nil }
-            if let `operator` = dictionary["operator"] as? String { self.`operator` = RuleOperator(rawValue: `operator`) } else { self.`operator` = nil }
-            self.value = dictionary["value"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
     public struct ListTestsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -196,18 +188,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct GetUploadResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "upload", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
@@ -216,16 +206,15 @@ extension Devicefarm {
             self.upload = upload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) } else { self.upload = nil }
+        private enum CodingKeys: String, CodingKey {
+            case upload = "upload"
         }
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
         /// Returns the billing method for purposes of configuring a remote access session.
         public let billingMethod: BillingMethod?
@@ -234,17 +223,16 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
+        private enum CodingKeys: String, CodingKey {
+            case billingMethod = "billingMethod"
         }
     }
 
     public struct ListSuitesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suites", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "suites", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the suites.
         public let suites: [Suite]?
@@ -256,22 +244,17 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let suites = dictionary["suites"] as? [[String: Any]] {
-                self.suites = try suites.map({ try Suite(dictionary: $0) })
-            } else { 
-                self.suites = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case suites = "suites"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRemoteAccessSessionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessSessions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccessSessions", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -283,32 +266,27 @@ extension Devicefarm {
             self.remoteAccessSessions = remoteAccessSessions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let remoteAccessSessions = dictionary["remoteAccessSessions"] as? [[String: Any]] {
-                self.remoteAccessSessions = try remoteAccessSessions.map({ try RemoteAccessSession(dictionary: $0) })
-            } else { 
-                self.remoteAccessSessions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case remoteAccessSessions = "remoteAccessSessions"
         }
     }
 
     public struct UpdateNetworkProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -350,28 +328,26 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
-            self.name = dictionary["name"] as? String
-            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
-            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
-            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
-            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
-            self.description = dictionary["description"] as? String
-            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
-            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
-            if let `type` = dictionary["type"] as? String { self.`type` = NetworkProfileType(rawValue: `type`) } else { self.`type` = nil }
-            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case uplinkJitterMs = "uplinkJitterMs"
+            case name = "name"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case uplinkLossPercent = "uplinkLossPercent"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case description = "description"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case `type` = "type"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case arn = "arn"
         }
     }
 
     public struct GetDevicePoolResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// An object containing information about the requested device pool.
         public let devicePool: DevicePool?
@@ -380,12 +356,12 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
+        private enum CodingKeys: String, CodingKey {
+            case devicePool = "devicePool"
         }
     }
 
-    public enum UploadStatus: String, CustomStringConvertible {
+    public enum UploadStatus: String, CustomStringConvertible, Codable {
         case initialized = "INITIALIZED"
         case processing = "PROCESSING"
         case succeeded = "SUCCEEDED"
@@ -395,13 +371,12 @@ extension Devicefarm {
 
     public struct DevicePool: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "rules", required: false, type: .list), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "rules", required: false, type: .list), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The device pool's description.
         public let description: String?
@@ -422,24 +397,19 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.name = dictionary["name"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = DevicePoolType(rawValue: `type`) } else { self.`type` = nil }
-            if let rules = dictionary["rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case `type` = "type"
+            case rules = "rules"
+            case arn = "arn"
         }
     }
 
     public struct CreateProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The newly created project.
         public let project: Project?
@@ -448,16 +418,15 @@ extension Devicefarm {
             self.project = project
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
         }
     }
 
     public struct PurchaseOfferingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringTransaction", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
@@ -466,18 +435,17 @@ extension Devicefarm {
             self.offeringTransaction = offeringTransaction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) } else { self.offeringTransaction = nil }
+        private enum CodingKeys: String, CodingKey {
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
     public struct ExecutionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accountsCleanup", required: false, type: .boolean), 
-            AWSShapeProperty(label: "jobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "appPackagesCleanup", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accountsCleanup", required: false, type: .boolean), 
+            AWSShapeMember(label: "jobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "appPackagesCleanup", required: false, type: .boolean)
         ]
         /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
         public let accountsCleanup: Bool?
@@ -492,19 +460,18 @@ extension Devicefarm {
             self.appPackagesCleanup = appPackagesCleanup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountsCleanup = dictionary["accountsCleanup"] as? Bool
-            self.jobTimeoutMinutes = dictionary["jobTimeoutMinutes"] as? Int32
-            self.appPackagesCleanup = dictionary["appPackagesCleanup"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case accountsCleanup = "accountsCleanup"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case appPackagesCleanup = "appPackagesCleanup"
         }
     }
 
     public struct MonetaryAmount: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "currencyCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "amount", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "currencyCode", required: false, type: .enum), 
+            AWSShapeMember(label: "amount", required: false, type: .double)
         ]
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
         public let currencyCode: CurrencyCode?
@@ -516,28 +483,27 @@ extension Devicefarm {
             self.amount = amount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let currencyCode = dictionary["currencyCode"] as? String { self.currencyCode = CurrencyCode(rawValue: currencyCode) } else { self.currencyCode = nil }
-            self.amount = dictionary["amount"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "currencyCode"
+            case amount = "amount"
         }
     }
 
     public struct CreateNetworkProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uplinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "downlinkJitterMs", required: false, type: .long), 
-            AWSShapeProperty(label: "downlinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "downlinkLossPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "uplinkDelayMs", required: false, type: .long), 
-            AWSShapeProperty(label: "uplinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "downlinkBandwidthBits", required: false, type: .long), 
-            AWSShapeProperty(label: "projectArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uplinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "downlinkJitterMs", required: false, type: .long), 
+            AWSShapeMember(label: "downlinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "downlinkLossPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "uplinkDelayMs", required: false, type: .long), 
+            AWSShapeMember(label: "uplinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "downlinkBandwidthBits", required: false, type: .long), 
+            AWSShapeMember(label: "projectArn", required: true, type: .string)
         ]
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
         public let uplinkJitterMs: Int64?
@@ -579,29 +545,26 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.uplinkJitterMs = dictionary["uplinkJitterMs"] as? Int64
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.downlinkJitterMs = dictionary["downlinkJitterMs"] as? Int64
-            self.downlinkDelayMs = dictionary["downlinkDelayMs"] as? Int64
-            self.uplinkLossPercent = dictionary["uplinkLossPercent"] as? Int32
-            self.downlinkLossPercent = dictionary["downlinkLossPercent"] as? Int32
-            self.description = dictionary["description"] as? String
-            self.uplinkDelayMs = dictionary["uplinkDelayMs"] as? Int64
-            self.uplinkBandwidthBits = dictionary["uplinkBandwidthBits"] as? Int64
-            if let `type` = dictionary["type"] as? String { self.`type` = NetworkProfileType(rawValue: `type`) } else { self.`type` = nil }
-            self.downlinkBandwidthBits = dictionary["downlinkBandwidthBits"] as? Int64
-            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
-            self.projectArn = projectArn
+        private enum CodingKeys: String, CodingKey {
+            case uplinkJitterMs = "uplinkJitterMs"
+            case name = "name"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case uplinkLossPercent = "uplinkLossPercent"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case description = "description"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case `type` = "type"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case projectArn = "projectArn"
         }
     }
 
     public struct GetDevicePoolRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The device pool's ARN.
         public let arn: String
@@ -610,28 +573,26 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct RemoteAccessSession: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "billingMethod", required: false, type: .enum), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "endpoint", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "device", required: false, type: .structure), 
-            AWSShapeProperty(label: "result", required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
         public let billingMethod: BillingMethod?
@@ -642,11 +603,11 @@ extension Devicefarm {
         /// The endpoint for the remote access sesssion.
         public let endpoint: String?
         /// The date and time the remote access session was created.
-        public let created: String?
+        public let created: Double?
         /// The date and time the remote access session was started.
-        public let started: String?
+        public let started: Double?
         /// The date and time the remote access session was stopped.
-        public let stopped: String?
+        public let stopped: Double?
         /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
         public let deviceMinutes: DeviceMinutes?
         /// A message about the remote access session.
@@ -658,7 +619,7 @@ extension Devicefarm {
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
 
-        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: String? = nil, started: String? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
+        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: Double? = nil, started: Double? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
             self.billingMethod = billingMethod
             self.status = status
             self.name = name
@@ -673,28 +634,27 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
-            if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["name"] as? String
-            self.endpoint = dictionary["endpoint"] as? String
-            self.created = dictionary["created"] as? String
-            self.started = dictionary["started"] as? String
-            self.stopped = dictionary["stopped"] as? String
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.message = dictionary["message"] as? String
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case billingMethod = "billingMethod"
+            case status = "status"
+            case name = "name"
+            case endpoint = "endpoint"
+            case created = "created"
+            case started = "started"
+            case stopped = "stopped"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case device = "device"
+            case result = "result"
+            case arn = "arn"
         }
     }
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "frequency", required: false, type: .enum), 
-            AWSShapeProperty(label: "cost", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frequency", required: false, type: .enum), 
+            AWSShapeMember(label: "cost", required: false, type: .structure)
         ]
         /// The frequency in which charges will recur.
         public let frequency: RecurringChargeFrequency?
@@ -706,40 +666,39 @@ extension Devicefarm {
             self.cost = cost
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let frequency = dictionary["frequency"] as? String { self.frequency = RecurringChargeFrequency(rawValue: frequency) } else { self.frequency = nil }
-            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "frequency"
+            case cost = "cost"
         }
     }
 
     public struct Suite: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "result", required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "counters", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The suite's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
         /// The suite's name.
         public let name: String?
         /// When the suite was created.
-        public let created: String?
+        public let created: Double?
         /// The suite's start time.
-        public let started: String?
+        public let started: Double?
         /// Represents the total (metered or unmetered) minutes used by the test suite.
         public let deviceMinutes: DeviceMinutes?
         /// The suite's stop time.
-        public let stopped: String?
+        public let stopped: Double?
         /// A message about the suite's result.
         public let message: String?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -751,7 +710,7 @@ extension Devicefarm {
         /// The suite's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: String? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Double? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -765,26 +724,25 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.started = dictionary["started"] as? String
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.stopped = dictionary["stopped"] as? String
-            self.message = dictionary["message"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case name = "name"
+            case created = "created"
+            case started = "started"
+            case deviceMinutes = "deviceMinutes"
+            case stopped = "stopped"
+            case message = "message"
+            case `type` = "type"
+            case result = "result"
+            case counters = "counters"
+            case arn = "arn"
         }
     }
 
     public struct DeleteUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
         public let arn: String
@@ -793,18 +751,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct ListUniqueProblemsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -816,32 +772,27 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct GetAccountSettingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible {
+    public enum CurrencyCode: String, CustomStringConvertible, Codable {
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
 
     public struct ProblemDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The problem detail's name.
         public let name: String?
@@ -853,23 +804,22 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case arn = "arn"
         }
     }
 
     public struct ScheduleRunConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "extraDataPackageArn", required: false, type: .string), 
-            AWSShapeProperty(label: "location", required: false, type: .structure), 
-            AWSShapeProperty(label: "networkProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "auxiliaryApps", required: false, type: .list), 
-            AWSShapeProperty(label: "radios", required: false, type: .structure), 
-            AWSShapeProperty(label: "locale", required: false, type: .string), 
-            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "extraDataPackageArn", required: false, type: .string), 
+            AWSShapeMember(label: "location", required: false, type: .structure), 
+            AWSShapeMember(label: "networkProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "auxiliaryApps", required: false, type: .list), 
+            AWSShapeMember(label: "radios", required: false, type: .structure), 
+            AWSShapeMember(label: "locale", required: false, type: .string), 
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
         public let extraDataPackageArn: String?
@@ -896,22 +846,21 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.extraDataPackageArn = dictionary["extraDataPackageArn"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Devicefarm.Location(dictionary: location) } else { self.location = nil }
-            self.networkProfileArn = dictionary["networkProfileArn"] as? String
-            self.auxiliaryApps = dictionary["auxiliaryApps"] as? [String]
-            if let radios = dictionary["radios"] as? [String: Any] { self.radios = try Devicefarm.Radios(dictionary: radios) } else { self.radios = nil }
-            self.locale = dictionary["locale"] as? String
-            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
+        private enum CodingKeys: String, CodingKey {
+            case extraDataPackageArn = "extraDataPackageArn"
+            case location = "location"
+            case networkProfileArn = "networkProfileArn"
+            case auxiliaryApps = "auxiliaryApps"
+            case radios = "radios"
+            case locale = "locale"
+            case billingMethod = "billingMethod"
         }
     }
 
     public struct GetJobResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "job", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "job", required: false, type: .structure)
         ]
         /// An object containing information about the requested job.
         public let job: Job?
@@ -920,12 +869,12 @@ extension Devicefarm {
             self.job = job
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.Job(dictionary: job) } else { self.job = nil }
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
         }
     }
 
-    public enum RuleOperator: String, CustomStringConvertible {
+    public enum RuleOperator: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
         case less_than = "LESS_THAN"
         case greater_than = "GREATER_THAN"
@@ -937,10 +886,9 @@ extension Devicefarm {
 
     public struct ListOfferingsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "offerings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "offerings", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -952,21 +900,16 @@ extension Devicefarm {
             self.offerings = offerings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let offerings = dictionary["offerings"] as? [[String: Any]] {
-                self.offerings = try offerings.map({ try Offering(dictionary: $0) })
-            } else { 
-                self.offerings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
     public struct StopRunResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// The run that was stopped.
         public let run: Run?
@@ -975,22 +918,21 @@ extension Devicefarm {
             self.run = run
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
+        private enum CodingKeys: String, CodingKey {
+            case run = "run"
         }
     }
 
     public struct ScheduleRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectArn", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "executionConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "test", required: true, type: .structure), 
-            AWSShapeProperty(label: "appArn", required: false, type: .string), 
-            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string), 
-            AWSShapeProperty(label: "configuration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectArn", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "executionConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "test", required: true, type: .structure), 
+            AWSShapeMember(label: "appArn", required: false, type: .string), 
+            AWSShapeMember(label: "devicePoolArn", required: true, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .structure)
         ]
         /// The ARN of the project for the run to be scheduled.
         public let projectArn: String
@@ -1017,21 +959,18 @@ extension Devicefarm {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
-            self.projectArn = projectArn
-            self.name = dictionary["name"] as? String
-            if let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] { self.executionConfiguration = try Devicefarm.ExecutionConfiguration(dictionary: executionConfiguration) } else { self.executionConfiguration = nil }
-            guard let test = dictionary["test"] as? [String: Any] else { throw InitializableError.missingRequiredParam("test") }
-            self.test = try Devicefarm.ScheduleRunTest(dictionary: test)
-            self.appArn = dictionary["appArn"] as? String
-            guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
-            self.devicePoolArn = devicePoolArn
-            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.ScheduleRunConfiguration(dictionary: configuration) } else { self.configuration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case projectArn = "projectArn"
+            case name = "name"
+            case executionConfiguration = "executionConfiguration"
+            case test = "test"
+            case appArn = "appArn"
+            case devicePoolArn = "devicePoolArn"
+            case configuration = "configuration"
         }
     }
 
-    public enum UploadType: String, CustomStringConvertible {
+    public enum UploadType: String, CustomStringConvertible, Codable {
         case android_app = "ANDROID_APP"
         case ios_app = "IOS_APP"
         case web_app = "WEB_APP"
@@ -1051,7 +990,7 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum DeviceAttribute: String, CustomStringConvertible {
+    public enum DeviceAttribute: String, CustomStringConvertible, Codable {
         case arn = "ARN"
         case platform = "PLATFORM"
         case form_factor = "FORM_FACTOR"
@@ -1063,13 +1002,12 @@ extension Devicefarm {
 
     public struct Artifact: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "extension", required: false, type: .string), 
-            AWSShapeProperty(label: "url", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "extension", required: false, type: .string), 
+            AWSShapeMember(label: "url", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The artifact's name.
         public let name: String?
@@ -1090,20 +1028,19 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = ArtifactType(rawValue: `type`) } else { self.`type` = nil }
-            self.`extension` = dictionary["extension"] as? String
-            self.url = dictionary["url"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `type` = "type"
+            case `extension` = "extension"
+            case url = "url"
+            case arn = "arn"
         }
     }
 
     public struct CreateNetworkProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
@@ -1112,16 +1049,15 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
+        private enum CodingKeys: String, CodingKey {
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct DeleteNetworkProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
         public let arn: String
@@ -1130,50 +1066,47 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct Project: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The project's name.
         public let name: String?
         /// When the project was created.
-        public let created: String?
+        public let created: Double?
         /// The default number of minutes (at the project level) a test run will execute before it times out. Default value is 60 minutes.
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's ARN.
         public let arn: String?
 
-        public init(name: String? = nil, created: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
+        public init(name: String? = nil, created: Double? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
             self.name = name
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case created = "created"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case arn = "arn"
         }
     }
 
     public struct ScheduleRunResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// Information about the scheduled run.
         public let run: Run?
@@ -1182,16 +1115,15 @@ extension Devicefarm {
             self.run = run
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
+        private enum CodingKeys: String, CodingKey {
+            case run = "run"
         }
     }
 
     public struct GetRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The run's ARN.
         public let arn: String
@@ -1200,18 +1132,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct ListNetworkProfilesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfiles", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "networkProfiles", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
@@ -1223,22 +1153,17 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let networkProfiles = dictionary["networkProfiles"] as? [[String: Any]] {
-                self.networkProfiles = try networkProfiles.map({ try NetworkProfile(dictionary: $0) })
-            } else { 
-                self.networkProfiles = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case networkProfiles = "networkProfiles"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSamplesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1250,19 +1175,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct CreateProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
         ]
         /// The project's name.
         public let name: String
@@ -1274,18 +1197,16 @@ extension Devicefarm {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
         }
     }
 
     public struct GetRemoteAccessSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
@@ -1294,16 +1215,15 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct UpdateDevicePoolResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// The device pool you just updated.
         public let devicePool: DevicePool?
@@ -1312,18 +1232,17 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
+        private enum CodingKeys: String, CodingKey {
+            case devicePool = "devicePool"
         }
     }
 
     public struct PurchaseOfferingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringPromotionId", required: false, type: .string), 
-            AWSShapeProperty(label: "quantity", required: false, type: .integer), 
-            AWSShapeProperty(label: "offeringId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
+            AWSShapeMember(label: "quantity", required: false, type: .integer), 
+            AWSShapeMember(label: "offeringId", required: false, type: .string)
         ]
         /// The ID of the offering promotion to be applied to the purchase.
         public let offeringPromotionId: String?
@@ -1338,21 +1257,21 @@ extension Devicefarm {
             self.offeringId = offeringId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.offeringPromotionId = dictionary["offeringPromotionId"] as? String
-            self.quantity = dictionary["quantity"] as? Int32
-            self.offeringId = dictionary["offeringId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case offeringPromotionId = "offeringPromotionId"
+            case quantity = "quantity"
+            case offeringId = "offeringId"
         }
     }
 
-    public enum ArtifactCategory: String, CustomStringConvertible {
+    public enum ArtifactCategory: String, CustomStringConvertible, Codable {
         case screenshot = "SCREENSHOT"
         case file = "FILE"
         case log = "LOG"
         public var description: String { return self.rawValue }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible {
+    public enum ArtifactType: String, CustomStringConvertible, Codable {
         case unknown = "UNKNOWN"
         case screenshot = "SCREENSHOT"
         case device_log = "DEVICE_LOG"
@@ -1383,9 +1302,8 @@ extension Devicefarm {
 
     public struct StopRemoteAccessSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
         public let arn: String
@@ -1394,13 +1312,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
-    public enum OfferingTransactionType: String, CustomStringConvertible {
+    public enum OfferingTransactionType: String, CustomStringConvertible, Codable {
         case purchase = "PURCHASE"
         case renew = "RENEW"
         case system = "SYSTEM"
@@ -1409,9 +1326,8 @@ extension Devicefarm {
 
     public struct CreateUploadResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "upload", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "upload", required: false, type: .structure)
         ]
         /// The newly created upload.
         public let upload: Upload?
@@ -1420,17 +1336,16 @@ extension Devicefarm {
             self.upload = upload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) } else { self.upload = nil }
+        private enum CodingKeys: String, CodingKey {
+            case upload = "upload"
         }
     }
 
     public struct UniqueProblem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "problems", required: false, type: .list), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "problems", required: false, type: .list), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// Information about the problems.
         public let problems: [Problem]?
@@ -1442,21 +1357,16 @@ extension Devicefarm {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let problems = dictionary["problems"] as? [[String: Any]] {
-                self.problems = try problems.map({ try Problem(dictionary: $0) })
-            } else { 
-                self.problems = nil
-            }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case problems = "problems"
+            case message = "message"
         }
     }
 
     public struct UpdateNetworkProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
@@ -1465,18 +1375,17 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
+        private enum CodingKeys: String, CodingKey {
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct ListNetworkProfilesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The type of network profile you wish to return information about. Valid values are listed below.
         public let `type`: NetworkProfileType?
@@ -1491,19 +1400,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = NetworkProfileType(rawValue: `type`) } else { self.`type` = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct GetJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The job's ARN.
         public let arn: String
@@ -1512,18 +1419,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct ListRunsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "runs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "runs", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -1535,22 +1440,17 @@ extension Devicefarm {
             self.runs = runs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let runs = dictionary["runs"] as? [[String: Any]] {
-                self.runs = try runs.map({ try Run(dictionary: $0) })
-            } else { 
-                self.runs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case runs = "runs"
         }
     }
 
     public struct ListTestsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tests", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tests", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the tests.
         public let tests: [Test]?
@@ -1562,30 +1462,22 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tests = dictionary["tests"] as? [[String: Any]] {
-                self.tests = try tests.map({ try Test(dictionary: $0) })
-            } else { 
-                self.tests = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tests = "tests"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteNetworkProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListOfferingPromotionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringPromotions", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringPromotions", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the offering promotions.
         public let offeringPromotions: [OfferingPromotion]?
@@ -1597,38 +1489,33 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let offeringPromotions = dictionary["offeringPromotions"] as? [[String: Any]] {
-                self.offeringPromotions = try offeringPromotions.map({ try OfferingPromotion(dictionary: $0) })
-            } else { 
-                self.offeringPromotions = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case offeringPromotions = "offeringPromotions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct OfferingTransaction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "transactionId", required: false, type: .string), 
-            AWSShapeProperty(label: "cost", required: false, type: .structure), 
-            AWSShapeProperty(label: "createdOn", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "offeringPromotionId", required: false, type: .string), 
-            AWSShapeProperty(label: "offeringStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "transactionId", required: false, type: .string), 
+            AWSShapeMember(label: "cost", required: false, type: .structure), 
+            AWSShapeMember(label: "createdOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "offeringPromotionId", required: false, type: .string), 
+            AWSShapeMember(label: "offeringStatus", required: false, type: .structure)
         ]
         /// The transaction ID of the offering transaction.
         public let transactionId: String?
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
-        public let createdOn: String?
+        public let createdOn: Double?
         /// The ID that corresponds to a device offering promotion.
         public let offeringPromotionId: String?
         /// The status of an offering transaction.
         public let offeringStatus: OfferingStatus?
 
-        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: String? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil) {
+        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: Double? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil) {
             self.transactionId = transactionId
             self.cost = cost
             self.createdOn = createdOn
@@ -1636,25 +1523,24 @@ extension Devicefarm {
             self.offeringStatus = offeringStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.transactionId = dictionary["transactionId"] as? String
-            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
-            self.createdOn = dictionary["createdOn"] as? String
-            self.offeringPromotionId = dictionary["offeringPromotionId"] as? String
-            if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) } else { self.offeringStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "transactionId"
+            case cost = "cost"
+            case createdOn = "createdOn"
+            case offeringPromotionId = "offeringPromotionId"
+            case offeringStatus = "offeringStatus"
         }
     }
 
-    public enum RecurringChargeFrequency: String, CustomStringConvertible {
+    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable {
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
     public struct ListOfferingPromotionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1663,17 +1549,16 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDevicesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devices", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devices", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the devices.
         public let devices: [Device]?
@@ -1685,22 +1570,17 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devices = dictionary["devices"] as? [[String: Any]] {
-                self.devices = try devices.map({ try Device(dictionary: $0) })
-            } else { 
-                self.devices = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListUploadsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uploads", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uploads", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the uploads.
         public let uploads: [Upload]?
@@ -1712,25 +1592,20 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let uploads = dictionary["uploads"] as? [[String: Any]] {
-                self.uploads = try uploads.map({ try Upload(dictionary: $0) })
-            } else { 
-                self.uploads = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case uploads = "uploads"
+            case nextToken = "nextToken"
         }
     }
 
     public struct Offering: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "recurringCharges", required: false, type: .list), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "platform", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "recurringCharges", required: false, type: .list), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "platform", required: false, type: .enum)
         ]
         /// A string describing the offering.
         public let description: String?
@@ -1751,24 +1626,19 @@ extension Devicefarm {
             self.platform = platform
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            if let recurringCharges = dictionary["recurringCharges"] as? [[String: Any]] {
-                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharges = nil
-            }
-            self.id = dictionary["id"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = OfferingType(rawValue: `type`) } else { self.`type` = nil }
-            if let platform = dictionary["platform"] as? String { self.platform = DevicePlatform(rawValue: platform) } else { self.platform = nil }
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case recurringCharges = "recurringCharges"
+            case id = "id"
+            case `type` = "type"
+            case platform = "platform"
         }
     }
 
     public struct GetSuiteResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suite", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "suite", required: false, type: .structure)
         ]
         /// A collection of one or more tests.
         public let suite: Suite?
@@ -1777,16 +1647,15 @@ extension Devicefarm {
             self.suite = suite
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.Suite(dictionary: suite) } else { self.suite = nil }
+        private enum CodingKeys: String, CodingKey {
+            case suite = "suite"
         }
     }
 
     public struct GetSuiteRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The suite's ARN.
         public let arn: String
@@ -1795,17 +1664,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct GetUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The upload's ARN.
         public let arn: String
@@ -1814,40 +1681,38 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct Test: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "result", required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "counters", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The test's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
         public let status: ExecutionStatus?
         /// The test's name.
         public let name: String?
         /// When the test was created.
-        public let created: String?
+        public let created: Double?
         /// The test's start time.
-        public let started: String?
+        public let started: Double?
         /// Represents the total (metered or unmetered) minutes used by the test.
         public let deviceMinutes: DeviceMinutes?
         /// The test's stop time.
-        public let stopped: String?
+        public let stopped: Double?
         /// A message about the test's result.
         public let message: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -1859,7 +1724,7 @@ extension Devicefarm {
         /// The test's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: String? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Double? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -1873,26 +1738,25 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.started = dictionary["started"] as? String
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.stopped = dictionary["stopped"] as? String
-            self.message = dictionary["message"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case name = "name"
+            case created = "created"
+            case started = "started"
+            case deviceMinutes = "deviceMinutes"
+            case stopped = "stopped"
+            case message = "message"
+            case `type` = "type"
+            case result = "result"
+            case counters = "counters"
+            case arn = "arn"
         }
     }
 
     public struct DeleteRemoteAccessSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
         public let arn: String
@@ -1901,19 +1765,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct GetOfferingStatusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPeriod", required: false, type: .map), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "current", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPeriod", required: false, type: .map), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "current", required: false, type: .map)
         ]
         /// When specified, gets the offering status for the next period.
         public let nextPeriod: [String: OfferingStatus]?
@@ -1928,32 +1790,14 @@ extension Devicefarm {
             self.current = current
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let nextPeriod = dictionary["nextPeriod"] as? [String: Any] {
-                var nextPeriodDict: [String: OfferingStatus] = [:]
-                for (key, value) in nextPeriod {
-                    guard let offeringStatusDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    nextPeriodDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
-                }
-                self.nextPeriod = nextPeriodDict
-            } else { 
-                self.nextPeriod = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
-            if let current = dictionary["current"] as? [String: Any] {
-                var currentDict: [String: OfferingStatus] = [:]
-                for (key, value) in current {
-                    guard let offeringStatusDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    currentDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
-                }
-                self.current = currentDict
-            } else { 
-                self.current = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextPeriod = "nextPeriod"
+            case nextToken = "nextToken"
+            case current = "current"
         }
     }
 
-    public enum TestType: String, CustomStringConvertible {
+    public enum TestType: String, CustomStringConvertible, Codable {
         case builtin_fuzz = "BUILTIN_FUZZ"
         case builtin_explorer = "BUILTIN_EXPLORER"
         case appium_java_junit = "APPIUM_JAVA_JUNIT"
@@ -1973,9 +1817,8 @@ extension Devicefarm {
 
     public struct GetOfferingStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -1984,17 +1827,16 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct IncompatibilityMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.   APPIUM_VERSION: The Appium version for the test.  
         public let `type`: DeviceAttribute?
@@ -2006,20 +1848,19 @@ extension Devicefarm {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = DeviceAttribute(rawValue: `type`) } else { self.`type` = nil }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case message = "message"
         }
     }
 
     public struct CreateUploadRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "contentType", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "projectArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "contentType", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "projectArn", required: true, type: .string)
         ]
         /// The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
         public let name: String
@@ -2037,22 +1878,18 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.contentType = dictionary["contentType"] as? String
-            guard let rawtype = dictionary["type"] as? String, let `type` = UploadType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
-            self.projectArn = projectArn
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case contentType = "contentType"
+            case `type` = "type"
+            case projectArn = "projectArn"
         }
     }
 
     public struct UpdateProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to update.
         public let project: Project?
@@ -2061,19 +1898,18 @@ extension Devicefarm {
             self.project = project
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
         }
     }
 
     public struct ScheduleRunTest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "filter", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "testPackageArn", required: false, type: .string), 
-            AWSShapeProperty(label: "parameters", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "filter", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "testPackageArn", required: false, type: .string), 
+            AWSShapeMember(label: "parameters", required: false, type: .map)
         ]
         /// The test's filter.
         public let filter: String?
@@ -2091,33 +1927,24 @@ extension Devicefarm {
             self.parameters = parameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.filter = dictionary["filter"] as? String
-            guard let rawtype = dictionary["type"] as? String, let `type` = TestType(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            self.testPackageArn = dictionary["testPackageArn"] as? String
-            if let parameters = dictionary["parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case `type` = "type"
+            case testPackageArn = "testPackageArn"
+            case parameters = "parameters"
         }
     }
 
     public struct DeleteDevicePoolResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListUploadsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2129,18 +1956,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct CreateRemoteAccessSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
@@ -2149,16 +1974,15 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct GetDeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The device type's ARN.
         public let arn: String
@@ -2167,20 +1991,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct Radios: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "wifi", required: false, type: .boolean), 
-            AWSShapeProperty(label: "bluetooth", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nfc", required: false, type: .boolean), 
-            AWSShapeProperty(label: "gps", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "wifi", required: false, type: .boolean), 
+            AWSShapeMember(label: "bluetooth", required: false, type: .boolean), 
+            AWSShapeMember(label: "nfc", required: false, type: .boolean), 
+            AWSShapeMember(label: "gps", required: false, type: .boolean)
         ]
         /// True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
         public let wifi: Bool?
@@ -2198,15 +2020,15 @@ extension Devicefarm {
             self.gps = gps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.wifi = dictionary["wifi"] as? Bool
-            self.bluetooth = dictionary["bluetooth"] as? Bool
-            self.nfc = dictionary["nfc"] as? Bool
-            self.gps = dictionary["gps"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case wifi = "wifi"
+            case bluetooth = "bluetooth"
+            case nfc = "nfc"
+            case gps = "gps"
         }
     }
 
-    public enum DeviceFormFactor: String, CustomStringConvertible {
+    public enum DeviceFormFactor: String, CustomStringConvertible, Codable {
         case phone = "PHONE"
         case tablet = "TABLET"
         public var description: String { return self.rawValue }
@@ -2214,9 +2036,8 @@ extension Devicefarm {
 
     public struct GetRunResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "run", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "run", required: false, type: .structure)
         ]
         /// The run you wish to get results from.
         public let run: Run?
@@ -2225,16 +2046,15 @@ extension Devicefarm {
             self.run = run
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
+        private enum CodingKeys: String, CodingKey {
+            case run = "run"
         }
     }
 
     public struct RenewOfferingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringTransaction", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringTransaction", required: false, type: .structure)
         ]
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
@@ -2243,12 +2063,12 @@ extension Devicefarm {
             self.offeringTransaction = offeringTransaction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) } else { self.offeringTransaction = nil }
+        private enum CodingKeys: String, CodingKey {
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
-    public enum NetworkProfileType: String, CustomStringConvertible {
+    public enum NetworkProfileType: String, CustomStringConvertible, Codable {
         case curated = "CURATED"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
@@ -2256,9 +2076,8 @@ extension Devicefarm {
 
     public struct DeleteDevicePoolRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
         public let arn: String
@@ -2267,20 +2086,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "deviceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "projectArn", required: true, type: .string), 
-            AWSShapeProperty(label: "configuration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "deviceArn", required: true, type: .string), 
+            AWSShapeMember(label: "projectArn", required: true, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .structure)
         ]
         /// The name of the remote access session that you wish to create.
         public let name: String?
@@ -2298,22 +2115,19 @@ extension Devicefarm {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            guard let deviceArn = dictionary["deviceArn"] as? String else { throw InitializableError.missingRequiredParam("deviceArn") }
-            self.deviceArn = deviceArn
-            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
-            self.projectArn = projectArn
-            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.CreateRemoteAccessSessionConfiguration(dictionary: configuration) } else { self.configuration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case deviceArn = "deviceArn"
+            case projectArn = "projectArn"
+            case configuration = "configuration"
         }
     }
 
     public struct ListJobsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "jobs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "jobs", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2325,22 +2139,17 @@ extension Devicefarm {
             self.jobs = jobs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let jobs = dictionary["jobs"] as? [[String: Any]] {
-                self.jobs = try jobs.map({ try Job(dictionary: $0) })
-            } else { 
-                self.jobs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case jobs = "jobs"
         }
     }
 
     public struct ListSamplesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "samples", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "samples", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the samples.
         public let samples: [Sample]?
@@ -2352,24 +2161,19 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let samples = dictionary["samples"] as? [[String: Any]] {
-                self.samples = try samples.map({ try Sample(dictionary: $0) })
-            } else { 
-                self.samples = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case samples = "samples"
+            case nextToken = "nextToken"
         }
     }
 
     public struct CreateDevicePoolRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "rules", required: true, type: .list), 
-            AWSShapeProperty(label: "projectArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "rules", required: true, type: .list), 
+            AWSShapeMember(label: "projectArn", required: true, type: .string)
         ]
         /// The device pool's description.
         public let description: String?
@@ -2387,23 +2191,19 @@ extension Devicefarm {
             self.projectArn = projectArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let rules = dictionary["rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("rules") }
-            self.rules = try rules.map({ try Rule(dictionary: $0) })
-            guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
-            self.projectArn = projectArn
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case rules = "rules"
+            case projectArn = "projectArn"
         }
     }
 
     public struct ListProjectsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "projects", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: false, type: .list)
         ]
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
@@ -2415,56 +2215,50 @@ extension Devicefarm {
             self.projects = projects
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let projects = dictionary["projects"] as? [[String: Any]] {
-                self.projects = try projects.map({ try Project(dictionary: $0) })
-            } else { 
-                self.projects = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
     public struct OfferingStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "quantity", required: false, type: .integer), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "effectiveOn", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "offering", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "quantity", required: false, type: .integer), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "effectiveOn", required: false, type: .timestamp), 
+            AWSShapeMember(label: "offering", required: false, type: .structure)
         ]
         /// The number of available devices in the offering.
         public let quantity: Int32?
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
         /// The date on which the offering is effective.
-        public let effectiveOn: String?
+        public let effectiveOn: Double?
         /// Represents the metadata of an offering status.
         public let offering: Offering?
 
-        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: String? = nil, offering: Offering? = nil) {
+        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: Double? = nil, offering: Offering? = nil) {
             self.quantity = quantity
             self.`type` = `type`
             self.effectiveOn = effectiveOn
             self.offering = offering
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.quantity = dictionary["quantity"] as? Int32
-            if let `type` = dictionary["type"] as? String { self.`type` = OfferingTransactionType(rawValue: `type`) } else { self.`type` = nil }
-            self.effectiveOn = dictionary["effectiveOn"] as? String
-            if let offering = dictionary["offering"] as? [String: Any] { self.offering = try Devicefarm.Offering(dictionary: offering) } else { self.offering = nil }
+        private enum CodingKeys: String, CodingKey {
+            case quantity = "quantity"
+            case `type` = "type"
+            case effectiveOn = "effectiveOn"
+            case offering = "offering"
         }
     }
 
     public struct ListDevicePoolsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
         public let `type`: DevicePoolType?
@@ -2479,20 +2273,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = DevicePoolType(rawValue: `type`) } else { self.`type` = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct ListJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2504,33 +2296,31 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct Run: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "result", required: false, type: .enum), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "completedJobs", required: false, type: .integer), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "totalJobs", required: false, type: .integer), 
-            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "networkProfile", required: false, type: .structure), 
-            AWSShapeProperty(label: "counters", required: false, type: .structure), 
-            AWSShapeProperty(label: "billingMethod", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "completedJobs", required: false, type: .integer), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "totalJobs", required: false, type: .integer), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "networkProfile", required: false, type: .structure), 
+            AWSShapeMember(label: "counters", required: false, type: .structure), 
+            AWSShapeMember(label: "billingMethod", required: false, type: .enum)
         ]
         /// The run's name.
         public let name: String?
@@ -2547,13 +2337,13 @@ extension Devicefarm {
         /// The total number of completed jobs.
         public let completedJobs: Int32?
         /// When the run was created.
-        public let created: String?
+        public let created: Double?
         /// The run's start time.
-        public let started: String?
+        public let started: Double?
         /// The total number of jobs for the run.
         public let totalJobs: Int32?
         /// The run's stop time.
-        public let stopped: String?
+        public let stopped: Double?
         /// Represents the total (metered or unmetered) minutes used by the test run.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the run's result.
@@ -2565,7 +2355,7 @@ extension Devicefarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: String? = nil, started: String? = nil, totalJobs: Int32? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
+        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: Double? = nil, started: Double? = nil, totalJobs: Int32? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
             self.name = name
             self.platform = platform
             self.`type` = `type`
@@ -2584,32 +2374,31 @@ extension Devicefarm {
             self.billingMethod = billingMethod
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let platform = dictionary["platform"] as? String { self.platform = DevicePlatform(rawValue: platform) } else { self.platform = nil }
-            if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
-            self.arn = dictionary["arn"] as? String
-            if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.completedJobs = dictionary["completedJobs"] as? Int32
-            self.created = dictionary["created"] as? String
-            self.started = dictionary["started"] as? String
-            self.totalJobs = dictionary["totalJobs"] as? Int32
-            self.stopped = dictionary["stopped"] as? String
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.message = dictionary["message"] as? String
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
-            if let billingMethod = dictionary["billingMethod"] as? String { self.billingMethod = BillingMethod(rawValue: billingMethod) } else { self.billingMethod = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case platform = "platform"
+            case `type` = "type"
+            case result = "result"
+            case arn = "arn"
+            case status = "status"
+            case completedJobs = "completedJobs"
+            case created = "created"
+            case started = "started"
+            case totalJobs = "totalJobs"
+            case stopped = "stopped"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case networkProfile = "networkProfile"
+            case counters = "counters"
+            case billingMethod = "billingMethod"
         }
     }
 
     public struct TrialMinutes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "total", required: false, type: .double), 
-            AWSShapeProperty(label: "remaining", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "total", required: false, type: .double), 
+            AWSShapeMember(label: "remaining", required: false, type: .double)
         ]
         /// The total number of free trial minutes that the account started with.
         public let total: Double?
@@ -2621,19 +2410,18 @@ extension Devicefarm {
             self.remaining = remaining
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.total = dictionary["total"] as? Double
-            self.remaining = dictionary["remaining"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case total = "total"
+            case remaining = "remaining"
         }
     }
 
     public struct DevicePoolCompatibilityResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", required: false, type: .structure), 
-            AWSShapeProperty(label: "compatible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "incompatibilityMessages", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "compatible", required: false, type: .boolean), 
+            AWSShapeMember(label: "incompatibilityMessages", required: false, type: .list)
         ]
         /// The device (phone or tablet) that you wish to return information about.
         public let device: Device?
@@ -2648,30 +2436,25 @@ extension Devicefarm {
             self.incompatibilityMessages = incompatibilityMessages
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
-            self.compatible = dictionary["compatible"] as? Bool
-            if let incompatibilityMessages = dictionary["incompatibilityMessages"] as? [[String: Any]] {
-                self.incompatibilityMessages = try incompatibilityMessages.map({ try IncompatibilityMessage(dictionary: $0) })
-            } else { 
-                self.incompatibilityMessages = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case device = "device"
+            case compatible = "compatible"
+            case incompatibilityMessages = "incompatibilityMessages"
         }
     }
 
     public struct Upload: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "metadata", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "contentType", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "url", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "metadata", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "contentType", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "url", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The upload's metadata. For example, for Android, this contains information that is parsed from the manifest and is displayed in the AWS Device Farm console after the associated app is uploaded.
         public let metadata: String?
@@ -2682,7 +2465,7 @@ extension Devicefarm {
         /// The upload's file name.
         public let name: String?
         /// When the upload was created.
-        public let created: String?
+        public let created: Double?
         /// A message about the upload's result.
         public let message: String?
         /// The upload's type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.  
@@ -2692,7 +2475,7 @@ extension Devicefarm {
         /// The upload's ARN.
         public let arn: String?
 
-        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: String? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
+        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: Double? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
             self.metadata = metadata
             self.status = status
             self.contentType = contentType
@@ -2704,24 +2487,23 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metadata = dictionary["metadata"] as? String
-            if let status = dictionary["status"] as? String { self.status = UploadStatus(rawValue: status) } else { self.status = nil }
-            self.contentType = dictionary["contentType"] as? String
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.message = dictionary["message"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = UploadType(rawValue: `type`) } else { self.`type` = nil }
-            self.url = dictionary["url"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metadata = "metadata"
+            case status = "status"
+            case contentType = "contentType"
+            case name = "name"
+            case created = "created"
+            case message = "message"
+            case `type` = "type"
+            case url = "url"
+            case arn = "arn"
         }
     }
 
     public struct ListOfferingsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2730,33 +2512,26 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct DeleteRunResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListDevicePoolsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePools", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devicePools", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
@@ -2768,22 +2543,17 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devicePools = dictionary["devicePools"] as? [[String: Any]] {
-                self.devicePools = try devicePools.map({ try DevicePool(dictionary: $0) })
-            } else { 
-                self.devicePools = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case devicePools = "devicePools"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingTransactionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "offeringTransactions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "offeringTransactions", required: false, type: .list)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2795,17 +2565,13 @@ extension Devicefarm {
             self.offeringTransactions = offeringTransactions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let offeringTransactions = dictionary["offeringTransactions"] as? [[String: Any]] {
-                self.offeringTransactions = try offeringTransactions.map({ try OfferingTransaction(dictionary: $0) })
-            } else { 
-                self.offeringTransactions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case offeringTransactions = "offeringTransactions"
         }
     }
 
-    public enum DevicePoolType: String, CustomStringConvertible {
+    public enum DevicePoolType: String, CustomStringConvertible, Codable {
         case curated = "CURATED"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
@@ -2813,10 +2579,9 @@ extension Devicefarm {
 
     public struct ListSuitesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -2828,20 +2593,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct CPU: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "frequency", required: false, type: .string), 
-            AWSShapeProperty(label: "architecture", required: false, type: .string), 
-            AWSShapeProperty(label: "clock", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "frequency", required: false, type: .string), 
+            AWSShapeMember(label: "architecture", required: false, type: .string), 
+            AWSShapeMember(label: "clock", required: false, type: .double)
         ]
         /// The CPU's frequency.
         public let frequency: String?
@@ -2856,18 +2619,17 @@ extension Devicefarm {
             self.clock = clock
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.frequency = dictionary["frequency"] as? String
-            self.architecture = dictionary["architecture"] as? String
-            self.clock = dictionary["clock"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "frequency"
+            case architecture = "architecture"
+            case clock = "clock"
         }
     }
 
     public struct InstallToRemoteAccessSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "appUpload", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appUpload", required: false, type: .structure)
         ]
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
@@ -2876,16 +2638,15 @@ extension Devicefarm {
             self.appUpload = appUpload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let appUpload = dictionary["appUpload"] as? [String: Any] { self.appUpload = try Devicefarm.Upload(dictionary: appUpload) } else { self.appUpload = nil }
+        private enum CodingKeys: String, CodingKey {
+            case appUpload = "appUpload"
         }
     }
 
     public struct GetNetworkProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
         public let arn: String
@@ -2894,23 +2655,21 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct Counters: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "warned", required: false, type: .integer), 
-            AWSShapeProperty(label: "errored", required: false, type: .integer), 
-            AWSShapeProperty(label: "failed", required: false, type: .integer), 
-            AWSShapeProperty(label: "skipped", required: false, type: .integer), 
-            AWSShapeProperty(label: "passed", required: false, type: .integer), 
-            AWSShapeProperty(label: "stopped", required: false, type: .integer), 
-            AWSShapeProperty(label: "total", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "warned", required: false, type: .integer), 
+            AWSShapeMember(label: "errored", required: false, type: .integer), 
+            AWSShapeMember(label: "failed", required: false, type: .integer), 
+            AWSShapeMember(label: "skipped", required: false, type: .integer), 
+            AWSShapeMember(label: "passed", required: false, type: .integer), 
+            AWSShapeMember(label: "stopped", required: false, type: .integer), 
+            AWSShapeMember(label: "total", required: false, type: .integer)
         ]
         /// The number of warned entities.
         public let warned: Int32?
@@ -2937,32 +2696,28 @@ extension Devicefarm {
             self.total = total
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.warned = dictionary["warned"] as? Int32
-            self.errored = dictionary["errored"] as? Int32
-            self.failed = dictionary["failed"] as? Int32
-            self.skipped = dictionary["skipped"] as? Int32
-            self.passed = dictionary["passed"] as? Int32
-            self.stopped = dictionary["stopped"] as? Int32
-            self.total = dictionary["total"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case warned = "warned"
+            case errored = "errored"
+            case failed = "failed"
+            case skipped = "skipped"
+            case passed = "passed"
+            case stopped = "stopped"
+            case total = "total"
         }
     }
 
     public struct DeleteRemoteAccessSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeviceMinutes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "total", required: false, type: .double), 
-            AWSShapeProperty(label: "metered", required: false, type: .double), 
-            AWSShapeProperty(label: "unmetered", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "total", required: false, type: .double), 
+            AWSShapeMember(label: "metered", required: false, type: .double), 
+            AWSShapeMember(label: "unmetered", required: false, type: .double)
         ]
         /// When specified, represents the total minutes used by the resource to run tests.
         public let total: Double?
@@ -2977,19 +2732,18 @@ extension Devicefarm {
             self.unmetered = unmetered
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.total = dictionary["total"] as? Double
-            self.metered = dictionary["metered"] as? Double
-            self.unmetered = dictionary["unmetered"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case total = "total"
+            case metered = "metered"
+            case unmetered = "unmetered"
         }
     }
 
     public struct ListRemoteAccessSessionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3001,20 +2755,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct ListArtifactsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: true, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: true, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
         public let `type`: ArtifactCategory
@@ -3029,20 +2781,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawtype = dictionary["type"] as? String, let `type` = ArtifactCategory(rawValue: rawtype) else { throw InitializableError.missingRequiredParam("type") }
-            self.`type` = `type`
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct GetTestRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The test's ARN.
         public let arn: String
@@ -3051,17 +2800,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct GetDeviceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "device", required: false, type: .structure)
         ]
         /// An object containing information about the requested device.
         public let device: Device?
@@ -3070,16 +2817,15 @@ extension Devicefarm {
             self.device = device
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
+        private enum CodingKeys: String, CodingKey {
+            case device = "device"
         }
     }
 
     public struct DeleteProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
         public let arn: String
@@ -3088,13 +2834,12 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case pending_concurrency = "PENDING_CONCURRENCY"
         case pending_device = "PENDING_DEVICE"
@@ -3109,9 +2854,8 @@ extension Devicefarm {
 
     public struct StopRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
         public let arn: String
@@ -3120,23 +2864,21 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
-    public enum OfferingType: String, CustomStringConvertible {
+    public enum OfferingType: String, CustomStringConvertible, Codable {
         case recurring = "RECURRING"
         public var description: String { return self.rawValue }
     }
 
     public struct OfferingPromotion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
         /// The ID of the offering promotion.
         public let id: String?
@@ -3148,18 +2890,17 @@ extension Devicefarm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["id"] as? String
-            self.description = dictionary["description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case description = "description"
         }
     }
 
     public struct ListUniqueProblemsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "uniqueProblems", required: false, type: .map), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "uniqueProblems", required: false, type: .map), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
         public let uniqueProblems: [ExecutionResult: [UniqueProblem]]?
@@ -3171,23 +2912,13 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let uniqueProblems = dictionary["uniqueProblems"] as? [String: Any] {
-                var uniqueProblemsDict: [ExecutionResult: [UniqueProblem]] = [:]
-                for (key, value) in uniqueProblems {
-                    guard let uniqueProblem = value as? [[String: Any]] else { throw InitializableError.convertingError }
-                    let uniqueProblemList: [UniqueProblem] = try uniqueProblem.map { try UniqueProblem(dictionary: $0) }
-                    uniqueProblemsDict[ExecutionResult(rawValue: key)!] = uniqueProblemList
-                }
-                self.uniqueProblems = uniqueProblemsDict
-            } else { 
-                self.uniqueProblems = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case uniqueProblems = "uniqueProblems"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum DevicePlatform: String, CustomStringConvertible {
+    public enum DevicePlatform: String, CustomStringConvertible, Codable {
         case android = "ANDROID"
         case ios = "IOS"
         public var description: String { return self.rawValue }
@@ -3195,15 +2926,14 @@ extension Devicefarm {
 
     public struct Problem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "test", required: false, type: .structure), 
-            AWSShapeProperty(label: "suite", required: false, type: .structure), 
-            AWSShapeProperty(label: "job", required: false, type: .structure), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "device", required: false, type: .structure), 
-            AWSShapeProperty(label: "run", required: false, type: .structure), 
-            AWSShapeProperty(label: "result", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "test", required: false, type: .structure), 
+            AWSShapeMember(label: "suite", required: false, type: .structure), 
+            AWSShapeMember(label: "job", required: false, type: .structure), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "run", required: false, type: .structure), 
+            AWSShapeMember(label: "result", required: false, type: .enum)
         ]
         /// Information about the associated test.
         public let test: ProblemDetail?
@@ -3230,24 +2960,23 @@ extension Devicefarm {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ProblemDetail(dictionary: test) } else { self.test = nil }
-            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.ProblemDetail(dictionary: suite) } else { self.suite = nil }
-            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.ProblemDetail(dictionary: job) } else { self.job = nil }
-            self.message = dictionary["message"] as? String
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.ProblemDetail(dictionary: run) } else { self.run = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
+        private enum CodingKeys: String, CodingKey {
+            case test = "test"
+            case suite = "suite"
+            case job = "job"
+            case message = "message"
+            case device = "device"
+            case run = "run"
+            case result = "result"
         }
     }
 
     public struct Sample: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "url", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "url", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.  
         public let `type`: SampleType?
@@ -3262,18 +2991,17 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["type"] as? String { self.`type` = SampleType(rawValue: `type`) } else { self.`type` = nil }
-            self.url = dictionary["url"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "type"
+            case url = "url"
+            case arn = "arn"
         }
     }
 
     public struct DeleteRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
         public let arn: String
@@ -3282,17 +3010,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct CreateDevicePoolResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "devicePool", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "devicePool", required: false, type: .structure)
         ]
         /// The newly created device pool.
         public let devicePool: DevicePool?
@@ -3301,19 +3027,18 @@ extension Devicefarm {
             self.devicePool = devicePool
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
+        private enum CodingKeys: String, CodingKey {
+            case devicePool = "devicePool"
         }
     }
 
     public struct UpdateDevicePoolRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "rules", required: false, type: .list), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "rules", required: false, type: .list), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// A description of the device pool you wish to update.
         public let description: String?
@@ -3331,20 +3056,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            self.name = dictionary["name"] as? String
-            if let rules = dictionary["rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try Rule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case rules = "rules"
+            case arn = "arn"
         }
     }
 
-    public enum SampleType: String, CustomStringConvertible {
+    public enum SampleType: String, CustomStringConvertible, Codable {
         case cpu = "CPU"
         case memory = "MEMORY"
         case threads = "THREADS"
@@ -3367,9 +3087,8 @@ extension Devicefarm {
 
     public struct ListOfferingTransactionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3378,22 +3097,21 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
         }
     }
 
     public struct AccountSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "trialMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "unmeteredDevices", required: false, type: .map), 
-            AWSShapeProperty(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "maxSlots", required: false, type: .map), 
-            AWSShapeProperty(label: "unmeteredRemoteAccessDevices", required: false, type: .map), 
-            AWSShapeProperty(label: "awsAccountNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "trialMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "unmeteredDevices", required: false, type: .map), 
+            AWSShapeMember(label: "maxJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "maxSlots", required: false, type: .map), 
+            AWSShapeMember(label: "unmeteredRemoteAccessDevices", required: false, type: .map), 
+            AWSShapeMember(label: "awsAccountNumber", required: false, type: .string), 
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer)
         ]
         /// Information about an AWS account's usage of free trial device minutes.
         public let trialMinutes: TrialMinutes?
@@ -3420,34 +3138,21 @@ extension Devicefarm {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let trialMinutes = dictionary["trialMinutes"] as? [String: Any] { self.trialMinutes = try Devicefarm.TrialMinutes(dictionary: trialMinutes) } else { self.trialMinutes = nil }
-            if let unmeteredDevices = dictionary["unmeteredDevices"] as? [DevicePlatform: Int32] {
-                self.unmeteredDevices = unmeteredDevices
-            } else { 
-                self.unmeteredDevices = nil
-            }
-            self.maxJobTimeoutMinutes = dictionary["maxJobTimeoutMinutes"] as? Int32
-            if let maxSlots = dictionary["maxSlots"] as? [String: Int32] {
-                self.maxSlots = maxSlots
-            } else { 
-                self.maxSlots = nil
-            }
-            if let unmeteredRemoteAccessDevices = dictionary["unmeteredRemoteAccessDevices"] as? [DevicePlatform: Int32] {
-                self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
-            } else { 
-                self.unmeteredRemoteAccessDevices = nil
-            }
-            self.awsAccountNumber = dictionary["awsAccountNumber"] as? String
-            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case trialMinutes = "trialMinutes"
+            case unmeteredDevices = "unmeteredDevices"
+            case maxJobTimeoutMinutes = "maxJobTimeoutMinutes"
+            case maxSlots = "maxSlots"
+            case unmeteredRemoteAccessDevices = "unmeteredRemoteAccessDevices"
+            case awsAccountNumber = "awsAccountNumber"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
         }
     }
 
     public struct StopRemoteAccessSessionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "remoteAccessSession", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "remoteAccessSession", required: false, type: .structure)
         ]
         /// A container representing the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
@@ -3456,17 +3161,16 @@ extension Devicefarm {
             self.remoteAccessSession = remoteAccessSession
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
+        private enum CodingKeys: String, CodingKey {
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct ListArtifactsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "artifacts", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "artifacts", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
@@ -3478,21 +3182,16 @@ extension Devicefarm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let artifacts = dictionary["artifacts"] as? [[String: Any]] {
-                self.artifacts = try artifacts.map({ try Artifact(dictionary: $0) })
-            } else { 
-                self.artifacts = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetNetworkProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "networkProfile", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "networkProfile", required: false, type: .structure)
         ]
         /// The network profile.
         public let networkProfile: NetworkProfile?
@@ -3501,17 +3200,16 @@ extension Devicefarm {
             self.networkProfile = networkProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
+        private enum CodingKeys: String, CodingKey {
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct Location: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "longitude", required: true, type: .double), 
-            AWSShapeProperty(label: "latitude", required: true, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "longitude", required: true, type: .double), 
+            AWSShapeMember(label: "latitude", required: true, type: .double)
         ]
         /// The longitude.
         public let longitude: Double
@@ -3523,19 +3221,16 @@ extension Devicefarm {
             self.latitude = latitude
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let longitude = dictionary["longitude"] as? Double else { throw InitializableError.missingRequiredParam("longitude") }
-            self.longitude = longitude
-            guard let latitude = dictionary["latitude"] as? Double else { throw InitializableError.missingRequiredParam("latitude") }
-            self.latitude = latitude
+        private enum CodingKeys: String, CodingKey {
+            case longitude = "longitude"
+            case latitude = "latitude"
         }
     }
 
     public struct GetAccountSettingsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "accountSettings", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accountSettings", required: false, type: .structure)
         ]
         /// The account settings.
         public let accountSettings: AccountSettings?
@@ -3544,19 +3239,18 @@ extension Devicefarm {
             self.accountSettings = accountSettings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accountSettings = dictionary["accountSettings"] as? [String: Any] { self.accountSettings = try Devicefarm.AccountSettings(dictionary: accountSettings) } else { self.accountSettings = nil }
+        private enum CodingKeys: String, CodingKey {
+            case accountSettings = "accountSettings"
         }
     }
 
     public struct GetDevicePoolCompatibilityRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "testType", required: false, type: .enum), 
-            AWSShapeProperty(label: "test", required: false, type: .structure), 
-            AWSShapeProperty(label: "appArn", required: false, type: .string), 
-            AWSShapeProperty(label: "devicePoolArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "testType", required: false, type: .enum), 
+            AWSShapeMember(label: "test", required: false, type: .structure), 
+            AWSShapeMember(label: "appArn", required: false, type: .string), 
+            AWSShapeMember(label: "devicePoolArn", required: true, type: .string)
         ]
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
         public let testType: TestType?
@@ -3574,21 +3268,19 @@ extension Devicefarm {
             self.devicePoolArn = devicePoolArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let testType = dictionary["testType"] as? String { self.testType = TestType(rawValue: testType) } else { self.testType = nil }
-            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ScheduleRunTest(dictionary: test) } else { self.test = nil }
-            self.appArn = dictionary["appArn"] as? String
-            guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
-            self.devicePoolArn = devicePoolArn
+        private enum CodingKeys: String, CodingKey {
+            case testType = "testType"
+            case test = "test"
+            case appArn = "appArn"
+            case devicePoolArn = "devicePoolArn"
         }
     }
 
     public struct Resolution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "height", required: false, type: .integer), 
-            AWSShapeProperty(label: "width", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "height", required: false, type: .integer), 
+            AWSShapeMember(label: "width", required: false, type: .integer)
         ]
         /// The screen resolution's height, expressed in pixels.
         public let height: Int32?
@@ -3600,18 +3292,17 @@ extension Devicefarm {
             self.width = width
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.height = dictionary["height"] as? Int32
-            self.width = dictionary["width"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case width = "width"
         }
     }
 
     public struct RenewOfferingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "offeringId", required: false, type: .string), 
-            AWSShapeProperty(label: "quantity", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "offeringId", required: false, type: .string), 
+            AWSShapeMember(label: "quantity", required: false, type: .integer)
         ]
         /// The ID of a request to renew an offering.
         public let offeringId: String?
@@ -3623,33 +3314,32 @@ extension Devicefarm {
             self.quantity = quantity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.offeringId = dictionary["offeringId"] as? String
-            self.quantity = dictionary["quantity"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case offeringId = "offeringId"
+            case quantity = "quantity"
         }
     }
 
     public struct Device: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "cpu", required: false, type: .structure), 
-            AWSShapeProperty(label: "platform", required: false, type: .enum), 
-            AWSShapeProperty(label: "heapSize", required: false, type: .long), 
-            AWSShapeProperty(label: "model", required: false, type: .string), 
-            AWSShapeProperty(label: "radio", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "memory", required: false, type: .long), 
-            AWSShapeProperty(label: "resolution", required: false, type: .structure), 
-            AWSShapeProperty(label: "os", required: false, type: .string), 
-            AWSShapeProperty(label: "image", required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessEnabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "formFactor", required: false, type: .enum), 
-            AWSShapeProperty(label: "fleetType", required: false, type: .string), 
-            AWSShapeProperty(label: "fleetName", required: false, type: .string), 
-            AWSShapeProperty(label: "manufacturer", required: false, type: .string), 
-            AWSShapeProperty(label: "carrier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "cpu", required: false, type: .structure), 
+            AWSShapeMember(label: "platform", required: false, type: .enum), 
+            AWSShapeMember(label: "heapSize", required: false, type: .long), 
+            AWSShapeMember(label: "model", required: false, type: .string), 
+            AWSShapeMember(label: "radio", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "memory", required: false, type: .long), 
+            AWSShapeMember(label: "resolution", required: false, type: .structure), 
+            AWSShapeMember(label: "os", required: false, type: .string), 
+            AWSShapeMember(label: "image", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccessEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "formFactor", required: false, type: .enum), 
+            AWSShapeMember(label: "fleetType", required: false, type: .string), 
+            AWSShapeMember(label: "fleetName", required: false, type: .string), 
+            AWSShapeMember(label: "manufacturer", required: false, type: .string), 
+            AWSShapeMember(label: "carrier", required: false, type: .string)
         ]
         /// The device's display name.
         public let name: String?
@@ -3706,33 +3396,32 @@ extension Devicefarm {
             self.carrier = carrier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let cpu = dictionary["cpu"] as? [String: Any] { self.cpu = try Devicefarm.CPU(dictionary: cpu) } else { self.cpu = nil }
-            if let platform = dictionary["platform"] as? String { self.platform = DevicePlatform(rawValue: platform) } else { self.platform = nil }
-            self.heapSize = dictionary["heapSize"] as? Int64
-            self.model = dictionary["model"] as? String
-            self.radio = dictionary["radio"] as? String
-            self.arn = dictionary["arn"] as? String
-            self.memory = dictionary["memory"] as? Int64
-            if let resolution = dictionary["resolution"] as? [String: Any] { self.resolution = try Devicefarm.Resolution(dictionary: resolution) } else { self.resolution = nil }
-            self.os = dictionary["os"] as? String
-            self.image = dictionary["image"] as? String
-            self.remoteAccessEnabled = dictionary["remoteAccessEnabled"] as? Bool
-            if let formFactor = dictionary["formFactor"] as? String { self.formFactor = DeviceFormFactor(rawValue: formFactor) } else { self.formFactor = nil }
-            self.fleetType = dictionary["fleetType"] as? String
-            self.fleetName = dictionary["fleetName"] as? String
-            self.manufacturer = dictionary["manufacturer"] as? String
-            self.carrier = dictionary["carrier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case cpu = "cpu"
+            case platform = "platform"
+            case heapSize = "heapSize"
+            case model = "model"
+            case radio = "radio"
+            case arn = "arn"
+            case memory = "memory"
+            case resolution = "resolution"
+            case os = "os"
+            case image = "image"
+            case remoteAccessEnabled = "remoteAccessEnabled"
+            case formFactor = "formFactor"
+            case fleetType = "fleetType"
+            case fleetName = "fleetName"
+            case manufacturer = "manufacturer"
+            case carrier = "carrier"
         }
     }
 
     public struct ListRunsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3744,29 +3433,27 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "device", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "created", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "started", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "stopped", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "deviceMinutes", required: false, type: .structure), 
-            AWSShapeProperty(label: "message", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "result", required: false, type: .enum), 
-            AWSShapeProperty(label: "counters", required: false, type: .structure), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "device", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "created", required: false, type: .timestamp), 
+            AWSShapeMember(label: "started", required: false, type: .timestamp), 
+            AWSShapeMember(label: "stopped", required: false, type: .timestamp), 
+            AWSShapeMember(label: "deviceMinutes", required: false, type: .structure), 
+            AWSShapeMember(label: "message", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "result", required: false, type: .enum), 
+            AWSShapeMember(label: "counters", required: false, type: .structure), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The device (phone or tablet).
         public let device: Device?
@@ -3775,11 +3462,11 @@ extension Devicefarm {
         /// The job's name.
         public let name: String?
         /// When the job was created.
-        public let created: String?
+        public let created: Double?
         /// The job's start time.
-        public let started: String?
+        public let started: Double?
         /// The job's stop time.
-        public let stopped: String?
+        public let stopped: Double?
         /// Represents the total (metered or unmetered) minutes used by the job.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the job's result.
@@ -3793,7 +3480,7 @@ extension Devicefarm {
         /// The job's ARN.
         public let arn: String?
 
-        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: String? = nil, started: String? = nil, stopped: String? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.device = device
             self.status = status
             self.name = name
@@ -3808,27 +3495,26 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
-            if let status = dictionary["status"] as? String { self.status = ExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.name = dictionary["name"] as? String
-            self.created = dictionary["created"] as? String
-            self.started = dictionary["started"] as? String
-            self.stopped = dictionary["stopped"] as? String
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
-            self.message = dictionary["message"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = TestType(rawValue: `type`) } else { self.`type` = nil }
-            if let result = dictionary["result"] as? String { self.result = ExecutionResult(rawValue: result) } else { self.result = nil }
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case device = "device"
+            case status = "status"
+            case name = "name"
+            case created = "created"
+            case started = "started"
+            case stopped = "stopped"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case `type` = "type"
+            case result = "result"
+            case counters = "counters"
+            case arn = "arn"
         }
     }
 
     public struct GetProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The project's ARN.
         public let arn: String
@@ -3837,18 +3523,16 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct ListProjectsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
@@ -3860,19 +3544,18 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case arn = "arn"
         }
     }
 
     public struct UpdateProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "defaultJobTimeoutMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// A string representing the new name of the project that you are updating.
         public let name: String?
@@ -3887,15 +3570,14 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case arn = "arn"
         }
     }
 
-    public enum ExecutionResult: String, CustomStringConvertible {
+    public enum ExecutionResult: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case passed = "PASSED"
         case warned = "WARNED"
@@ -3906,7 +3588,7 @@ extension Devicefarm {
         public var description: String { return self.rawValue }
     }
 
-    public enum BillingMethod: String, CustomStringConvertible {
+    public enum BillingMethod: String, CustomStringConvertible, Codable {
         case metered = "METERED"
         case unmetered = "UNMETERED"
         public var description: String { return self.rawValue }
@@ -3914,10 +3596,9 @@ extension Devicefarm {
 
     public struct InstallToRemoteAccessSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "appArn", required: true, type: .string), 
-            AWSShapeProperty(label: "remoteAccessSessionArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "appArn", required: true, type: .string), 
+            AWSShapeMember(label: "remoteAccessSessionArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the app about which you are requesting information.
         public let appArn: String
@@ -3929,20 +3610,17 @@ extension Devicefarm {
             self.remoteAccessSessionArn = remoteAccessSessionArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let appArn = dictionary["appArn"] as? String else { throw InitializableError.missingRequiredParam("appArn") }
-            self.appArn = appArn
-            guard let remoteAccessSessionArn = dictionary["remoteAccessSessionArn"] as? String else { throw InitializableError.missingRequiredParam("remoteAccessSessionArn") }
-            self.remoteAccessSessionArn = remoteAccessSessionArn
+        private enum CodingKeys: String, CodingKey {
+            case appArn = "appArn"
+            case remoteAccessSessionArn = "remoteAccessSessionArn"
         }
     }
 
     public struct GetDevicePoolCompatibilityResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "incompatibleDevices", required: false, type: .list), 
-            AWSShapeProperty(label: "compatibleDevices", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "incompatibleDevices", required: false, type: .list), 
+            AWSShapeMember(label: "compatibleDevices", required: false, type: .list)
         ]
         /// Information about incompatible devices.
         public let incompatibleDevices: [DevicePoolCompatibilityResult]?
@@ -3954,25 +3632,16 @@ extension Devicefarm {
             self.compatibleDevices = compatibleDevices
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let incompatibleDevices = dictionary["incompatibleDevices"] as? [[String: Any]] {
-                self.incompatibleDevices = try incompatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
-            } else { 
-                self.incompatibleDevices = nil
-            }
-            if let compatibleDevices = dictionary["compatibleDevices"] as? [[String: Any]] {
-                self.compatibleDevices = try compatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
-            } else { 
-                self.compatibleDevices = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case incompatibleDevices = "incompatibleDevices"
+            case compatibleDevices = "compatibleDevices"
         }
     }
 
     public struct GetRemoteAccessSessionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
@@ -3981,17 +3650,15 @@ extension Devicefarm {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
         }
     }
 
     public struct GetProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "project", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "project", required: false, type: .structure)
         ]
         /// The project you wish to get information about.
         public let project: Project?
@@ -4000,8 +3667,8 @@ extension Devicefarm {
             self.project = project
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
+        private enum CodingKeys: String, CodingKey {
+            case project = "project"
         }
     }
 

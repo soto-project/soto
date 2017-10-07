@@ -31,12 +31,11 @@ extension CognitoIdentity {
 
     public struct MappingRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Claim", required: true, type: .string), 
-            AWSShapeProperty(label: "MatchType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Claim", required: true, type: .string), 
+            AWSShapeMember(label: "MatchType", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: true, type: .string)
         ]
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         public let claim: String
@@ -54,29 +53,24 @@ extension CognitoIdentity {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let claim = dictionary["Claim"] as? String else { throw InitializableError.missingRequiredParam("Claim") }
-            self.claim = claim
-            guard let rawMatchType = dictionary["MatchType"] as? String, let matchType = MappingRuleMatchType(rawValue: rawMatchType) else { throw InitializableError.missingRequiredParam("MatchType") }
-            self.matchType = matchType
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
-            self.roleARN = roleARN
+        private enum CodingKeys: String, CodingKey {
+            case claim = "Claim"
+            case matchType = "MatchType"
+            case value = "Value"
+            case roleARN = "RoleARN"
         }
     }
 
     public struct CreateIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
-            AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
-            AWSShapeProperty(label: "SupportedLoginProviders", required: false, type: .map), 
-            AWSShapeProperty(label: "SamlProviderARNs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
+            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list)
         ]
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
@@ -103,33 +97,22 @@ extension CognitoIdentity {
             self.samlProviderARNs = samlProviderARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String]
-            if let cognitoIdentityProviders = dictionary["CognitoIdentityProviders"] as? [[String: Any]] {
-                self.cognitoIdentityProviders = try cognitoIdentityProviders.map({ try CognitoIdentityProvider(dictionary: $0) })
-            } else { 
-                self.cognitoIdentityProviders = nil
-            }
-            self.developerProviderName = dictionary["DeveloperProviderName"] as? String
-            guard let identityPoolName = dictionary["IdentityPoolName"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolName") }
-            self.identityPoolName = identityPoolName
-            guard let allowUnauthenticatedIdentities = dictionary["AllowUnauthenticatedIdentities"] as? Bool else { throw InitializableError.missingRequiredParam("AllowUnauthenticatedIdentities") }
-            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
-            if let supportedLoginProviders = dictionary["SupportedLoginProviders"] as? [String: String] {
-                self.supportedLoginProviders = supportedLoginProviders
-            } else { 
-                self.supportedLoginProviders = nil
-            }
-            self.samlProviderARNs = dictionary["SamlProviderARNs"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
+            case cognitoIdentityProviders = "CognitoIdentityProviders"
+            case developerProviderName = "DeveloperProviderName"
+            case identityPoolName = "IdentityPoolName"
+            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
+            case supportedLoginProviders = "SupportedLoginProviders"
+            case samlProviderARNs = "SamlProviderARNs"
         }
     }
 
     public struct ListIdentityPoolsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer)
         ]
         /// A pagination token.
         public let nextToken: String?
@@ -141,21 +124,19 @@ extension CognitoIdentity {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let maxResults = dictionary["MaxResults"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxResults") }
-            self.maxResults = maxResults
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Credentials: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecretKey", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "SessionToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecretKey", required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "SessionToken", required: false, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp)
         ]
         /// The Secret Access Key portion of the credentials
         public let secretKey: String?
@@ -164,30 +145,29 @@ extension CognitoIdentity {
         /// The Session Token portion of the credentials
         public let sessionToken: String?
         /// The date at which these credentials will expire.
-        public let expiration: String?
+        public let expiration: Double?
 
-        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: String? = nil) {
+        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: Double? = nil) {
             self.secretKey = secretKey
             self.accessKeyId = accessKeyId
             self.sessionToken = sessionToken
             self.expiration = expiration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.secretKey = dictionary["SecretKey"] as? String
-            self.accessKeyId = dictionary["AccessKeyId"] as? String
-            self.sessionToken = dictionary["SessionToken"] as? String
-            self.expiration = dictionary["Expiration"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case secretKey = "SecretKey"
+            case accessKeyId = "AccessKeyId"
+            case sessionToken = "SessionToken"
+            case expiration = "Expiration"
         }
     }
 
     public struct GetCredentialsForIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Logins", required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .map), 
+            AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
         public let customRoleArn: String?
@@ -202,27 +182,21 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customRoleArn = dictionary["CustomRoleArn"] as? String
-            if let logins = dictionary["Logins"] as? [String: String] {
-                self.logins = logins
-            } else { 
-                self.logins = nil
-            }
-            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
-            self.identityId = identityId
+        private enum CodingKeys: String, CodingKey {
+            case customRoleArn = "CustomRoleArn"
+            case logins = "Logins"
+            case identityId = "IdentityId"
         }
     }
 
     public struct LookupDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperUserIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
         public let developerUserIdentifier: String?
@@ -243,21 +217,19 @@ extension CognitoIdentity {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.developerUserIdentifier = dictionary["DeveloperUserIdentifier"] as? String
-            self.identityId = dictionary["IdentityId"] as? String
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case developerUserIdentifier = "DeveloperUserIdentifier"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct RulesConfigurationType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rules", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: true, type: .list)
         ]
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         public let rules: [MappingRule]
@@ -266,24 +238,22 @@ extension CognitoIdentity {
             self.rules = rules
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
-            self.rules = try rules.map({ try MappingRule(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
         }
     }
 
     public struct IdentityPool: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "CognitoIdentityProviders", required: false, type: .list), 
-            AWSShapeProperty(label: "DeveloperProviderName", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
-            AWSShapeProperty(label: "SupportedLoginProviders", required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "SamlProviderARNs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIdConnectProviderARNs", required: false, type: .list), 
+            AWSShapeMember(label: "CognitoIdentityProviders", required: false, type: .list), 
+            AWSShapeMember(label: "DeveloperProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolName", required: true, type: .string), 
+            AWSShapeMember(label: "AllowUnauthenticatedIdentities", required: true, type: .boolean), 
+            AWSShapeMember(label: "SupportedLoginProviders", required: false, type: .map), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "SamlProviderARNs", required: false, type: .list)
         ]
         /// A list of OpendID Connect provider ARNs.
         public let openIdConnectProviderARNs: [String]?
@@ -313,35 +283,23 @@ extension CognitoIdentity {
             self.samlProviderARNs = samlProviderARNs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String]
-            if let cognitoIdentityProviders = dictionary["CognitoIdentityProviders"] as? [[String: Any]] {
-                self.cognitoIdentityProviders = try cognitoIdentityProviders.map({ try CognitoIdentityProvider(dictionary: $0) })
-            } else { 
-                self.cognitoIdentityProviders = nil
-            }
-            self.developerProviderName = dictionary["DeveloperProviderName"] as? String
-            guard let identityPoolName = dictionary["IdentityPoolName"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolName") }
-            self.identityPoolName = identityPoolName
-            guard let allowUnauthenticatedIdentities = dictionary["AllowUnauthenticatedIdentities"] as? Bool else { throw InitializableError.missingRequiredParam("AllowUnauthenticatedIdentities") }
-            self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
-            if let supportedLoginProviders = dictionary["SupportedLoginProviders"] as? [String: String] {
-                self.supportedLoginProviders = supportedLoginProviders
-            } else { 
-                self.supportedLoginProviders = nil
-            }
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            self.samlProviderARNs = dictionary["SamlProviderARNs"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case openIdConnectProviderARNs = "OpenIdConnectProviderARNs"
+            case cognitoIdentityProviders = "CognitoIdentityProviders"
+            case developerProviderName = "DeveloperProviderName"
+            case identityPoolName = "IdentityPoolName"
+            case allowUnauthenticatedIdentities = "AllowUnauthenticatedIdentities"
+            case supportedLoginProviders = "SupportedLoginProviders"
+            case identityPoolId = "IdentityPoolId"
+            case samlProviderARNs = "SamlProviderARNs"
         }
     }
 
     public struct IdentityPoolShortDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolName", required: false, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -353,20 +311,19 @@ extension CognitoIdentity {
             self.identityPoolName = identityPoolName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityPoolId = dictionary["IdentityPoolId"] as? String
-            self.identityPoolName = dictionary["IdentityPoolName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identityPoolName = "IdentityPoolName"
         }
     }
 
     public struct ListIdentitiesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HideDisabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HideDisabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: true, type: .integer)
         ]
         /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
         public let hideDisabled: Bool?
@@ -384,21 +341,18 @@ extension CognitoIdentity {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hideDisabled = dictionary["HideDisabled"] as? Bool
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let maxResults = dictionary["MaxResults"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxResults") }
-            self.maxResults = maxResults
+        private enum CodingKeys: String, CodingKey {
+            case hideDisabled = "HideDisabled"
+            case identityPoolId = "IdentityPoolId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -407,18 +361,16 @@ extension CognitoIdentity {
             self.identityPoolId = identityPoolId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
     public struct GetCredentialsForIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Credentials", required: false, type: .structure), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Credentials", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// Credentials for the provided identity ID.
         public let credentials: Credentials?
@@ -430,20 +382,19 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try CognitoIdentity.Credentials(dictionary: credentials) } else { self.credentials = nil }
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case identityId = "IdentityId"
         }
     }
 
     public struct MergeDeveloperIdentitiesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DestinationUserIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceUserIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "DeveloperProviderName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationUserIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "SourceUserIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string)
         ]
         /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
         public let destinationUserIdentifier: String
@@ -461,23 +412,18 @@ extension CognitoIdentity {
             self.developerProviderName = developerProviderName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let destinationUserIdentifier = dictionary["DestinationUserIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DestinationUserIdentifier") }
-            self.destinationUserIdentifier = destinationUserIdentifier
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            guard let sourceUserIdentifier = dictionary["SourceUserIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceUserIdentifier") }
-            self.sourceUserIdentifier = sourceUserIdentifier
-            guard let developerProviderName = dictionary["DeveloperProviderName"] as? String else { throw InitializableError.missingRequiredParam("DeveloperProviderName") }
-            self.developerProviderName = developerProviderName
+        private enum CodingKeys: String, CodingKey {
+            case destinationUserIdentifier = "DestinationUserIdentifier"
+            case identityPoolId = "IdentityPoolId"
+            case sourceUserIdentifier = "SourceUserIdentifier"
+            case developerProviderName = "DeveloperProviderName"
         }
     }
 
     public struct DeleteIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UnprocessedIdentityIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UnprocessedIdentityIds", required: false, type: .list)
         ]
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
         public let unprocessedIdentityIds: [UnprocessedIdentityId]?
@@ -486,23 +432,18 @@ extension CognitoIdentity {
             self.unprocessedIdentityIds = unprocessedIdentityIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let unprocessedIdentityIds = dictionary["UnprocessedIdentityIds"] as? [[String: Any]] {
-                self.unprocessedIdentityIds = try unprocessedIdentityIds.map({ try UnprocessedIdentityId(dictionary: $0) })
-            } else { 
-                self.unprocessedIdentityIds = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case unprocessedIdentityIds = "UnprocessedIdentityIds"
         }
     }
 
     public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TokenDuration", required: false, type: .long), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "Logins", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TokenDuration", required: false, type: .long), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: true, type: .map)
         ]
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
         public let tokenDuration: Int64?
@@ -520,22 +461,19 @@ extension CognitoIdentity {
             self.logins = logins
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tokenDuration = dictionary["TokenDuration"] as? Int64
-            self.identityId = dictionary["IdentityId"] as? String
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            guard let logins = dictionary["Logins"] as? [String: String] else { throw InitializableError.missingRequiredParam("Logins") }
-            self.logins = logins
+        private enum CodingKeys: String, CodingKey {
+            case tokenDuration = "TokenDuration"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+            case logins = "Logins"
         }
     }
 
     public struct GetOpenIdTokenInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Logins", required: false, type: .map), 
-            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Logins", required: false, type: .map), 
+            AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
         /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
         public let logins: [String: String]?
@@ -547,22 +485,16 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let logins = dictionary["Logins"] as? [String: String] {
-                self.logins = logins
-            } else { 
-                self.logins = nil
-            }
-            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
-            self.identityId = identityId
+        private enum CodingKeys: String, CodingKey {
+            case logins = "Logins"
+            case identityId = "IdentityId"
         }
     }
 
     public struct DeleteIdentitiesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityIdsToDelete", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityIdsToDelete", required: true, type: .list)
         ]
         /// A list of 1-60 identities that you want to delete.
         public let identityIdsToDelete: [String]
@@ -571,19 +503,17 @@ extension CognitoIdentity {
             self.identityIdsToDelete = identityIdsToDelete
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityIdsToDelete = dictionary["IdentityIdsToDelete"] as? [String] else { throw InitializableError.missingRequiredParam("IdentityIdsToDelete") }
-            self.identityIdsToDelete = identityIdsToDelete
+        private enum CodingKeys: String, CodingKey {
+            case identityIdsToDelete = "IdentityIdsToDelete"
         }
     }
 
     public struct GetIdInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "Logins", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .map)
         ]
         /// A standard AWS account ID (9+ digits).
         public let accountId: String?
@@ -598,24 +528,18 @@ extension CognitoIdentity {
             self.logins = logins
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? String
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            if let logins = dictionary["Logins"] as? [String: String] {
-                self.logins = logins
-            } else { 
-                self.logins = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case identityPoolId = "IdentityPoolId"
+            case logins = "Logins"
         }
     }
 
     public struct ListIdentityPoolsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPools", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPools", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The identity pools returned by the ListIdentityPools action.
         public let identityPools: [IdentityPoolShortDescription]?
@@ -627,23 +551,18 @@ extension CognitoIdentity {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let identityPools = dictionary["IdentityPools"] as? [[String: Any]] {
-                self.identityPools = try identityPools.map({ try IdentityPoolShortDescription(dictionary: $0) })
-            } else { 
-                self.identityPools = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identityPools = "IdentityPools"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetIdentityPoolRolesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
-            AWSShapeProperty(label: "Roles", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeMember(label: "Roles", required: false, type: .map)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -658,32 +577,18 @@ extension CognitoIdentity {
             self.roles = roles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityPoolId = dictionary["IdentityPoolId"] as? String
-            if let roleMappings = dictionary["RoleMappings"] as? [String: Any] {
-                var roleMappingsDict: [String: RoleMapping] = [:]
-                for (key, value) in roleMappings {
-                    guard let roleMappingDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    roleMappingsDict[key] = try RoleMapping(dictionary: roleMappingDict)
-                }
-                self.roleMappings = roleMappingsDict
-            } else { 
-                self.roleMappings = nil
-            }
-            if let roles = dictionary["Roles"] as? [String: String] {
-                self.roles = roles
-            } else { 
-                self.roles = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case roleMappings = "RoleMappings"
+            case roles = "Roles"
         }
     }
 
     public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Token", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Token", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// An OpenID token.
         public let token: String?
@@ -695,17 +600,16 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.token = dictionary["Token"] as? String
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case token = "Token"
+            case identityId = "IdentityId"
         }
     }
 
     public struct DescribeIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -714,17 +618,15 @@ extension CognitoIdentity {
             self.identityPoolId = identityPoolId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
     public struct GetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -733,20 +635,18 @@ extension CognitoIdentity {
             self.identityPoolId = identityPoolId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
         }
     }
 
     public struct UnlinkDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityId", required: true, type: .string), 
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "DeveloperProviderName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperUserIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: true, type: .string), 
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "DeveloperProviderName", required: true, type: .string)
         ]
         /// A unique ID used by your backend authentication process to identify a user.
         public let developerUserIdentifier: String
@@ -764,23 +664,18 @@ extension CognitoIdentity {
             self.developerProviderName = developerProviderName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let developerUserIdentifier = dictionary["DeveloperUserIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DeveloperUserIdentifier") }
-            self.developerUserIdentifier = developerUserIdentifier
-            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
-            self.identityId = identityId
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            guard let developerProviderName = dictionary["DeveloperProviderName"] as? String else { throw InitializableError.missingRequiredParam("DeveloperProviderName") }
-            self.developerProviderName = developerProviderName
+        private enum CodingKeys: String, CodingKey {
+            case developerUserIdentifier = "DeveloperUserIdentifier"
+            case identityId = "IdentityId"
+            case identityPoolId = "IdentityPoolId"
+            case developerProviderName = "DeveloperProviderName"
         }
     }
 
     public struct GetIdResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -789,18 +684,18 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
         }
     }
 
-    public enum RoleMappingType: String, CustomStringConvertible {
+    public enum RoleMappingType: String, CustomStringConvertible, Codable {
         case token = "Token"
         case rules = "Rules"
         public var description: String { return self.rawValue }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible {
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
         case accessdenied = "AccessDenied"
         case internalservererror = "InternalServerError"
         public var description: String { return self.rawValue }
@@ -808,44 +703,42 @@ extension CognitoIdentity {
 
     public struct IdentityDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string), 
-            AWSShapeProperty(label: "Logins", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string), 
+            AWSShapeMember(label: "Logins", required: false, type: .list)
         ]
         /// Date on which the identity was last modified.
-        public let lastModifiedDate: String?
+        public let lastModifiedDate: Double?
         /// Date on which the identity was created.
-        public let creationDate: String?
+        public let creationDate: Double?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public let logins: [String]?
 
-        public init(lastModifiedDate: String? = nil, creationDate: String? = nil, identityId: String? = nil, logins: [String]? = nil) {
+        public init(lastModifiedDate: Double? = nil, creationDate: Double? = nil, identityId: String? = nil, logins: [String]? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.identityId = identityId
             self.logins = logins
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.creationDate = dictionary["CreationDate"] as? String
-            self.identityId = dictionary["IdentityId"] as? String
-            self.logins = dictionary["Logins"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedDate = "LastModifiedDate"
+            case creationDate = "CreationDate"
+            case identityId = "IdentityId"
+            case logins = "Logins"
         }
     }
 
     public struct SetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleMappings", required: false, type: .map), 
-            AWSShapeProperty(label: "Roles", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleMappings", required: false, type: .map), 
+            AWSShapeMember(label: "Roles", required: true, type: .map)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String
@@ -860,31 +753,19 @@ extension CognitoIdentity {
             self.roles = roles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
-            self.identityPoolId = identityPoolId
-            if let roleMappings = dictionary["RoleMappings"] as? [String: Any] {
-                var roleMappingsDict: [String: RoleMapping] = [:]
-                for (key, value) in roleMappings {
-                    guard let roleMappingDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    roleMappingsDict[key] = try RoleMapping(dictionary: roleMappingDict)
-                }
-                self.roleMappings = roleMappingsDict
-            } else { 
-                self.roleMappings = nil
-            }
-            guard let roles = dictionary["Roles"] as? [String: String] else { throw InitializableError.missingRequiredParam("Roles") }
-            self.roles = roles
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case roleMappings = "RoleMappings"
+            case roles = "Roles"
         }
     }
 
     public struct UnlinkIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Logins", required: true, type: .map), 
-            AWSShapeProperty(label: "LoginsToRemove", required: true, type: .list), 
-            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Logins", required: true, type: .map), 
+            AWSShapeMember(label: "LoginsToRemove", required: true, type: .list), 
+            AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public let logins: [String: String]
@@ -899,22 +780,18 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let logins = dictionary["Logins"] as? [String: String] else { throw InitializableError.missingRequiredParam("Logins") }
-            self.logins = logins
-            guard let loginsToRemove = dictionary["LoginsToRemove"] as? [String] else { throw InitializableError.missingRequiredParam("LoginsToRemove") }
-            self.loginsToRemove = loginsToRemove
-            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
-            self.identityId = identityId
+        private enum CodingKeys: String, CodingKey {
+            case logins = "Logins"
+            case loginsToRemove = "LoginsToRemove"
+            case identityId = "IdentityId"
         }
     }
 
     public struct GetOpenIdTokenResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Token", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Token", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// An OpenID token, valid for 15 minutes.
         public let token: String?
@@ -926,19 +803,18 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.token = dictionary["Token"] as? String
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case token = "Token"
+            case identityId = "IdentityId"
         }
     }
 
     public struct CognitoIdentityProvider: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerSideTokenCheck", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ProviderName", required: false, type: .string), 
-            AWSShapeProperty(label: "ClientId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerSideTokenCheck", required: false, type: .boolean), 
+            AWSShapeMember(label: "ProviderName", required: false, type: .string), 
+            AWSShapeMember(label: "ClientId", required: false, type: .string)
         ]
         /// TRUE if server-side token validation is enabled for the identity provider’s token.
         public let serverSideTokenCheck: Bool?
@@ -953,20 +829,19 @@ extension CognitoIdentity {
             self.clientId = clientId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serverSideTokenCheck = dictionary["ServerSideTokenCheck"] as? Bool
-            self.providerName = dictionary["ProviderName"] as? String
-            self.clientId = dictionary["ClientId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverSideTokenCheck = "ServerSideTokenCheck"
+            case providerName = "ProviderName"
+            case clientId = "ClientId"
         }
     }
 
     public struct ListIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityPoolId", required: false, type: .string), 
-            AWSShapeProperty(label: "Identities", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityPoolId", required: false, type: .string), 
+            AWSShapeMember(label: "Identities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An identity pool ID in the format REGION:GUID.
         public let identityPoolId: String?
@@ -981,24 +856,19 @@ extension CognitoIdentity {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityPoolId = dictionary["IdentityPoolId"] as? String
-            if let identities = dictionary["Identities"] as? [[String: Any]] {
-                self.identities = try identities.map({ try IdentityDescription(dictionary: $0) })
-            } else { 
-                self.identities = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "IdentityPoolId"
+            case identities = "Identities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct LookupDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeveloperUserIdentifierList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeveloperUserIdentifierList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
         public let developerUserIdentifierList: [String]?
@@ -1013,19 +883,18 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.developerUserIdentifierList = dictionary["DeveloperUserIdentifierList"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case developerUserIdentifierList = "DeveloperUserIdentifierList"
+            case nextToken = "NextToken"
+            case identityId = "IdentityId"
         }
     }
 
     public struct UnprocessedIdentityId: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .enum), 
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorCode", required: false, type: .enum), 
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// The error code indicating the type of error that occurred.
         public let errorCode: ErrorCode?
@@ -1037,17 +906,16 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let errorCode = dictionary["ErrorCode"] as? String { self.errorCode = ErrorCode(rawValue: errorCode) } else { self.errorCode = nil }
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case identityId = "IdentityId"
         }
     }
 
     public struct MergeDeveloperIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: false, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
@@ -1056,12 +924,12 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identityId = dictionary["IdentityId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
         }
     }
 
-    public enum MappingRuleMatchType: String, CustomStringConvertible {
+    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
         case equals = "Equals"
         case contains = "Contains"
         case startswith = "StartsWith"
@@ -1071,11 +939,10 @@ extension CognitoIdentity {
 
     public struct RoleMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "RulesConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "AmbiguousRoleResolution", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "RulesConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AmbiguousRoleResolution", required: false, type: .enum)
         ]
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
         public let `type`: RoleMappingType
@@ -1090,15 +957,14 @@ extension CognitoIdentity {
             self.ambiguousRoleResolution = ambiguousRoleResolution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = RoleMappingType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            if let rulesConfiguration = dictionary["RulesConfiguration"] as? [String: Any] { self.rulesConfiguration = try CognitoIdentity.RulesConfigurationType(dictionary: rulesConfiguration) } else { self.rulesConfiguration = nil }
-            if let ambiguousRoleResolution = dictionary["AmbiguousRoleResolution"] as? String { self.ambiguousRoleResolution = AmbiguousRoleResolutionType(rawValue: ambiguousRoleResolution) } else { self.ambiguousRoleResolution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case rulesConfiguration = "RulesConfiguration"
+            case ambiguousRoleResolution = "AmbiguousRoleResolution"
         }
     }
 
-    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible {
+    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
         case authenticatedrole = "AuthenticatedRole"
         case deny = "Deny"
         public var description: String { return self.rawValue }
@@ -1106,9 +972,8 @@ extension CognitoIdentity {
 
     public struct DescribeIdentityInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IdentityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdentityId", required: true, type: .string)
         ]
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String
@@ -1117,9 +982,8 @@ extension CognitoIdentity {
             self.identityId = identityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
-            self.identityId = identityId
+        private enum CodingKeys: String, CodingKey {
+            case identityId = "IdentityId"
         }
     }
 

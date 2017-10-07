@@ -31,11 +31,10 @@ extension Swf {
 
     public struct RequestCancelWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The runId of the workflow execution to cancel.
         public let runId: String?
@@ -50,26 +49,23 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case workflowId = "workflowId"
+            case domain = "domain"
         }
     }
 
     public struct CountClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "closeStatusFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "closeTimeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -96,25 +92,23 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let typeFilter = dictionary["typeFilter"] as? [String: Any] { self.typeFilter = try Swf.WorkflowTypeFilter(dictionary: typeFilter) } else { self.typeFilter = nil }
-            if let closeStatusFilter = dictionary["closeStatusFilter"] as? [String: Any] { self.closeStatusFilter = try Swf.CloseStatusFilter(dictionary: closeStatusFilter) } else { self.closeStatusFilter = nil }
-            if let tagFilter = dictionary["tagFilter"] as? [String: Any] { self.tagFilter = try Swf.TagFilter(dictionary: tagFilter) } else { self.tagFilter = nil }
-            if let executionFilter = dictionary["executionFilter"] as? [String: Any] { self.executionFilter = try Swf.WorkflowExecutionFilter(dictionary: executionFilter) } else { self.executionFilter = nil }
-            if let closeTimeFilter = dictionary["closeTimeFilter"] as? [String: Any] { self.closeTimeFilter = try Swf.ExecutionTimeFilter(dictionary: closeTimeFilter) } else { self.closeTimeFilter = nil }
-            if let startTimeFilter = dictionary["startTimeFilter"] as? [String: Any] { self.startTimeFilter = try Swf.ExecutionTimeFilter(dictionary: startTimeFilter) } else { self.startTimeFilter = nil }
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case typeFilter = "typeFilter"
+            case closeStatusFilter = "closeStatusFilter"
+            case tagFilter = "tagFilter"
+            case executionFilter = "executionFilter"
+            case closeTimeFilter = "closeTimeFilter"
+            case startTimeFilter = "startTimeFilter"
+            case domain = "domain"
         }
     }
 
     public struct LambdaFunctionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "timeoutType", required: false, type: .enum)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -129,21 +123,18 @@ extension Swf {
             self.timeoutType = timeoutType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            if let timeoutType = dictionary["timeoutType"] as? String { self.timeoutType = LambdaFunctionTimeoutType(rawValue: timeoutType) } else { self.timeoutType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
         }
     }
 
     public struct ActivityType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
         ]
         /// The name of this activity. The combination of activity type name and version must be unique within a domain.
         public let name: String
@@ -155,25 +146,22 @@ extension Swf {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct DecisionTask: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "previousStartedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "events", required: true, type: .list), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "previousStartedEventId", required: false, type: .long), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "events", required: true, type: .list), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
         /// The ID of the DecisionTaskStarted event of the previous decision task of this workflow execution that was processed by the decider. This can be used to determine the events in the history new since the last decision task received by the decider.
         public let previousStartedEventId: Int64?
@@ -200,23 +188,18 @@ extension Swf {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.previousStartedEventId = dictionary["previousStartedEventId"] as? Int64
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
-            self.events = try events.map({ try HistoryEvent(dictionary: $0) })
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
-            self.nextPageToken = dictionary["nextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case previousStartedEventId = "previousStartedEventId"
+            case taskToken = "taskToken"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case events = "events"
+            case workflowExecution = "workflowExecution"
+            case nextPageToken = "nextPageToken"
         }
     }
 
-    public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unhandled_decision = "UNHANDLED_DECISION"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
@@ -224,14 +207,13 @@ extension Swf {
 
     public struct StartChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -254,22 +236,17 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let rawcause = dictionary["cause"] as? String, let cause = StartChildWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowType = "workflowType"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case cause = "cause"
+            case control = "control"
         }
     }
 
-    public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unhandled_decision = "UNHANDLED_DECISION"
         case workflow_type_deprecated = "WORKFLOW_TYPE_DEPRECATED"
         case workflow_type_does_not_exist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
@@ -284,22 +261,21 @@ extension Swf {
 
     public struct WorkflowExecutionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "startTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "parent", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "cancelRequested", required: false, type: .boolean), 
-            AWSShapeProperty(label: "closeTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "closeStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "executionStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "execution", required: true, type: .structure), 
+            AWSShapeMember(label: "startTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "parent", required: false, type: .structure), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "cancelRequested", required: false, type: .boolean), 
+            AWSShapeMember(label: "closeTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "closeStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "executionStatus", required: true, type: .enum)
         ]
         /// The workflow execution this information is about.
         public let execution: WorkflowExecution
         /// The time when the execution was started.
-        public let startTimestamp: String
+        public let startTimestamp: Double
         /// If this workflow execution is a child of another execution then contains the workflow execution that started this execution.
         public let parent: WorkflowExecution?
         /// The list of tags associated with the workflow execution. Tags can be used to identify and list workflow executions of interest through the visibility APIs. A workflow execution can have a maximum of 5 tags.
@@ -307,7 +283,7 @@ extension Swf {
         /// Set to true if a cancellation is requested for this workflow execution.
         public let cancelRequested: Bool?
         /// The time when the workflow execution was closed. Set only if the execution status is CLOSED.
-        public let closeTimestamp: String?
+        public let closeTimestamp: Double?
         /// If the execution status is closed then this specifies how the execution was closed:   COMPLETED: the execution was successfully completed.  CANCELED: the execution was canceled.Cancellation allows the implementation to gracefully clean up before the execution is closed.  TERMINATED: the execution was force terminated.  FAILED: the execution failed to complete.  TIMED_OUT: the execution did not complete in the alloted time and was automatically timed out.  CONTINUED_AS_NEW: the execution is logically continued. This means the current execution was completed and a new execution was started to carry on the workflow. 
         public let closeStatus: CloseStatus?
         /// The type of the workflow execution.
@@ -315,7 +291,7 @@ extension Swf {
         /// The current status of the execution.
         public let executionStatus: ExecutionStatus
 
-        public init(execution: WorkflowExecution, startTimestamp: String, parent: WorkflowExecution? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeTimestamp: String? = nil, closeStatus: CloseStatus? = nil, workflowType: WorkflowType, executionStatus: ExecutionStatus) {
+        public init(execution: WorkflowExecution, startTimestamp: Double, parent: WorkflowExecution? = nil, tagList: [String]? = nil, cancelRequested: Bool? = nil, closeTimestamp: Double? = nil, closeStatus: CloseStatus? = nil, workflowType: WorkflowType, executionStatus: ExecutionStatus) {
             self.execution = execution
             self.startTimestamp = startTimestamp
             self.parent = parent
@@ -327,28 +303,23 @@ extension Swf {
             self.executionStatus = executionStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let execution = dictionary["execution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("execution") }
-            self.execution = try Swf.WorkflowExecution(dictionary: execution)
-            guard let startTimestamp = dictionary["startTimestamp"] as? String else { throw InitializableError.missingRequiredParam("startTimestamp") }
-            self.startTimestamp = startTimestamp
-            if let parent = dictionary["parent"] as? [String: Any] { self.parent = try Swf.WorkflowExecution(dictionary: parent) } else { self.parent = nil }
-            self.tagList = dictionary["tagList"] as? [String]
-            self.cancelRequested = dictionary["cancelRequested"] as? Bool
-            self.closeTimestamp = dictionary["closeTimestamp"] as? String
-            if let closeStatus = dictionary["closeStatus"] as? String { self.closeStatus = CloseStatus(rawValue: closeStatus) } else { self.closeStatus = nil }
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let rawexecutionStatus = dictionary["executionStatus"] as? String, let executionStatus = ExecutionStatus(rawValue: rawexecutionStatus) else { throw InitializableError.missingRequiredParam("executionStatus") }
-            self.executionStatus = executionStatus
+        private enum CodingKeys: String, CodingKey {
+            case execution = "execution"
+            case startTimestamp = "startTimestamp"
+            case parent = "parent"
+            case tagList = "tagList"
+            case cancelRequested = "cancelRequested"
+            case closeTimestamp = "closeTimestamp"
+            case closeStatus = "closeStatus"
+            case workflowType = "workflowType"
+            case executionStatus = "executionStatus"
         }
     }
 
     public struct CancelWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string)
         ]
         /// Optional. details of the cancellation.
         public let details: String?
@@ -357,12 +328,12 @@ extension Swf {
             self.details = details
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
         }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible {
+    public enum RegistrationStatus: String, CustomStringConvertible, Codable {
         case registered = "REGISTERED"
         case deprecated = "DEPRECATED"
         public var description: String { return self.rawValue }
@@ -370,10 +341,9 @@ extension Swf {
 
     public struct WorkflowType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string)
         ]
         /// Required. The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
         public let name: String
@@ -385,24 +355,21 @@ extension Swf {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct PollForDecisionTaskInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "identity", required: false, type: .string), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "identity", required: false, type: .string), 
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
@@ -426,24 +393,21 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identity = dictionary["identity"] as? String
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case identity = "identity"
+            case maximumPageSize = "maximumPageSize"
+            case taskList = "taskList"
+            case reverseOrder = "reverseOrder"
+            case nextPageToken = "nextPageToken"
+            case domain = "domain"
         }
     }
 
     public struct WorkflowTypeDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
         /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.  DEPRECATED: The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type. 
         public let typeInfo: WorkflowTypeInfo
@@ -455,21 +419,18 @@ extension Swf {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typeInfo = dictionary["typeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("typeInfo") }
-            self.typeInfo = try Swf.WorkflowTypeInfo(dictionary: typeInfo)
-            guard let configuration = dictionary["configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("configuration") }
-            self.configuration = try Swf.WorkflowTypeConfiguration(dictionary: configuration)
+        private enum CodingKeys: String, CodingKey {
+            case typeInfo = "typeInfo"
+            case configuration = "configuration"
         }
     }
 
     public struct DecisionTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "executionContext", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "executionContext", required: false, type: .string)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -484,21 +445,18 @@ extension Swf {
             self.executionContext = executionContext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            self.executionContext = dictionary["executionContext"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case executionContext = "executionContext"
         }
     }
 
     public struct DomainDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domainInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domainInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
         public let domainInfo: DomainInfo
         public let configuration: DomainConfiguration
@@ -508,21 +466,18 @@ extension Swf {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domainInfo = dictionary["domainInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("domainInfo") }
-            self.domainInfo = try Swf.DomainInfo(dictionary: domainInfo)
-            guard let configuration = dictionary["configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("configuration") }
-            self.configuration = try Swf.DomainConfiguration(dictionary: configuration)
+        private enum CodingKeys: String, CodingKey {
+            case domainInfo = "domainInfo"
+            case configuration = "configuration"
         }
     }
 
     public struct RespondActivityTaskFailedInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
         ]
         /// Optional. Detailed information about the failure.
         public let details: String?
@@ -537,21 +492,19 @@ extension Swf {
             self.reason = reason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            self.reason = dictionary["reason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case taskToken = "taskToken"
+            case reason = "reason"
         }
     }
 
     public struct CancelTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum), 
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -566,21 +519,17 @@ extension Swf {
             self.timerId = timerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = CancelTimerFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
+            case timerId = "timerId"
         }
     }
 
     public struct DescribeDomainInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to describe.
         public let name: String
@@ -589,13 +538,12 @@ extension Swf {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
-    public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unknown_external_workflow_execution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         case request_cancel_external_workflow_execution_rate_exceeded = "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
@@ -604,11 +552,10 @@ extension Swf {
 
     public struct StartTimerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string), 
-            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timerId", required: true, type: .string), 
+            AWSShapeMember(label: "startToFireTimeout", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// Required. The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let timerId: String
@@ -623,21 +570,18 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
-            guard let startToFireTimeout = dictionary["startToFireTimeout"] as? String else { throw InitializableError.missingRequiredParam("startToFireTimeout") }
-            self.startToFireTimeout = startToFireTimeout
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timerId = "timerId"
+            case startToFireTimeout = "startToFireTimeout"
+            case control = "control"
         }
     }
 
     public struct DescribeWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
         /// The name of the domain in which this workflow type is registered.
         public let domain: String
@@ -649,45 +593,40 @@ extension Swf {
             self.workflowType = workflowType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
     public struct ExecutionTimeFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "oldestDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "latestDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "oldestDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "latestDate", required: false, type: .timestamp)
         ]
         /// Specifies the oldest start or close date and time to return.
-        public let oldestDate: String
+        public let oldestDate: Double
         /// Specifies the latest start or close date and time to return.
-        public let latestDate: String?
+        public let latestDate: Double?
 
-        public init(oldestDate: String, latestDate: String? = nil) {
+        public init(oldestDate: Double, latestDate: Double? = nil) {
             self.oldestDate = oldestDate
             self.latestDate = latestDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let oldestDate = dictionary["oldestDate"] as? String else { throw InitializableError.missingRequiredParam("oldestDate") }
-            self.oldestDate = oldestDate
-            self.latestDate = dictionary["latestDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case oldestDate = "oldestDate"
+            case latestDate = "latestDate"
         }
     }
 
     public struct PollForActivityTaskInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "identity", required: false, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "identity", required: false, type: .string), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
         /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public let identity: String?
@@ -702,29 +641,26 @@ extension Swf {
             self.taskList = taskList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.identity = dictionary["identity"] as? String
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
+        private enum CodingKeys: String, CodingKey {
+            case identity = "identity"
+            case domain = "domain"
+            case taskList = "taskList"
         }
     }
 
     public struct ListClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeStatusFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "closeTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "closeStatusFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "closeTimeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
         /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -760,31 +696,29 @@ extension Swf {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let typeFilter = dictionary["typeFilter"] as? [String: Any] { self.typeFilter = try Swf.WorkflowTypeFilter(dictionary: typeFilter) } else { self.typeFilter = nil }
-            if let closeStatusFilter = dictionary["closeStatusFilter"] as? [String: Any] { self.closeStatusFilter = try Swf.CloseStatusFilter(dictionary: closeStatusFilter) } else { self.closeStatusFilter = nil }
-            if let tagFilter = dictionary["tagFilter"] as? [String: Any] { self.tagFilter = try Swf.TagFilter(dictionary: tagFilter) } else { self.tagFilter = nil }
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            if let executionFilter = dictionary["executionFilter"] as? [String: Any] { self.executionFilter = try Swf.WorkflowExecutionFilter(dictionary: executionFilter) } else { self.executionFilter = nil }
-            if let closeTimeFilter = dictionary["closeTimeFilter"] as? [String: Any] { self.closeTimeFilter = try Swf.ExecutionTimeFilter(dictionary: closeTimeFilter) } else { self.closeTimeFilter = nil }
-            if let startTimeFilter = dictionary["startTimeFilter"] as? [String: Any] { self.startTimeFilter = try Swf.ExecutionTimeFilter(dictionary: startTimeFilter) } else { self.startTimeFilter = nil }
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            self.nextPageToken = dictionary["nextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case typeFilter = "typeFilter"
+            case closeStatusFilter = "closeStatusFilter"
+            case tagFilter = "tagFilter"
+            case maximumPageSize = "maximumPageSize"
+            case executionFilter = "executionFilter"
+            case closeTimeFilter = "closeTimeFilter"
+            case startTimeFilter = "startTimeFilter"
+            case reverseOrder = "reverseOrder"
+            case domain = "domain"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct ActivityTask: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeMember(label: "activityId", required: true, type: .string), 
+            AWSShapeMember(label: "activityType", required: true, type: .structure)
         ]
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
         public let taskToken: String
@@ -808,27 +742,21 @@ extension Swf {
             self.activityType = activityType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            self.input = dictionary["input"] as? String
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case input = "input"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
+            case activityId = "activityId"
+            case activityType = "activityType"
         }
     }
 
     public struct DescribeActivityTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityType", required: true, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
         public let activityType: ActivityType
@@ -840,19 +768,16 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case activityType = "activityType"
+            case domain = "domain"
         }
     }
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "tag", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tag", required: true, type: .string)
         ]
         /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
         public let tag: String
@@ -861,17 +786,15 @@ extension Swf {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tag = dictionary["tag"] as? String else { throw InitializableError.missingRequiredParam("tag") }
-            self.tag = tag
+        private enum CodingKeys: String, CodingKey {
+            case tag = "tag"
         }
     }
 
     public struct TaskList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the task list.
         public let name: String
@@ -880,13 +803,12 @@ extension Swf {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
-    public enum CancelTimerFailedCause: String, CustomStringConvertible {
+    public enum CancelTimerFailedCause: String, CustomStringConvertible, Codable {
         case timer_id_unknown = "TIMER_ID_UNKNOWN"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
@@ -894,12 +816,11 @@ extension Swf {
 
     public struct WorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "cause", required: false, type: .enum)
         ]
         /// The details provided for the termination (if any).
         public let details: String?
@@ -917,16 +838,15 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            self.reason = dictionary["reason"] as? String
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
-            if let cause = dictionary["cause"] as? String { self.cause = WorkflowExecutionTerminatedCause(rawValue: cause) } else { self.cause = nil }
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case reason = "reason"
+            case childPolicy = "childPolicy"
+            case cause = "cause"
         }
     }
 
-    public enum RequestCancelActivityTaskFailedCause: String, CustomStringConvertible {
+    public enum RequestCancelActivityTaskFailedCause: String, CustomStringConvertible, Codable {
         case activity_id_unknown = "ACTIVITY_ID_UNKNOWN"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
@@ -934,12 +854,11 @@ extension Swf {
 
     public struct ScheduleActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "activityType", required: true, type: .structure), 
+            AWSShapeMember(label: "activityId", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -957,25 +876,20 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
-            guard let rawcause = dictionary["cause"] as? String, let cause = ScheduleActivityTaskFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case activityType = "activityType"
+            case activityId = "activityId"
+            case cause = "cause"
         }
     }
 
     public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution to cancel.
         public let runId: String?
@@ -990,29 +904,27 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case workflowId = "workflowId"
+            case control = "control"
         }
     }
 
     public struct StartWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -1051,34 +963,30 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
-            if let taskList = dictionary["taskList"] as? [String: Any] { self.taskList = try Swf.TaskList(dictionary: taskList) } else { self.taskList = nil }
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.input = dictionary["input"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            if let childPolicy = dictionary["childPolicy"] as? String { self.childPolicy = ChildPolicy(rawValue: childPolicy) } else { self.childPolicy = nil }
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case taskList = "taskList"
+            case workflowId = "workflowId"
+            case taskPriority = "taskPriority"
+            case tagList = "tagList"
+            case input = "input"
+            case workflowType = "workflowType"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case childPolicy = "childPolicy"
+            case domain = "domain"
         }
     }
 
     public struct ListWorkflowTypesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -1102,26 +1010,23 @@ extension Swf {
             self.registrationStatus = registrationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            self.name = dictionary["name"] as? String
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let rawregistrationStatus = dictionary["registrationStatus"] as? String, let registrationStatus = RegistrationStatus(rawValue: rawregistrationStatus) else { throw InitializableError.missingRequiredParam("registrationStatus") }
-            self.registrationStatus = registrationStatus
+        private enum CodingKeys: String, CodingKey {
+            case maximumPageSize = "maximumPageSize"
+            case name = "name"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case domain = "domain"
+            case registrationStatus = "registrationStatus"
         }
     }
 
     public struct ScheduleLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
@@ -1139,19 +1044,15 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = ScheduleLambdaFunctionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case id = "id"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
         }
     }
 
-    public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible {
+    public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible, Codable {
         case activity_type_deprecated = "ACTIVITY_TYPE_DEPRECATED"
         case activity_type_does_not_exist = "ACTIVITY_TYPE_DOES_NOT_EXIST"
         case activity_id_already_in_use = "ACTIVITY_ID_ALREADY_IN_USE"
@@ -1168,13 +1069,12 @@ extension Swf {
 
     public struct ChildWorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// Details of the cancellation (if provided).
         public let details: String?
@@ -1195,33 +1095,28 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case initiatedEventId = "initiatedEventId"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
     public struct ScheduleActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskList", required: false, type: .structure), 
+            AWSShapeMember(label: "activityId", required: true, type: .string), 
+            AWSShapeMember(label: "scheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "scheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string), 
+            AWSShapeMember(label: "heartbeatTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "activityType", required: true, type: .structure)
         ]
         /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type will be used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let taskList: TaskList?
@@ -1257,30 +1152,27 @@ extension Swf {
             self.activityType = activityType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let taskList = dictionary["taskList"] as? [String: Any] { self.taskList = try Swf.TaskList(dictionary: taskList) } else { self.taskList = nil }
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
-            self.scheduleToCloseTimeout = dictionary["scheduleToCloseTimeout"] as? String
-            self.scheduleToStartTimeout = dictionary["scheduleToStartTimeout"] as? String
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.startToCloseTimeout = dictionary["startToCloseTimeout"] as? String
-            self.input = dictionary["input"] as? String
-            self.control = dictionary["control"] as? String
-            self.heartbeatTimeout = dictionary["heartbeatTimeout"] as? String
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
+        private enum CodingKeys: String, CodingKey {
+            case taskList = "taskList"
+            case activityId = "activityId"
+            case scheduleToCloseTimeout = "scheduleToCloseTimeout"
+            case scheduleToStartTimeout = "scheduleToStartTimeout"
+            case taskPriority = "taskPriority"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case input = "input"
+            case control = "control"
+            case heartbeatTimeout = "heartbeatTimeout"
+            case activityType = "activityType"
         }
     }
 
     public struct ChildWorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1298,33 +1190,28 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
     public struct StartChildWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -1363,32 +1250,29 @@ extension Swf {
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            if let taskList = dictionary["taskList"] as? [String: Any] { self.taskList = try Swf.TaskList(dictionary: taskList) } else { self.taskList = nil }
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.control = dictionary["control"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.input = dictionary["input"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            if let childPolicy = dictionary["childPolicy"] as? String { self.childPolicy = ChildPolicy(rawValue: childPolicy) } else { self.childPolicy = nil }
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case taskList = "taskList"
+            case workflowId = "workflowId"
+            case taskPriority = "taskPriority"
+            case control = "control"
+            case tagList = "tagList"
+            case input = "input"
+            case workflowType = "workflowType"
+            case childPolicy = "childPolicy"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
         }
     }
 
     public struct WorkflowExecutionOpenCounts: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "openLambdaFunctions", required: false, type: .integer), 
-            AWSShapeProperty(label: "openActivityTasks", required: true, type: .integer), 
-            AWSShapeProperty(label: "openTimers", required: true, type: .integer), 
-            AWSShapeProperty(label: "openChildWorkflowExecutions", required: true, type: .integer), 
-            AWSShapeProperty(label: "openDecisionTasks", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "openLambdaFunctions", required: false, type: .integer), 
+            AWSShapeMember(label: "openActivityTasks", required: true, type: .integer), 
+            AWSShapeMember(label: "openTimers", required: true, type: .integer), 
+            AWSShapeMember(label: "openChildWorkflowExecutions", required: true, type: .integer), 
+            AWSShapeMember(label: "openDecisionTasks", required: true, type: .integer)
         ]
         /// The count of AWS Lambda functions that are currently executing.
         public let openLambdaFunctions: Int32?
@@ -1409,28 +1293,23 @@ extension Swf {
             self.openDecisionTasks = openDecisionTasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.openLambdaFunctions = dictionary["openLambdaFunctions"] as? Int32
-            guard let openActivityTasks = dictionary["openActivityTasks"] as? Int32 else { throw InitializableError.missingRequiredParam("openActivityTasks") }
-            self.openActivityTasks = openActivityTasks
-            guard let openTimers = dictionary["openTimers"] as? Int32 else { throw InitializableError.missingRequiredParam("openTimers") }
-            self.openTimers = openTimers
-            guard let openChildWorkflowExecutions = dictionary["openChildWorkflowExecutions"] as? Int32 else { throw InitializableError.missingRequiredParam("openChildWorkflowExecutions") }
-            self.openChildWorkflowExecutions = openChildWorkflowExecutions
-            guard let openDecisionTasks = dictionary["openDecisionTasks"] as? Int32 else { throw InitializableError.missingRequiredParam("openDecisionTasks") }
-            self.openDecisionTasks = openDecisionTasks
+        private enum CodingKeys: String, CodingKey {
+            case openLambdaFunctions = "openLambdaFunctions"
+            case openActivityTasks = "openActivityTasks"
+            case openTimers = "openTimers"
+            case openChildWorkflowExecutions = "openChildWorkflowExecutions"
+            case openDecisionTasks = "openDecisionTasks"
         }
     }
 
     public struct CountOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimeFilter", required: true, type: .structure), 
+            AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -1451,26 +1330,23 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let typeFilter = dictionary["typeFilter"] as? [String: Any] { self.typeFilter = try Swf.WorkflowTypeFilter(dictionary: typeFilter) } else { self.typeFilter = nil }
-            if let executionFilter = dictionary["executionFilter"] as? [String: Any] { self.executionFilter = try Swf.WorkflowExecutionFilter(dictionary: executionFilter) } else { self.executionFilter = nil }
-            guard let startTimeFilter = dictionary["startTimeFilter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("startTimeFilter") }
-            self.startTimeFilter = try Swf.ExecutionTimeFilter(dictionary: startTimeFilter)
-            if let tagFilter = dictionary["tagFilter"] as? [String: Any] { self.tagFilter = try Swf.TagFilter(dictionary: tagFilter) } else { self.tagFilter = nil }
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case typeFilter = "typeFilter"
+            case executionFilter = "executionFilter"
+            case startTimeFilter = "startTimeFilter"
+            case tagFilter = "tagFilter"
+            case domain = "domain"
         }
     }
 
     public struct ChildWorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "timeoutType", required: true, type: .enum), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1491,29 +1367,23 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let rawtimeoutType = dictionary["timeoutType"] as? String, let timeoutType = WorkflowExecutionTimeoutType(rawValue: rawtimeoutType) else { throw InitializableError.missingRequiredParam("timeoutType") }
-            self.timeoutType = timeoutType
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case timeoutType = "timeoutType"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
     public struct LambdaFunctionScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long)
         ]
         /// The name of the scheduled AWS Lambda function.
         public let name: String
@@ -1534,24 +1404,20 @@ extension Swf {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.input = dictionary["input"] as? String
-            self.startToCloseTimeout = dictionary["startToCloseTimeout"] as? String
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case input = "input"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case id = "id"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
     public struct TimerFiredEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -1563,21 +1429,18 @@ extension Swf {
             self.timerId = timerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
+        private enum CodingKeys: String, CodingKey {
+            case startedEventId = "startedEventId"
+            case timerId = "timerId"
         }
     }
 
     public struct ChildWorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -1592,17 +1455,14 @@ extension Swf {
             self.workflowType = workflowType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
+            case workflowType = "workflowType"
         }
     }
 
-    public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible {
+    public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible, Codable {
         case id_already_in_use = "ID_ALREADY_IN_USE"
         case open_lambda_functions_limit_exceeded = "OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED"
         case lambda_function_creation_rate_exceeded = "LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED"
@@ -1612,10 +1472,9 @@ extension Swf {
 
     public struct DeprecateWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
         /// The name of the domain in which the workflow type is registered.
         public let domain: String
@@ -1627,19 +1486,16 @@ extension Swf {
             self.workflowType = workflowType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case workflowType = "workflowType"
         }
     }
 
     public struct CloseStatusFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public let status: CloseStatus
@@ -1648,24 +1504,22 @@ extension Swf {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawstatus = dictionary["status"] as? String, let status = CloseStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
-    public enum LambdaFunctionTimeoutType: String, CustomStringConvertible {
+    public enum LambdaFunctionTimeoutType: String, CustomStringConvertible, Codable {
         case start_to_close = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
     public struct WorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum), 
-            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "externalWorkflowExecution", required: false, type: .structure), 
+            AWSShapeMember(label: "cause", required: false, type: .enum), 
+            AWSShapeMember(label: "externalInitiatedEventId", required: false, type: .long)
         ]
         /// The external workflow execution for which the cancellation was requested.
         public let externalWorkflowExecution: WorkflowExecution?
@@ -1680,19 +1534,18 @@ extension Swf {
             self.externalInitiatedEventId = externalInitiatedEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let externalWorkflowExecution = dictionary["externalWorkflowExecution"] as? [String: Any] { self.externalWorkflowExecution = try Swf.WorkflowExecution(dictionary: externalWorkflowExecution) } else { self.externalWorkflowExecution = nil }
-            if let cause = dictionary["cause"] as? String { self.cause = WorkflowExecutionCancelRequestedCause(rawValue: cause) } else { self.cause = nil }
-            self.externalInitiatedEventId = dictionary["externalInitiatedEventId"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case externalWorkflowExecution = "externalWorkflowExecution"
+            case cause = "cause"
+            case externalInitiatedEventId = "externalInitiatedEventId"
         }
     }
 
     public struct ActivityTaskCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "activityId", required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -1704,20 +1557,17 @@ extension Swf {
             self.activityId = activityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case activityId = "activityId"
         }
     }
 
     public struct WorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long)
         ]
         /// Details for the cancellation (if any).
         public let details: String?
@@ -1729,19 +1579,17 @@ extension Swf {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
         }
     }
 
     public struct History: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "events", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "events", required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -1753,18 +1601,16 @@ extension Swf {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
-            self.events = try events.map({ try HistoryEvent(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case events = "events"
         }
     }
 
     public struct DomainConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// The retention period for workflow executions in this domain.
         public let workflowExecutionRetentionPeriodInDays: String
@@ -1773,28 +1619,26 @@ extension Swf {
             self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workflowExecutionRetentionPeriodInDays = dictionary["workflowExecutionRetentionPeriodInDays"] as? String else { throw InitializableError.missingRequiredParam("workflowExecutionRetentionPeriodInDays") }
-            self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
+        private enum CodingKeys: String, CodingKey {
+            case workflowExecutionRetentionPeriodInDays = "workflowExecutionRetentionPeriodInDays"
         }
     }
 
     public struct WorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "parentWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "parentInitiatedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "continuedExecutionRunId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "parentWorkflowExecution", required: false, type: .structure), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "parentInitiatedEventId", required: false, type: .long), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "continuedExecutionRunId", required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -1835,35 +1679,31 @@ extension Swf {
             self.continuedExecutionRunId = continuedExecutionRunId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            if let parentWorkflowExecution = dictionary["parentWorkflowExecution"] as? [String: Any] { self.parentWorkflowExecution = try Swf.WorkflowExecution(dictionary: parentWorkflowExecution) } else { self.parentWorkflowExecution = nil }
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.parentInitiatedEventId = dictionary["parentInitiatedEventId"] as? Int64
-            self.input = dictionary["input"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            self.continuedExecutionRunId = dictionary["continuedExecutionRunId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case parentWorkflowExecution = "parentWorkflowExecution"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case tagList = "tagList"
+            case parentInitiatedEventId = "parentInitiatedEventId"
+            case input = "input"
+            case workflowType = "workflowType"
+            case childPolicy = "childPolicy"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case continuedExecutionRunId = "continuedExecutionRunId"
         }
     }
 
     public struct WorkflowExecutionConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: true, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: true, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum)
         ]
         /// The IAM role used by this workflow execution when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -1887,26 +1727,21 @@ extension Swf {
             self.childPolicy = childPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            guard let executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String else { throw InitializableError.missingRequiredParam("executionStartToCloseTimeout") }
-            self.executionStartToCloseTimeout = executionStartToCloseTimeout
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            guard let taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String else { throw InitializableError.missingRequiredParam("taskStartToCloseTimeout") }
-            self.taskStartToCloseTimeout = taskStartToCloseTimeout
-            self.taskPriority = dictionary["taskPriority"] as? String
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
+            case taskList = "taskList"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case taskPriority = "taskPriority"
+            case childPolicy = "childPolicy"
         }
     }
 
     public struct WorkflowExecutionInfos: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "executionInfos", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "executionInfos", required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -1918,14 +1753,13 @@ extension Swf {
             self.executionInfos = executionInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let executionInfos = dictionary["executionInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("executionInfos") }
-            self.executionInfos = try executionInfos.map({ try WorkflowExecutionInfo(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case executionInfos = "executionInfos"
         }
     }
 
-    public enum ActivityTaskTimeoutType: String, CustomStringConvertible {
+    public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable {
         case start_to_close = "START_TO_CLOSE"
         case schedule_to_start = "SCHEDULE_TO_START"
         case schedule_to_close = "SCHEDULE_TO_CLOSE"
@@ -1935,10 +1769,9 @@ extension Swf {
 
     public struct ActivityTypeDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "configuration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "configuration", required: true, type: .structure)
         ]
         /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.   DEPRECATED: The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.  
         public let typeInfo: ActivityTypeInfo
@@ -1950,28 +1783,25 @@ extension Swf {
             self.configuration = configuration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typeInfo = dictionary["typeInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("typeInfo") }
-            self.typeInfo = try Swf.ActivityTypeInfo(dictionary: typeInfo)
-            guard let configuration = dictionary["configuration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("configuration") }
-            self.configuration = try Swf.ActivityTypeConfiguration(dictionary: configuration)
+        private enum CodingKeys: String, CodingKey {
+            case typeInfo = "typeInfo"
+            case configuration = "configuration"
         }
     }
 
     public struct RegisterWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultLambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "defaultChildPolicy", required: false, type: .enum)
         ]
         /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
@@ -2007,24 +1837,21 @@ extension Swf {
             self.defaultChildPolicy = defaultChildPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.defaultTaskStartToCloseTimeout = dictionary["defaultTaskStartToCloseTimeout"] as? String
-            self.defaultLambdaRole = dictionary["defaultLambdaRole"] as? String
-            self.defaultExecutionStartToCloseTimeout = dictionary["defaultExecutionStartToCloseTimeout"] as? String
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            self.description = dictionary["description"] as? String
-            self.defaultTaskPriority = dictionary["defaultTaskPriority"] as? String
-            if let defaultTaskList = dictionary["defaultTaskList"] as? [String: Any] { self.defaultTaskList = try Swf.TaskList(dictionary: defaultTaskList) } else { self.defaultTaskList = nil }
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            if let defaultChildPolicy = dictionary["defaultChildPolicy"] as? String { self.defaultChildPolicy = ChildPolicy(rawValue: defaultChildPolicy) } else { self.defaultChildPolicy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case defaultLambdaRole = "defaultLambdaRole"
+            case defaultExecutionStartToCloseTimeout = "defaultExecutionStartToCloseTimeout"
+            case version = "version"
+            case description = "description"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskList = "defaultTaskList"
+            case domain = "domain"
+            case defaultChildPolicy = "defaultChildPolicy"
         }
     }
 
-    public enum EventType: String, CustomStringConvertible {
+    public enum EventType: String, CustomStringConvertible, Codable {
         case workflowexecutionstarted = "WorkflowExecutionStarted"
         case workflowexecutioncancelrequested = "WorkflowExecutionCancelRequested"
         case workflowexecutioncompleted = "WorkflowExecutionCompleted"
@@ -2084,9 +1911,8 @@ extension Swf {
 
     public struct CompleteWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "result", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "result", required: false, type: .string)
         ]
         /// The result of the workflow execution. The form of the result is implementation defined.
         public let result: String?
@@ -2095,33 +1921,32 @@ extension Swf {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.result = dictionary["result"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case result = "result"
         }
     }
 
     public struct ActivityTypeInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "activityType", required: true, type: .structure)
         ]
         /// The description of the activity type provided in RegisterActivityType.
         public let description: String?
         /// The current status of the activity type.
         public let status: RegistrationStatus
         /// If DEPRECATED, the date and time DeprecateActivityType was called.
-        public let deprecationDate: String?
+        public let deprecationDate: Double?
         /// The date and time this activity type was created through RegisterActivityType.
-        public let creationDate: String
+        public let creationDate: Double
         /// The ActivityType type structure representing the activity type.
         public let activityType: ActivityType
 
-        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: String? = nil, creationDate: String, activityType: ActivityType) {
+        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: Double? = nil, creationDate: Double, activityType: ActivityType) {
             self.description = description
             self.status = status
             self.deprecationDate = deprecationDate
@@ -2129,24 +1954,20 @@ extension Swf {
             self.activityType = activityType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let rawstatus = dictionary["status"] as? String, let status = RegistrationStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.deprecationDate = dictionary["deprecationDate"] as? String
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case status = "status"
+            case deprecationDate = "deprecationDate"
+            case creationDate = "creationDate"
+            case activityType = "activityType"
         }
     }
 
     public struct CompleteWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -2158,22 +1979,19 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = CompleteWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
         }
     }
 
     public struct TimerStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startToFireTimeout", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timerId", required: true, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "startToFireTimeout", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The unique ID of the timer that was started.
         public let timerId: String
@@ -2191,23 +2009,19 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let startToFireTimeout = dictionary["startToFireTimeout"] as? String else { throw InitializableError.missingRequiredParam("startToFireTimeout") }
-            self.startToFireTimeout = startToFireTimeout
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case timerId = "timerId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case startToFireTimeout = "startToFireTimeout"
+            case control = "control"
         }
     }
 
     public struct ExternalWorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -2219,22 +2033,19 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
     public struct LambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -2252,23 +2063,20 @@ extension Swf {
             self.scheduledEventId = scheduledEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            self.reason = dictionary["reason"] as? String
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case reason = "reason"
+            case startedEventId = "startedEventId"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
     public struct DecisionTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "timeoutType", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2283,22 +2091,18 @@ extension Swf {
             self.timeoutType = timeoutType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let rawtimeoutType = dictionary["timeoutType"] as? String, let timeoutType = DecisionTaskTimeoutType(rawValue: rawtimeoutType) else { throw InitializableError.missingRequiredParam("timeoutType") }
-            self.timeoutType = timeoutType
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case timeoutType = "timeoutType"
         }
     }
 
     public struct RecordActivityTaskHeartbeatInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
         /// If specified, contains details about the progress of the task.
         public let details: String?
@@ -2310,23 +2114,21 @@ extension Swf {
             self.taskToken = taskToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case taskToken = "taskToken"
         }
     }
 
     public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution.
         public let runId: String?
@@ -2349,26 +2151,21 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let rawcause = dictionary["cause"] as? String, let cause = RequestCancelExternalWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case initiatedEventId = "initiatedEventId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case cause = "cause"
+            case control = "control"
         }
     }
 
     public struct RespondActivityTaskCompletedInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "result", required: false, type: .string)
         ]
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
@@ -2380,25 +2177,23 @@ extension Swf {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            self.result = dictionary["result"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case result = "result"
         }
     }
 
     public struct ListOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "typeFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "tagFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "executionFilter", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimeFilter", required: true, type: .structure), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "typeFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "tagFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "executionFilter", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimeFilter", required: true, type: .structure), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string)
         ]
         /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public let typeFilter: WorkflowTypeFilter?
@@ -2428,25 +2223,22 @@ extension Swf {
             self.nextPageToken = nextPageToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let typeFilter = dictionary["typeFilter"] as? [String: Any] { self.typeFilter = try Swf.WorkflowTypeFilter(dictionary: typeFilter) } else { self.typeFilter = nil }
-            if let tagFilter = dictionary["tagFilter"] as? [String: Any] { self.tagFilter = try Swf.TagFilter(dictionary: tagFilter) } else { self.tagFilter = nil }
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            if let executionFilter = dictionary["executionFilter"] as? [String: Any] { self.executionFilter = try Swf.WorkflowExecutionFilter(dictionary: executionFilter) } else { self.executionFilter = nil }
-            guard let startTimeFilter = dictionary["startTimeFilter"] as? [String: Any] else { throw InitializableError.missingRequiredParam("startTimeFilter") }
-            self.startTimeFilter = try Swf.ExecutionTimeFilter(dictionary: startTimeFilter)
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            self.nextPageToken = dictionary["nextPageToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case typeFilter = "typeFilter"
+            case tagFilter = "tagFilter"
+            case maximumPageSize = "maximumPageSize"
+            case executionFilter = "executionFilter"
+            case startTimeFilter = "startTimeFilter"
+            case reverseOrder = "reverseOrder"
+            case domain = "domain"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct CancelTimerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// Required. The unique ID of the timer to cancel.
         public let timerId: String
@@ -2455,18 +2247,16 @@ extension Swf {
             self.timerId = timerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
+        private enum CodingKeys: String, CodingKey {
+            case timerId = "timerId"
         }
     }
 
     public struct ActivityTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "identity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "identity", required: false, type: .string)
         ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2478,19 +2268,17 @@ extension Swf {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            self.identity = dictionary["identity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case identity = "identity"
         }
     }
 
     public struct RecordMarkerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "markerName", required: true, type: .string)
         ]
         /// Optional. details of the marker.
         public let details: String?
@@ -2502,18 +2290,16 @@ extension Swf {
             self.markerName = markerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let markerName = dictionary["markerName"] as? String else { throw InitializableError.missingRequiredParam("markerName") }
-            self.markerName = markerName
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case markerName = "markerName"
         }
     }
 
     public struct LambdaFunctionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2522,19 +2308,17 @@ extension Swf {
             self.scheduledEventId = scheduledEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
     public struct DomainInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum)
         ]
         /// The description of the domain provided through RegisterDomain.
         public let description: String?
@@ -2549,20 +2333,17 @@ extension Swf {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let rawstatus = dictionary["status"] as? String, let status = RegistrationStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct WorkflowExecutionFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "workflowId", required: true, type: .string)
         ]
         /// The workflowId to pass of match the criteria of this filter.
         public let workflowId: String
@@ -2571,21 +2352,19 @@ extension Swf {
             self.workflowId = workflowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
+        private enum CodingKeys: String, CodingKey {
+            case workflowId = "workflowId"
         }
     }
 
     public struct SignalExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "signalName", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the workflow execution to be signaled.
         public let runId: String?
@@ -2606,24 +2385,21 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let signalName = dictionary["signalName"] as? String else { throw InitializableError.missingRequiredParam("signalName") }
-            self.signalName = signalName
-            self.input = dictionary["input"] as? String
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case signalName = "signalName"
+            case input = "input"
+            case workflowId = "workflowId"
+            case control = "control"
         }
     }
 
     public struct ActivityTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "result", required: false, type: .string), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long)
         ]
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -2638,22 +2414,19 @@ extension Swf {
             self.startedEventId = startedEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            self.result = dictionary["result"] as? String
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case result = "result"
+            case startedEventId = "startedEventId"
         }
     }
 
     public struct RequestCancelActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "activityId", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -2668,77 +2441,73 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
-            guard let rawcause = dictionary["cause"] as? String, let cause = RequestCancelActivityTaskFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case activityId = "activityId"
+            case cause = "cause"
         }
     }
 
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerFiredEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalWorkflowExecutionSignaledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionContinuedAsNewEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "failWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "markerRecordedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "timerCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "recordMarkerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "continueAsNewWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventType", required: true, type: .enum), 
-            AWSShapeProperty(label: "lambdaFunctionTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskTimedOutEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "lambdaFunctionCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionSignaledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionCanceledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "workflowExecutionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "childWorkflowExecutionStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelActivityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalWorkflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskScheduledEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "timerStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "activityTaskStartedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelTimerFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "scheduleLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "eventTimestamp", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduleActivityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "decisionTaskStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "eventId", required: true, type: .long), 
+            AWSShapeMember(label: "timerFiredEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startChildWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "externalWorkflowExecutionSignaledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "requestCancelExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "signalExternalWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionContinuedAsNewEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "failWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "markerRecordedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "timerCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "recordMarkerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "completeWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "cancelWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "signalExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "continueAsNewWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "eventType", required: true, type: .enum), 
+            AWSShapeMember(label: "lambdaFunctionTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startChildWorkflowExecutionInitiatedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "decisionTaskTimedOutEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "lambdaFunctionCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionSignaledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionTerminatedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionCanceledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "workflowExecutionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "childWorkflowExecutionStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "requestCancelActivityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "externalWorkflowExecutionCancelRequestedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "decisionTaskScheduledEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "timerStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "activityTaskStartedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "cancelTimerFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "decisionTaskCompletedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "requestCancelExternalWorkflowExecutionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "scheduleLambdaFunctionFailedEventAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "eventTimestamp", required: true, type: .timestamp)
         ]
         /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
         public let scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes?
@@ -2846,9 +2615,9 @@ extension Swf {
         public let requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes?
         public let scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes?
         /// The date and time when the event occurred.
-        public let eventTimestamp: String
+        public let eventTimestamp: Double
 
-        public init(scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil, activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes? = nil, workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes? = nil, activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes? = nil, workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes? = nil, decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes? = nil, eventId: Int64, timerFiredEventAttributes: TimerFiredEventAttributes? = nil, startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes? = nil, externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes? = nil, activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes? = nil, requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes? = nil, workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes? = nil, lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes? = nil, workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes? = nil, workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes? = nil, signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes? = nil, lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes? = nil, childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes? = nil, workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes? = nil, failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes? = nil, markerRecordedEventAttributes: MarkerRecordedEventAttributes? = nil, childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes? = nil, timerCanceledEventAttributes: TimerCanceledEventAttributes? = nil, recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes? = nil, completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes? = nil, cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes? = nil, signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes? = nil, startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes? = nil, activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes? = nil, lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes? = nil, workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes? = nil, childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes? = nil, continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes? = nil, eventType: EventType, lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes? = nil, startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes? = nil, decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes? = nil, lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes? = nil, workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes? = nil, childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes? = nil, childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes? = nil, workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes? = nil, childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes? = nil, activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes? = nil, requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes? = nil, externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes? = nil, decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes? = nil, timerStartedEventAttributes: TimerStartedEventAttributes? = nil, activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes? = nil, startTimerFailedEventAttributes: StartTimerFailedEventAttributes? = nil, activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes? = nil, cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes? = nil, decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes? = nil, requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes? = nil, scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes? = nil, eventTimestamp: String) {
+        public init(scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil, activityTaskCompletedEventAttributes: ActivityTaskCompletedEventAttributes? = nil, workflowExecutionFailedEventAttributes: WorkflowExecutionFailedEventAttributes? = nil, activityTaskTimedOutEventAttributes: ActivityTaskTimedOutEventAttributes? = nil, workflowExecutionTerminatedEventAttributes: WorkflowExecutionTerminatedEventAttributes? = nil, decisionTaskStartedEventAttributes: DecisionTaskStartedEventAttributes? = nil, eventId: Int64, timerFiredEventAttributes: TimerFiredEventAttributes? = nil, startChildWorkflowExecutionFailedEventAttributes: StartChildWorkflowExecutionFailedEventAttributes? = nil, externalWorkflowExecutionSignaledEventAttributes: ExternalWorkflowExecutionSignaledEventAttributes? = nil, activityTaskCancelRequestedEventAttributes: ActivityTaskCancelRequestedEventAttributes? = nil, requestCancelExternalWorkflowExecutionInitiatedEventAttributes: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes? = nil, workflowExecutionCancelRequestedEventAttributes: WorkflowExecutionCancelRequestedEventAttributes? = nil, lambdaFunctionScheduledEventAttributes: LambdaFunctionScheduledEventAttributes? = nil, workflowExecutionTimedOutEventAttributes: WorkflowExecutionTimedOutEventAttributes? = nil, workflowExecutionCanceledEventAttributes: WorkflowExecutionCanceledEventAttributes? = nil, signalExternalWorkflowExecutionInitiatedEventAttributes: SignalExternalWorkflowExecutionInitiatedEventAttributes? = nil, lambdaFunctionFailedEventAttributes: LambdaFunctionFailedEventAttributes? = nil, childWorkflowExecutionCompletedEventAttributes: ChildWorkflowExecutionCompletedEventAttributes? = nil, workflowExecutionContinuedAsNewEventAttributes: WorkflowExecutionContinuedAsNewEventAttributes? = nil, failWorkflowExecutionFailedEventAttributes: FailWorkflowExecutionFailedEventAttributes? = nil, markerRecordedEventAttributes: MarkerRecordedEventAttributes? = nil, childWorkflowExecutionTimedOutEventAttributes: ChildWorkflowExecutionTimedOutEventAttributes? = nil, timerCanceledEventAttributes: TimerCanceledEventAttributes? = nil, recordMarkerFailedEventAttributes: RecordMarkerFailedEventAttributes? = nil, completeWorkflowExecutionFailedEventAttributes: CompleteWorkflowExecutionFailedEventAttributes? = nil, cancelWorkflowExecutionFailedEventAttributes: CancelWorkflowExecutionFailedEventAttributes? = nil, signalExternalWorkflowExecutionFailedEventAttributes: SignalExternalWorkflowExecutionFailedEventAttributes? = nil, startLambdaFunctionFailedEventAttributes: StartLambdaFunctionFailedEventAttributes? = nil, activityTaskCanceledEventAttributes: ActivityTaskCanceledEventAttributes? = nil, lambdaFunctionStartedEventAttributes: LambdaFunctionStartedEventAttributes? = nil, workflowExecutionCompletedEventAttributes: WorkflowExecutionCompletedEventAttributes? = nil, childWorkflowExecutionFailedEventAttributes: ChildWorkflowExecutionFailedEventAttributes? = nil, continueAsNewWorkflowExecutionFailedEventAttributes: ContinueAsNewWorkflowExecutionFailedEventAttributes? = nil, eventType: EventType, lambdaFunctionTimedOutEventAttributes: LambdaFunctionTimedOutEventAttributes? = nil, startChildWorkflowExecutionInitiatedEventAttributes: StartChildWorkflowExecutionInitiatedEventAttributes? = nil, decisionTaskTimedOutEventAttributes: DecisionTaskTimedOutEventAttributes? = nil, lambdaFunctionCompletedEventAttributes: LambdaFunctionCompletedEventAttributes? = nil, workflowExecutionSignaledEventAttributes: WorkflowExecutionSignaledEventAttributes? = nil, childWorkflowExecutionTerminatedEventAttributes: ChildWorkflowExecutionTerminatedEventAttributes? = nil, childWorkflowExecutionCanceledEventAttributes: ChildWorkflowExecutionCanceledEventAttributes? = nil, workflowExecutionStartedEventAttributes: WorkflowExecutionStartedEventAttributes? = nil, childWorkflowExecutionStartedEventAttributes: ChildWorkflowExecutionStartedEventAttributes? = nil, activityTaskScheduledEventAttributes: ActivityTaskScheduledEventAttributes? = nil, requestCancelActivityTaskFailedEventAttributes: RequestCancelActivityTaskFailedEventAttributes? = nil, externalWorkflowExecutionCancelRequestedEventAttributes: ExternalWorkflowExecutionCancelRequestedEventAttributes? = nil, decisionTaskScheduledEventAttributes: DecisionTaskScheduledEventAttributes? = nil, timerStartedEventAttributes: TimerStartedEventAttributes? = nil, activityTaskFailedEventAttributes: ActivityTaskFailedEventAttributes? = nil, startTimerFailedEventAttributes: StartTimerFailedEventAttributes? = nil, activityTaskStartedEventAttributes: ActivityTaskStartedEventAttributes? = nil, cancelTimerFailedEventAttributes: CancelTimerFailedEventAttributes? = nil, decisionTaskCompletedEventAttributes: DecisionTaskCompletedEventAttributes? = nil, requestCancelExternalWorkflowExecutionFailedEventAttributes: RequestCancelExternalWorkflowExecutionFailedEventAttributes? = nil, scheduleLambdaFunctionFailedEventAttributes: ScheduleLambdaFunctionFailedEventAttributes? = nil, eventTimestamp: Double) {
             self.scheduleActivityTaskFailedEventAttributes = scheduleActivityTaskFailedEventAttributes
             self.activityTaskCompletedEventAttributes = activityTaskCompletedEventAttributes
             self.workflowExecutionFailedEventAttributes = workflowExecutionFailedEventAttributes
@@ -2908,76 +2677,72 @@ extension Swf {
             self.eventTimestamp = eventTimestamp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let scheduleActivityTaskFailedEventAttributes = dictionary["scheduleActivityTaskFailedEventAttributes"] as? [String: Any] { self.scheduleActivityTaskFailedEventAttributes = try Swf.ScheduleActivityTaskFailedEventAttributes(dictionary: scheduleActivityTaskFailedEventAttributes) } else { self.scheduleActivityTaskFailedEventAttributes = nil }
-            if let activityTaskCompletedEventAttributes = dictionary["activityTaskCompletedEventAttributes"] as? [String: Any] { self.activityTaskCompletedEventAttributes = try Swf.ActivityTaskCompletedEventAttributes(dictionary: activityTaskCompletedEventAttributes) } else { self.activityTaskCompletedEventAttributes = nil }
-            if let workflowExecutionFailedEventAttributes = dictionary["workflowExecutionFailedEventAttributes"] as? [String: Any] { self.workflowExecutionFailedEventAttributes = try Swf.WorkflowExecutionFailedEventAttributes(dictionary: workflowExecutionFailedEventAttributes) } else { self.workflowExecutionFailedEventAttributes = nil }
-            if let activityTaskTimedOutEventAttributes = dictionary["activityTaskTimedOutEventAttributes"] as? [String: Any] { self.activityTaskTimedOutEventAttributes = try Swf.ActivityTaskTimedOutEventAttributes(dictionary: activityTaskTimedOutEventAttributes) } else { self.activityTaskTimedOutEventAttributes = nil }
-            if let workflowExecutionTerminatedEventAttributes = dictionary["workflowExecutionTerminatedEventAttributes"] as? [String: Any] { self.workflowExecutionTerminatedEventAttributes = try Swf.WorkflowExecutionTerminatedEventAttributes(dictionary: workflowExecutionTerminatedEventAttributes) } else { self.workflowExecutionTerminatedEventAttributes = nil }
-            if let decisionTaskStartedEventAttributes = dictionary["decisionTaskStartedEventAttributes"] as? [String: Any] { self.decisionTaskStartedEventAttributes = try Swf.DecisionTaskStartedEventAttributes(dictionary: decisionTaskStartedEventAttributes) } else { self.decisionTaskStartedEventAttributes = nil }
-            guard let eventId = dictionary["eventId"] as? Int64 else { throw InitializableError.missingRequiredParam("eventId") }
-            self.eventId = eventId
-            if let timerFiredEventAttributes = dictionary["timerFiredEventAttributes"] as? [String: Any] { self.timerFiredEventAttributes = try Swf.TimerFiredEventAttributes(dictionary: timerFiredEventAttributes) } else { self.timerFiredEventAttributes = nil }
-            if let startChildWorkflowExecutionFailedEventAttributes = dictionary["startChildWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.startChildWorkflowExecutionFailedEventAttributes = try Swf.StartChildWorkflowExecutionFailedEventAttributes(dictionary: startChildWorkflowExecutionFailedEventAttributes) } else { self.startChildWorkflowExecutionFailedEventAttributes = nil }
-            if let externalWorkflowExecutionSignaledEventAttributes = dictionary["externalWorkflowExecutionSignaledEventAttributes"] as? [String: Any] { self.externalWorkflowExecutionSignaledEventAttributes = try Swf.ExternalWorkflowExecutionSignaledEventAttributes(dictionary: externalWorkflowExecutionSignaledEventAttributes) } else { self.externalWorkflowExecutionSignaledEventAttributes = nil }
-            if let activityTaskCancelRequestedEventAttributes = dictionary["activityTaskCancelRequestedEventAttributes"] as? [String: Any] { self.activityTaskCancelRequestedEventAttributes = try Swf.ActivityTaskCancelRequestedEventAttributes(dictionary: activityTaskCancelRequestedEventAttributes) } else { self.activityTaskCancelRequestedEventAttributes = nil }
-            if let requestCancelExternalWorkflowExecutionInitiatedEventAttributes = dictionary["requestCancelExternalWorkflowExecutionInitiatedEventAttributes"] as? [String: Any] { self.requestCancelExternalWorkflowExecutionInitiatedEventAttributes = try Swf.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(dictionary: requestCancelExternalWorkflowExecutionInitiatedEventAttributes) } else { self.requestCancelExternalWorkflowExecutionInitiatedEventAttributes = nil }
-            if let workflowExecutionCancelRequestedEventAttributes = dictionary["workflowExecutionCancelRequestedEventAttributes"] as? [String: Any] { self.workflowExecutionCancelRequestedEventAttributes = try Swf.WorkflowExecutionCancelRequestedEventAttributes(dictionary: workflowExecutionCancelRequestedEventAttributes) } else { self.workflowExecutionCancelRequestedEventAttributes = nil }
-            if let lambdaFunctionScheduledEventAttributes = dictionary["lambdaFunctionScheduledEventAttributes"] as? [String: Any] { self.lambdaFunctionScheduledEventAttributes = try Swf.LambdaFunctionScheduledEventAttributes(dictionary: lambdaFunctionScheduledEventAttributes) } else { self.lambdaFunctionScheduledEventAttributes = nil }
-            if let workflowExecutionTimedOutEventAttributes = dictionary["workflowExecutionTimedOutEventAttributes"] as? [String: Any] { self.workflowExecutionTimedOutEventAttributes = try Swf.WorkflowExecutionTimedOutEventAttributes(dictionary: workflowExecutionTimedOutEventAttributes) } else { self.workflowExecutionTimedOutEventAttributes = nil }
-            if let workflowExecutionCanceledEventAttributes = dictionary["workflowExecutionCanceledEventAttributes"] as? [String: Any] { self.workflowExecutionCanceledEventAttributes = try Swf.WorkflowExecutionCanceledEventAttributes(dictionary: workflowExecutionCanceledEventAttributes) } else { self.workflowExecutionCanceledEventAttributes = nil }
-            if let signalExternalWorkflowExecutionInitiatedEventAttributes = dictionary["signalExternalWorkflowExecutionInitiatedEventAttributes"] as? [String: Any] { self.signalExternalWorkflowExecutionInitiatedEventAttributes = try Swf.SignalExternalWorkflowExecutionInitiatedEventAttributes(dictionary: signalExternalWorkflowExecutionInitiatedEventAttributes) } else { self.signalExternalWorkflowExecutionInitiatedEventAttributes = nil }
-            if let lambdaFunctionFailedEventAttributes = dictionary["lambdaFunctionFailedEventAttributes"] as? [String: Any] { self.lambdaFunctionFailedEventAttributes = try Swf.LambdaFunctionFailedEventAttributes(dictionary: lambdaFunctionFailedEventAttributes) } else { self.lambdaFunctionFailedEventAttributes = nil }
-            if let childWorkflowExecutionCompletedEventAttributes = dictionary["childWorkflowExecutionCompletedEventAttributes"] as? [String: Any] { self.childWorkflowExecutionCompletedEventAttributes = try Swf.ChildWorkflowExecutionCompletedEventAttributes(dictionary: childWorkflowExecutionCompletedEventAttributes) } else { self.childWorkflowExecutionCompletedEventAttributes = nil }
-            if let workflowExecutionContinuedAsNewEventAttributes = dictionary["workflowExecutionContinuedAsNewEventAttributes"] as? [String: Any] { self.workflowExecutionContinuedAsNewEventAttributes = try Swf.WorkflowExecutionContinuedAsNewEventAttributes(dictionary: workflowExecutionContinuedAsNewEventAttributes) } else { self.workflowExecutionContinuedAsNewEventAttributes = nil }
-            if let failWorkflowExecutionFailedEventAttributes = dictionary["failWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.failWorkflowExecutionFailedEventAttributes = try Swf.FailWorkflowExecutionFailedEventAttributes(dictionary: failWorkflowExecutionFailedEventAttributes) } else { self.failWorkflowExecutionFailedEventAttributes = nil }
-            if let markerRecordedEventAttributes = dictionary["markerRecordedEventAttributes"] as? [String: Any] { self.markerRecordedEventAttributes = try Swf.MarkerRecordedEventAttributes(dictionary: markerRecordedEventAttributes) } else { self.markerRecordedEventAttributes = nil }
-            if let childWorkflowExecutionTimedOutEventAttributes = dictionary["childWorkflowExecutionTimedOutEventAttributes"] as? [String: Any] { self.childWorkflowExecutionTimedOutEventAttributes = try Swf.ChildWorkflowExecutionTimedOutEventAttributes(dictionary: childWorkflowExecutionTimedOutEventAttributes) } else { self.childWorkflowExecutionTimedOutEventAttributes = nil }
-            if let timerCanceledEventAttributes = dictionary["timerCanceledEventAttributes"] as? [String: Any] { self.timerCanceledEventAttributes = try Swf.TimerCanceledEventAttributes(dictionary: timerCanceledEventAttributes) } else { self.timerCanceledEventAttributes = nil }
-            if let recordMarkerFailedEventAttributes = dictionary["recordMarkerFailedEventAttributes"] as? [String: Any] { self.recordMarkerFailedEventAttributes = try Swf.RecordMarkerFailedEventAttributes(dictionary: recordMarkerFailedEventAttributes) } else { self.recordMarkerFailedEventAttributes = nil }
-            if let completeWorkflowExecutionFailedEventAttributes = dictionary["completeWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.completeWorkflowExecutionFailedEventAttributes = try Swf.CompleteWorkflowExecutionFailedEventAttributes(dictionary: completeWorkflowExecutionFailedEventAttributes) } else { self.completeWorkflowExecutionFailedEventAttributes = nil }
-            if let cancelWorkflowExecutionFailedEventAttributes = dictionary["cancelWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.cancelWorkflowExecutionFailedEventAttributes = try Swf.CancelWorkflowExecutionFailedEventAttributes(dictionary: cancelWorkflowExecutionFailedEventAttributes) } else { self.cancelWorkflowExecutionFailedEventAttributes = nil }
-            if let signalExternalWorkflowExecutionFailedEventAttributes = dictionary["signalExternalWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.signalExternalWorkflowExecutionFailedEventAttributes = try Swf.SignalExternalWorkflowExecutionFailedEventAttributes(dictionary: signalExternalWorkflowExecutionFailedEventAttributes) } else { self.signalExternalWorkflowExecutionFailedEventAttributes = nil }
-            if let startLambdaFunctionFailedEventAttributes = dictionary["startLambdaFunctionFailedEventAttributes"] as? [String: Any] { self.startLambdaFunctionFailedEventAttributes = try Swf.StartLambdaFunctionFailedEventAttributes(dictionary: startLambdaFunctionFailedEventAttributes) } else { self.startLambdaFunctionFailedEventAttributes = nil }
-            if let activityTaskCanceledEventAttributes = dictionary["activityTaskCanceledEventAttributes"] as? [String: Any] { self.activityTaskCanceledEventAttributes = try Swf.ActivityTaskCanceledEventAttributes(dictionary: activityTaskCanceledEventAttributes) } else { self.activityTaskCanceledEventAttributes = nil }
-            if let lambdaFunctionStartedEventAttributes = dictionary["lambdaFunctionStartedEventAttributes"] as? [String: Any] { self.lambdaFunctionStartedEventAttributes = try Swf.LambdaFunctionStartedEventAttributes(dictionary: lambdaFunctionStartedEventAttributes) } else { self.lambdaFunctionStartedEventAttributes = nil }
-            if let workflowExecutionCompletedEventAttributes = dictionary["workflowExecutionCompletedEventAttributes"] as? [String: Any] { self.workflowExecutionCompletedEventAttributes = try Swf.WorkflowExecutionCompletedEventAttributes(dictionary: workflowExecutionCompletedEventAttributes) } else { self.workflowExecutionCompletedEventAttributes = nil }
-            if let childWorkflowExecutionFailedEventAttributes = dictionary["childWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.childWorkflowExecutionFailedEventAttributes = try Swf.ChildWorkflowExecutionFailedEventAttributes(dictionary: childWorkflowExecutionFailedEventAttributes) } else { self.childWorkflowExecutionFailedEventAttributes = nil }
-            if let continueAsNewWorkflowExecutionFailedEventAttributes = dictionary["continueAsNewWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.continueAsNewWorkflowExecutionFailedEventAttributes = try Swf.ContinueAsNewWorkflowExecutionFailedEventAttributes(dictionary: continueAsNewWorkflowExecutionFailedEventAttributes) } else { self.continueAsNewWorkflowExecutionFailedEventAttributes = nil }
-            guard let raweventType = dictionary["eventType"] as? String, let eventType = EventType(rawValue: raweventType) else { throw InitializableError.missingRequiredParam("eventType") }
-            self.eventType = eventType
-            if let lambdaFunctionTimedOutEventAttributes = dictionary["lambdaFunctionTimedOutEventAttributes"] as? [String: Any] { self.lambdaFunctionTimedOutEventAttributes = try Swf.LambdaFunctionTimedOutEventAttributes(dictionary: lambdaFunctionTimedOutEventAttributes) } else { self.lambdaFunctionTimedOutEventAttributes = nil }
-            if let startChildWorkflowExecutionInitiatedEventAttributes = dictionary["startChildWorkflowExecutionInitiatedEventAttributes"] as? [String: Any] { self.startChildWorkflowExecutionInitiatedEventAttributes = try Swf.StartChildWorkflowExecutionInitiatedEventAttributes(dictionary: startChildWorkflowExecutionInitiatedEventAttributes) } else { self.startChildWorkflowExecutionInitiatedEventAttributes = nil }
-            if let decisionTaskTimedOutEventAttributes = dictionary["decisionTaskTimedOutEventAttributes"] as? [String: Any] { self.decisionTaskTimedOutEventAttributes = try Swf.DecisionTaskTimedOutEventAttributes(dictionary: decisionTaskTimedOutEventAttributes) } else { self.decisionTaskTimedOutEventAttributes = nil }
-            if let lambdaFunctionCompletedEventAttributes = dictionary["lambdaFunctionCompletedEventAttributes"] as? [String: Any] { self.lambdaFunctionCompletedEventAttributes = try Swf.LambdaFunctionCompletedEventAttributes(dictionary: lambdaFunctionCompletedEventAttributes) } else { self.lambdaFunctionCompletedEventAttributes = nil }
-            if let workflowExecutionSignaledEventAttributes = dictionary["workflowExecutionSignaledEventAttributes"] as? [String: Any] { self.workflowExecutionSignaledEventAttributes = try Swf.WorkflowExecutionSignaledEventAttributes(dictionary: workflowExecutionSignaledEventAttributes) } else { self.workflowExecutionSignaledEventAttributes = nil }
-            if let childWorkflowExecutionTerminatedEventAttributes = dictionary["childWorkflowExecutionTerminatedEventAttributes"] as? [String: Any] { self.childWorkflowExecutionTerminatedEventAttributes = try Swf.ChildWorkflowExecutionTerminatedEventAttributes(dictionary: childWorkflowExecutionTerminatedEventAttributes) } else { self.childWorkflowExecutionTerminatedEventAttributes = nil }
-            if let childWorkflowExecutionCanceledEventAttributes = dictionary["childWorkflowExecutionCanceledEventAttributes"] as? [String: Any] { self.childWorkflowExecutionCanceledEventAttributes = try Swf.ChildWorkflowExecutionCanceledEventAttributes(dictionary: childWorkflowExecutionCanceledEventAttributes) } else { self.childWorkflowExecutionCanceledEventAttributes = nil }
-            if let workflowExecutionStartedEventAttributes = dictionary["workflowExecutionStartedEventAttributes"] as? [String: Any] { self.workflowExecutionStartedEventAttributes = try Swf.WorkflowExecutionStartedEventAttributes(dictionary: workflowExecutionStartedEventAttributes) } else { self.workflowExecutionStartedEventAttributes = nil }
-            if let childWorkflowExecutionStartedEventAttributes = dictionary["childWorkflowExecutionStartedEventAttributes"] as? [String: Any] { self.childWorkflowExecutionStartedEventAttributes = try Swf.ChildWorkflowExecutionStartedEventAttributes(dictionary: childWorkflowExecutionStartedEventAttributes) } else { self.childWorkflowExecutionStartedEventAttributes = nil }
-            if let activityTaskScheduledEventAttributes = dictionary["activityTaskScheduledEventAttributes"] as? [String: Any] { self.activityTaskScheduledEventAttributes = try Swf.ActivityTaskScheduledEventAttributes(dictionary: activityTaskScheduledEventAttributes) } else { self.activityTaskScheduledEventAttributes = nil }
-            if let requestCancelActivityTaskFailedEventAttributes = dictionary["requestCancelActivityTaskFailedEventAttributes"] as? [String: Any] { self.requestCancelActivityTaskFailedEventAttributes = try Swf.RequestCancelActivityTaskFailedEventAttributes(dictionary: requestCancelActivityTaskFailedEventAttributes) } else { self.requestCancelActivityTaskFailedEventAttributes = nil }
-            if let externalWorkflowExecutionCancelRequestedEventAttributes = dictionary["externalWorkflowExecutionCancelRequestedEventAttributes"] as? [String: Any] { self.externalWorkflowExecutionCancelRequestedEventAttributes = try Swf.ExternalWorkflowExecutionCancelRequestedEventAttributes(dictionary: externalWorkflowExecutionCancelRequestedEventAttributes) } else { self.externalWorkflowExecutionCancelRequestedEventAttributes = nil }
-            if let decisionTaskScheduledEventAttributes = dictionary["decisionTaskScheduledEventAttributes"] as? [String: Any] { self.decisionTaskScheduledEventAttributes = try Swf.DecisionTaskScheduledEventAttributes(dictionary: decisionTaskScheduledEventAttributes) } else { self.decisionTaskScheduledEventAttributes = nil }
-            if let timerStartedEventAttributes = dictionary["timerStartedEventAttributes"] as? [String: Any] { self.timerStartedEventAttributes = try Swf.TimerStartedEventAttributes(dictionary: timerStartedEventAttributes) } else { self.timerStartedEventAttributes = nil }
-            if let activityTaskFailedEventAttributes = dictionary["activityTaskFailedEventAttributes"] as? [String: Any] { self.activityTaskFailedEventAttributes = try Swf.ActivityTaskFailedEventAttributes(dictionary: activityTaskFailedEventAttributes) } else { self.activityTaskFailedEventAttributes = nil }
-            if let startTimerFailedEventAttributes = dictionary["startTimerFailedEventAttributes"] as? [String: Any] { self.startTimerFailedEventAttributes = try Swf.StartTimerFailedEventAttributes(dictionary: startTimerFailedEventAttributes) } else { self.startTimerFailedEventAttributes = nil }
-            if let activityTaskStartedEventAttributes = dictionary["activityTaskStartedEventAttributes"] as? [String: Any] { self.activityTaskStartedEventAttributes = try Swf.ActivityTaskStartedEventAttributes(dictionary: activityTaskStartedEventAttributes) } else { self.activityTaskStartedEventAttributes = nil }
-            if let cancelTimerFailedEventAttributes = dictionary["cancelTimerFailedEventAttributes"] as? [String: Any] { self.cancelTimerFailedEventAttributes = try Swf.CancelTimerFailedEventAttributes(dictionary: cancelTimerFailedEventAttributes) } else { self.cancelTimerFailedEventAttributes = nil }
-            if let decisionTaskCompletedEventAttributes = dictionary["decisionTaskCompletedEventAttributes"] as? [String: Any] { self.decisionTaskCompletedEventAttributes = try Swf.DecisionTaskCompletedEventAttributes(dictionary: decisionTaskCompletedEventAttributes) } else { self.decisionTaskCompletedEventAttributes = nil }
-            if let requestCancelExternalWorkflowExecutionFailedEventAttributes = dictionary["requestCancelExternalWorkflowExecutionFailedEventAttributes"] as? [String: Any] { self.requestCancelExternalWorkflowExecutionFailedEventAttributes = try Swf.RequestCancelExternalWorkflowExecutionFailedEventAttributes(dictionary: requestCancelExternalWorkflowExecutionFailedEventAttributes) } else { self.requestCancelExternalWorkflowExecutionFailedEventAttributes = nil }
-            if let scheduleLambdaFunctionFailedEventAttributes = dictionary["scheduleLambdaFunctionFailedEventAttributes"] as? [String: Any] { self.scheduleLambdaFunctionFailedEventAttributes = try Swf.ScheduleLambdaFunctionFailedEventAttributes(dictionary: scheduleLambdaFunctionFailedEventAttributes) } else { self.scheduleLambdaFunctionFailedEventAttributes = nil }
-            guard let eventTimestamp = dictionary["eventTimestamp"] as? String else { throw InitializableError.missingRequiredParam("eventTimestamp") }
-            self.eventTimestamp = eventTimestamp
+        private enum CodingKeys: String, CodingKey {
+            case scheduleActivityTaskFailedEventAttributes = "scheduleActivityTaskFailedEventAttributes"
+            case activityTaskCompletedEventAttributes = "activityTaskCompletedEventAttributes"
+            case workflowExecutionFailedEventAttributes = "workflowExecutionFailedEventAttributes"
+            case activityTaskTimedOutEventAttributes = "activityTaskTimedOutEventAttributes"
+            case workflowExecutionTerminatedEventAttributes = "workflowExecutionTerminatedEventAttributes"
+            case decisionTaskStartedEventAttributes = "decisionTaskStartedEventAttributes"
+            case eventId = "eventId"
+            case timerFiredEventAttributes = "timerFiredEventAttributes"
+            case startChildWorkflowExecutionFailedEventAttributes = "startChildWorkflowExecutionFailedEventAttributes"
+            case externalWorkflowExecutionSignaledEventAttributes = "externalWorkflowExecutionSignaledEventAttributes"
+            case activityTaskCancelRequestedEventAttributes = "activityTaskCancelRequestedEventAttributes"
+            case requestCancelExternalWorkflowExecutionInitiatedEventAttributes = "requestCancelExternalWorkflowExecutionInitiatedEventAttributes"
+            case workflowExecutionCancelRequestedEventAttributes = "workflowExecutionCancelRequestedEventAttributes"
+            case lambdaFunctionScheduledEventAttributes = "lambdaFunctionScheduledEventAttributes"
+            case workflowExecutionTimedOutEventAttributes = "workflowExecutionTimedOutEventAttributes"
+            case workflowExecutionCanceledEventAttributes = "workflowExecutionCanceledEventAttributes"
+            case signalExternalWorkflowExecutionInitiatedEventAttributes = "signalExternalWorkflowExecutionInitiatedEventAttributes"
+            case lambdaFunctionFailedEventAttributes = "lambdaFunctionFailedEventAttributes"
+            case childWorkflowExecutionCompletedEventAttributes = "childWorkflowExecutionCompletedEventAttributes"
+            case workflowExecutionContinuedAsNewEventAttributes = "workflowExecutionContinuedAsNewEventAttributes"
+            case failWorkflowExecutionFailedEventAttributes = "failWorkflowExecutionFailedEventAttributes"
+            case markerRecordedEventAttributes = "markerRecordedEventAttributes"
+            case childWorkflowExecutionTimedOutEventAttributes = "childWorkflowExecutionTimedOutEventAttributes"
+            case timerCanceledEventAttributes = "timerCanceledEventAttributes"
+            case recordMarkerFailedEventAttributes = "recordMarkerFailedEventAttributes"
+            case completeWorkflowExecutionFailedEventAttributes = "completeWorkflowExecutionFailedEventAttributes"
+            case cancelWorkflowExecutionFailedEventAttributes = "cancelWorkflowExecutionFailedEventAttributes"
+            case signalExternalWorkflowExecutionFailedEventAttributes = "signalExternalWorkflowExecutionFailedEventAttributes"
+            case startLambdaFunctionFailedEventAttributes = "startLambdaFunctionFailedEventAttributes"
+            case activityTaskCanceledEventAttributes = "activityTaskCanceledEventAttributes"
+            case lambdaFunctionStartedEventAttributes = "lambdaFunctionStartedEventAttributes"
+            case workflowExecutionCompletedEventAttributes = "workflowExecutionCompletedEventAttributes"
+            case childWorkflowExecutionFailedEventAttributes = "childWorkflowExecutionFailedEventAttributes"
+            case continueAsNewWorkflowExecutionFailedEventAttributes = "continueAsNewWorkflowExecutionFailedEventAttributes"
+            case eventType = "eventType"
+            case lambdaFunctionTimedOutEventAttributes = "lambdaFunctionTimedOutEventAttributes"
+            case startChildWorkflowExecutionInitiatedEventAttributes = "startChildWorkflowExecutionInitiatedEventAttributes"
+            case decisionTaskTimedOutEventAttributes = "decisionTaskTimedOutEventAttributes"
+            case lambdaFunctionCompletedEventAttributes = "lambdaFunctionCompletedEventAttributes"
+            case workflowExecutionSignaledEventAttributes = "workflowExecutionSignaledEventAttributes"
+            case childWorkflowExecutionTerminatedEventAttributes = "childWorkflowExecutionTerminatedEventAttributes"
+            case childWorkflowExecutionCanceledEventAttributes = "childWorkflowExecutionCanceledEventAttributes"
+            case workflowExecutionStartedEventAttributes = "workflowExecutionStartedEventAttributes"
+            case childWorkflowExecutionStartedEventAttributes = "childWorkflowExecutionStartedEventAttributes"
+            case activityTaskScheduledEventAttributes = "activityTaskScheduledEventAttributes"
+            case requestCancelActivityTaskFailedEventAttributes = "requestCancelActivityTaskFailedEventAttributes"
+            case externalWorkflowExecutionCancelRequestedEventAttributes = "externalWorkflowExecutionCancelRequestedEventAttributes"
+            case decisionTaskScheduledEventAttributes = "decisionTaskScheduledEventAttributes"
+            case timerStartedEventAttributes = "timerStartedEventAttributes"
+            case activityTaskFailedEventAttributes = "activityTaskFailedEventAttributes"
+            case startTimerFailedEventAttributes = "startTimerFailedEventAttributes"
+            case activityTaskStartedEventAttributes = "activityTaskStartedEventAttributes"
+            case cancelTimerFailedEventAttributes = "cancelTimerFailedEventAttributes"
+            case decisionTaskCompletedEventAttributes = "decisionTaskCompletedEventAttributes"
+            case requestCancelExternalWorkflowExecutionFailedEventAttributes = "requestCancelExternalWorkflowExecutionFailedEventAttributes"
+            case scheduleLambdaFunctionFailedEventAttributes = "scheduleLambdaFunctionFailedEventAttributes"
+            case eventTimestamp = "eventTimestamp"
         }
     }
 
     public struct WorkflowExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: true, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string)
         ]
         /// A system-generated unique identifier for the workflow execution.
         public let runId: String
@@ -2989,19 +2754,16 @@ extension Swf {
             self.workflowId = workflowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let runId = dictionary["runId"] as? String else { throw InitializableError.missingRequiredParam("runId") }
-            self.runId = runId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case workflowId = "workflowId"
         }
     }
 
     public struct Run: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string)
         ]
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
         public let runId: String?
@@ -3010,18 +2772,17 @@ extension Swf {
             self.runId = runId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
         }
     }
 
     public struct LambdaFunctionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "result", required: false, type: .string)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -3036,21 +2797,18 @@ extension Swf {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            self.result = dictionary["result"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case startedEventId = "startedEventId"
+            case result = "result"
         }
     }
 
     public struct CountPendingActivityTasksInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
         /// The name of the domain that contains the task list.
         public let domain: String
@@ -3062,21 +2820,18 @@ extension Swf {
             self.taskList = taskList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case taskList = "taskList"
         }
     }
 
     public struct WorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -3091,15 +2846,14 @@ extension Swf {
             self.reason = reason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            self.reason = dictionary["reason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case reason = "reason"
         }
     }
 
-    public enum CloseStatus: String, CustomStringConvertible {
+    public enum CloseStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case canceled = "CANCELED"
@@ -3111,11 +2865,10 @@ extension Swf {
 
     public struct RegisterDomainInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "workflowExecutionRetentionPeriodInDays", required: true, type: .string)
         ]
         /// A text description of the domain.
         public let description: String?
@@ -3130,21 +2883,18 @@ extension Swf {
             self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let workflowExecutionRetentionPeriodInDays = dictionary["workflowExecutionRetentionPeriodInDays"] as? String else { throw InitializableError.missingRequiredParam("workflowExecutionRetentionPeriodInDays") }
-            self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case workflowExecutionRetentionPeriodInDays = "workflowExecutionRetentionPeriodInDays"
         }
     }
 
     public struct WorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "result", required: false, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3156,20 +2906,18 @@ extension Swf {
             self.result = result
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            self.result = dictionary["result"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case result = "result"
         }
     }
 
     public struct RecordMarkerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "markerName", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarkerFailed decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3184,22 +2932,18 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let markerName = dictionary["markerName"] as? String else { throw InitializableError.missingRequiredParam("markerName") }
-            self.markerName = markerName
-            guard let rawcause = dictionary["cause"] as? String, let cause = RecordMarkerFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case markerName = "markerName"
+            case cause = "cause"
         }
     }
 
     public struct DecisionTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "identity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long), 
+            AWSShapeMember(label: "identity", required: false, type: .string)
         ]
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64
@@ -3211,18 +2955,16 @@ extension Swf {
             self.identity = identity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
-            self.identity = dictionary["identity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case identity = "identity"
         }
     }
 
     public struct DeprecateDomainInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string)
         ]
         /// The name of the domain to deprecate.
         public let name: String
@@ -3231,28 +2973,26 @@ extension Swf {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
     public struct StartChildWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -3294,35 +3034,29 @@ extension Swf {
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.control = dictionary["control"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.input = dictionary["input"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case taskList = "taskList"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case taskPriority = "taskPriority"
+            case control = "control"
+            case tagList = "tagList"
+            case input = "input"
+            case workflowType = "workflowType"
+            case childPolicy = "childPolicy"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
         }
     }
 
     public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution to be canceled.
         public let runId: String?
@@ -3340,24 +3074,21 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case control = "control"
         }
     }
 
     public struct ListDomainsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -3375,25 +3106,23 @@ extension Swf {
             self.registrationStatus = registrationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let rawregistrationStatus = dictionary["registrationStatus"] as? String, let registrationStatus = RegistrationStatus(rawValue: rawregistrationStatus) else { throw InitializableError.missingRequiredParam("registrationStatus") }
-            self.registrationStatus = registrationStatus
+        private enum CodingKeys: String, CodingKey {
+            case maximumPageSize = "maximumPageSize"
+            case reverseOrder = "reverseOrder"
+            case nextPageToken = "nextPageToken"
+            case registrationStatus = "registrationStatus"
         }
     }
 
     public struct WorkflowTypeConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "defaultLambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultChildPolicy", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultExecutionStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeMember(label: "defaultLambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "defaultChildPolicy", required: false, type: .enum)
         ]
         /// Optional. The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultExecutionStartToCloseTimeout: String?
@@ -3417,22 +3146,21 @@ extension Swf {
             self.defaultChildPolicy = defaultChildPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultExecutionStartToCloseTimeout = dictionary["defaultExecutionStartToCloseTimeout"] as? String
-            self.defaultTaskStartToCloseTimeout = dictionary["defaultTaskStartToCloseTimeout"] as? String
-            self.defaultTaskPriority = dictionary["defaultTaskPriority"] as? String
-            if let defaultTaskList = dictionary["defaultTaskList"] as? [String: Any] { self.defaultTaskList = try Swf.TaskList(dictionary: defaultTaskList) } else { self.defaultTaskList = nil }
-            self.defaultLambdaRole = dictionary["defaultLambdaRole"] as? String
-            if let defaultChildPolicy = dictionary["defaultChildPolicy"] as? String { self.defaultChildPolicy = ChildPolicy(rawValue: defaultChildPolicy) } else { self.defaultChildPolicy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case defaultExecutionStartToCloseTimeout = "defaultExecutionStartToCloseTimeout"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskList = "defaultTaskList"
+            case defaultLambdaRole = "defaultLambdaRole"
+            case defaultChildPolicy = "defaultChildPolicy"
         }
     }
 
     public struct FailWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -3444,32 +3172,29 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = FailWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
         }
     }
 
-    public enum WorkflowExecutionTerminatedCause: String, CustomStringConvertible {
+    public enum WorkflowExecutionTerminatedCause: String, CustomStringConvertible, Codable {
         case child_policy_applied = "CHILD_POLICY_APPLIED"
         case event_limit_exceeded = "EVENT_LIMIT_EXCEEDED"
         case operator_initiated = "OPERATOR_INITIATED"
         public var description: String { return self.rawValue }
     }
 
-    public enum RecordMarkerFailedCause: String, CustomStringConvertible {
+    public enum RecordMarkerFailedCause: String, CustomStringConvertible, Codable {
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
     }
 
     public struct RespondActivityTaskCanceledInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "taskToken", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "taskToken", required: true, type: .string)
         ]
         /// Optional. Information about the cancellation.
         public let details: String?
@@ -3481,27 +3206,25 @@ extension Swf {
             self.taskToken = taskToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case taskToken = "taskToken"
         }
     }
 
     public struct RegisterActivityTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: true, type: .string), 
+            AWSShapeMember(label: "defaultTaskHeartbeatTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string)
         ]
         /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public let name: String
@@ -3537,24 +3260,21 @@ extension Swf {
             self.defaultTaskScheduleToCloseTimeout = defaultTaskScheduleToCloseTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.defaultTaskStartToCloseTimeout = dictionary["defaultTaskStartToCloseTimeout"] as? String
-            self.defaultTaskScheduleToStartTimeout = dictionary["defaultTaskScheduleToStartTimeout"] as? String
-            self.description = dictionary["description"] as? String
-            guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
-            self.version = version
-            self.defaultTaskHeartbeatTimeout = dictionary["defaultTaskHeartbeatTimeout"] as? String
-            self.defaultTaskPriority = dictionary["defaultTaskPriority"] as? String
-            if let defaultTaskList = dictionary["defaultTaskList"] as? [String: Any] { self.defaultTaskList = try Swf.TaskList(dictionary: defaultTaskList) } else { self.defaultTaskList = nil }
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            self.defaultTaskScheduleToCloseTimeout = dictionary["defaultTaskScheduleToCloseTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case defaultTaskScheduleToStartTimeout = "defaultTaskScheduleToStartTimeout"
+            case description = "description"
+            case version = "version"
+            case defaultTaskHeartbeatTimeout = "defaultTaskHeartbeatTimeout"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskList = "defaultTaskList"
+            case domain = "domain"
+            case defaultTaskScheduleToCloseTimeout = "defaultTaskScheduleToCloseTimeout"
         }
     }
 
-    public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unknown_external_workflow_execution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         case signal_external_workflow_execution_rate_exceeded = "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
@@ -3563,12 +3283,11 @@ extension Swf {
 
     public struct ActivityTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "timeoutType", required: true, type: .enum), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
         /// Contains the content of the details parameter for the last call made by the activity to RecordActivityTaskHeartbeat.
         public let details: String?
@@ -3586,22 +3305,18 @@ extension Swf {
             self.scheduledEventId = scheduledEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let rawtimeoutType = dictionary["timeoutType"] as? String, let timeoutType = ActivityTaskTimeoutType(rawValue: rawtimeoutType) else { throw InitializableError.missingRequiredParam("timeoutType") }
-            self.timeoutType = timeoutType
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case timeoutType = "timeoutType"
+            case startedEventId = "startedEventId"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
     public struct ActivityTaskStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "cancelRequested", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cancelRequested", required: true, type: .boolean)
         ]
         /// Set to true if cancellation of the task is requested.
         public let cancelRequested: Bool
@@ -3610,13 +3325,12 @@ extension Swf {
             self.cancelRequested = cancelRequested
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cancelRequested = dictionary["cancelRequested"] as? Bool else { throw InitializableError.missingRequiredParam("cancelRequested") }
-            self.cancelRequested = cancelRequested
+        private enum CodingKeys: String, CodingKey {
+            case cancelRequested = "cancelRequested"
         }
     }
 
-    public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unhandled_decision = "UNHANDLED_DECISION"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
@@ -3624,19 +3338,18 @@ extension Swf {
 
     public struct ActivityTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "activityId", required: true, type: .string), 
-            AWSShapeProperty(label: "scheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "scheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string), 
-            AWSShapeProperty(label: "heartbeatTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "activityType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "activityId", required: true, type: .string), 
+            AWSShapeMember(label: "scheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "scheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string), 
+            AWSShapeMember(label: "heartbeatTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "activityType", required: true, type: .structure)
         ]
         /// The task list in which the activity task has been scheduled.
         public let taskList: TaskList
@@ -3675,35 +3388,30 @@ extension Swf {
             self.activityType = activityType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
-            self.scheduleToCloseTimeout = dictionary["scheduleToCloseTimeout"] as? String
-            self.scheduleToStartTimeout = dictionary["scheduleToStartTimeout"] as? String
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.startToCloseTimeout = dictionary["startToCloseTimeout"] as? String
-            self.input = dictionary["input"] as? String
-            self.control = dictionary["control"] as? String
-            self.heartbeatTimeout = dictionary["heartbeatTimeout"] as? String
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
+        private enum CodingKeys: String, CodingKey {
+            case taskList = "taskList"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case activityId = "activityId"
+            case scheduleToCloseTimeout = "scheduleToCloseTimeout"
+            case scheduleToStartTimeout = "scheduleToStartTimeout"
+            case taskPriority = "taskPriority"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case input = "input"
+            case control = "control"
+            case heartbeatTimeout = "heartbeatTimeout"
+            case activityType = "activityType"
         }
     }
 
     public struct TerminateWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "childPolicy", required: false, type: .enum)
         ]
         /// The runId of the workflow execution to terminate.
         public let runId: String?
@@ -3727,28 +3435,25 @@ extension Swf {
             self.childPolicy = childPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            self.details = dictionary["details"] as? String
-            self.reason = dictionary["reason"] as? String
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            if let childPolicy = dictionary["childPolicy"] as? String { self.childPolicy = ChildPolicy(rawValue: childPolicy) } else { self.childPolicy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case details = "details"
+            case reason = "reason"
+            case workflowId = "workflowId"
+            case domain = "domain"
+            case childPolicy = "childPolicy"
         }
     }
 
     public struct ChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The details of the failure (if provided).
         public let details: String?
@@ -3772,29 +3477,24 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            self.reason = dictionary["reason"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case initiatedEventId = "initiatedEventId"
+            case reason = "reason"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
     public struct ChildWorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "result", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "result", required: false, type: .string), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -3815,20 +3515,16 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            self.result = dictionary["result"] as? String
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowType = "workflowType"
+            case startedEventId = "startedEventId"
+            case result = "result"
+            case workflowExecution = "workflowExecution"
         }
     }
 
-    public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case workflow_type_does_not_exist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
         case workflow_type_deprecated = "WORKFLOW_TYPE_DEPRECATED"
         case open_children_limit_exceeded = "OPEN_CHILDREN_LIMIT_EXCEEDED"
@@ -3843,7 +3539,7 @@ extension Swf {
         public var description: String { return self.rawValue }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible {
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable {
         case open = "OPEN"
         case closed = "CLOSED"
         public var description: String { return self.rawValue }
@@ -3851,9 +3547,8 @@ extension Swf {
 
     public struct RequestCancelActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityId", required: true, type: .string)
         ]
         /// The activityId of the activity task to be canceled.
         public let activityId: String
@@ -3862,25 +3557,23 @@ extension Swf {
             self.activityId = activityId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityId = dictionary["activityId"] as? String else { throw InitializableError.missingRequiredParam("activityId") }
-            self.activityId = activityId
+        private enum CodingKeys: String, CodingKey {
+            case activityId = "activityId"
         }
     }
 
     public struct ContinueAsNewWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowTypeVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "childPolicy", required: false, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "workflowTypeVersion", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: false, type: .structure), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "childPolicy", required: false, type: .enum), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public let lambdaRole: String?
@@ -3911,31 +3604,30 @@ extension Swf {
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            self.workflowTypeVersion = dictionary["workflowTypeVersion"] as? String
-            if let taskList = dictionary["taskList"] as? [String: Any] { self.taskList = try Swf.TaskList(dictionary: taskList) } else { self.taskList = nil }
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.input = dictionary["input"] as? String
-            if let childPolicy = dictionary["childPolicy"] as? String { self.childPolicy = ChildPolicy(rawValue: childPolicy) } else { self.childPolicy = nil }
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case workflowTypeVersion = "workflowTypeVersion"
+            case taskList = "taskList"
+            case taskPriority = "taskPriority"
+            case tagList = "tagList"
+            case input = "input"
+            case childPolicy = "childPolicy"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
         }
     }
 
-    public enum StartLambdaFunctionFailedCause: String, CustomStringConvertible {
+    public enum StartLambdaFunctionFailedCause: String, CustomStringConvertible, Codable {
         case assume_role_failed = "ASSUME_ROLE_FAILED"
         public var description: String { return self.rawValue }
     }
 
     public struct StartLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduledEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "cause", required: false, type: .enum), 
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduledEventId", required: false, type: .long), 
+            AWSShapeMember(label: "cause", required: false, type: .enum), 
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let scheduledEventId: Int64?
@@ -3950,23 +3642,22 @@ extension Swf {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.scheduledEventId = dictionary["scheduledEventId"] as? Int64
-            if let cause = dictionary["cause"] as? String { self.cause = StartLambdaFunctionFailedCause(rawValue: cause) } else { self.cause = nil }
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case scheduledEventId = "scheduledEventId"
+            case cause = "cause"
+            case message = "message"
         }
     }
 
     public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "signalName", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution to send the signal to.
         public let runId: String?
@@ -3990,25 +3681,21 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let signalName = dictionary["signalName"] as? String else { throw InitializableError.missingRequiredParam("signalName") }
-            self.signalName = signalName
-            self.input = dictionary["input"] as? String
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case signalName = "signalName"
+            case input = "input"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case control = "control"
         }
     }
 
     public struct WorkflowTypeFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string)
         ]
         /// Required. Name of the workflow type.
         public let name: String
@@ -4020,22 +3707,20 @@ extension Swf {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.version = dictionary["version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct GetWorkflowExecutionHistoryInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "execution", required: true, type: .structure), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -4056,32 +3741,29 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            guard let execution = dictionary["execution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("execution") }
-            self.execution = try Swf.WorkflowExecution(dictionary: execution)
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case maximumPageSize = "maximumPageSize"
+            case execution = "execution"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case domain = "domain"
         }
     }
 
-    public enum DecisionTaskTimeoutType: String, CustomStringConvertible {
+    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable {
         case start_to_close = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
     public struct ActivityTypeConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskList", required: false, type: .structure), 
-            AWSShapeProperty(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "defaultTaskHeartbeatTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "defaultTaskScheduleToStartTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskList", required: false, type: .structure), 
+            AWSShapeMember(label: "defaultTaskScheduleToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "defaultTaskHeartbeatTimeout", required: false, type: .string)
         ]
         /// Optional. The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let defaultTaskScheduleToStartTimeout: String?
@@ -4105,23 +3787,22 @@ extension Swf {
             self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultTaskScheduleToStartTimeout = dictionary["defaultTaskScheduleToStartTimeout"] as? String
-            self.defaultTaskStartToCloseTimeout = dictionary["defaultTaskStartToCloseTimeout"] as? String
-            self.defaultTaskPriority = dictionary["defaultTaskPriority"] as? String
-            if let defaultTaskList = dictionary["defaultTaskList"] as? [String: Any] { self.defaultTaskList = try Swf.TaskList(dictionary: defaultTaskList) } else { self.defaultTaskList = nil }
-            self.defaultTaskScheduleToCloseTimeout = dictionary["defaultTaskScheduleToCloseTimeout"] as? String
-            self.defaultTaskHeartbeatTimeout = dictionary["defaultTaskHeartbeatTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case defaultTaskScheduleToStartTimeout = "defaultTaskScheduleToStartTimeout"
+            case defaultTaskStartToCloseTimeout = "defaultTaskStartToCloseTimeout"
+            case defaultTaskPriority = "defaultTaskPriority"
+            case defaultTaskList = "defaultTaskList"
+            case defaultTaskScheduleToCloseTimeout = "defaultTaskScheduleToCloseTimeout"
+            case defaultTaskHeartbeatTimeout = "defaultTaskHeartbeatTimeout"
         }
     }
 
     public struct TimerCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let startedEventId: Int64
@@ -4136,26 +3817,22 @@ extension Swf {
             self.timerId = timerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
+        private enum CodingKeys: String, CodingKey {
+            case startedEventId = "startedEventId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case timerId = "timerId"
         }
     }
 
     public struct ListActivityTypesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "maximumPageSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "reverseOrder", required: false, type: .boolean), 
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "registrationStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "maximumPageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "reverseOrder", required: false, type: .boolean), 
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "registrationStatus", required: true, type: .enum)
         ]
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public let maximumPageSize: Int32?
@@ -4179,24 +3856,21 @@ extension Swf {
             self.registrationStatus = registrationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maximumPageSize = dictionary["maximumPageSize"] as? Int32
-            self.name = dictionary["name"] as? String
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            self.reverseOrder = dictionary["reverseOrder"] as? Bool
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let rawregistrationStatus = dictionary["registrationStatus"] as? String, let registrationStatus = RegistrationStatus(rawValue: rawregistrationStatus) else { throw InitializableError.missingRequiredParam("registrationStatus") }
-            self.registrationStatus = registrationStatus
+        private enum CodingKeys: String, CodingKey {
+            case maximumPageSize = "maximumPageSize"
+            case name = "name"
+            case nextPageToken = "nextPageToken"
+            case reverseOrder = "reverseOrder"
+            case domain = "domain"
+            case registrationStatus = "registrationStatus"
         }
     }
 
     public struct FailWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string)
         ]
         /// Optional. Details of the failure.
         public let details: String?
@@ -4208,18 +3882,17 @@ extension Swf {
             self.reason = reason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            self.reason = dictionary["reason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case reason = "reason"
         }
     }
 
     public struct PendingTaskCount: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "count", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "count", required: true, type: .integer)
         ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
@@ -4231,28 +3904,26 @@ extension Swf {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["truncated"] as? Bool
-            guard let count = dictionary["count"] as? Int32 else { throw InitializableError.missingRequiredParam("count") }
-            self.count = count
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "truncated"
+            case count = "count"
         }
     }
 
     public struct WorkflowExecutionContinuedAsNewEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lambdaRole", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "newExecutionRunId", required: true, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "tagList", required: false, type: .list), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure), 
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "taskStartToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "executionStartToCloseTimeout", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lambdaRole", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "newExecutionRunId", required: true, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "tagList", required: false, type: .list), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure), 
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "taskStartToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "executionStartToCloseTimeout", required: false, type: .string)
         ]
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public let lambdaRole: String?
@@ -4288,27 +3959,22 @@ extension Swf {
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lambdaRole = dictionary["lambdaRole"] as? String
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let newExecutionRunId = dictionary["newExecutionRunId"] as? String else { throw InitializableError.missingRequiredParam("newExecutionRunId") }
-            self.newExecutionRunId = newExecutionRunId
-            self.taskPriority = dictionary["taskPriority"] as? String
-            self.tagList = dictionary["tagList"] as? [String]
-            self.input = dictionary["input"] as? String
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
-            self.taskStartToCloseTimeout = dictionary["taskStartToCloseTimeout"] as? String
-            self.executionStartToCloseTimeout = dictionary["executionStartToCloseTimeout"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lambdaRole = "lambdaRole"
+            case taskList = "taskList"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case newExecutionRunId = "newExecutionRunId"
+            case taskPriority = "taskPriority"
+            case tagList = "tagList"
+            case input = "input"
+            case workflowType = "workflowType"
+            case childPolicy = "childPolicy"
+            case taskStartToCloseTimeout = "taskStartToCloseTimeout"
+            case executionStartToCloseTimeout = "executionStartToCloseTimeout"
         }
     }
 
-    public enum StartTimerFailedCause: String, CustomStringConvertible {
+    public enum StartTimerFailedCause: String, CustomStringConvertible, Codable {
         case timer_id_already_in_use = "TIMER_ID_ALREADY_IN_USE"
         case open_timers_limit_exceeded = "OPEN_TIMERS_LIMIT_EXCEEDED"
         case timer_creation_rate_exceeded = "TIMER_CREATION_RATE_EXCEEDED"
@@ -4318,22 +3984,21 @@ extension Swf {
 
     public struct Decision: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "signalExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "requestCancelActivityTaskDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "recordMarkerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "failWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "cancelWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "decisionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "continueAsNewWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startTimerDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "startChildWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "completeWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "scheduleLambdaFunctionDecisionAttributes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "scheduleActivityTaskDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "requestCancelExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "cancelTimerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "signalExternalWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "requestCancelActivityTaskDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "recordMarkerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "failWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "cancelWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "decisionType", required: true, type: .enum), 
+            AWSShapeMember(label: "continueAsNewWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startTimerDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "startChildWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "completeWorkflowExecutionDecisionAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "scheduleLambdaFunctionDecisionAttributes", required: false, type: .structure)
         ]
         /// Provides details of the ScheduleActivityTask decision. It is not set for other decision types.
         public let scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes?
@@ -4380,47 +4045,45 @@ extension Swf {
             self.scheduleLambdaFunctionDecisionAttributes = scheduleLambdaFunctionDecisionAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let scheduleActivityTaskDecisionAttributes = dictionary["scheduleActivityTaskDecisionAttributes"] as? [String: Any] { self.scheduleActivityTaskDecisionAttributes = try Swf.ScheduleActivityTaskDecisionAttributes(dictionary: scheduleActivityTaskDecisionAttributes) } else { self.scheduleActivityTaskDecisionAttributes = nil }
-            if let requestCancelExternalWorkflowExecutionDecisionAttributes = dictionary["requestCancelExternalWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.requestCancelExternalWorkflowExecutionDecisionAttributes = try Swf.RequestCancelExternalWorkflowExecutionDecisionAttributes(dictionary: requestCancelExternalWorkflowExecutionDecisionAttributes) } else { self.requestCancelExternalWorkflowExecutionDecisionAttributes = nil }
-            if let cancelTimerDecisionAttributes = dictionary["cancelTimerDecisionAttributes"] as? [String: Any] { self.cancelTimerDecisionAttributes = try Swf.CancelTimerDecisionAttributes(dictionary: cancelTimerDecisionAttributes) } else { self.cancelTimerDecisionAttributes = nil }
-            if let signalExternalWorkflowExecutionDecisionAttributes = dictionary["signalExternalWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.signalExternalWorkflowExecutionDecisionAttributes = try Swf.SignalExternalWorkflowExecutionDecisionAttributes(dictionary: signalExternalWorkflowExecutionDecisionAttributes) } else { self.signalExternalWorkflowExecutionDecisionAttributes = nil }
-            if let requestCancelActivityTaskDecisionAttributes = dictionary["requestCancelActivityTaskDecisionAttributes"] as? [String: Any] { self.requestCancelActivityTaskDecisionAttributes = try Swf.RequestCancelActivityTaskDecisionAttributes(dictionary: requestCancelActivityTaskDecisionAttributes) } else { self.requestCancelActivityTaskDecisionAttributes = nil }
-            if let recordMarkerDecisionAttributes = dictionary["recordMarkerDecisionAttributes"] as? [String: Any] { self.recordMarkerDecisionAttributes = try Swf.RecordMarkerDecisionAttributes(dictionary: recordMarkerDecisionAttributes) } else { self.recordMarkerDecisionAttributes = nil }
-            if let failWorkflowExecutionDecisionAttributes = dictionary["failWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.failWorkflowExecutionDecisionAttributes = try Swf.FailWorkflowExecutionDecisionAttributes(dictionary: failWorkflowExecutionDecisionAttributes) } else { self.failWorkflowExecutionDecisionAttributes = nil }
-            if let cancelWorkflowExecutionDecisionAttributes = dictionary["cancelWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.cancelWorkflowExecutionDecisionAttributes = try Swf.CancelWorkflowExecutionDecisionAttributes(dictionary: cancelWorkflowExecutionDecisionAttributes) } else { self.cancelWorkflowExecutionDecisionAttributes = nil }
-            guard let rawdecisionType = dictionary["decisionType"] as? String, let decisionType = DecisionType(rawValue: rawdecisionType) else { throw InitializableError.missingRequiredParam("decisionType") }
-            self.decisionType = decisionType
-            if let continueAsNewWorkflowExecutionDecisionAttributes = dictionary["continueAsNewWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.continueAsNewWorkflowExecutionDecisionAttributes = try Swf.ContinueAsNewWorkflowExecutionDecisionAttributes(dictionary: continueAsNewWorkflowExecutionDecisionAttributes) } else { self.continueAsNewWorkflowExecutionDecisionAttributes = nil }
-            if let startTimerDecisionAttributes = dictionary["startTimerDecisionAttributes"] as? [String: Any] { self.startTimerDecisionAttributes = try Swf.StartTimerDecisionAttributes(dictionary: startTimerDecisionAttributes) } else { self.startTimerDecisionAttributes = nil }
-            if let startChildWorkflowExecutionDecisionAttributes = dictionary["startChildWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.startChildWorkflowExecutionDecisionAttributes = try Swf.StartChildWorkflowExecutionDecisionAttributes(dictionary: startChildWorkflowExecutionDecisionAttributes) } else { self.startChildWorkflowExecutionDecisionAttributes = nil }
-            if let completeWorkflowExecutionDecisionAttributes = dictionary["completeWorkflowExecutionDecisionAttributes"] as? [String: Any] { self.completeWorkflowExecutionDecisionAttributes = try Swf.CompleteWorkflowExecutionDecisionAttributes(dictionary: completeWorkflowExecutionDecisionAttributes) } else { self.completeWorkflowExecutionDecisionAttributes = nil }
-            if let scheduleLambdaFunctionDecisionAttributes = dictionary["scheduleLambdaFunctionDecisionAttributes"] as? [String: Any] { self.scheduleLambdaFunctionDecisionAttributes = try Swf.ScheduleLambdaFunctionDecisionAttributes(dictionary: scheduleLambdaFunctionDecisionAttributes) } else { self.scheduleLambdaFunctionDecisionAttributes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case scheduleActivityTaskDecisionAttributes = "scheduleActivityTaskDecisionAttributes"
+            case requestCancelExternalWorkflowExecutionDecisionAttributes = "requestCancelExternalWorkflowExecutionDecisionAttributes"
+            case cancelTimerDecisionAttributes = "cancelTimerDecisionAttributes"
+            case signalExternalWorkflowExecutionDecisionAttributes = "signalExternalWorkflowExecutionDecisionAttributes"
+            case requestCancelActivityTaskDecisionAttributes = "requestCancelActivityTaskDecisionAttributes"
+            case recordMarkerDecisionAttributes = "recordMarkerDecisionAttributes"
+            case failWorkflowExecutionDecisionAttributes = "failWorkflowExecutionDecisionAttributes"
+            case cancelWorkflowExecutionDecisionAttributes = "cancelWorkflowExecutionDecisionAttributes"
+            case decisionType = "decisionType"
+            case continueAsNewWorkflowExecutionDecisionAttributes = "continueAsNewWorkflowExecutionDecisionAttributes"
+            case startTimerDecisionAttributes = "startTimerDecisionAttributes"
+            case startChildWorkflowExecutionDecisionAttributes = "startChildWorkflowExecutionDecisionAttributes"
+            case completeWorkflowExecutionDecisionAttributes = "completeWorkflowExecutionDecisionAttributes"
+            case scheduleLambdaFunctionDecisionAttributes = "scheduleLambdaFunctionDecisionAttributes"
         }
     }
 
     public struct WorkflowTypeInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "status", required: true, type: .enum), 
-            AWSShapeProperty(label: "deprecationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "creationDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "workflowType", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "status", required: true, type: .enum), 
+            AWSShapeMember(label: "deprecationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "creationDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "workflowType", required: true, type: .structure)
         ]
         /// The description of the type registered through RegisterWorkflowType.
         public let description: String?
         /// The current status of the workflow type.
         public let status: RegistrationStatus
         /// If the type is in deprecated state, then it is set to the date when the type was deprecated.
-        public let deprecationDate: String?
+        public let deprecationDate: Double?
         /// The date when this type was registered.
-        public let creationDate: String
+        public let creationDate: Double
         /// The workflow type this information is about.
         public let workflowType: WorkflowType
 
-        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: String? = nil, creationDate: String, workflowType: WorkflowType) {
+        public init(description: String? = nil, status: RegistrationStatus, deprecationDate: Double? = nil, creationDate: Double, workflowType: WorkflowType) {
             self.description = description
             self.status = status
             self.deprecationDate = deprecationDate
@@ -4428,26 +4091,22 @@ extension Swf {
             self.workflowType = workflowType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let rawstatus = dictionary["status"] as? String, let status = RegistrationStatus(rawValue: rawstatus) else { throw InitializableError.missingRequiredParam("status") }
-            self.status = status
-            self.deprecationDate = dictionary["deprecationDate"] as? String
-            guard let creationDate = dictionary["creationDate"] as? String else { throw InitializableError.missingRequiredParam("creationDate") }
-            self.creationDate = creationDate
-            guard let workflowType = dictionary["workflowType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowType") }
-            self.workflowType = try Swf.WorkflowType(dictionary: workflowType)
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case status = "status"
+            case deprecationDate = "deprecationDate"
+            case creationDate = "creationDate"
+            case workflowType = "workflowType"
         }
     }
 
     public struct WorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "externalWorkflowExecution", required: false, type: .structure), 
-            AWSShapeProperty(label: "externalInitiatedEventId", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "signalName", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "externalWorkflowExecution", required: false, type: .structure), 
+            AWSShapeMember(label: "externalInitiatedEventId", required: false, type: .long)
         ]
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public let signalName: String
@@ -4465,21 +4124,19 @@ extension Swf {
             self.externalInitiatedEventId = externalInitiatedEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let signalName = dictionary["signalName"] as? String else { throw InitializableError.missingRequiredParam("signalName") }
-            self.signalName = signalName
-            self.input = dictionary["input"] as? String
-            if let externalWorkflowExecution = dictionary["externalWorkflowExecution"] as? [String: Any] { self.externalWorkflowExecution = try Swf.WorkflowExecution(dictionary: externalWorkflowExecution) } else { self.externalWorkflowExecution = nil }
-            self.externalInitiatedEventId = dictionary["externalInitiatedEventId"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case signalName = "signalName"
+            case input = "input"
+            case externalWorkflowExecution = "externalWorkflowExecution"
+            case externalInitiatedEventId = "externalInitiatedEventId"
         }
     }
 
     public struct ActivityTypeInfos: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "typeInfos", required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4491,20 +4148,18 @@ extension Swf {
             self.typeInfos = typeInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let typeInfos = dictionary["typeInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("typeInfos") }
-            self.typeInfos = try typeInfos.map({ try ActivityTypeInfo(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case typeInfos = "typeInfos"
         }
     }
 
     public struct RespondDecisionTaskCompletedInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "taskToken", required: true, type: .string), 
-            AWSShapeProperty(label: "executionContext", required: false, type: .string), 
-            AWSShapeProperty(label: "decisions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "taskToken", required: true, type: .string), 
+            AWSShapeMember(label: "executionContext", required: false, type: .string), 
+            AWSShapeMember(label: "decisions", required: false, type: .list)
         ]
         /// The taskToken from the DecisionTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public let taskToken: String
@@ -4519,25 +4174,19 @@ extension Swf {
             self.decisions = decisions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let taskToken = dictionary["taskToken"] as? String else { throw InitializableError.missingRequiredParam("taskToken") }
-            self.taskToken = taskToken
-            self.executionContext = dictionary["executionContext"] as? String
-            if let decisions = dictionary["decisions"] as? [[String: Any]] {
-                self.decisions = try decisions.map({ try Decision(dictionary: $0) })
-            } else { 
-                self.decisions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case taskToken = "taskToken"
+            case executionContext = "executionContext"
+            case decisions = "decisions"
         }
     }
 
     public struct MarkerRecordedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "markerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "markerName", required: true, type: .string)
         ]
         /// Details of the marker (if any).
         public let details: String?
@@ -4552,21 +4201,18 @@ extension Swf {
             self.markerName = markerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let markerName = dictionary["markerName"] as? String else { throw InitializableError.missingRequiredParam("markerName") }
-            self.markerName = markerName
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case markerName = "markerName"
         }
     }
 
     public struct WorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "childPolicy", required: true, type: .enum), 
-            AWSShapeProperty(label: "timeoutType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "childPolicy", required: true, type: .enum), 
+            AWSShapeMember(label: "timeoutType", required: true, type: .enum)
         ]
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
         public let childPolicy: ChildPolicy
@@ -4578,22 +4224,19 @@ extension Swf {
             self.timeoutType = timeoutType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawchildPolicy = dictionary["childPolicy"] as? String, let childPolicy = ChildPolicy(rawValue: rawchildPolicy) else { throw InitializableError.missingRequiredParam("childPolicy") }
-            self.childPolicy = childPolicy
-            guard let rawtimeoutType = dictionary["timeoutType"] as? String, let timeoutType = WorkflowExecutionTimeoutType(rawValue: rawtimeoutType) else { throw InitializableError.missingRequiredParam("timeoutType") }
-            self.timeoutType = timeoutType
+        private enum CodingKeys: String, CodingKey {
+            case childPolicy = "childPolicy"
+            case timeoutType = "timeoutType"
         }
     }
 
     public struct ScheduleLambdaFunctionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
         /// Required. The name of the AWS Lambda function to invoke.
         public let name: String
@@ -4611,22 +4254,20 @@ extension Swf {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            self.input = dictionary["input"] as? String
-            self.startToCloseTimeout = dictionary["startToCloseTimeout"] as? String
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case input = "input"
+            case startToCloseTimeout = "startToCloseTimeout"
+            case id = "id"
         }
     }
 
-    public enum WorkflowExecutionTimeoutType: String, CustomStringConvertible {
+    public enum WorkflowExecutionTimeoutType: String, CustomStringConvertible, Codable {
         case start_to_close = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
-    public enum DecisionType: String, CustomStringConvertible {
+    public enum DecisionType: String, CustomStringConvertible, Codable {
         case scheduleactivitytask = "ScheduleActivityTask"
         case requestcancelactivitytask = "RequestCancelActivityTask"
         case completeworkflowexecution = "CompleteWorkflowExecution"
@@ -4645,10 +4286,9 @@ extension Swf {
 
     public struct DescribeWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "execution", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "execution", required: true, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The workflow execution to describe.
         public let execution: WorkflowExecution
@@ -4660,20 +4300,17 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let execution = dictionary["execution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("execution") }
-            self.execution = try Swf.WorkflowExecution(dictionary: execution)
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case execution = "execution"
+            case domain = "domain"
         }
     }
 
     public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -4685,36 +4322,33 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = ContinueAsNewWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
         }
     }
 
     public struct WorkflowExecutionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "openCounts", required: true, type: .structure), 
-            AWSShapeProperty(label: "executionInfo", required: true, type: .structure), 
-            AWSShapeProperty(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "executionConfiguration", required: true, type: .structure), 
-            AWSShapeProperty(label: "latestExecutionContext", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "openCounts", required: true, type: .structure), 
+            AWSShapeMember(label: "executionInfo", required: true, type: .structure), 
+            AWSShapeMember(label: "latestActivityTaskTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "executionConfiguration", required: true, type: .structure), 
+            AWSShapeMember(label: "latestExecutionContext", required: false, type: .string)
         ]
         /// The number of tasks for this workflow execution. This includes open and closed tasks of all types.
         public let openCounts: WorkflowExecutionOpenCounts
         /// Information about the workflow execution.
         public let executionInfo: WorkflowExecutionInfo
         /// The time when the last activity task was scheduled for this workflow execution. You can use this information to determine if the workflow has not made progress for an unusually long period of time and might require a corrective action.
-        public let latestActivityTaskTimestamp: String?
+        public let latestActivityTaskTimestamp: Double?
         /// The configuration settings for this workflow execution including timeout values, tasklist etc.
         public let executionConfiguration: WorkflowExecutionConfiguration
         /// The latest executionContext provided by the decider for this workflow execution. A decider can provide an executionContext (a free-form string) when closing a decision task using RespondDecisionTaskCompleted.
         public let latestExecutionContext: String?
 
-        public init(openCounts: WorkflowExecutionOpenCounts, executionInfo: WorkflowExecutionInfo, latestActivityTaskTimestamp: String? = nil, executionConfiguration: WorkflowExecutionConfiguration, latestExecutionContext: String? = nil) {
+        public init(openCounts: WorkflowExecutionOpenCounts, executionInfo: WorkflowExecutionInfo, latestActivityTaskTimestamp: Double? = nil, executionConfiguration: WorkflowExecutionConfiguration, latestExecutionContext: String? = nil) {
             self.openCounts = openCounts
             self.executionInfo = executionInfo
             self.latestActivityTaskTimestamp = latestActivityTaskTimestamp
@@ -4722,24 +4356,20 @@ extension Swf {
             self.latestExecutionContext = latestExecutionContext
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let openCounts = dictionary["openCounts"] as? [String: Any] else { throw InitializableError.missingRequiredParam("openCounts") }
-            self.openCounts = try Swf.WorkflowExecutionOpenCounts(dictionary: openCounts)
-            guard let executionInfo = dictionary["executionInfo"] as? [String: Any] else { throw InitializableError.missingRequiredParam("executionInfo") }
-            self.executionInfo = try Swf.WorkflowExecutionInfo(dictionary: executionInfo)
-            self.latestActivityTaskTimestamp = dictionary["latestActivityTaskTimestamp"] as? String
-            guard let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("executionConfiguration") }
-            self.executionConfiguration = try Swf.WorkflowExecutionConfiguration(dictionary: executionConfiguration)
-            self.latestExecutionContext = dictionary["latestExecutionContext"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case openCounts = "openCounts"
+            case executionInfo = "executionInfo"
+            case latestActivityTaskTimestamp = "latestActivityTaskTimestamp"
+            case executionConfiguration = "executionConfiguration"
+            case latestExecutionContext = "latestExecutionContext"
         }
     }
 
     public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowExecution", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowExecution", required: true, type: .structure)
         ]
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let initiatedEventId: Int64
@@ -4751,15 +4381,13 @@ extension Swf {
             self.workflowExecution = workflowExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let workflowExecution = dictionary["workflowExecution"] as? [String: Any] else { throw InitializableError.missingRequiredParam("workflowExecution") }
-            self.workflowExecution = try Swf.WorkflowExecution(dictionary: workflowExecution)
+        private enum CodingKeys: String, CodingKey {
+            case initiatedEventId = "initiatedEventId"
+            case workflowExecution = "workflowExecution"
         }
     }
 
-    public enum ChildPolicy: String, CustomStringConvertible {
+    public enum ChildPolicy: String, CustomStringConvertible, Codable {
         case terminate = "TERMINATE"
         case request_cancel = "REQUEST_CANCEL"
         case abandon = "ABANDON"
@@ -4768,10 +4396,9 @@ extension Swf {
 
     public struct WorkflowTypeInfos: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "typeInfos", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "typeInfos", required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4783,19 +4410,17 @@ extension Swf {
             self.typeInfos = typeInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let typeInfos = dictionary["typeInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("typeInfos") }
-            self.typeInfos = try typeInfos.map({ try WorkflowTypeInfo(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case typeInfos = "typeInfos"
         }
     }
 
     public struct CancelWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -4807,22 +4432,19 @@ extension Swf {
             self.cause = cause
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = CancelWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
         }
     }
 
     public struct ActivityTaskCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "latestCancelRequestedEventId", required: false, type: .long), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "latestCancelRequestedEventId", required: false, type: .long), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
         /// Details of the cancellation (if any).
         public let details: String?
@@ -4840,22 +4462,19 @@ extension Swf {
             self.scheduledEventId = scheduledEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            self.latestCancelRequestedEventId = dictionary["latestCancelRequestedEventId"] as? Int64
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case latestCancelRequestedEventId = "latestCancelRequestedEventId"
+            case startedEventId = "startedEventId"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
     public struct WorkflowExecutionCount: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "truncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "count", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "truncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "count", required: true, type: .integer)
         ]
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public let truncated: Bool?
@@ -4867,19 +4486,17 @@ extension Swf {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.truncated = dictionary["truncated"] as? Bool
-            guard let count = dictionary["count"] as? Int32 else { throw InitializableError.missingRequiredParam("count") }
-            self.count = count
+        private enum CodingKeys: String, CodingKey {
+            case truncated = "truncated"
+            case count = "count"
         }
     }
 
     public struct CountPendingDecisionTasksInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "domain", required: true, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "domain", required: true, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
         /// The name of the domain that contains the task list.
         public let domain: String
@@ -4891,20 +4508,17 @@ extension Swf {
             self.taskList = taskList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case taskList = "taskList"
         }
     }
 
     public struct DomainInfos: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextPageToken", required: false, type: .string), 
-            AWSShapeProperty(label: "domainInfos", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "domainInfos", required: true, type: .list)
         ]
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public let nextPageToken: String?
@@ -4916,22 +4530,20 @@ extension Swf {
             self.domainInfos = domainInfos
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextPageToken = dictionary["nextPageToken"] as? String
-            guard let domainInfos = dictionary["domainInfos"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("domainInfos") }
-            self.domainInfos = try domainInfos.map({ try DomainInfo(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "nextPageToken"
+            case domainInfos = "domainInfos"
         }
     }
 
     public struct SignalWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "signalName", required: true, type: .string), 
-            AWSShapeProperty(label: "input", required: false, type: .string), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "signalName", required: true, type: .string), 
+            AWSShapeMember(label: "input", required: false, type: .string), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The runId of the workflow execution to signal.
         public let runId: String?
@@ -4952,28 +4564,24 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let signalName = dictionary["signalName"] as? String else { throw InitializableError.missingRequiredParam("signalName") }
-            self.signalName = signalName
-            self.input = dictionary["input"] as? String
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case signalName = "signalName"
+            case input = "input"
+            case workflowId = "workflowId"
+            case domain = "domain"
         }
     }
 
     public struct SignalExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "runId", required: false, type: .string), 
-            AWSShapeProperty(label: "initiatedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "workflowId", required: true, type: .string), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "control", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "runId", required: false, type: .string), 
+            AWSShapeMember(label: "initiatedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "workflowId", required: true, type: .string), 
+            AWSShapeMember(label: "cause", required: true, type: .enum), 
+            AWSShapeMember(label: "control", required: false, type: .string)
         ]
         /// The runId of the external workflow execution that the signal was being delivered to.
         public let runId: String?
@@ -4996,28 +4604,23 @@ extension Swf {
             self.control = control
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.runId = dictionary["runId"] as? String
-            guard let initiatedEventId = dictionary["initiatedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("initiatedEventId") }
-            self.initiatedEventId = initiatedEventId
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let workflowId = dictionary["workflowId"] as? String else { throw InitializableError.missingRequiredParam("workflowId") }
-            self.workflowId = workflowId
-            guard let rawcause = dictionary["cause"] as? String, let cause = SignalExternalWorkflowExecutionFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
-            self.control = dictionary["control"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case runId = "runId"
+            case initiatedEventId = "initiatedEventId"
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case workflowId = "workflowId"
+            case cause = "cause"
+            case control = "control"
         }
     }
 
     public struct ActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "details", required: false, type: .string), 
-            AWSShapeProperty(label: "reason", required: false, type: .string), 
-            AWSShapeProperty(label: "startedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "scheduledEventId", required: true, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "details", required: false, type: .string), 
+            AWSShapeMember(label: "reason", required: false, type: .string), 
+            AWSShapeMember(label: "startedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "scheduledEventId", required: true, type: .long)
         ]
         /// The details of the failure (if any).
         public let details: String?
@@ -5035,17 +4638,15 @@ extension Swf {
             self.scheduledEventId = scheduledEventId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["details"] as? String
-            self.reason = dictionary["reason"] as? String
-            guard let startedEventId = dictionary["startedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("startedEventId") }
-            self.startedEventId = startedEventId
-            guard let scheduledEventId = dictionary["scheduledEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("scheduledEventId") }
-            self.scheduledEventId = scheduledEventId
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case reason = "reason"
+            case startedEventId = "startedEventId"
+            case scheduledEventId = "scheduledEventId"
         }
     }
 
-    public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible {
+    public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
         case unhandled_decision = "UNHANDLED_DECISION"
         case operation_not_permitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
@@ -5053,11 +4654,10 @@ extension Swf {
 
     public struct StartTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "decisionTaskCompletedEventId", required: true, type: .long), 
-            AWSShapeProperty(label: "cause", required: true, type: .enum), 
-            AWSShapeProperty(label: "timerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "decisionTaskCompletedEventId", required: true, type: .long), 
+            AWSShapeMember(label: "cause", required: true, type: .enum), 
+            AWSShapeMember(label: "timerId", required: true, type: .string)
         ]
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public let decisionTaskCompletedEventId: Int64
@@ -5072,23 +4672,19 @@ extension Swf {
             self.timerId = timerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let decisionTaskCompletedEventId = dictionary["decisionTaskCompletedEventId"] as? Int64 else { throw InitializableError.missingRequiredParam("decisionTaskCompletedEventId") }
-            self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
-            guard let rawcause = dictionary["cause"] as? String, let cause = StartTimerFailedCause(rawValue: rawcause) else { throw InitializableError.missingRequiredParam("cause") }
-            self.cause = cause
-            guard let timerId = dictionary["timerId"] as? String else { throw InitializableError.missingRequiredParam("timerId") }
-            self.timerId = timerId
+        private enum CodingKeys: String, CodingKey {
+            case decisionTaskCompletedEventId = "decisionTaskCompletedEventId"
+            case cause = "cause"
+            case timerId = "timerId"
         }
     }
 
     public struct DecisionTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "startToCloseTimeout", required: false, type: .string), 
-            AWSShapeProperty(label: "taskPriority", required: false, type: .string), 
-            AWSShapeProperty(label: "taskList", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "startToCloseTimeout", required: false, type: .string), 
+            AWSShapeMember(label: "taskPriority", required: false, type: .string), 
+            AWSShapeMember(label: "taskList", required: true, type: .structure)
         ]
         /// The maximum duration for this decision task. The task is considered timed out if it does not completed within this duration. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public let startToCloseTimeout: String?
@@ -5103,20 +4699,18 @@ extension Swf {
             self.taskList = taskList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startToCloseTimeout = dictionary["startToCloseTimeout"] as? String
-            self.taskPriority = dictionary["taskPriority"] as? String
-            guard let taskList = dictionary["taskList"] as? [String: Any] else { throw InitializableError.missingRequiredParam("taskList") }
-            self.taskList = try Swf.TaskList(dictionary: taskList)
+        private enum CodingKeys: String, CodingKey {
+            case startToCloseTimeout = "startToCloseTimeout"
+            case taskPriority = "taskPriority"
+            case taskList = "taskList"
         }
     }
 
     public struct DeprecateActivityTypeInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "activityType", required: true, type: .structure), 
-            AWSShapeProperty(label: "domain", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "activityType", required: true, type: .structure), 
+            AWSShapeMember(label: "domain", required: true, type: .string)
         ]
         /// The activity type to deprecate.
         public let activityType: ActivityType
@@ -5128,15 +4722,13 @@ extension Swf {
             self.domain = domain
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activityType = dictionary["activityType"] as? [String: Any] else { throw InitializableError.missingRequiredParam("activityType") }
-            self.activityType = try Swf.ActivityType(dictionary: activityType)
-            guard let domain = dictionary["domain"] as? String else { throw InitializableError.missingRequiredParam("domain") }
-            self.domain = domain
+        private enum CodingKeys: String, CodingKey {
+            case activityType = "activityType"
+            case domain = "domain"
         }
     }
 
-    public enum WorkflowExecutionCancelRequestedCause: String, CustomStringConvertible {
+    public enum WorkflowExecutionCancelRequestedCause: String, CustomStringConvertible, Codable {
         case child_policy_applied = "CHILD_POLICY_APPLIED"
         public var description: String { return self.rawValue }
     }

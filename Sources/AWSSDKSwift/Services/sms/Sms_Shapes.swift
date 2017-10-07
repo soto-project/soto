@@ -31,26 +31,22 @@ extension Sms {
 
     public struct DisassociateConnectorResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Connector: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "capabilityList", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ipAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "vmManagerId", required: false, type: .string), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "vmManagerType", required: false, type: .enum), 
-            AWSShapeProperty(label: "connectorId", required: false, type: .string), 
-            AWSShapeProperty(label: "vmManagerName", required: false, type: .string), 
-            AWSShapeProperty(label: "macAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "associatedOn", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "capabilityList", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .enum), 
+            AWSShapeMember(label: "ipAddress", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerId", required: false, type: .string), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
+            AWSShapeMember(label: "connectorId", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
+            AWSShapeMember(label: "macAddress", required: false, type: .string), 
+            AWSShapeMember(label: "associatedOn", required: false, type: .timestamp)
         ]
         public let capabilityList: ConnectorCapabilityList?
         public let status: ConnectorStatus?
@@ -61,9 +57,9 @@ extension Sms {
         public let connectorId: String?
         public let vmManagerName: String?
         public let macAddress: String?
-        public let associatedOn: String?
+        public let associatedOn: Double?
 
-        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: String? = nil) {
+        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Double? = nil) {
             self.capabilityList = capabilityList
             self.status = status
             self.ipAddress = ipAddress
@@ -76,27 +72,26 @@ extension Sms {
             self.associatedOn = associatedOn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let capabilityList = dictionary["capabilityList"] as? [String: Any] { self.capabilityList = try Sms.ConnectorCapabilityList(dictionary: capabilityList) } else { self.capabilityList = nil }
-            if let status = dictionary["status"] as? String { self.status = ConnectorStatus(rawValue: status) } else { self.status = nil }
-            self.ipAddress = dictionary["ipAddress"] as? String
-            self.vmManagerId = dictionary["vmManagerId"] as? String
-            self.version = dictionary["version"] as? String
-            if let vmManagerType = dictionary["vmManagerType"] as? String { self.vmManagerType = VmManagerType(rawValue: vmManagerType) } else { self.vmManagerType = nil }
-            self.connectorId = dictionary["connectorId"] as? String
-            self.vmManagerName = dictionary["vmManagerName"] as? String
-            self.macAddress = dictionary["macAddress"] as? String
-            self.associatedOn = dictionary["associatedOn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case capabilityList = "capabilityList"
+            case status = "status"
+            case ipAddress = "ipAddress"
+            case vmManagerId = "vmManagerId"
+            case version = "version"
+            case vmManagerType = "vmManagerType"
+            case connectorId = "connectorId"
+            case vmManagerName = "vmManagerName"
+            case macAddress = "macAddress"
+            case associatedOn = "associatedOn"
         }
     }
 
     public struct GetReplicationRunsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -108,25 +103,23 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
-            self.replicationJobId = replicationJobId
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case replicationJobId = "replicationJobId"
         }
     }
 
-    public enum ServerType: String, CustomStringConvertible {
+    public enum ServerType: String, CustomStringConvertible, Codable {
         case virtual_machine = "VIRTUAL_MACHINE"
         public var description: String { return self.rawValue }
     }
 
     public struct GetConnectorsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -136,61 +129,56 @@ extension Sms {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct ImportServerCatalogRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum VmManagerType: String, CustomStringConvertible {
+    public enum VmManagerType: String, CustomStringConvertible, Codable {
         case vsphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 
     public struct GetServersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serverList", required: false, type: .structure), 
-            AWSShapeProperty(label: "serverCatalogStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedOn", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverList", required: false, type: .structure), 
+            AWSShapeMember(label: "serverCatalogStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedOn", required: false, type: .timestamp)
         ]
         public let serverList: ServerList?
         public let serverCatalogStatus: ServerCatalogStatus?
         public let nextToken: String?
-        public let lastModifiedOn: String?
+        public let lastModifiedOn: Double?
 
-        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: String? = nil) {
+        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: Double? = nil) {
             self.serverList = serverList
             self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
             self.lastModifiedOn = lastModifiedOn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serverList = dictionary["serverList"] as? [String: Any] { self.serverList = try Sms.ServerList(dictionary: serverList) } else { self.serverList = nil }
-            if let serverCatalogStatus = dictionary["serverCatalogStatus"] as? String { self.serverCatalogStatus = ServerCatalogStatus(rawValue: serverCatalogStatus) } else { self.serverCatalogStatus = nil }
-            self.nextToken = dictionary["nextToken"] as? String
-            self.lastModifiedOn = dictionary["lastModifiedOn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverList = "serverList"
+            case serverCatalogStatus = "serverCatalogStatus"
+            case nextToken = "nextToken"
+            case lastModifiedOn = "lastModifiedOn"
         }
     }
 
     public struct GetReplicationJobsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "replicationJobId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -202,22 +190,19 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.replicationJobId = dictionary["replicationJobId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct UpdateReplicationJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ReplicationJobState: String, CustomStringConvertible {
+    public enum ReplicationJobState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case active = "ACTIVE"
         case failed = "FAILED"
@@ -228,9 +213,8 @@ extension Sms {
 
     public struct StartOnDemandReplicationRunResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "replicationRunId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationRunId", required: false, type: .string)
         ]
         public let replicationRunId: String?
 
@@ -238,30 +222,29 @@ extension Sms {
             self.replicationRunId = replicationRunId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.replicationRunId = dictionary["replicationRunId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case replicationRunId = "replicationRunId"
         }
     }
 
     public struct UpdateReplicationJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "roleName", required: false, type: .string), 
-            AWSShapeProperty(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "frequency", required: false, type: .integer), 
-            AWSShapeProperty(label: "replicationJobId", required: true, type: .string), 
-            AWSShapeProperty(label: "licenseType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum)
         ]
         public let roleName: String?
-        public let nextReplicationRunStartTime: String?
+        public let nextReplicationRunStartTime: Double?
         public let description: String?
         public let frequency: Int32?
         public let replicationJobId: String
         public let licenseType: LicenseType?
 
-        public init(roleName: String? = nil, nextReplicationRunStartTime: String? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
+        public init(roleName: String? = nil, nextReplicationRunStartTime: Double? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
             self.roleName = roleName
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
             self.description = description
@@ -270,22 +253,20 @@ extension Sms {
             self.licenseType = licenseType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleName = dictionary["roleName"] as? String
-            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? String
-            self.description = dictionary["description"] as? String
-            self.frequency = dictionary["frequency"] as? Int32
-            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
-            self.replicationJobId = replicationJobId
-            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "roleName"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case description = "description"
+            case frequency = "frequency"
+            case replicationJobId = "replicationJobId"
+            case licenseType = "licenseType"
         }
     }
 
     public struct ConnectorCapabilityList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ConnectorCapability]?
 
@@ -293,34 +274,33 @@ extension Sms {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [String] { self.item = item.flatMap({ ConnectorCapability(rawValue: $0)}) } else { self.item = nil }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct ReplicationRun: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "replicationRunId", required: false, type: .string), 
-            AWSShapeProperty(label: "completedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "scheduledStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "amiId", required: false, type: .string), 
-            AWSShapeProperty(label: "type", required: false, type: .enum), 
-            AWSShapeProperty(label: "statusMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "replicationRunId", required: false, type: .string), 
+            AWSShapeMember(label: "completedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "scheduledStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "amiId", required: false, type: .string), 
+            AWSShapeMember(label: "type", required: false, type: .enum), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string)
         ]
         public let state: ReplicationRunState?
         public let replicationRunId: String?
-        public let completedTime: String?
-        public let scheduledStartTime: String?
+        public let completedTime: Double?
+        public let scheduledStartTime: Double?
         public let description: String?
         public let amiId: String?
         public let `type`: ReplicationRunType?
         public let statusMessage: String?
 
-        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: String? = nil, scheduledStartTime: String? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
+        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: Double? = nil, scheduledStartTime: Double? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
             self.state = state
             self.replicationRunId = replicationRunId
             self.completedTime = completedTime
@@ -331,48 +311,44 @@ extension Sms {
             self.statusMessage = statusMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = ReplicationRunState(rawValue: state) } else { self.state = nil }
-            self.replicationRunId = dictionary["replicationRunId"] as? String
-            self.completedTime = dictionary["completedTime"] as? String
-            self.scheduledStartTime = dictionary["scheduledStartTime"] as? String
-            self.description = dictionary["description"] as? String
-            self.amiId = dictionary["amiId"] as? String
-            if let `type` = dictionary["type"] as? String { self.`type` = ReplicationRunType(rawValue: `type`) } else { self.`type` = nil }
-            self.statusMessage = dictionary["statusMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case replicationRunId = "replicationRunId"
+            case completedTime = "completedTime"
+            case scheduledStartTime = "scheduledStartTime"
+            case description = "description"
+            case amiId = "amiId"
+            case `type` = "type"
+            case statusMessage = "statusMessage"
         }
     }
 
     public struct DeleteServerCatalogResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReplicationJob: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "state", required: false, type: .enum), 
-            AWSShapeProperty(label: "replicationRunList", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "vmServer", required: false, type: .structure), 
-            AWSShapeProperty(label: "licenseType", required: false, type: .enum), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "serverId", required: false, type: .string), 
-            AWSShapeProperty(label: "latestAmiId", required: false, type: .string), 
-            AWSShapeProperty(label: "frequency", required: false, type: .integer), 
-            AWSShapeProperty(label: "statusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "replicationJobId", required: false, type: .string), 
-            AWSShapeProperty(label: "roleName", required: false, type: .string), 
-            AWSShapeProperty(label: "seedReplicationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "serverType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "replicationRunList", required: false, type: .structure), 
+            AWSShapeMember(label: "nextReplicationRunStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "vmServer", required: false, type: .structure), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "serverId", required: false, type: .string), 
+            AWSShapeMember(label: "latestAmiId", required: false, type: .string), 
+            AWSShapeMember(label: "frequency", required: false, type: .integer), 
+            AWSShapeMember(label: "statusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "seedReplicationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "serverType", required: false, type: .enum)
         ]
         public let state: ReplicationJobState?
         public let replicationRunList: ReplicationRunList?
-        public let nextReplicationRunStartTime: String?
+        public let nextReplicationRunStartTime: Double?
         public let vmServer: VmServer?
         public let licenseType: LicenseType?
         public let description: String?
@@ -382,10 +358,10 @@ extension Sms {
         public let statusMessage: String?
         public let replicationJobId: String?
         public let roleName: String?
-        public let seedReplicationTime: String?
+        public let seedReplicationTime: Double?
         public let serverType: ServerType?
 
-        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: String? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: String? = nil, serverType: ServerType? = nil) {
+        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Double? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Double? = nil, serverType: ServerType? = nil) {
             self.state = state
             self.replicationRunList = replicationRunList
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
@@ -402,25 +378,25 @@ extension Sms {
             self.serverType = serverType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? String { self.state = ReplicationJobState(rawValue: state) } else { self.state = nil }
-            if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
-            self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? String
-            if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
-            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
-            self.description = dictionary["description"] as? String
-            self.serverId = dictionary["serverId"] as? String
-            self.latestAmiId = dictionary["latestAmiId"] as? String
-            self.frequency = dictionary["frequency"] as? Int32
-            self.statusMessage = dictionary["statusMessage"] as? String
-            self.replicationJobId = dictionary["replicationJobId"] as? String
-            self.roleName = dictionary["roleName"] as? String
-            self.seedReplicationTime = dictionary["seedReplicationTime"] as? String
-            if let serverType = dictionary["serverType"] as? String { self.serverType = ServerType(rawValue: serverType) } else { self.serverType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case replicationRunList = "replicationRunList"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case vmServer = "vmServer"
+            case licenseType = "licenseType"
+            case description = "description"
+            case serverId = "serverId"
+            case latestAmiId = "latestAmiId"
+            case frequency = "frequency"
+            case statusMessage = "statusMessage"
+            case replicationJobId = "replicationJobId"
+            case roleName = "roleName"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverType = "serverType"
         }
     }
 
-    public enum ReplicationRunState: String, CustomStringConvertible {
+    public enum ReplicationRunState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case missed = "MISSED"
         case active = "ACTIVE"
@@ -433,17 +409,13 @@ extension Sms {
 
     public struct ImportServerCatalogResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ServerList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Server]?
 
@@ -451,28 +423,20 @@ extension Sms {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try Server(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct DeleteReplicationJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReplicationJobList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ReplicationJob]?
 
@@ -480,16 +444,12 @@ extension Sms {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try ReplicationJob(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
-    public enum ConnectorStatus: String, CustomStringConvertible {
+    public enum ConnectorStatus: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
@@ -497,10 +457,9 @@ extension Sms {
 
     public struct GetConnectorsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "connectorList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "connectorList", required: false, type: .structure)
         ]
         public let nextToken: String?
         public let connectorList: ConnectorList?
@@ -510,31 +469,30 @@ extension Sms {
             self.connectorList = connectorList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let connectorList = dictionary["connectorList"] as? [String: Any] { self.connectorList = try Sms.ConnectorList(dictionary: connectorList) } else { self.connectorList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case connectorList = "connectorList"
         }
     }
 
     public struct CreateReplicationJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "seedReplicationTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "roleName", required: false, type: .string), 
-            AWSShapeProperty(label: "serverId", required: true, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "frequency", required: true, type: .integer), 
-            AWSShapeProperty(label: "licenseType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "seedReplicationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "roleName", required: false, type: .string), 
+            AWSShapeMember(label: "serverId", required: true, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "frequency", required: true, type: .integer), 
+            AWSShapeMember(label: "licenseType", required: false, type: .enum)
         ]
-        public let seedReplicationTime: String
+        public let seedReplicationTime: Double
         public let roleName: String?
         public let serverId: String
         public let description: String?
         public let frequency: Int32
         public let licenseType: LicenseType?
 
-        public init(seedReplicationTime: String, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
+        public init(seedReplicationTime: Double, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
             self.seedReplicationTime = seedReplicationTime
             self.roleName = roleName
             self.serverId = serverId
@@ -543,20 +501,17 @@ extension Sms {
             self.licenseType = licenseType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let seedReplicationTime = dictionary["seedReplicationTime"] as? String else { throw InitializableError.missingRequiredParam("seedReplicationTime") }
-            self.seedReplicationTime = seedReplicationTime
-            self.roleName = dictionary["roleName"] as? String
-            guard let serverId = dictionary["serverId"] as? String else { throw InitializableError.missingRequiredParam("serverId") }
-            self.serverId = serverId
-            self.description = dictionary["description"] as? String
-            guard let frequency = dictionary["frequency"] as? Int32 else { throw InitializableError.missingRequiredParam("frequency") }
-            self.frequency = frequency
-            if let licenseType = dictionary["licenseType"] as? String { self.licenseType = LicenseType(rawValue: licenseType) } else { self.licenseType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case seedReplicationTime = "seedReplicationTime"
+            case roleName = "roleName"
+            case serverId = "serverId"
+            case description = "description"
+            case frequency = "frequency"
+            case licenseType = "licenseType"
         }
     }
 
-    public enum ReplicationRunType: String, CustomStringConvertible {
+    public enum ReplicationRunType: String, CustomStringConvertible, Codable {
         case on_demand = "ON_DEMAND"
         case automatic = "AUTOMATIC"
         public var description: String { return self.rawValue }
@@ -564,10 +519,9 @@ extension Sms {
 
     public struct VmServerAddress: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "vmId", required: false, type: .string), 
-            AWSShapeProperty(label: "vmManagerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vmId", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerId", required: false, type: .string)
         ]
         public let vmId: String?
         public let vmManagerId: String?
@@ -577,18 +531,17 @@ extension Sms {
             self.vmManagerId = vmManagerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vmId = dictionary["vmId"] as? String
-            self.vmManagerId = dictionary["vmManagerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vmId = "vmId"
+            case vmManagerId = "vmManagerId"
         }
     }
 
     public struct GetServersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         public let nextToken: String?
         public let maxResults: Int32?
@@ -598,22 +551,21 @@ extension Sms {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
-    public enum ConnectorCapability: String, CustomStringConvertible {
+    public enum ConnectorCapability: String, CustomStringConvertible, Codable {
         case vsphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 
     public struct ConnectorList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [Connector]?
 
@@ -621,24 +573,19 @@ extension Sms {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try Connector(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct VmServer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "vmManagerName", required: false, type: .string), 
-            AWSShapeProperty(label: "vmManagerType", required: false, type: .enum), 
-            AWSShapeProperty(label: "vmName", required: false, type: .string), 
-            AWSShapeProperty(label: "vmServerAddress", required: false, type: .structure), 
-            AWSShapeProperty(label: "vmPath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "vmManagerName", required: false, type: .string), 
+            AWSShapeMember(label: "vmManagerType", required: false, type: .enum), 
+            AWSShapeMember(label: "vmName", required: false, type: .string), 
+            AWSShapeMember(label: "vmServerAddress", required: false, type: .structure), 
+            AWSShapeMember(label: "vmPath", required: false, type: .string)
         ]
         public let vmManagerName: String?
         public let vmManagerType: VmManagerType?
@@ -654,24 +601,23 @@ extension Sms {
             self.vmPath = vmPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vmManagerName = dictionary["vmManagerName"] as? String
-            if let vmManagerType = dictionary["vmManagerType"] as? String { self.vmManagerType = VmManagerType(rawValue: vmManagerType) } else { self.vmManagerType = nil }
-            self.vmName = dictionary["vmName"] as? String
-            if let vmServerAddress = dictionary["vmServerAddress"] as? [String: Any] { self.vmServerAddress = try Sms.VmServerAddress(dictionary: vmServerAddress) } else { self.vmServerAddress = nil }
-            self.vmPath = dictionary["vmPath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
+            case vmName = "vmName"
+            case vmServerAddress = "vmServerAddress"
+            case vmPath = "vmPath"
         }
     }
 
     public struct Server: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "serverId", required: false, type: .string), 
-            AWSShapeProperty(label: "replicationJobTerminated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "serverType", required: false, type: .enum), 
-            AWSShapeProperty(label: "vmServer", required: false, type: .structure), 
-            AWSShapeProperty(label: "replicationJobId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "serverId", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobTerminated", required: false, type: .boolean), 
+            AWSShapeMember(label: "serverType", required: false, type: .enum), 
+            AWSShapeMember(label: "vmServer", required: false, type: .structure), 
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
         public let serverId: String?
         public let replicationJobTerminated: Bool?
@@ -687,28 +633,24 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serverId = dictionary["serverId"] as? String
-            self.replicationJobTerminated = dictionary["replicationJobTerminated"] as? Bool
-            if let serverType = dictionary["serverType"] as? String { self.serverType = ServerType(rawValue: serverType) } else { self.serverType = nil }
-            if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
-            self.replicationJobId = dictionary["replicationJobId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverId = "serverId"
+            case replicationJobTerminated = "replicationJobTerminated"
+            case serverType = "serverType"
+            case vmServer = "vmServer"
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct DeleteServerCatalogRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct CreateReplicationJobResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "replicationJobId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationJobId", required: false, type: .string)
         ]
         public let replicationJobId: String?
 
@@ -716,16 +658,15 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.replicationJobId = dictionary["replicationJobId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct ReplicationRunList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "item", required: false, type: .list)
         ]
         public let item: [ReplicationRun]?
 
@@ -733,21 +674,16 @@ extension Sms {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["item"] as? [[String: Any]] {
-                self.item = try item.map({ try ReplicationRun(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "item"
         }
     }
 
     public struct StartOnDemandReplicationRunRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
         public let description: String?
         public let replicationJobId: String
@@ -757,14 +693,13 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
-            self.replicationJobId = replicationJobId
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case replicationJobId = "replicationJobId"
         }
     }
 
-    public enum ServerCatalogStatus: String, CustomStringConvertible {
+    public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
         case not_imported = "NOT_IMPORTED"
         case importing = "IMPORTING"
         case available = "AVAILABLE"
@@ -775,10 +710,9 @@ extension Sms {
 
     public struct GetReplicationJobsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "replicationJobList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "replicationJobList", required: false, type: .structure)
         ]
         public let nextToken: String?
         public let replicationJobList: ReplicationJobList?
@@ -788,17 +722,16 @@ extension Sms {
             self.replicationJobList = replicationJobList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            if let replicationJobList = dictionary["replicationJobList"] as? [String: Any] { self.replicationJobList = try Sms.ReplicationJobList(dictionary: replicationJobList) } else { self.replicationJobList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case replicationJobList = "replicationJobList"
         }
     }
 
     public struct DisassociateConnectorRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "connectorId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "connectorId", required: true, type: .string)
         ]
         public let connectorId: String
 
@@ -806,19 +739,17 @@ extension Sms {
             self.connectorId = connectorId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let connectorId = dictionary["connectorId"] as? String else { throw InitializableError.missingRequiredParam("connectorId") }
-            self.connectorId = connectorId
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "connectorId"
         }
     }
 
     public struct GetReplicationRunsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "replicationJob", required: false, type: .structure), 
-            AWSShapeProperty(label: "replicationRunList", required: false, type: .structure), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationJob", required: false, type: .structure), 
+            AWSShapeMember(label: "replicationRunList", required: false, type: .structure), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         public let replicationJob: ReplicationJob?
         public let replicationRunList: ReplicationRunList?
@@ -830,14 +761,14 @@ extension Sms {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationJob = dictionary["replicationJob"] as? [String: Any] { self.replicationJob = try Sms.ReplicationJob(dictionary: replicationJob) } else { self.replicationJob = nil }
-            if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case replicationJob = "replicationJob"
+            case replicationRunList = "replicationRunList"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum LicenseType: String, CustomStringConvertible {
+    public enum LicenseType: String, CustomStringConvertible, Codable {
         case aws = "AWS"
         case byol = "BYOL"
         public var description: String { return self.rawValue }
@@ -845,9 +776,8 @@ extension Sms {
 
     public struct DeleteReplicationJobRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "replicationJobId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "replicationJobId", required: true, type: .string)
         ]
         public let replicationJobId: String
 
@@ -855,9 +785,8 @@ extension Sms {
             self.replicationJobId = replicationJobId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationJobId = dictionary["replicationJobId"] as? String else { throw InitializableError.missingRequiredParam("replicationJobId") }
-            self.replicationJobId = replicationJobId
+        private enum CodingKeys: String, CodingKey {
+            case replicationJobId = "replicationJobId"
         }
     }
 

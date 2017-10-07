@@ -31,10 +31,9 @@ extension Kinesis {
 
     public struct CreateStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ShardCount", required: true, type: .integer)
         ]
         /// A name to identify the stream. The stream name is scoped to the AWS account used by the application that creates the stream. It is also scoped by region. That is, two streams in two different AWS accounts can have the same name, and two streams in the same AWS account but in two different regions can have the same name.
         public let streamName: String
@@ -46,20 +45,17 @@ extension Kinesis {
             self.shardCount = shardCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let shardCount = dictionary["ShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("ShardCount") }
-            self.shardCount = shardCount
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case shardCount = "ShardCount"
         }
     }
 
     public struct AddTagsToStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .map), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .map), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The set of key-value pairs to use to create the tags.
         public let tags: [String: String]
@@ -71,23 +67,18 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = tags
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case streamName = "StreamName"
         }
     }
 
     public struct DescribeLimitsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible {
+    public enum ShardIteratorType: String, CustomStringConvertible, Codable {
         case at_sequence_number = "AT_SEQUENCE_NUMBER"
         case after_sequence_number = "AFTER_SEQUENCE_NUMBER"
         case trim_horizon = "TRIM_HORIZON"
@@ -98,11 +89,10 @@ extension Kinesis {
 
     public struct DescribeStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "ExclusiveStartShardId", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ExclusiveStartShardId", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The name of the stream to describe.
         public let streamName: String
@@ -117,21 +107,19 @@ extension Kinesis {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            self.exclusiveStartShardId = dictionary["ExclusiveStartShardId"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case exclusiveStartShardId = "ExclusiveStartShardId"
+            case limit = "Limit"
         }
     }
 
     public struct UpdateShardCountOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetShardCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CurrentShardCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "StreamName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetShardCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CurrentShardCount", required: false, type: .integer), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string)
         ]
         /// The updated number of shards.
         public let targetShardCount: Int32?
@@ -146,19 +134,18 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetShardCount = dictionary["TargetShardCount"] as? Int32
-            self.currentShardCount = dictionary["CurrentShardCount"] as? Int32
-            self.streamName = dictionary["StreamName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetShardCount = "TargetShardCount"
+            case currentShardCount = "CurrentShardCount"
+            case streamName = "StreamName"
         }
     }
 
     public struct DecreaseStreamRetentionPeriodInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The new retention period of the stream, in hours. Must be less than the current retention period.
         public let retentionPeriodHours: Int32
@@ -170,20 +157,17 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
-            self.retentionPeriodHours = retentionPeriodHours
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriodHours = "RetentionPeriodHours"
+            case streamName = "StreamName"
         }
     }
 
     public struct IncreaseStreamRetentionPeriodInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The new retention period of the stream, in hours. Must be more than the current retention period.
         public let retentionPeriodHours: Int32
@@ -195,23 +179,20 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
-            self.retentionPeriodHours = retentionPeriodHours
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case retentionPeriodHours = "RetentionPeriodHours"
+            case streamName = "StreamName"
         }
     }
 
     public struct Shard: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardId", required: true, type: .string), 
-            AWSShapeProperty(label: "SequenceNumberRange", required: true, type: .structure), 
-            AWSShapeProperty(label: "AdjacentParentShardId", required: false, type: .string), 
-            AWSShapeProperty(label: "HashKeyRange", required: true, type: .structure), 
-            AWSShapeProperty(label: "ParentShardId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardId", required: true, type: .string), 
+            AWSShapeMember(label: "SequenceNumberRange", required: true, type: .structure), 
+            AWSShapeMember(label: "AdjacentParentShardId", required: false, type: .string), 
+            AWSShapeMember(label: "HashKeyRange", required: true, type: .structure), 
+            AWSShapeMember(label: "ParentShardId", required: false, type: .string)
         ]
         /// The unique identifier of the shard within the stream.
         public let shardId: String
@@ -232,24 +213,20 @@ extension Kinesis {
             self.parentShardId = parentShardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
-            self.shardId = shardId
-            guard let sequenceNumberRange = dictionary["SequenceNumberRange"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SequenceNumberRange") }
-            self.sequenceNumberRange = try Kinesis.SequenceNumberRange(dictionary: sequenceNumberRange)
-            self.adjacentParentShardId = dictionary["AdjacentParentShardId"] as? String
-            guard let hashKeyRange = dictionary["HashKeyRange"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HashKeyRange") }
-            self.hashKeyRange = try Kinesis.HashKeyRange(dictionary: hashKeyRange)
-            self.parentShardId = dictionary["ParentShardId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shardId = "ShardId"
+            case sequenceNumberRange = "SequenceNumberRange"
+            case adjacentParentShardId = "AdjacentParentShardId"
+            case hashKeyRange = "HashKeyRange"
+            case parentShardId = "ParentShardId"
         }
     }
 
     public struct PutRecordsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedRecordCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Records", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedRecordCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Records", required: true, type: .list)
         ]
         /// The number of unsuccessfully processed records in a PutRecords request.
         public let failedRecordCount: Int32?
@@ -261,18 +238,16 @@ extension Kinesis {
             self.records = records
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failedRecordCount = dictionary["FailedRecordCount"] as? Int32
-            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
-            self.records = try records.map({ try PutRecordsResultEntry(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case failedRecordCount = "FailedRecordCount"
+            case records = "Records"
         }
     }
 
     public struct DescribeStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamDescription", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamDescription", required: true, type: .structure)
         ]
         /// The current status of the stream, the stream ARN, an array of shard objects that comprise the stream, and whether there are more shards available.
         public let streamDescription: StreamDescription
@@ -281,19 +256,17 @@ extension Kinesis {
             self.streamDescription = streamDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamDescription = dictionary["StreamDescription"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamDescription") }
-            self.streamDescription = try Kinesis.StreamDescription(dictionary: streamDescription)
+        private enum CodingKeys: String, CodingKey {
+            case streamDescription = "StreamDescription"
         }
     }
 
     public struct EnhancedMonitoringOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredShardLevelMetrics", required: false, type: .list), 
-            AWSShapeProperty(label: "StreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "CurrentShardLevelMetrics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredShardLevelMetrics", required: false, type: .list), 
+            AWSShapeMember(label: "StreamName", required: false, type: .string), 
+            AWSShapeMember(label: "CurrentShardLevelMetrics", required: false, type: .list)
         ]
         /// Represents the list of all the metrics that would be in the enhanced state after the operation.
         public let desiredShardLevelMetrics: [MetricsName]?
@@ -308,19 +281,18 @@ extension Kinesis {
             self.currentShardLevelMetrics = currentShardLevelMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let desiredShardLevelMetrics = dictionary["DesiredShardLevelMetrics"] as? [String] { self.desiredShardLevelMetrics = desiredShardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.desiredShardLevelMetrics = nil }
-            self.streamName = dictionary["StreamName"] as? String
-            if let currentShardLevelMetrics = dictionary["CurrentShardLevelMetrics"] as? [String] { self.currentShardLevelMetrics = currentShardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.currentShardLevelMetrics = nil }
+        private enum CodingKeys: String, CodingKey {
+            case desiredShardLevelMetrics = "DesiredShardLevelMetrics"
+            case streamName = "StreamName"
+            case currentShardLevelMetrics = "CurrentShardLevelMetrics"
         }
     }
 
     public struct PutRecordOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SequenceNumber", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SequenceNumber", required: true, type: .string), 
+            AWSShapeMember(label: "ShardId", required: true, type: .string)
         ]
         /// The sequence number identifier that was assigned to the put data record. The sequence number for the record is unique across all records in the stream. A sequence number is the identifier associated with every record put into the stream.
         public let sequenceNumber: String
@@ -332,25 +304,22 @@ extension Kinesis {
             self.shardId = shardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sequenceNumber = dictionary["SequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("SequenceNumber") }
-            self.sequenceNumber = sequenceNumber
-            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
-            self.shardId = shardId
+        private enum CodingKeys: String, CodingKey {
+            case sequenceNumber = "SequenceNumber"
+            case shardId = "ShardId"
         }
     }
 
     public struct Record: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApproximateArrivalTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SequenceNumber", required: true, type: .string), 
-            AWSShapeProperty(label: "PartitionKey", required: true, type: .string), 
-            AWSShapeProperty(label: "Data", required: true, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApproximateArrivalTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SequenceNumber", required: true, type: .string), 
+            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
+            AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
         /// The approximate time that the record was inserted into the stream.
-        public let approximateArrivalTimestamp: String?
+        public let approximateArrivalTimestamp: Double?
         /// The unique identifier of the record in the stream.
         public let sequenceNumber: String
         /// Identifies which shard in the stream the data record is assigned to.
@@ -358,25 +327,22 @@ extension Kinesis {
         /// The data blob. The data in the blob is both opaque and immutable to the Amazon Kinesis service, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
 
-        public init(approximateArrivalTimestamp: String? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
+        public init(approximateArrivalTimestamp: Double? = nil, sequenceNumber: String, partitionKey: String, data: Data) {
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.sequenceNumber = sequenceNumber
             self.partitionKey = partitionKey
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.approximateArrivalTimestamp = dictionary["ApproximateArrivalTimestamp"] as? String
-            guard let sequenceNumber = dictionary["SequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("SequenceNumber") }
-            self.sequenceNumber = sequenceNumber
-            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
-            self.partitionKey = partitionKey
-            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
+        private enum CodingKeys: String, CodingKey {
+            case approximateArrivalTimestamp = "ApproximateArrivalTimestamp"
+            case sequenceNumber = "SequenceNumber"
+            case partitionKey = "PartitionKey"
+            case data = "Data"
         }
     }
 
-    public enum MetricsName: String, CustomStringConvertible {
+    public enum MetricsName: String, CustomStringConvertible, Codable {
         case incomingbytes = "IncomingBytes"
         case incomingrecords = "IncomingRecords"
         case outgoingbytes = "OutgoingBytes"
@@ -390,10 +356,9 @@ extension Kinesis {
 
     public struct DisableEnhancedMonitoringInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardLevelMetrics", required: true, type: .list), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -405,20 +370,17 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
-            self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)})
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case shardLevelMetrics = "ShardLevelMetrics"
+            case streamName = "StreamName"
         }
     }
 
     public struct HashKeyRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartingHashKey", required: true, type: .string), 
-            AWSShapeProperty(label: "EndingHashKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartingHashKey", required: true, type: .string), 
+            AWSShapeMember(label: "EndingHashKey", required: true, type: .string)
         ]
         /// The starting hash key of the hash key range.
         public let startingHashKey: String
@@ -430,20 +392,17 @@ extension Kinesis {
             self.endingHashKey = endingHashKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startingHashKey = dictionary["StartingHashKey"] as? String else { throw InitializableError.missingRequiredParam("StartingHashKey") }
-            self.startingHashKey = startingHashKey
-            guard let endingHashKey = dictionary["EndingHashKey"] as? String else { throw InitializableError.missingRequiredParam("EndingHashKey") }
-            self.endingHashKey = endingHashKey
+        private enum CodingKeys: String, CodingKey {
+            case startingHashKey = "StartingHashKey"
+            case endingHashKey = "EndingHashKey"
         }
     }
 
     public struct SequenceNumberRange: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndingSequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "StartingSequenceNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndingSequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "StartingSequenceNumber", required: true, type: .string)
         ]
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
         public let endingSequenceNumber: String?
@@ -455,19 +414,17 @@ extension Kinesis {
             self.startingSequenceNumber = startingSequenceNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endingSequenceNumber = dictionary["EndingSequenceNumber"] as? String
-            guard let startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String else { throw InitializableError.missingRequiredParam("StartingSequenceNumber") }
-            self.startingSequenceNumber = startingSequenceNumber
+        private enum CodingKeys: String, CodingKey {
+            case endingSequenceNumber = "EndingSequenceNumber"
+            case startingSequenceNumber = "StartingSequenceNumber"
         }
     }
 
     public struct DescribeLimitsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardLimit", required: true, type: .integer), 
-            AWSShapeProperty(label: "OpenShardCount", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardLimit", required: true, type: .integer), 
+            AWSShapeMember(label: "OpenShardCount", required: true, type: .integer)
         ]
         /// The maximum number of shards.
         public let shardLimit: Int32
@@ -479,20 +436,17 @@ extension Kinesis {
             self.openShardCount = openShardCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shardLimit = dictionary["ShardLimit"] as? Int32 else { throw InitializableError.missingRequiredParam("ShardLimit") }
-            self.shardLimit = shardLimit
-            guard let openShardCount = dictionary["OpenShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("OpenShardCount") }
-            self.openShardCount = openShardCount
+        private enum CodingKeys: String, CodingKey {
+            case shardLimit = "ShardLimit"
+            case openShardCount = "OpenShardCount"
         }
     }
 
     public struct PutRecordsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Records", required: true, type: .list), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Records", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The records associated with the request.
         public let records: [PutRecordsRequestEntry]
@@ -504,28 +458,25 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
-            self.records = try records.map({ try PutRecordsRequestEntry(dictionary: $0) })
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case records = "Records"
+            case streamName = "StreamName"
         }
     }
 
     public struct GetShardIteratorInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartingSequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "Timestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ShardIteratorType", required: true, type: .enum), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartingSequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "Timestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ShardIteratorType", required: true, type: .enum), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ShardId", required: true, type: .string)
         ]
         /// The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
         public let startingSequenceNumber: String?
         /// The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
-        public let timestamp: String?
+        public let timestamp: Double?
         /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
         /// The name of the Amazon Kinesis stream.
@@ -533,7 +484,7 @@ extension Kinesis {
         /// The shard ID of the Amazon Kinesis shard to get the iterator for.
         public let shardId: String
 
-        public init(startingSequenceNumber: String? = nil, timestamp: String? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
+        public init(startingSequenceNumber: String? = nil, timestamp: Double? = nil, shardIteratorType: ShardIteratorType, streamName: String, shardId: String) {
             self.startingSequenceNumber = startingSequenceNumber
             self.timestamp = timestamp
             self.shardIteratorType = shardIteratorType
@@ -541,24 +492,20 @@ extension Kinesis {
             self.shardId = shardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startingSequenceNumber = dictionary["StartingSequenceNumber"] as? String
-            self.timestamp = dictionary["Timestamp"] as? String
-            guard let rawShardIteratorType = dictionary["ShardIteratorType"] as? String, let shardIteratorType = ShardIteratorType(rawValue: rawShardIteratorType) else { throw InitializableError.missingRequiredParam("ShardIteratorType") }
-            self.shardIteratorType = shardIteratorType
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let shardId = dictionary["ShardId"] as? String else { throw InitializableError.missingRequiredParam("ShardId") }
-            self.shardId = shardId
+        private enum CodingKeys: String, CodingKey {
+            case startingSequenceNumber = "StartingSequenceNumber"
+            case timestamp = "Timestamp"
+            case shardIteratorType = "ShardIteratorType"
+            case streamName = "StreamName"
+            case shardId = "ShardId"
         }
     }
 
     public struct ListTagsForStreamOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HasMoreTags", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HasMoreTags", required: true, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// If set to true, more tags are available. To request additional tags, set ExclusiveStartTagKey to the key of the last tag returned.
         public let hasMoreTags: Bool
@@ -570,21 +517,18 @@ extension Kinesis {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hasMoreTags = dictionary["HasMoreTags"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreTags") }
-            self.hasMoreTags = hasMoreTags
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case hasMoreTags = "HasMoreTags"
+            case tags = "Tags"
         }
     }
 
     public struct PutRecordsRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Data", required: true, type: .blob), 
-            AWSShapeProperty(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeProperty(label: "PartitionKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Data", required: true, type: .blob), 
+            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
+            AWSShapeMember(label: "PartitionKey", required: true, type: .string)
         ]
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MB).
         public let data: Data
@@ -599,21 +543,18 @@ extension Kinesis {
             self.partitionKey = partitionKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
-            self.explicitHashKey = dictionary["ExplicitHashKey"] as? String
-            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
-            self.partitionKey = partitionKey
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case explicitHashKey = "ExplicitHashKey"
+            case partitionKey = "PartitionKey"
         }
     }
 
     public struct GetRecordsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ShardIterator", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ShardIterator", required: true, type: .string)
         ]
         /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException.
         public let limit: Int32?
@@ -625,20 +566,18 @@ extension Kinesis {
             self.shardIterator = shardIterator
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            guard let shardIterator = dictionary["ShardIterator"] as? String else { throw InitializableError.missingRequiredParam("ShardIterator") }
-            self.shardIterator = shardIterator
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case shardIterator = "ShardIterator"
         }
     }
 
     public struct UpdateShardCountInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetShardCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalingType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetShardCount", required: true, type: .integer), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingType", required: true, type: .enum)
         ]
         /// The new number of shards.
         public let targetShardCount: Int32
@@ -653,22 +592,18 @@ extension Kinesis {
             self.scalingType = scalingType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetShardCount = dictionary["TargetShardCount"] as? Int32 else { throw InitializableError.missingRequiredParam("TargetShardCount") }
-            self.targetShardCount = targetShardCount
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let rawScalingType = dictionary["ScalingType"] as? String, let scalingType = ScalingType(rawValue: rawScalingType) else { throw InitializableError.missingRequiredParam("ScalingType") }
-            self.scalingType = scalingType
+        private enum CodingKeys: String, CodingKey {
+            case targetShardCount = "TargetShardCount"
+            case streamName = "StreamName"
+            case scalingType = "ScalingType"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// An optional string, typically used to describe or define the tag. Maximum length: 256 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         public let value: String?
@@ -680,18 +615,16 @@ extension Kinesis {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DeleteStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The name of the stream to delete.
         public let streamName: String
@@ -700,17 +633,15 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
         }
     }
 
     public struct GetShardIteratorOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardIterator", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardIterator", required: false, type: .string)
         ]
         /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
         public let shardIterator: String?
@@ -719,20 +650,19 @@ extension Kinesis {
             self.shardIterator = shardIterator
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shardIterator = dictionary["ShardIterator"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shardIterator = "ShardIterator"
         }
     }
 
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PartitionKey", required: true, type: .string), 
-            AWSShapeProperty(label: "ExplicitHashKey", required: false, type: .string), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "SequenceNumberForOrdering", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: true, type: .blob)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartitionKey", required: true, type: .string), 
+            AWSShapeMember(label: "ExplicitHashKey", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "SequenceNumberForOrdering", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: true, type: .blob)
         ]
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         public let partitionKey: String
@@ -753,26 +683,22 @@ extension Kinesis {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let partitionKey = dictionary["PartitionKey"] as? String else { throw InitializableError.missingRequiredParam("PartitionKey") }
-            self.partitionKey = partitionKey
-            self.explicitHashKey = dictionary["ExplicitHashKey"] as? String
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            self.sequenceNumberForOrdering = dictionary["SequenceNumberForOrdering"] as? String
-            guard let data = dictionary["Data"] as? Data else { throw InitializableError.missingRequiredParam("Data") }
-            self.data = data
+        private enum CodingKeys: String, CodingKey {
+            case partitionKey = "PartitionKey"
+            case explicitHashKey = "ExplicitHashKey"
+            case streamName = "StreamName"
+            case sequenceNumberForOrdering = "SequenceNumberForOrdering"
+            case data = "Data"
         }
     }
 
     public struct PutRecordsResultEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SequenceNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ShardId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "ShardId", required: false, type: .string)
         ]
         /// The sequence number for an individual record result.
         public let sequenceNumber: String?
@@ -790,21 +716,20 @@ extension Kinesis {
             self.shardId = shardId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sequenceNumber = dictionary["SequenceNumber"] as? String
-            self.errorMessage = dictionary["ErrorMessage"] as? String
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.shardId = dictionary["ShardId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sequenceNumber = "SequenceNumber"
+            case errorMessage = "ErrorMessage"
+            case errorCode = "ErrorCode"
+            case shardId = "ShardId"
         }
     }
 
     public struct ListTagsForStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartTagKey", required: false, type: .string), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartTagKey", required: false, type: .string), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey. 
         public let exclusiveStartTagKey: String?
@@ -819,20 +744,18 @@ extension Kinesis {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exclusiveStartTagKey = dictionary["ExclusiveStartTagKey"] as? String
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartTagKey = "ExclusiveStartTagKey"
+            case streamName = "StreamName"
+            case limit = "Limit"
         }
     }
 
     public struct ListStreamsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamNames", required: true, type: .list), 
-            AWSShapeProperty(label: "HasMoreStreams", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamNames", required: true, type: .list), 
+            AWSShapeMember(label: "HasMoreStreams", required: true, type: .boolean)
         ]
         /// The names of the streams that are associated with the AWS account making the ListStreams request.
         public let streamNames: [String]
@@ -844,20 +767,17 @@ extension Kinesis {
             self.hasMoreStreams = hasMoreStreams
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamNames = dictionary["StreamNames"] as? [String] else { throw InitializableError.missingRequiredParam("StreamNames") }
-            self.streamNames = streamNames
-            guard let hasMoreStreams = dictionary["HasMoreStreams"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreStreams") }
-            self.hasMoreStreams = hasMoreStreams
+        private enum CodingKeys: String, CodingKey {
+            case streamNames = "StreamNames"
+            case hasMoreStreams = "HasMoreStreams"
         }
     }
 
     public struct EnableEnhancedMonitoringInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardLevelMetrics", required: true, type: .list), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardLevelMetrics", required: true, type: .list), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]
@@ -869,26 +789,23 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] else { throw InitializableError.missingRequiredParam("ShardLevelMetrics") }
-            self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)})
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case shardLevelMetrics = "ShardLevelMetrics"
+            case streamName = "StreamName"
         }
     }
 
-    public enum ScalingType: String, CustomStringConvertible {
+    public enum ScalingType: String, CustomStringConvertible, Codable {
         case uniform_scaling = "UNIFORM_SCALING"
         public var description: String { return self.rawValue }
     }
 
     public struct MergeShardsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AdjacentShardToMerge", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardToMerge", required: true, type: .string), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdjacentShardToMerge", required: true, type: .string), 
+            AWSShapeMember(label: "ShardToMerge", required: true, type: .string), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string)
         ]
         /// The shard ID of the adjacent shard for the merge.
         public let adjacentShardToMerge: String
@@ -903,22 +820,18 @@ extension Kinesis {
             self.streamName = streamName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let adjacentShardToMerge = dictionary["AdjacentShardToMerge"] as? String else { throw InitializableError.missingRequiredParam("AdjacentShardToMerge") }
-            self.adjacentShardToMerge = adjacentShardToMerge
-            guard let shardToMerge = dictionary["ShardToMerge"] as? String else { throw InitializableError.missingRequiredParam("ShardToMerge") }
-            self.shardToMerge = shardToMerge
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
+        private enum CodingKeys: String, CodingKey {
+            case adjacentShardToMerge = "AdjacentShardToMerge"
+            case shardToMerge = "ShardToMerge"
+            case streamName = "StreamName"
         }
     }
 
     public struct RemoveTagsFromStreamInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The name of the stream.
         public let streamName: String
@@ -930,20 +843,17 @@ extension Kinesis {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct ListStreamsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExclusiveStartStreamName", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExclusiveStartStreamName", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The name of the stream to start the list with.
         public let exclusiveStartStreamName: String?
@@ -955,19 +865,18 @@ extension Kinesis {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.exclusiveStartStreamName = dictionary["ExclusiveStartStreamName"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case exclusiveStartStreamName = "ExclusiveStartStreamName"
+            case limit = "Limit"
         }
     }
 
     public struct GetRecordsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextShardIterator", required: false, type: .string), 
-            AWSShapeProperty(label: "MillisBehindLatest", required: false, type: .long), 
-            AWSShapeProperty(label: "Records", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextShardIterator", required: false, type: .string), 
+            AWSShapeMember(label: "MillisBehindLatest", required: false, type: .long), 
+            AWSShapeMember(label: "Records", required: true, type: .list)
         ]
         /// The next position in the shard from which to start sequentially reading data records. If set to null, the shard has been closed and the requested iterator will not return any more data. 
         public let nextShardIterator: String?
@@ -982,21 +891,19 @@ extension Kinesis {
             self.records = records
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextShardIterator = dictionary["NextShardIterator"] as? String
-            self.millisBehindLatest = dictionary["MillisBehindLatest"] as? Int64
-            guard let records = dictionary["Records"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Records") }
-            self.records = try records.map({ try Record(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextShardIterator = "NextShardIterator"
+            case millisBehindLatest = "MillisBehindLatest"
+            case records = "Records"
         }
     }
 
     public struct SplitShardInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "ShardToSplit", required: true, type: .string), 
-            AWSShapeProperty(label: "NewStartingHashKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "ShardToSplit", required: true, type: .string), 
+            AWSShapeMember(label: "NewStartingHashKey", required: true, type: .string)
         ]
         /// The name of the stream for the shard split.
         public let streamName: String
@@ -1011,21 +918,17 @@ extension Kinesis {
             self.newStartingHashKey = newStartingHashKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let shardToSplit = dictionary["ShardToSplit"] as? String else { throw InitializableError.missingRequiredParam("ShardToSplit") }
-            self.shardToSplit = shardToSplit
-            guard let newStartingHashKey = dictionary["NewStartingHashKey"] as? String else { throw InitializableError.missingRequiredParam("NewStartingHashKey") }
-            self.newStartingHashKey = newStartingHashKey
+        private enum CodingKeys: String, CodingKey {
+            case streamName = "StreamName"
+            case shardToSplit = "ShardToSplit"
+            case newStartingHashKey = "NewStartingHashKey"
         }
     }
 
     public struct EnhancedMetrics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShardLevelMetrics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShardLevelMetrics", required: false, type: .list)
         ]
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Streams Service with Amazon CloudWatch in the Amazon Kinesis Streams Developer Guide.
         public let shardLevelMetrics: [MetricsName]?
@@ -1034,23 +937,22 @@ extension Kinesis {
             self.shardLevelMetrics = shardLevelMetrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let shardLevelMetrics = dictionary["ShardLevelMetrics"] as? [String] { self.shardLevelMetrics = shardLevelMetrics.flatMap({ MetricsName(rawValue: $0)}) } else { self.shardLevelMetrics = nil }
+        private enum CodingKeys: String, CodingKey {
+            case shardLevelMetrics = "ShardLevelMetrics"
         }
     }
 
     public struct StreamDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StreamARN", required: true, type: .string), 
-            AWSShapeProperty(label: "RetentionPeriodHours", required: true, type: .integer), 
-            AWSShapeProperty(label: "EnhancedMonitoring", required: true, type: .list), 
-            AWSShapeProperty(label: "HasMoreShards", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Shards", required: true, type: .list), 
-            AWSShapeProperty(label: "StreamCreationTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "StreamName", required: true, type: .string), 
-            AWSShapeProperty(label: "StreamStatus", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StreamARN", required: true, type: .string), 
+            AWSShapeMember(label: "RetentionPeriodHours", required: true, type: .integer), 
+            AWSShapeMember(label: "EnhancedMonitoring", required: true, type: .list), 
+            AWSShapeMember(label: "HasMoreShards", required: true, type: .boolean), 
+            AWSShapeMember(label: "Shards", required: true, type: .list), 
+            AWSShapeMember(label: "StreamCreationTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "StreamName", required: true, type: .string), 
+            AWSShapeMember(label: "StreamStatus", required: true, type: .enum)
         ]
         /// The Amazon Resource Name (ARN) for the stream being described.
         public let streamARN: String
@@ -1063,13 +965,13 @@ extension Kinesis {
         /// The shards that comprise the stream.
         public let shards: [Shard]
         /// The approximate time that the stream was created.
-        public let streamCreationTimestamp: String
+        public let streamCreationTimestamp: Double
         /// The name of the stream being described.
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Amazon Kinesis immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Amazon Kinesis completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.  
         public let streamStatus: StreamStatus
 
-        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: String, streamName: String, streamStatus: StreamStatus) {
+        public init(streamARN: String, retentionPeriodHours: Int32, enhancedMonitoring: [EnhancedMetrics], hasMoreShards: Bool, shards: [Shard], streamCreationTimestamp: Double, streamName: String, streamStatus: StreamStatus) {
             self.streamARN = streamARN
             self.retentionPeriodHours = retentionPeriodHours
             self.enhancedMonitoring = enhancedMonitoring
@@ -1080,27 +982,19 @@ extension Kinesis {
             self.streamStatus = streamStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let streamARN = dictionary["StreamARN"] as? String else { throw InitializableError.missingRequiredParam("StreamARN") }
-            self.streamARN = streamARN
-            guard let retentionPeriodHours = dictionary["RetentionPeriodHours"] as? Int32 else { throw InitializableError.missingRequiredParam("RetentionPeriodHours") }
-            self.retentionPeriodHours = retentionPeriodHours
-            guard let enhancedMonitoring = dictionary["EnhancedMonitoring"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("EnhancedMonitoring") }
-            self.enhancedMonitoring = try enhancedMonitoring.map({ try EnhancedMetrics(dictionary: $0) })
-            guard let hasMoreShards = dictionary["HasMoreShards"] as? Bool else { throw InitializableError.missingRequiredParam("HasMoreShards") }
-            self.hasMoreShards = hasMoreShards
-            guard let shards = dictionary["Shards"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Shards") }
-            self.shards = try shards.map({ try Shard(dictionary: $0) })
-            guard let streamCreationTimestamp = dictionary["StreamCreationTimestamp"] as? String else { throw InitializableError.missingRequiredParam("StreamCreationTimestamp") }
-            self.streamCreationTimestamp = streamCreationTimestamp
-            guard let streamName = dictionary["StreamName"] as? String else { throw InitializableError.missingRequiredParam("StreamName") }
-            self.streamName = streamName
-            guard let rawStreamStatus = dictionary["StreamStatus"] as? String, let streamStatus = StreamStatus(rawValue: rawStreamStatus) else { throw InitializableError.missingRequiredParam("StreamStatus") }
-            self.streamStatus = streamStatus
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case retentionPeriodHours = "RetentionPeriodHours"
+            case enhancedMonitoring = "EnhancedMonitoring"
+            case hasMoreShards = "HasMoreShards"
+            case shards = "Shards"
+            case streamCreationTimestamp = "StreamCreationTimestamp"
+            case streamName = "StreamName"
+            case streamStatus = "StreamStatus"
         }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible {
+    public enum StreamStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
         case deleting = "DELETING"
         case active = "ACTIVE"

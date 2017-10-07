@@ -31,11 +31,10 @@ extension Elasticmapreduce {
 
     public struct InstanceFleetStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
         /// A code representing the instance fleet status.
         public let state: InstanceFleetState?
@@ -50,21 +49,21 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = InstanceFleetState(rawValue: state) } else { self.state = nil }
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceFleetTimeline(dictionary: timeline) } else { self.timeline = nil }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceFleetStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case timeline = "Timeline"
+            case stateChangeReason = "StateChangeReason"
         }
     }
 
-    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible {
+    public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case user_request = "USER_REQUEST"
         case provision_failure = "PROVISION_FAILURE"
         case cleanup_failure = "CLEANUP_FAILURE"
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceFleetType: String, CustomStringConvertible {
+    public enum InstanceFleetType: String, CustomStringConvertible, Codable {
         case master = "MASTER"
         case core = "CORE"
         case task = "TASK"
@@ -73,21 +72,20 @@ extension Elasticmapreduce {
 
     public struct JobFlowInstancesDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MasterInstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "HadoopVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "MasterInstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "MasterPublicDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "SlaveInstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MasterInstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeMember(label: "MasterInstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "Placement", required: false, type: .structure), 
+            AWSShapeMember(label: "SlaveInstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean)
         ]
         /// The Amazon EC2 instance identifier of the master node.
         public let masterInstanceId: String?
@@ -132,31 +130,24 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.masterInstanceId = dictionary["MasterInstanceId"] as? String
-            self.hadoopVersion = dictionary["HadoopVersion"] as? String
-            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
-            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
-            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
-            self.keepJobFlowAliveWhenNoSteps = dictionary["KeepJobFlowAliveWhenNoSteps"] as? Bool
-            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
-                self.instanceGroups = try instanceGroups.map({ try InstanceGroupDetail(dictionary: $0) })
-            } else { 
-                self.instanceGroups = nil
-            }
-            guard let masterInstanceType = dictionary["MasterInstanceType"] as? String else { throw InitializableError.missingRequiredParam("MasterInstanceType") }
-            self.masterInstanceType = masterInstanceType
-            self.masterPublicDnsName = dictionary["MasterPublicDnsName"] as? String
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) } else { self.placement = nil }
-            guard let slaveInstanceType = dictionary["SlaveInstanceType"] as? String else { throw InitializableError.missingRequiredParam("SlaveInstanceType") }
-            self.slaveInstanceType = slaveInstanceType
-            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
-            self.instanceCount = instanceCount
-            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case masterInstanceId = "MasterInstanceId"
+            case hadoopVersion = "HadoopVersion"
+            case normalizedInstanceHours = "NormalizedInstanceHours"
+            case ec2SubnetId = "Ec2SubnetId"
+            case ec2KeyName = "Ec2KeyName"
+            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+            case instanceGroups = "InstanceGroups"
+            case masterInstanceType = "MasterInstanceType"
+            case masterPublicDnsName = "MasterPublicDnsName"
+            case placement = "Placement"
+            case slaveInstanceType = "SlaveInstanceType"
+            case instanceCount = "InstanceCount"
+            case terminationProtected = "TerminationProtected"
         }
     }
 
-    public enum AdjustmentType: String, CustomStringConvertible {
+    public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case change_in_capacity = "CHANGE_IN_CAPACITY"
         case percent_change_in_capacity = "PERCENT_CHANGE_IN_CAPACITY"
         case exact_capacity = "EXACT_CAPACITY"
@@ -165,11 +156,10 @@ extension Elasticmapreduce {
 
     public struct PutAutoScalingPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure)
         ]
         /// Specifies the ID of the instance group to which the scaling policy is applied.
         public let instanceGroupId: String?
@@ -184,14 +174,14 @@ extension Elasticmapreduce {
             self.autoScalingPolicy = autoScalingPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
-            self.clusterId = dictionary["ClusterId"] as? String
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case clusterId = "ClusterId"
+            case autoScalingPolicy = "AutoScalingPolicy"
         }
     }
 
-    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible {
+    public enum SpotProvisioningTimeoutAction: String, CustomStringConvertible, Codable {
         case switch_to_on_demand = "SWITCH_TO_ON_DEMAND"
         case terminate_cluster = "TERMINATE_CLUSTER"
         public var description: String { return self.rawValue }
@@ -199,12 +189,11 @@ extension Elasticmapreduce {
 
     public struct ListStepsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "StepIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StepStates", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "StepIds", required: false, type: .list), 
+            AWSShapeMember(label: "StepStates", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -222,22 +211,20 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.stepIds = dictionary["StepIds"] as? [String]
-            if let stepStates = dictionary["StepStates"] as? [String] { self.stepStates = stepStates.flatMap({ StepState(rawValue: $0)}) } else { self.stepStates = nil }
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case stepIds = "StepIds"
+            case stepStates = "StepStates"
+            case clusterId = "ClusterId"
         }
     }
 
     public struct SimpleScalingPolicyConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeProperty(label: "CoolDown", required: false, type: .integer), 
-            AWSShapeProperty(label: "AdjustmentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeMember(label: "CoolDown", required: false, type: .integer), 
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .enum)
         ]
         /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
         public let scalingAdjustment: Int32
@@ -252,28 +239,26 @@ extension Elasticmapreduce {
             self.adjustmentType = adjustmentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
-            self.scalingAdjustment = scalingAdjustment
-            self.coolDown = dictionary["CoolDown"] as? Int32
-            if let adjustmentType = dictionary["AdjustmentType"] as? String { self.adjustmentType = AdjustmentType(rawValue: adjustmentType) } else { self.adjustmentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case scalingAdjustment = "ScalingAdjustment"
+            case coolDown = "CoolDown"
+            case adjustmentType = "AdjustmentType"
         }
     }
 
     public struct InstanceFleet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceTypeSpecifications", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchSpecifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProvisionedOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleetType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ProvisionedSpotCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceTypeSpecifications", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeMember(label: "ProvisionedOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "ProvisionedSpotCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
         public let targetOnDemandCapacity: Int32?
@@ -309,31 +294,26 @@ extension Elasticmapreduce {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceFleetStatus(dictionary: status) } else { self.status = nil }
-            if let instanceTypeSpecifications = dictionary["InstanceTypeSpecifications"] as? [[String: Any]] {
-                self.instanceTypeSpecifications = try instanceTypeSpecifications.map({ try InstanceTypeSpecification(dictionary: $0) })
-            } else { 
-                self.instanceTypeSpecifications = nil
-            }
-            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) } else { self.launchSpecifications = nil }
-            self.provisionedOnDemandCapacity = dictionary["ProvisionedOnDemandCapacity"] as? Int32
-            self.name = dictionary["Name"] as? String
-            if let instanceFleetType = dictionary["InstanceFleetType"] as? String { self.instanceFleetType = InstanceFleetType(rawValue: instanceFleetType) } else { self.instanceFleetType = nil }
-            self.provisionedSpotCapacity = dictionary["ProvisionedSpotCapacity"] as? Int32
-            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case status = "Status"
+            case instanceTypeSpecifications = "InstanceTypeSpecifications"
+            case launchSpecifications = "LaunchSpecifications"
+            case provisionedOnDemandCapacity = "ProvisionedOnDemandCapacity"
+            case name = "Name"
+            case instanceFleetType = "InstanceFleetType"
+            case provisionedSpotCapacity = "ProvisionedSpotCapacity"
+            case targetSpotCapacity = "TargetSpotCapacity"
+            case id = "Id"
         }
     }
 
     public struct InstanceGroupStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
         /// The current state of the instance group.
         public let state: InstanceGroupState?
@@ -348,39 +328,36 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = InstanceGroupState(rawValue: state) } else { self.state = nil }
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceGroupTimeline(dictionary: timeline) } else { self.timeline = nil }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceGroupStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case timeline = "Timeline"
+            case stateChangeReason = "StateChangeReason"
         }
     }
 
     public struct CreateSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp)
         ]
         /// The name of the security configuration.
         public let name: String
         /// The date and time the security configuration was created.
-        public let creationDateTime: String
+        public let creationDateTime: Double
 
-        public init(name: String, creationDateTime: String) {
+        public init(name: String, creationDateTime: Double) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
-            self.creationDateTime = creationDateTime
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case creationDateTime = "CreationDateTime"
         }
     }
 
-    public enum InstanceGroupType: String, CustomStringConvertible {
+    public enum InstanceGroupType: String, CustomStringConvertible, Codable {
         case master = "MASTER"
         case core = "CORE"
         case task = "TASK"
@@ -389,11 +366,10 @@ extension Elasticmapreduce {
 
     public struct FailureDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "LogFile", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "LogFile", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
         public let reason: String?
@@ -408,52 +384,50 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            self.logFile = dictionary["LogFile"] as? String
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case logFile = "LogFile"
+            case message = "Message"
         }
     }
 
     public struct ListClustersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterStates", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreatedAfter", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterStates", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp)
         ]
         /// The cluster state filters to apply when listing clusters.
         public let clusterStates: [ClusterState]?
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The creation date and time end value filter for listing clusters.
-        public let createdBefore: String?
+        public let createdBefore: Double?
         /// The creation date and time beginning value filter for listing clusters.
-        public let createdAfter: String?
+        public let createdAfter: Double?
 
-        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: String? = nil, createdAfter: String? = nil) {
+        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: Double? = nil, createdAfter: Double? = nil) {
             self.clusterStates = clusterStates
             self.marker = marker
             self.createdBefore = createdBefore
             self.createdAfter = createdAfter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterStates = dictionary["ClusterStates"] as? [String] { self.clusterStates = clusterStates.flatMap({ ClusterState(rawValue: $0)}) } else { self.clusterStates = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.createdBefore = dictionary["CreatedBefore"] as? String
-            self.createdAfter = dictionary["CreatedAfter"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterStates = "ClusterStates"
+            case marker = "Marker"
+            case createdBefore = "CreatedBefore"
+            case createdAfter = "CreatedAfter"
         }
     }
 
     public struct ClusterStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The programmatic code for the state change reason.
         public let code: ClusterStateChangeReasonCode?
@@ -465,19 +439,18 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = ClusterStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct VolumeSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "VolumeType", required: true, type: .string), 
-            AWSShapeProperty(label: "SizeInGB", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: true, type: .string), 
+            AWSShapeMember(label: "SizeInGB", required: true, type: .integer)
         ]
         /// The number of I/O operations per second (IOPS) that the volume supports.
         public let iops: Int32?
@@ -492,23 +465,20 @@ extension Elasticmapreduce {
             self.sizeInGB = sizeInGB
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iops = dictionary["Iops"] as? Int32
-            guard let volumeType = dictionary["VolumeType"] as? String else { throw InitializableError.missingRequiredParam("VolumeType") }
-            self.volumeType = volumeType
-            guard let sizeInGB = dictionary["SizeInGB"] as? Int32 else { throw InitializableError.missingRequiredParam("SizeInGB") }
-            self.sizeInGB = sizeInGB
+        private enum CodingKeys: String, CodingKey {
+            case iops = "Iops"
+            case volumeType = "VolumeType"
+            case sizeInGB = "SizeInGB"
         }
     }
 
     public struct Application: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Version", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Args", required: false, type: .list), 
-            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Version", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .map)
         ]
         /// The version of the application.
         public let version: String?
@@ -526,23 +496,18 @@ extension Elasticmapreduce {
             self.additionalInfo = additionalInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.version = dictionary["Version"] as? String
-            self.name = dictionary["Name"] as? String
-            self.args = dictionary["Args"] as? [String]
-            if let additionalInfo = dictionary["AdditionalInfo"] as? [String: String] {
-                self.additionalInfo = additionalInfo
-            } else { 
-                self.additionalInfo = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+            case name = "Name"
+            case args = "Args"
+            case additionalInfo = "AdditionalInfo"
         }
     }
 
     public struct DescribeJobFlowsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlows", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlows", required: false, type: .list)
         ]
         /// A list of job flows matching the parameters supplied.
         public let jobFlows: [JobFlowDetail]?
@@ -551,28 +516,23 @@ extension Elasticmapreduce {
             self.jobFlows = jobFlows
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobFlows = dictionary["JobFlows"] as? [[String: Any]] {
-                self.jobFlows = try jobFlows.map({ try JobFlowDetail(dictionary: $0) })
-            } else { 
-                self.jobFlows = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case jobFlows = "JobFlows"
         }
     }
 
     public struct CloudWatchAlarmDefinition: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Threshold", required: true, type: .double), 
-            AWSShapeProperty(label: "MetricName", required: true, type: .string), 
-            AWSShapeProperty(label: "Period", required: true, type: .integer), 
-            AWSShapeProperty(label: "EvaluationPeriods", required: false, type: .integer), 
-            AWSShapeProperty(label: "ComparisonOperator", required: true, type: .enum), 
-            AWSShapeProperty(label: "Statistic", required: false, type: .enum), 
-            AWSShapeProperty(label: "Unit", required: false, type: .enum), 
-            AWSShapeProperty(label: "Dimensions", required: false, type: .list), 
-            AWSShapeProperty(label: "Namespace", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Threshold", required: true, type: .double), 
+            AWSShapeMember(label: "MetricName", required: true, type: .string), 
+            AWSShapeMember(label: "Period", required: true, type: .integer), 
+            AWSShapeMember(label: "EvaluationPeriods", required: false, type: .integer), 
+            AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "Statistic", required: false, type: .enum), 
+            AWSShapeMember(label: "Unit", required: false, type: .enum), 
+            AWSShapeMember(label: "Dimensions", required: false, type: .list), 
+            AWSShapeMember(label: "Namespace", required: false, type: .string)
         ]
         /// The value against which the specified statistic is compared.
         public let threshold: Double
@@ -605,33 +565,24 @@ extension Elasticmapreduce {
             self.namespace = namespace
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let threshold = dictionary["Threshold"] as? Double else { throw InitializableError.missingRequiredParam("Threshold") }
-            self.threshold = threshold
-            guard let metricName = dictionary["MetricName"] as? String else { throw InitializableError.missingRequiredParam("MetricName") }
-            self.metricName = metricName
-            guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
-            self.period = period
-            self.evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32
-            guard let rawComparisonOperator = dictionary["ComparisonOperator"] as? String, let comparisonOperator = ComparisonOperator(rawValue: rawComparisonOperator) else { throw InitializableError.missingRequiredParam("ComparisonOperator") }
-            self.comparisonOperator = comparisonOperator
-            if let statistic = dictionary["Statistic"] as? String { self.statistic = Statistic(rawValue: statistic) } else { self.statistic = nil }
-            if let unit = dictionary["Unit"] as? String { self.unit = Unit(rawValue: unit) } else { self.unit = nil }
-            if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
-                self.dimensions = try dimensions.map({ try MetricDimension(dictionary: $0) })
-            } else { 
-                self.dimensions = nil
-            }
-            self.namespace = dictionary["Namespace"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case threshold = "Threshold"
+            case metricName = "MetricName"
+            case period = "Period"
+            case evaluationPeriods = "EvaluationPeriods"
+            case comparisonOperator = "ComparisonOperator"
+            case statistic = "Statistic"
+            case unit = "Unit"
+            case dimensions = "Dimensions"
+            case namespace = "Namespace"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources. 
         public let value: String?
@@ -643,45 +594,43 @@ extension Elasticmapreduce {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DescribeSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp)
         ]
         /// The security configuration details in JSON format.
         public let securityConfiguration: String?
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
 
-        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: String? = nil) {
+        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: Double? = nil) {
             self.securityConfiguration = securityConfiguration
             self.name = name
             self.creationDateTime = creationDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
-            self.name = dictionary["Name"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case securityConfiguration = "SecurityConfiguration"
+            case name = "Name"
+            case creationDateTime = "CreationDateTime"
         }
     }
 
     public struct CancelStepsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CancelStepsInfoList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CancelStepsInfoList", required: false, type: .list)
         ]
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
         public let cancelStepsInfoList: [CancelStepsInfo]?
@@ -690,20 +639,15 @@ extension Elasticmapreduce {
             self.cancelStepsInfoList = cancelStepsInfoList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cancelStepsInfoList = dictionary["CancelStepsInfoList"] as? [[String: Any]] {
-                self.cancelStepsInfoList = try cancelStepsInfoList.map({ try CancelStepsInfo(dictionary: $0) })
-            } else { 
-                self.cancelStepsInfoList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case cancelStepsInfoList = "CancelStepsInfoList"
         }
     }
 
     public struct InstanceFleetProvisioningSpecifications: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SpotSpecification", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SpotSpecification", required: true, type: .structure)
         ]
         /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
         public let spotSpecification: SpotProvisioningSpecification
@@ -712,19 +656,17 @@ extension Elasticmapreduce {
             self.spotSpecification = spotSpecification
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let spotSpecification = dictionary["SpotSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SpotSpecification") }
-            self.spotSpecification = try Elasticmapreduce.SpotProvisioningSpecification(dictionary: spotSpecification)
+        private enum CodingKeys: String, CodingKey {
+            case spotSpecification = "SpotSpecification"
         }
     }
 
     public struct PutAutoScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingPolicy", required: true, type: .structure)
         ]
         /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
         public let instanceGroupId: String
@@ -739,49 +681,44 @@ extension Elasticmapreduce {
             self.autoScalingPolicy = autoScalingPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
-            self.instanceGroupId = instanceGroupId
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
-            guard let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AutoScalingPolicy") }
-            self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case clusterId = "ClusterId"
+            case autoScalingPolicy = "AutoScalingPolicy"
         }
     }
 
     public struct ClusterTimeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster was ready to execute steps.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The creation date and time of the cluster.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The date and time when the cluster was terminated.
-        public let endDateTime: String?
+        public let endDateTime: Double?
 
-        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
+        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readyDateTime = "ReadyDateTime"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
         }
     }
 
     public struct AddJobFlowStepsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepIds", required: false, type: .list)
         ]
         /// The identifiers of the list of steps added to the job flow.
         public let stepIds: [String]?
@@ -790,27 +727,26 @@ extension Elasticmapreduce {
             self.stepIds = stepIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stepIds = dictionary["StepIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stepIds = "StepIds"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EbsVolumes", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "Market", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIpAddress", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EbsVolumes", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIpAddress", required: false, type: .string)
         ]
         /// The list of EBS volumes that are attached to this instance.
         public let ebsVolumes: [EbsVolume]?
@@ -852,32 +788,27 @@ extension Elasticmapreduce {
             self.privateIpAddress = privateIpAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let ebsVolumes = dictionary["EbsVolumes"] as? [[String: Any]] {
-                self.ebsVolumes = try ebsVolumes.map({ try EbsVolume(dictionary: $0) })
-            } else { 
-                self.ebsVolumes = nil
-            }
-            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
-            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceStatus(dictionary: status) } else { self.status = nil }
-            if let market = dictionary["Market"] as? String { self.market = MarketType(rawValue: market) } else { self.market = nil }
-            self.id = dictionary["Id"] as? String
-            self.publicIpAddress = dictionary["PublicIpAddress"] as? String
-            self.publicDnsName = dictionary["PublicDnsName"] as? String
-            self.privateDnsName = dictionary["PrivateDnsName"] as? String
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
-            self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ebsVolumes = "EbsVolumes"
+            case instanceFleetId = "InstanceFleetId"
+            case instanceGroupId = "InstanceGroupId"
+            case status = "Status"
+            case market = "Market"
+            case id = "Id"
+            case publicIpAddress = "PublicIpAddress"
+            case publicDnsName = "PublicDnsName"
+            case privateDnsName = "PrivateDnsName"
+            case instanceType = "InstanceType"
+            case ec2InstanceId = "Ec2InstanceId"
+            case privateIpAddress = "PrivateIpAddress"
         }
     }
 
     public struct ScalingAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Market", required: false, type: .enum), 
-            AWSShapeProperty(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "SimpleScalingPolicyConfiguration", required: true, type: .structure)
         ]
         /// Not available for instance groups. Instance groups use the market type specified for the group.
         public let market: MarketType?
@@ -889,22 +820,20 @@ extension Elasticmapreduce {
             self.simpleScalingPolicyConfiguration = simpleScalingPolicyConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let market = dictionary["Market"] as? String { self.market = MarketType(rawValue: market) } else { self.market = nil }
-            guard let simpleScalingPolicyConfiguration = dictionary["SimpleScalingPolicyConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SimpleScalingPolicyConfiguration") }
-            self.simpleScalingPolicyConfiguration = try Elasticmapreduce.SimpleScalingPolicyConfiguration(dictionary: simpleScalingPolicyConfiguration)
+        private enum CodingKeys: String, CodingKey {
+            case market = "Market"
+            case simpleScalingPolicyConfiguration = "SimpleScalingPolicyConfiguration"
         }
     }
 
     public struct Step: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Config", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Config", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
         public let actionOnFailure: ActionOnFailure?
@@ -925,16 +854,16 @@ extension Elasticmapreduce {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionOnFailure = dictionary["ActionOnFailure"] as? String { self.actionOnFailure = ActionOnFailure(rawValue: actionOnFailure) } else { self.actionOnFailure = nil }
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) } else { self.config = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionOnFailure = "ActionOnFailure"
+            case status = "Status"
+            case name = "Name"
+            case config = "Config"
+            case id = "Id"
         }
     }
 
-    public enum Unit: String, CustomStringConvertible {
+    public enum Unit: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case seconds = "SECONDS"
         case micro_seconds = "MICRO_SECONDS"
@@ -965,7 +894,7 @@ extension Elasticmapreduce {
         public var description: String { return self.rawValue }
     }
 
-    public enum CancelStepsRequestStatus: String, CustomStringConvertible {
+    public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
         case submitted = "SUBMITTED"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
@@ -973,10 +902,9 @@ extension Elasticmapreduce {
 
     public struct CreateSecurityConfigurationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SecurityConfiguration", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SecurityConfiguration", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The security configuration details in JSON format.
         public let securityConfiguration: String
@@ -988,20 +916,17 @@ extension Elasticmapreduce {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let securityConfiguration = dictionary["SecurityConfiguration"] as? String else { throw InitializableError.missingRequiredParam("SecurityConfiguration") }
-            self.securityConfiguration = securityConfiguration
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case securityConfiguration = "SecurityConfiguration"
+            case name = "Name"
         }
     }
 
     public struct ListInstanceGroupsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -1013,31 +938,29 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterId = "ClusterId"
         }
     }
 
     public struct InstanceGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "ShrinkPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "RequestedInstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceGroupType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EbsBlockDevices", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RunningInstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Market", required: false, type: .enum), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "RequestedInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceGroupType", required: false, type: .enum), 
+            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RunningInstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// The bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
         public let bidPrice: String?
@@ -1085,33 +1008,25 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bidPrice = dictionary["BidPrice"] as? String
-            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) } else { self.shrinkPolicy = nil }
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.id = dictionary["Id"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceGroupStatus(dictionary: status) } else { self.status = nil }
-            self.requestedInstanceCount = dictionary["RequestedInstanceCount"] as? Int32
-            if let instanceGroupType = dictionary["InstanceGroupType"] as? String { self.instanceGroupType = InstanceGroupType(rawValue: instanceGroupType) } else { self.instanceGroupType = nil }
-            if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
-                self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
-            } else { 
-                self.ebsBlockDevices = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.runningInstanceCount = dictionary["RunningInstanceCount"] as? Int32
-            if let market = dictionary["Market"] as? String { self.market = MarketType(rawValue: market) } else { self.market = nil }
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case bidPrice = "BidPrice"
+            case shrinkPolicy = "ShrinkPolicy"
+            case ebsOptimized = "EbsOptimized"
+            case autoScalingPolicy = "AutoScalingPolicy"
+            case instanceType = "InstanceType"
+            case id = "Id"
+            case status = "Status"
+            case requestedInstanceCount = "RequestedInstanceCount"
+            case instanceGroupType = "InstanceGroupType"
+            case ebsBlockDevices = "EbsBlockDevices"
+            case name = "Name"
+            case runningInstanceCount = "RunningInstanceCount"
+            case market = "Market"
+            case configurations = "Configurations"
         }
     }
 
-    public enum InstanceCollectionType: String, CustomStringConvertible {
+    public enum InstanceCollectionType: String, CustomStringConvertible, Codable {
         case instance_fleet = "INSTANCE_FLEET"
         case instance_group = "INSTANCE_GROUP"
         public var description: String { return self.rawValue }
@@ -1119,22 +1034,18 @@ extension Elasticmapreduce {
 
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct InstanceFleetConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceTypeConfigs", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchSpecifications", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleetType", required: true, type: .enum), 
-            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceTypeConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchSpecifications", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetType", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
         ]
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
         public let targetOnDemandCapacity: Int32?
@@ -1158,27 +1069,21 @@ extension Elasticmapreduce {
             self.targetSpotCapacity = targetSpotCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
-            if let instanceTypeConfigs = dictionary["InstanceTypeConfigs"] as? [[String: Any]] {
-                self.instanceTypeConfigs = try instanceTypeConfigs.map({ try InstanceTypeConfig(dictionary: $0) })
-            } else { 
-                self.instanceTypeConfigs = nil
-            }
-            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) } else { self.launchSpecifications = nil }
-            self.name = dictionary["Name"] as? String
-            guard let rawInstanceFleetType = dictionary["InstanceFleetType"] as? String, let instanceFleetType = InstanceFleetType(rawValue: rawInstanceFleetType) else { throw InitializableError.missingRequiredParam("InstanceFleetType") }
-            self.instanceFleetType = instanceFleetType
-            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case instanceTypeConfigs = "InstanceTypeConfigs"
+            case launchSpecifications = "LaunchSpecifications"
+            case name = "Name"
+            case instanceFleetType = "InstanceFleetType"
+            case targetSpotCapacity = "TargetSpotCapacity"
         }
     }
 
     public struct ListInstanceFleetsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -1190,14 +1095,13 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterId = "ClusterId"
         }
     }
 
-    public enum StepState: String, CustomStringConvertible {
+    public enum StepState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case cancel_pending = "CANCEL_PENDING"
         case running = "RUNNING"
@@ -1210,11 +1114,10 @@ extension Elasticmapreduce {
 
     public struct Command: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Args", required: false, type: .list), 
-            AWSShapeProperty(label: "ScriptPath", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "ScriptPath", required: false, type: .string)
         ]
         /// The name of the command.
         public let name: String?
@@ -1229,19 +1132,18 @@ extension Elasticmapreduce {
             self.scriptPath = scriptPath
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.args = dictionary["Args"] as? [String]
-            self.scriptPath = dictionary["ScriptPath"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case args = "Args"
+            case scriptPath = "ScriptPath"
         }
     }
 
     public struct AutoScalingPolicyStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
         /// Indicates the status of the automatic scaling policy.
         public let state: AutoScalingPolicyState?
@@ -1253,18 +1155,17 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = AutoScalingPolicyState(rawValue: state) } else { self.state = nil }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.AutoScalingPolicyStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateChangeReason = "StateChangeReason"
         }
     }
 
     public struct ListInstanceFleetsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleets", required: false, type: .list)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -1276,21 +1177,16 @@ extension Elasticmapreduce {
             self.instanceFleets = instanceFleets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
-                self.instanceFleets = try instanceFleets.map({ try InstanceFleet(dictionary: $0) })
-            } else { 
-                self.instanceFleets = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case instanceFleets = "InstanceFleets"
         }
     }
 
     public struct DescribeStepOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Step", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Step", required: false, type: .structure)
         ]
         /// The step details for the requested step identifier.
         public let step: Step?
@@ -1299,17 +1195,16 @@ extension Elasticmapreduce {
             self.step = step
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let step = dictionary["Step"] as? [String: Any] { self.step = try Elasticmapreduce.Step(dictionary: step) } else { self.step = nil }
+        private enum CodingKeys: String, CodingKey {
+            case step = "Step"
         }
     }
 
     public struct PlacementType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string)
         ]
         /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
         public let availabilityZones: [String]?
@@ -1321,18 +1216,17 @@ extension Elasticmapreduce {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct MetricDimension: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The dimension value.
         public let value: String?
@@ -1344,17 +1238,16 @@ extension Elasticmapreduce {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DeleteSecurityConfigurationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the security configuration.
         public let name: String
@@ -1363,19 +1256,17 @@ extension Elasticmapreduce {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct StepConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "HadoopJarStep", required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HadoopJarStep", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum)
         ]
         /// The JAR file used for the step.
         public let hadoopJarStep: HadoopJarStepConfig
@@ -1390,16 +1281,14 @@ extension Elasticmapreduce {
             self.actionOnFailure = actionOnFailure
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let hadoopJarStep = dictionary["HadoopJarStep"] as? [String: Any] else { throw InitializableError.missingRequiredParam("HadoopJarStep") }
-            self.hadoopJarStep = try Elasticmapreduce.HadoopJarStepConfig(dictionary: hadoopJarStep)
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let actionOnFailure = dictionary["ActionOnFailure"] as? String { self.actionOnFailure = ActionOnFailure(rawValue: actionOnFailure) } else { self.actionOnFailure = nil }
+        private enum CodingKeys: String, CodingKey {
+            case hadoopJarStep = "HadoopJarStep"
+            case name = "Name"
+            case actionOnFailure = "ActionOnFailure"
         }
     }
 
-    public enum ClusterState: String, CustomStringConvertible {
+    public enum ClusterState: String, CustomStringConvertible, Codable {
         case starting = "STARTING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
@@ -1412,9 +1301,8 @@ extension Elasticmapreduce {
 
     public struct DescribeClusterOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// This output contains the details for the requested cluster.
         public let cluster: Cluster?
@@ -1423,22 +1311,21 @@ extension Elasticmapreduce {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Elasticmapreduce.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct ListInstancesInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleetType", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceGroupTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceStates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceGroupTypes", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceStates", required: false, type: .list)
         ]
         /// The identifier of the instance group for which to list the instances.
         public let instanceGroupId: String?
@@ -1465,33 +1352,31 @@ extension Elasticmapreduce {
             self.instanceStates = instanceStates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
-            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
-            self.marker = dictionary["Marker"] as? String
-            if let instanceFleetType = dictionary["InstanceFleetType"] as? String { self.instanceFleetType = InstanceFleetType(rawValue: instanceFleetType) } else { self.instanceFleetType = nil }
-            if let instanceGroupTypes = dictionary["InstanceGroupTypes"] as? [String] { self.instanceGroupTypes = instanceGroupTypes.flatMap({ InstanceGroupType(rawValue: $0)}) } else { self.instanceGroupTypes = nil }
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
-            if let instanceStates = dictionary["InstanceStates"] as? [String] { self.instanceStates = instanceStates.flatMap({ InstanceState(rawValue: $0)}) } else { self.instanceStates = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case instanceFleetId = "InstanceFleetId"
+            case marker = "Marker"
+            case instanceFleetType = "InstanceFleetType"
+            case instanceGroupTypes = "InstanceGroupTypes"
+            case clusterId = "ClusterId"
+            case instanceStates = "InstanceStates"
         }
     }
 
     public struct Ec2InstanceAttributes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedEc2AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "RequestedEc2SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Ec2AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedEc2AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "RequestedEc2SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "Ec2AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string)
         ]
         /// The identifier of the Amazon EC2 security group for the slave nodes.
         public let emrManagedSlaveSecurityGroup: String?
@@ -1530,27 +1415,26 @@ extension Elasticmapreduce {
             self.ec2KeyName = ec2KeyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emrManagedSlaveSecurityGroup = dictionary["EmrManagedSlaveSecurityGroup"] as? String
-            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
-            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
-            self.emrManagedMasterSecurityGroup = dictionary["EmrManagedMasterSecurityGroup"] as? String
-            self.requestedEc2AvailabilityZones = dictionary["RequestedEc2AvailabilityZones"] as? [String]
-            self.additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String]
-            self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
-            self.additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String]
-            self.requestedEc2SubnetIds = dictionary["RequestedEc2SubnetIds"] as? [String]
-            self.ec2AvailabilityZone = dictionary["Ec2AvailabilityZone"] as? String
-            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case ec2SubnetId = "Ec2SubnetId"
+            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
+            case requestedEc2AvailabilityZones = "RequestedEc2AvailabilityZones"
+            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
+            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
+            case requestedEc2SubnetIds = "RequestedEc2SubnetIds"
+            case ec2AvailabilityZone = "Ec2AvailabilityZone"
+            case ec2KeyName = "Ec2KeyName"
         }
     }
 
     public struct EbsVolume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Device", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "Device", required: false, type: .string)
         ]
         /// The volume identifier of the EBS volume.
         public let volumeId: String?
@@ -1562,18 +1446,17 @@ extension Elasticmapreduce {
             self.device = device
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeId = dictionary["VolumeId"] as? String
-            self.device = dictionary["Device"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
+            case device = "Device"
         }
     }
 
     public struct ListSecurityConfigurationsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityConfigurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfigurations", required: false, type: .list)
         ]
         /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
         public let marker: String?
@@ -1585,50 +1468,44 @@ extension Elasticmapreduce {
             self.securityConfigurations = securityConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let securityConfigurations = dictionary["SecurityConfigurations"] as? [[String: Any]] {
-                self.securityConfigurations = try securityConfigurations.map({ try SecurityConfigurationSummary(dictionary: $0) })
-            } else { 
-                self.securityConfigurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case securityConfigurations = "SecurityConfigurations"
         }
     }
 
     public struct StepTimeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster step execution started.
-        public let startDateTime: String?
+        public let startDateTime: Double?
         /// The date and time when the cluster step was created.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The date and time when the cluster step execution completed or failed.
-        public let endDateTime: String?
+        public let endDateTime: Double?
 
-        public init(startDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
+        public init(startDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
             self.startDateTime = startDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startDateTime = dictionary["StartDateTime"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startDateTime = "StartDateTime"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
         }
     }
 
     public struct InstanceStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The programmable code for the state change reason.
         public let code: InstanceStateChangeReasonCode?
@@ -1640,13 +1517,13 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = InstanceStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
-    public enum JobFlowExecutionState: String, CustomStringConvertible {
+    public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
         case starting = "STARTING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
@@ -1660,10 +1537,9 @@ extension Elasticmapreduce {
 
     public struct AutoScalingPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Rules", required: true, type: .list), 
-            AWSShapeProperty(label: "Constraints", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Rules", required: true, type: .list), 
+            AWSShapeMember(label: "Constraints", required: true, type: .structure)
         ]
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
         public let rules: [ScalingRule]
@@ -1675,21 +1551,18 @@ extension Elasticmapreduce {
             self.constraints = constraints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
-            self.rules = try rules.map({ try ScalingRule(dictionary: $0) })
-            guard let constraints = dictionary["Constraints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Constraints") }
-            self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints)
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+            case constraints = "Constraints"
         }
     }
 
     public struct Configuration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Classification", required: false, type: .string), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list), 
-            AWSShapeProperty(label: "Properties", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: false, type: .string), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "Properties", required: false, type: .map)
         ]
         /// The classification within a configuration.
         public let classification: String?
@@ -1704,28 +1577,19 @@ extension Elasticmapreduce {
             self.properties = properties
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.classification = dictionary["Classification"] as? String
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
-            if let properties = dictionary["Properties"] as? [String: String] {
-                self.properties = properties
-            } else { 
-                self.properties = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case configurations = "Configurations"
+            case properties = "Properties"
         }
     }
 
     public struct CancelStepsInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Reason", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "StepId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reason", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "StepId", required: false, type: .string)
         ]
         /// The reason for the failure if the CancelSteps request fails.
         public let reason: String?
@@ -1740,22 +1604,19 @@ extension Elasticmapreduce {
             self.stepId = stepId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.reason = dictionary["Reason"] as? String
-            if let status = dictionary["Status"] as? String { self.status = CancelStepsRequestStatus(rawValue: status) } else { self.status = nil }
-            self.stepId = dictionary["StepId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case status = "Status"
+            case stepId = "StepId"
         }
     }
 
     public struct RemoveTagsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum ScaleDownBehavior: String, CustomStringConvertible {
+    public enum ScaleDownBehavior: String, CustomStringConvertible, Codable {
         case terminate_at_instance_hour = "TERMINATE_AT_INSTANCE_HOUR"
         case terminate_at_task_completion = "TERMINATE_AT_TASK_COMPLETION"
         public var description: String { return self.rawValue }
@@ -1763,10 +1624,9 @@ extension Elasticmapreduce {
 
     public struct AutoScalingPolicyStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
         public let code: AutoScalingPolicyStateChangeReasonCode?
@@ -1778,18 +1638,17 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = AutoScalingPolicyStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct InstanceFleetStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// A code corresponding to the reason the state change occurred.
         public let code: InstanceFleetStateChangeReasonCode?
@@ -1801,20 +1660,19 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = InstanceFleetStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct ScalingRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Action", required: true, type: .structure), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Trigger", required: true, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: true, type: .structure), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Trigger", required: true, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The conditions that trigger an automatic scaling activity.
         public let action: ScalingAction
@@ -1832,18 +1690,15 @@ extension Elasticmapreduce {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let action = dictionary["Action"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Action") }
-            self.action = try Elasticmapreduce.ScalingAction(dictionary: action)
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let trigger = dictionary["Trigger"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Trigger") }
-            self.trigger = try Elasticmapreduce.ScalingTrigger(dictionary: trigger)
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case name = "Name"
+            case trigger = "Trigger"
+            case description = "Description"
         }
     }
 
-    public enum InstanceFleetState: String, CustomStringConvertible {
+    public enum InstanceFleetState: String, CustomStringConvertible, Codable {
         case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
@@ -1854,7 +1709,7 @@ extension Elasticmapreduce {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible {
+    public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case internal_error = "INTERNAL_ERROR"
         case validation_error = "VALIDATION_ERROR"
         case instance_failure = "INSTANCE_FAILURE"
@@ -1864,9 +1719,8 @@ extension Elasticmapreduce {
 
     public struct ListSecurityConfigurationsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The pagination token that indicates the set of results to retrieve.
         public let marker: String?
@@ -1875,12 +1729,12 @@ extension Elasticmapreduce {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
         }
     }
 
-    public enum MarketType: String, CustomStringConvertible {
+    public enum MarketType: String, CustomStringConvertible, Codable {
         case on_demand = "ON_DEMAND"
         case spot = "SPOT"
         public var description: String { return self.rawValue }
@@ -1888,22 +1742,21 @@ extension Elasticmapreduce {
 
     public struct JobFlowDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Steps", required: false, type: .list), 
-            AWSShapeProperty(label: "SupportedProducts", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeProperty(label: "AmiVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "JobFlowId", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "JobFlowRole", required: false, type: .string), 
-            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", required: true, type: .structure), 
-            AWSShapeProperty(label: "ExecutionStatusDetail", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Steps", required: false, type: .list), 
+            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "Instances", required: true, type: .structure), 
+            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure)
         ]
         /// A list of steps run by the job flow.
         public let steps: [StepDetail]?
@@ -1951,69 +1804,55 @@ extension Elasticmapreduce {
             self.executionStatusDetail = executionStatusDetail
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let steps = dictionary["Steps"] as? [[String: Any]] {
-                self.steps = try steps.map({ try StepDetail(dictionary: $0) })
-            } else { 
-                self.steps = nil
-            }
-            self.supportedProducts = dictionary["SupportedProducts"] as? [String]
-            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
-            self.amiVersion = dictionary["AmiVersion"] as? String
-            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
-            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
-            self.jobFlowId = jobFlowId
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            self.jobFlowRole = dictionary["JobFlowRole"] as? String
-            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
-                self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionDetail(dictionary: $0) })
-            } else { 
-                self.bootstrapActions = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String { self.scaleDownBehavior = ScaleDownBehavior(rawValue: scaleDownBehavior) } else { self.scaleDownBehavior = nil }
-            self.logUri = dictionary["LogUri"] as? String
-            guard let instances = dictionary["Instances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Instances") }
-            self.instances = try Elasticmapreduce.JobFlowInstancesDetail(dictionary: instances)
-            guard let executionStatusDetail = dictionary["ExecutionStatusDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ExecutionStatusDetail") }
-            self.executionStatusDetail = try Elasticmapreduce.JobFlowExecutionStatusDetail(dictionary: executionStatusDetail)
+        private enum CodingKeys: String, CodingKey {
+            case steps = "Steps"
+            case supportedProducts = "SupportedProducts"
+            case autoScalingRole = "AutoScalingRole"
+            case amiVersion = "AmiVersion"
+            case visibleToAllUsers = "VisibleToAllUsers"
+            case jobFlowId = "JobFlowId"
+            case serviceRole = "ServiceRole"
+            case jobFlowRole = "JobFlowRole"
+            case bootstrapActions = "BootstrapActions"
+            case name = "Name"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case logUri = "LogUri"
+            case instances = "Instances"
+            case executionStatusDetail = "ExecutionStatusDetail"
         }
     }
 
     public struct InstanceGroupTimeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance group became ready to perform tasks.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The creation date and time of the instance group.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The date and time when the instance group terminated.
-        public let endDateTime: String?
+        public let endDateTime: Double?
 
-        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
+        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readyDateTime = "ReadyDateTime"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
         }
     }
 
     public struct ScalingTrigger: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchAlarmDefinition", required: true, type: .structure)
         ]
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
         public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
@@ -2022,13 +1861,12 @@ extension Elasticmapreduce {
             self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let cloudWatchAlarmDefinition = dictionary["CloudWatchAlarmDefinition"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudWatchAlarmDefinition") }
-            self.cloudWatchAlarmDefinition = try Elasticmapreduce.CloudWatchAlarmDefinition(dictionary: cloudWatchAlarmDefinition)
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchAlarmDefinition = "CloudWatchAlarmDefinition"
         }
     }
 
-    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible {
+    public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case internal_error = "INTERNAL_ERROR"
         case validation_error = "VALIDATION_ERROR"
         case instance_failure = "INSTANCE_FAILURE"
@@ -2041,9 +1879,8 @@ extension Elasticmapreduce {
 
     public struct BootstrapActionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BootstrapActionConfig", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BootstrapActionConfig", required: false, type: .structure)
         ]
         /// A description of the bootstrap action.
         public let bootstrapActionConfig: BootstrapActionConfig?
@@ -2052,12 +1889,12 @@ extension Elasticmapreduce {
             self.bootstrapActionConfig = bootstrapActionConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let bootstrapActionConfig = dictionary["BootstrapActionConfig"] as? [String: Any] { self.bootstrapActionConfig = try Elasticmapreduce.BootstrapActionConfig(dictionary: bootstrapActionConfig) } else { self.bootstrapActionConfig = nil }
+        private enum CodingKeys: String, CodingKey {
+            case bootstrapActionConfig = "BootstrapActionConfig"
         }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible {
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greater_than_or_equal = "GREATER_THAN_OR_EQUAL"
         case greater_than = "GREATER_THAN"
         case less_than = "LESS_THAN"
@@ -2067,38 +1904,37 @@ extension Elasticmapreduce {
 
     public struct DescribeJobFlowsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowStates", required: false, type: .list), 
-            AWSShapeProperty(label: "JobFlowIds", required: false, type: .list), 
-            AWSShapeProperty(label: "CreatedBefore", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreatedAfter", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowStates", required: false, type: .list), 
+            AWSShapeMember(label: "JobFlowIds", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreatedAfter", required: false, type: .timestamp)
         ]
         /// Return only job flows whose state is contained in this list.
         public let jobFlowStates: [JobFlowExecutionState]?
         /// Return only job flows whose job flow ID is contained in this list.
         public let jobFlowIds: [String]?
         /// Return only job flows created before this date and time.
-        public let createdBefore: String?
+        public let createdBefore: Double?
         /// Return only job flows created after this date and time.
-        public let createdAfter: String?
+        public let createdAfter: Double?
 
-        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: String? = nil, createdAfter: String? = nil) {
+        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: Double? = nil, createdAfter: Double? = nil) {
             self.jobFlowStates = jobFlowStates
             self.jobFlowIds = jobFlowIds
             self.createdBefore = createdBefore
             self.createdAfter = createdAfter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let jobFlowStates = dictionary["JobFlowStates"] as? [String] { self.jobFlowStates = jobFlowStates.flatMap({ JobFlowExecutionState(rawValue: $0)}) } else { self.jobFlowStates = nil }
-            self.jobFlowIds = dictionary["JobFlowIds"] as? [String]
-            self.createdBefore = dictionary["CreatedBefore"] as? String
-            self.createdAfter = dictionary["CreatedAfter"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowStates = "JobFlowStates"
+            case jobFlowIds = "JobFlowIds"
+            case createdBefore = "CreatedBefore"
+            case createdAfter = "CreatedAfter"
         }
     }
 
-    public enum InstanceRoleType: String, CustomStringConvertible {
+    public enum InstanceRoleType: String, CustomStringConvertible, Codable {
         case master = "MASTER"
         case core = "CORE"
         case task = "TASK"
@@ -2107,10 +1943,9 @@ extension Elasticmapreduce {
 
     public struct EbsBlockDeviceConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeSpecification", required: true, type: .structure), 
-            AWSShapeProperty(label: "VolumesPerInstance", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSpecification", required: true, type: .structure), 
+            AWSShapeMember(label: "VolumesPerInstance", required: false, type: .integer)
         ]
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification
@@ -2122,19 +1957,17 @@ extension Elasticmapreduce {
             self.volumesPerInstance = volumesPerInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VolumeSpecification") }
-            self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification)
-            self.volumesPerInstance = dictionary["VolumesPerInstance"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case volumeSpecification = "VolumeSpecification"
+            case volumesPerInstance = "VolumesPerInstance"
         }
     }
 
     public struct SetTerminationProtectionInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list), 
-            AWSShapeProperty(label: "TerminationProtected", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeMember(label: "TerminationProtected", required: true, type: .boolean)
         ]
         ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
         public let jobFlowIds: [String]
@@ -2146,20 +1979,17 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
-            self.jobFlowIds = jobFlowIds
-            guard let terminationProtected = dictionary["TerminationProtected"] as? Bool else { throw InitializableError.missingRequiredParam("TerminationProtected") }
-            self.terminationProtected = terminationProtected
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
+            case terminationProtected = "TerminationProtected"
         }
     }
 
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
         public let resourceId: String
@@ -2171,21 +2001,18 @@ extension Elasticmapreduce {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct InstanceStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
         /// The current state of the instance.
         public let state: InstanceState?
@@ -2200,22 +2027,21 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = InstanceState(rawValue: state) } else { self.state = nil }
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceTimeline(dictionary: timeline) } else { self.timeline = nil }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case timeline = "Timeline"
+            case stateChangeReason = "StateChangeReason"
         }
     }
 
     public struct StepSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActionOnFailure", required: false, type: .enum), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Config", required: false, type: .structure), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionOnFailure", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Config", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
         public let actionOnFailure: ActionOnFailure?
@@ -2236,21 +2062,20 @@ extension Elasticmapreduce {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let actionOnFailure = dictionary["ActionOnFailure"] as? String { self.actionOnFailure = ActionOnFailure(rawValue: actionOnFailure) } else { self.actionOnFailure = nil }
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) } else { self.status = nil }
-            self.name = dictionary["Name"] as? String
-            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) } else { self.config = nil }
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case actionOnFailure = "ActionOnFailure"
+            case status = "Status"
+            case name = "Name"
+            case config = "Config"
+            case id = "Id"
         }
     }
 
     public struct BootstrapActionConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ScriptBootstrapAction", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScriptBootstrapAction", required: true, type: .structure)
         ]
         /// The name of the bootstrap action.
         public let name: String
@@ -2262,20 +2087,17 @@ extension Elasticmapreduce {
             self.scriptBootstrapAction = scriptBootstrapAction
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let scriptBootstrapAction = dictionary["ScriptBootstrapAction"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ScriptBootstrapAction") }
-            self.scriptBootstrapAction = try Elasticmapreduce.ScriptBootstrapActionConfig(dictionary: scriptBootstrapAction)
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case scriptBootstrapAction = "ScriptBootstrapAction"
         }
     }
 
     public struct AddInstanceGroupsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceGroupIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroupIds", required: false, type: .list)
         ]
         /// The job flow ID in which the instance groups are added.
         public let jobFlowId: String?
@@ -2287,23 +2109,22 @@ extension Elasticmapreduce {
             self.instanceGroupIds = instanceGroupIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobFlowId = dictionary["JobFlowId"] as? String
-            self.instanceGroupIds = dictionary["InstanceGroupIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowId = "JobFlowId"
+            case instanceGroupIds = "InstanceGroupIds"
         }
     }
 
-    public enum StepStateChangeReasonCode: String, CustomStringConvertible {
+    public enum StepStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public struct ListInstancesOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -2315,23 +2136,18 @@ extension Elasticmapreduce {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case instances = "Instances"
         }
     }
 
     public struct InstanceFleetModifyConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetOnDemandCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceFleetId", required: true, type: .string), 
-            AWSShapeProperty(label: "TargetSpotCapacity", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetOnDemandCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceFleetId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetSpotCapacity", required: false, type: .integer)
         ]
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
         public let targetOnDemandCapacity: Int32?
@@ -2346,20 +2162,18 @@ extension Elasticmapreduce {
             self.targetSpotCapacity = targetSpotCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
-            guard let instanceFleetId = dictionary["InstanceFleetId"] as? String else { throw InitializableError.missingRequiredParam("InstanceFleetId") }
-            self.instanceFleetId = instanceFleetId
-            self.targetSpotCapacity = dictionary["TargetSpotCapacity"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case targetOnDemandCapacity = "TargetOnDemandCapacity"
+            case instanceFleetId = "InstanceFleetId"
+            case targetSpotCapacity = "TargetSpotCapacity"
         }
     }
 
     public struct ListInstanceGroupsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -2371,45 +2185,39 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
-                self.instanceGroups = try instanceGroups.map({ try InstanceGroup(dictionary: $0) })
-            } else { 
-                self.instanceGroups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case instanceGroups = "InstanceGroups"
         }
     }
 
     public struct SecurityConfigurationSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp)
         ]
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
 
-        public init(name: String? = nil, creationDateTime: String? = nil) {
+        public init(name: String? = nil, creationDateTime: Double? = nil) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case creationDateTime = "CreationDateTime"
         }
     }
 
     public struct AddInstanceFleetOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceFleetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceFleetId", required: false, type: .string)
         ]
         /// The unique identifier of the cluster.
         public let clusterId: String?
@@ -2421,18 +2229,17 @@ extension Elasticmapreduce {
             self.instanceFleetId = instanceFleetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterId = dictionary["ClusterId"] as? String
-            self.instanceFleetId = dictionary["InstanceFleetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceFleetId = "InstanceFleetId"
         }
     }
 
     public struct ListBootstrapActionsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -2444,22 +2251,17 @@ extension Elasticmapreduce {
             self.bootstrapActions = bootstrapActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
-                self.bootstrapActions = try bootstrapActions.map({ try Command(dictionary: $0) })
-            } else { 
-                self.bootstrapActions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case bootstrapActions = "BootstrapActions"
         }
     }
 
     public struct CancelStepsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StepIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StepIds", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterId", required: false, type: .string)
         ]
         /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
         public let stepIds: [String]?
@@ -2471,18 +2273,17 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stepIds = dictionary["StepIds"] as? [String]
-            self.clusterId = dictionary["ClusterId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stepIds = "StepIds"
+            case clusterId = "ClusterId"
         }
     }
 
     public struct ModifyInstanceFleetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceFleet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceFleet", required: true, type: .structure)
         ]
         /// The unique identifier of the cluster.
         public let clusterId: String
@@ -2494,35 +2295,32 @@ extension Elasticmapreduce {
             self.instanceFleet = instanceFleet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
-            guard let instanceFleet = dictionary["InstanceFleet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceFleet") }
-            self.instanceFleet = try Elasticmapreduce.InstanceFleetModifyConfig(dictionary: instanceFleet)
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceFleet = "InstanceFleet"
         }
     }
 
     public struct JobFlowInstancesConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceFleets", required: false, type: .list), 
-            AWSShapeProperty(label: "HadoopVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Ec2KeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "MasterInstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "Placement", required: false, type: .structure), 
-            AWSShapeProperty(label: "SlaveInstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceFleets", required: false, type: .list), 
+            AWSShapeMember(label: "HadoopVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedMasterSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "KeepJobFlowAliveWhenNoSteps", required: false, type: .boolean), 
+            AWSShapeMember(label: "Ec2KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list), 
+            AWSShapeMember(label: "MasterInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "EmrManagedSlaveSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalMasterSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Placement", required: false, type: .structure), 
+            AWSShapeMember(label: "SlaveInstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceAccessSecurityGroup", required: false, type: .string), 
+            AWSShapeMember(label: "AdditionalSlaveSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean)
         ]
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
         public let instanceFleets: [InstanceFleetConfig]?
@@ -2579,45 +2377,36 @@ extension Elasticmapreduce {
             self.terminationProtected = terminationProtected
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
-                self.instanceFleets = try instanceFleets.map({ try InstanceFleetConfig(dictionary: $0) })
-            } else { 
-                self.instanceFleets = nil
-            }
-            self.hadoopVersion = dictionary["HadoopVersion"] as? String
-            self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
-            self.emrManagedMasterSecurityGroup = dictionary["EmrManagedMasterSecurityGroup"] as? String
-            self.keepJobFlowAliveWhenNoSteps = dictionary["KeepJobFlowAliveWhenNoSteps"] as? Bool
-            self.ec2KeyName = dictionary["Ec2KeyName"] as? String
-            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
-                self.instanceGroups = try instanceGroups.map({ try InstanceGroupConfig(dictionary: $0) })
-            } else { 
-                self.instanceGroups = nil
-            }
-            self.masterInstanceType = dictionary["MasterInstanceType"] as? String
-            self.emrManagedSlaveSecurityGroup = dictionary["EmrManagedSlaveSecurityGroup"] as? String
-            self.additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String]
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) } else { self.placement = nil }
-            self.slaveInstanceType = dictionary["SlaveInstanceType"] as? String
-            self.ec2SubnetIds = dictionary["Ec2SubnetIds"] as? [String]
-            self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
-            self.additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String]
-            self.instanceCount = dictionary["InstanceCount"] as? Int32
-            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case instanceFleets = "InstanceFleets"
+            case hadoopVersion = "HadoopVersion"
+            case ec2SubnetId = "Ec2SubnetId"
+            case emrManagedMasterSecurityGroup = "EmrManagedMasterSecurityGroup"
+            case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+            case ec2KeyName = "Ec2KeyName"
+            case instanceGroups = "InstanceGroups"
+            case masterInstanceType = "MasterInstanceType"
+            case emrManagedSlaveSecurityGroup = "EmrManagedSlaveSecurityGroup"
+            case additionalMasterSecurityGroups = "AdditionalMasterSecurityGroups"
+            case placement = "Placement"
+            case slaveInstanceType = "SlaveInstanceType"
+            case ec2SubnetIds = "Ec2SubnetIds"
+            case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
+            case additionalSlaveSecurityGroups = "AdditionalSlaveSecurityGroups"
+            case instanceCount = "InstanceCount"
+            case terminationProtected = "TerminationProtected"
         }
     }
 
     public struct InstanceTypeConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WeightedCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "EbsConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets. 
         public let weightedCapacity: Int32?
@@ -2641,22 +2430,17 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.weightedCapacity = dictionary["WeightedCapacity"] as? Int32
-            self.bidPrice = dictionary["BidPrice"] as? String
-            self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) } else { self.ebsConfiguration = nil }
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case weightedCapacity = "WeightedCapacity"
+            case bidPrice = "BidPrice"
+            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
+            case instanceType = "InstanceType"
+            case ebsConfiguration = "EbsConfiguration"
+            case configurations = "Configurations"
         }
     }
 
-    public enum InstanceGroupState: String, CustomStringConvertible {
+    public enum InstanceGroupState: String, CustomStringConvertible, Codable {
         case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
@@ -2672,9 +2456,8 @@ extension Elasticmapreduce {
 
     public struct TerminateJobFlowsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list)
         ]
         /// A list of job flows to be shutdown.
         public let jobFlowIds: [String]
@@ -2683,20 +2466,18 @@ extension Elasticmapreduce {
             self.jobFlowIds = jobFlowIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
-            self.jobFlowIds = jobFlowIds
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
         }
     }
 
     public struct HadoopJarStepConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MainClass", required: false, type: .string), 
-            AWSShapeProperty(label: "Jar", required: true, type: .string), 
-            AWSShapeProperty(label: "Properties", required: false, type: .list), 
-            AWSShapeProperty(label: "Args", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MainClass", required: false, type: .string), 
+            AWSShapeMember(label: "Jar", required: true, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .list), 
+            AWSShapeMember(label: "Args", required: false, type: .list)
         ]
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
         public let mainClass: String?
@@ -2714,25 +2495,19 @@ extension Elasticmapreduce {
             self.args = args
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mainClass = dictionary["MainClass"] as? String
-            guard let jar = dictionary["Jar"] as? String else { throw InitializableError.missingRequiredParam("Jar") }
-            self.jar = jar
-            if let properties = dictionary["Properties"] as? [[String: Any]] {
-                self.properties = try properties.map({ try KeyValue(dictionary: $0) })
-            } else { 
-                self.properties = nil
-            }
-            self.args = dictionary["Args"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case mainClass = "MainClass"
+            case jar = "Jar"
+            case properties = "Properties"
+            case args = "Args"
         }
     }
 
     public struct ShrinkPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceResizePolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "DecommissionTimeout", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceResizePolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "DecommissionTimeout", required: false, type: .integer)
         ]
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
         public let instanceResizePolicy: InstanceResizePolicy?
@@ -2744,18 +2519,17 @@ extension Elasticmapreduce {
             self.decommissionTimeout = decommissionTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceResizePolicy = dictionary["InstanceResizePolicy"] as? [String: Any] { self.instanceResizePolicy = try Elasticmapreduce.InstanceResizePolicy(dictionary: instanceResizePolicy) } else { self.instanceResizePolicy = nil }
-            self.decommissionTimeout = dictionary["DecommissionTimeout"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case instanceResizePolicy = "InstanceResizePolicy"
+            case decommissionTimeout = "DecommissionTimeout"
         }
     }
 
     public struct ListBootstrapActionsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -2767,14 +2541,13 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusterId = "ClusterId"
         }
     }
 
-    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible {
+    public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case internal_error = "INTERNAL_ERROR"
         case validation_error = "VALIDATION_ERROR"
         case instance_failure = "INSTANCE_FAILURE"
@@ -2785,38 +2558,36 @@ extension Elasticmapreduce {
 
     public struct InstanceFleetTimeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The time and date the instance fleet was ready to run jobs.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The time and date the instance fleet was created.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The time and date the instance fleet terminated.
-        public let endDateTime: String?
+        public let endDateTime: Double?
 
-        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
+        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readyDateTime = "ReadyDateTime"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
         }
     }
 
     public struct ScalingConstraints: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "MinCapacity", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "MinCapacity", required: true, type: .integer)
         ]
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
         public let maxCapacity: Int32
@@ -2828,21 +2599,18 @@ extension Elasticmapreduce {
             self.minCapacity = minCapacity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let maxCapacity = dictionary["MaxCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxCapacity") }
-            self.maxCapacity = maxCapacity
-            guard let minCapacity = dictionary["MinCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("MinCapacity") }
-            self.minCapacity = minCapacity
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacity = "MaxCapacity"
+            case minCapacity = "MinCapacity"
         }
     }
 
     public struct AutoScalingPolicyDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "Rules", required: false, type: .list), 
-            AWSShapeProperty(label: "Constraints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "Rules", required: false, type: .list), 
+            AWSShapeMember(label: "Constraints", required: false, type: .structure)
         ]
         /// The status of an automatic scaling policy. 
         public let status: AutoScalingPolicyStatus?
@@ -2857,23 +2625,18 @@ extension Elasticmapreduce {
             self.constraints = constraints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.AutoScalingPolicyStatus(dictionary: status) } else { self.status = nil }
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
-                self.rules = try rules.map({ try ScalingRule(dictionary: $0) })
-            } else { 
-                self.rules = nil
-            }
-            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints) } else { self.constraints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case rules = "Rules"
+            case constraints = "Constraints"
         }
     }
 
     public struct SupportedProductConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Args", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Args", required: false, type: .list)
         ]
         /// The name of the product configuration.
         public let name: String?
@@ -2885,23 +2648,22 @@ extension Elasticmapreduce {
             self.args = args
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.args = dictionary["Args"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case args = "Args"
         }
     }
 
     public struct InstanceTypeSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WeightedCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsBlockDevices", required: false, type: .list), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WeightedCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "EbsBlockDevices", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "BidPriceAsPercentageOfOnDemandPrice", required: false, type: .double), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
         public let weightedCapacity: Int32?
@@ -2928,47 +2690,38 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.weightedCapacity = dictionary["WeightedCapacity"] as? Int32
-            self.bidPrice = dictionary["BidPrice"] as? String
-            if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
-                self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
-            } else { 
-                self.ebsBlockDevices = nil
-            }
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
-            self.instanceType = dictionary["InstanceType"] as? String
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case weightedCapacity = "WeightedCapacity"
+            case bidPrice = "BidPrice"
+            case ebsBlockDevices = "EbsBlockDevices"
+            case ebsOptimized = "EbsOptimized"
+            case bidPriceAsPercentageOfOnDemandPrice = "BidPriceAsPercentageOfOnDemandPrice"
+            case instanceType = "InstanceType"
+            case configurations = "Configurations"
         }
     }
 
     public struct StepExecutionStatusDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
         ]
         /// The start date and time of the step.
-        public let startDateTime: String?
+        public let startDateTime: Double?
         /// A description of the step's current state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the step.
-        public let creationDateTime: String
+        public let creationDateTime: Double
         /// The completion date and time of the step.
-        public let endDateTime: String?
+        public let endDateTime: Double?
         /// The state of the step.
         public let state: StepExecutionState
 
-        public init(startDateTime: String? = nil, lastStateChangeReason: String? = nil, creationDateTime: String, endDateTime: String? = nil, state: StepExecutionState) {
+        public init(startDateTime: Double? = nil, lastStateChangeReason: String? = nil, creationDateTime: Double, endDateTime: Double? = nil, state: StepExecutionState) {
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason
             self.creationDateTime = creationDateTime
@@ -2976,18 +2729,16 @@ extension Elasticmapreduce {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startDateTime = dictionary["StartDateTime"] as? String
-            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
-            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
-            self.creationDateTime = creationDateTime
-            self.endDateTime = dictionary["EndDateTime"] as? String
-            guard let rawState = dictionary["State"] as? String, let state = StepExecutionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
+        private enum CodingKeys: String, CodingKey {
+            case startDateTime = "StartDateTime"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case state = "State"
         }
     }
 
-    public enum Statistic: String, CustomStringConvertible {
+    public enum Statistic: String, CustomStringConvertible, Codable {
         case sample_count = "SAMPLE_COUNT"
         case average = "AVERAGE"
         case sum = "SUM"
@@ -2998,27 +2749,26 @@ extension Elasticmapreduce {
 
     public struct RunJobFlowInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Steps", required: false, type: .list), 
-            AWSShapeProperty(label: "ReleaseLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportedProducts", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "AmiVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Applications", required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "NewSupportedProducts", required: false, type: .list), 
-            AWSShapeProperty(label: "JobFlowRole", required: false, type: .string), 
-            AWSShapeProperty(label: "BootstrapActions", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "Instances", required: true, type: .structure), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Steps", required: false, type: .list), 
+            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "AmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "NewSupportedProducts", required: false, type: .list), 
+            AWSShapeMember(label: "JobFlowRole", required: false, type: .string), 
+            AWSShapeMember(label: "BootstrapActions", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "Instances", required: true, type: .structure), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// A list of steps to run.
         public let steps: [StepConfig]?
@@ -3081,56 +2831,30 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let steps = dictionary["Steps"] as? [[String: Any]] {
-                self.steps = try steps.map({ try StepConfig(dictionary: $0) })
-            } else { 
-                self.steps = nil
-            }
-            self.releaseLabel = dictionary["ReleaseLabel"] as? String
-            self.supportedProducts = dictionary["SupportedProducts"] as? [String]
-            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
-            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.amiVersion = dictionary["AmiVersion"] as? String
-            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
-            if let applications = dictionary["Applications"] as? [[String: Any]] {
-                self.applications = try applications.map({ try Application(dictionary: $0) })
-            } else { 
-                self.applications = nil
-            }
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            if let newSupportedProducts = dictionary["NewSupportedProducts"] as? [[String: Any]] {
-                self.newSupportedProducts = try newSupportedProducts.map({ try SupportedProductConfig(dictionary: $0) })
-            } else { 
-                self.newSupportedProducts = nil
-            }
-            self.jobFlowRole = dictionary["JobFlowRole"] as? String
-            if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
-                self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionConfig(dictionary: $0) })
-            } else { 
-                self.bootstrapActions = nil
-            }
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String { self.scaleDownBehavior = ScaleDownBehavior(rawValue: scaleDownBehavior) } else { self.scaleDownBehavior = nil }
-            self.additionalInfo = dictionary["AdditionalInfo"] as? String
-            self.logUri = dictionary["LogUri"] as? String
-            guard let instances = dictionary["Instances"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Instances") }
-            self.instances = try Elasticmapreduce.JobFlowInstancesConfig(dictionary: instances)
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case steps = "Steps"
+            case releaseLabel = "ReleaseLabel"
+            case supportedProducts = "SupportedProducts"
+            case autoScalingRole = "AutoScalingRole"
+            case securityConfiguration = "SecurityConfiguration"
+            case tags = "Tags"
+            case amiVersion = "AmiVersion"
+            case visibleToAllUsers = "VisibleToAllUsers"
+            case applications = "Applications"
+            case serviceRole = "ServiceRole"
+            case newSupportedProducts = "NewSupportedProducts"
+            case jobFlowRole = "JobFlowRole"
+            case bootstrapActions = "BootstrapActions"
+            case name = "Name"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case additionalInfo = "AdditionalInfo"
+            case logUri = "LogUri"
+            case instances = "Instances"
+            case configurations = "Configurations"
         }
     }
 
-    public enum ActionOnFailure: String, CustomStringConvertible {
+    public enum ActionOnFailure: String, CustomStringConvertible, Codable {
         case terminate_job_flow = "TERMINATE_JOB_FLOW"
         case terminate_cluster = "TERMINATE_CLUSTER"
         case cancel_and_wait = "CANCEL_AND_WAIT"
@@ -3140,18 +2864,14 @@ extension Elasticmapreduce {
 
     public struct RemoveAutoScalingPolicyOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AddJobFlowStepsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Steps", required: true, type: .list), 
-            AWSShapeProperty(label: "JobFlowId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Steps", required: true, type: .list), 
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string)
         ]
         ///  A list of StepConfig to be executed by the job flow. 
         public let steps: [StepConfig]
@@ -3163,15 +2883,13 @@ extension Elasticmapreduce {
             self.jobFlowId = jobFlowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let steps = dictionary["Steps"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Steps") }
-            self.steps = try steps.map({ try StepConfig(dictionary: $0) })
-            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
-            self.jobFlowId = jobFlowId
+        private enum CodingKeys: String, CodingKey {
+            case steps = "Steps"
+            case jobFlowId = "JobFlowId"
         }
     }
 
-    public enum AutoScalingPolicyState: String, CustomStringConvertible {
+    public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case attaching = "ATTACHING"
         case attached = "ATTACHED"
@@ -3183,29 +2901,28 @@ extension Elasticmapreduce {
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReleaseLabel", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingRole", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityConfiguration", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "VisibleToAllUsers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "Applications", required: false, type: .list), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2InstanceAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceCollectionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScaleDownBehavior", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RunningAmiVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedAmiVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "LogUri", required: false, type: .string), 
-            AWSShapeProperty(label: "MasterPublicDnsName", required: false, type: .string), 
-            AWSShapeProperty(label: "TerminationProtected", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoTerminate", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReleaseLabel", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingRole", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityConfiguration", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: false, type: .boolean), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "Applications", required: false, type: .list), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCollectionType", required: false, type: .enum), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "ScaleDownBehavior", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RunningAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedAmiVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LogUri", required: false, type: .string), 
+            AWSShapeMember(label: "MasterPublicDnsName", required: false, type: .string), 
+            AWSShapeMember(label: "TerminationProtected", required: false, type: .boolean), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list), 
+            AWSShapeMember(label: "AutoTerminate", required: false, type: .boolean)
         ]
         /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
         public let releaseLabel: String?
@@ -3274,49 +2991,36 @@ extension Elasticmapreduce {
             self.autoTerminate = autoTerminate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.releaseLabel = dictionary["ReleaseLabel"] as? String
-            self.autoScalingRole = dictionary["AutoScalingRole"] as? String
-            self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
-            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
-            if let applications = dictionary["Applications"] as? [[String: Any]] {
-                self.applications = try applications.map({ try Application(dictionary: $0) })
-            } else { 
-                self.applications = nil
-            }
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            if let ec2InstanceAttributes = dictionary["Ec2InstanceAttributes"] as? [String: Any] { self.ec2InstanceAttributes = try Elasticmapreduce.Ec2InstanceAttributes(dictionary: ec2InstanceAttributes) } else { self.ec2InstanceAttributes = nil }
-            if let instanceCollectionType = dictionary["InstanceCollectionType"] as? String { self.instanceCollectionType = InstanceCollectionType(rawValue: instanceCollectionType) } else { self.instanceCollectionType = nil }
-            self.id = dictionary["Id"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) } else { self.status = nil }
-            if let scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String { self.scaleDownBehavior = ScaleDownBehavior(rawValue: scaleDownBehavior) } else { self.scaleDownBehavior = nil }
-            self.name = dictionary["Name"] as? String
-            self.runningAmiVersion = dictionary["RunningAmiVersion"] as? String
-            self.requestedAmiVersion = dictionary["RequestedAmiVersion"] as? String
-            self.logUri = dictionary["LogUri"] as? String
-            self.masterPublicDnsName = dictionary["MasterPublicDnsName"] as? String
-            self.terminationProtected = dictionary["TerminationProtected"] as? Bool
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
-            self.autoTerminate = dictionary["AutoTerminate"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case releaseLabel = "ReleaseLabel"
+            case autoScalingRole = "AutoScalingRole"
+            case securityConfiguration = "SecurityConfiguration"
+            case tags = "Tags"
+            case visibleToAllUsers = "VisibleToAllUsers"
+            case normalizedInstanceHours = "NormalizedInstanceHours"
+            case applications = "Applications"
+            case serviceRole = "ServiceRole"
+            case ec2InstanceAttributes = "Ec2InstanceAttributes"
+            case instanceCollectionType = "InstanceCollectionType"
+            case id = "Id"
+            case status = "Status"
+            case scaleDownBehavior = "ScaleDownBehavior"
+            case name = "Name"
+            case runningAmiVersion = "RunningAmiVersion"
+            case requestedAmiVersion = "RequestedAmiVersion"
+            case logUri = "LogUri"
+            case masterPublicDnsName = "MasterPublicDnsName"
+            case terminationProtected = "TerminationProtected"
+            case configurations = "Configurations"
+            case autoTerminate = "AutoTerminate"
         }
     }
 
     public struct StepDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutionStatusDetail", required: true, type: .structure), 
-            AWSShapeProperty(label: "StepConfig", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutionStatusDetail", required: true, type: .structure), 
+            AWSShapeMember(label: "StepConfig", required: true, type: .structure)
         ]
         /// The description of the step status.
         public let executionStatusDetail: StepExecutionStatusDetail
@@ -3328,20 +3032,17 @@ extension Elasticmapreduce {
             self.stepConfig = stepConfig
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let executionStatusDetail = dictionary["ExecutionStatusDetail"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ExecutionStatusDetail") }
-            self.executionStatusDetail = try Elasticmapreduce.StepExecutionStatusDetail(dictionary: executionStatusDetail)
-            guard let stepConfig = dictionary["StepConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StepConfig") }
-            self.stepConfig = try Elasticmapreduce.StepConfig(dictionary: stepConfig)
+        private enum CodingKeys: String, CodingKey {
+            case executionStatusDetail = "ExecutionStatusDetail"
+            case stepConfig = "StepConfig"
         }
     }
 
     public struct KeyValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value part of the identified key.
         public let value: String?
@@ -3353,17 +3054,16 @@ extension Elasticmapreduce {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DescribeClusterInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// The identifier of the cluster to describe.
         public let clusterId: String
@@ -3372,18 +3072,16 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
         }
     }
 
     public struct DescribeStepInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "StepId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "StepId", required: true, type: .string)
         ]
         /// The identifier of the cluster with steps to describe.
         public let clusterId: String
@@ -3395,15 +3093,13 @@ extension Elasticmapreduce {
             self.stepId = stepId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
-            guard let stepId = dictionary["StepId"] as? String else { throw InitializableError.missingRequiredParam("StepId") }
-            self.stepId = stepId
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case stepId = "StepId"
         }
     }
 
-    public enum StepExecutionState: String, CustomStringConvertible {
+    public enum StepExecutionState: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case running = "RUNNING"
         case `continue` = "CONTINUE"
@@ -3416,9 +3112,8 @@ extension Elasticmapreduce {
 
     public struct DescribeSecurityConfigurationInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the security configuration.
         public let name: String
@@ -3427,17 +3122,15 @@ extension Elasticmapreduce {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct RunJobFlowOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowId", required: false, type: .string)
         ]
         /// An unique identifier for the job flow.
         public let jobFlowId: String?
@@ -3446,12 +3139,12 @@ extension Elasticmapreduce {
             self.jobFlowId = jobFlowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.jobFlowId = dictionary["JobFlowId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowId = "JobFlowId"
         }
     }
 
-    public enum InstanceState: String, CustomStringConvertible {
+    public enum InstanceState: String, CustomStringConvertible, Codable {
         case awaiting_fulfillment = "AWAITING_FULFILLMENT"
         case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
@@ -3462,10 +3155,9 @@ extension Elasticmapreduce {
 
     public struct AddInstanceGroupsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceGroups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceGroups", required: true, type: .list)
         ]
         /// Job flow in which to add the instance groups.
         public let jobFlowId: String
@@ -3477,22 +3169,19 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobFlowId = dictionary["JobFlowId"] as? String else { throw InitializableError.missingRequiredParam("JobFlowId") }
-            self.jobFlowId = jobFlowId
-            guard let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceGroups") }
-            self.instanceGroups = try instanceGroups.map({ try InstanceGroupConfig(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowId = "JobFlowId"
+            case instanceGroups = "InstanceGroups"
         }
     }
 
     public struct ClusterSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "NormalizedInstanceHours", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "NormalizedInstanceHours", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The details about the current status of the cluster.
         public let status: ClusterStatus?
@@ -3510,20 +3199,19 @@ extension Elasticmapreduce {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) } else { self.status = nil }
-            self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
-            self.name = dictionary["Name"] as? String
-            self.id = dictionary["Id"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case normalizedInstanceHours = "NormalizedInstanceHours"
+            case name = "Name"
+            case id = "Id"
         }
     }
 
     public struct SetVisibleToAllUsersInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "JobFlowIds", required: true, type: .list), 
-            AWSShapeProperty(label: "VisibleToAllUsers", required: true, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobFlowIds", required: true, type: .list), 
+            AWSShapeMember(label: "VisibleToAllUsers", required: true, type: .boolean)
         ]
         /// Identifiers of the job flows to receive the new visibility setting.
         public let jobFlowIds: [String]
@@ -3535,22 +3223,19 @@ extension Elasticmapreduce {
             self.visibleToAllUsers = visibleToAllUsers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let jobFlowIds = dictionary["JobFlowIds"] as? [String] else { throw InitializableError.missingRequiredParam("JobFlowIds") }
-            self.jobFlowIds = jobFlowIds
-            guard let visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool else { throw InitializableError.missingRequiredParam("VisibleToAllUsers") }
-            self.visibleToAllUsers = visibleToAllUsers
+        private enum CodingKeys: String, CodingKey {
+            case jobFlowIds = "JobFlowIds"
+            case visibleToAllUsers = "VisibleToAllUsers"
         }
     }
 
     public struct InstanceGroupModifyConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "ShrinkPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "EC2InstanceIdsToTerminate", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ShrinkPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "EC2InstanceIdsToTerminate", required: false, type: .list)
         ]
         /// Unique ID of the instance group to expand or shrink.
         public let instanceGroupId: String
@@ -3568,21 +3253,19 @@ extension Elasticmapreduce {
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
-            self.instanceGroupId = instanceGroupId
-            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) } else { self.shrinkPolicy = nil }
-            self.instanceCount = dictionary["InstanceCount"] as? Int32
-            self.eC2InstanceIdsToTerminate = dictionary["EC2InstanceIdsToTerminate"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case shrinkPolicy = "ShrinkPolicy"
+            case instanceCount = "InstanceCount"
+            case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
         }
     }
 
     public struct InstanceGroupStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The programmable code for the state change reason.
         public let code: InstanceGroupStateChangeReasonCode?
@@ -3594,20 +3277,19 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = InstanceGroupStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct StepStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure), 
-            AWSShapeProperty(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Timeline", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure)
         ]
         /// The reason for the step execution status change.
         public let stateChangeReason: StepStateChangeReason?
@@ -3625,20 +3307,19 @@ extension Elasticmapreduce {
             self.timeline = timeline
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.StepStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
-            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Elasticmapreduce.FailureDetails(dictionary: failureDetails) } else { self.failureDetails = nil }
-            if let state = dictionary["State"] as? String { self.state = StepState(rawValue: state) } else { self.state = nil }
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.StepTimeline(dictionary: timeline) } else { self.timeline = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stateChangeReason = "StateChangeReason"
+            case failureDetails = "FailureDetails"
+            case state = "State"
+            case timeline = "Timeline"
         }
     }
 
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeSpecification", required: false, type: .structure), 
-            AWSShapeProperty(label: "Device", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "Device", required: false, type: .string)
         ]
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification?
@@ -3650,18 +3331,17 @@ extension Elasticmapreduce {
             self.device = device
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] { self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification) } else { self.volumeSpecification = nil }
-            self.device = dictionary["Device"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeSpecification = "VolumeSpecification"
+            case device = "Device"
         }
     }
 
     public struct StepStateChangeReason: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Code", required: false, type: .enum), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Code", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
         public let code: StepStateChangeReasonCode?
@@ -3673,19 +3353,18 @@ extension Elasticmapreduce {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let code = dictionary["Code"] as? String { self.code = StepStateChangeReasonCode(rawValue: code) } else { self.code = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
     public struct ClusterStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Timeline", required: false, type: .structure), 
-            AWSShapeProperty(label: "StateChangeReason", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Timeline", required: false, type: .structure), 
+            AWSShapeMember(label: "StateChangeReason", required: false, type: .structure)
         ]
         /// The current state of the cluster.
         public let state: ClusterState?
@@ -3700,19 +3379,18 @@ extension Elasticmapreduce {
             self.stateChangeReason = stateChangeReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = ClusterState(rawValue: state) } else { self.state = nil }
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.ClusterTimeline(dictionary: timeline) } else { self.timeline = nil }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.ClusterStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case timeline = "Timeline"
+            case stateChangeReason = "StateChangeReason"
         }
     }
 
     public struct ModifyInstanceGroupsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceGroups", required: false, type: .list)
         ]
         /// The ID of the cluster to which the instance group belongs.
         public let clusterId: String?
@@ -3724,30 +3402,22 @@ extension Elasticmapreduce {
             self.instanceGroups = instanceGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterId = dictionary["ClusterId"] as? String
-            if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
-                self.instanceGroups = try instanceGroups.map({ try InstanceGroupModifyConfig(dictionary: $0) })
-            } else { 
-                self.instanceGroups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceGroups = "InstanceGroups"
         }
     }
 
     public struct DeleteSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListClustersOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Clusters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Clusters", required: false, type: .list)
         ]
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
@@ -3759,29 +3429,24 @@ extension Elasticmapreduce {
             self.clusters = clusters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let clusters = dictionary["Clusters"] as? [[String: Any]] {
-                self.clusters = try clusters.map({ try ClusterSummary(dictionary: $0) })
-            } else { 
-                self.clusters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case clusters = "Clusters"
         }
     }
 
     public struct InstanceGroupConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "Market", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceRole", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingPolicy", required: false, type: .structure), 
-            AWSShapeProperty(label: "InstanceCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "EbsConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Configurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "Market", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingPolicy", required: false, type: .structure), 
+            AWSShapeMember(label: "InstanceCount", required: true, type: .integer), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "EbsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Configurations", required: false, type: .list)
         ]
         /// Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
         public let bidPrice: String?
@@ -3814,44 +3479,36 @@ extension Elasticmapreduce {
             self.configurations = configurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.bidPrice = dictionary["BidPrice"] as? String
-            if let market = dictionary["Market"] as? String { self.market = MarketType(rawValue: market) } else { self.market = nil }
-            guard let rawInstanceRole = dictionary["InstanceRole"] as? String, let instanceRole = InstanceRoleType(rawValue: rawInstanceRole) else { throw InitializableError.missingRequiredParam("InstanceRole") }
-            self.instanceRole = instanceRole
-            self.name = dictionary["Name"] as? String
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
-            guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
-            self.instanceCount = instanceCount
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) } else { self.ebsConfiguration = nil }
-            if let configurations = dictionary["Configurations"] as? [[String: Any]] {
-                self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
-            } else { 
-                self.configurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case bidPrice = "BidPrice"
+            case market = "Market"
+            case instanceRole = "InstanceRole"
+            case name = "Name"
+            case autoScalingPolicy = "AutoScalingPolicy"
+            case instanceCount = "InstanceCount"
+            case instanceType = "InstanceType"
+            case ebsConfiguration = "EbsConfiguration"
+            case configurations = "Configurations"
         }
     }
 
     public struct InstanceGroupDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "BidPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceRunningCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceRequestCount", required: true, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceRole", required: true, type: .enum), 
-            AWSShapeProperty(label: "Market", required: true, type: .enum), 
-            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "BidPrice", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceRunningCount", required: true, type: .integer), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "InstanceRequestCount", required: true, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceRole", required: true, type: .enum), 
+            AWSShapeMember(label: "Market", required: true, type: .enum), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp)
         ]
         /// Unique identifier for the instance group.
         public let instanceGroupId: String?
@@ -3860,7 +3517,7 @@ extension Elasticmapreduce {
         /// Actual count of running instances.
         public let instanceRunningCount: Int32
         /// The date/time the instance group was terminated.
-        public let endDateTime: String?
+        public let endDateTime: Double?
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
         /// Details regarding the state of the instance group.
@@ -3868,9 +3525,9 @@ extension Elasticmapreduce {
         /// EC2 instance type.
         public let instanceType: String
         /// The date/time the instance group was available to the cluster.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The date/time the instance group was created.
-        public let creationDateTime: String
+        public let creationDateTime: Double
         /// Target number of instances to run in the instance group.
         public let instanceRequestCount: Int32
         /// Friendly name for the instance group.
@@ -3880,9 +3537,9 @@ extension Elasticmapreduce {
         /// Market type of the EC2 instances used to create a cluster node.
         public let market: MarketType
         /// The date/time the instance group was started.
-        public let startDateTime: String?
+        public let startDateTime: Double?
 
-        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: String? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: String? = nil, creationDateTime: String, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: String? = nil) {
+        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: Double? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: Double? = nil, creationDateTime: Double, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: Double? = nil) {
             self.instanceGroupId = instanceGroupId
             self.bidPrice = bidPrice
             self.instanceRunningCount = instanceRunningCount
@@ -3899,37 +3556,29 @@ extension Elasticmapreduce {
             self.startDateTime = startDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceGroupId = dictionary["InstanceGroupId"] as? String
-            self.bidPrice = dictionary["BidPrice"] as? String
-            guard let instanceRunningCount = dictionary["InstanceRunningCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRunningCount") }
-            self.instanceRunningCount = instanceRunningCount
-            self.endDateTime = dictionary["EndDateTime"] as? String
-            guard let rawState = dictionary["State"] as? String, let state = InstanceGroupState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
-            self.creationDateTime = creationDateTime
-            guard let instanceRequestCount = dictionary["InstanceRequestCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceRequestCount") }
-            self.instanceRequestCount = instanceRequestCount
-            self.name = dictionary["Name"] as? String
-            guard let rawInstanceRole = dictionary["InstanceRole"] as? String, let instanceRole = InstanceRoleType(rawValue: rawInstanceRole) else { throw InitializableError.missingRequiredParam("InstanceRole") }
-            self.instanceRole = instanceRole
-            guard let rawMarket = dictionary["Market"] as? String, let market = MarketType(rawValue: rawMarket) else { throw InitializableError.missingRequiredParam("Market") }
-            self.market = market
-            self.startDateTime = dictionary["StartDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case bidPrice = "BidPrice"
+            case instanceRunningCount = "InstanceRunningCount"
+            case endDateTime = "EndDateTime"
+            case state = "State"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case instanceType = "InstanceType"
+            case readyDateTime = "ReadyDateTime"
+            case creationDateTime = "CreationDateTime"
+            case instanceRequestCount = "InstanceRequestCount"
+            case name = "Name"
+            case instanceRole = "InstanceRole"
+            case market = "Market"
+            case startDateTime = "StartDateTime"
         }
     }
 
     public struct ListStepsOutput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Steps", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Steps", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The filtered list of steps for the cluster.
         public let steps: [StepSummary]?
@@ -3941,24 +3590,19 @@ extension Elasticmapreduce {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let steps = dictionary["Steps"] as? [[String: Any]] {
-                self.steps = try steps.map({ try StepSummary(dictionary: $0) })
-            } else { 
-                self.steps = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case steps = "Steps"
+            case marker = "Marker"
         }
     }
 
     public struct HadoopStepConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MainClass", required: false, type: .string), 
-            AWSShapeProperty(label: "Jar", required: false, type: .string), 
-            AWSShapeProperty(label: "Properties", required: false, type: .map), 
-            AWSShapeProperty(label: "Args", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MainClass", required: false, type: .string), 
+            AWSShapeMember(label: "Jar", required: false, type: .string), 
+            AWSShapeMember(label: "Properties", required: false, type: .map), 
+            AWSShapeMember(label: "Args", required: false, type: .list)
         ]
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
         public let mainClass: String?
@@ -3976,24 +3620,19 @@ extension Elasticmapreduce {
             self.args = args
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mainClass = dictionary["MainClass"] as? String
-            self.jar = dictionary["Jar"] as? String
-            if let properties = dictionary["Properties"] as? [String: String] {
-                self.properties = properties
-            } else { 
-                self.properties = nil
-            }
-            self.args = dictionary["Args"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case mainClass = "MainClass"
+            case jar = "Jar"
+            case properties = "Properties"
+            case args = "Args"
         }
     }
 
     public struct EbsConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EbsBlockDeviceConfigs", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "EbsBlockDeviceConfigs", required: false, type: .list)
         ]
         /// Indicates whether an Amazon EBS volume is EBS-optimized.
         public let ebsOptimized: Bool?
@@ -4005,51 +3644,45 @@ extension Elasticmapreduce {
             self.ebsBlockDeviceConfigs = ebsBlockDeviceConfigs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            if let ebsBlockDeviceConfigs = dictionary["EbsBlockDeviceConfigs"] as? [[String: Any]] {
-                self.ebsBlockDeviceConfigs = try ebsBlockDeviceConfigs.map({ try EbsBlockDeviceConfig(dictionary: $0) })
-            } else { 
-                self.ebsBlockDeviceConfigs = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case ebsOptimized = "EbsOptimized"
+            case ebsBlockDeviceConfigs = "EbsBlockDeviceConfigs"
         }
     }
 
     public struct InstanceTimeline: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CreationDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance was ready to perform tasks.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The creation date and time of the instance.
-        public let creationDateTime: String?
+        public let creationDateTime: Double?
         /// The date and time when the instance was terminated.
-        public let endDateTime: String?
+        public let endDateTime: Double?
 
-        public init(readyDateTime: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil) {
+        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            self.creationDateTime = dictionary["CreationDateTime"] as? String
-            self.endDateTime = dictionary["EndDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case readyDateTime = "ReadyDateTime"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
         }
     }
 
     public struct InstanceResizePolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstancesToTerminate", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceTerminationTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstancesToProtect", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancesToTerminate", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceTerminationTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesToProtect", required: false, type: .list)
         ]
         /// Specific list of instances to be terminated when shrinking an instance group.
         public let instancesToTerminate: [String]?
@@ -4064,19 +3697,18 @@ extension Elasticmapreduce {
             self.instancesToProtect = instancesToProtect
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instancesToTerminate = dictionary["InstancesToTerminate"] as? [String]
-            self.instanceTerminationTimeout = dictionary["InstanceTerminationTimeout"] as? Int32
-            self.instancesToProtect = dictionary["InstancesToProtect"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case instancesToTerminate = "InstancesToTerminate"
+            case instanceTerminationTimeout = "InstanceTerminationTimeout"
+            case instancesToProtect = "InstancesToProtect"
         }
     }
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
         public let resourceId: String
@@ -4088,15 +3720,13 @@ extension Elasticmapreduce {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
         }
     }
 
-    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible {
+    public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
         case internal_error = "INTERNAL_ERROR"
         case validation_error = "VALIDATION_ERROR"
         case instance_failure = "INSTANCE_FAILURE"
@@ -4106,10 +3736,9 @@ extension Elasticmapreduce {
 
     public struct ScriptBootstrapActionConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Args", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Args", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// A list of command line arguments to pass to the bootstrap action script.
         public let args: [String]?
@@ -4121,19 +3750,17 @@ extension Elasticmapreduce {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.args = dictionary["Args"] as? [String]
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+        private enum CodingKeys: String, CodingKey {
+            case args = "Args"
+            case path = "Path"
         }
     }
 
     public struct AddInstanceFleetInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceFleet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceFleet", required: true, type: .structure)
         ]
         /// The unique identifier of the cluster.
         public let clusterId: String
@@ -4145,21 +3772,18 @@ extension Elasticmapreduce {
             self.instanceFleet = instanceFleet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
-            guard let instanceFleet = dictionary["InstanceFleet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceFleet") }
-            self.instanceFleet = try Elasticmapreduce.InstanceFleetConfig(dictionary: instanceFleet)
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case instanceFleet = "InstanceFleet"
         }
     }
 
     public struct SpotProvisioningSpecification: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeoutDurationMinutes", required: true, type: .integer), 
-            AWSShapeProperty(label: "TimeoutAction", required: true, type: .enum), 
-            AWSShapeProperty(label: "BlockDurationMinutes", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeoutDurationMinutes", required: true, type: .integer), 
+            AWSShapeMember(label: "TimeoutAction", required: true, type: .enum), 
+            AWSShapeMember(label: "BlockDurationMinutes", required: false, type: .integer)
         ]
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         public let timeoutDurationMinutes: Int32
@@ -4174,40 +3798,37 @@ extension Elasticmapreduce {
             self.blockDurationMinutes = blockDurationMinutes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let timeoutDurationMinutes = dictionary["TimeoutDurationMinutes"] as? Int32 else { throw InitializableError.missingRequiredParam("TimeoutDurationMinutes") }
-            self.timeoutDurationMinutes = timeoutDurationMinutes
-            guard let rawTimeoutAction = dictionary["TimeoutAction"] as? String, let timeoutAction = SpotProvisioningTimeoutAction(rawValue: rawTimeoutAction) else { throw InitializableError.missingRequiredParam("TimeoutAction") }
-            self.timeoutAction = timeoutAction
-            self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case timeoutDurationMinutes = "TimeoutDurationMinutes"
+            case timeoutAction = "TimeoutAction"
+            case blockDurationMinutes = "BlockDurationMinutes"
         }
     }
 
     public struct JobFlowExecutionStatusDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReadyDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StartDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastStateChangeReason", required: false, type: .string), 
-            AWSShapeProperty(label: "CreationDateTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "EndDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "State", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReadyDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastStateChangeReason", required: false, type: .string), 
+            AWSShapeMember(label: "CreationDateTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: true, type: .enum)
         ]
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        public let readyDateTime: String?
+        public let readyDateTime: Double?
         /// The start date and time of the job flow.
-        public let startDateTime: String?
+        public let startDateTime: Double?
         /// Description of the job flow last changed state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the job flow.
-        public let creationDateTime: String
+        public let creationDateTime: Double
         /// The completion date and time of the job flow.
-        public let endDateTime: String?
+        public let endDateTime: Double?
         /// The state of the job flow.
         public let state: JobFlowExecutionState
 
-        public init(readyDateTime: String? = nil, startDateTime: String? = nil, lastStateChangeReason: String? = nil, creationDateTime: String, endDateTime: String? = nil, state: JobFlowExecutionState) {
+        public init(readyDateTime: Double? = nil, startDateTime: Double? = nil, lastStateChangeReason: String? = nil, creationDateTime: Double, endDateTime: Double? = nil, state: JobFlowExecutionState) {
             self.readyDateTime = readyDateTime
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason
@@ -4216,24 +3837,21 @@ extension Elasticmapreduce {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.readyDateTime = dictionary["ReadyDateTime"] as? String
-            self.startDateTime = dictionary["StartDateTime"] as? String
-            self.lastStateChangeReason = dictionary["LastStateChangeReason"] as? String
-            guard let creationDateTime = dictionary["CreationDateTime"] as? String else { throw InitializableError.missingRequiredParam("CreationDateTime") }
-            self.creationDateTime = creationDateTime
-            self.endDateTime = dictionary["EndDateTime"] as? String
-            guard let rawState = dictionary["State"] as? String, let state = JobFlowExecutionState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
+        private enum CodingKeys: String, CodingKey {
+            case readyDateTime = "ReadyDateTime"
+            case startDateTime = "StartDateTime"
+            case lastStateChangeReason = "LastStateChangeReason"
+            case creationDateTime = "CreationDateTime"
+            case endDateTime = "EndDateTime"
+            case state = "State"
         }
     }
 
     public struct RemoveAutoScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceGroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceGroupId", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterId", required: true, type: .string)
         ]
         /// Specifies the ID of the instance group to which the scaling policy is applied.
         public let instanceGroupId: String
@@ -4245,11 +3863,9 @@ extension Elasticmapreduce {
             self.clusterId = clusterId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
-            self.instanceGroupId = instanceGroupId
-            guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
-            self.clusterId = clusterId
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupId = "InstanceGroupId"
+            case clusterId = "ClusterId"
         }
     }
 

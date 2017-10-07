@@ -31,11 +31,10 @@ extension Ssm {
 
     public struct DescribePatchBaselinesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -50,23 +49,18 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeActivationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivationList", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivationList", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of activations for your AWS account.
         public let activationList: [Activation]?
@@ -78,21 +72,16 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let activationList = dictionary["ActivationList"] as? [[String: Any]] {
-                self.activationList = try activationList.map({ try Activation(dictionary: $0) })
-            } else { 
-                self.activationList = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case activationList = "ActivationList"
+            case nextToken = "NextToken"
         }
     }
 
     public struct FailedCreateAssociationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedCreateAssociationEntry", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedCreateAssociationEntry", required: false, type: .list)
         ]
         public let failedCreateAssociationEntry: [FailedCreateAssociation]?
 
@@ -100,21 +89,16 @@ extension Ssm {
             self.failedCreateAssociationEntry = failedCreateAssociationEntry
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedCreateAssociationEntry = dictionary["FailedCreateAssociationEntry"] as? [[String: Any]] {
-                self.failedCreateAssociationEntry = try failedCreateAssociationEntry.map({ try FailedCreateAssociation(dictionary: $0) })
-            } else { 
-                self.failedCreateAssociationEntry = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedCreateAssociationEntry = "FailedCreateAssociationEntry"
         }
     }
 
     public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "EffectivePatches", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "EffectivePatches", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -126,23 +110,18 @@ extension Ssm {
             self.effectivePatches = effectivePatches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let effectivePatches = dictionary["EffectivePatches"] as? [[String: Any]] {
-                self.effectivePatches = try effectivePatches.map({ try EffectivePatch(dictionary: $0) })
-            } else { 
-                self.effectivePatches = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case effectivePatches = "EffectivePatches"
         }
     }
 
     public struct UpdateAssociationStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "AssociationStatus", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "AssociationStatus", required: true, type: .structure)
         ]
         /// The name of the SSM document.
         public let name: String
@@ -157,22 +136,18 @@ extension Ssm {
             self.associationStatus = associationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let associationStatus = dictionary["AssociationStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AssociationStatus") }
-            self.associationStatus = try Ssm.AssociationStatus(dictionary: associationStatus)
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case associationStatus = "AssociationStatus"
         }
     }
 
     public struct DeregisterTargetFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "WindowTargetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
         /// The ID of the Maintenance Window the target was removed from.
         public let windowId: String?
@@ -184,18 +159,17 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.windowTargetId = dictionary["WindowTargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case windowTargetId = "WindowTargetId"
         }
     }
 
     public struct GetParameterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -207,18 +181,16 @@ extension Ssm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.withDecryption = dictionary["WithDecryption"] as? Bool
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case withDecryption = "WithDecryption"
+            case name = "Name"
         }
     }
 
     public struct InventoryItemList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Item", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Item", required: false, type: .list)
         ]
         public let item: [InventoryItem]?
 
@@ -226,16 +198,12 @@ extension Ssm {
             self.item = item
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let item = dictionary["Item"] as? [[String: Any]] {
-                self.item = try item.map({ try InventoryItem(dictionary: $0) })
-            } else { 
-                self.item = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
         }
     }
 
-    public enum ResourceTypeForTagging: String, CustomStringConvertible {
+    public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable {
         case managedinstance = "ManagedInstance"
         case maintenancewindow = "MaintenanceWindow"
         case parameter = "Parameter"
@@ -244,10 +212,9 @@ extension Ssm {
 
     public struct ParametersFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .enum), 
-            AWSShapeProperty(label: "Values", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// The name of the filter.
         public let key: ParametersFilterKey
@@ -259,15 +226,13 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawKey = dictionary["Key"] as? String, let key = ParametersFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
-    public enum InstanceInformationFilterKey: String, CustomStringConvertible {
+    public enum InstanceInformationFilterKey: String, CustomStringConvertible, Codable {
         case instanceids = "InstanceIds"
         case agentversion = "AgentVersion"
         case pingstatus = "PingStatus"
@@ -279,7 +244,7 @@ extension Ssm {
         public var description: String { return self.rawValue }
     }
 
-    public enum PlatformType: String, CustomStringConvertible {
+    public enum PlatformType: String, CustomStringConvertible, Codable {
         case windows = "Windows"
         case linux = "Linux"
         public var description: String { return self.rawValue }
@@ -287,9 +252,8 @@ extension Ssm {
 
     public struct ResultAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
         ]
         /// Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
         public let typeName: String
@@ -298,18 +262,16 @@ extension Ssm {
             self.typeName = typeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
         }
     }
 
     public struct DescribePatchGroupsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Mappings", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Mappings", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Each entry in the array contains: PatchGroup: string (between 1 and 256 characters, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$) PatchBaselineIdentity: A PatchBaselineIdentity element. 
         public let mappings: [PatchGroupPatchBaselineMapping]?
@@ -321,25 +283,20 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let mappings = dictionary["Mappings"] as? [[String: Any]] {
-                self.mappings = try mappings.map({ try PatchGroupPatchBaselineMapping(dictionary: $0) })
-            } else { 
-                self.mappings = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mappings = "Mappings"
+            case nextToken = "NextToken"
         }
     }
 
     public struct RegisterTargetWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "Targets", required: true, type: .list), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "OwnerInformation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "Targets", required: true, type: .list), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "OwnerInformation", required: false, type: .string)
         ]
         /// The ID of the Maintenance Window the target should be registered with.
         public let windowId: String
@@ -360,24 +317,20 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try Target(dictionary: $0) })
-            self.clientToken = dictionary["ClientToken"] as? String
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = MaintenanceWindowResourceType(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case targets = "Targets"
+            case clientToken = "ClientToken"
+            case resourceType = "ResourceType"
+            case ownerInformation = "OwnerInformation"
         }
     }
 
     public struct GetDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The name of the SSM document.
         public let name: String
@@ -389,20 +342,18 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct FailureDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailureType", required: false, type: .string), 
-            AWSShapeProperty(label: "Details", required: false, type: .map), 
-            AWSShapeProperty(label: "FailureStage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailureType", required: false, type: .string), 
+            AWSShapeMember(label: "Details", required: false, type: .map), 
+            AWSShapeMember(label: "FailureStage", required: false, type: .string)
         ]
         /// The type of Automation failure. Failure types include the following: Action, Permission, Throttling, Verification, Internal.
         public let failureType: String?
@@ -417,30 +368,20 @@ extension Ssm {
             self.failureStage = failureStage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.failureType = dictionary["FailureType"] as? String
-            if let details = dictionary["Details"] as? [String: Any] {
-                var detailsDict: [String: [String]] = [:]
-                for (key, value) in details {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    detailsDict[key] = automationParameterValueList
-                }
-                self.details = detailsDict
-            } else { 
-                self.details = nil
-            }
-            self.failureStage = dictionary["FailureStage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case failureType = "FailureType"
+            case details = "Details"
+            case failureStage = "FailureStage"
         }
     }
 
     public struct DescribeMaintenanceWindowTargetsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window whose targets should be retrieved.
         public let windowId: String
@@ -458,26 +399,20 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListAssociationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationFilterList", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationFilterList", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters. Use a filter to return a more specific list of results.
         public let associationFilterList: AssociationFilterList?
@@ -492,20 +427,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationFilterList = dictionary["AssociationFilterList"] as? [String: Any] { self.associationFilterList = try Ssm.AssociationFilterList(dictionary: associationFilterList) } else { self.associationFilterList = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case associationFilterList = "AssociationFilterList"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetInventorySchemaRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The type of inventory item to return.
         public let typeName: String?
@@ -520,24 +454,23 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.typeName = dictionary["TypeName"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreatePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "RejectedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ApprovalRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "GlobalFilters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "ApprovedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RejectedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ApprovalRules", required: false, type: .structure), 
+            AWSShapeMember(label: "GlobalFilters", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -564,27 +497,25 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientToken = dictionary["ClientToken"] as? String
-            self.approvedPatches = dictionary["ApprovedPatches"] as? [String]
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.rejectedPatches = dictionary["RejectedPatches"] as? [String]
-            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) } else { self.approvalRules = nil }
-            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) } else { self.globalFilters = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case approvedPatches = "ApprovedPatches"
+            case name = "Name"
+            case rejectedPatches = "RejectedPatches"
+            case approvalRules = "ApprovalRules"
+            case globalFilters = "GlobalFilters"
+            case description = "Description"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
-            AWSShapeProperty(label: "TaskId", required: true, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "TaskId", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window execution the task is part of.
         public let windowExecutionId: String
@@ -605,29 +536,22 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
-            self.windowExecutionId = windowExecutionId
-            guard let taskId = dictionary["TaskId"] as? String else { throw InitializableError.missingRequiredParam("TaskId") }
-            self.taskId = taskId
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionId = "WindowExecutionId"
+            case taskId = "TaskId"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeInstancePatchesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Each entry in the array is a structure containing: Key (string, between 1 and 128 characters) Values (array of strings, each string between 1 and 256 characters)
         public let filters: [PatchOrchestratorFilter]?
@@ -645,25 +569,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeregisterTargetFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "WindowTargetId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "WindowTargetId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window the target should be removed from.
         public let windowId: String
@@ -675,19 +593,16 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            guard let windowTargetId = dictionary["WindowTargetId"] as? String else { throw InitializableError.missingRequiredParam("WindowTargetId") }
-            self.windowTargetId = windowTargetId
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case windowTargetId = "WindowTargetId"
         }
     }
 
     public struct DeleteResourceDataSyncRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SyncName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncName", required: true, type: .string)
         ]
         /// The name of the configuration to delete.
         public let syncName: String
@@ -696,20 +611,18 @@ extension Ssm {
             self.syncName = syncName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let syncName = dictionary["SyncName"] as? String else { throw InitializableError.missingRequiredParam("SyncName") }
-            self.syncName = syncName
+        private enum CodingKeys: String, CodingKey {
+            case syncName = "SyncName"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window execution whose task executions should be retrieved.
         public let windowExecutionId: String
@@ -727,26 +640,20 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
-            self.windowExecutionId = windowExecutionId
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionId = "WindowExecutionId"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeInstancePatchStatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: true, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -761,33 +668,31 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
-            self.instanceIds = instanceIds
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instanceIds = "InstanceIds"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct SendCommandRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputS3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3Region", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentHashType", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxErrors", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "DocumentName", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentHash", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxConcurrency", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeoutSeconds", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3Region", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentHashType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "MaxErrors", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "DocumentName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentHash", required: false, type: .string), 
+            AWSShapeMember(label: "MaxConcurrency", required: false, type: .string), 
+            AWSShapeMember(label: "TimeoutSeconds", required: false, type: .integer)
         ]
         /// The IAM role that Systems Manager uses to send notifications. 
         public let serviceRoleArn: String?
@@ -838,45 +743,30 @@ extension Ssm {
             self.timeoutSeconds = timeoutSeconds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
-            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) } else { self.notificationConfig = nil }
-            self.comment = dictionary["Comment"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
-            self.outputS3Region = dictionary["OutputS3Region"] as? String
-            if let documentHashType = dictionary["DocumentHashType"] as? String { self.documentHashType = DocumentHashType(rawValue: documentHashType) } else { self.documentHashType = nil }
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            self.maxErrors = dictionary["MaxErrors"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            guard let documentName = dictionary["DocumentName"] as? String else { throw InitializableError.missingRequiredParam("DocumentName") }
-            self.documentName = documentName
-            self.documentHash = dictionary["DocumentHash"] as? String
-            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            self.timeoutSeconds = dictionary["TimeoutSeconds"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case serviceRoleArn = "ServiceRoleArn"
+            case outputS3BucketName = "OutputS3BucketName"
+            case notificationConfig = "NotificationConfig"
+            case comment = "Comment"
+            case targets = "Targets"
+            case outputS3KeyPrefix = "OutputS3KeyPrefix"
+            case outputS3Region = "OutputS3Region"
+            case documentHashType = "DocumentHashType"
+            case instanceIds = "InstanceIds"
+            case maxErrors = "MaxErrors"
+            case parameters = "Parameters"
+            case documentName = "DocumentName"
+            case documentHash = "DocumentHash"
+            case maxConcurrency = "MaxConcurrency"
+            case timeoutSeconds = "TimeoutSeconds"
         }
     }
 
     public struct GetMaintenanceWindowExecutionTaskRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string), 
-            AWSShapeProperty(label: "TaskId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionId", required: true, type: .string), 
+            AWSShapeMember(label: "TaskId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window execution that includes the task.
         public let windowExecutionId: String
@@ -888,37 +778,34 @@ extension Ssm {
             self.taskId = taskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
-            self.windowExecutionId = windowExecutionId
-            guard let taskId = dictionary["TaskId"] as? String else { throw InitializableError.missingRequiredParam("TaskId") }
-            self.taskId = taskId
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionId = "WindowExecutionId"
+            case taskId = "TaskId"
         }
     }
 
     public struct CommandPlugin: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResponseStartDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ResponseFinishDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Output", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardErrorUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardOutputUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3Region", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "ResponseCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "ResponseStartDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResponseFinishDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "OutputS3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Output", required: false, type: .string), 
+            AWSShapeMember(label: "StandardErrorUrl", required: false, type: .string), 
+            AWSShapeMember(label: "StandardOutputUrl", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3Region", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "ResponseCode", required: false, type: .integer), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The status of this plugin. You can execute a document with multiple plugins.
         public let status: CommandPluginStatus?
         /// The time the plugin started executing. 
-        public let responseStartDateTime: String?
+        public let responseStartDateTime: Double?
         /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
-        public let responseFinishDateTime: String?
+        public let responseFinishDateTime: Double?
         /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent. 
@@ -938,7 +825,7 @@ extension Ssm {
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(status: CommandPluginStatus? = nil, responseStartDateTime: String? = nil, responseFinishDateTime: String? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
+        public init(status: CommandPluginStatus? = nil, responseStartDateTime: Double? = nil, responseFinishDateTime: Double? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
             self.status = status
             self.responseStartDateTime = responseStartDateTime
             self.responseFinishDateTime = responseFinishDateTime
@@ -953,29 +840,28 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? String { self.status = CommandPluginStatus(rawValue: status) } else { self.status = nil }
-            self.responseStartDateTime = dictionary["ResponseStartDateTime"] as? String
-            self.responseFinishDateTime = dictionary["ResponseFinishDateTime"] as? String
-            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
-            self.name = dictionary["Name"] as? String
-            self.output = dictionary["Output"] as? String
-            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
-            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
-            self.outputS3Region = dictionary["OutputS3Region"] as? String
-            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
-            self.responseCode = dictionary["ResponseCode"] as? Int32
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case responseStartDateTime = "ResponseStartDateTime"
+            case responseFinishDateTime = "ResponseFinishDateTime"
+            case outputS3BucketName = "OutputS3BucketName"
+            case name = "Name"
+            case output = "Output"
+            case standardErrorUrl = "StandardErrorUrl"
+            case standardOutputUrl = "StandardOutputUrl"
+            case outputS3Region = "OutputS3Region"
+            case outputS3KeyPrefix = "OutputS3KeyPrefix"
+            case responseCode = "ResponseCode"
+            case statusDetails = "StatusDetails"
         }
     }
 
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "SnapshotDownloadUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotDownloadUrl", required: false, type: .string)
         ]
         /// The user-defined snapshot ID.
         public let snapshotId: String?
@@ -990,18 +876,17 @@ extension Ssm {
             self.snapshotDownloadUrl = snapshotDownloadUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.snapshotDownloadUrl = dictionary["SnapshotDownloadUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case instanceId = "InstanceId"
+            case snapshotDownloadUrl = "SnapshotDownloadUrl"
         }
     }
 
     public struct DocumentFilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentFilter", required: false, type: .list)
         ]
         public let documentFilter: [DocumentFilter]?
 
@@ -1009,29 +894,21 @@ extension Ssm {
             self.documentFilter = documentFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentFilter = dictionary["DocumentFilter"] as? [[String: Any]] {
-                self.documentFilter = try documentFilter.map({ try DocumentFilter(dictionary: $0) })
-            } else { 
-                self.documentFilter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case documentFilter = "DocumentFilter"
         }
     }
 
     public struct DeleteActivationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Parameters returned by the request.
         public let parameters: [ParameterMetadata]?
@@ -1043,22 +920,17 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try ParameterMetadata(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The name of the SSM document.
         public let name: String
@@ -1070,19 +942,17 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct DescribeInstanceAssociationsStatusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceAssociationStatusInfos", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceAssociationStatusInfos", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Status information about the association.
         public let instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]?
@@ -1094,21 +964,16 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceAssociationStatusInfos = dictionary["InstanceAssociationStatusInfos"] as? [[String: Any]] {
-                self.instanceAssociationStatusInfos = try instanceAssociationStatusInfos.map({ try InstanceAssociationStatusInfo(dictionary: $0) })
-            } else { 
-                self.instanceAssociationStatusInfos = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceAssociationStatusInfos = "InstanceAssociationStatusInfos"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeletePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline to delete.
         public let baselineId: String
@@ -1117,18 +982,16 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct GetInventoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Entities", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Entities", required: false, type: .structure)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -1140,18 +1003,17 @@ extension Ssm {
             self.entities = entities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let entities = dictionary["Entities"] as? [String: Any] { self.entities = try Ssm.InventoryResultEntityList(dictionary: entities) } else { self.entities = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case entities = "Entities"
         }
     }
 
     public struct DescribeInstancePatchStatesForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstancePatchStates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstancePatchStates", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -1163,21 +1025,16 @@ extension Ssm {
             self.instancePatchStates = instancePatchStates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let instancePatchStates = dictionary["InstancePatchStates"] as? [[String: Any]] {
-                self.instancePatchStates = try instancePatchStates.map({ try InstancePatchState(dictionary: $0) })
-            } else { 
-                self.instancePatchStates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instancePatchStates = "InstancePatchStates"
         }
     }
 
     public struct InstanceInformationFilterValueSet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceInformationFilterValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceInformationFilterValue", required: false, type: .list)
         ]
         public let instanceInformationFilterValue: [String]?
 
@@ -1185,35 +1042,34 @@ extension Ssm {
             self.instanceInformationFilterValue = instanceInformationFilterValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceInformationFilterValue = dictionary["InstanceInformationFilterValue"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case instanceInformationFilterValue = "InstanceInformationFilterValue"
         }
     }
 
     public struct Command: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompletedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputS3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3Region", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "TargetCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxErrors", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxConcurrency", required: false, type: .string), 
-            AWSShapeProperty(label: "ExpiresAfter", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ErrorCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "CompletedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3Region", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "TargetCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxErrors", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "DocumentName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxConcurrency", required: false, type: .string), 
+            AWSShapeMember(label: "ExpiresAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ErrorCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public let outputS3BucketName: String?
@@ -1240,7 +1096,7 @@ extension Ssm {
         /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Systems Manager Run Command.
         public let maxErrors: String?
         /// The date and time the command was requested.
-        public let requestedDateTime: String?
+        public let requestedDateTime: Double?
         /// The parameter values to be inserted in the document when executing the command.
         public let parameters: [String: [String]]?
         /// The name of the document requested for execution.
@@ -1248,7 +1104,7 @@ extension Ssm {
         /// The maximum number of instances that are allowed to execute the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Systems Manager Run Command.
         public let maxConcurrency: String?
         /// If this time is reached and the command has not already started executing, it will not execute. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
-        public let expiresAfter: String?
+        public let expiresAfter: Double?
         /// The number of targets for which the status is Failed or Execution Timed Out.
         public let errorCount: Int32?
         /// A unique identifier for this command.
@@ -1256,7 +1112,7 @@ extension Ssm {
         /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: String? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: String? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: Double? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Double? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.outputS3BucketName = outputS3BucketName
             self.notificationConfig = notificationConfig
             self.completedCount = completedCount
@@ -1279,59 +1135,45 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
-            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) } else { self.notificationConfig = nil }
-            self.completedCount = dictionary["CompletedCount"] as? Int32
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
-            self.comment = dictionary["Comment"] as? String
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            self.outputS3Region = dictionary["OutputS3Region"] as? String
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            self.targetCount = dictionary["TargetCount"] as? Int32
-            if let status = dictionary["Status"] as? String { self.status = CommandStatus(rawValue: status) } else { self.status = nil }
-            self.maxErrors = dictionary["MaxErrors"] as? String
-            self.requestedDateTime = dictionary["RequestedDateTime"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            self.documentName = dictionary["DocumentName"] as? String
-            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            self.expiresAfter = dictionary["ExpiresAfter"] as? String
-            self.errorCount = dictionary["ErrorCount"] as? Int32
-            self.commandId = dictionary["CommandId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case outputS3BucketName = "OutputS3BucketName"
+            case notificationConfig = "NotificationConfig"
+            case completedCount = "CompletedCount"
+            case targets = "Targets"
+            case outputS3KeyPrefix = "OutputS3KeyPrefix"
+            case comment = "Comment"
+            case serviceRole = "ServiceRole"
+            case outputS3Region = "OutputS3Region"
+            case instanceIds = "InstanceIds"
+            case targetCount = "TargetCount"
+            case status = "Status"
+            case maxErrors = "MaxErrors"
+            case requestedDateTime = "RequestedDateTime"
+            case parameters = "Parameters"
+            case documentName = "DocumentName"
+            case maxConcurrency = "MaxConcurrency"
+            case expiresAfter = "ExpiresAfter"
+            case errorCount = "ErrorCount"
+            case commandId = "CommandId"
+            case statusDetails = "StatusDetails"
         }
     }
 
-    public enum DocumentPermissionType: String, CustomStringConvertible {
+    public enum DocumentPermissionType: String, CustomStringConvertible, Codable {
         case share = "Share"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string)
         ]
         /// The parameters for the documents runtime configuration. 
         public let parameters: [String: [String]]?
@@ -1358,39 +1200,24 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            self.instanceId = dictionary["InstanceId"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case targets = "Targets"
+            case outputLocation = "OutputLocation"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
     public struct ModifyDocumentPermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PermissionType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "AccountIdsToRemove", required: false, type: .structure), 
-            AWSShapeProperty(label: "AccountIdsToAdd", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PermissionType", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AccountIdsToRemove", required: false, type: .structure), 
+            AWSShapeMember(label: "AccountIdsToAdd", required: false, type: .structure)
         ]
         /// The permission type for the document. The permission type can be Share.
         public let permissionType: DocumentPermissionType
@@ -1408,21 +1235,18 @@ extension Ssm {
             self.accountIdsToAdd = accountIdsToAdd
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawPermissionType = dictionary["PermissionType"] as? String, let permissionType = DocumentPermissionType(rawValue: rawPermissionType) else { throw InitializableError.missingRequiredParam("PermissionType") }
-            self.permissionType = permissionType
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let accountIdsToRemove = dictionary["AccountIdsToRemove"] as? [String: Any] { self.accountIdsToRemove = try Ssm.AccountIdList(dictionary: accountIdsToRemove) } else { self.accountIdsToRemove = nil }
-            if let accountIdsToAdd = dictionary["AccountIdsToAdd"] as? [String: Any] { self.accountIdsToAdd = try Ssm.AccountIdList(dictionary: accountIdsToAdd) } else { self.accountIdsToAdd = nil }
+        private enum CodingKeys: String, CodingKey {
+            case permissionType = "PermissionType"
+            case name = "Name"
+            case accountIdsToRemove = "AccountIdsToRemove"
+            case accountIdsToAdd = "AccountIdsToAdd"
         }
     }
 
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline that should be the default patch baseline.
         public let baselineId: String
@@ -1431,37 +1255,32 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct AddTagsToResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PatchComplianceData: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Severity", required: true, type: .string), 
-            AWSShapeProperty(label: "Classification", required: true, type: .string), 
-            AWSShapeProperty(label: "InstalledTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Title", required: true, type: .string), 
-            AWSShapeProperty(label: "State", required: true, type: .enum), 
-            AWSShapeProperty(label: "KBId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Severity", required: true, type: .string), 
+            AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "InstalledTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Title", required: true, type: .string), 
+            AWSShapeMember(label: "State", required: true, type: .enum), 
+            AWSShapeMember(label: "KBId", required: true, type: .string)
         ]
         /// The severity of the patch (for example, Critical, Important, Moderate).
         public let severity: String
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String
         /// The date/time the patch was installed on the instance.
-        public let installedTime: String
+        public let installedTime: Double
         /// The title of the patch.
         public let title: String
         /// The state of the patch on the instance (INSTALLED, INSTALLED_OTHER, MISSING, NOT_APPLICABLE or FAILED).
@@ -1469,7 +1288,7 @@ extension Ssm {
         /// The Microsoft Knowledge Base ID of the patch.
         public let kBId: String
 
-        public init(severity: String, classification: String, installedTime: String, title: String, state: PatchComplianceDataState, kBId: String) {
+        public init(severity: String, classification: String, installedTime: Double, title: String, state: PatchComplianceDataState, kBId: String) {
             self.severity = severity
             self.classification = classification
             self.installedTime = installedTime
@@ -1478,28 +1297,21 @@ extension Ssm {
             self.kBId = kBId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let severity = dictionary["Severity"] as? String else { throw InitializableError.missingRequiredParam("Severity") }
-            self.severity = severity
-            guard let classification = dictionary["Classification"] as? String else { throw InitializableError.missingRequiredParam("Classification") }
-            self.classification = classification
-            guard let installedTime = dictionary["InstalledTime"] as? String else { throw InitializableError.missingRequiredParam("InstalledTime") }
-            self.installedTime = installedTime
-            guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
-            self.title = title
-            guard let rawState = dictionary["State"] as? String, let state = PatchComplianceDataState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
-            self.state = state
-            guard let kBId = dictionary["KBId"] as? String else { throw InitializableError.missingRequiredParam("KBId") }
-            self.kBId = kBId
+        private enum CodingKeys: String, CodingKey {
+            case severity = "Severity"
+            case classification = "Classification"
+            case installedTime = "InstalledTime"
+            case title = "Title"
+            case state = "State"
+            case kBId = "KBId"
         }
     }
 
     public struct DeregisterTaskFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "WindowTaskId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "WindowTaskId", required: false, type: .string)
         ]
         /// The ID of the Maintenance Window the task was removed from.
         public let windowId: String?
@@ -1511,17 +1323,16 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.windowTaskId = dictionary["WindowTaskId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case windowTaskId = "WindowTaskId"
         }
     }
 
     public struct PatchRuleGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchRules", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchRules", required: true, type: .list)
         ]
         /// The rules that make up the rule group.
         public let patchRules: [PatchRule]
@@ -1530,17 +1341,15 @@ extension Ssm {
             self.patchRules = patchRules
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let patchRules = dictionary["PatchRules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PatchRules") }
-            self.patchRules = try patchRules.map({ try PatchRule(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case patchRules = "PatchRules"
         }
     }
 
     public struct InstanceInformationStringFilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceInformationStringFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceInformationStringFilter", required: false, type: .list)
         ]
         public let instanceInformationStringFilter: [InstanceInformationStringFilter]?
 
@@ -1548,23 +1357,18 @@ extension Ssm {
             self.instanceInformationStringFilter = instanceInformationStringFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInformationStringFilter = dictionary["InstanceInformationStringFilter"] as? [[String: Any]] {
-                self.instanceInformationStringFilter = try instanceInformationStringFilter.map({ try InstanceInformationStringFilter(dictionary: $0) })
-            } else { 
-                self.instanceInformationStringFilter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceInformationStringFilter = "InstanceInformationStringFilter"
         }
     }
 
     public struct DescribeMaintenanceWindowTasksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window whose tasks should be retrieved.
         public let windowId: String
@@ -1582,20 +1386,15 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum PatchComplianceDataState: String, CustomStringConvertible {
+    public enum PatchComplianceDataState: String, CustomStringConvertible, Codable {
         case installed = "INSTALLED"
         case installed_other = "INSTALLED_OTHER"
         case missing = "MISSING"
@@ -1606,11 +1405,10 @@ extension Ssm {
 
     public struct DescribeAutomationExecutionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -1625,35 +1423,30 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try AutomationExecutionFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .string), 
-            AWSShapeProperty(label: "Cutoff", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "ModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "Cutoff", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp)
         ]
         /// The ID of the created Maintenance Window.
         public let windowId: String?
         /// The date the Maintenance Window was last modified.
-        public let modifiedDate: String?
+        public let modifiedDate: Double?
         /// The name of the Maintenance Window.
         public let name: String?
         /// Whether the Maintenance Windows is enabled.
@@ -1667,9 +1460,9 @@ extension Ssm {
         /// The duration of the Maintenance Window in hours.
         public let duration: Int32?
         /// The date the Maintenance Window was created.
-        public let createdDate: String?
+        public let createdDate: Double?
 
-        public init(windowId: String? = nil, modifiedDate: String? = nil, name: String? = nil, enabled: Bool? = nil, allowUnassociatedTargets: Bool? = nil, schedule: String? = nil, cutoff: Int32? = nil, duration: Int32? = nil, createdDate: String? = nil) {
+        public init(windowId: String? = nil, modifiedDate: Double? = nil, name: String? = nil, enabled: Bool? = nil, allowUnassociatedTargets: Bool? = nil, schedule: String? = nil, cutoff: Int32? = nil, duration: Int32? = nil, createdDate: Double? = nil) {
             self.windowId = windowId
             self.modifiedDate = modifiedDate
             self.name = name
@@ -1681,26 +1474,25 @@ extension Ssm {
             self.createdDate = createdDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.modifiedDate = dictionary["ModifiedDate"] as? String
-            self.name = dictionary["Name"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
-            self.schedule = dictionary["Schedule"] as? String
-            self.cutoff = dictionary["Cutoff"] as? Int32
-            self.duration = dictionary["Duration"] as? Int32
-            self.createdDate = dictionary["CreatedDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case modifiedDate = "ModifiedDate"
+            case name = "Name"
+            case enabled = "Enabled"
+            case allowUnassociatedTargets = "AllowUnassociatedTargets"
+            case schedule = "Schedule"
+            case cutoff = "Cutoff"
+            case duration = "Duration"
+            case createdDate = "CreatedDate"
         }
     }
 
     public struct LoggingInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Region", required: true, type: .string), 
-            AWSShapeProperty(label: "S3BucketName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "S3Region", required: true, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string)
         ]
         /// (Optional) The Amazon S3 bucket subfolder. 
         public let s3KeyPrefix: String?
@@ -1715,24 +1507,21 @@ extension Ssm {
             self.s3BucketName = s3BucketName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3KeyPrefix = dictionary["S3KeyPrefix"] as? String
-            guard let s3Region = dictionary["S3Region"] as? String else { throw InitializableError.missingRequiredParam("S3Region") }
-            self.s3Region = s3Region
-            guard let s3BucketName = dictionary["S3BucketName"] as? String else { throw InitializableError.missingRequiredParam("S3BucketName") }
-            self.s3BucketName = s3BucketName
+        private enum CodingKeys: String, CodingKey {
+            case s3KeyPrefix = "S3KeyPrefix"
+            case s3Region = "S3Region"
+            case s3BucketName = "S3BucketName"
         }
     }
 
     public struct InventoryResultItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CaptureTime", required: false, type: .string), 
-            AWSShapeProperty(label: "Content", required: true, type: .list), 
-            AWSShapeProperty(label: "SchemaVersion", required: true, type: .string), 
-            AWSShapeProperty(label: "ContentHash", required: false, type: .string), 
-            AWSShapeProperty(label: "TypeName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureTime", required: false, type: .string), 
+            AWSShapeMember(label: "Content", required: true, type: .list), 
+            AWSShapeMember(label: "SchemaVersion", required: true, type: .string), 
+            AWSShapeMember(label: "ContentHash", required: false, type: .string), 
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
         ]
         /// The time inventory item data was captured.
         public let captureTime: String?
@@ -1753,23 +1542,19 @@ extension Ssm {
             self.typeName = typeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.captureTime = dictionary["CaptureTime"] as? String
-            guard let content = dictionary["Content"] as? [[String: String]] else { throw InitializableError.missingRequiredParam("Content") }
-            self.content = content
-            guard let schemaVersion = dictionary["SchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("SchemaVersion") }
-            self.schemaVersion = schemaVersion
-            self.contentHash = dictionary["ContentHash"] as? String
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
+        private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
+            case content = "Content"
+            case schemaVersion = "SchemaVersion"
+            case contentHash = "ContentHash"
+            case typeName = "TypeName"
         }
     }
 
     public struct GetPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string)
         ]
         /// The ID of the patch baseline to retrieve.
         public let baselineId: String
@@ -1778,33 +1563,28 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct DeleteDocumentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AutomationExecutionMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutedBy", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomationExecutionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .map), 
-            AWSShapeProperty(label: "LogFile", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomationExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionEndTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutedBy", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationExecutionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DocumentName", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Outputs", required: false, type: .map), 
+            AWSShapeMember(label: "LogFile", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionEndTime", required: false, type: .timestamp)
         ]
         /// The IAM role ARN of the user who executed the Automation.
         public let executedBy: String?
@@ -1815,7 +1595,7 @@ extension Ssm {
         /// The document version used during the execution.
         public let documentVersion: String?
         /// The time the execution started.&gt;
-        public let executionStartTime: String?
+        public let executionStartTime: Double?
         /// The list of execution outputs as defined in the Automation document.
         public let outputs: [String: [String]]?
         /// An Amazon S3 bucket where execution information is stored.
@@ -1823,9 +1603,9 @@ extension Ssm {
         /// The execution ID.
         public let automationExecutionId: String?
         /// The time the execution finished. This is not populated if the execution is still in progress.
-        public let executionEndTime: String?
+        public let executionEndTime: Double?
 
-        public init(executedBy: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: String? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: String? = nil) {
+        public init(executedBy: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Double? = nil) {
             self.executedBy = executedBy
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -1837,33 +1617,23 @@ extension Ssm {
             self.executionEndTime = executionEndTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.executedBy = dictionary["ExecutedBy"] as? String
-            if let automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String { self.automationExecutionStatus = AutomationExecutionStatus(rawValue: automationExecutionStatus) } else { self.automationExecutionStatus = nil }
-            self.documentName = dictionary["DocumentName"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            self.executionStartTime = dictionary["ExecutionStartTime"] as? String
-            if let outputs = dictionary["Outputs"] as? [String: Any] {
-                var outputsDict: [String: [String]] = [:]
-                for (key, value) in outputs {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    outputsDict[key] = automationParameterValueList
-                }
-                self.outputs = outputsDict
-            } else { 
-                self.outputs = nil
-            }
-            self.logFile = dictionary["LogFile"] as? String
-            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
-            self.executionEndTime = dictionary["ExecutionEndTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case executedBy = "ExecutedBy"
+            case automationExecutionStatus = "AutomationExecutionStatus"
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
+            case executionStartTime = "ExecutionStartTime"
+            case outputs = "Outputs"
+            case logFile = "LogFile"
+            case automationExecutionId = "AutomationExecutionId"
+            case executionEndTime = "ExecutionEndTime"
         }
     }
 
     public struct DescribeAssociationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -1872,16 +1642,15 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) } else { self.associationDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case associationDescription = "AssociationDescription"
         }
     }
 
     public struct CreateAssociationBatchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entries", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entries", required: true, type: .structure)
         ]
         /// One or more associations.
         public let entries: CreateAssociationBatchRequestEntries
@@ -1890,25 +1659,20 @@ extension Ssm {
             self.entries = entries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try Ssm.CreateAssociationBatchRequestEntries(dictionary: entries)
+        private enum CodingKeys: String, CodingKey {
+            case entries = "Entries"
         }
     }
 
     public struct StopAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct GetParameterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameter", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameter", required: false, type: .structure)
         ]
         /// Information about a parameter.
         public let parameter: Parameter?
@@ -1917,17 +1681,16 @@ extension Ssm {
             self.parameter = parameter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameter = dictionary["Parameter"] as? [String: Any] { self.parameter = try Ssm.Parameter(dictionary: parameter) } else { self.parameter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case parameter = "Parameter"
         }
     }
 
     public struct MaintenanceWindowFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The name of the filter.
         public let key: String?
@@ -1939,21 +1702,20 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct InventoryItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CaptureTime", required: true, type: .string), 
-            AWSShapeProperty(label: "Content", required: false, type: .list), 
-            AWSShapeProperty(label: "SchemaVersion", required: true, type: .string), 
-            AWSShapeProperty(label: "ContentHash", required: false, type: .string), 
-            AWSShapeProperty(label: "TypeName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureTime", required: true, type: .string), 
+            AWSShapeMember(label: "Content", required: false, type: .list), 
+            AWSShapeMember(label: "SchemaVersion", required: true, type: .string), 
+            AWSShapeMember(label: "ContentHash", required: false, type: .string), 
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
         ]
         /// The time the inventory information was collected.
         public let captureTime: String
@@ -1974,19 +1736,16 @@ extension Ssm {
             self.typeName = typeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let captureTime = dictionary["CaptureTime"] as? String else { throw InitializableError.missingRequiredParam("CaptureTime") }
-            self.captureTime = captureTime
-            self.content = dictionary["Content"] as? [[String: String]]
-            guard let schemaVersion = dictionary["SchemaVersion"] as? String else { throw InitializableError.missingRequiredParam("SchemaVersion") }
-            self.schemaVersion = schemaVersion
-            self.contentHash = dictionary["ContentHash"] as? String
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
+        private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
+            case content = "Content"
+            case schemaVersion = "SchemaVersion"
+            case contentHash = "ContentHash"
+            case typeName = "TypeName"
         }
     }
 
-    public enum AutomationExecutionStatus: String, CustomStringConvertible {
+    public enum AutomationExecutionStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case success = "Success"
@@ -1998,9 +1757,8 @@ extension Ssm {
 
     public struct DeletePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
@@ -2009,17 +1767,16 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct CancelCommandRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CommandId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommandId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
         /// The ID of the command you want to cancel.
         public let commandId: String
@@ -2031,39 +1788,37 @@ extension Ssm {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let commandId = dictionary["CommandId"] as? String else { throw InitializableError.missingRequiredParam("CommandId") }
-            self.commandId = commandId
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case commandId = "CommandId"
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct InstanceInformation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastSuccessfulAssociationExecutionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "IsLatestVersion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AssociationOverview", required: false, type: .structure), 
-            AWSShapeProperty(label: "IPAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "PlatformVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ComputerName", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "LastAssociationExecutionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "IamRole", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformName", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "PingStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "RegistrationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PlatformType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ActivationId", required: false, type: .string), 
-            AWSShapeProperty(label: "LastPingDateTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastSuccessfulAssociationExecutionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IsLatestVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "AssociationOverview", required: false, type: .structure), 
+            AWSShapeMember(label: "IPAddress", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "PlatformVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ComputerName", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationStatus", required: false, type: .string), 
+            AWSShapeMember(label: "LastAssociationExecutionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "IamRole", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformName", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "PingStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "RegistrationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PlatformType", required: false, type: .enum), 
+            AWSShapeMember(label: "ActivationId", required: false, type: .string), 
+            AWSShapeMember(label: "LastPingDateTime", required: false, type: .timestamp)
         ]
         /// The last date the association was successfully run.
-        public let lastSuccessfulAssociationExecutionDate: String?
+        public let lastSuccessfulAssociationExecutionDate: Double?
         /// Indicates whether latest version of the SSM Agent is running on your instance. 
         public let isLatestVersion: Bool?
         /// Information about the association.
@@ -2079,7 +1834,7 @@ extension Ssm {
         /// The status of the association.
         public let associationStatus: String?
         /// The date the association was last executed.
-        public let lastAssociationExecutionDate: String?
+        public let lastAssociationExecutionDate: Double?
         /// The Amazon Identity and Access Management (IAM) role assigned to EC2 instances or managed instances. 
         public let iamRole: String?
         /// The name of the operating system platform running on your instance. 
@@ -2093,15 +1848,15 @@ extension Ssm {
         /// Connection status of the SSM Agent. 
         public let pingStatus: PingStatus?
         /// The date the server or VM was registered with AWS as a managed instance.
-        public let registrationDate: String?
+        public let registrationDate: Double?
         /// The operating system platform type. 
         public let platformType: PlatformType?
         /// The activation ID created by Systems Manager when the server or VM was registered.
         public let activationId: String?
         /// The date and time when agent last pinged Systems Manager service. 
-        public let lastPingDateTime: String?
+        public let lastPingDateTime: Double?
 
-        public init(lastSuccessfulAssociationExecutionDate: String? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: ResourceType? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: String? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: PingStatus? = nil, registrationDate: String? = nil, platformType: PlatformType? = nil, activationId: String? = nil, lastPingDateTime: String? = nil) {
+        public init(lastSuccessfulAssociationExecutionDate: Double? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: ResourceType? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: Double? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: PingStatus? = nil, registrationDate: Double? = nil, platformType: PlatformType? = nil, activationId: String? = nil, lastPingDateTime: Double? = nil) {
             self.lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDate
             self.isLatestVersion = isLatestVersion
             self.associationOverview = associationOverview
@@ -2123,37 +1878,37 @@ extension Ssm {
             self.lastPingDateTime = lastPingDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastSuccessfulAssociationExecutionDate = dictionary["LastSuccessfulAssociationExecutionDate"] as? String
-            self.isLatestVersion = dictionary["IsLatestVersion"] as? Bool
-            if let associationOverview = dictionary["AssociationOverview"] as? [String: Any] { self.associationOverview = try Ssm.InstanceAggregatedAssociationOverview(dictionary: associationOverview) } else { self.associationOverview = nil }
-            self.iPAddress = dictionary["IPAddress"] as? String
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.platformVersion = dictionary["PlatformVersion"] as? String
-            self.computerName = dictionary["ComputerName"] as? String
-            self.associationStatus = dictionary["AssociationStatus"] as? String
-            self.lastAssociationExecutionDate = dictionary["LastAssociationExecutionDate"] as? String
-            self.iamRole = dictionary["IamRole"] as? String
-            self.platformName = dictionary["PlatformName"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            if let pingStatus = dictionary["PingStatus"] as? String { self.pingStatus = PingStatus(rawValue: pingStatus) } else { self.pingStatus = nil }
-            self.registrationDate = dictionary["RegistrationDate"] as? String
-            if let platformType = dictionary["PlatformType"] as? String { self.platformType = PlatformType(rawValue: platformType) } else { self.platformType = nil }
-            self.activationId = dictionary["ActivationId"] as? String
-            self.lastPingDateTime = dictionary["LastPingDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastSuccessfulAssociationExecutionDate = "LastSuccessfulAssociationExecutionDate"
+            case isLatestVersion = "IsLatestVersion"
+            case associationOverview = "AssociationOverview"
+            case iPAddress = "IPAddress"
+            case resourceType = "ResourceType"
+            case platformVersion = "PlatformVersion"
+            case computerName = "ComputerName"
+            case associationStatus = "AssociationStatus"
+            case lastAssociationExecutionDate = "LastAssociationExecutionDate"
+            case iamRole = "IamRole"
+            case platformName = "PlatformName"
+            case agentVersion = "AgentVersion"
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case pingStatus = "PingStatus"
+            case registrationDate = "RegistrationDate"
+            case platformType = "PlatformType"
+            case activationId = "ActivationId"
+            case lastPingDateTime = "LastPingDateTime"
         }
     }
 
-    public enum DocumentType: String, CustomStringConvertible {
+    public enum DocumentType: String, CustomStringConvertible, Codable {
         case command = "Command"
         case policy = "Policy"
         case automation = "Automation"
         public var description: String { return self.rawValue }
     }
 
-    public enum CommandStatus: String, CustomStringConvertible {
+    public enum CommandStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case success = "Success"
@@ -2166,11 +1921,10 @@ extension Ssm {
 
     public struct DescribeActivationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
@@ -2185,27 +1939,22 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try DescribeActivationsFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct CreateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowUnassociatedTargets", required: true, type: .boolean), 
-            AWSShapeProperty(label: "Schedule", required: true, type: .string), 
-            AWSShapeProperty(label: "Cutoff", required: true, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: true, type: .integer), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowUnassociatedTargets", required: true, type: .boolean), 
+            AWSShapeMember(label: "Schedule", required: true, type: .string), 
+            AWSShapeMember(label: "Cutoff", required: true, type: .integer), 
+            AWSShapeMember(label: "Duration", required: true, type: .integer), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string)
         ]
         /// Whether targets must be registered with the Maintenance Window before tasks can be defined for those targets.
         public let allowUnassociatedTargets: Bool
@@ -2229,22 +1978,17 @@ extension Ssm {
             self.clientToken = clientToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool else { throw InitializableError.missingRequiredParam("AllowUnassociatedTargets") }
-            self.allowUnassociatedTargets = allowUnassociatedTargets
-            guard let schedule = dictionary["Schedule"] as? String else { throw InitializableError.missingRequiredParam("Schedule") }
-            self.schedule = schedule
-            guard let cutoff = dictionary["Cutoff"] as? Int32 else { throw InitializableError.missingRequiredParam("Cutoff") }
-            self.cutoff = cutoff
-            guard let duration = dictionary["Duration"] as? Int32 else { throw InitializableError.missingRequiredParam("Duration") }
-            self.duration = duration
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.clientToken = dictionary["ClientToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case allowUnassociatedTargets = "AllowUnassociatedTargets"
+            case schedule = "Schedule"
+            case cutoff = "Cutoff"
+            case duration = "Duration"
+            case name = "Name"
+            case clientToken = "ClientToken"
         }
     }
 
-    public enum CommandPluginStatus: String, CustomStringConvertible {
+    public enum CommandPluginStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case success = "Success"
@@ -2256,22 +2000,21 @@ extension Ssm {
 
     public struct CommandInvocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CommandPlugins", required: false, type: .list), 
-            AWSShapeProperty(label: "NotificationConfig", required: false, type: .structure), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardOutputUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "TraceOutput", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "RequestedDateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardErrorUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommandPlugins", required: false, type: .list), 
+            AWSShapeMember(label: "NotificationConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "StandardOutputUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "TraceOutput", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "RequestedDateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentName", required: false, type: .string), 
+            AWSShapeMember(label: "StandardErrorUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         public let commandPlugins: [CommandPlugin]?
         /// Configurations for sending notifications about command status changes on a per instance basis.
@@ -2289,7 +2032,7 @@ extension Ssm {
         /// The name of the invocation target. For Amazon EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
         public let instanceName: String?
         /// The time and date the request was sent to this instance.
-        public let requestedDateTime: String?
+        public let requestedDateTime: Double?
         /// The instance ID in which this invocation was requested.
         public let instanceId: String?
         /// The document name that was requested for execution.
@@ -2301,7 +2044,7 @@ extension Ssm {
         /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: String? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: Double? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.commandPlugins = commandPlugins
             self.notificationConfig = notificationConfig
             self.comment = comment
@@ -2318,49 +2061,38 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let commandPlugins = dictionary["CommandPlugins"] as? [[String: Any]] {
-                self.commandPlugins = try commandPlugins.map({ try CommandPlugin(dictionary: $0) })
-            } else { 
-                self.commandPlugins = nil
-            }
-            if let notificationConfig = dictionary["NotificationConfig"] as? [String: Any] { self.notificationConfig = try Ssm.NotificationConfig(dictionary: notificationConfig) } else { self.notificationConfig = nil }
-            self.comment = dictionary["Comment"] as? String
-            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            self.traceOutput = dictionary["TraceOutput"] as? String
-            if let status = dictionary["Status"] as? String { self.status = CommandInvocationStatus(rawValue: status) } else { self.status = nil }
-            self.instanceName = dictionary["InstanceName"] as? String
-            self.requestedDateTime = dictionary["RequestedDateTime"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.documentName = dictionary["DocumentName"] as? String
-            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
-            self.commandId = dictionary["CommandId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case commandPlugins = "CommandPlugins"
+            case notificationConfig = "NotificationConfig"
+            case comment = "Comment"
+            case standardOutputUrl = "StandardOutputUrl"
+            case serviceRole = "ServiceRole"
+            case traceOutput = "TraceOutput"
+            case status = "Status"
+            case instanceName = "InstanceName"
+            case requestedDateTime = "RequestedDateTime"
+            case instanceId = "InstanceId"
+            case documentName = "DocumentName"
+            case standardErrorUrl = "StandardErrorUrl"
+            case commandId = "CommandId"
+            case statusDetails = "StatusDetails"
         }
     }
 
     public struct DeregisterManagedInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteResourceDataSyncResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct InventoryResultEntityList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Entity", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entity", required: false, type: .list)
         ]
         public let entity: [InventoryResultEntity]?
 
@@ -2368,22 +2100,17 @@ extension Ssm {
             self.entity = entity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let entity = dictionary["Entity"] as? [[String: Any]] {
-                self.entity = try entity.map({ try InventoryResultEntity(dictionary: $0) })
-            } else { 
-                self.entity = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case entity = "Entity"
         }
     }
 
     public struct FailedCreateAssociation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Fault", required: false, type: .enum), 
-            AWSShapeProperty(label: "Entry", required: false, type: .structure), 
-            AWSShapeProperty(label: "Message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Fault", required: false, type: .enum), 
+            AWSShapeMember(label: "Entry", required: false, type: .structure), 
+            AWSShapeMember(label: "Message", required: false, type: .string)
         ]
         /// The source of the failure.
         public let fault: Fault?
@@ -2398,23 +2125,22 @@ extension Ssm {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fault = dictionary["Fault"] as? String { self.fault = Fault(rawValue: fault) } else { self.fault = nil }
-            if let entry = dictionary["Entry"] as? [String: Any] { self.entry = try Ssm.CreateAssociationBatchRequestEntry(dictionary: entry) } else { self.entry = nil }
-            self.message = dictionary["Message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case fault = "Fault"
+            case entry = "Entry"
+            case message = "Message"
         }
     }
 
     public struct DocumentIdentifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformTypes", required: false, type: .structure), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformTypes", required: false, type: .structure), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The schema version.
         public let schemaVersion: String?
@@ -2438,22 +2164,21 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaVersion = dictionary["SchemaVersion"] as? String
-            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
-            self.owner = dictionary["Owner"] as? String
-            self.name = dictionary["Name"] as? String
-            if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaVersion = "SchemaVersion"
+            case documentType = "DocumentType"
+            case owner = "Owner"
+            case name = "Name"
+            case platformTypes = "PlatformTypes"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct GetInventorySchemaResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Schemas", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Schemas", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Inventory schemas returned by the request.
         public let schemas: [InventoryItemSchema]?
@@ -2465,21 +2190,16 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let schemas = dictionary["Schemas"] as? [[String: Any]] {
-                self.schemas = try schemas.map({ try InventoryItemSchema(dictionary: $0) })
-            } else { 
-                self.schemas = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemas = "Schemas"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
         /// The ID of the deleted Maintenance Window.
         public let windowId: String?
@@ -2488,19 +2208,18 @@ extension Ssm {
             self.windowId = windowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
         }
     }
 
     public struct GetParameterHistoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -2518,21 +2237,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.withDecryption = dictionary["WithDecryption"] as? Bool
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case withDecryption = "WithDecryption"
+            case name = "Name"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetParameterHistoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of parameters returned by the request.
         public let parameters: [ParameterHistory]?
@@ -2544,23 +2261,18 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try ParameterHistory(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListDocumentVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2575,15 +2287,14 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case name = "Name"
+            case maxResults = "MaxResults"
         }
     }
 
-    public enum DocumentFilterKey: String, CustomStringConvertible {
+    public enum DocumentFilterKey: String, CustomStringConvertible, Codable {
         case name = "Name"
         case owner = "Owner"
         case platformtypes = "PlatformTypes"
@@ -2593,10 +2304,9 @@ extension Ssm {
 
     public struct ListResourceDataSyncResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceDataSyncItems", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceDataSyncItems", required: false, type: .list)
         ]
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
@@ -2608,22 +2318,17 @@ extension Ssm {
             self.resourceDataSyncItems = resourceDataSyncItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let resourceDataSyncItems = dictionary["ResourceDataSyncItems"] as? [[String: Any]] {
-                self.resourceDataSyncItems = try resourceDataSyncItems.map({ try ResourceDataSyncItem(dictionary: $0) })
-            } else { 
-                self.resourceDataSyncItems = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceDataSyncItems = "ResourceDataSyncItems"
         }
     }
 
     public struct Target: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command.
         public let key: String?
@@ -2635,20 +2340,20 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
-    public enum AssociationStatusName: String, CustomStringConvertible {
+    public enum AssociationStatusName: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case success = "Success"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
-    public enum PatchOperationType: String, CustomStringConvertible {
+    public enum PatchOperationType: String, CustomStringConvertible, Codable {
         case scan = "Scan"
         case install = "Install"
         public var description: String { return self.rawValue }
@@ -2656,27 +2361,26 @@ extension Ssm {
 
     public struct AssociationDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastExecutionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastUpdateAssociationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "Status", required: false, type: .structure), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "Overview", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastSuccessfulExecutionDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastExecutionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastUpdateAssociationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .structure), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "Overview", required: false, type: .structure), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastSuccessfulExecutionDate", required: false, type: .timestamp)
         ]
         /// The date on which the association was last run.
-        public let lastExecutionDate: String?
+        public let lastExecutionDate: Double?
         /// The date when the association was last updated.
-        public let lastUpdateAssociationDate: String?
+        public let lastUpdateAssociationDate: Double?
         /// The instances targeted by the request. 
         public let targets: [Target]?
         /// The association status.
@@ -2698,11 +2402,11 @@ extension Ssm {
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
         /// The date when the association was made.
-        public let date: String?
+        public let date: Double?
         /// The last date on which the association was successfully run.
-        public let lastSuccessfulExecutionDate: String?
+        public let lastSuccessfulExecutionDate: Double?
 
-        public init(lastExecutionDate: String? = nil, lastUpdateAssociationDate: String? = nil, targets: [Target]? = nil, status: AssociationStatus? = nil, associationId: String? = nil, parameters: [String: [String]]? = nil, name: String? = nil, instanceId: String? = nil, documentVersion: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, date: String? = nil, lastSuccessfulExecutionDate: String? = nil) {
+        public init(lastExecutionDate: Double? = nil, lastUpdateAssociationDate: Double? = nil, targets: [Target]? = nil, status: AssociationStatus? = nil, associationId: String? = nil, parameters: [String: [String]]? = nil, name: String? = nil, instanceId: String? = nil, documentVersion: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, date: Double? = nil, lastSuccessfulExecutionDate: Double? = nil) {
             self.lastExecutionDate = lastExecutionDate
             self.lastUpdateAssociationDate = lastUpdateAssociationDate
             self.targets = targets
@@ -2719,44 +2423,30 @@ extension Ssm {
             self.lastSuccessfulExecutionDate = lastSuccessfulExecutionDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastExecutionDate = dictionary["LastExecutionDate"] as? String
-            self.lastUpdateAssociationDate = dictionary["LastUpdateAssociationDate"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ssm.AssociationStatus(dictionary: status) } else { self.status = nil }
-            self.associationId = dictionary["AssociationId"] as? String
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
-            if let overview = dictionary["Overview"] as? [String: Any] { self.overview = try Ssm.AssociationOverview(dictionary: overview) } else { self.overview = nil }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
-            self.date = dictionary["Date"] as? String
-            self.lastSuccessfulExecutionDate = dictionary["LastSuccessfulExecutionDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastExecutionDate = "LastExecutionDate"
+            case lastUpdateAssociationDate = "LastUpdateAssociationDate"
+            case targets = "Targets"
+            case status = "Status"
+            case associationId = "AssociationId"
+            case parameters = "Parameters"
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case documentVersion = "DocumentVersion"
+            case outputLocation = "OutputLocation"
+            case overview = "Overview"
+            case scheduleExpression = "ScheduleExpression"
+            case date = "Date"
+            case lastSuccessfulExecutionDate = "LastSuccessfulExecutionDate"
         }
     }
 
     public struct InstanceAssociation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string)
         ]
         /// The content of the association document for the instance(s).
         public let content: String?
@@ -2771,27 +2461,23 @@ extension Ssm {
             self.associationId = associationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.associationId = dictionary["AssociationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case instanceId = "InstanceId"
+            case associationId = "AssociationId"
         }
     }
 
     public struct DeleteParameterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct InstanceInformationStringFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .structure)
         ]
         /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"
         public let key: String
@@ -2803,19 +2489,16 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = try Ssm.InstanceInformationFilterValueSet(dictionary: values)
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct DeleteDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the document.
         public let name: String
@@ -2824,18 +2507,16 @@ extension Ssm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct DescribeMaintenanceWindowTargetsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the targets in the Maintenance Window.
         public let targets: [MaintenanceWindowTarget]?
@@ -2847,21 +2528,16 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try MaintenanceWindowTarget(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case targets = "Targets"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribePatchGroupStateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string)
         ]
         /// The name of the patch group whose patch snapshot should be retrieved.
         public let patchGroup: String
@@ -2870,23 +2546,21 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
+        private enum CodingKeys: String, CodingKey {
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct UpdatePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
-            AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RejectedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ApprovalRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "GlobalFilters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string), 
+            AWSShapeMember(label: "ApprovedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RejectedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ApprovalRules", required: false, type: .structure), 
+            AWSShapeMember(label: "GlobalFilters", required: false, type: .structure), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ID of the patch baseline to update.
         public let baselineId: String
@@ -2913,25 +2587,23 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
-            self.approvedPatches = dictionary["ApprovedPatches"] as? [String]
-            self.name = dictionary["Name"] as? String
-            self.rejectedPatches = dictionary["RejectedPatches"] as? [String]
-            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) } else { self.approvalRules = nil }
-            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) } else { self.globalFilters = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case approvedPatches = "ApprovedPatches"
+            case name = "Name"
+            case rejectedPatches = "RejectedPatches"
+            case approvalRules = "ApprovalRules"
+            case globalFilters = "GlobalFilters"
+            case description = "Description"
         }
     }
 
     public struct InventoryFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .structure)
         ]
         /// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
         public let `type`: InventoryQueryOperatorType?
@@ -2946,21 +2618,18 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = InventoryQueryOperatorType(rawValue: `type`) } else { self.`type` = nil }
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = try Ssm.InventoryFilterValueList(dictionary: values)
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct ListCommandsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Commands", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Commands", required: false, type: .list)
         ]
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -2972,17 +2641,13 @@ extension Ssm {
             self.commands = commands
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let commands = dictionary["Commands"] as? [[String: Any]] {
-                self.commands = try commands.map({ try Command(dictionary: $0) })
-            } else { 
-                self.commands = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case commands = "Commands"
         }
     }
 
-    public enum DocumentParameterType: String, CustomStringConvertible {
+    public enum DocumentParameterType: String, CustomStringConvertible, Codable {
         case string = "String"
         case stringlist = "StringList"
         public var description: String { return self.rawValue }
@@ -2990,10 +2655,9 @@ extension Ssm {
 
     public struct GetPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "PatchGroup", required: false, type: .string)
         ]
         /// The ID of the patch baseline that should be used for the patch group.
         public let baselineId: String?
@@ -3005,19 +2669,18 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.patchGroup = dictionary["PatchGroup"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the patch baseline to retrieve the effective patches for.
         public let baselineId: String
@@ -3032,19 +2695,17 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DocumentIdentifierList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentIdentifier", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentIdentifier", required: false, type: .list)
         ]
         public let documentIdentifier: [DocumentIdentifier]?
 
@@ -3052,21 +2713,16 @@ extension Ssm {
             self.documentIdentifier = documentIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentIdentifier = dictionary["DocumentIdentifier"] as? [[String: Any]] {
-                self.documentIdentifier = try documentIdentifier.map({ try DocumentIdentifier(dictionary: $0) })
-            } else { 
-                self.documentIdentifier = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case documentIdentifier = "DocumentIdentifier"
         }
     }
 
     public struct RegisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string), 
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string)
         ]
         /// The ID of the patch baseline to register the patch group with.
         public let baselineId: String
@@ -3078,15 +2734,13 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case patchGroup = "PatchGroup"
         }
     }
 
-    public enum ResourceType: String, CustomStringConvertible {
+    public enum ResourceType: String, CustomStringConvertible, Codable {
         case managedinstance = "ManagedInstance"
         case document = "Document"
         case ec2instance = "EC2Instance"
@@ -3095,48 +2749,43 @@ extension Ssm {
 
     public struct AssociationStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .enum), 
-            AWSShapeProperty(label: "Date", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "AdditionalInfo", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Date", required: true, type: .timestamp), 
+            AWSShapeMember(label: "AdditionalInfo", required: false, type: .string)
         ]
         /// The reason for the status.
         public let message: String
         /// The status.
         public let name: AssociationStatusName
         /// The date when the status changed.
-        public let date: String
+        public let date: Double
         /// A user-defined string.
         public let additionalInfo: String?
 
-        public init(message: String, name: AssociationStatusName, date: String, additionalInfo: String? = nil) {
+        public init(message: String, name: AssociationStatusName, date: Double, additionalInfo: String? = nil) {
             self.message = message
             self.name = name
             self.date = date
             self.additionalInfo = additionalInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let message = dictionary["Message"] as? String else { throw InitializableError.missingRequiredParam("Message") }
-            self.message = message
-            guard let rawName = dictionary["Name"] as? String, let name = AssociationStatusName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let date = dictionary["Date"] as? String else { throw InitializableError.missingRequiredParam("Date") }
-            self.date = date
-            self.additionalInfo = dictionary["AdditionalInfo"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+            case date = "Date"
+            case additionalInfo = "AdditionalInfo"
         }
     }
 
     public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Each entry in the array is a structure containing: Key (string between 1 and 200 characters)  Values (array containing a single string)  Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
         public let filters: [InstancePatchStateFilter]?
@@ -3154,25 +2803,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try InstancePatchStateFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case patchGroup = "PatchGroup"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeMaintenanceWindowTasksResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tasks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tasks", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -3184,17 +2827,13 @@ extension Ssm {
             self.tasks = tasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tasks = dictionary["Tasks"] as? [[String: Any]] {
-                self.tasks = try tasks.map({ try MaintenanceWindowTask(dictionary: $0) })
-            } else { 
-                self.tasks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tasks = "Tasks"
         }
     }
 
-    public enum PatchFilterKey: String, CustomStringConvertible {
+    public enum PatchFilterKey: String, CustomStringConvertible, Codable {
         case product = "PRODUCT"
         case classification = "CLASSIFICATION"
         case msrc_severity = "MSRC_SEVERITY"
@@ -3204,18 +2843,17 @@ extension Ssm {
 
     public struct AutomationExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "AutomationExecutionStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .map), 
-            AWSShapeProperty(label: "FailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomationExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StepExecutions", required: false, type: .list), 
-            AWSShapeProperty(label: "ExecutionEndTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "AutomationExecutionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "DocumentName", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Outputs", required: false, type: .map), 
+            AWSShapeMember(label: "FailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StepExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "ExecutionEndTime", required: false, type: .timestamp)
         ]
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
         public let parameters: [String: [String]]?
@@ -3226,7 +2864,7 @@ extension Ssm {
         /// The version of the document to use during execution.
         public let documentVersion: String?
         /// The time the execution started.
-        public let executionStartTime: String?
+        public let executionStartTime: Double?
         /// The list of execution outputs as defined in the automation document.
         public let outputs: [String: [String]]?
         /// A message describing why an execution has failed, if the status is set to Failed.
@@ -3236,9 +2874,9 @@ extension Ssm {
         /// A list of details about the current state of all steps that comprise an execution. An Automation document contains a list of steps that are executed in order.
         public let stepExecutions: [StepExecution]?
         /// The time the execution finished.
-        public let executionEndTime: String?
+        public let executionEndTime: Double?
 
-        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: String? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: String? = nil) {
+        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Double? = nil) {
             self.parameters = parameters
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -3251,47 +2889,24 @@ extension Ssm {
             self.executionEndTime = executionEndTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = automationParameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            if let automationExecutionStatus = dictionary["AutomationExecutionStatus"] as? String { self.automationExecutionStatus = AutomationExecutionStatus(rawValue: automationExecutionStatus) } else { self.automationExecutionStatus = nil }
-            self.documentName = dictionary["DocumentName"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            self.executionStartTime = dictionary["ExecutionStartTime"] as? String
-            if let outputs = dictionary["Outputs"] as? [String: Any] {
-                var outputsDict: [String: [String]] = [:]
-                for (key, value) in outputs {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    outputsDict[key] = automationParameterValueList
-                }
-                self.outputs = outputsDict
-            } else { 
-                self.outputs = nil
-            }
-            self.failureMessage = dictionary["FailureMessage"] as? String
-            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
-            if let stepExecutions = dictionary["StepExecutions"] as? [[String: Any]] {
-                self.stepExecutions = try stepExecutions.map({ try StepExecution(dictionary: $0) })
-            } else { 
-                self.stepExecutions = nil
-            }
-            self.executionEndTime = dictionary["ExecutionEndTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case automationExecutionStatus = "AutomationExecutionStatus"
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
+            case executionStartTime = "ExecutionStartTime"
+            case outputs = "Outputs"
+            case failureMessage = "FailureMessage"
+            case automationExecutionId = "AutomationExecutionId"
+            case stepExecutions = "StepExecutions"
+            case executionEndTime = "ExecutionEndTime"
         }
     }
 
     public struct MaintenanceWindowTaskParameterValueExpression: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
         public let values: [String]?
@@ -3300,16 +2915,15 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
         }
     }
 
     public struct AssociationFilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationFilter", required: false, type: .list)
         ]
         public let associationFilter: [AssociationFilter]?
 
@@ -3317,21 +2931,16 @@ extension Ssm {
             self.associationFilter = associationFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationFilter = dictionary["AssociationFilter"] as? [[String: Any]] {
-                self.associationFilter = try associationFilter.map({ try AssociationFilter(dictionary: $0) })
-            } else { 
-                self.associationFilter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case associationFilter = "AssociationFilter"
         }
     }
 
     public struct GetParametersByPathResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of parameters found in the specified hierarchy.
         public let parameters: [Parameter]?
@@ -3343,33 +2952,28 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Patch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Classification", required: false, type: .string), 
-            AWSShapeProperty(label: "Product", required: false, type: .string), 
-            AWSShapeProperty(label: "Language", required: false, type: .string), 
-            AWSShapeProperty(label: "ReleaseDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Title", required: false, type: .string), 
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductFamily", required: false, type: .string), 
-            AWSShapeProperty(label: "Vendor", required: false, type: .string), 
-            AWSShapeProperty(label: "MsrcNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "KbNumber", required: false, type: .string), 
-            AWSShapeProperty(label: "ContentUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "MsrcSeverity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Classification", required: false, type: .string), 
+            AWSShapeMember(label: "Product", required: false, type: .string), 
+            AWSShapeMember(label: "Language", required: false, type: .string), 
+            AWSShapeMember(label: "ReleaseDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Title", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ProductFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Vendor", required: false, type: .string), 
+            AWSShapeMember(label: "MsrcNumber", required: false, type: .string), 
+            AWSShapeMember(label: "KbNumber", required: false, type: .string), 
+            AWSShapeMember(label: "ContentUrl", required: false, type: .string), 
+            AWSShapeMember(label: "MsrcSeverity", required: false, type: .string)
         ]
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String?
@@ -3378,7 +2982,7 @@ extension Ssm {
         /// The language of the patch if it's language-specific.
         public let language: String?
         /// The date the patch was released.
-        public let releaseDate: String?
+        public let releaseDate: Double?
         /// The title of the patch.
         public let title: String?
         /// The ID of the patch (this is different than the Microsoft Knowledge Base ID).
@@ -3398,7 +3002,7 @@ extension Ssm {
         /// The severity of the patch (for example Critical, Important, Moderate).
         public let msrcSeverity: String?
 
-        public init(classification: String? = nil, product: String? = nil, language: String? = nil, releaseDate: String? = nil, title: String? = nil, id: String? = nil, description: String? = nil, productFamily: String? = nil, vendor: String? = nil, msrcNumber: String? = nil, kbNumber: String? = nil, contentUrl: String? = nil, msrcSeverity: String? = nil) {
+        public init(classification: String? = nil, product: String? = nil, language: String? = nil, releaseDate: Double? = nil, title: String? = nil, id: String? = nil, description: String? = nil, productFamily: String? = nil, vendor: String? = nil, msrcNumber: String? = nil, kbNumber: String? = nil, contentUrl: String? = nil, msrcSeverity: String? = nil) {
             self.classification = classification
             self.product = product
             self.language = language
@@ -3414,28 +3018,27 @@ extension Ssm {
             self.msrcSeverity = msrcSeverity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.classification = dictionary["Classification"] as? String
-            self.product = dictionary["Product"] as? String
-            self.language = dictionary["Language"] as? String
-            self.releaseDate = dictionary["ReleaseDate"] as? String
-            self.title = dictionary["Title"] as? String
-            self.id = dictionary["Id"] as? String
-            self.description = dictionary["Description"] as? String
-            self.productFamily = dictionary["ProductFamily"] as? String
-            self.vendor = dictionary["Vendor"] as? String
-            self.msrcNumber = dictionary["MsrcNumber"] as? String
-            self.kbNumber = dictionary["KbNumber"] as? String
-            self.contentUrl = dictionary["ContentUrl"] as? String
-            self.msrcSeverity = dictionary["MsrcSeverity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case classification = "Classification"
+            case product = "Product"
+            case language = "Language"
+            case releaseDate = "ReleaseDate"
+            case title = "Title"
+            case id = "Id"
+            case description = "Description"
+            case productFamily = "ProductFamily"
+            case vendor = "Vendor"
+            case msrcNumber = "MsrcNumber"
+            case kbNumber = "KbNumber"
+            case contentUrl = "ContentUrl"
+            case msrcSeverity = "MsrcSeverity"
         }
     }
 
     public struct DescribeDocumentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: false, type: .structure)
         ]
         /// Information about the SSM document.
         public let document: DocumentDescription?
@@ -3444,17 +3047,16 @@ extension Ssm {
             self.document = document
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let document = dictionary["Document"] as? [String: Any] { self.document = try Ssm.DocumentDescription(dictionary: document) } else { self.document = nil }
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
         }
     }
 
     public struct DescribeAutomationExecutionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutomationExecutionMetadataList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutomationExecutionMetadataList", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -3466,31 +3068,26 @@ extension Ssm {
             self.automationExecutionMetadataList = automationExecutionMetadataList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let automationExecutionMetadataList = dictionary["AutomationExecutionMetadataList"] as? [[String: Any]] {
-                self.automationExecutionMetadataList = try automationExecutionMetadataList.map({ try AutomationExecutionMetadata(dictionary: $0) })
-            } else { 
-                self.automationExecutionMetadataList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case automationExecutionMetadataList = "AutomationExecutionMetadataList"
         }
     }
 
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "TaskArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxErrors", required: true, type: .string), 
-            AWSShapeProperty(label: "TaskType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ClientToken", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskParameters", required: false, type: .map), 
-            AWSShapeProperty(label: "Targets", required: true, type: .list), 
-            AWSShapeProperty(label: "LoggingInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "Priority", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxConcurrency", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "TaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxErrors", required: true, type: .string), 
+            AWSShapeMember(label: "TaskType", required: true, type: .enum), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "TaskParameters", required: false, type: .map), 
+            AWSShapeMember(label: "Targets", required: true, type: .list), 
+            AWSShapeMember(label: "LoggingInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxConcurrency", required: true, type: .string)
         ]
         /// The id of the Maintenance Window the task should be added to.
         public let windowId: String
@@ -3529,42 +3126,25 @@ extension Ssm {
             self.maxConcurrency = maxConcurrency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            guard let taskArn = dictionary["TaskArn"] as? String else { throw InitializableError.missingRequiredParam("TaskArn") }
-            self.taskArn = taskArn
-            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
-            self.serviceRoleArn = serviceRoleArn
-            guard let maxErrors = dictionary["MaxErrors"] as? String else { throw InitializableError.missingRequiredParam("MaxErrors") }
-            self.maxErrors = maxErrors
-            guard let rawTaskType = dictionary["TaskType"] as? String, let taskType = MaintenanceWindowTaskType(rawValue: rawTaskType) else { throw InitializableError.missingRequiredParam("TaskType") }
-            self.taskType = taskType
-            self.clientToken = dictionary["ClientToken"] as? String
-            if let taskParameters = dictionary["TaskParameters"] as? [String: Any] {
-                var taskParametersDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
-                for (key, value) in taskParameters {
-                    guard let maintenanceWindowTaskParameterValueExpressionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    taskParametersDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: maintenanceWindowTaskParameterValueExpressionDict)
-                }
-                self.taskParameters = taskParametersDict
-            } else { 
-                self.taskParameters = nil
-            }
-            guard let targets = dictionary["Targets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Targets") }
-            self.targets = try targets.map({ try Target(dictionary: $0) })
-            if let loggingInfo = dictionary["LoggingInfo"] as? [String: Any] { self.loggingInfo = try Ssm.LoggingInfo(dictionary: loggingInfo) } else { self.loggingInfo = nil }
-            self.priority = dictionary["Priority"] as? Int32
-            guard let maxConcurrency = dictionary["MaxConcurrency"] as? String else { throw InitializableError.missingRequiredParam("MaxConcurrency") }
-            self.maxConcurrency = maxConcurrency
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case taskArn = "TaskArn"
+            case serviceRoleArn = "ServiceRoleArn"
+            case maxErrors = "MaxErrors"
+            case taskType = "TaskType"
+            case clientToken = "ClientToken"
+            case taskParameters = "TaskParameters"
+            case targets = "Targets"
+            case loggingInfo = "LoggingInfo"
+            case priority = "Priority"
+            case maxConcurrency = "MaxConcurrency"
         }
     }
 
     public struct ResultAttributeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResultAttribute", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResultAttribute", required: false, type: .list)
         ]
         public let resultAttribute: [ResultAttribute]?
 
@@ -3572,26 +3152,21 @@ extension Ssm {
             self.resultAttribute = resultAttribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resultAttribute = dictionary["ResultAttribute"] as? [[String: Any]] {
-                self.resultAttribute = try resultAttribute.map({ try ResultAttribute(dictionary: $0) })
-            } else { 
-                self.resultAttribute = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case resultAttribute = "ResultAttribute"
         }
     }
 
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string)
         ]
         /// A description of the parameters for a document. 
         public let parameters: [String: [String]]?
@@ -3618,32 +3193,18 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            self.instanceId = dictionary["InstanceId"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case targets = "Targets"
+            case outputLocation = "OutputLocation"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
-    public enum NotificationType: String, CustomStringConvertible {
+    public enum NotificationType: String, CustomStringConvertible, Codable {
         case command = "Command"
         case invocation = "Invocation"
         public var description: String { return self.rawValue }
@@ -3651,13 +3212,10 @@ extension Ssm {
 
     public struct CancelCommandResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
-    public enum AssociationFilterKey: String, CustomStringConvertible {
+    public enum AssociationFilterKey: String, CustomStringConvertible, Codable {
         case instanceid = "InstanceId"
         case name = "Name"
         case associationid = "AssociationId"
@@ -3669,20 +3227,16 @@ extension Ssm {
 
     public struct GetDefaultPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ResourceDataSyncS3Destination: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BucketName", required: true, type: .string), 
-            AWSShapeProperty(label: "SyncFormat", required: true, type: .enum), 
-            AWSShapeProperty(label: "Region", required: true, type: .string), 
-            AWSShapeProperty(label: "Prefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "SyncFormat", required: true, type: .enum), 
+            AWSShapeMember(label: "Region", required: true, type: .string), 
+            AWSShapeMember(label: "Prefix", required: false, type: .string)
         ]
         /// The name of the Amazon S3 bucket where the aggregated data is stored.
         public let bucketName: String
@@ -3700,22 +3254,18 @@ extension Ssm {
             self.prefix = prefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let bucketName = dictionary["BucketName"] as? String else { throw InitializableError.missingRequiredParam("BucketName") }
-            self.bucketName = bucketName
-            guard let rawSyncFormat = dictionary["SyncFormat"] as? String, let syncFormat = ResourceDataSyncS3Format(rawValue: rawSyncFormat) else { throw InitializableError.missingRequiredParam("SyncFormat") }
-            self.syncFormat = syncFormat
-            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
-            self.region = region
-            self.prefix = dictionary["Prefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case syncFormat = "SyncFormat"
+            case region = "Region"
+            case prefix = "Prefix"
         }
     }
 
     public struct InstanceInformationFilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceInformationFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceInformationFilter", required: false, type: .list)
         ]
         public let instanceInformationFilter: [InstanceInformationFilter]?
 
@@ -3723,34 +3273,29 @@ extension Ssm {
             self.instanceInformationFilter = instanceInformationFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInformationFilter = dictionary["InstanceInformationFilter"] as? [[String: Any]] {
-                self.instanceInformationFilter = try instanceInformationFilter.map({ try InstanceInformationFilter(dictionary: $0) })
-            } else { 
-                self.instanceInformationFilter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceInformationFilter = "InstanceInformationFilter"
         }
     }
 
     public struct ParameterHistory: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedUser", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedUser", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ID of the query key used for this parameter.
         public let keyId: String?
         /// The name of the parameter.
         public let name: String?
         /// Date the parameter was last changed or updated.
-        public let lastModifiedDate: String?
+        public let lastModifiedDate: Double?
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
         /// The type of parameter used.
@@ -3762,7 +3307,7 @@ extension Ssm {
         /// Information about the parameter.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: String? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Double? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
@@ -3773,29 +3318,28 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["KeyId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.allowedPattern = dictionary["AllowedPattern"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["Value"] as? String
-            self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case name = "Name"
+            case lastModifiedDate = "LastModifiedDate"
+            case allowedPattern = "AllowedPattern"
+            case `type` = "Type"
+            case value = "Value"
+            case lastModifiedUser = "LastModifiedUser"
+            case description = "Description"
         }
     }
 
-    public enum MaintenanceWindowTaskType: String, CustomStringConvertible {
+    public enum MaintenanceWindowTaskType: String, CustomStringConvertible, Codable {
         case run_command = "RUN_COMMAND"
         public var description: String { return self.rawValue }
     }
 
     public struct PatchOrchestratorFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The key for the filter.
         public let key: String?
@@ -3807,29 +3351,28 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
-    public enum CommandFilterKey: String, CustomStringConvertible {
+    public enum CommandFilterKey: String, CustomStringConvertible, Codable {
         case invokedafter = "InvokedAfter"
         case invokedbefore = "InvokedBefore"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceDataSyncS3Format: String, CustomStringConvertible {
+    public enum ResourceDataSyncS3Format: String, CustomStringConvertible, Codable {
         case jsonserde = "JsonSerDe"
         public var description: String { return self.rawValue }
     }
 
     public struct UpdateDocumentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDescription", required: false, type: .structure)
         ]
         /// A description of the document that was updated.
         public let documentDescription: DocumentDescription?
@@ -3838,17 +3381,16 @@ extension Ssm {
             self.documentDescription = documentDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentDescription = dictionary["DocumentDescription"] as? [String: Any] { self.documentDescription = try Ssm.DocumentDescription(dictionary: documentDescription) } else { self.documentDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case documentDescription = "DocumentDescription"
         }
     }
 
     public struct InventoryItemAttribute: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DataType", required: true, type: .enum), 
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataType", required: true, type: .enum), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The data type of the inventory item attribute. 
         public let dataType: InventoryAttributeDataType
@@ -3860,40 +3402,37 @@ extension Ssm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawDataType = dictionary["DataType"] as? String, let dataType = InventoryAttributeDataType(rawValue: rawDataType) else { throw InitializableError.missingRequiredParam("DataType") }
-            self.dataType = dataType
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case name = "Name"
         }
     }
 
     public struct DocumentDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Sha1", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Owner", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .structure), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "LatestVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "PlatformTypes", required: false, type: .structure), 
-            AWSShapeProperty(label: "Hash", required: false, type: .string), 
-            AWSShapeProperty(label: "HashType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Sha1", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultVersion", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Owner", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Parameters", required: false, type: .structure), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LatestVersion", required: false, type: .string), 
+            AWSShapeMember(label: "PlatformTypes", required: false, type: .structure), 
+            AWSShapeMember(label: "Hash", required: false, type: .string), 
+            AWSShapeMember(label: "HashType", required: false, type: .enum)
         ]
         /// The SHA1 hash of the document, which you can use for verification purposes.
         public let sha1: String?
         /// The default version.
         public let defaultVersion: String?
         /// The date when the document was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// The AWS user account of the person who created the document.
         public let owner: String?
         /// The type of document. 
@@ -3919,7 +3458,7 @@ extension Ssm {
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
         public let hashType: DocumentHashType?
 
-        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: String? = nil, owner: String? = nil, documentType: DocumentType? = nil, description: String? = nil, status: DocumentStatus? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: DocumentHashType? = nil) {
+        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Double? = nil, owner: String? = nil, documentType: DocumentType? = nil, description: String? = nil, status: DocumentStatus? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: DocumentHashType? = nil) {
             self.sha1 = sha1
             self.defaultVersion = defaultVersion
             self.createdDate = createdDate
@@ -3937,31 +3476,30 @@ extension Ssm {
             self.hashType = hashType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sha1 = dictionary["Sha1"] as? String
-            self.defaultVersion = dictionary["DefaultVersion"] as? String
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.owner = dictionary["Owner"] as? String
-            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
-            self.description = dictionary["Description"] as? String
-            if let status = dictionary["Status"] as? String { self.status = DocumentStatus(rawValue: status) } else { self.status = nil }
-            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Ssm.DocumentParameterList(dictionary: parameters) } else { self.parameters = nil }
-            self.name = dictionary["Name"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            self.schemaVersion = dictionary["SchemaVersion"] as? String
-            self.latestVersion = dictionary["LatestVersion"] as? String
-            if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
-            self.hash = dictionary["Hash"] as? String
-            if let hashType = dictionary["HashType"] as? String { self.hashType = DocumentHashType(rawValue: hashType) } else { self.hashType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sha1 = "Sha1"
+            case defaultVersion = "DefaultVersion"
+            case createdDate = "CreatedDate"
+            case owner = "Owner"
+            case documentType = "DocumentType"
+            case description = "Description"
+            case status = "Status"
+            case parameters = "Parameters"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case schemaVersion = "SchemaVersion"
+            case latestVersion = "LatestVersion"
+            case platformTypes = "PlatformTypes"
+            case hash = "Hash"
+            case hashType = "HashType"
         }
     }
 
     public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: true, type: .string), 
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string)
         ]
         /// The ID of the patch baseline to deregister the patch group from.
         public let baselineId: String
@@ -3973,20 +3511,17 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct InstanceInformationFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .enum), 
-            AWSShapeProperty(label: "valueSet", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .enum), 
+            AWSShapeMember(label: "valueSet", required: true, type: .structure)
         ]
         /// The name of the filter. 
         public let key: InstanceInformationFilterKey
@@ -3998,29 +3533,23 @@ extension Ssm {
             self.valueSet = valueSet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawkey = dictionary["key"] as? String, let key = InstanceInformationFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let valueSet = dictionary["valueSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("valueSet") }
-            self.valueSet = try Ssm.InstanceInformationFilterValueSet(dictionary: valueSet)
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case valueSet = "valueSet"
         }
     }
 
     public struct CreateResourceDataSyncResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeEffectiveInstanceAssociationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4035,27 +3564,22 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ModifyDocumentPermissionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PatchFilterGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchFilters", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchFilters", required: true, type: .list)
         ]
         /// The set of patch filters that make up the group.
         public let patchFilters: [PatchFilter]
@@ -4064,18 +3588,16 @@ extension Ssm {
             self.patchFilters = patchFilters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let patchFilters = dictionary["PatchFilters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PatchFilters") }
-            self.patchFilters = try patchFilters.map({ try PatchFilter(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case patchFilters = "PatchFilters"
         }
     }
 
     public struct DescribeDocumentPermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "PermissionType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "PermissionType", required: true, type: .enum)
         ]
         /// The name of the document for which you are the owner.
         public let name: String
@@ -4087,20 +3609,17 @@ extension Ssm {
             self.permissionType = permissionType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let rawPermissionType = dictionary["PermissionType"] as? String, let permissionType = DocumentPermissionType(rawValue: rawPermissionType) else { throw InitializableError.missingRequiredParam("PermissionType") }
-            self.permissionType = permissionType
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case permissionType = "PermissionType"
         }
     }
 
     public struct RegisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "PatchGroup", required: false, type: .string)
         ]
         /// The ID of the patch baseline the patch group was registered with.
         public let baselineId: String?
@@ -4112,18 +3631,17 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.patchGroup = dictionary["PatchGroup"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct CommandFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .enum), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The name of the filter.
         public let key: CommandFilterKey
@@ -4135,26 +3653,23 @@ extension Ssm {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawkey = dictionary["key"] as? String, let key = CommandFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
-    public enum MaintenanceWindowResourceType: String, CustomStringConvertible {
+    public enum MaintenanceWindowResourceType: String, CustomStringConvertible, Codable {
         case instance = "INSTANCE"
         public var description: String { return self.rawValue }
     }
 
     public struct CreateDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentType", required: false, type: .enum)
         ]
         /// A valid JSON string.
         public let content: String
@@ -4169,20 +3684,17 @@ extension Ssm {
             self.documentType = documentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
-            self.content = content
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case name = "Name"
+            case documentType = "DocumentType"
         }
     }
 
     public struct RegisterDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the default patch baseline.
         public let baselineId: String?
@@ -4191,17 +3703,16 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The user-defined snapshot ID.
         public let snapshotId: String
@@ -4213,19 +3724,16 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
-            self.snapshotId = snapshotId
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct SendCommandResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Command", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Command", required: false, type: .structure)
         ]
         /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
         public let command: Command?
@@ -4234,17 +3742,16 @@ extension Ssm {
             self.command = command
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let command = dictionary["Command"] as? [String: Any] { self.command = try Ssm.Command(dictionary: command) } else { self.command = nil }
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
         }
     }
 
     public struct DeregisterTaskFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "WindowTaskId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "WindowTaskId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window the task should be removed from.
         public let windowId: String
@@ -4256,20 +3763,17 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            guard let windowTaskId = dictionary["WindowTaskId"] as? String else { throw InitializableError.missingRequiredParam("WindowTaskId") }
-            self.windowTaskId = windowTaskId
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case windowTaskId = "WindowTaskId"
         }
     }
 
     public struct GetParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Names", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "Names", required: true, type: .list)
         ]
         /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public let withDecryption: Bool?
@@ -4281,19 +3785,17 @@ extension Ssm {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.withDecryption = dictionary["WithDecryption"] as? Bool
-            guard let names = dictionary["Names"] as? [String] else { throw InitializableError.missingRequiredParam("Names") }
-            self.names = names
+        private enum CodingKeys: String, CodingKey {
+            case withDecryption = "WithDecryption"
+            case names = "Names"
         }
     }
 
     public struct ListCommandInvocationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "CommandInvocations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "CommandInvocations", required: false, type: .list)
         ]
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4305,24 +3807,19 @@ extension Ssm {
             self.commandInvocations = commandInvocations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let commandInvocations = dictionary["CommandInvocations"] as? [[String: Any]] {
-                self.commandInvocations = try commandInvocations.map({ try CommandInvocation(dictionary: $0) })
-            } else { 
-                self.commandInvocations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case commandInvocations = "CommandInvocations"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window whose executions should be retrieved.
         public let windowId: String
@@ -4340,25 +3837,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InvalidParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "DeletedParameters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InvalidParameters", required: false, type: .list), 
+            AWSShapeMember(label: "DeletedParameters", required: false, type: .list)
         ]
         /// The names of parameters that weren't deleted because the parameters are not valid.
         public let invalidParameters: [String]?
@@ -4370,13 +3861,13 @@ extension Ssm {
             self.deletedParameters = deletedParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.invalidParameters = dictionary["InvalidParameters"] as? [String]
-            self.deletedParameters = dictionary["DeletedParameters"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameters = "InvalidParameters"
+            case deletedParameters = "DeletedParameters"
         }
     }
 
-    public enum Fault: String, CustomStringConvertible {
+    public enum Fault: String, CustomStringConvertible, Codable {
         case client = "Client"
         case server = "Server"
         case unknown = "Unknown"
@@ -4385,13 +3876,12 @@ extension Ssm {
 
     public struct ListCommandsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// (Optional) One or more filters. Use a filter to return a more specific list of results. 
         public let filters: [CommandFilter]?
@@ -4412,37 +3902,32 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try CommandFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.commandId = dictionary["CommandId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case commandId = "CommandId"
+            case instanceId = "InstanceId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ParameterMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LastModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "LastModifiedUser", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LastModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedUser", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ID of the query key used for this parameter.
         public let keyId: String?
         /// The parameter name.
         public let name: String?
         /// Date the parameter was last changed or updated.
-        public let lastModifiedDate: String?
+        public let lastModifiedDate: Double?
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
         /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
@@ -4452,7 +3937,7 @@ extension Ssm {
         /// Description of the parameter actions.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: String? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Double? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
@@ -4462,18 +3947,18 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["KeyId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            self.allowedPattern = dictionary["AllowedPattern"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
-            self.lastModifiedUser = dictionary["LastModifiedUser"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case name = "Name"
+            case lastModifiedDate = "LastModifiedDate"
+            case allowedPattern = "AllowedPattern"
+            case `type` = "Type"
+            case lastModifiedUser = "LastModifiedUser"
+            case description = "Description"
         }
     }
 
-    public enum DescribeActivationsFilterKeys: String, CustomStringConvertible {
+    public enum DescribeActivationsFilterKeys: String, CustomStringConvertible, Codable {
         case activationids = "ActivationIds"
         case defaultinstancename = "DefaultInstanceName"
         case iamrole = "IamRole"
@@ -4482,11 +3967,10 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4501,22 +3985,17 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try MaintenanceWindowFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct PlatformTypeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PlatformType", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PlatformType", required: false, type: .list)
         ]
         public let platformType: [PlatformType]?
 
@@ -4524,31 +4003,30 @@ extension Ssm {
             self.platformType = platformType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let platformType = dictionary["PlatformType"] as? [String] { self.platformType = platformType.flatMap({ PlatformType(rawValue: $0)}) } else { self.platformType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case platformType = "PlatformType"
         }
     }
 
     public struct UpdatePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RejectedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ApprovalRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "GlobalFilters", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "ApprovedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RejectedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ApprovalRules", required: false, type: .structure), 
+            AWSShapeMember(label: "GlobalFilters", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
         /// A list of explicitly approved patches for the baseline.
         public let approvedPatches: [String]?
         /// The date when the patch baseline was last modified.
-        public let modifiedDate: String?
+        public let modifiedDate: Double?
         /// The name of the patch baseline.
         public let name: String?
         /// A list of explicitly rejected patches for the baseline.
@@ -4558,11 +4036,11 @@ extension Ssm {
         /// A set of global filters used to exclude patches from the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The date when the patch baseline was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A description of the Patch Baseline.
         public let description: String?
 
-        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: String? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: String? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Double? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Double? = nil, description: String? = nil) {
             self.baselineId = baselineId
             self.approvedPatches = approvedPatches
             self.modifiedDate = modifiedDate
@@ -4574,27 +4052,26 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.approvedPatches = dictionary["ApprovedPatches"] as? [String]
-            self.modifiedDate = dictionary["ModifiedDate"] as? String
-            self.name = dictionary["Name"] as? String
-            self.rejectedPatches = dictionary["RejectedPatches"] as? [String]
-            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) } else { self.approvalRules = nil }
-            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) } else { self.globalFilters = nil }
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case approvedPatches = "ApprovedPatches"
+            case modifiedDate = "ModifiedDate"
+            case name = "Name"
+            case rejectedPatches = "RejectedPatches"
+            case approvalRules = "ApprovalRules"
+            case globalFilters = "GlobalFilters"
+            case createdDate = "CreatedDate"
+            case description = "Description"
         }
     }
 
     public struct DescribeInstanceInformationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceInformationFilterList", required: false, type: .structure), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceInformationFilterList", required: false, type: .structure), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters. Use a filter to return a more specific list of instances.
         public let instanceInformationFilterList: InstanceInformationFilterList?
@@ -4612,22 +4089,21 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInformationFilterList = dictionary["InstanceInformationFilterList"] as? [String: Any] { self.instanceInformationFilterList = try Ssm.InstanceInformationFilterList(dictionary: instanceInformationFilterList) } else { self.instanceInformationFilterList = nil }
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InstanceInformationStringFilterList(dictionary: filters) } else { self.filters = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case instanceInformationFilterList = "InstanceInformationFilterList"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetInventoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResultAttributes", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "ResultAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: InventoryFilterList?
@@ -4645,20 +4121,19 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InventoryFilterList(dictionary: filters) } else { self.filters = nil }
-            if let resultAttributes = dictionary["ResultAttributes"] as? [String: Any] { self.resultAttributes = try Ssm.ResultAttributeList(dictionary: resultAttributes) } else { self.resultAttributes = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case resultAttributes = "ResultAttributes"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribePatchBaselinesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineIdentities", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineIdentities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of PatchBaselineIdentity elements.
         public let baselineIdentities: [PatchBaselineIdentity]?
@@ -4670,22 +4145,17 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let baselineIdentities = dictionary["BaselineIdentities"] as? [[String: Any]] {
-                self.baselineIdentities = try baselineIdentities.map({ try PatchBaselineIdentity(dictionary: $0) })
-            } else { 
-                self.baselineIdentities = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineIdentities = "BaselineIdentities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct InstanceAggregatedAssociationOverview: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceAssociationStatusAggregatedCount", required: false, type: .map), 
-            AWSShapeProperty(label: "DetailedStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceAssociationStatusAggregatedCount", required: false, type: .map), 
+            AWSShapeMember(label: "DetailedStatus", required: false, type: .string)
         ]
         /// The number of associations for the instance(s).
         public let instanceAssociationStatusAggregatedCount: [String: Int32]?
@@ -4697,35 +4167,30 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceAssociationStatusAggregatedCount = dictionary["InstanceAssociationStatusAggregatedCount"] as? [String: Int32] {
-                self.instanceAssociationStatusAggregatedCount = instanceAssociationStatusAggregatedCount
-            } else { 
-                self.instanceAssociationStatusAggregatedCount = nil
-            }
-            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceAssociationStatusAggregatedCount = "InstanceAssociationStatusAggregatedCount"
+            case detailedStatus = "DetailedStatus"
         }
     }
 
     public struct GetCommandInvocationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PluginName", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionElapsedTime", required: false, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardOutputUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardErrorContent", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentName", required: false, type: .string), 
-            AWSShapeProperty(label: "StandardErrorUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionEndDateTime", required: false, type: .string), 
-            AWSShapeProperty(label: "ResponseCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "StandardOutputContent", required: false, type: .string), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionStartDateTime", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PluginName", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionElapsedTime", required: false, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "StandardOutputUrl", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "StandardErrorContent", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentName", required: false, type: .string), 
+            AWSShapeMember(label: "StandardErrorUrl", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionEndDateTime", required: false, type: .string), 
+            AWSShapeMember(label: "ResponseCode", required: false, type: .integer), 
+            AWSShapeMember(label: "StandardOutputContent", required: false, type: .string), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionStartDateTime", required: false, type: .string)
         ]
         /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
@@ -4776,30 +4241,29 @@ extension Ssm {
             self.executionStartDateTime = executionStartDateTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pluginName = dictionary["PluginName"] as? String
-            self.executionElapsedTime = dictionary["ExecutionElapsedTime"] as? String
-            self.comment = dictionary["Comment"] as? String
-            self.standardOutputUrl = dictionary["StandardOutputUrl"] as? String
-            if let status = dictionary["Status"] as? String { self.status = CommandInvocationStatus(rawValue: status) } else { self.status = nil }
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.standardErrorContent = dictionary["StandardErrorContent"] as? String
-            self.documentName = dictionary["DocumentName"] as? String
-            self.standardErrorUrl = dictionary["StandardErrorUrl"] as? String
-            self.executionEndDateTime = dictionary["ExecutionEndDateTime"] as? String
-            self.responseCode = dictionary["ResponseCode"] as? Int32
-            self.standardOutputContent = dictionary["StandardOutputContent"] as? String
-            self.commandId = dictionary["CommandId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
-            self.executionStartDateTime = dictionary["ExecutionStartDateTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case pluginName = "PluginName"
+            case executionElapsedTime = "ExecutionElapsedTime"
+            case comment = "Comment"
+            case standardOutputUrl = "StandardOutputUrl"
+            case status = "Status"
+            case instanceId = "InstanceId"
+            case standardErrorContent = "StandardErrorContent"
+            case documentName = "DocumentName"
+            case standardErrorUrl = "StandardErrorUrl"
+            case executionEndDateTime = "ExecutionEndDateTime"
+            case responseCode = "ResponseCode"
+            case standardOutputContent = "StandardOutputContent"
+            case commandId = "CommandId"
+            case statusDetails = "StatusDetails"
+            case executionStartDateTime = "ExecutionStartDateTime"
         }
     }
 
     public struct InstanceInformationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceInformation", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceInformation", required: false, type: .list)
         ]
         public let instanceInformation: [InstanceInformation]?
 
@@ -4807,22 +4271,17 @@ extension Ssm {
             self.instanceInformation = instanceInformation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceInformation = dictionary["InstanceInformation"] as? [[String: Any]] {
-                self.instanceInformation = try instanceInformation.map({ try InstanceInformation(dictionary: $0) })
-            } else { 
-                self.instanceInformation = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instanceInformation = "InstanceInformation"
         }
     }
 
     public struct InventoryItemSchema: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TypeName", required: true, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: true, type: .structure), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TypeName", required: true, type: .string), 
+            AWSShapeMember(label: "Attributes", required: true, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The name of the inventory type. Default inventory item type names start with AWS. Custom inventory type names will start with Custom. Default inventory item types include the following: AWS:AWSComponent, AWS:Application, AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
         public let typeName: String
@@ -4837,20 +4296,17 @@ extension Ssm {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
-            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try Ssm.InventoryItemAttributeList(dictionary: attributes)
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case typeName = "TypeName"
+            case attributes = "Attributes"
+            case version = "Version"
         }
     }
 
     public struct UpdateAssociationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// The description of the association that was updated.
         public let associationDescription: AssociationDescription?
@@ -4859,25 +4315,21 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) } else { self.associationDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case associationDescription = "AssociationDescription"
         }
     }
 
     public struct UpdateManagedInstanceRoleResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeInstanceInformationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceInformationList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceInformationList", required: false, type: .structure)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty. 
         public let nextToken: String?
@@ -4889,42 +4341,40 @@ extension Ssm {
             self.instanceInformationList = instanceInformationList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let instanceInformationList = dictionary["InstanceInformationList"] as? [String: Any] { self.instanceInformationList = try Ssm.InstanceInformationList(dictionary: instanceInformationList) } else { self.instanceInformationList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instanceInformationList = "InstanceInformationList"
         }
     }
 
     public struct PatchStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ApprovalDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DeploymentStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApprovalDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DeploymentStatus", required: false, type: .enum)
         ]
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
-        public let approvalDate: String?
+        public let approvalDate: Double?
         /// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED, EXPLICIT_REJECTED).
         public let deploymentStatus: PatchDeploymentStatus?
 
-        public init(approvalDate: String? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
+        public init(approvalDate: Double? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
             self.approvalDate = approvalDate
             self.deploymentStatus = deploymentStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.approvalDate = dictionary["ApprovalDate"] as? String
-            if let deploymentStatus = dictionary["DeploymentStatus"] as? String { self.deploymentStatus = PatchDeploymentStatus(rawValue: deploymentStatus) } else { self.deploymentStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case approvalDate = "ApprovalDate"
+            case deploymentStatus = "DeploymentStatus"
         }
     }
 
     public struct StartAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "DocumentName", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "DocumentName", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// A key-value map of execution parameters, which match the declared parameters in the Automation document.
         public let parameters: [String: [String]]?
@@ -4939,30 +4389,19 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = automationParameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            guard let documentName = dictionary["DocumentName"] as? String else { throw InitializableError.missingRequiredParam("DocumentName") }
-            self.documentName = documentName
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case documentName = "DocumentName"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct UpdateDocumentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The content in a document that you want to update.
         public let content: String
@@ -4977,32 +4416,29 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
-            self.content = content
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct GetMaintenanceWindowExecutionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TaskIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TaskIds", required: false, type: .list), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the Maintenance Window finished executing.
-        public let endTime: String?
+        public let endTime: Double?
         /// The ID of the task executions from the Maintenance Window execution.
         public let taskIds: [String]?
         /// The time the Maintenance Window started executing.
-        public let startTime: String?
+        public let startTime: Double?
         /// The status of the Maintenance Window execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
@@ -5010,7 +4446,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: String? = nil, taskIds: [String]? = nil, startTime: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: Double? = nil, taskIds: [String]? = nil, startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.taskIds = taskIds
             self.startTime = startTime
@@ -5019,26 +4455,25 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endTime = dictionary["EndTime"] as? String
-            self.taskIds = dictionary["TaskIds"] as? [String]
-            self.startTime = dictionary["StartTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case taskIds = "TaskIds"
+            case startTime = "StartTime"
+            case status = "Status"
+            case windowExecutionId = "WindowExecutionId"
+            case statusDetails = "StatusDetails"
         }
     }
 
     public struct DescribePatchGroupStateResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstancesWithMissingPatches", required: false, type: .integer), 
-            AWSShapeProperty(label: "Instances", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstancesWithNotApplicablePatches", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstancesWithInstalledPatches", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstancesWithFailedPatches", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstancesWithInstalledOtherPatches", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancesWithMissingPatches", required: false, type: .integer), 
+            AWSShapeMember(label: "Instances", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithNotApplicablePatches", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithInstalledPatches", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithFailedPatches", required: false, type: .integer), 
+            AWSShapeMember(label: "InstancesWithInstalledOtherPatches", required: false, type: .integer)
         ]
         /// The number of instances with missing patches from the patch baseline.
         public let instancesWithMissingPatches: Int32?
@@ -5062,22 +4497,21 @@ extension Ssm {
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instancesWithMissingPatches = dictionary["InstancesWithMissingPatches"] as? Int32
-            self.instances = dictionary["Instances"] as? Int32
-            self.instancesWithNotApplicablePatches = dictionary["InstancesWithNotApplicablePatches"] as? Int32
-            self.instancesWithInstalledPatches = dictionary["InstancesWithInstalledPatches"] as? Int32
-            self.instancesWithFailedPatches = dictionary["InstancesWithFailedPatches"] as? Int32
-            self.instancesWithInstalledOtherPatches = dictionary["InstancesWithInstalledOtherPatches"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case instancesWithMissingPatches = "InstancesWithMissingPatches"
+            case instances = "Instances"
+            case instancesWithNotApplicablePatches = "InstancesWithNotApplicablePatches"
+            case instancesWithInstalledPatches = "InstancesWithInstalledPatches"
+            case instancesWithFailedPatches = "InstancesWithFailedPatches"
+            case instancesWithInstalledOtherPatches = "InstancesWithInstalledOtherPatches"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string)
         ]
         /// The value of the tag.
         public let value: String
@@ -5089,19 +4523,16 @@ extension Ssm {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct RegisterTaskWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowTaskId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowTaskId", required: false, type: .string)
         ]
         /// The id of the task in the Maintenance Window.
         public let windowTaskId: String?
@@ -5110,18 +4541,17 @@ extension Ssm {
             self.windowTaskId = windowTaskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowTaskId = dictionary["WindowTaskId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowTaskId = "WindowTaskId"
         }
     }
 
     public struct DescribeAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string)
         ]
         /// The name of the SSM document.
         public let name: String?
@@ -5136,22 +4566,21 @@ extension Ssm {
             self.associationId = associationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.associationId = dictionary["AssociationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case associationId = "AssociationId"
         }
     }
 
     public struct MaintenanceWindowIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "Cutoff", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "Cutoff", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// The ID of the Maintenance Window.
         public let windowId: String?
@@ -5172,20 +4601,19 @@ extension Ssm {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.cutoff = dictionary["Cutoff"] as? Int32
-            self.duration = dictionary["Duration"] as? Int32
-            self.name = dictionary["Name"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case cutoff = "Cutoff"
+            case duration = "Duration"
+            case name = "Name"
+            case enabled = "Enabled"
         }
     }
 
     public struct DeregisterManagedInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The ID assigned to the managed instance when you registered it using the activation process. 
         public let instanceId: String
@@ -5194,18 +4622,16 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct DocumentDefaultVersionDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultVersion", required: false, type: .string)
         ]
         /// The name of the document.
         public let name: String?
@@ -5217,18 +4643,17 @@ extension Ssm {
             self.defaultVersion = defaultVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.defaultVersion = dictionary["DefaultVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case defaultVersion = "DefaultVersion"
         }
     }
 
     public struct AutomationExecutionFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .enum), 
-            AWSShapeProperty(label: "Values", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// The aspect of the Automation execution information that should be limited.
         public let key: AutomationExecutionFilterKey
@@ -5240,15 +4665,13 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawKey = dictionary["Key"] as? String, let key = AutomationExecutionFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
-    public enum InventoryQueryOperatorType: String, CustomStringConvertible {
+    public enum InventoryQueryOperatorType: String, CustomStringConvertible, Codable {
         case equal = "Equal"
         case notequal = "NotEqual"
         case beginwith = "BeginWith"
@@ -5259,13 +4682,12 @@ extension Ssm {
 
     public struct CreateActivationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamRole", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "RegistrationLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "DefaultInstanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "ExpirationDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamRole", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrationLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "DefaultInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp)
         ]
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
         public let iamRole: String
@@ -5276,9 +4698,9 @@ extension Ssm {
         /// The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.
         public let defaultInstanceName: String?
         /// The date by which this activation request should expire. The default value is 24 hours.
-        public let expirationDate: String?
+        public let expirationDate: Double?
 
-        public init(iamRole: String, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, expirationDate: String? = nil) {
+        public init(iamRole: String, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, expirationDate: Double? = nil) {
             self.iamRole = iamRole
             self.description = description
             self.registrationLimit = registrationLimit
@@ -5286,23 +4708,21 @@ extension Ssm {
             self.expirationDate = expirationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let iamRole = dictionary["IamRole"] as? String else { throw InitializableError.missingRequiredParam("IamRole") }
-            self.iamRole = iamRole
-            self.description = dictionary["Description"] as? String
-            self.registrationLimit = dictionary["RegistrationLimit"] as? Int32
-            self.defaultInstanceName = dictionary["DefaultInstanceName"] as? String
-            self.expirationDate = dictionary["ExpirationDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamRole = "IamRole"
+            case description = "Description"
+            case registrationLimit = "RegistrationLimit"
+            case defaultInstanceName = "DefaultInstanceName"
+            case expirationDate = "ExpirationDate"
         }
     }
 
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
         /// The resource ID you want to tag.
         public let resourceId: String
@@ -5317,31 +4737,27 @@ extension Ssm {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case tags = "Tags"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct MaintenanceWindowTask: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxErrors", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskParameters", required: false, type: .map), 
-            AWSShapeProperty(label: "WindowTaskId", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "Priority", required: false, type: .integer), 
-            AWSShapeProperty(label: "LoggingInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaxConcurrency", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaxErrors", required: false, type: .string), 
+            AWSShapeMember(label: "TaskParameters", required: false, type: .map), 
+            AWSShapeMember(label: "WindowTaskId", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "LoggingInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxConcurrency", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
         /// The Maintenance Window ID where the task is registered.
         public let windowId: String?
@@ -5380,40 +4796,26 @@ extension Ssm {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.taskArn = dictionary["TaskArn"] as? String
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.maxErrors = dictionary["MaxErrors"] as? String
-            if let taskParameters = dictionary["TaskParameters"] as? [String: Any] {
-                var taskParametersDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
-                for (key, value) in taskParameters {
-                    guard let maintenanceWindowTaskParameterValueExpressionDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    taskParametersDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: maintenanceWindowTaskParameterValueExpressionDict)
-                }
-                self.taskParameters = taskParametersDict
-            } else { 
-                self.taskParameters = nil
-            }
-            self.windowTaskId = dictionary["WindowTaskId"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.priority = dictionary["Priority"] as? Int32
-            if let loggingInfo = dictionary["LoggingInfo"] as? [String: Any] { self.loggingInfo = try Ssm.LoggingInfo(dictionary: loggingInfo) } else { self.loggingInfo = nil }
-            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = MaintenanceWindowTaskType(rawValue: `type`) } else { self.`type` = nil }
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case taskArn = "TaskArn"
+            case serviceRoleArn = "ServiceRoleArn"
+            case maxErrors = "MaxErrors"
+            case taskParameters = "TaskParameters"
+            case windowTaskId = "WindowTaskId"
+            case targets = "Targets"
+            case priority = "Priority"
+            case loggingInfo = "LoggingInfo"
+            case maxConcurrency = "MaxConcurrency"
+            case `type` = "Type"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionTaskInvocationIdentities", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionTaskInvocationIdentities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the task invocation results per invocation.
         public let windowExecutionTaskInvocationIdentities: [MaintenanceWindowExecutionTaskInvocationIdentity]?
@@ -5425,21 +4827,16 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let windowExecutionTaskInvocationIdentities = dictionary["WindowExecutionTaskInvocationIdentities"] as? [[String: Any]] {
-                self.windowExecutionTaskInvocationIdentities = try windowExecutionTaskInvocationIdentities.map({ try MaintenanceWindowExecutionTaskInvocationIdentity(dictionary: $0) })
-            } else { 
-                self.windowExecutionTaskInvocationIdentities = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionTaskInvocationIdentities = "WindowExecutionTaskInvocationIdentities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DocumentParameterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentParameter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentParameter", required: false, type: .list)
         ]
         public let documentParameter: [DocumentParameter]?
 
@@ -5447,21 +4844,16 @@ extension Ssm {
             self.documentParameter = documentParameter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentParameter = dictionary["DocumentParameter"] as? [[String: Any]] {
-                self.documentParameter = try documentParameter.map({ try DocumentParameter(dictionary: $0) })
-            } else { 
-                self.documentParameter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case documentParameter = "DocumentParameter"
         }
     }
 
     public struct DescribeInstancePatchesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Patches", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Patches", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -5473,30 +4865,22 @@ extension Ssm {
             self.patches = patches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let patches = dictionary["Patches"] as? [[String: Any]] {
-                self.patches = try patches.map({ try PatchComplianceData(dictionary: $0) })
-            } else { 
-                self.patches = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case patches = "Patches"
         }
     }
 
     public struct RemoveTagsFromResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PatchGroupPatchBaselineMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "BaselineIdentity", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchGroup", required: false, type: .string), 
+            AWSShapeMember(label: "BaselineIdentity", required: false, type: .structure)
         ]
         /// The name of the patch group registered with the patch baseline.
         public let patchGroup: String?
@@ -5508,17 +4892,16 @@ extension Ssm {
             self.baselineIdentity = baselineIdentity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.patchGroup = dictionary["PatchGroup"] as? String
-            if let baselineIdentity = dictionary["BaselineIdentity"] as? [String: Any] { self.baselineIdentity = try Ssm.PatchBaselineIdentity(dictionary: baselineIdentity) } else { self.baselineIdentity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case patchGroup = "PatchGroup"
+            case baselineIdentity = "BaselineIdentity"
         }
     }
 
     public struct CreatePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the created patch baseline.
         public let baselineId: String?
@@ -5527,16 +4910,15 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct DeleteMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window to delete.
         public let windowId: String
@@ -5545,18 +4927,16 @@ extension Ssm {
             self.windowId = windowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
         }
     }
 
     public struct DescribePatchGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -5568,17 +4948,16 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string)
         ]
         /// The name of the patch group whose patch baseline should be retrieved.
         public let patchGroup: String
@@ -5587,18 +4966,16 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
+        private enum CodingKeys: String, CodingKey {
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct DescribeActivationsFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FilterKey", required: false, type: .enum), 
-            AWSShapeProperty(label: "FilterValues", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterKey", required: false, type: .enum), 
+            AWSShapeMember(label: "FilterValues", required: false, type: .list)
         ]
         /// The name of the filter.
         public let filterKey: DescribeActivationsFilterKeys?
@@ -5610,18 +4987,17 @@ extension Ssm {
             self.filterValues = filterValues
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filterKey = dictionary["FilterKey"] as? String { self.filterKey = DescribeActivationsFilterKeys(rawValue: filterKey) } else { self.filterKey = nil }
-            self.filterValues = dictionary["FilterValues"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case filterKey = "FilterKey"
+            case filterValues = "FilterValues"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum)
         ]
         /// The resource ID for which you want to see a list of tags.
         public let resourceId: String
@@ -5633,19 +5009,16 @@ extension Ssm {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct GetAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutomationExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomationExecutionId", required: true, type: .string)
         ]
         /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation document is initiated.
         public let automationExecutionId: String
@@ -5654,19 +5027,17 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let automationExecutionId = dictionary["AutomationExecutionId"] as? String else { throw InitializableError.missingRequiredParam("AutomationExecutionId") }
-            self.automationExecutionId = automationExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case automationExecutionId = "AutomationExecutionId"
         }
     }
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The type of parameter. Valid values include the following: String, String list, Secure string.
         public let `type`: ParameterType?
@@ -5681,19 +5052,18 @@ extension Ssm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = ParameterType(rawValue: `type`) } else { self.`type` = nil }
-            self.value = dictionary["Value"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case value = "Value"
+            case name = "Name"
         }
     }
 
     public struct CreateActivationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivationId", required: false, type: .string), 
-            AWSShapeProperty(label: "ActivationCode", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivationId", required: false, type: .string), 
+            AWSShapeMember(label: "ActivationCode", required: false, type: .string)
         ]
         /// The ID number generated by the system when it processed the activation. The activation ID functions like a user name.
         public let activationId: String?
@@ -5705,18 +5075,17 @@ extension Ssm {
             self.activationCode = activationCode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.activationId = dictionary["ActivationId"] as? String
-            self.activationCode = dictionary["ActivationCode"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case activationId = "ActivationId"
+            case activationCode = "ActivationCode"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionTasksResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionTaskIdentities", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionTaskIdentities", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the task executions.
         public let windowExecutionTaskIdentities: [MaintenanceWindowExecutionTaskIdentity]?
@@ -5728,23 +5097,18 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let windowExecutionTaskIdentities = dictionary["WindowExecutionTaskIdentities"] as? [[String: Any]] {
-                self.windowExecutionTaskIdentities = try windowExecutionTaskIdentities.map({ try MaintenanceWindowExecutionTaskIdentity(dictionary: $0) })
-            } else { 
-                self.windowExecutionTaskIdentities = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionTaskIdentities = "WindowExecutionTaskIdentities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeInstanceAssociationsStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -5759,28 +5123,23 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct PutParameterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListDocumentVersionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentVersions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentVersions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The document versions.
         public let documentVersions: [DocumentVersionInfo]?
@@ -5792,25 +5151,20 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentVersions = dictionary["DocumentVersions"] as? [[String: Any]] {
-                self.documentVersions = try documentVersions.map({ try DocumentVersionInfo(dictionary: $0) })
-            } else { 
-                self.documentVersions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case documentVersions = "DocumentVersions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListInventoryEntriesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "TypeName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "TypeName", required: true, type: .string)
         ]
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
@@ -5831,18 +5185,16 @@ extension Ssm {
             self.typeName = typeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["MaxResults"] as? Int32
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InventoryFilterList(dictionary: filters) } else { self.filters = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
-            self.typeName = typeName
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
+            case typeName = "TypeName"
         }
     }
 
-    public enum MaintenanceWindowExecutionStatus: String, CustomStringConvertible {
+    public enum MaintenanceWindowExecutionStatus: String, CustomStringConvertible, Codable {
         case pending = "PENDING"
         case in_progress = "IN_PROGRESS"
         case success = "SUCCESS"
@@ -5856,15 +5208,14 @@ extension Ssm {
 
     public struct UpdateAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationId", required: true, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "OutputLocation", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationId", required: true, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "OutputLocation", required: false, type: .structure), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string)
         ]
         /// The ID of the association you want to update. 
         public let associationId: String
@@ -5891,38 +5242,23 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let associationId = dictionary["AssociationId"] as? String else { throw InitializableError.missingRequiredParam("AssociationId") }
-            self.associationId = associationId
-            if let parameters = dictionary["Parameters"] as? [String: Any] {
-                var parametersDict: [String: [String]] = [:]
-                for (key, value) in parameters {
-                    guard let parameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    parametersDict[key] = parameterValueList
-                }
-                self.parameters = parametersDict
-            } else { 
-                self.parameters = nil
-            }
-            self.name = dictionary["Name"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            if let outputLocation = dictionary["OutputLocation"] as? [String: Any] { self.outputLocation = try Ssm.InstanceAssociationOutputLocation(dictionary: outputLocation) } else { self.outputLocation = nil }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case parameters = "Parameters"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case targets = "Targets"
+            case outputLocation = "OutputLocation"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
     public struct GetCommandInvocationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CommandId", required: true, type: .string), 
-            AWSShapeProperty(label: "PluginName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommandId", required: true, type: .string), 
+            AWSShapeMember(label: "PluginName", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
@@ -5937,33 +5273,30 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let commandId = dictionary["CommandId"] as? String else { throw InitializableError.missingRequiredParam("CommandId") }
-            self.commandId = commandId
-            self.pluginName = dictionary["PluginName"] as? String
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case commandId = "CommandId"
+            case pluginName = "PluginName"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "InvocationId", required: false, type: .string), 
-            AWSShapeProperty(label: "Parameters", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WindowTargetId", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string), 
-            AWSShapeProperty(label: "OwnerInformation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "InvocationId", required: false, type: .string), 
+            AWSShapeMember(label: "Parameters", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WindowTargetId", required: false, type: .string), 
+            AWSShapeMember(label: "TaskExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerInformation", required: false, type: .string)
         ]
         /// The time the invocation started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The status of the task invocation.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
@@ -5975,7 +5308,7 @@ extension Ssm {
         /// The ID of the action performed in the service that actually handled the task invocation. If the task type is RUN_COMMAND, this value is the command ID.
         public let executionId: String?
         /// The time the invocation finished.
-        public let endTime: String?
+        public let endTime: Double?
         /// The ID of the target definition in this Maintenance Window the invocation was performed for.
         public let windowTargetId: String?
         /// The ID of the specific task execution in the Maintenance Window execution.
@@ -5985,7 +5318,7 @@ extension Ssm {
         /// User-provided value that was specified when the target was registered with the Maintenance Window. This was also included in any CloudWatch events raised during the task invocation.
         public let ownerInformation: String?
 
-        public init(startTime: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: String? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
+        public init(startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: Double? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -5999,35 +5332,31 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
-            self.invocationId = dictionary["InvocationId"] as? String
-            self.parameters = dictionary["Parameters"] as? String
-            self.executionId = dictionary["ExecutionId"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.windowTargetId = dictionary["WindowTargetId"] as? String
-            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
-            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case status = "Status"
+            case windowExecutionId = "WindowExecutionId"
+            case invocationId = "InvocationId"
+            case parameters = "Parameters"
+            case executionId = "ExecutionId"
+            case endTime = "EndTime"
+            case windowTargetId = "WindowTargetId"
+            case taskExecutionId = "TaskExecutionId"
+            case statusDetails = "StatusDetails"
+            case ownerInformation = "OwnerInformation"
         }
     }
 
     public struct DeleteAssociationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListResourceDataSyncRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
@@ -6039,17 +5368,16 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateDocumentDefaultVersionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .structure)
         ]
         /// The description of a custom document that you want to set as the default version.
         public let description: DocumentDefaultVersionDescription?
@@ -6058,12 +5386,12 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ssm.DocumentDefaultVersionDescription(dictionary: description) } else { self.description = nil }
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
         }
     }
 
-    public enum PingStatus: String, CustomStringConvertible {
+    public enum PingStatus: String, CustomStringConvertible, Codable {
         case online = "Online"
         case connectionlost = "ConnectionLost"
         case inactive = "Inactive"
@@ -6072,10 +5400,9 @@ extension Ssm {
 
     public struct CreateAssociationBatchResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Successful", required: false, type: .structure), 
-            AWSShapeProperty(label: "Failed", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Successful", required: false, type: .structure), 
+            AWSShapeMember(label: "Failed", required: false, type: .structure)
         ]
         /// Information about the associations that succeeded.
         public let successful: AssociationDescriptionList?
@@ -6087,17 +5414,16 @@ extension Ssm {
             self.failed = failed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let successful = dictionary["Successful"] as? [String: Any] { self.successful = try Ssm.AssociationDescriptionList(dictionary: successful) } else { self.successful = nil }
-            if let failed = dictionary["Failed"] as? [String: Any] { self.failed = try Ssm.FailedCreateAssociationList(dictionary: failed) } else { self.failed = nil }
+        private enum CodingKeys: String, CodingKey {
+            case successful = "Successful"
+            case failed = "Failed"
         }
     }
 
     public struct AccountIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .list)
         ]
         public let accountId: [String]?
 
@@ -6105,35 +5431,34 @@ extension Ssm {
             self.accountId = accountId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.accountId = dictionary["AccountId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
         }
     }
 
     public struct InstancePatchState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstalledOtherCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "FailedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "OperationEndTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "PatchGroup", required: true, type: .string), 
-            AWSShapeProperty(label: "BaselineId", required: true, type: .string), 
-            AWSShapeProperty(label: "MissingCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "Operation", required: true, type: .enum), 
-            AWSShapeProperty(label: "NotApplicableCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstalledCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "OperationStartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "OwnerInformation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstalledOtherCount", required: false, type: .integer), 
+            AWSShapeMember(label: "FailedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "OperationEndTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PatchGroup", required: true, type: .string), 
+            AWSShapeMember(label: "BaselineId", required: true, type: .string), 
+            AWSShapeMember(label: "MissingCount", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "Operation", required: true, type: .enum), 
+            AWSShapeMember(label: "NotApplicableCount", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "InstalledCount", required: false, type: .integer), 
+            AWSShapeMember(label: "OperationStartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "OwnerInformation", required: false, type: .string)
         ]
         /// The number of patches not specified in the patch baseline that are installed on the instance.
         public let installedOtherCount: Int32?
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public let failedCount: Int32?
         /// The time the most recent patching operation completed on the instance.
-        public let operationEndTime: String
+        public let operationEndTime: Double
         /// The name of the patch group the managed instance belongs to.
         public let patchGroup: String
         /// The ID of the patch baseline used to patch the instance.
@@ -6151,11 +5476,11 @@ extension Ssm {
         /// The number of patches from the patch baseline that are installed on the instance.
         public let installedCount: Int32?
         /// The time the most recent patching operation was started on the instance.
-        public let operationStartTime: String
+        public let operationStartTime: Double
         /// Placeholder information, this field will always be empty in the current release of the service.
         public let ownerInformation: String?
 
-        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: String, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: PatchOperationType, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: String, ownerInformation: String? = nil) {
+        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: Double, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: PatchOperationType, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: Double, ownerInformation: String? = nil) {
             self.installedOtherCount = installedOtherCount
             self.failedCount = failedCount
             self.operationEndTime = operationEndTime
@@ -6171,44 +5496,37 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.installedOtherCount = dictionary["InstalledOtherCount"] as? Int32
-            self.failedCount = dictionary["FailedCount"] as? Int32
-            guard let operationEndTime = dictionary["OperationEndTime"] as? String else { throw InitializableError.missingRequiredParam("OperationEndTime") }
-            self.operationEndTime = operationEndTime
-            guard let patchGroup = dictionary["PatchGroup"] as? String else { throw InitializableError.missingRequiredParam("PatchGroup") }
-            self.patchGroup = patchGroup
-            guard let baselineId = dictionary["BaselineId"] as? String else { throw InitializableError.missingRequiredParam("BaselineId") }
-            self.baselineId = baselineId
-            self.missingCount = dictionary["MissingCount"] as? Int32
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let rawOperation = dictionary["Operation"] as? String, let operation = PatchOperationType(rawValue: rawOperation) else { throw InitializableError.missingRequiredParam("Operation") }
-            self.operation = operation
-            self.notApplicableCount = dictionary["NotApplicableCount"] as? Int32
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            self.installedCount = dictionary["InstalledCount"] as? Int32
-            guard let operationStartTime = dictionary["OperationStartTime"] as? String else { throw InitializableError.missingRequiredParam("OperationStartTime") }
-            self.operationStartTime = operationStartTime
-            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case installedOtherCount = "InstalledOtherCount"
+            case failedCount = "FailedCount"
+            case operationEndTime = "OperationEndTime"
+            case patchGroup = "PatchGroup"
+            case baselineId = "BaselineId"
+            case missingCount = "MissingCount"
+            case instanceId = "InstanceId"
+            case operation = "Operation"
+            case notApplicableCount = "NotApplicableCount"
+            case snapshotId = "SnapshotId"
+            case installedCount = "InstalledCount"
+            case operationStartTime = "OperationStartTime"
+            case ownerInformation = "OwnerInformation"
         }
     }
 
     public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "TaskExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "TaskType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "TaskExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the task execution started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The status of the task execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
@@ -6218,13 +5536,13 @@ extension Ssm {
         /// The type of executed task.
         public let taskType: MaintenanceWindowTaskType?
         /// The time the task execution finished.
-        public let endTime: String?
+        public let endTime: Double?
         /// The ID of the specific task execution in the Maintenance Window execution.
         public let taskExecutionId: String?
         /// The details explaining the status of the task execution. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(startTime: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: MaintenanceWindowTaskType? = nil, endTime: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: MaintenanceWindowTaskType? = nil, endTime: Double? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -6235,35 +5553,34 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
-            self.taskArn = dictionary["TaskArn"] as? String
-            if let taskType = dictionary["TaskType"] as? String { self.taskType = MaintenanceWindowTaskType(rawValue: taskType) } else { self.taskType = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case status = "Status"
+            case windowExecutionId = "WindowExecutionId"
+            case taskArn = "TaskArn"
+            case taskType = "TaskType"
+            case endTime = "EndTime"
+            case taskExecutionId = "TaskExecutionId"
+            case statusDetails = "StatusDetails"
         }
     }
 
     public struct MaintenanceWindowExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the execution finished.
-        public let endTime: String?
+        public let endTime: Double?
         /// The ID of the Maintenance Window.
         public let windowId: String?
         /// The time the execution started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The status of the execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
@@ -6271,7 +5588,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: String? = nil, windowId: String? = nil, startTime: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: Double? = nil, windowId: String? = nil, startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.windowId = windowId
             self.startTime = startTime
@@ -6280,17 +5597,17 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endTime = dictionary["EndTime"] as? String
-            self.windowId = dictionary["WindowId"] as? String
-            self.startTime = dictionary["StartTime"] as? String
-            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
-            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case windowId = "WindowId"
+            case startTime = "StartTime"
+            case status = "Status"
+            case windowExecutionId = "WindowExecutionId"
+            case statusDetails = "StatusDetails"
         }
     }
 
-    public enum InstancePatchStateOperatorType: String, CustomStringConvertible {
+    public enum InstancePatchStateOperatorType: String, CustomStringConvertible, Codable {
         case equal = "Equal"
         case notequal = "NotEqual"
         case lessthan = "LessThan"
@@ -6298,13 +5615,13 @@ extension Ssm {
         public var description: String { return self.rawValue }
     }
 
-    public enum DocumentHashType: String, CustomStringConvertible {
+    public enum DocumentHashType: String, CustomStringConvertible, Codable {
         case sha256 = "Sha256"
         case sha1 = "Sha1"
         public var description: String { return self.rawValue }
     }
 
-    public enum ParameterType: String, CustomStringConvertible {
+    public enum ParameterType: String, CustomStringConvertible, Codable {
         case string = "String"
         case stringlist = "StringList"
         case securestring = "SecureString"
@@ -6313,9 +5630,8 @@ extension Ssm {
 
     public struct AssociationList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Association", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Association", required: false, type: .list)
         ]
         public let association: [Association]?
 
@@ -6323,29 +5639,21 @@ extension Ssm {
             self.association = association
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let association = dictionary["Association"] as? [[String: Any]] {
-                self.association = try association.map({ try Association(dictionary: $0) })
-            } else { 
-                self.association = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case association = "Association"
         }
     }
 
     public struct PutInventoryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListDocumentsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentIdentifiers", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentIdentifiers", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The names of the SSM documents.
         public let documentIdentifiers: DocumentIdentifierList?
@@ -6357,19 +5665,18 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentIdentifiers = dictionary["DocumentIdentifiers"] as? [String: Any] { self.documentIdentifiers = try Ssm.DocumentIdentifierList(dictionary: documentIdentifiers) } else { self.documentIdentifiers = nil }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case documentIdentifiers = "DocumentIdentifiers"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeAvailablePatchesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -6384,22 +5691,17 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try PatchOrchestratorFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case filters = "Filters"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .list)
         ]
         /// A list of tags.
         public let tagList: [Tag]?
@@ -6408,33 +5710,28 @@ extension Ssm {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [[String: Any]] {
-                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct StepExecution: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutionEndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StepName", required: false, type: .string), 
-            AWSShapeProperty(label: "Action", required: false, type: .string), 
-            AWSShapeProperty(label: "FailureDetails", required: false, type: .structure), 
-            AWSShapeProperty(label: "Inputs", required: false, type: .map), 
-            AWSShapeProperty(label: "ExecutionStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Outputs", required: false, type: .map), 
-            AWSShapeProperty(label: "ResponseCode", required: false, type: .string), 
-            AWSShapeProperty(label: "FailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "StepStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "Response", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutionEndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StepName", required: false, type: .string), 
+            AWSShapeMember(label: "Action", required: false, type: .string), 
+            AWSShapeMember(label: "FailureDetails", required: false, type: .structure), 
+            AWSShapeMember(label: "Inputs", required: false, type: .map), 
+            AWSShapeMember(label: "ExecutionStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Outputs", required: false, type: .map), 
+            AWSShapeMember(label: "ResponseCode", required: false, type: .string), 
+            AWSShapeMember(label: "FailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "StepStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Response", required: false, type: .string)
         ]
         /// If a step has finished execution, this contains the time the execution ended. If the step has not yet concluded, this field is not populated.
-        public let executionEndTime: String?
+        public let executionEndTime: Double?
         /// The name of this execution step.
         public let stepName: String?
         /// The action this step performs. The action determines the behavior of the step.
@@ -6444,7 +5741,7 @@ extension Ssm {
         /// Fully-resolved values passed into the step before execution.
         public let inputs: [String: String]?
         /// If a step has begun execution, this contains the time the step started. If the step is in Pending status, this field is not populated.
-        public let executionStartTime: String?
+        public let executionStartTime: Double?
         /// Returned values from the execution of the step.
         public let outputs: [String: [String]]?
         /// The response code returned by the execution of the step.
@@ -6456,7 +5753,7 @@ extension Ssm {
         /// A message associated with the response code for an execution.
         public let response: String?
 
-        public init(executionEndTime: String? = nil, stepName: String? = nil, action: String? = nil, failureDetails: FailureDetails? = nil, inputs: [String: String]? = nil, executionStartTime: String? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
+        public init(executionEndTime: Double? = nil, stepName: String? = nil, action: String? = nil, failureDetails: FailureDetails? = nil, inputs: [String: String]? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
             self.executionEndTime = executionEndTime
             self.stepName = stepName
             self.action = action
@@ -6470,41 +5767,27 @@ extension Ssm {
             self.response = response
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.executionEndTime = dictionary["ExecutionEndTime"] as? String
-            self.stepName = dictionary["StepName"] as? String
-            self.action = dictionary["Action"] as? String
-            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Ssm.FailureDetails(dictionary: failureDetails) } else { self.failureDetails = nil }
-            if let inputs = dictionary["Inputs"] as? [String: String] {
-                self.inputs = inputs
-            } else { 
-                self.inputs = nil
-            }
-            self.executionStartTime = dictionary["ExecutionStartTime"] as? String
-            if let outputs = dictionary["Outputs"] as? [String: Any] {
-                var outputsDict: [String: [String]] = [:]
-                for (key, value) in outputs {
-                    guard let automationParameterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    outputsDict[key] = automationParameterValueList
-                }
-                self.outputs = outputsDict
-            } else { 
-                self.outputs = nil
-            }
-            self.responseCode = dictionary["ResponseCode"] as? String
-            self.failureMessage = dictionary["FailureMessage"] as? String
-            if let stepStatus = dictionary["StepStatus"] as? String { self.stepStatus = AutomationExecutionStatus(rawValue: stepStatus) } else { self.stepStatus = nil }
-            self.response = dictionary["Response"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case executionEndTime = "ExecutionEndTime"
+            case stepName = "StepName"
+            case action = "Action"
+            case failureDetails = "FailureDetails"
+            case inputs = "Inputs"
+            case executionStartTime = "ExecutionStartTime"
+            case outputs = "Outputs"
+            case responseCode = "ResponseCode"
+            case failureMessage = "FailureMessage"
+            case stepStatus = "StepStatus"
+            case response = "Response"
         }
     }
 
     public struct AssociationOverview: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationStatusAggregatedCount", required: false, type: .map), 
-            AWSShapeProperty(label: "DetailedStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationStatusAggregatedCount", required: false, type: .map), 
+            AWSShapeMember(label: "DetailedStatus", required: false, type: .string)
         ]
         /// The status of the association. Status can be: Pending, Success, or Failed.
         public let status: String?
@@ -6519,23 +5802,18 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            if let associationStatusAggregatedCount = dictionary["AssociationStatusAggregatedCount"] as? [String: Int32] {
-                self.associationStatusAggregatedCount = associationStatusAggregatedCount
-            } else { 
-                self.associationStatusAggregatedCount = nil
-            }
-            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case associationStatusAggregatedCount = "AssociationStatusAggregatedCount"
+            case detailedStatus = "DetailedStatus"
         }
     }
 
     public struct CreateResourceDataSyncRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SyncName", required: true, type: .string), 
-            AWSShapeProperty(label: "S3Destination", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Destination", required: true, type: .structure)
         ]
         /// A name for the configuration.
         public let syncName: String
@@ -6547,31 +5825,28 @@ extension Ssm {
             self.s3Destination = s3Destination
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let syncName = dictionary["SyncName"] as? String else { throw InitializableError.missingRequiredParam("SyncName") }
-            self.syncName = syncName
-            guard let s3Destination = dictionary["S3Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Destination") }
-            self.s3Destination = try Ssm.ResourceDataSyncS3Destination(dictionary: s3Destination)
+        private enum CodingKeys: String, CodingKey {
+            case syncName = "SyncName"
+            case s3Destination = "S3Destination"
         }
     }
 
     public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Priority", required: false, type: .integer), 
-            AWSShapeProperty(label: "ServiceRole", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "WindowExecutionId", required: false, type: .string), 
-            AWSShapeProperty(label: "TaskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxErrors", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "TaskParameters", required: false, type: .list), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxConcurrency", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "StatusDetails", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Priority", required: false, type: .integer), 
+            AWSShapeMember(label: "ServiceRole", required: false, type: .string), 
+            AWSShapeMember(label: "TaskExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "WindowExecutionId", required: false, type: .string), 
+            AWSShapeMember(label: "TaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "MaxErrors", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "TaskParameters", required: false, type: .list), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxConcurrency", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The priority of the task.
         public let priority: Int32?
@@ -6580,7 +5855,7 @@ extension Ssm {
         /// The ID of the specific task execution in the Maintenance Window task that was retrieved.
         public let taskExecutionId: String?
         /// The time the task execution started.
-        public let startTime: String?
+        public let startTime: Double?
         /// The ID of the Maintenance Window execution that includes the task.
         public let windowExecutionId: String?
         /// The ARN of the executed task.
@@ -6592,7 +5867,7 @@ extension Ssm {
         /// The parameters passed to the task when it was executed. The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
         /// The time the task execution completed.
-        public let endTime: String?
+        public let endTime: Double?
         /// The defined maximum number of task executions that could be run in parallel.
         public let maxConcurrency: String?
         /// The type of task executed.
@@ -6600,7 +5875,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: String? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: String? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil, statusDetails: String? = nil) {
+        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: Double? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: Double? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil, statusDetails: String? = nil) {
             self.priority = priority
             self.serviceRole = serviceRole
             self.taskExecutionId = taskExecutionId
@@ -6616,40 +5891,27 @@ extension Ssm {
             self.statusDetails = statusDetails
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.priority = dictionary["Priority"] as? Int32
-            self.serviceRole = dictionary["ServiceRole"] as? String
-            self.taskExecutionId = dictionary["TaskExecutionId"] as? String
-            self.startTime = dictionary["StartTime"] as? String
-            self.windowExecutionId = dictionary["WindowExecutionId"] as? String
-            self.taskArn = dictionary["TaskArn"] as? String
-            self.maxErrors = dictionary["MaxErrors"] as? String
-            if let status = dictionary["Status"] as? String { self.status = MaintenanceWindowExecutionStatus(rawValue: status) } else { self.status = nil }
-            if let taskParameters = dictionary["TaskParameters"] as? [[String: [String: Any]]] {
-                var taskParametersList: [[String: MaintenanceWindowTaskParameterValueExpression]] = []
-                var maintenanceWindowTaskParameterValueExpressionDict: [String: MaintenanceWindowTaskParameterValueExpression] = [:]
-                for item in taskParameters {
-                    for (key, value) in item {
-                        maintenanceWindowTaskParameterValueExpressionDict[key] = try MaintenanceWindowTaskParameterValueExpression(dictionary: value)
-                    }
-                    taskParametersList.append(maintenanceWindowTaskParameterValueExpressionDict)
-                }
-                self.taskParameters = taskParametersList
-            } else { 
-                self.taskParameters = nil
-            }
-            self.endTime = dictionary["EndTime"] as? String
-            self.maxConcurrency = dictionary["MaxConcurrency"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = MaintenanceWindowTaskType(rawValue: `type`) } else { self.`type` = nil }
-            self.statusDetails = dictionary["StatusDetails"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case serviceRole = "ServiceRole"
+            case taskExecutionId = "TaskExecutionId"
+            case startTime = "StartTime"
+            case windowExecutionId = "WindowExecutionId"
+            case taskArn = "TaskArn"
+            case maxErrors = "MaxErrors"
+            case status = "Status"
+            case taskParameters = "TaskParameters"
+            case endTime = "EndTime"
+            case maxConcurrency = "MaxConcurrency"
+            case `type` = "Type"
+            case statusDetails = "StatusDetails"
         }
     }
 
     public struct CreateDocumentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentDescription", required: false, type: .structure)
         ]
         /// Information about the Systems Manager document.
         public let documentDescription: DocumentDescription?
@@ -6658,17 +5920,16 @@ extension Ssm {
             self.documentDescription = documentDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentDescription = dictionary["DocumentDescription"] as? [String: Any] { self.documentDescription = try Ssm.DocumentDescription(dictionary: documentDescription) } else { self.documentDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case documentDescription = "DocumentDescription"
         }
     }
 
     public struct DescribeMaintenanceWindowExecutionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutions", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the Maintenance Windows execution.
         public let windowExecutions: [MaintenanceWindowExecution]?
@@ -6680,26 +5941,21 @@ extension Ssm {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let windowExecutions = dictionary["WindowExecutions"] as? [[String: Any]] {
-                self.windowExecutions = try windowExecutions.map({ try MaintenanceWindowExecution(dictionary: $0) })
-            } else { 
-                self.windowExecutions = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutions = "WindowExecutions"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ListCommandInvocationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Details", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Details", required: false, type: .boolean), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False. 
         public let details: Bool?
@@ -6723,41 +5979,36 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.details = dictionary["Details"] as? Bool
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try CommandFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.commandId = dictionary["CommandId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case filters = "Filters"
+            case commandId = "CommandId"
+            case instanceId = "InstanceId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct GetPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "ApprovedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ModifiedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "RejectedPatches", required: false, type: .list), 
-            AWSShapeProperty(label: "ApprovalRules", required: false, type: .structure), 
-            AWSShapeProperty(label: "GlobalFilters", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PatchGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "ApprovedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ModifiedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RejectedPatches", required: false, type: .list), 
+            AWSShapeMember(label: "ApprovalRules", required: false, type: .structure), 
+            AWSShapeMember(label: "GlobalFilters", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PatchGroups", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The ID of the retrieved patch baseline.
         public let baselineId: String?
         /// A list of explicitly approved patches for the baseline.
         public let approvedPatches: [String]?
         /// The date the patch baseline was last modified.
-        public let modifiedDate: String?
+        public let modifiedDate: Double?
         /// The name of the patch baseline.
         public let name: String?
         /// A list of explicitly rejected patches for the baseline.
@@ -6767,13 +6018,13 @@ extension Ssm {
         /// A set of global filters used to exclude patches from the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The date the patch baseline was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// Patch groups included in the patch baseline.
         public let patchGroups: [String]?
         /// A description of the patch baseline.
         public let description: String?
 
-        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: String? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: String? = nil, patchGroups: [String]? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Double? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Double? = nil, patchGroups: [String]? = nil, description: String? = nil) {
             self.baselineId = baselineId
             self.approvedPatches = approvedPatches
             self.modifiedDate = modifiedDate
@@ -6786,25 +6037,24 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.approvedPatches = dictionary["ApprovedPatches"] as? [String]
-            self.modifiedDate = dictionary["ModifiedDate"] as? String
-            self.name = dictionary["Name"] as? String
-            self.rejectedPatches = dictionary["RejectedPatches"] as? [String]
-            if let approvalRules = dictionary["ApprovalRules"] as? [String: Any] { self.approvalRules = try Ssm.PatchRuleGroup(dictionary: approvalRules) } else { self.approvalRules = nil }
-            if let globalFilters = dictionary["GlobalFilters"] as? [String: Any] { self.globalFilters = try Ssm.PatchFilterGroup(dictionary: globalFilters) } else { self.globalFilters = nil }
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.patchGroups = dictionary["PatchGroups"] as? [String]
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case approvedPatches = "ApprovedPatches"
+            case modifiedDate = "ModifiedDate"
+            case name = "Name"
+            case rejectedPatches = "RejectedPatches"
+            case approvalRules = "ApprovalRules"
+            case globalFilters = "GlobalFilters"
+            case createdDate = "CreatedDate"
+            case patchGroups = "PatchGroups"
+            case description = "Description"
         }
     }
 
     public struct CreateAssociationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -6813,17 +6063,16 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) } else { self.associationDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case associationDescription = "AssociationDescription"
         }
     }
 
     public struct DescribeMaintenanceWindowsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "WindowIdentities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "WindowIdentities", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -6835,22 +6084,17 @@ extension Ssm {
             self.windowIdentities = windowIdentities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let windowIdentities = dictionary["WindowIdentities"] as? [[String: Any]] {
-                self.windowIdentities = try windowIdentities.map({ try MaintenanceWindowIdentity(dictionary: $0) })
-            } else { 
-                self.windowIdentities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case windowIdentities = "WindowIdentities"
         }
     }
 
     public struct DescribeAvailablePatchesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Patches", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Patches", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -6862,22 +6106,17 @@ extension Ssm {
             self.patches = patches
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let patches = dictionary["Patches"] as? [[String: Any]] {
-                self.patches = try patches.map({ try Patch(dictionary: $0) })
-            } else { 
-                self.patches = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case patches = "Patches"
         }
     }
 
     public struct InventoryResultEntity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Id", required: false, type: .string), 
-            AWSShapeProperty(label: "Data", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Data", required: false, type: .map)
         ]
         /// ID of the inventory result entity. For example, for managed instance inventory the result will be the managed instance ID. For EC2 instance inventory, the result will be the instance ID. 
         public let id: String?
@@ -6889,32 +6128,22 @@ extension Ssm {
             self.data = data
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["Id"] as? String
-            if let data = dictionary["Data"] as? [String: Any] {
-                var dataDict: [String: InventoryResultItem] = [:]
-                for (key, value) in data {
-                    guard let inventoryResultItemDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    dataDict[key] = try InventoryResultItem(dictionary: inventoryResultItemDict)
-                }
-                self.data = dataDict
-            } else { 
-                self.data = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case data = "Data"
         }
     }
 
     public struct UpdateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .string), 
-            AWSShapeProperty(label: "Cutoff", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "Cutoff", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The ID of the Maintenance Window to update.
         public let windowId: String
@@ -6941,26 +6170,24 @@ extension Ssm {
             self.duration = duration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
-            self.name = dictionary["Name"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
-            self.schedule = dictionary["Schedule"] as? String
-            self.cutoff = dictionary["Cutoff"] as? Int32
-            self.duration = dictionary["Duration"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case name = "Name"
+            case enabled = "Enabled"
+            case allowUnassociatedTargets = "AllowUnassociatedTargets"
+            case schedule = "Schedule"
+            case cutoff = "Cutoff"
+            case duration = "Duration"
         }
     }
 
     public struct DescribeParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterFilters", required: false, type: .list), 
+            AWSShapeMember(label: "Filters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filters to limit the request results.
         public let parameterFilters: [ParameterStringFilter]?
@@ -6978,29 +6205,20 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameterFilters = dictionary["ParameterFilters"] as? [[String: Any]] {
-                self.parameterFilters = try parameterFilters.map({ try ParameterStringFilter(dictionary: $0) })
-            } else { 
-                self.parameterFilters = nil
-            }
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try ParametersFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case parameterFilters = "ParameterFilters"
+            case filters = "Filters"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct InstancePatchStateFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// The type of comparison that should be performed for the value: Equal, NotEqual, LessThan or GreaterThan.
         public let `type`: InstancePatchStateOperatorType
@@ -7015,24 +6233,20 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawType = dictionary["Type"] as? String, let `type` = InstancePatchStateOperatorType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct GetDocumentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentType", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The contents of the SSM document.
         public let content: String?
@@ -7050,20 +6264,19 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? String
-            if let documentType = dictionary["DocumentType"] as? String { self.documentType = DocumentType(rawValue: documentType) } else { self.documentType = nil }
-            self.name = dictionary["Name"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case documentType = "DocumentType"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct UpdateManagedInstanceRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "IamRole", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "IamRole", required: true, type: .string)
         ]
         /// The ID of the managed instance where you want to update the role.
         public let instanceId: String
@@ -7075,20 +6288,17 @@ extension Ssm {
             self.iamRole = iamRole
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let iamRole = dictionary["IamRole"] as? String else { throw InitializableError.missingRequiredParam("IamRole") }
-            self.iamRole = iamRole
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case iamRole = "IamRole"
         }
     }
 
     public struct PatchRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PatchFilterGroup", required: true, type: .structure), 
-            AWSShapeProperty(label: "ApproveAfterDays", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PatchFilterGroup", required: true, type: .structure), 
+            AWSShapeMember(label: "ApproveAfterDays", required: true, type: .integer)
         ]
         /// The patch filter group that defines the criteria for the rule.
         public let patchFilterGroup: PatchFilterGroup
@@ -7100,15 +6310,13 @@ extension Ssm {
             self.approveAfterDays = approveAfterDays
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let patchFilterGroup = dictionary["PatchFilterGroup"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PatchFilterGroup") }
-            self.patchFilterGroup = try Ssm.PatchFilterGroup(dictionary: patchFilterGroup)
-            guard let approveAfterDays = dictionary["ApproveAfterDays"] as? Int32 else { throw InitializableError.missingRequiredParam("ApproveAfterDays") }
-            self.approveAfterDays = approveAfterDays
+        private enum CodingKeys: String, CodingKey {
+            case patchFilterGroup = "PatchFilterGroup"
+            case approveAfterDays = "ApproveAfterDays"
         }
     }
 
-    public enum PatchDeploymentStatus: String, CustomStringConvertible {
+    public enum PatchDeploymentStatus: String, CustomStringConvertible, Codable {
         case approved = "APPROVED"
         case pending_approval = "PENDING_APPROVAL"
         case explicit_approved = "EXPLICIT_APPROVED"
@@ -7118,10 +6326,9 @@ extension Ssm {
 
     public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "PatchGroup", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "PatchGroup", required: false, type: .string)
         ]
         /// The ID of the patch baseline the patch group was deregistered from.
         public let baselineId: String?
@@ -7133,17 +6340,16 @@ extension Ssm {
             self.patchGroup = patchGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.patchGroup = dictionary["PatchGroup"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
+            case patchGroup = "PatchGroup"
         }
     }
 
     public struct GetAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutomationExecution", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomationExecution", required: false, type: .structure)
         ]
         /// Detailed information about the current state of an automation execution.
         public let automationExecution: AutomationExecution?
@@ -7152,16 +6358,15 @@ extension Ssm {
             self.automationExecution = automationExecution
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let automationExecution = dictionary["AutomationExecution"] as? [String: Any] { self.automationExecution = try Ssm.AutomationExecution(dictionary: automationExecution) } else { self.automationExecution = nil }
+        private enum CodingKeys: String, CodingKey {
+            case automationExecution = "AutomationExecution"
         }
     }
 
     public struct AssociationDescriptionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationDescription", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationDescription", required: false, type: .list)
         ]
         public let associationDescription: [AssociationDescription]?
 
@@ -7169,21 +6374,16 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationDescription = dictionary["AssociationDescription"] as? [[String: Any]] {
-                self.associationDescription = try associationDescription.map({ try AssociationDescription(dictionary: $0) })
-            } else { 
-                self.associationDescription = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case associationDescription = "AssociationDescription"
         }
     }
 
     public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Associations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Associations", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -7195,21 +6395,16 @@ extension Ssm {
             self.associations = associations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let associations = dictionary["Associations"] as? [[String: Any]] {
-                self.associations = try associations.map({ try InstanceAssociation(dictionary: $0) })
-            } else { 
-                self.associations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case associations = "Associations"
         }
     }
 
     public struct UpdateAssociationStatusResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssociationDescription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssociationDescription", required: false, type: .structure)
         ]
         /// Information about the association.
         public let associationDescription: AssociationDescription?
@@ -7218,16 +6413,15 @@ extension Ssm {
             self.associationDescription = associationDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let associationDescription = dictionary["AssociationDescription"] as? [String: Any] { self.associationDescription = try Ssm.AssociationDescription(dictionary: associationDescription) } else { self.associationDescription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case associationDescription = "AssociationDescription"
         }
     }
 
     public struct InstanceAssociationOutputUrl: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3OutputUrl", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3OutputUrl", required: false, type: .structure)
         ]
         /// The URL of Amazon S3 bucket where you want to store the results of this request.
         public let s3OutputUrl: S3OutputUrl?
@@ -7236,25 +6430,24 @@ extension Ssm {
             self.s3OutputUrl = s3OutputUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3OutputUrl = dictionary["S3OutputUrl"] as? [String: Any] { self.s3OutputUrl = try Ssm.S3OutputUrl(dictionary: s3OutputUrl) } else { self.s3OutputUrl = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3OutputUrl = "S3OutputUrl"
         }
     }
 
     public struct InstanceAssociationStatusInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ExecutionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ExecutionSummary", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputUrl", required: false, type: .structure), 
-            AWSShapeProperty(label: "ErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "DetailedStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ExecutionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ExecutionSummary", required: false, type: .string), 
+            AWSShapeMember(label: "OutputUrl", required: false, type: .structure), 
+            AWSShapeMember(label: "ErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "DetailedStatus", required: false, type: .string)
         ]
         /// Status information about the instance association.
         public let status: String?
@@ -7267,7 +6460,7 @@ extension Ssm {
         /// The association document verions.
         public let documentVersion: String?
         /// The date the instance association executed. 
-        public let executionDate: String?
+        public let executionDate: Double?
         /// Summary information about association execution.
         public let executionSummary: String?
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
@@ -7277,7 +6470,7 @@ extension Ssm {
         /// Detailed status information about the instance association.
         public let detailedStatus: String?
 
-        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, executionDate: String? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
+        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, executionDate: Double? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
             self.status = status
             self.associationId = associationId
             self.instanceId = instanceId
@@ -7290,25 +6483,24 @@ extension Ssm {
             self.detailedStatus = detailedStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.associationId = dictionary["AssociationId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            self.executionDate = dictionary["ExecutionDate"] as? String
-            self.executionSummary = dictionary["ExecutionSummary"] as? String
-            if let outputUrl = dictionary["OutputUrl"] as? [String: Any] { self.outputUrl = try Ssm.InstanceAssociationOutputUrl(dictionary: outputUrl) } else { self.outputUrl = nil }
-            self.errorCode = dictionary["ErrorCode"] as? String
-            self.detailedStatus = dictionary["DetailedStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case associationId = "AssociationId"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case executionDate = "ExecutionDate"
+            case executionSummary = "ExecutionSummary"
+            case outputUrl = "OutputUrl"
+            case errorCode = "ErrorCode"
+            case detailedStatus = "DetailedStatus"
         }
     }
 
     public struct S3OutputUrl: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputUrl", required: false, type: .string)
         ]
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
         public let outputUrl: String?
@@ -7317,16 +6509,15 @@ extension Ssm {
             self.outputUrl = outputUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputUrl = dictionary["OutputUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case outputUrl = "OutputUrl"
         }
     }
 
     public struct GetMaintenanceWindowExecutionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowExecutionId", required: true, type: .string)
         ]
         /// The ID of the Maintenance Window execution that includes the task.
         public let windowExecutionId: String
@@ -7335,17 +6526,15 @@ extension Ssm {
             self.windowExecutionId = windowExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowExecutionId = dictionary["WindowExecutionId"] as? String else { throw InitializableError.missingRequiredParam("WindowExecutionId") }
-            self.windowExecutionId = windowExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case windowExecutionId = "WindowExecutionId"
         }
     }
 
     public struct CreateAssociationBatchRequestEntries: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "entries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "entries", required: false, type: .list)
         ]
         public let entries: [CreateAssociationBatchRequestEntry]?
 
@@ -7353,21 +6542,16 @@ extension Ssm {
             self.entries = entries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let entries = dictionary["entries"] as? [[String: Any]] {
-                self.entries = try entries.map({ try CreateAssociationBatchRequestEntry(dictionary: $0) })
-            } else { 
-                self.entries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
         }
     }
 
     public struct PatchFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .enum), 
-            AWSShapeProperty(label: "Values", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .enum), 
+            AWSShapeMember(label: "Values", required: true, type: .list)
         ]
         /// The key for the filter (PRODUCT, CLASSIFICATION, MSRC_SEVERITY, PATCH_ID)
         public let key: PatchFilterKey
@@ -7379,20 +6563,17 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawKey = dictionary["Key"] as? String, let key = PatchFilterKey(rawValue: rawKey) else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct GetParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "InvalidParameters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "InvalidParameters", required: false, type: .list)
         ]
         /// A list of details for a parameter.
         public let parameters: [Parameter]?
@@ -7404,25 +6585,20 @@ extension Ssm {
             self.invalidParameters = invalidParameters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.invalidParameters = dictionary["InvalidParameters"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case invalidParameters = "InvalidParameters"
         }
     }
 
     public struct MaintenanceWindowTarget: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "WindowTargetId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "OwnerInformation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "WindowTargetId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "OwnerInformation", required: false, type: .string)
         ]
         /// The Maintenance Window ID where the target is registered.
         public let windowId: String?
@@ -7443,24 +6619,19 @@ extension Ssm {
             self.ownerInformation = ownerInformation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            self.windowTargetId = dictionary["WindowTargetId"] as? String
-            if let resourceType = dictionary["ResourceType"] as? String { self.resourceType = MaintenanceWindowResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.ownerInformation = dictionary["OwnerInformation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case targets = "Targets"
+            case windowTargetId = "WindowTargetId"
+            case resourceType = "ResourceType"
+            case ownerInformation = "OwnerInformation"
         }
     }
 
     public struct InventoryFilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InventoryFilter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InventoryFilter", required: false, type: .list)
         ]
         public let inventoryFilter: [InventoryFilter]?
 
@@ -7468,21 +6639,16 @@ extension Ssm {
             self.inventoryFilter = inventoryFilter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let inventoryFilter = dictionary["InventoryFilter"] as? [[String: Any]] {
-                self.inventoryFilter = try inventoryFilter.map({ try InventoryFilter(dictionary: $0) })
-            } else { 
-                self.inventoryFilter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case inventoryFilter = "InventoryFilter"
         }
     }
 
     public struct UpdateDocumentDefaultVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: true, type: .string)
         ]
         /// The name of a custom document that you want to set as the default version.
         public let name: String
@@ -7494,20 +6660,17 @@ extension Ssm {
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let documentVersion = dictionary["DocumentVersion"] as? String else { throw InitializableError.missingRequiredParam("DocumentVersion") }
-            self.documentVersion = documentVersion
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
         }
     }
 
     public struct ListAssociationsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Associations", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Associations", required: false, type: .structure)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -7519,18 +6682,17 @@ extension Ssm {
             self.associations = associations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let associations = dictionary["Associations"] as? [String: Any] { self.associations = try Ssm.AssociationList(dictionary: associations) } else { self.associations = nil }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case associations = "Associations"
         }
     }
 
     public struct DescribeInstancePatchStatesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstancePatchStates", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstancePatchStates", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -7542,17 +6704,13 @@ extension Ssm {
             self.instancePatchStates = instancePatchStates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let instancePatchStates = dictionary["InstancePatchStates"] as? [[String: Any]] {
-                self.instancePatchStates = try instancePatchStates.map({ try InstancePatchState(dictionary: $0) })
-            } else { 
-                self.instancePatchStates = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case instancePatchStates = "InstancePatchStates"
         }
     }
 
-    public enum ParametersFilterKey: String, CustomStringConvertible {
+    public enum ParametersFilterKey: String, CustomStringConvertible, Codable {
         case name = "Name"
         case `type` = "Type"
         case keyid = "KeyId"
@@ -7561,29 +6719,28 @@ extension Ssm {
 
     public struct ResourceDataSyncItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SyncName", required: false, type: .string), 
-            AWSShapeProperty(label: "LastSyncTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "LastSuccessfulSyncTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SyncCreatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "S3Destination", required: false, type: .structure), 
-            AWSShapeProperty(label: "LastStatus", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SyncName", required: false, type: .string), 
+            AWSShapeMember(label: "LastSyncTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastSuccessfulSyncTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SyncCreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "S3Destination", required: false, type: .structure), 
+            AWSShapeMember(label: "LastStatus", required: false, type: .enum)
         ]
         /// The name of the Resource Data Sync.
         public let syncName: String?
         /// The last time the configuration attempted to sync (UTC).
-        public let lastSyncTime: String?
+        public let lastSyncTime: Double?
         /// The last time the sync operations returned a status of SUCCESSFUL (UTC).
-        public let lastSuccessfulSyncTime: String?
+        public let lastSuccessfulSyncTime: Double?
         /// The date and time the configuration was created (UTC).
-        public let syncCreatedTime: String?
+        public let syncCreatedTime: Double?
         /// Configuration information for the target Amazon S3 bucket.
         public let s3Destination: ResourceDataSyncS3Destination?
         /// The status reported by the last sync.
         public let lastStatus: LastResourceDataSyncStatus?
 
-        public init(syncName: String? = nil, lastSyncTime: String? = nil, lastSuccessfulSyncTime: String? = nil, syncCreatedTime: String? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, lastStatus: LastResourceDataSyncStatus? = nil) {
+        public init(syncName: String? = nil, lastSyncTime: Double? = nil, lastSuccessfulSyncTime: Double? = nil, syncCreatedTime: Double? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, lastStatus: LastResourceDataSyncStatus? = nil) {
             self.syncName = syncName
             self.lastSyncTime = lastSyncTime
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
@@ -7592,23 +6749,22 @@ extension Ssm {
             self.lastStatus = lastStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.syncName = dictionary["SyncName"] as? String
-            self.lastSyncTime = dictionary["LastSyncTime"] as? String
-            self.lastSuccessfulSyncTime = dictionary["LastSuccessfulSyncTime"] as? String
-            self.syncCreatedTime = dictionary["SyncCreatedTime"] as? String
-            if let s3Destination = dictionary["S3Destination"] as? [String: Any] { self.s3Destination = try Ssm.ResourceDataSyncS3Destination(dictionary: s3Destination) } else { self.s3Destination = nil }
-            if let lastStatus = dictionary["LastStatus"] as? String { self.lastStatus = LastResourceDataSyncStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case syncName = "SyncName"
+            case lastSyncTime = "LastSyncTime"
+            case lastSuccessfulSyncTime = "LastSuccessfulSyncTime"
+            case syncCreatedTime = "SyncCreatedTime"
+            case s3Destination = "S3Destination"
+            case lastStatus = "LastStatus"
         }
     }
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The resource ID for which you want to remove tags.
         public let resourceId: String
@@ -7623,23 +6779,19 @@ extension Ssm {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            guard let rawResourceType = dictionary["ResourceType"] as? String, let resourceType = ResourceTypeForTagging(rawValue: rawResourceType) else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct S3OutputLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OutputS3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "OutputS3Region", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OutputS3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "OutputS3Region", required: false, type: .string)
         ]
         /// The Amazon S3 bucket subfolder.
         public let outputS3KeyPrefix: String?
@@ -7654,18 +6806,17 @@ extension Ssm {
             self.outputS3Region = outputS3Region
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.outputS3KeyPrefix = dictionary["OutputS3KeyPrefix"] as? String
-            self.outputS3BucketName = dictionary["OutputS3BucketName"] as? String
-            self.outputS3Region = dictionary["OutputS3Region"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case outputS3KeyPrefix = "OutputS3KeyPrefix"
+            case outputS3BucketName = "OutputS3BucketName"
+            case outputS3Region = "OutputS3Region"
         }
     }
 
     public struct GetMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: true, type: .string)
         ]
         /// The ID of the desired Maintenance Window.
         public let windowId: String
@@ -7674,23 +6825,21 @@ extension Ssm {
             self.windowId = windowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let windowId = dictionary["WindowId"] as? String else { throw InitializableError.missingRequiredParam("WindowId") }
-            self.windowId = windowId
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
         }
     }
 
     public struct UpdateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Schedule", required: false, type: .string), 
-            AWSShapeProperty(label: "Cutoff", required: false, type: .integer), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowUnassociatedTargets", required: false, type: .boolean), 
+            AWSShapeMember(label: "Schedule", required: false, type: .string), 
+            AWSShapeMember(label: "Cutoff", required: false, type: .integer), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The ID of the created Maintenance Window.
         public let windowId: String?
@@ -7717,18 +6866,18 @@ extension Ssm {
             self.duration = duration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.allowUnassociatedTargets = dictionary["AllowUnassociatedTargets"] as? Bool
-            self.schedule = dictionary["Schedule"] as? String
-            self.cutoff = dictionary["Cutoff"] as? Int32
-            self.duration = dictionary["Duration"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
+            case name = "Name"
+            case enabled = "Enabled"
+            case allowUnassociatedTargets = "AllowUnassociatedTargets"
+            case schedule = "Schedule"
+            case cutoff = "Cutoff"
+            case duration = "Duration"
         }
     }
 
-    public enum CommandInvocationStatus: String, CustomStringConvertible {
+    public enum CommandInvocationStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case inprogress = "InProgress"
         case delayed = "Delayed"
@@ -7742,14 +6891,13 @@ extension Ssm {
 
     public struct GetParametersByPathRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WithDecryption", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ParameterFilters", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: true, type: .string), 
-            AWSShapeProperty(label: "Recursive", required: false, type: .boolean), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WithDecryption", required: false, type: .boolean), 
+            AWSShapeMember(label: "ParameterFilters", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: true, type: .string), 
+            AWSShapeMember(label: "Recursive", required: false, type: .boolean), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Retrieve all parameters in a hierarchy with their value decrypted.
         public let withDecryption: Bool?
@@ -7773,26 +6921,20 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.withDecryption = dictionary["WithDecryption"] as? Bool
-            if let parameterFilters = dictionary["ParameterFilters"] as? [[String: Any]] {
-                self.parameterFilters = try parameterFilters.map({ try ParameterStringFilter(dictionary: $0) })
-            } else { 
-                self.parameterFilters = nil
-            }
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
-            self.recursive = dictionary["Recursive"] as? Bool
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case withDecryption = "WithDecryption"
+            case parameterFilters = "ParameterFilters"
+            case path = "Path"
+            case recursive = "Recursive"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DeleteActivationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ActivationId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActivationId", required: true, type: .string)
         ]
         /// The ID of the activation that you want to delete.
         public let activationId: String
@@ -7801,18 +6943,16 @@ extension Ssm {
             self.activationId = activationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activationId = dictionary["ActivationId"] as? String else { throw InitializableError.missingRequiredParam("ActivationId") }
-            self.activationId = activationId
+        private enum CodingKeys: String, CodingKey {
+            case activationId = "ActivationId"
         }
     }
 
     public struct PutInventoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Items", required: true, type: .structure), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: true, type: .structure), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The inventory items that you want to add or update on instances.
         public let items: InventoryItemList
@@ -7824,19 +6964,16 @@ extension Ssm {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try Ssm.InventoryItemList(dictionary: items)
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct DescribeDocumentPermissionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountIds", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountIds", required: false, type: .structure)
         ]
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public let accountIds: AccountIdList?
@@ -7845,17 +6982,16 @@ extension Ssm {
             self.accountIds = accountIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accountIds = dictionary["AccountIds"] as? [String: Any] { self.accountIds = try Ssm.AccountIdList(dictionary: accountIds) } else { self.accountIds = nil }
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
         }
     }
 
     public struct AssociationFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .enum), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The name of the filter.
         public let key: AssociationFilterKey
@@ -7867,21 +7003,18 @@ extension Ssm {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawkey = dictionary["key"] as? String, let key = AssociationFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct NotificationConfig: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationArn", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NotificationEvents", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationArn", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationType", required: false, type: .enum), 
+            AWSShapeMember(label: "NotificationEvents", required: false, type: .list)
         ]
         /// An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public let notificationArn: String?
@@ -7896,14 +7029,14 @@ extension Ssm {
             self.notificationEvents = notificationEvents
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notificationArn = dictionary["NotificationArn"] as? String
-            if let notificationType = dictionary["NotificationType"] as? String { self.notificationType = NotificationType(rawValue: notificationType) } else { self.notificationType = nil }
-            if let notificationEvents = dictionary["NotificationEvents"] as? [String] { self.notificationEvents = notificationEvents.flatMap({ NotificationEvent(rawValue: $0)}) } else { self.notificationEvents = nil }
+        private enum CodingKeys: String, CodingKey {
+            case notificationArn = "NotificationArn"
+            case notificationType = "NotificationType"
+            case notificationEvents = "NotificationEvents"
         }
     }
 
-    public enum DocumentStatus: String, CustomStringConvertible {
+    public enum DocumentStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
         case active = "Active"
         case updating = "Updating"
@@ -7913,15 +7046,14 @@ extension Ssm {
 
     public struct PutParameterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "KeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowedPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Overwrite", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "KeyId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "AllowedPattern", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Overwrite", required: false, type: .boolean)
         ]
         /// Information about the parameter that you want to add to the system
         public let description: String?
@@ -7948,28 +7080,24 @@ extension Ssm {
             self.overwrite = overwrite
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.keyId = dictionary["KeyId"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.allowedPattern = dictionary["AllowedPattern"] as? String
-            guard let rawType = dictionary["Type"] as? String, let `type` = ParameterType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            self.overwrite = dictionary["Overwrite"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case keyId = "KeyId"
+            case name = "Name"
+            case allowedPattern = "AllowedPattern"
+            case `type` = "Type"
+            case value = "Value"
+            case overwrite = "Overwrite"
         }
     }
 
     public struct PatchBaselineIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultBaseline", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string), 
-            AWSShapeProperty(label: "BaselineName", required: false, type: .string), 
-            AWSShapeProperty(label: "BaselineDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultBaseline", required: false, type: .boolean), 
+            AWSShapeMember(label: "BaselineId", required: false, type: .string), 
+            AWSShapeMember(label: "BaselineName", required: false, type: .string), 
+            AWSShapeMember(label: "BaselineDescription", required: false, type: .string)
         ]
         /// Whether this is the default baseline.
         public let defaultBaseline: Bool?
@@ -7987,29 +7115,28 @@ extension Ssm {
             self.baselineDescription = baselineDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultBaseline = dictionary["DefaultBaseline"] as? Bool
-            self.baselineId = dictionary["BaselineId"] as? String
-            self.baselineName = dictionary["BaselineName"] as? String
-            self.baselineDescription = dictionary["BaselineDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case defaultBaseline = "DefaultBaseline"
+            case baselineId = "BaselineId"
+            case baselineName = "BaselineName"
+            case baselineDescription = "BaselineDescription"
         }
     }
 
     public struct Association: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastExecutionDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Targets", required: false, type: .list), 
-            AWSShapeProperty(label: "Overview", required: false, type: .structure), 
-            AWSShapeProperty(label: "ScheduleExpression", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastExecutionDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Targets", required: false, type: .list), 
+            AWSShapeMember(label: "Overview", required: false, type: .structure), 
+            AWSShapeMember(label: "ScheduleExpression", required: false, type: .string)
         ]
         /// The date on which the association was last run.
-        public let lastExecutionDate: String?
+        public let lastExecutionDate: Double?
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
         public let associationId: String?
         /// The ID of the instance.
@@ -8025,7 +7152,7 @@ extension Ssm {
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
 
-        public init(lastExecutionDate: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, targets: [Target]? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil) {
+        public init(lastExecutionDate: Double? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, targets: [Target]? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil) {
             self.lastExecutionDate = lastExecutionDate
             self.associationId = associationId
             self.instanceId = instanceId
@@ -8036,35 +7163,30 @@ extension Ssm {
             self.scheduleExpression = scheduleExpression
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastExecutionDate = dictionary["LastExecutionDate"] as? String
-            self.associationId = dictionary["AssociationId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.documentVersion = dictionary["DocumentVersion"] as? String
-            if let targets = dictionary["Targets"] as? [[String: Any]] {
-                self.targets = try targets.map({ try Target(dictionary: $0) })
-            } else { 
-                self.targets = nil
-            }
-            if let overview = dictionary["Overview"] as? [String: Any] { self.overview = try Ssm.AssociationOverview(dictionary: overview) } else { self.overview = nil }
-            self.scheduleExpression = dictionary["ScheduleExpression"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastExecutionDate = "LastExecutionDate"
+            case associationId = "AssociationId"
+            case instanceId = "InstanceId"
+            case name = "Name"
+            case documentVersion = "DocumentVersion"
+            case targets = "Targets"
+            case overview = "Overview"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
     public struct Activation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamRole", required: false, type: .string), 
-            AWSShapeProperty(label: "Expired", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RegistrationLimit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExpirationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ActivationId", required: false, type: .string), 
-            AWSShapeProperty(label: "RegistrationsCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "DefaultInstanceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamRole", required: false, type: .string), 
+            AWSShapeMember(label: "Expired", required: false, type: .boolean), 
+            AWSShapeMember(label: "RegistrationLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ActivationId", required: false, type: .string), 
+            AWSShapeMember(label: "RegistrationsCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "DefaultInstanceName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Identity and Access Management (IAM) role to assign to the managed instance.
         public let iamRole: String?
@@ -8073,19 +7195,19 @@ extension Ssm {
         /// The maximum number of managed instances that can be registered using this activation.
         public let registrationLimit: Int32?
         /// The date when this activation can no longer be used to register managed instances.
-        public let expirationDate: String?
+        public let expirationDate: Double?
         /// The ID created by Systems Manager when you submitted the activation.
         public let activationId: String?
         /// The number of managed instances already registered with this activation.
         public let registrationsCount: Int32?
         /// The date the activation was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// A name for the managed instance when it is created.
         public let defaultInstanceName: String?
         /// A user defined description of the activation.
         public let description: String?
 
-        public init(iamRole: String? = nil, expired: Bool? = nil, registrationLimit: Int32? = nil, expirationDate: String? = nil, activationId: String? = nil, registrationsCount: Int32? = nil, createdDate: String? = nil, defaultInstanceName: String? = nil, description: String? = nil) {
+        public init(iamRole: String? = nil, expired: Bool? = nil, registrationLimit: Int32? = nil, expirationDate: Double? = nil, activationId: String? = nil, registrationsCount: Int32? = nil, createdDate: Double? = nil, defaultInstanceName: String? = nil, description: String? = nil) {
             self.iamRole = iamRole
             self.expired = expired
             self.registrationLimit = registrationLimit
@@ -8097,24 +7219,23 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamRole = dictionary["IamRole"] as? String
-            self.expired = dictionary["Expired"] as? Bool
-            self.registrationLimit = dictionary["RegistrationLimit"] as? Int32
-            self.expirationDate = dictionary["ExpirationDate"] as? String
-            self.activationId = dictionary["ActivationId"] as? String
-            self.registrationsCount = dictionary["RegistrationsCount"] as? Int32
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.defaultInstanceName = dictionary["DefaultInstanceName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamRole = "IamRole"
+            case expired = "Expired"
+            case registrationLimit = "RegistrationLimit"
+            case expirationDate = "ExpirationDate"
+            case activationId = "ActivationId"
+            case registrationsCount = "RegistrationsCount"
+            case createdDate = "CreatedDate"
+            case defaultInstanceName = "DefaultInstanceName"
+            case description = "Description"
         }
     }
 
     public struct StartAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutomationExecutionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomationExecutionId", required: false, type: .string)
         ]
         /// The unique ID of a newly scheduled automation execution.
         public let automationExecutionId: String?
@@ -8123,18 +7244,17 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.automationExecutionId = dictionary["AutomationExecutionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case automationExecutionId = "AutomationExecutionId"
         }
     }
 
     public struct ListDocumentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DocumentFilterList", required: false, type: .structure), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DocumentFilterList", required: false, type: .structure), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// One or more filters. Use a filter to return a more specific list of results.
         public let documentFilterList: DocumentFilterList?
@@ -8149,23 +7269,22 @@ extension Ssm {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let documentFilterList = dictionary["DocumentFilterList"] as? [String: Any] { self.documentFilterList = try Ssm.DocumentFilterList(dictionary: documentFilterList) } else { self.documentFilterList = nil }
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case documentFilterList = "DocumentFilterList"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct ListInventoryEntriesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CaptureTime", required: false, type: .string), 
-            AWSShapeProperty(label: "Entries", required: false, type: .list), 
-            AWSShapeProperty(label: "SchemaVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "TypeName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CaptureTime", required: false, type: .string), 
+            AWSShapeMember(label: "Entries", required: false, type: .list), 
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "TypeName", required: false, type: .string)
         ]
         /// The time that inventory information was collected for the instance(s).
         public let captureTime: String?
@@ -8189,21 +7308,20 @@ extension Ssm {
             self.typeName = typeName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.captureTime = dictionary["CaptureTime"] as? String
-            self.entries = dictionary["Entries"] as? [[String: String]]
-            self.schemaVersion = dictionary["SchemaVersion"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.typeName = dictionary["TypeName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
+            case entries = "Entries"
+            case schemaVersion = "SchemaVersion"
+            case nextToken = "NextToken"
+            case instanceId = "InstanceId"
+            case typeName = "TypeName"
         }
     }
 
     public struct InventoryFilterValueList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FilterValue", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FilterValue", required: false, type: .list)
         ]
         public let filterValue: [String]?
 
@@ -8211,18 +7329,17 @@ extension Ssm {
             self.filterValue = filterValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.filterValue = dictionary["FilterValue"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case filterValue = "FilterValue"
         }
     }
 
     public struct DeleteAssociationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociationId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociationId", required: false, type: .string)
         ]
         /// The name of the Systems Manager document.
         public let name: String?
@@ -8237,14 +7354,14 @@ extension Ssm {
             self.associationId = associationId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.associationId = dictionary["AssociationId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case associationId = "AssociationId"
         }
     }
 
-    public enum AutomationExecutionFilterKey: String, CustomStringConvertible {
+    public enum AutomationExecutionFilterKey: String, CustomStringConvertible, Codable {
         case documentnameprefix = "DocumentNamePrefix"
         case executionstatus = "ExecutionStatus"
         public var description: String { return self.rawValue }
@@ -8252,10 +7369,9 @@ extension Ssm {
 
     public struct EffectivePatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Patch", required: false, type: .structure), 
-            AWSShapeProperty(label: "PatchStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Patch", required: false, type: .structure), 
+            AWSShapeMember(label: "PatchStatus", required: false, type: .structure)
         ]
         /// Provides metadata for a patch, including information such as the KB ID, severity, classification and a URL for where more information can be obtained about the patch.
         public let patch: Patch?
@@ -8267,20 +7383,19 @@ extension Ssm {
             self.patchStatus = patchStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let patch = dictionary["Patch"] as? [String: Any] { self.patch = try Ssm.Patch(dictionary: patch) } else { self.patch = nil }
-            if let patchStatus = dictionary["PatchStatus"] as? [String: Any] { self.patchStatus = try Ssm.PatchStatus(dictionary: patchStatus) } else { self.patchStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case patch = "Patch"
+            case patchStatus = "PatchStatus"
         }
     }
 
     public struct DocumentParameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultValue", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultValue", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The type of parameter. The type can be either String or StringList.
         public let `type`: DocumentParameterType?
@@ -8298,19 +7413,18 @@ extension Ssm {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let `type` = dictionary["Type"] as? String { self.`type` = DocumentParameterType(rawValue: `type`) } else { self.`type` = nil }
-            self.name = dictionary["Name"] as? String
-            self.defaultValue = dictionary["DefaultValue"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case name = "Name"
+            case defaultValue = "DefaultValue"
+            case description = "Description"
         }
     }
 
     public struct DeleteParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Names", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Names", required: true, type: .list)
         ]
         /// The names of the parameters to delete.
         public let names: [String]
@@ -8319,17 +7433,15 @@ extension Ssm {
             self.names = names
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let names = dictionary["Names"] as? [String] else { throw InitializableError.missingRequiredParam("Names") }
-            self.names = names
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
         }
     }
 
     public struct InventoryItemAttributeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Attribute", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attribute", required: false, type: .list)
         ]
         public let attribute: [InventoryItemAttribute]?
 
@@ -8337,16 +7449,12 @@ extension Ssm {
             self.attribute = attribute
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
-                self.attribute = try attribute.map({ try InventoryItemAttribute(dictionary: $0) })
-            } else { 
-                self.attribute = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
         }
     }
 
-    public enum NotificationEvent: String, CustomStringConvertible {
+    public enum NotificationEvent: String, CustomStringConvertible, Codable {
         case all = "All"
         case inprogress = "InProgress"
         case success = "Success"
@@ -8358,9 +7466,8 @@ extension Ssm {
 
     public struct DeleteParameterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string)
         ]
         /// The name of the parameter to delete.
         public let name: String
@@ -8369,17 +7476,15 @@ extension Ssm {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
     public struct StopAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutomationExecutionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomationExecutionId", required: true, type: .string)
         ]
         /// The execution ID of the Automation to stop.
         public let automationExecutionId: String
@@ -8388,19 +7493,17 @@ extension Ssm {
             self.automationExecutionId = automationExecutionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let automationExecutionId = dictionary["AutomationExecutionId"] as? String else { throw InitializableError.missingRequiredParam("AutomationExecutionId") }
-            self.automationExecutionId = automationExecutionId
+        private enum CodingKeys: String, CodingKey {
+            case automationExecutionId = "AutomationExecutionId"
         }
     }
 
     public struct ParameterStringFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Option", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Option", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
         public let option: String?
@@ -8415,19 +7518,17 @@ extension Ssm {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.option = dictionary["Option"] as? String
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case option = "Option"
+            case key = "Key"
+            case values = "Values"
         }
     }
 
     public struct GetDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BaselineId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaselineId", required: false, type: .string)
         ]
         /// The ID of the default patch baseline.
         public let baselineId: String?
@@ -8436,17 +7537,16 @@ extension Ssm {
             self.baselineId = baselineId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.baselineId = dictionary["BaselineId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case baselineId = "BaselineId"
         }
     }
 
     public struct DocumentFilter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "key", required: true, type: .enum), 
-            AWSShapeProperty(label: "value", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "key", required: true, type: .enum), 
+            AWSShapeMember(label: "value", required: true, type: .string)
         ]
         /// The name of the filter.
         public let key: DocumentFilterKey
@@ -8458,15 +7558,13 @@ extension Ssm {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawkey = dictionary["key"] as? String, let key = DocumentFilterKey(rawValue: rawkey) else { throw InitializableError.missingRequiredParam("key") }
-            self.key = key
-            guard let value = dictionary["value"] as? String else { throw InitializableError.missingRequiredParam("value") }
-            self.value = value
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
-    public enum LastResourceDataSyncStatus: String, CustomStringConvertible {
+    public enum LastResourceDataSyncStatus: String, CustomStringConvertible, Codable {
         case successful = "Successful"
         case failed = "Failed"
         case inprogress = "InProgress"
@@ -8475,9 +7573,8 @@ extension Ssm {
 
     public struct InstanceAssociationOutputLocation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "S3Location", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "S3Location", required: false, type: .structure)
         ]
         /// An Amazon S3 bucket where you want to store the results of this request.
         public let s3Location: S3OutputLocation?
@@ -8486,12 +7583,12 @@ extension Ssm {
             self.s3Location = s3Location
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let s3Location = dictionary["S3Location"] as? [String: Any] { self.s3Location = try Ssm.S3OutputLocation(dictionary: s3Location) } else { self.s3Location = nil }
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "S3Location"
         }
     }
 
-    public enum InventoryAttributeDataType: String, CustomStringConvertible {
+    public enum InventoryAttributeDataType: String, CustomStringConvertible, Codable {
         case string = "string"
         case number = "number"
         public var description: String { return self.rawValue }
@@ -8499,9 +7596,8 @@ extension Ssm {
 
     public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowTargetId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowTargetId", required: false, type: .string)
         ]
         /// The ID of the target definition in this Maintenance Window.
         public let windowTargetId: String?
@@ -8510,16 +7606,15 @@ extension Ssm {
             self.windowTargetId = windowTargetId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowTargetId = dictionary["WindowTargetId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowTargetId = "WindowTargetId"
         }
     }
 
     public struct CreateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "WindowId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "WindowId", required: false, type: .string)
         ]
         /// The ID of the created Maintenance Window.
         public let windowId: String?
@@ -8528,22 +7623,21 @@ extension Ssm {
             self.windowId = windowId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.windowId = dictionary["WindowId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case windowId = "WindowId"
         }
     }
 
     public struct DocumentVersionInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "IsDefaultVersion", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DocumentVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefaultVersion", required: false, type: .boolean), 
+            AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The date the document was created.
-        public let createdDate: String?
+        public let createdDate: Double?
         /// The document name.
         public let name: String?
         /// An identifier for the default version of the document.
@@ -8551,18 +7645,18 @@ extension Ssm {
         /// The document version.
         public let documentVersion: String?
 
-        public init(createdDate: String? = nil, name: String? = nil, isDefaultVersion: Bool? = nil, documentVersion: String? = nil) {
+        public init(createdDate: Double? = nil, name: String? = nil, isDefaultVersion: Bool? = nil, documentVersion: String? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.isDefaultVersion = isDefaultVersion
             self.documentVersion = documentVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createdDate = dictionary["CreatedDate"] as? String
-            self.name = dictionary["Name"] as? String
-            self.isDefaultVersion = dictionary["IsDefaultVersion"] as? Bool
-            self.documentVersion = dictionary["DocumentVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createdDate = "CreatedDate"
+            case name = "Name"
+            case isDefaultVersion = "IsDefaultVersion"
+            case documentVersion = "DocumentVersion"
         }
     }
 

@@ -31,10 +31,9 @@ extension Cloudsearchdomain {
 
     public struct Bucket: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "value", required: false, type: .string), 
-            AWSShapeProperty(label: "count", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "value", required: false, type: .string), 
+            AWSShapeMember(label: "count", required: false, type: .long)
         ]
         /// The facet value being counted.
         public let value: String?
@@ -46,18 +45,17 @@ extension Cloudsearchdomain {
             self.count = count
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["value"] as? String
-            self.count = dictionary["count"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case count = "count"
         }
     }
 
     public struct SuggestResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .structure), 
-            AWSShapeProperty(label: "suggest", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "suggest", required: false, type: .structure)
         ]
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
@@ -69,13 +67,13 @@ extension Cloudsearchdomain {
             self.suggest = suggest
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? [String: Any] { self.status = try Cloudsearchdomain.SuggestStatus(dictionary: status) } else { self.status = nil }
-            if let suggest = dictionary["suggest"] as? [String: Any] { self.suggest = try Cloudsearchdomain.SuggestModel(dictionary: suggest) } else { self.suggest = nil }
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case suggest = "suggest"
         }
     }
 
-    public enum QueryParser: String, CustomStringConvertible {
+    public enum QueryParser: String, CustomStringConvertible, Codable {
         case simple = "simple"
         case structured = "structured"
         case lucene = "lucene"
@@ -85,16 +83,15 @@ extension Cloudsearchdomain {
 
     public struct FieldStats: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stddev", required: false, type: .double), 
-            AWSShapeProperty(label: "max", required: false, type: .string), 
-            AWSShapeProperty(label: "count", required: false, type: .long), 
-            AWSShapeProperty(label: "min", required: false, type: .string), 
-            AWSShapeProperty(label: "missing", required: false, type: .long), 
-            AWSShapeProperty(label: "sumOfSquares", required: false, type: .double), 
-            AWSShapeProperty(label: "sum", required: false, type: .double), 
-            AWSShapeProperty(label: "mean", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stddev", required: false, type: .double), 
+            AWSShapeMember(label: "max", required: false, type: .string), 
+            AWSShapeMember(label: "count", required: false, type: .long), 
+            AWSShapeMember(label: "min", required: false, type: .string), 
+            AWSShapeMember(label: "missing", required: false, type: .long), 
+            AWSShapeMember(label: "sumOfSquares", required: false, type: .double), 
+            AWSShapeMember(label: "sum", required: false, type: .double), 
+            AWSShapeMember(label: "mean", required: false, type: .string)
         ]
         /// The standard deviation of the values in the specified field in the result set.
         public let stddev: Double?
@@ -124,24 +121,23 @@ extension Cloudsearchdomain {
             self.mean = mean
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stddev = dictionary["stddev"] as? Double
-            self.max = dictionary["max"] as? String
-            self.count = dictionary["count"] as? Int64
-            self.min = dictionary["min"] as? String
-            self.missing = dictionary["missing"] as? Int64
-            self.sumOfSquares = dictionary["sumOfSquares"] as? Double
-            self.sum = dictionary["sum"] as? Double
-            self.mean = dictionary["mean"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stddev = "stddev"
+            case max = "max"
+            case count = "count"
+            case min = "min"
+            case missing = "missing"
+            case sumOfSquares = "sumOfSquares"
+            case sum = "sum"
+            case mean = "mean"
         }
     }
 
     public struct SearchStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rid", required: false, type: .string), 
-            AWSShapeProperty(label: "timems", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rid", required: false, type: .string), 
+            AWSShapeMember(label: "timems", required: false, type: .long)
         ]
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -153,20 +149,19 @@ extension Cloudsearchdomain {
             self.timems = timems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.rid = dictionary["rid"] as? String
-            self.timems = dictionary["timems"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct SearchResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hits", required: false, type: .structure), 
-            AWSShapeProperty(label: "status", required: false, type: .structure), 
-            AWSShapeProperty(label: "stats", required: false, type: .map), 
-            AWSShapeProperty(label: "facets", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hits", required: false, type: .structure), 
+            AWSShapeMember(label: "status", required: false, type: .structure), 
+            AWSShapeMember(label: "stats", required: false, type: .map), 
+            AWSShapeMember(label: "facets", required: false, type: .map)
         ]
         /// The documents that match the search criteria.
         public let hits: Hits?
@@ -184,39 +179,20 @@ extension Cloudsearchdomain {
             self.facets = facets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hits = dictionary["hits"] as? [String: Any] { self.hits = try Cloudsearchdomain.Hits(dictionary: hits) } else { self.hits = nil }
-            if let status = dictionary["status"] as? [String: Any] { self.status = try Cloudsearchdomain.SearchStatus(dictionary: status) } else { self.status = nil }
-            if let stats = dictionary["stats"] as? [String: Any] {
-                var statsDict: [String: FieldStats] = [:]
-                for (key, value) in stats {
-                    guard let fieldStatsDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    statsDict[key] = try FieldStats(dictionary: fieldStatsDict)
-                }
-                self.stats = statsDict
-            } else { 
-                self.stats = nil
-            }
-            if let facets = dictionary["facets"] as? [String: Any] {
-                var facetsDict: [String: BucketInfo] = [:]
-                for (key, value) in facets {
-                    guard let bucketInfoDict = value as? [String: Any] else { throw InitializableError.convertingError }
-                    facetsDict[key] = try BucketInfo(dictionary: bucketInfoDict)
-                }
-                self.facets = facetsDict
-            } else { 
-                self.facets = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case hits = "hits"
+            case status = "status"
+            case stats = "stats"
+            case facets = "facets"
         }
     }
 
     public struct SuggestRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suggester", location: .querystring(locationName: "suggester"), required: true, type: .string), 
-            AWSShapeProperty(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
-            AWSShapeProperty(label: "query", location: .querystring(locationName: "q"), required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "suggester", location: .querystring(locationName: "suggester"), required: true, type: .string), 
+            AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
+            AWSShapeMember(label: "query", location: .querystring(locationName: "q"), required: true, type: .string)
         ]
         /// Specifies the name of the suggester to use to find suggested matches.
         public let suggester: String
@@ -231,22 +207,19 @@ extension Cloudsearchdomain {
             self.query = query
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let suggester = dictionary["suggester"] as? String else { throw InitializableError.missingRequiredParam("suggester") }
-            self.suggester = suggester
-            self.size = dictionary["size"] as? Int64
-            guard let query = dictionary["q"] as? String else { throw InitializableError.missingRequiredParam("q") }
-            self.query = query
+        private enum CodingKeys: String, CodingKey {
+            case suggester = "suggester"
+            case size = "size"
+            case query = "q"
         }
     }
 
     public struct SuggestModel: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "suggestions", required: false, type: .list), 
-            AWSShapeProperty(label: "found", required: false, type: .long), 
-            AWSShapeProperty(label: "query", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "suggestions", required: false, type: .list), 
+            AWSShapeMember(label: "found", required: false, type: .long), 
+            AWSShapeMember(label: "query", required: false, type: .string)
         ]
         /// The documents that match the query string.
         public let suggestions: [SuggestionMatch]?
@@ -261,18 +234,14 @@ extension Cloudsearchdomain {
             self.query = query
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let suggestions = dictionary["suggestions"] as? [[String: Any]] {
-                self.suggestions = try suggestions.map({ try SuggestionMatch(dictionary: $0) })
-            } else { 
-                self.suggestions = nil
-            }
-            self.found = dictionary["found"] as? Int64
-            self.query = dictionary["query"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case suggestions = "suggestions"
+            case found = "found"
+            case query = "query"
         }
     }
 
-    public enum ContentType: String, CustomStringConvertible {
+    public enum ContentType: String, CustomStringConvertible, Codable {
         case application_json = "application/json"
         case application_xml = "application/xml"
         public var description: String { return self.rawValue }
@@ -280,9 +249,8 @@ extension Cloudsearchdomain {
 
     public struct DocumentServiceWarning: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "message", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "message", required: false, type: .string)
         ]
         /// The description for a warning returned by the document service.
         public let message: String?
@@ -291,19 +259,18 @@ extension Cloudsearchdomain {
             self.message = message
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["message"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
     public struct Hits: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "hit", required: false, type: .list), 
-            AWSShapeProperty(label: "cursor", required: false, type: .string), 
-            AWSShapeProperty(label: "start", required: false, type: .long), 
-            AWSShapeProperty(label: "found", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "hit", required: false, type: .list), 
+            AWSShapeMember(label: "cursor", required: false, type: .string), 
+            AWSShapeMember(label: "start", required: false, type: .long), 
+            AWSShapeMember(label: "found", required: false, type: .long)
         ]
         /// A document that matches the search request.
         public let hit: [Hit]?
@@ -321,25 +288,20 @@ extension Cloudsearchdomain {
             self.found = found
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let hit = dictionary["hit"] as? [[String: Any]] {
-                self.hit = try hit.map({ try Hit(dictionary: $0) })
-            } else { 
-                self.hit = nil
-            }
-            self.cursor = dictionary["cursor"] as? String
-            self.start = dictionary["start"] as? Int64
-            self.found = dictionary["found"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case hit = "hit"
+            case cursor = "cursor"
+            case start = "start"
+            case found = "found"
         }
     }
 
     public struct SuggestionMatch: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "score", required: false, type: .long), 
-            AWSShapeProperty(label: "suggestion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "score", required: false, type: .long), 
+            AWSShapeMember(label: "suggestion", required: false, type: .string)
         ]
         /// The document ID of the suggested document.
         public let id: String?
@@ -354,19 +316,19 @@ extension Cloudsearchdomain {
             self.suggestion = suggestion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.id = dictionary["id"] as? String
-            self.score = dictionary["score"] as? Int64
-            self.suggestion = dictionary["suggestion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case score = "score"
+            case suggestion = "suggestion"
         }
     }
 
     public struct UploadDocumentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = "documents"
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "documents", required: true, type: .blob), 
-            AWSShapeProperty(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .enum)
+        public static let payloadPath: String? = "documents"
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "documents", required: true, type: .blob), 
+            AWSShapeMember(label: "contentType", location: .header(locationName: "Content-Type"), required: true, type: .enum)
         ]
         /// A batch of documents formatted in JSON or HTML.
         public let documents: Data
@@ -378,19 +340,16 @@ extension Cloudsearchdomain {
             self.contentType = contentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let documents = dictionary["documents"] as? Data else { throw InitializableError.missingRequiredParam("documents") }
-            self.documents = documents
-            guard let rawcontentType = dictionary["Content-Type"] as? String, let contentType = ContentType(rawValue: rawcontentType) else { throw InitializableError.missingRequiredParam("Content-Type") }
-            self.contentType = contentType
+        private enum CodingKeys: String, CodingKey {
+            case documents = "documents"
+            case contentType = "Content-Type"
         }
     }
 
     public struct BucketInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "buckets", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "buckets", required: false, type: .list)
         ]
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
@@ -399,21 +358,16 @@ extension Cloudsearchdomain {
             self.buckets = buckets
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let buckets = dictionary["buckets"] as? [[String: Any]] {
-                self.buckets = try buckets.map({ try Bucket(dictionary: $0) })
-            } else { 
-                self.buckets = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case buckets = "buckets"
         }
     }
 
     public struct SuggestStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "rid", required: false, type: .string), 
-            AWSShapeProperty(label: "timems", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "rid", required: false, type: .string), 
+            AWSShapeMember(label: "timems", required: false, type: .long)
         ]
         /// The encrypted resource ID for the request.
         public let rid: String?
@@ -425,20 +379,19 @@ extension Cloudsearchdomain {
             self.timems = timems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.rid = dictionary["rid"] as? String
-            self.timems = dictionary["timems"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct Hit: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "fields", required: false, type: .map), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "exprs", required: false, type: .map), 
-            AWSShapeProperty(label: "highlights", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "fields", required: false, type: .map), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "exprs", required: false, type: .map), 
+            AWSShapeMember(label: "highlights", required: false, type: .map)
         ]
         /// The fields returned from a document that matches the search request.
         public let fields: [String: [String]]?
@@ -456,49 +409,31 @@ extension Cloudsearchdomain {
             self.highlights = highlights
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let fields = dictionary["fields"] as? [String: Any] {
-                var fieldsDict: [String: [String]] = [:]
-                for (key, value) in fields {
-                    guard let fieldValue = value as? [String] else { throw InitializableError.convertingError }
-                    fieldsDict[key] = fieldValue
-                }
-                self.fields = fieldsDict
-            } else { 
-                self.fields = nil
-            }
-            self.id = dictionary["id"] as? String
-            if let exprs = dictionary["exprs"] as? [String: String] {
-                self.exprs = exprs
-            } else { 
-                self.exprs = nil
-            }
-            if let highlights = dictionary["highlights"] as? [String: String] {
-                self.highlights = highlights
-            } else { 
-                self.highlights = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case id = "id"
+            case exprs = "exprs"
+            case highlights = "highlights"
         }
     }
 
     public struct SearchRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "sort", location: .querystring(locationName: "sort"), required: false, type: .string), 
-            AWSShapeProperty(label: "expr", location: .querystring(locationName: "expr"), required: false, type: .string), 
-            AWSShapeProperty(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
-            AWSShapeProperty(label: "highlight", location: .querystring(locationName: "highlight"), required: false, type: .string), 
-            AWSShapeProperty(label: "query", location: .querystring(locationName: "q"), required: true, type: .string), 
-            AWSShapeProperty(label: "start", location: .querystring(locationName: "start"), required: false, type: .long), 
-            AWSShapeProperty(label: "stats", location: .querystring(locationName: "stats"), required: false, type: .string), 
-            AWSShapeProperty(label: "queryParser", location: .querystring(locationName: "q.parser"), required: false, type: .enum), 
-            AWSShapeProperty(label: "facet", location: .querystring(locationName: "facet"), required: false, type: .string), 
-            AWSShapeProperty(label: "filterQuery", location: .querystring(locationName: "fq"), required: false, type: .string), 
-            AWSShapeProperty(label: "return", location: .querystring(locationName: "return"), required: false, type: .string), 
-            AWSShapeProperty(label: "partial", location: .querystring(locationName: "partial"), required: false, type: .boolean), 
-            AWSShapeProperty(label: "cursor", location: .querystring(locationName: "cursor"), required: false, type: .string), 
-            AWSShapeProperty(label: "queryOptions", location: .querystring(locationName: "q.options"), required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "sort", location: .querystring(locationName: "sort"), required: false, type: .string), 
+            AWSShapeMember(label: "expr", location: .querystring(locationName: "expr"), required: false, type: .string), 
+            AWSShapeMember(label: "size", location: .querystring(locationName: "size"), required: false, type: .long), 
+            AWSShapeMember(label: "highlight", location: .querystring(locationName: "highlight"), required: false, type: .string), 
+            AWSShapeMember(label: "query", location: .querystring(locationName: "q"), required: true, type: .string), 
+            AWSShapeMember(label: "start", location: .querystring(locationName: "start"), required: false, type: .long), 
+            AWSShapeMember(label: "stats", location: .querystring(locationName: "stats"), required: false, type: .string), 
+            AWSShapeMember(label: "queryParser", location: .querystring(locationName: "q.parser"), required: false, type: .enum), 
+            AWSShapeMember(label: "facet", location: .querystring(locationName: "facet"), required: false, type: .string), 
+            AWSShapeMember(label: "filterQuery", location: .querystring(locationName: "fq"), required: false, type: .string), 
+            AWSShapeMember(label: "return", location: .querystring(locationName: "return"), required: false, type: .string), 
+            AWSShapeMember(label: "partial", location: .querystring(locationName: "partial"), required: false, type: .boolean), 
+            AWSShapeMember(label: "cursor", location: .querystring(locationName: "cursor"), required: false, type: .string), 
+            AWSShapeMember(label: "queryOptions", location: .querystring(locationName: "q.options"), required: false, type: .string)
         ]
         /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see Sorting Results in the Amazon CloudSearch Developer Guide.
         public let sort: String?
@@ -546,33 +481,31 @@ extension Cloudsearchdomain {
             self.queryOptions = queryOptions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sort = dictionary["sort"] as? String
-            self.expr = dictionary["expr"] as? String
-            self.size = dictionary["size"] as? Int64
-            self.highlight = dictionary["highlight"] as? String
-            guard let query = dictionary["q"] as? String else { throw InitializableError.missingRequiredParam("q") }
-            self.query = query
-            self.start = dictionary["start"] as? Int64
-            self.stats = dictionary["stats"] as? String
-            if let queryParser = dictionary["q.parser"] as? String { self.queryParser = QueryParser(rawValue: queryParser) } else { self.queryParser = nil }
-            self.facet = dictionary["facet"] as? String
-            self.filterQuery = dictionary["fq"] as? String
-            self.`return` = dictionary["return"] as? String
-            self.partial = dictionary["partial"] as? Bool
-            self.cursor = dictionary["cursor"] as? String
-            self.queryOptions = dictionary["q.options"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sort = "sort"
+            case expr = "expr"
+            case size = "size"
+            case highlight = "highlight"
+            case query = "q"
+            case start = "start"
+            case stats = "stats"
+            case queryParser = "q.parser"
+            case facet = "facet"
+            case filterQuery = "fq"
+            case `return` = "return"
+            case partial = "partial"
+            case cursor = "cursor"
+            case queryOptions = "q.options"
         }
     }
 
     public struct UploadDocumentsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "status", required: false, type: .string), 
-            AWSShapeProperty(label: "deletes", required: false, type: .long), 
-            AWSShapeProperty(label: "adds", required: false, type: .long), 
-            AWSShapeProperty(label: "warnings", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "deletes", required: false, type: .long), 
+            AWSShapeMember(label: "adds", required: false, type: .long), 
+            AWSShapeMember(label: "warnings", required: false, type: .list)
         ]
         /// The status of an UploadDocumentsRequest.
         public let status: String?
@@ -590,15 +523,11 @@ extension Cloudsearchdomain {
             self.warnings = warnings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["status"] as? String
-            self.deletes = dictionary["deletes"] as? Int64
-            self.adds = dictionary["adds"] as? Int64
-            if let warnings = dictionary["warnings"] as? [[String: Any]] {
-                self.warnings = try warnings.map({ try DocumentServiceWarning(dictionary: $0) })
-            } else { 
-                self.warnings = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case deletes = "deletes"
+            case adds = "adds"
+            case warnings = "warnings"
         }
     }
 

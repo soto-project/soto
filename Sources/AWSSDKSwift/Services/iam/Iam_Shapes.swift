@@ -31,9 +31,8 @@ extension Iam {
 
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
         /// A structure containing details about the new policy.
         public let policy: Policy?
@@ -42,53 +41,51 @@ extension Iam {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Iam.Policy(dictionary: policy) } else { self.policy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct GetSAMLProviderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SAMLMetadataDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidUntil", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SAMLMetadataDocument", required: false, type: .string), 
+            AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
         ]
         /// The date and time when the SAML provider was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The XML metadata document that includes information about an identity provider.
         public let sAMLMetadataDocument: String?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: String?
+        public let validUntil: Double?
 
-        public init(createDate: String? = nil, sAMLMetadataDocument: String? = nil, validUntil: String? = nil) {
+        public init(createDate: Double? = nil, sAMLMetadataDocument: String? = nil, validUntil: Double? = nil) {
             self.createDate = createDate
             self.sAMLMetadataDocument = sAMLMetadataDocument
             self.validUntil = validUntil
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            self.sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String
-            self.validUntil = dictionary["ValidUntil"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case sAMLMetadataDocument = "SAMLMetadataDocument"
+            case validUntil = "ValidUntil"
         }
     }
 
     public struct Policy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultVersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "IsAttachable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string), 
-            AWSShapeProperty(label: "UpdateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AttachmentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultVersionId", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IsAttachable", required: false, type: .boolean), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "UpdateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AttachmentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The identifier for the version of the policy that is set as the default version.
         public let defaultVersionId: String?
@@ -100,17 +97,17 @@ extension Iam {
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: String?
+        public let updateDate: Double?
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The number of entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int32?
         /// A friendly description of the policy. This element is included in the response to the GetPolicy operation. It is not included in the response to the ListPolicies operation. 
         public let description: String?
 
-        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: String? = nil, path: String? = nil, createDate: String? = nil, attachmentCount: Int32? = nil, description: String? = nil) {
+        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: Double? = nil, path: String? = nil, createDate: Double? = nil, attachmentCount: Int32? = nil, description: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.policyId = policyId
             self.arn = arn
@@ -123,27 +120,26 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultVersionId = dictionary["DefaultVersionId"] as? String
-            self.policyId = dictionary["PolicyId"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.isAttachable = dictionary["IsAttachable"] as? Bool
-            self.policyName = dictionary["PolicyName"] as? String
-            self.updateDate = dictionary["UpdateDate"] as? String
-            self.path = dictionary["Path"] as? String
-            self.createDate = dictionary["CreateDate"] as? String
-            self.attachmentCount = dictionary["AttachmentCount"] as? Int32
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case defaultVersionId = "DefaultVersionId"
+            case policyId = "PolicyId"
+            case arn = "Arn"
+            case isAttachable = "IsAttachable"
+            case policyName = "PolicyName"
+            case updateDate = "UpdateDate"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case attachmentCount = "AttachmentCount"
+            case description = "Description"
         }
     }
 
     public struct ListRolePoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -158,19 +154,17 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case roleName = "RoleName"
         }
     }
 
     public struct GetOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders action. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let openIDConnectProviderArn: String
@@ -179,18 +173,16 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
-            self.openIDConnectProviderArn = openIDConnectProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct DeleteRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -202,21 +194,18 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct UpdateGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewPath", required: false, type: .string), 
-            AWSShapeProperty(label: "NewGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewPath", required: false, type: .string), 
+            AWSShapeMember(label: "NewGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// New path for the IAM group. Only include this if changing the group's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let newPath: String?
@@ -231,19 +220,17 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.newPath = dictionary["NewPath"] as? String
-            self.newGroupName = dictionary["NewGroupName"] as? String
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case newPath = "NewPath"
+            case newGroupName = "NewGroupName"
+            case groupName = "GroupName"
         }
     }
 
     public struct DeleteRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the role to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -252,17 +239,15 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
         }
     }
 
     public struct DeleteVirtualMFADeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
         public let serialNumber: String
@@ -271,18 +256,16 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
+        private enum CodingKeys: String, CodingKey {
+            case serialNumber = "SerialNumber"
         }
     }
 
     public struct AttachUserPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -294,19 +277,16 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case userName = "UserName"
         }
     }
 
     public struct CreateVirtualMFADeviceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VirtualMFADevice", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualMFADevice", required: true, type: .structure)
         ]
         /// A structure containing details about the new virtual MFA device.
         public let virtualMFADevice: VirtualMFADevice
@@ -315,17 +295,15 @@ extension Iam {
             self.virtualMFADevice = virtualMFADevice
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualMFADevice = dictionary["VirtualMFADevice"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VirtualMFADevice") }
-            self.virtualMFADevice = try Iam.VirtualMFADevice(dictionary: virtualMFADevice)
+        private enum CodingKeys: String, CodingKey {
+            case virtualMFADevice = "VirtualMFADevice"
         }
     }
 
     public struct ListOpenIDConnectProvidersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIDConnectProviderList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderList", required: false, type: .list)
         ]
         /// The list of IAM OIDC provider resource objects defined in the AWS account.
         public let openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
@@ -334,20 +312,15 @@ extension Iam {
             self.openIDConnectProviderList = openIDConnectProviderList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let openIDConnectProviderList = dictionary["OpenIDConnectProviderList"] as? [[String: Any]] {
-                self.openIDConnectProviderList = try openIDConnectProviderList.map({ try OpenIDConnectProviderListEntry(dictionary: $0) })
-            } else { 
-                self.openIDConnectProviderList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderList = "OpenIDConnectProviderList"
         }
     }
 
     public struct GetUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -356,26 +329,25 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
         }
     }
 
     public struct InstanceProfile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "Roles", required: true, type: .list), 
-            AWSShapeProperty(label: "InstanceProfileId", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Roles", required: true, type: .list), 
+            AWSShapeMember(label: "InstanceProfileId", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The name identifying the instance profile.
         public let instanceProfileName: String
         /// The date when the instance profile was created.
-        public let createDate: String
+        public let createDate: Double
         ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The role associated with the instance profile.
@@ -385,7 +357,7 @@ extension Iam {
         ///  The path to the instance profile. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(instanceProfileName: String, createDate: String, arn: String, roles: [Role], instanceProfileId: String, path: String) {
+        public init(instanceProfileName: String, createDate: Double, arn: String, roles: [Role], instanceProfileId: String, path: String) {
             self.instanceProfileName = instanceProfileName
             self.createDate = createDate
             self.arn = arn
@@ -394,27 +366,20 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            guard let roles = dictionary["Roles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Roles") }
-            self.roles = try roles.map({ try Role(dictionary: $0) })
-            guard let instanceProfileId = dictionary["InstanceProfileId"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileId") }
-            self.instanceProfileId = instanceProfileId
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+            case createDate = "CreateDate"
+            case arn = "Arn"
+            case roles = "Roles"
+            case instanceProfileId = "InstanceProfileId"
+            case path = "Path"
         }
     }
 
     public struct CreateServiceSpecificCredentialResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredential", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure that contains information about the newly created service-specific credential.  This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you will have to reset the password with ResetServiceSpecificCredential. 
         public let serviceSpecificCredential: ServiceSpecificCredential?
@@ -423,17 +388,16 @@ extension Iam {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceSpecificCredential = dictionary["ServiceSpecificCredential"] as? [String: Any] { self.serviceSpecificCredential = try Iam.ServiceSpecificCredential(dictionary: serviceSpecificCredential) } else { self.serviceSpecificCredential = nil }
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredential = "ServiceSpecificCredential"
         }
     }
 
     public struct UpdateSAMLProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLMetadataDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string), 
+            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
         public let sAMLMetadataDocument: String
@@ -445,20 +409,17 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String else { throw InitializableError.missingRequiredParam("SAMLMetadataDocument") }
-            self.sAMLMetadataDocument = sAMLMetadataDocument
-            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
-            self.sAMLProviderArn = sAMLProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case sAMLMetadataDocument = "SAMLMetadataDocument"
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct GetGroupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the group the policy is associated with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let groupName: String
@@ -470,15 +431,13 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case policyName = "PolicyName"
         }
     }
 
-    public enum EncodingType: String, CustomStringConvertible {
+    public enum EncodingType: String, CustomStringConvertible, Codable {
         case ssh = "SSH"
         case pem = "PEM"
         public var description: String { return self.rawValue }
@@ -486,9 +445,8 @@ extension Iam {
 
     public struct UploadServerCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificateMetadata", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateMetadata", required: false, type: .structure)
         ]
         /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
         public let serverCertificateMetadata: ServerCertificateMetadata?
@@ -497,18 +455,17 @@ extension Iam {
             self.serverCertificateMetadata = serverCertificateMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serverCertificateMetadata = dictionary["ServerCertificateMetadata"] as? [String: Any] { self.serverCertificateMetadata = try Iam.ServerCertificateMetadata(dictionary: serverCertificateMetadata) } else { self.serverCertificateMetadata = nil }
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateMetadata = "ServerCertificateMetadata"
         }
     }
 
     public struct ContextEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContextKeyValues", required: false, type: .list), 
-            AWSShapeProperty(label: "ContextKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "ContextKeyType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContextKeyValues", required: false, type: .list), 
+            AWSShapeMember(label: "ContextKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "ContextKeyType", required: false, type: .enum)
         ]
         /// The value (or values, if the condition context key supports multiple values) to provide to the simulation for use when the key is referenced by a Condition element in an input policy.
         public let contextKeyValues: [String]?
@@ -523,18 +480,17 @@ extension Iam {
             self.contextKeyType = contextKeyType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.contextKeyValues = dictionary["ContextKeyValues"] as? [String]
-            self.contextKeyName = dictionary["ContextKeyName"] as? String
-            if let contextKeyType = dictionary["ContextKeyType"] as? String { self.contextKeyType = ContextKeyTypeEnum(rawValue: contextKeyType) } else { self.contextKeyType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case contextKeyValues = "ContextKeyValues"
+            case contextKeyName = "ContextKeyName"
+            case contextKeyType = "ContextKeyType"
         }
     }
 
     public struct GetSSHPublicKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SSHPublicKey", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// A structure containing details about the SSH public key.
         public let sSHPublicKey: SSHPublicKey?
@@ -543,12 +499,12 @@ extension Iam {
             self.sSHPublicKey = sSHPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sSHPublicKey = dictionary["SSHPublicKey"] as? [String: Any] { self.sSHPublicKey = try Iam.SSHPublicKey(dictionary: sSHPublicKey) } else { self.sSHPublicKey = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sSHPublicKey = "SSHPublicKey"
         }
     }
 
-    public enum StatusType: String, CustomStringConvertible {
+    public enum StatusType: String, CustomStringConvertible, Codable {
         case active = "Active"
         case inactive = "Inactive"
         public var description: String { return self.rawValue }
@@ -556,10 +512,9 @@ extension Iam {
 
     public struct AttachGroupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -571,23 +526,20 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case groupName = "GroupName"
         }
     }
 
     public struct ListEntitiesForPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EntityFilter", required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EntityFilter", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// The entity type to use for filtering the results. For example, when EntityFilter is Role, only the roles that are attached to the specified policy are returned. This parameter is optional. If it is not included, all attached entities (users, groups, and roles) are returned. The argument for this parameter must be one of the valid values listed below.
         public let entityFilter: EntityType?
@@ -608,60 +560,53 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let entityFilter = dictionary["EntityFilter"] as? String { self.entityFilter = EntityType(rawValue: entityFilter) } else { self.entityFilter = nil }
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            self.marker = dictionary["Marker"] as? String
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case entityFilter = "EntityFilter"
+            case maxItems = "MaxItems"
+            case policyArn = "PolicyArn"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct SSHPublicKeyMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "UploadDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "UploadDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
         ]
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
         /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: String
+        public let uploadDate: Double
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(userName: String, status: StatusType, uploadDate: String, sSHPublicKeyId: String) {
+        public init(userName: String, status: StatusType, uploadDate: Double, sSHPublicKeyId: String) {
             self.userName = userName
             self.status = status
             self.uploadDate = uploadDate
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let uploadDate = dictionary["UploadDate"] as? String else { throw InitializableError.missingRequiredParam("UploadDate") }
-            self.uploadDate = uploadDate
-            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
-            self.sSHPublicKeyId = sSHPublicKeyId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case uploadDate = "UploadDate"
+            case sSHPublicKeyId = "SSHPublicKeyId"
         }
     }
 
     public struct ListAttachedRolePoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -676,24 +621,19 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
-                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case attachedPolicies = "AttachedPolicies"
         }
     }
 
     public struct ListMFADevicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MFADevices", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "MFADevices", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -708,21 +648,19 @@ extension Iam {
             self.mFADevices = mFADevices
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let mFADevices = dictionary["MFADevices"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("MFADevices") }
-            self.mFADevices = try mFADevices.map({ try MFADevice(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case mFADevices = "MFADevices"
         }
     }
 
     public struct ListInstanceProfilesForRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -737,21 +675,19 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case roleName = "RoleName"
         }
     }
 
     public struct ListGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Groups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -766,20 +702,18 @@ extension Iam {
             self.groups = groups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let groups = dictionary["Groups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Groups") }
-            self.groups = try groups.map({ try Group(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case groups = "Groups"
         }
     }
 
     public struct CreateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// The name of the user to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. User names are not distinguished by case. For example, you cannot create users named both "TESTUSER" and "testuser".
         public let userName: String
@@ -791,25 +725,23 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case path = "Path"
         }
     }
 
     public struct AccessKey: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "SecretAccessKey", required: true, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SecretAccessKey", required: true, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The date when the access key was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The name of the IAM user that the access key is associated with.
         public let userName: String
         /// The status of the access key. Active means the key is valid for API calls, while Inactive means it is not. 
@@ -819,7 +751,7 @@ extension Iam {
         /// The ID for this access key.
         public let accessKeyId: String
 
-        public init(createDate: String? = nil, userName: String, status: StatusType, secretAccessKey: String, accessKeyId: String) {
+        public init(createDate: Double? = nil, userName: String, status: StatusType, secretAccessKey: String, accessKeyId: String) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
@@ -827,25 +759,20 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let secretAccessKey = dictionary["SecretAccessKey"] as? String else { throw InitializableError.missingRequiredParam("SecretAccessKey") }
-            self.secretAccessKey = secretAccessKey
-            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
-            self.accessKeyId = accessKeyId
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case userName = "UserName"
+            case status = "Status"
+            case secretAccessKey = "SecretAccessKey"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct AddRoleToInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
@@ -857,20 +784,17 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+            case roleName = "RoleName"
         }
     }
 
     public struct CreateInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// The name of the instance profile to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
@@ -882,20 +806,18 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+            case path = "Path"
         }
     }
 
     public struct ListGroupsForUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Groups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Groups", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -910,21 +832,19 @@ extension Iam {
             self.groups = groups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let groups = dictionary["Groups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Groups") }
-            self.groups = try groups.map({ try Group(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case groups = "Groups"
         }
     }
 
     public struct ListInstanceProfilesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -939,19 +859,18 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct UploadSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SSHPublicKeyBody", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSHPublicKeyBody", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let sSHPublicKeyBody: String
@@ -963,19 +882,16 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sSHPublicKeyBody = dictionary["SSHPublicKeyBody"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyBody") }
-            self.sSHPublicKeyBody = sSHPublicKeyBody
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case sSHPublicKeyBody = "SSHPublicKeyBody"
+            case userName = "UserName"
         }
     }
 
     public struct DeleteUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -984,19 +900,17 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
         }
     }
 
     public struct ListSSHPublicKeysRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -1011,20 +925,19 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.userName = dictionary["UserName"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct UpdateAccessKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The name of the user whose key you want to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -1039,24 +952,21 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
-            self.accessKeyId = accessKeyId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct UploadServerCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
-            AWSShapeProperty(label: "CertificateBody", required: true, type: .string), 
-            AWSShapeProperty(label: "PrivateKey", required: true, type: .string), 
-            AWSShapeProperty(label: "CertificateChain", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .string), 
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let serverCertificateName: String
@@ -1077,32 +987,28 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
-            self.serverCertificateName = serverCertificateName
-            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
-            self.certificateBody = certificateBody
-            guard let privateKey = dictionary["PrivateKey"] as? String else { throw InitializableError.missingRequiredParam("PrivateKey") }
-            self.privateKey = privateKey
-            self.certificateChain = dictionary["CertificateChain"] as? String
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
+            case certificateBody = "CertificateBody"
+            case privateKey = "PrivateKey"
+            case certificateChain = "CertificateChain"
+            case path = "Path"
         }
     }
 
     public struct SimulateCustomPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "ActionNames", required: true, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyInputList", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceHandlingOption", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceArns", required: false, type: .list), 
-            AWSShapeProperty(label: "CallerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceOwner", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourcePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "ContextEntries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "ActionNames", required: true, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyInputList", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceHandlingOption", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "CallerArn", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceOwner", required: false, type: .string), 
+            AWSShapeMember(label: "ResourcePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "ContextEntries", required: false, type: .list)
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
@@ -1138,33 +1044,26 @@ extension Iam {
             self.contextEntries = contextEntries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let actionNames = dictionary["ActionNames"] as? [String] else { throw InitializableError.missingRequiredParam("ActionNames") }
-            self.actionNames = actionNames
-            self.marker = dictionary["Marker"] as? String
-            guard let policyInputList = dictionary["PolicyInputList"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyInputList") }
-            self.policyInputList = policyInputList
-            self.resourceHandlingOption = dictionary["ResourceHandlingOption"] as? String
-            self.resourceArns = dictionary["ResourceArns"] as? [String]
-            self.callerArn = dictionary["CallerArn"] as? String
-            self.resourceOwner = dictionary["ResourceOwner"] as? String
-            self.resourcePolicy = dictionary["ResourcePolicy"] as? String
-            if let contextEntries = dictionary["ContextEntries"] as? [[String: Any]] {
-                self.contextEntries = try contextEntries.map({ try ContextEntry(dictionary: $0) })
-            } else { 
-                self.contextEntries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case actionNames = "ActionNames"
+            case marker = "Marker"
+            case policyInputList = "PolicyInputList"
+            case resourceHandlingOption = "ResourceHandlingOption"
+            case resourceArns = "ResourceArns"
+            case callerArn = "CallerArn"
+            case resourceOwner = "ResourceOwner"
+            case resourcePolicy = "ResourcePolicy"
+            case contextEntries = "ContextEntries"
         }
     }
 
     public struct GetGroupPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The group the policy is associated with.
         public let groupName: String
@@ -1179,21 +1078,17 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct GetAccountSummaryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SummaryMap", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SummaryMap", required: false, type: .map)
         ]
         /// A set of key value pairs containing information about IAM entity usage and IAM quotas.
         public let summaryMap: [SummaryKeyType: Int32]?
@@ -1202,20 +1097,15 @@ extension Iam {
             self.summaryMap = summaryMap
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let summaryMap = dictionary["SummaryMap"] as? [SummaryKeyType: Int32] {
-                self.summaryMap = summaryMap
-            } else { 
-                self.summaryMap = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case summaryMap = "SummaryMap"
         }
     }
 
     public struct CreateLoginProfileResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoginProfile", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
         ]
         /// A structure containing the user name and password create date.
         public let loginProfile: LoginProfile
@@ -1224,25 +1114,23 @@ extension Iam {
             self.loginProfile = loginProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loginProfile = dictionary["LoginProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoginProfile") }
-            self.loginProfile = try Iam.LoginProfile(dictionary: loginProfile)
+        private enum CodingKeys: String, CodingKey {
+            case loginProfile = "LoginProfile"
         }
     }
 
     public struct RoleDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AttachedManagedPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "AssumeRolePolicyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "RoleId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: false, type: .string), 
-            AWSShapeProperty(label: "RolePolicyList", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceProfileList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "RolePolicyList", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceProfileList", required: false, type: .list)
         ]
         /// A list of managed policies attached to the role. These policies are the role's access (permissions) policies.
         public let attachedManagedPolicies: [AttachedPolicy]?
@@ -1252,7 +1140,7 @@ extension Iam {
         /// The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let roleId: String?
         /// The friendly name that identifies the role.
@@ -1262,7 +1150,7 @@ extension Iam {
         /// A list of instance profiles that contain this role.
         public let instanceProfileList: [InstanceProfile]?
 
-        public init(attachedManagedPolicies: [AttachedPolicy]? = nil, arn: String? = nil, assumeRolePolicyDocument: String? = nil, path: String? = nil, createDate: String? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, instanceProfileList: [InstanceProfile]? = nil) {
+        public init(attachedManagedPolicies: [AttachedPolicy]? = nil, arn: String? = nil, assumeRolePolicyDocument: String? = nil, path: String? = nil, createDate: Double? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, instanceProfileList: [InstanceProfile]? = nil) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -1274,38 +1162,25 @@ extension Iam {
             self.instanceProfileList = instanceProfileList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
-                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedManagedPolicies = nil
-            }
-            self.arn = dictionary["Arn"] as? String
-            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
-            self.path = dictionary["Path"] as? String
-            self.createDate = dictionary["CreateDate"] as? String
-            self.roleId = dictionary["RoleId"] as? String
-            self.roleName = dictionary["RoleName"] as? String
-            if let rolePolicyList = dictionary["RolePolicyList"] as? [[String: Any]] {
-                self.rolePolicyList = try rolePolicyList.map({ try PolicyDetail(dictionary: $0) })
-            } else { 
-                self.rolePolicyList = nil
-            }
-            if let instanceProfileList = dictionary["InstanceProfileList"] as? [[String: Any]] {
-                self.instanceProfileList = try instanceProfileList.map({ try InstanceProfile(dictionary: $0) })
-            } else { 
-                self.instanceProfileList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case attachedManagedPolicies = "AttachedManagedPolicies"
+            case arn = "Arn"
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case roleId = "RoleId"
+            case roleName = "RoleName"
+            case rolePolicyList = "RolePolicyList"
+            case instanceProfileList = "InstanceProfileList"
         }
     }
 
     public struct PutUserPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the user to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -1320,23 +1195,19 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct PutRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the role to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -1351,24 +1222,20 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ListAttachedRolePoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
@@ -1386,21 +1253,19 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            self.marker = dictionary["Marker"] as? String
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case roleName = "RoleName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct Position: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Line", required: false, type: .integer), 
-            AWSShapeProperty(label: "Column", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Line", required: false, type: .integer), 
+            AWSShapeMember(label: "Column", required: false, type: .integer)
         ]
         /// The line containing the specified position in the document.
         public let line: Int32?
@@ -1412,19 +1277,18 @@ extension Iam {
             self.column = column
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.line = dictionary["Line"] as? Int32
-            self.column = dictionary["Column"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case line = "Line"
+            case column = "Column"
         }
     }
 
     public struct ListAccessKeysResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AccessKeyMetadata", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AccessKeyMetadata", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -1439,21 +1303,19 @@ extension Iam {
             self.accessKeyMetadata = accessKeyMetadata
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let accessKeyMetadata = dictionary["AccessKeyMetadata"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AccessKeyMetadata") }
-            self.accessKeyMetadata = try accessKeyMetadata.map({ try AccessKeyMetadata(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case accessKeyMetadata = "AccessKeyMetadata"
         }
     }
 
     public struct UpdateServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
         /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let serviceSpecificCredentialId: String
@@ -1468,21 +1330,18 @@ extension Iam {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            self.userName = dictionary["UserName"] as? String
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
+            case status = "Status"
         }
     }
 
     public struct DetachRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -1494,20 +1353,17 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case roleName = "RoleName"
         }
     }
 
     public struct CreateSAMLProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "SAMLMetadataDocument", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "SAMLMetadataDocument", required: true, type: .string)
         ]
         /// The name of the provider to create. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let name: String
@@ -1519,21 +1375,18 @@ extension Iam {
             self.sAMLMetadataDocument = sAMLMetadataDocument
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let sAMLMetadataDocument = dictionary["SAMLMetadataDocument"] as? String else { throw InitializableError.missingRequiredParam("SAMLMetadataDocument") }
-            self.sAMLMetadataDocument = sAMLMetadataDocument
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case sAMLMetadataDocument = "SAMLMetadataDocument"
         }
     }
 
     public struct ListVirtualMFADevicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AssignmentStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AssignmentStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         ///  The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the action defaults to Any which lists both assigned and unassigned virtual MFA devices.
         public let assignmentStatus: AssignmentStatusType?
@@ -1548,18 +1401,17 @@ extension Iam {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let assignmentStatus = dictionary["AssignmentStatus"] as? String { self.assignmentStatus = AssignmentStatusType(rawValue: assignmentStatus) } else { self.assignmentStatus = nil }
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case assignmentStatus = "AssignmentStatus"
+            case maxItems = "MaxItems"
+            case marker = "Marker"
         }
     }
 
     public struct GetRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the IAM role to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -1568,18 +1420,16 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
         }
     }
 
     public struct AddUserToGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// The name of the user to add. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -1591,21 +1441,18 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case groupName = "GroupName"
         }
     }
 
     public struct UpdateUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewPath", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "NewUserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewPath", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "NewUserName", required: false, type: .string)
         ]
         /// New path for the IAM user. Include this parameter only if you're changing the user's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let newPath: String?
@@ -1620,19 +1467,17 @@ extension Iam {
             self.newUserName = newUserName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.newPath = dictionary["NewPath"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.newUserName = dictionary["NewUserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case newPath = "NewPath"
+            case userName = "UserName"
+            case newUserName = "NewUserName"
         }
     }
 
     public struct OpenIDConnectProviderListEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
         ]
         public let arn: String?
 
@@ -1640,12 +1485,12 @@ extension Iam {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
-    public enum PolicySourceType: String, CustomStringConvertible {
+    public enum PolicySourceType: String, CustomStringConvertible, Codable {
         case user = "user"
         case group = "group"
         case role = "role"
@@ -1658,11 +1503,10 @@ extension Iam {
 
     public struct CreatePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "SetAsDefault", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "SetAsDefault", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy to which you want to add a new version. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -1677,21 +1521,18 @@ extension Iam {
             self.setAsDefault = setAsDefault
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            self.setAsDefault = dictionary["SetAsDefault"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case policyDocument = "PolicyDocument"
+            case setAsDefault = "SetAsDefault"
         }
     }
 
     public struct CreateServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string)
         ]
         /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -1703,28 +1544,25 @@ extension Iam {
             self.serviceName = serviceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
-            self.serviceName = serviceName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serviceName = "ServiceName"
         }
     }
 
     public struct PasswordPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequireNumbers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ExpirePasswords", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxPasswordAge", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinimumPasswordLength", required: false, type: .integer), 
-            AWSShapeProperty(label: "RequireLowercaseCharacters", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PasswordReusePrevention", required: false, type: .integer), 
-            AWSShapeProperty(label: "RequireSymbols", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RequireUppercaseCharacters", required: false, type: .boolean), 
-            AWSShapeProperty(label: "HardExpiry", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowUsersToChangePassword", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpirePasswords", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxPasswordAge", required: false, type: .integer), 
+            AWSShapeMember(label: "MinimumPasswordLength", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireLowercaseCharacters", required: false, type: .boolean), 
+            AWSShapeMember(label: "PasswordReusePrevention", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireUppercaseCharacters", required: false, type: .boolean), 
+            AWSShapeMember(label: "HardExpiry", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowUsersToChangePassword", required: false, type: .boolean)
         ]
         /// Specifies whether to require numbers for IAM user passwords.
         public let requireNumbers: Bool?
@@ -1760,25 +1598,24 @@ extension Iam {
             self.allowUsersToChangePassword = allowUsersToChangePassword
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requireNumbers = dictionary["RequireNumbers"] as? Bool
-            self.expirePasswords = dictionary["ExpirePasswords"] as? Bool
-            self.maxPasswordAge = dictionary["MaxPasswordAge"] as? Int32
-            self.minimumPasswordLength = dictionary["MinimumPasswordLength"] as? Int32
-            self.requireLowercaseCharacters = dictionary["RequireLowercaseCharacters"] as? Bool
-            self.passwordReusePrevention = dictionary["PasswordReusePrevention"] as? Int32
-            self.requireSymbols = dictionary["RequireSymbols"] as? Bool
-            self.requireUppercaseCharacters = dictionary["RequireUppercaseCharacters"] as? Bool
-            self.hardExpiry = dictionary["HardExpiry"] as? Bool
-            self.allowUsersToChangePassword = dictionary["AllowUsersToChangePassword"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case requireNumbers = "RequireNumbers"
+            case expirePasswords = "ExpirePasswords"
+            case maxPasswordAge = "MaxPasswordAge"
+            case minimumPasswordLength = "MinimumPasswordLength"
+            case requireLowercaseCharacters = "RequireLowercaseCharacters"
+            case passwordReusePrevention = "PasswordReusePrevention"
+            case requireSymbols = "RequireSymbols"
+            case requireUppercaseCharacters = "RequireUppercaseCharacters"
+            case hardExpiry = "HardExpiry"
+            case allowUsersToChangePassword = "AllowUsersToChangePassword"
         }
     }
 
     public struct CreateRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the new role.
         public let role: Role
@@ -1787,19 +1624,17 @@ extension Iam {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let role = dictionary["Role"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = try Iam.Role(dictionary: role)
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
         }
     }
 
     public struct ListServerCertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -1814,19 +1649,18 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy whose default version you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -1838,29 +1672,23 @@ extension Iam {
             self.versionId = versionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case versionId = "VersionId"
         }
     }
 
     public struct ListOpenIDConnectProvidersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateServerCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NewPath", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
-            AWSShapeProperty(label: "NewServerCertificateName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NewPath", required: false, type: .string), 
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
+            AWSShapeMember(label: "NewServerCertificateName", required: false, type: .string)
         ]
         /// The new path for the server certificate. Include this only if you are updating the server certificate's path. This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let newPath: String?
@@ -1875,21 +1703,19 @@ extension Iam {
             self.newServerCertificateName = newServerCertificateName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.newPath = dictionary["NewPath"] as? String
-            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
-            self.serverCertificateName = serverCertificateName
-            self.newServerCertificateName = dictionary["NewServerCertificateName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case newPath = "NewPath"
+            case serverCertificateName = "ServerCertificateName"
+            case newServerCertificateName = "NewServerCertificateName"
         }
     }
 
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Policies", required: false, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -1904,22 +1730,17 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let policies = dictionary["Policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try Policy(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policies = "Policies"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct GetServerCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
         ]
         /// The name of the server certificate you want to retrieve information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let serverCertificateName: String
@@ -1928,23 +1749,21 @@ extension Iam {
             self.serverCertificateName = serverCertificateName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
-            self.serverCertificateName = serverCertificateName
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
         }
     }
 
     public struct ServiceSpecificCredential: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceUserName", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceName", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "ServicePassword", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceUserName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "ServicePassword", required: true, type: .string)
         ]
         /// The unique identifier for the service-specific credential.
         public let serviceSpecificCredentialId: String
@@ -1957,11 +1776,11 @@ extension Iam {
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: String
+        public let createDate: Double
         /// The generated password for the service-specific credential.
         public let servicePassword: String
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceUserName: String, serviceName: String, createDate: String, servicePassword: String) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceUserName: String, serviceName: String, createDate: Double, servicePassword: String) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -1971,35 +1790,27 @@ extension Iam {
             self.servicePassword = servicePassword
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let serviceUserName = dictionary["ServiceUserName"] as? String else { throw InitializableError.missingRequiredParam("ServiceUserName") }
-            self.serviceUserName = serviceUserName
-            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
-            self.serviceName = serviceName
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            guard let servicePassword = dictionary["ServicePassword"] as? String else { throw InitializableError.missingRequiredParam("ServicePassword") }
-            self.servicePassword = servicePassword
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
+            case status = "Status"
+            case serviceUserName = "ServiceUserName"
+            case serviceName = "ServiceName"
+            case createDate = "CreateDate"
+            case servicePassword = "ServicePassword"
         }
     }
 
     public struct GetOpenIDConnectProviderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "ThumbprintList", required: false, type: .list), 
-            AWSShapeProperty(label: "ClientIDList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "ThumbprintList", required: false, type: .list), 
+            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
         ]
         /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
-        public let createDate: String?
+        public let createDate: Double?
         /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
         public let url: String?
         /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider. 
@@ -2007,33 +1818,32 @@ extension Iam {
         /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
         public let clientIDList: [String]?
 
-        public init(createDate: String? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
+        public init(createDate: Double? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
             self.createDate = createDate
             self.url = url
             self.thumbprintList = thumbprintList
             self.clientIDList = clientIDList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            self.url = dictionary["Url"] as? String
-            self.thumbprintList = dictionary["ThumbprintList"] as? [String]
-            self.clientIDList = dictionary["ClientIDList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case url = "Url"
+            case thumbprintList = "ThumbprintList"
+            case clientIDList = "ClientIDList"
         }
     }
 
     public struct UserDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupList", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UserPolicyList", required: false, type: .list), 
-            AWSShapeProperty(label: "AttachedManagedPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupList", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserPolicyList", required: false, type: .list), 
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list)
         ]
         /// The friendly name identifying the user.
         public let userName: String?
@@ -2045,13 +1855,13 @@ extension Iam {
         /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// A list of the inline policies embedded in the user.
         public let userPolicyList: [PolicyDetail]?
         /// A list of the managed policies attached to the user.
         public let attachedManagedPolicies: [AttachedPolicy]?
 
-        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: String? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
+        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: Double? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
             self.userName = userName
             self.userId = userId
             self.arn = arn
@@ -2062,41 +1872,29 @@ extension Iam {
             self.attachedManagedPolicies = attachedManagedPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            self.userId = dictionary["UserId"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.groupList = dictionary["GroupList"] as? [String]
-            self.path = dictionary["Path"] as? String
-            self.createDate = dictionary["CreateDate"] as? String
-            if let userPolicyList = dictionary["UserPolicyList"] as? [[String: Any]] {
-                self.userPolicyList = try userPolicyList.map({ try PolicyDetail(dictionary: $0) })
-            } else { 
-                self.userPolicyList = nil
-            }
-            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
-                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedManagedPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case userId = "UserId"
+            case arn = "Arn"
+            case groupList = "GroupList"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case userPolicyList = "UserPolicyList"
+            case attachedManagedPolicies = "AttachedManagedPolicies"
         }
     }
 
     public struct ListSAMLProvidersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListAttachedGroupPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -2111,24 +1909,19 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
-                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case attachedPolicies = "AttachedPolicies"
         }
     }
 
     public struct ListUserPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -2143,20 +1936,18 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policyNames = "PolicyNames"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct ListAccountAliasesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -2168,18 +1959,17 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct UploadSigningCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateBody", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string)
         ]
         /// The name of the user the signing certificate is for. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -2191,19 +1981,17 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
-            self.certificateBody = certificateBody
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case certificateBody = "CertificateBody"
         }
     }
 
     public struct DeactivateMFADeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The name of the user whose MFA device you want to deactivate. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -2215,19 +2003,16 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serialNumber = "SerialNumber"
         }
     }
 
     public struct DeleteAccountAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountAlias", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
         ]
         /// The name of the account alias to delete. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
         public let accountAlias: String
@@ -2236,17 +2021,15 @@ extension Iam {
             self.accountAlias = accountAlias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountAlias = dictionary["AccountAlias"] as? String else { throw InitializableError.missingRequiredParam("AccountAlias") }
-            self.accountAlias = accountAlias
+        private enum CodingKeys: String, CodingKey {
+            case accountAlias = "AccountAlias"
         }
     }
 
     public struct GetSAMLProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let sAMLProviderArn: String
@@ -2255,18 +2038,16 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
-            self.sAMLProviderArn = sAMLProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct GenerateCredentialReportResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "State", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "State", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Information about the state of the credential report.
         public let state: ReportStateType?
@@ -2278,19 +2059,18 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["State"] as? String { self.state = ReportStateType(rawValue: state) } else { self.state = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case description = "Description"
         }
     }
 
     public struct ListGroupPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -2305,19 +2085,17 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policyNames = "PolicyNames"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct CreateUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: false, type: .structure)
         ]
         /// A structure with details about the new IAM user.
         public let user: User?
@@ -2326,20 +2104,19 @@ extension Iam {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Iam.User(dictionary: user) } else { self.user = nil }
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct SigningCertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "UploadDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CertificateBody", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "UploadDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string)
         ]
         /// The ID for the signing certificate.
         public let certificateId: String
@@ -2348,11 +2125,11 @@ extension Iam {
         /// The status of the signing certificate. Active means the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
         /// The date when the signing certificate was uploaded.
-        public let uploadDate: String?
+        public let uploadDate: Double?
         /// The contents of the signing certificate.
         public let certificateBody: String
 
-        public init(certificateId: String, userName: String, status: StatusType, uploadDate: String? = nil, certificateBody: String) {
+        public init(certificateId: String, userName: String, status: StatusType, uploadDate: Double? = nil, certificateBody: String) {
             self.certificateId = certificateId
             self.userName = userName
             self.status = status
@@ -2360,26 +2137,21 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
-            self.certificateId = certificateId
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            self.uploadDate = dictionary["UploadDate"] as? String
-            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
-            self.certificateBody = certificateBody
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case userName = "UserName"
+            case status = "Status"
+            case uploadDate = "UploadDate"
+            case certificateBody = "CertificateBody"
         }
     }
 
     public struct GetGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -2394,20 +2166,18 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case groupName = "GroupName"
         }
     }
 
     public struct AttachRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -2419,20 +2189,17 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case roleName = "RoleName"
         }
     }
 
     public struct ChangePasswordRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OldPassword", required: true, type: .string), 
-            AWSShapeProperty(label: "NewPassword", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OldPassword", required: true, type: .string), 
+            AWSShapeMember(label: "NewPassword", required: true, type: .string)
         ]
         /// The IAM user's current password.
         public let oldPassword: String
@@ -2444,20 +2211,17 @@ extension Iam {
             self.newPassword = newPassword
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let oldPassword = dictionary["OldPassword"] as? String else { throw InitializableError.missingRequiredParam("OldPassword") }
-            self.oldPassword = oldPassword
-            guard let newPassword = dictionary["NewPassword"] as? String else { throw InitializableError.missingRequiredParam("NewPassword") }
-            self.newPassword = newPassword
+        private enum CodingKeys: String, CodingKey {
+            case oldPassword = "OldPassword"
+            case newPassword = "NewPassword"
         }
     }
 
     public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ThumbprintList", required: true, type: .list), 
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
         public let thumbprintList: [String]
@@ -2469,29 +2233,26 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let thumbprintList = dictionary["ThumbprintList"] as? [String] else { throw InitializableError.missingRequiredParam("ThumbprintList") }
-            self.thumbprintList = thumbprintList
-            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
-            self.openIDConnectProviderArn = openIDConnectProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case thumbprintList = "ThumbprintList"
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct User: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "PasswordLastUsed", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UserId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PasswordLastUsed", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: String
+        public let createDate: Double
         /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. This field is null (not present) when:   The user does not have a password   The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014   there is no sign-in data associated with the user   This value is returned only in the GetUser and ListUsers actions. 
-        public let passwordLastUsed: String?
+        public let passwordLastUsed: Double?
         /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let userId: String
         /// The friendly name identifying the user.
@@ -2501,7 +2262,7 @@ extension Iam {
         /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String
 
-        public init(createDate: String, passwordLastUsed: String? = nil, userId: String, userName: String, arn: String, path: String) {
+        public init(createDate: Double, passwordLastUsed: Double? = nil, userId: String, userName: String, arn: String, path: String) {
             self.createDate = createDate
             self.passwordLastUsed = passwordLastUsed
             self.userId = userId
@@ -2510,22 +2271,17 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            self.passwordLastUsed = dictionary["PasswordLastUsed"] as? String
-            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
-            self.userId = userId
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case passwordLastUsed = "PasswordLastUsed"
+            case userId = "UserId"
+            case userName = "UserName"
+            case arn = "Arn"
+            case path = "Path"
         }
     }
 
-    public enum SummaryKeyType: String, CustomStringConvertible {
+    public enum SummaryKeyType: String, CustomStringConvertible, Codable {
         case users = "Users"
         case usersquota = "UsersQuota"
         case groups = "Groups"
@@ -2556,10 +2312,9 @@ extension Iam {
 
     public struct DeleteSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
         ]
         /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -2571,21 +2326,18 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
-            self.sSHPublicKeyId = sSHPublicKeyId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case sSHPublicKeyId = "SSHPublicKeyId"
         }
     }
 
     public struct CreateOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Url", required: true, type: .string), 
-            AWSShapeProperty(label: "ThumbprintList", required: true, type: .list), 
-            AWSShapeProperty(label: "ClientIDList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Url", required: true, type: .string), 
+            AWSShapeMember(label: "ThumbprintList", required: true, type: .list), 
+            AWSShapeMember(label: "ClientIDList", required: false, type: .list)
         ]
         /// The URL of the identity provider. The URL must begin with "https://" and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like "https://server.example.org" or "https://example.com". You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
         public let url: String
@@ -2600,22 +2352,19 @@ extension Iam {
             self.clientIDList = clientIDList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let url = dictionary["Url"] as? String else { throw InitializableError.missingRequiredParam("Url") }
-            self.url = url
-            guard let thumbprintList = dictionary["ThumbprintList"] as? [String] else { throw InitializableError.missingRequiredParam("ThumbprintList") }
-            self.thumbprintList = thumbprintList
-            self.clientIDList = dictionary["ClientIDList"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+            case thumbprintList = "ThumbprintList"
+            case clientIDList = "ClientIDList"
         }
     }
 
     public struct CreateServiceLinkedRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AWSServiceName", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomSuffix", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AWSServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "CustomSuffix", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com 
         public let aWSServiceName: String
@@ -2630,22 +2379,20 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let aWSServiceName = dictionary["AWSServiceName"] as? String else { throw InitializableError.missingRequiredParam("AWSServiceName") }
-            self.aWSServiceName = aWSServiceName
-            self.customSuffix = dictionary["CustomSuffix"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case aWSServiceName = "AWSServiceName"
+            case customSuffix = "CustomSuffix"
+            case description = "Description"
         }
     }
 
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The path for the policy. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
@@ -2663,21 +2410,18 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.path = dictionary["Path"] as? String
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case policyName = "PolicyName"
+            case policyDocument = "PolicyDocument"
+            case description = "Description"
         }
     }
 
     public struct DeleteServerCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string)
         ]
         /// The name of the server certificate you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let serverCertificateName: String
@@ -2686,19 +2430,17 @@ extension Iam {
             self.serverCertificateName = serverCertificateName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
-            self.serverCertificateName = serverCertificateName
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
         }
     }
 
     public struct SimulatePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EvaluationResults", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "EvaluationResults", required: false, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -2713,24 +2455,19 @@ extension Iam {
             self.evaluationResults = evaluationResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
-                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
-            } else { 
-                self.evaluationResults = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case evaluationResults = "EvaluationResults"
         }
     }
 
     public struct GetUserPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The user the policy is associated with.
         public let userName: String
@@ -2745,22 +2482,18 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct DeletePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -2772,47 +2505,43 @@ extension Iam {
             self.versionId = versionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case versionId = "VersionId"
         }
     }
 
     public struct SAMLProviderListEntry: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidUntil", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
         ]
         /// The date and time when the SAML provider was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The Amazon Resource Name (ARN) of the SAML provider.
         public let arn: String?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: String?
+        public let validUntil: Double?
 
-        public init(createDate: String? = nil, arn: String? = nil, validUntil: String? = nil) {
+        public init(createDate: Double? = nil, arn: String? = nil, validUntil: Double? = nil) {
             self.createDate = createDate
             self.arn = arn
             self.validUntil = validUntil
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.validUntil = dictionary["ValidUntil"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case arn = "Arn"
+            case validUntil = "ValidUntil"
         }
     }
 
     public struct UpdateSAMLProviderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLProviderArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
         public let sAMLProviderArn: String?
@@ -2821,16 +2550,15 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sAMLProviderArn = dictionary["SAMLProviderArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct GetContextKeysForPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ContextKeyNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ContextKeyNames", required: false, type: .list)
         ]
         /// The list of context keys that are referenced in the input policies.
         public let contextKeyNames: [String]?
@@ -2839,16 +2567,15 @@ extension Iam {
             self.contextKeyNames = contextKeyNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.contextKeyNames = dictionary["ContextKeyNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case contextKeyNames = "ContextKeyNames"
         }
     }
 
     public struct CreateAccountAliasRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountAlias", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountAlias", required: true, type: .string)
         ]
         /// The account alias to create. This parameter allows (per its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
         public let accountAlias: String
@@ -2857,24 +2584,22 @@ extension Iam {
             self.accountAlias = accountAlias
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accountAlias = dictionary["AccountAlias"] as? String else { throw InitializableError.missingRequiredParam("AccountAlias") }
-            self.accountAlias = accountAlias
+        private enum CodingKeys: String, CodingKey {
+            case accountAlias = "AccountAlias"
         }
     }
 
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvalDecision", required: true, type: .enum), 
-            AWSShapeProperty(label: "EvalDecisionDetails", required: false, type: .map), 
-            AWSShapeProperty(label: "EvalResourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "MatchedStatements", required: false, type: .list), 
-            AWSShapeProperty(label: "EvalActionName", required: true, type: .string), 
-            AWSShapeProperty(label: "OrganizationsDecisionDetail", required: false, type: .structure), 
-            AWSShapeProperty(label: "MissingContextValues", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceSpecificResults", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvalDecision", required: true, type: .enum), 
+            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
+            AWSShapeMember(label: "EvalResourceName", required: false, type: .string), 
+            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
+            AWSShapeMember(label: "EvalActionName", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationsDecisionDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceSpecificResults", required: false, type: .list)
         ]
         /// The result of the simulation.
         public let evalDecision: PolicyEvaluationDecisionType
@@ -2904,49 +2629,26 @@ extension Iam {
             self.resourceSpecificResults = resourceSpecificResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawEvalDecision = dictionary["EvalDecision"] as? String, let evalDecision = PolicyEvaluationDecisionType(rawValue: rawEvalDecision) else { throw InitializableError.missingRequiredParam("EvalDecision") }
-            self.evalDecision = evalDecision
-            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: Any] {
-                var evalDecisionDetailsDict: [String: PolicyEvaluationDecisionType] = [:]
-                for (key, value) in evalDecisionDetails {
-                    guard var policyEvaluationDecisionTypeDict = value as? [String: String] else { throw InitializableError.convertingError }
-                    for (key, value) in policyEvaluationDecisionTypeDict {
-                        guard let policyEvaluationDecisionType = PolicyEvaluationDecisionType(rawValue: value) else { continue }
-                        evalDecisionDetailsDict[key] = policyEvaluationDecisionType
-                    }
-                }
-                self.evalDecisionDetails = evalDecisionDetailsDict
-            } else { 
-                self.evalDecisionDetails = nil
-            }
-            self.evalResourceName = dictionary["EvalResourceName"] as? String
-            if let matchedStatements = dictionary["MatchedStatements"] as? [[String: Any]] {
-                self.matchedStatements = try matchedStatements.map({ try Statement(dictionary: $0) })
-            } else { 
-                self.matchedStatements = nil
-            }
-            guard let evalActionName = dictionary["EvalActionName"] as? String else { throw InitializableError.missingRequiredParam("EvalActionName") }
-            self.evalActionName = evalActionName
-            if let organizationsDecisionDetail = dictionary["OrganizationsDecisionDetail"] as? [String: Any] { self.organizationsDecisionDetail = try Iam.OrganizationsDecisionDetail(dictionary: organizationsDecisionDetail) } else { self.organizationsDecisionDetail = nil }
-            self.missingContextValues = dictionary["MissingContextValues"] as? [String]
-            if let resourceSpecificResults = dictionary["ResourceSpecificResults"] as? [[String: Any]] {
-                self.resourceSpecificResults = try resourceSpecificResults.map({ try ResourceSpecificResult(dictionary: $0) })
-            } else { 
-                self.resourceSpecificResults = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case evalDecision = "EvalDecision"
+            case evalDecisionDetails = "EvalDecisionDetails"
+            case evalResourceName = "EvalResourceName"
+            case matchedStatements = "MatchedStatements"
+            case evalActionName = "EvalActionName"
+            case organizationsDecisionDetail = "OrganizationsDecisionDetail"
+            case missingContextValues = "MissingContextValues"
+            case resourceSpecificResults = "ResourceSpecificResults"
         }
     }
 
     public struct ResourceSpecificResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MissingContextValues", required: false, type: .list), 
-            AWSShapeProperty(label: "EvalResourceDecision", required: true, type: .enum), 
-            AWSShapeProperty(label: "EvalDecisionDetails", required: false, type: .map), 
-            AWSShapeProperty(label: "MatchedStatements", required: false, type: .list), 
-            AWSShapeProperty(label: "EvalResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MissingContextValues", required: false, type: .list), 
+            AWSShapeMember(label: "EvalResourceDecision", required: true, type: .enum), 
+            AWSShapeMember(label: "EvalDecisionDetails", required: false, type: .map), 
+            AWSShapeMember(label: "MatchedStatements", required: false, type: .list), 
+            AWSShapeMember(label: "EvalResourceName", required: true, type: .string)
         ]
         /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
         public let missingContextValues: [String]?
@@ -2967,42 +2669,23 @@ extension Iam {
             self.evalResourceName = evalResourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.missingContextValues = dictionary["MissingContextValues"] as? [String]
-            guard let rawEvalResourceDecision = dictionary["EvalResourceDecision"] as? String, let evalResourceDecision = PolicyEvaluationDecisionType(rawValue: rawEvalResourceDecision) else { throw InitializableError.missingRequiredParam("EvalResourceDecision") }
-            self.evalResourceDecision = evalResourceDecision
-            if let evalDecisionDetails = dictionary["EvalDecisionDetails"] as? [String: Any] {
-                var evalDecisionDetailsDict: [String: PolicyEvaluationDecisionType] = [:]
-                for (key, value) in evalDecisionDetails {
-                    guard var policyEvaluationDecisionTypeDict = value as? [String: String] else { throw InitializableError.convertingError }
-                    for (key, value) in policyEvaluationDecisionTypeDict {
-                        guard let policyEvaluationDecisionType = PolicyEvaluationDecisionType(rawValue: value) else { continue }
-                        evalDecisionDetailsDict[key] = policyEvaluationDecisionType
-                    }
-                }
-                self.evalDecisionDetails = evalDecisionDetailsDict
-            } else { 
-                self.evalDecisionDetails = nil
-            }
-            if let matchedStatements = dictionary["MatchedStatements"] as? [[String: Any]] {
-                self.matchedStatements = try matchedStatements.map({ try Statement(dictionary: $0) })
-            } else { 
-                self.matchedStatements = nil
-            }
-            guard let evalResourceName = dictionary["EvalResourceName"] as? String else { throw InitializableError.missingRequiredParam("EvalResourceName") }
-            self.evalResourceName = evalResourceName
+        private enum CodingKeys: String, CodingKey {
+            case missingContextValues = "MissingContextValues"
+            case evalResourceDecision = "EvalResourceDecision"
+            case evalDecisionDetails = "EvalDecisionDetails"
+            case matchedStatements = "MatchedStatements"
+            case evalResourceName = "EvalResourceName"
         }
     }
 
     public struct ListEntitiesForPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyUsers", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyRoles", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "PolicyUsers", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyRoles", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyGroups", required: false, type: .list)
         ]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
         public let isTruncated: Bool?
@@ -3023,33 +2706,20 @@ extension Iam {
             self.policyGroups = policyGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let policyUsers = dictionary["PolicyUsers"] as? [[String: Any]] {
-                self.policyUsers = try policyUsers.map({ try PolicyUser(dictionary: $0) })
-            } else { 
-                self.policyUsers = nil
-            }
-            self.marker = dictionary["Marker"] as? String
-            if let policyRoles = dictionary["PolicyRoles"] as? [[String: Any]] {
-                self.policyRoles = try policyRoles.map({ try PolicyRole(dictionary: $0) })
-            } else { 
-                self.policyRoles = nil
-            }
-            if let policyGroups = dictionary["PolicyGroups"] as? [[String: Any]] {
-                self.policyGroups = try policyGroups.map({ try PolicyGroup(dictionary: $0) })
-            } else { 
-                self.policyGroups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case policyUsers = "PolicyUsers"
+            case marker = "Marker"
+            case policyRoles = "PolicyRoles"
+            case policyGroups = "PolicyGroups"
         }
     }
 
     public struct GetUserPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the user who the policy is associated with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -3061,20 +2731,17 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct CreateGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         ///  The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
@@ -3086,19 +2753,17 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.path = dictionary["Path"] as? String
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case groupName = "GroupName"
         }
     }
 
     public struct DeleteAccessKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The name of the user whose access key pair you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -3110,20 +2775,18 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
-            self.accessKeyId = accessKeyId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct ListUserPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -3138,21 +2801,19 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct CreateLoginProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
         ]
         /// The new password for the user. The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
         public let password: String
@@ -3167,16 +2828,14 @@ extension Iam {
             self.passwordResetRequired = passwordResetRequired
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
-            self.password = password
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case passwordResetRequired = "PasswordResetRequired"
         }
     }
 
-    public enum EntityType: String, CustomStringConvertible {
+    public enum EntityType: String, CustomStringConvertible, Codable {
         case user = "User"
         case role = "Role"
         case group = "Group"
@@ -3187,9 +2846,8 @@ extension Iam {
 
     public struct DeleteLoginProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user whose password you want to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -3198,17 +2856,15 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
         }
     }
 
     public struct UploadSSHPublicKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SSHPublicKey", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSHPublicKey", required: false, type: .structure)
         ]
         /// Contains information about the SSH public key.
         public let sSHPublicKey: SSHPublicKey?
@@ -3217,16 +2873,15 @@ extension Iam {
             self.sSHPublicKey = sSHPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sSHPublicKey = dictionary["SSHPublicKey"] as? [String: Any] { self.sSHPublicKey = try Iam.SSHPublicKey(dictionary: sSHPublicKey) } else { self.sSHPublicKey = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sSHPublicKey = "SSHPublicKey"
         }
     }
 
     public struct GetLoginProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The name of the user whose login profile you want to retrieve. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -3235,19 +2890,17 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
         }
     }
 
     public struct GetAccountAuthorizationDetailsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "Filter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Filter", required: false, type: .list)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -3262,24 +2915,23 @@ extension Iam {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            if let filter = dictionary["Filter"] as? [String] { self.filter = filter.flatMap({ EntityType(rawValue: $0)}) } else { self.filter = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case filter = "Filter"
         }
     }
 
     public struct AccessKeyMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "AccessKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string)
         ]
         /// The date when the access key was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The name of the IAM user that the key is associated with.
         public let userName: String?
         /// The status of the access key. Active means the key is valid for API calls; Inactive means it is not.
@@ -3287,29 +2939,28 @@ extension Iam {
         /// The ID for this access key.
         public let accessKeyId: String?
 
-        public init(createDate: String? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
+        public init(createDate: Double? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
             self.accessKeyId = accessKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            self.userName = dictionary["UserName"] as? String
-            if let status = dictionary["Status"] as? String { self.status = StatusType(rawValue: status) } else { self.status = nil }
-            self.accessKeyId = dictionary["AccessKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case userName = "UserName"
+            case status = "Status"
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct Statement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourcePolicyType", required: false, type: .enum), 
-            AWSShapeProperty(label: "StartPosition", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourcePolicyId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndPosition", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourcePolicyType", required: false, type: .enum), 
+            AWSShapeMember(label: "StartPosition", required: false, type: .structure), 
+            AWSShapeMember(label: "SourcePolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "EndPosition", required: false, type: .structure)
         ]
         /// The type of the policy.
         public let sourcePolicyType: PolicySourceType?
@@ -3327,29 +2978,28 @@ extension Iam {
             self.endPosition = endPosition
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sourcePolicyType = dictionary["SourcePolicyType"] as? String { self.sourcePolicyType = PolicySourceType(rawValue: sourcePolicyType) } else { self.sourcePolicyType = nil }
-            if let startPosition = dictionary["StartPosition"] as? [String: Any] { self.startPosition = try Iam.Position(dictionary: startPosition) } else { self.startPosition = nil }
-            self.sourcePolicyId = dictionary["SourcePolicyId"] as? String
-            if let endPosition = dictionary["EndPosition"] as? [String: Any] { self.endPosition = try Iam.Position(dictionary: endPosition) } else { self.endPosition = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sourcePolicyType = "SourcePolicyType"
+            case startPosition = "StartPosition"
+            case sourcePolicyId = "SourcePolicyId"
+            case endPosition = "EndPosition"
         }
     }
 
     public struct SimulatePrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "ActionNames", required: true, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyInputList", required: false, type: .list), 
-            AWSShapeProperty(label: "ResourceHandlingOption", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceArns", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicySourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ResourceOwner", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourcePolicy", required: false, type: .string), 
-            AWSShapeProperty(label: "CallerArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ContextEntries", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "ActionNames", required: true, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyInputList", required: false, type: .list), 
+            AWSShapeMember(label: "ResourceHandlingOption", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArns", required: false, type: .list), 
+            AWSShapeMember(label: "PolicySourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ResourceOwner", required: false, type: .string), 
+            AWSShapeMember(label: "ResourcePolicy", required: false, type: .string), 
+            AWSShapeMember(label: "CallerArn", required: false, type: .string), 
+            AWSShapeMember(label: "ContextEntries", required: false, type: .list)
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
@@ -3388,32 +3038,25 @@ extension Iam {
             self.contextEntries = contextEntries
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let actionNames = dictionary["ActionNames"] as? [String] else { throw InitializableError.missingRequiredParam("ActionNames") }
-            self.actionNames = actionNames
-            self.marker = dictionary["Marker"] as? String
-            self.policyInputList = dictionary["PolicyInputList"] as? [String]
-            self.resourceHandlingOption = dictionary["ResourceHandlingOption"] as? String
-            self.resourceArns = dictionary["ResourceArns"] as? [String]
-            guard let policySourceArn = dictionary["PolicySourceArn"] as? String else { throw InitializableError.missingRequiredParam("PolicySourceArn") }
-            self.policySourceArn = policySourceArn
-            self.resourceOwner = dictionary["ResourceOwner"] as? String
-            self.resourcePolicy = dictionary["ResourcePolicy"] as? String
-            self.callerArn = dictionary["CallerArn"] as? String
-            if let contextEntries = dictionary["ContextEntries"] as? [[String: Any]] {
-                self.contextEntries = try contextEntries.map({ try ContextEntry(dictionary: $0) })
-            } else { 
-                self.contextEntries = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case actionNames = "ActionNames"
+            case marker = "Marker"
+            case policyInputList = "PolicyInputList"
+            case resourceHandlingOption = "ResourceHandlingOption"
+            case resourceArns = "ResourceArns"
+            case policySourceArn = "PolicySourceArn"
+            case resourceOwner = "ResourceOwner"
+            case resourcePolicy = "ResourcePolicy"
+            case callerArn = "CallerArn"
+            case contextEntries = "ContextEntries"
         }
     }
 
     public struct GetUserResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "User", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "User", required: true, type: .structure)
         ]
         /// A structure containing details about the IAM user.
         public let user: User
@@ -3422,18 +3065,16 @@ extension Iam {
             self.user = user
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let user = dictionary["User"] as? [String: Any] else { throw InitializableError.missingRequiredParam("User") }
-            self.user = try Iam.User(dictionary: user)
+        private enum CodingKeys: String, CodingKey {
+            case user = "User"
         }
     }
 
     public struct RemoveClientIDFromOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientID", required: true, type: .string), 
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientID", required: true, type: .string), 
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider.
         public let clientID: String
@@ -3445,45 +3086,40 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clientID = dictionary["ClientID"] as? String else { throw InitializableError.missingRequiredParam("ClientID") }
-            self.clientID = clientID
-            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
-            self.openIDConnectProviderArn = openIDConnectProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case clientID = "ClientID"
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct LoginProfile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
         ]
         /// The date when the password for the user was created.
-        public let createDate: String
+        public let createDate: Double
         /// The name of the user, which can be used for signing in to the AWS Management Console.
         public let userName: String
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
 
-        public init(createDate: String, userName: String, passwordResetRequired: Bool? = nil) {
+        public init(createDate: Double, userName: String, passwordResetRequired: Bool? = nil) {
             self.createDate = createDate
             self.userName = userName
             self.passwordResetRequired = passwordResetRequired
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case userName = "UserName"
+            case passwordResetRequired = "PasswordResetRequired"
         }
     }
 
-    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible {
+    public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable {
         case allowed = "allowed"
         case explicitdeny = "explicitDeny"
         case implicitdeny = "implicitDeny"
@@ -3492,11 +3128,10 @@ extension Iam {
 
     public struct ListAttachedUserPoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AttachedPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AttachedPolicies", required: false, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -3511,23 +3146,18 @@ extension Iam {
             self.attachedPolicies = attachedPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let attachedPolicies = dictionary["AttachedPolicies"] as? [[String: Any]] {
-                self.attachedPolicies = try attachedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case attachedPolicies = "AttachedPolicies"
         }
     }
 
     public struct RemoveRoleFromInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The name of the instance profile to update. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
@@ -3539,19 +3169,16 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
+            case roleName = "RoleName"
         }
     }
 
     public struct UpdateRoleDescriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .structure)
         ]
         /// A structure that contains details about the modified role.
         public let role: Role?
@@ -3560,16 +3187,15 @@ extension Iam {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let role = dictionary["Role"] as? [String: Any] { self.role = try Iam.Role(dictionary: role) } else { self.role = nil }
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
         }
     }
 
     public struct CreateSAMLProviderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLProviderArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
         public let sAMLProviderArn: String?
@@ -3578,17 +3204,16 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sAMLProviderArn = dictionary["SAMLProviderArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct CreateVirtualMFADeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VirtualMFADeviceName", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualMFADeviceName", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
         ]
         /// The name of the virtual MFA device. Use with path to uniquely identify a virtual MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let virtualMFADeviceName: String
@@ -3600,21 +3225,19 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualMFADeviceName = dictionary["VirtualMFADeviceName"] as? String else { throw InitializableError.missingRequiredParam("VirtualMFADeviceName") }
-            self.virtualMFADeviceName = virtualMFADeviceName
-            self.path = dictionary["Path"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case virtualMFADeviceName = "VirtualMFADeviceName"
+            case path = "Path"
         }
     }
 
     public struct EnableMFADeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationCode1", required: true, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationCode2", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
         ]
         /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -3632,24 +3255,19 @@ extension Iam {
             self.authenticationCode2 = authenticationCode2
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let authenticationCode1 = dictionary["AuthenticationCode1"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode1") }
-            self.authenticationCode1 = authenticationCode1
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
-            guard let authenticationCode2 = dictionary["AuthenticationCode2"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode2") }
-            self.authenticationCode2 = authenticationCode2
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case authenticationCode1 = "AuthenticationCode1"
+            case serialNumber = "SerialNumber"
+            case authenticationCode2 = "AuthenticationCode2"
         }
     }
 
     public struct UpdateAssumeRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string)
         ]
         /// The policy that grants an entity permission to assume the role. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyDocument: String
@@ -3661,19 +3279,16 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case roleName = "RoleName"
         }
     }
 
     public struct ListSAMLProvidersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLProviderList", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderList", required: false, type: .list)
         ]
         /// The list of SAML provider resource objects defined in IAM for this AWS account.
         public let sAMLProviderList: [SAMLProviderListEntry]?
@@ -3682,25 +3297,20 @@ extension Iam {
             self.sAMLProviderList = sAMLProviderList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let sAMLProviderList = dictionary["SAMLProviderList"] as? [[String: Any]] {
-                self.sAMLProviderList = try sAMLProviderList.map({ try SAMLProviderListEntry(dictionary: $0) })
-            } else { 
-                self.sAMLProviderList = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderList = "SAMLProviderList"
         }
     }
 
     public struct ServiceSpecificCredentialMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServiceName", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceUserName", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceUserName", required: true, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp)
         ]
         /// The unique identifier for the service-specific credential.
         public let serviceSpecificCredentialId: String
@@ -3713,9 +3323,9 @@ extension Iam {
         /// The generated user name for the service-specific credential.
         public let serviceUserName: String
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: String
+        public let createDate: Double
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceName: String, serviceUserName: String, createDate: String) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceName: String, serviceUserName: String, createDate: Double) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -3724,32 +3334,25 @@ extension Iam {
             self.createDate = createDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
-            self.serviceName = serviceName
-            guard let serviceUserName = dictionary["ServiceUserName"] as? String else { throw InitializableError.missingRequiredParam("ServiceUserName") }
-            self.serviceUserName = serviceUserName
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
+            case status = "Status"
+            case serviceName = "ServiceName"
+            case serviceUserName = "ServiceUserName"
+            case createDate = "CreateDate"
         }
     }
 
     public struct SSHPublicKey: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SSHPublicKeyBody", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "Fingerprint", required: true, type: .string), 
-            AWSShapeProperty(label: "UploadDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SSHPublicKeyBody", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Fingerprint", required: true, type: .string), 
+            AWSShapeMember(label: "UploadDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
         ]
         /// The SSH public key.
         public let sSHPublicKeyBody: String
@@ -3760,11 +3363,11 @@ extension Iam {
         /// The MD5 message digest of the SSH public key.
         public let fingerprint: String
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: String?
+        public let uploadDate: Double?
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: String? = nil, sSHPublicKeyId: String) {
+        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: Double? = nil, sSHPublicKeyId: String) {
             self.sSHPublicKeyBody = sSHPublicKeyBody
             self.userName = userName
             self.status = status
@@ -3773,58 +3376,48 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sSHPublicKeyBody = dictionary["SSHPublicKeyBody"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyBody") }
-            self.sSHPublicKeyBody = sSHPublicKeyBody
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let fingerprint = dictionary["Fingerprint"] as? String else { throw InitializableError.missingRequiredParam("Fingerprint") }
-            self.fingerprint = fingerprint
-            self.uploadDate = dictionary["UploadDate"] as? String
-            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
-            self.sSHPublicKeyId = sSHPublicKeyId
+        private enum CodingKeys: String, CodingKey {
+            case sSHPublicKeyBody = "SSHPublicKeyBody"
+            case userName = "UserName"
+            case status = "Status"
+            case fingerprint = "Fingerprint"
+            case uploadDate = "UploadDate"
+            case sSHPublicKeyId = "SSHPublicKeyId"
         }
     }
 
     public struct AccessKeyLastUsed: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastUsedDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Region", required: true, type: .string), 
-            AWSShapeProperty(label: "ServiceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastUsedDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Region", required: true, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
-        public let lastUsedDate: String
+        public let lastUsedDate: Double
         /// The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let region: String
         /// The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
         public let serviceName: String
 
-        public init(lastUsedDate: String, region: String, serviceName: String) {
+        public init(lastUsedDate: Double, region: String, serviceName: String) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let lastUsedDate = dictionary["LastUsedDate"] as? String else { throw InitializableError.missingRequiredParam("LastUsedDate") }
-            self.lastUsedDate = lastUsedDate
-            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
-            self.region = region
-            guard let serviceName = dictionary["ServiceName"] as? String else { throw InitializableError.missingRequiredParam("ServiceName") }
-            self.serviceName = serviceName
+        private enum CodingKeys: String, CodingKey {
+            case lastUsedDate = "LastUsedDate"
+            case region = "Region"
+            case serviceName = "ServiceName"
         }
     }
 
     public struct ResetServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// The unique identifier of the service-specific credential. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let serviceSpecificCredentialId: String
@@ -3836,20 +3429,18 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
         }
     }
 
     public struct ListPolicyVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -3864,19 +3455,17 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct GetLoginProfileResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoginProfile", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoginProfile", required: true, type: .structure)
         ]
         /// A structure containing the user name and password create date for the user.
         public let loginProfile: LoginProfile
@@ -3885,27 +3474,25 @@ extension Iam {
             self.loginProfile = loginProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loginProfile = dictionary["LoginProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("LoginProfile") }
-            self.loginProfile = try Iam.LoginProfile(dictionary: loginProfile)
+        private enum CodingKeys: String, CodingKey {
+            case loginProfile = "LoginProfile"
         }
     }
 
     public struct ManagedPolicyDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyId", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "IsAttachable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyVersionList", required: false, type: .list), 
-            AWSShapeProperty(label: "UpdateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AttachmentCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "DefaultVersionId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "IsAttachable", required: false, type: .boolean), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyVersionList", required: false, type: .list), 
+            AWSShapeMember(label: "UpdateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AttachmentCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DefaultVersionId", required: false, type: .string)
         ]
         /// A friendly description of the policy.
         public let description: String?
@@ -3919,17 +3506,17 @@ extension Iam {
         /// A list containing information about the versions of the policy.
         public let policyVersionList: [PolicyVersion]?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: String?
+        public let updateDate: Double?
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int32?
         /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
         public let defaultVersionId: String?
 
-        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: String? = nil, path: String? = nil, createDate: String? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
+        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Double? = nil, path: String? = nil, createDate: Double? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
             self.description = description
             self.policyId = policyId
             self.arn = arn
@@ -3943,35 +3530,30 @@ extension Iam {
             self.defaultVersionId = defaultVersionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.policyId = dictionary["PolicyId"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.isAttachable = dictionary["IsAttachable"] as? Bool
-            self.policyName = dictionary["PolicyName"] as? String
-            if let policyVersionList = dictionary["PolicyVersionList"] as? [[String: Any]] {
-                self.policyVersionList = try policyVersionList.map({ try PolicyVersion(dictionary: $0) })
-            } else { 
-                self.policyVersionList = nil
-            }
-            self.updateDate = dictionary["UpdateDate"] as? String
-            self.path = dictionary["Path"] as? String
-            self.createDate = dictionary["CreateDate"] as? String
-            self.attachmentCount = dictionary["AttachmentCount"] as? Int32
-            self.defaultVersionId = dictionary["DefaultVersionId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case policyId = "PolicyId"
+            case arn = "Arn"
+            case isAttachable = "IsAttachable"
+            case policyName = "PolicyName"
+            case policyVersionList = "PolicyVersionList"
+            case updateDate = "UpdateDate"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case attachmentCount = "AttachmentCount"
+            case defaultVersionId = "DefaultVersionId"
         }
     }
 
     public struct GetAccountAuthorizationDetailsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleDetailList", required: false, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Policies", required: false, type: .list), 
-            AWSShapeProperty(label: "UserDetailList", required: false, type: .list), 
-            AWSShapeProperty(label: "GroupDetailList", required: false, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleDetailList", required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Policies", required: false, type: .list), 
+            AWSShapeMember(label: "UserDetailList", required: false, type: .list), 
+            AWSShapeMember(label: "GroupDetailList", required: false, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list containing information about IAM roles.
         public let roleDetailList: [RoleDetail]?
@@ -3995,39 +3577,22 @@ extension Iam {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let roleDetailList = dictionary["RoleDetailList"] as? [[String: Any]] {
-                self.roleDetailList = try roleDetailList.map({ try RoleDetail(dictionary: $0) })
-            } else { 
-                self.roleDetailList = nil
-            }
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let policies = dictionary["Policies"] as? [[String: Any]] {
-                self.policies = try policies.map({ try ManagedPolicyDetail(dictionary: $0) })
-            } else { 
-                self.policies = nil
-            }
-            if let userDetailList = dictionary["UserDetailList"] as? [[String: Any]] {
-                self.userDetailList = try userDetailList.map({ try UserDetail(dictionary: $0) })
-            } else { 
-                self.userDetailList = nil
-            }
-            if let groupDetailList = dictionary["GroupDetailList"] as? [[String: Any]] {
-                self.groupDetailList = try groupDetailList.map({ try GroupDetail(dictionary: $0) })
-            } else { 
-                self.groupDetailList = nil
-            }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleDetailList = "RoleDetailList"
+            case isTruncated = "IsTruncated"
+            case policies = "Policies"
+            case userDetailList = "UserDetailList"
+            case groupDetailList = "GroupDetailList"
+            case marker = "Marker"
         }
     }
 
     public struct ListUsersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Users", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Users", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4042,25 +3607,23 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let users = dictionary["Users"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Users") }
-            self.users = try users.map({ try User(dictionary: $0) })
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case users = "Users"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct PolicyVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "VersionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Document", required: false, type: .string), 
-            AWSShapeProperty(label: "IsDefaultVersion", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "VersionId", required: false, type: .string), 
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "IsDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time, in ISO 8601 date-time format, when the policy version was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1. 
         public let versionId: String?
         /// The policy document. The policy document is returned in the response to the GetPolicyVersion and GetAccountAuthorizationDetails operations. It is not returned in the response to the CreatePolicyVersion or ListPolicyVersions operations. 
@@ -4068,26 +3631,25 @@ extension Iam {
         /// Specifies whether the policy version is set as the policy's default version.
         public let isDefaultVersion: Bool?
 
-        public init(createDate: String? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
+        public init(createDate: Double? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
             self.versionId = versionId
             self.document = document
             self.isDefaultVersion = isDefaultVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createDate = dictionary["CreateDate"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.document = dictionary["Document"] as? String
-            self.isDefaultVersion = dictionary["IsDefaultVersion"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case versionId = "VersionId"
+            case document = "Document"
+            case isDefaultVersion = "IsDefaultVersion"
         }
     }
 
     public struct DeleteInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string)
         ]
         /// The name of the instance profile to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
@@ -4096,53 +3658,47 @@ extension Iam {
             self.instanceProfileName = instanceProfileName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
         }
     }
 
     public struct MFADevice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "EnableDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "EnableDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The user with whom the MFA device is associated.
         public let userName: String
         /// The date when the MFA device was enabled for the user.
-        public let enableDate: String
+        public let enableDate: Double
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
         public let serialNumber: String
 
-        public init(userName: String, enableDate: String, serialNumber: String) {
+        public init(userName: String, enableDate: Double, serialNumber: String) {
             self.userName = userName
             self.enableDate = enableDate
             self.serialNumber = serialNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let enableDate = dictionary["EnableDate"] as? String else { throw InitializableError.missingRequiredParam("EnableDate") }
-            self.enableDate = enableDate
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case enableDate = "EnableDate"
+            case serialNumber = "SerialNumber"
         }
     }
 
     public struct ServerCertificateMetadata: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificateName", required: true, type: .string), 
-            AWSShapeProperty(label: "ServerCertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "Expiration", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "UploadDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificateName", required: true, type: .string), 
+            AWSShapeMember(label: "ServerCertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "Expiration", required: false, type: .timestamp), 
+            AWSShapeMember(label: "UploadDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The name that identifies the server certificate.
         public let serverCertificateName: String
@@ -4151,13 +3707,13 @@ extension Iam {
         ///  The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The date on which the certificate is set to expire.
-        public let expiration: String?
+        public let expiration: Double?
         /// The date when the server certificate was uploaded.
-        public let uploadDate: String?
+        public let uploadDate: Double?
         ///  The path to the server certificate. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(serverCertificateName: String, serverCertificateId: String, arn: String, expiration: String? = nil, uploadDate: String? = nil, path: String) {
+        public init(serverCertificateName: String, serverCertificateId: String, arn: String, expiration: Double? = nil, uploadDate: Double? = nil, path: String) {
             self.serverCertificateName = serverCertificateName
             self.serverCertificateId = serverCertificateId
             self.arn = arn
@@ -4166,31 +3722,26 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverCertificateName = dictionary["ServerCertificateName"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateName") }
-            self.serverCertificateName = serverCertificateName
-            guard let serverCertificateId = dictionary["ServerCertificateId"] as? String else { throw InitializableError.missingRequiredParam("ServerCertificateId") }
-            self.serverCertificateId = serverCertificateId
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            self.expiration = dictionary["Expiration"] as? String
-            self.uploadDate = dictionary["UploadDate"] as? String
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificateName = "ServerCertificateName"
+            case serverCertificateId = "ServerCertificateId"
+            case arn = "Arn"
+            case expiration = "Expiration"
+            case uploadDate = "UploadDate"
+            case path = "Path"
         }
     }
 
     public struct GroupDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupPolicyList", required: false, type: .list), 
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "GroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "AttachedManagedPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupPolicyList", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list)
         ]
         public let arn: String?
         /// The friendly name that identifies the group.
@@ -4200,13 +3751,13 @@ extension Iam {
         /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: String?
+        public let createDate: Double?
         /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let groupId: String?
         /// A list of the managed policies attached to the group.
         public let attachedManagedPolicies: [AttachedPolicy]?
 
-        public init(arn: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil, createDate: String? = nil, groupId: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
+        public init(arn: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil, createDate: Double? = nil, groupId: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
             self.arn = arn
             self.groupName = groupName
             self.groupPolicyList = groupPolicyList
@@ -4216,34 +3767,25 @@ extension Iam {
             self.attachedManagedPolicies = attachedManagedPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.arn = dictionary["Arn"] as? String
-            self.groupName = dictionary["GroupName"] as? String
-            if let groupPolicyList = dictionary["GroupPolicyList"] as? [[String: Any]] {
-                self.groupPolicyList = try groupPolicyList.map({ try PolicyDetail(dictionary: $0) })
-            } else { 
-                self.groupPolicyList = nil
-            }
-            self.path = dictionary["Path"] as? String
-            self.createDate = dictionary["CreateDate"] as? String
-            self.groupId = dictionary["GroupId"] as? String
-            if let attachedManagedPolicies = dictionary["AttachedManagedPolicies"] as? [[String: Any]] {
-                self.attachedManagedPolicies = try attachedManagedPolicies.map({ try AttachedPolicy(dictionary: $0) })
-            } else { 
-                self.attachedManagedPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case groupName = "GroupName"
+            case groupPolicyList = "GroupPolicyList"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case groupId = "GroupId"
+            case attachedManagedPolicies = "AttachedManagedPolicies"
         }
     }
 
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OnlyAttached", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "Scope", required: false, type: .enum), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OnlyAttached", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "Scope", required: false, type: .enum), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
         public let onlyAttached: Bool?
@@ -4264,21 +3806,20 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.onlyAttached = dictionary["OnlyAttached"] as? Bool
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            if let scope = dictionary["Scope"] as? String { self.scope = PolicyScopeType(rawValue: scope) } else { self.scope = nil }
-            self.marker = dictionary["Marker"] as? String
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case onlyAttached = "OnlyAttached"
+            case maxItems = "MaxItems"
+            case scope = "Scope"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct DeleteSigningCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
         public let certificateId: String
@@ -4290,20 +3831,18 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
-            self.certificateId = certificateId
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case userName = "UserName"
         }
     }
 
     public struct ListAccessKeysRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -4318,20 +3857,19 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.userName = dictionary["UserName"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ListGroupsForUserRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -4346,21 +3884,19 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct ListInstanceProfilesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfiles", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfiles", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4375,20 +3911,18 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let instanceProfiles = dictionary["InstanceProfiles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceProfiles") }
-            self.instanceProfiles = try instanceProfiles.map({ try InstanceProfile(dictionary: $0) })
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case instanceProfiles = "InstanceProfiles"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct UpdateRoleDescriptionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The name of the role that you want to modify.
         public let roleName: String
@@ -4400,19 +3934,16 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
-            self.description = description
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case description = "Description"
         }
     }
 
     public struct GetAccountPasswordPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PasswordPolicy", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PasswordPolicy", required: true, type: .structure)
         ]
         /// A structure that contains details about the account's password policy.
         public let passwordPolicy: PasswordPolicy
@@ -4421,13 +3952,12 @@ extension Iam {
             self.passwordPolicy = passwordPolicy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PasswordPolicy") }
-            self.passwordPolicy = try Iam.PasswordPolicy(dictionary: passwordPolicy)
+        private enum CodingKeys: String, CodingKey {
+            case passwordPolicy = "PasswordPolicy"
         }
     }
 
-    public enum ReportStateType: String, CustomStringConvertible {
+    public enum ReportStateType: String, CustomStringConvertible, Codable {
         case started = "STARTED"
         case inprogress = "INPROGRESS"
         case complete = "COMPLETE"
@@ -4436,10 +3966,9 @@ extension Iam {
 
     public struct AddClientIDToOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClientID", required: true, type: .string), 
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientID", required: true, type: .string), 
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
         public let clientID: String
@@ -4451,21 +3980,18 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clientID = dictionary["ClientID"] as? String else { throw InitializableError.missingRequiredParam("ClientID") }
-            self.clientID = clientID
-            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
-            self.openIDConnectProviderArn = openIDConnectProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case clientID = "ClientID"
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct ListPolicyVersionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Versions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Versions", required: false, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4480,22 +4006,17 @@ extension Iam {
             self.versions = versions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
-                self.versions = try versions.map({ try PolicyVersion(dictionary: $0) })
-            } else { 
-                self.versions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case versions = "Versions"
         }
     }
 
     public struct GetPolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyVersion", required: false, type: .structure)
         ]
         /// A structure containing details about the policy version.
         public let policyVersion: PolicyVersion?
@@ -4504,17 +4025,16 @@ extension Iam {
             self.policyVersion = policyVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyVersion = dictionary["PolicyVersion"] as? [String: Any] { self.policyVersion = try Iam.PolicyVersion(dictionary: policyVersion) } else { self.policyVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policyVersion = "PolicyVersion"
         }
     }
 
     public struct PolicyUser: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "UserId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "UserId", required: false, type: .string)
         ]
         /// The name (friendly name, not ARN) identifying the user.
         public let userName: String?
@@ -4526,19 +4046,18 @@ extension Iam {
             self.userId = userId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            self.userId = dictionary["UserId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case userId = "UserId"
         }
     }
 
     public struct ListGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -4553,18 +4072,17 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct GetAccessKeyLastUsedRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The identifier of an access key. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let accessKeyId: String
@@ -4573,17 +4091,15 @@ extension Iam {
             self.accessKeyId = accessKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessKeyId = dictionary["AccessKeyId"] as? String else { throw InitializableError.missingRequiredParam("AccessKeyId") }
-            self.accessKeyId = accessKeyId
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
         }
     }
 
     public struct GetRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: true, type: .structure)
         ]
         /// A structure containing details about the IAM role.
         public let role: Role
@@ -4592,18 +4108,16 @@ extension Iam {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let role = dictionary["Role"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Role") }
-            self.role = try Iam.Role(dictionary: role)
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
         }
     }
 
     public struct GetPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "VersionId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "VersionId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -4615,20 +4129,17 @@ extension Iam {
             self.versionId = versionId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let versionId = dictionary["VersionId"] as? String else { throw InitializableError.missingRequiredParam("VersionId") }
-            self.versionId = versionId
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case versionId = "VersionId"
         }
     }
 
     public struct DeleteServiceSpecificCredentialRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentialId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentialId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let serviceSpecificCredentialId: String
@@ -4640,19 +4151,17 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceSpecificCredentialId = dictionary["ServiceSpecificCredentialId"] as? String else { throw InitializableError.missingRequiredParam("ServiceSpecificCredentialId") }
-            self.serviceSpecificCredentialId = serviceSpecificCredentialId
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentialId = "ServiceSpecificCredentialId"
+            case userName = "UserName"
         }
     }
 
     public struct ListServiceSpecificCredentialsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceName", required: false, type: .string)
         ]
         /// The name of the user whose service-specific credentials you want information about. If this value is not specified then the operation assumes the user whose credentials are used to call the operation. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -4664,17 +4173,16 @@ extension Iam {
             self.serviceName = serviceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
-            self.serviceName = dictionary["ServiceName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case serviceName = "ServiceName"
         }
     }
 
     public struct GetInstanceProfileResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfile", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfile", required: true, type: .structure)
         ]
         /// A structure containing details about the instance profile.
         public let instanceProfile: InstanceProfile
@@ -4683,19 +4191,17 @@ extension Iam {
             self.instanceProfile = instanceProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfile = dictionary["InstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceProfile") }
-            self.instanceProfile = try Iam.InstanceProfile(dictionary: instanceProfile)
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "InstanceProfile"
         }
     }
 
     public struct UpdateSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum), 
-            AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
         ]
         /// The name of the IAM user associated with the SSH public key. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -4710,21 +4216,17 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
-            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
-            self.sSHPublicKeyId = sSHPublicKeyId
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case status = "Status"
+            case sSHPublicKeyId = "SSHPublicKeyId"
         }
     }
 
     public struct GetServerCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServerCertificate", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServerCertificate", required: true, type: .structure)
         ]
         /// A structure containing details about the server certificate.
         public let serverCertificate: ServerCertificate
@@ -4733,20 +4235,18 @@ extension Iam {
             self.serverCertificate = serverCertificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serverCertificate = dictionary["ServerCertificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ServerCertificate") }
-            self.serverCertificate = try Iam.ServerCertificate(dictionary: serverCertificate)
+        private enum CodingKeys: String, CodingKey {
+            case serverCertificate = "ServerCertificate"
         }
     }
 
     public struct CreateRoleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Path", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "AssumeRolePolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (\u0021) thru the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
@@ -4764,24 +4264,21 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.path = dictionary["Path"] as? String
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("AssumeRolePolicyDocument") }
-            self.assumeRolePolicyDocument = assumeRolePolicyDocument
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case roleName = "RoleName"
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case description = "Description"
         }
     }
 
     public struct GetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Users", required: true, type: .list), 
-            AWSShapeProperty(label: "Group", required: true, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Users", required: true, type: .list), 
+            AWSShapeMember(label: "Group", required: true, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all of your results.
         public let isTruncated: Bool?
@@ -4799,21 +4296,18 @@ extension Iam {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let users = dictionary["Users"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Users") }
-            self.users = try users.map({ try User(dictionary: $0) })
-            guard let group = dictionary["Group"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Group") }
-            self.group = try Iam.Group(dictionary: group)
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case isTruncated = "IsTruncated"
+            case users = "Users"
+            case group = "Group"
+            case marker = "Marker"
         }
     }
 
     public struct DeleteOpenIDConnectProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders action.
         public let openIDConnectProviderArn: String
@@ -4822,17 +4316,15 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String else { throw InitializableError.missingRequiredParam("OpenIDConnectProviderArn") }
-            self.openIDConnectProviderArn = openIDConnectProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct CreatePolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyVersion", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyVersion", required: false, type: .structure)
         ]
         /// A structure containing details about the new policy version.
         public let policyVersion: PolicyVersion?
@@ -4841,18 +4333,17 @@ extension Iam {
             self.policyVersion = policyVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policyVersion = dictionary["PolicyVersion"] as? [String: Any] { self.policyVersion = try Iam.PolicyVersion(dictionary: policyVersion) } else { self.policyVersion = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policyVersion = "PolicyVersion"
         }
     }
 
     public struct PutGroupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the group to associate the policy with. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let groupName: String
@@ -4867,28 +4358,24 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct VirtualMFADevice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EnableDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "QRCodePNG", required: false, type: .blob), 
-            AWSShapeProperty(label: "Base32StringSeed", required: false, type: .blob), 
-            AWSShapeProperty(label: "User", required: false, type: .structure), 
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EnableDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "QRCodePNG", required: false, type: .blob), 
+            AWSShapeMember(label: "Base32StringSeed", required: false, type: .blob), 
+            AWSShapeMember(label: "User", required: false, type: .structure), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The date and time on which the virtual MFA device was enabled.
-        public let enableDate: String?
+        public let enableDate: Double?
         ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments, AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in Base32 format. The Base32String value is Base64-encoded. 
         public let qRCodePNG: Data?
         ///  The Base32 seed defined as specified in RFC3548. The Base32StringSeed is Base64-encoded. 
@@ -4898,7 +4385,7 @@ extension Iam {
         /// The serial number associated with VirtualMFADevice.
         public let serialNumber: String
 
-        public init(enableDate: String? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
+        public init(enableDate: Double? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
             self.enableDate = enableDate
             self.qRCodePNG = qRCodePNG
             self.base32StringSeed = base32StringSeed
@@ -4906,23 +4393,21 @@ extension Iam {
             self.serialNumber = serialNumber
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.enableDate = dictionary["EnableDate"] as? String
-            self.qRCodePNG = dictionary["QRCodePNG"] as? Data
-            self.base32StringSeed = dictionary["Base32StringSeed"] as? Data
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Iam.User(dictionary: user) } else { self.user = nil }
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
+        private enum CodingKeys: String, CodingKey {
+            case enableDate = "EnableDate"
+            case qRCodePNG = "QRCodePNG"
+            case base32StringSeed = "Base32StringSeed"
+            case user = "User"
+            case serialNumber = "SerialNumber"
         }
     }
 
     public struct GetRolePolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyDocument", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyDocument", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The role the policy is associated with.
         public let roleName: String
@@ -4937,21 +4422,17 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let policyDocument = dictionary["PolicyDocument"] as? String else { throw InitializableError.missingRequiredParam("PolicyDocument") }
-            self.policyDocument = policyDocument
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct CreateGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Group", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Group", required: true, type: .structure)
         ]
         /// A structure containing details about the new group.
         public let group: Group
@@ -4960,19 +4441,17 @@ extension Iam {
             self.group = group
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let group = dictionary["Group"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Group") }
-            self.group = try Iam.Group(dictionary: group)
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
         }
     }
 
     public struct UpdateSigningCertificateRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateId", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateId", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: true, type: .enum)
         ]
         /// The ID of the signing certificate you want to update. This parameter allows (per its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let certificateId: String
@@ -4987,21 +4466,18 @@ extension Iam {
             self.status = status
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
-            self.certificateId = certificateId
-            self.userName = dictionary["UserName"] as? String
-            guard let rawStatus = dictionary["Status"] as? String, let status = StatusType(rawValue: rawStatus) else { throw InitializableError.missingRequiredParam("Status") }
-            self.status = status
+        private enum CodingKeys: String, CodingKey {
+            case certificateId = "CertificateId"
+            case userName = "UserName"
+            case status = "Status"
         }
     }
 
     public struct PolicyDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         /// The policy document.
         public let policyDocument: String?
@@ -5013,25 +4489,24 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyDocument = dictionary["PolicyDocument"] as? String
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
         }
     }
 
     public struct UpdateAccountPasswordPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RequireNumbers", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MaxPasswordAge", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinimumPasswordLength", required: false, type: .integer), 
-            AWSShapeProperty(label: "RequireLowercaseCharacters", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PasswordReusePrevention", required: false, type: .integer), 
-            AWSShapeProperty(label: "RequireSymbols", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RequireUppercaseCharacters", required: false, type: .boolean), 
-            AWSShapeProperty(label: "HardExpiry", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AllowUsersToChangePassword", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RequireNumbers", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaxPasswordAge", required: false, type: .integer), 
+            AWSShapeMember(label: "MinimumPasswordLength", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireLowercaseCharacters", required: false, type: .boolean), 
+            AWSShapeMember(label: "PasswordReusePrevention", required: false, type: .integer), 
+            AWSShapeMember(label: "RequireSymbols", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireUppercaseCharacters", required: false, type: .boolean), 
+            AWSShapeMember(label: "HardExpiry", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowUsersToChangePassword", required: false, type: .boolean)
         ]
         /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). Default value: false
         public let requireNumbers: Bool?
@@ -5064,59 +4539,57 @@ extension Iam {
             self.allowUsersToChangePassword = allowUsersToChangePassword
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.requireNumbers = dictionary["RequireNumbers"] as? Bool
-            self.maxPasswordAge = dictionary["MaxPasswordAge"] as? Int32
-            self.minimumPasswordLength = dictionary["MinimumPasswordLength"] as? Int32
-            self.requireLowercaseCharacters = dictionary["RequireLowercaseCharacters"] as? Bool
-            self.passwordReusePrevention = dictionary["PasswordReusePrevention"] as? Int32
-            self.requireSymbols = dictionary["RequireSymbols"] as? Bool
-            self.requireUppercaseCharacters = dictionary["RequireUppercaseCharacters"] as? Bool
-            self.hardExpiry = dictionary["HardExpiry"] as? Bool
-            self.allowUsersToChangePassword = dictionary["AllowUsersToChangePassword"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case requireNumbers = "RequireNumbers"
+            case maxPasswordAge = "MaxPasswordAge"
+            case minimumPasswordLength = "MinimumPasswordLength"
+            case requireLowercaseCharacters = "RequireLowercaseCharacters"
+            case passwordReusePrevention = "PasswordReusePrevention"
+            case requireSymbols = "RequireSymbols"
+            case requireUppercaseCharacters = "RequireUppercaseCharacters"
+            case hardExpiry = "HardExpiry"
+            case allowUsersToChangePassword = "AllowUsersToChangePassword"
         }
     }
 
     public struct GetCredentialReportResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Content", required: false, type: .blob), 
-            AWSShapeProperty(label: "ReportFormat", required: false, type: .enum), 
-            AWSShapeProperty(label: "GeneratedTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .blob), 
+            AWSShapeMember(label: "ReportFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "GeneratedTime", required: false, type: .timestamp)
         ]
         /// Contains the credential report. The report is Base64-encoded.
         public let content: Data?
         /// The format (MIME type) of the credential report.
         public let reportFormat: ReportFormatType?
         ///  The date and time when the credential report was created, in ISO 8601 date-time format.
-        public let generatedTime: String?
+        public let generatedTime: Double?
 
-        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: String? = nil) {
+        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: Double? = nil) {
             self.content = content
             self.reportFormat = reportFormat
             self.generatedTime = generatedTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.content = dictionary["Content"] as? Data
-            if let reportFormat = dictionary["ReportFormat"] as? String { self.reportFormat = ReportFormatType(rawValue: reportFormat) } else { self.reportFormat = nil }
-            self.generatedTime = dictionary["GeneratedTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case reportFormat = "ReportFormat"
+            case generatedTime = "GeneratedTime"
         }
     }
 
     public struct Group: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupId", required: true, type: .string), 
-            AWSShapeProperty(label: "Path", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "GroupId", required: true, type: .string), 
+            AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: String
+        public let createDate: Double
         ///  The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The friendly name that identifies the group.
@@ -5126,7 +4599,7 @@ extension Iam {
         /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(createDate: String, arn: String, groupName: String, groupId: String, path: String) {
+        public init(createDate: Double, arn: String, groupName: String, groupId: String, path: String) {
             self.createDate = createDate
             self.arn = arn
             self.groupName = groupName
@@ -5134,27 +4607,21 @@ extension Iam {
             self.path = path
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            guard let groupId = dictionary["GroupId"] as? String else { throw InitializableError.missingRequiredParam("GroupId") }
-            self.groupId = groupId
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
+        private enum CodingKeys: String, CodingKey {
+            case createDate = "CreateDate"
+            case arn = "Arn"
+            case groupName = "GroupName"
+            case groupId = "GroupId"
+            case path = "Path"
         }
     }
 
     public struct ListSigningCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Certificates", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Certificates", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -5169,20 +4636,18 @@ extension Iam {
             self.certificates = certificates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let certificates = dictionary["Certificates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Certificates") }
-            self.certificates = try certificates.map({ try SigningCertificate(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case certificates = "Certificates"
         }
     }
 
     public struct DetachUserPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -5194,20 +4659,17 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case userName = "UserName"
         }
     }
 
     public struct GetRolePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the role associated with the policy. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -5219,22 +4681,19 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case roleName = "RoleName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ListAttachedUserPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
@@ -5252,21 +4711,19 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.marker = dictionary["Marker"] as? String
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case userName = "UserName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct PolicyGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupId", required: false, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string)
         ]
         /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let groupId: String?
@@ -5278,17 +4735,16 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.groupId = dictionary["GroupId"] as? String
-            self.groupName = dictionary["GroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case groupName = "GroupName"
         }
     }
 
     public struct CreateAccessKeyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessKey", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKey", required: true, type: .structure)
         ]
         /// A structure with details about the access key.
         public let accessKey: AccessKey
@@ -5297,17 +4753,15 @@ extension Iam {
             self.accessKey = accessKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let accessKey = dictionary["AccessKey"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AccessKey") }
-            self.accessKey = try Iam.AccessKey(dictionary: accessKey)
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "AccessKey"
         }
     }
 
     public struct CreateInstanceProfileResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfile", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfile", required: true, type: .structure)
         ]
         /// A structure containing details about the new instance profile.
         public let instanceProfile: InstanceProfile
@@ -5316,17 +4770,15 @@ extension Iam {
             self.instanceProfile = instanceProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfile = dictionary["InstanceProfile"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InstanceProfile") }
-            self.instanceProfile = try Iam.InstanceProfile(dictionary: instanceProfile)
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfile = "InstanceProfile"
         }
     }
 
     public struct CreateAccessKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// The name of the IAM user that the new key will belong to. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String?
@@ -5335,17 +4787,16 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
         }
     }
 
     public struct GetAccessKeyLastUsedResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccessKeyLastUsed", required: false, type: .structure), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyLastUsed", required: false, type: .structure), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
         ]
         /// Contains information about the last time the access key was used.
         public let accessKeyLastUsed: AccessKeyLastUsed?
@@ -5357,17 +4808,16 @@ extension Iam {
             self.userName = userName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accessKeyLastUsed = dictionary["AccessKeyLastUsed"] as? [String: Any] { self.accessKeyLastUsed = try Iam.AccessKeyLastUsed(dictionary: accessKeyLastUsed) } else { self.accessKeyLastUsed = nil }
-            self.userName = dictionary["UserName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyLastUsed = "AccessKeyLastUsed"
+            case userName = "UserName"
         }
     }
 
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -5376,19 +4826,17 @@ extension Iam {
             self.policyArn = policyArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
         }
     }
 
     public struct GetSSHPublicKeyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Encoding", required: true, type: .enum), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "SSHPublicKeyId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Encoding", required: true, type: .enum), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "SSHPublicKeyId", required: true, type: .string)
         ]
         /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
         public let encoding: EncodingType
@@ -5403,21 +4851,17 @@ extension Iam {
             self.sSHPublicKeyId = sSHPublicKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawEncoding = dictionary["Encoding"] as? String, let encoding = EncodingType(rawValue: rawEncoding) else { throw InitializableError.missingRequiredParam("Encoding") }
-            self.encoding = encoding
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let sSHPublicKeyId = dictionary["SSHPublicKeyId"] as? String else { throw InitializableError.missingRequiredParam("SSHPublicKeyId") }
-            self.sSHPublicKeyId = sSHPublicKeyId
+        private enum CodingKeys: String, CodingKey {
+            case encoding = "Encoding"
+            case userName = "UserName"
+            case sSHPublicKeyId = "SSHPublicKeyId"
         }
     }
 
     public struct CreateOpenIDConnectProviderResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OpenIDConnectProviderArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OpenIDConnectProviderArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see OpenIDConnectProviderListEntry. 
         public let openIDConnectProviderArn: String?
@@ -5426,18 +4870,17 @@ extension Iam {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.openIDConnectProviderArn = dictionary["OpenIDConnectProviderArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case openIDConnectProviderArn = "OpenIDConnectProviderArn"
         }
     }
 
     public struct ListRolePoliciesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyNames", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyNames", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -5452,19 +4895,17 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let policyNames = dictionary["PolicyNames"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyNames") }
-            self.policyNames = policyNames
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case policyNames = "PolicyNames"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct UploadSigningCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .structure)
         ]
         /// Information about the certificate.
         public let certificate: SigningCertificate
@@ -5473,17 +4914,15 @@ extension Iam {
             self.certificate = certificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificate = dictionary["Certificate"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Certificate") }
-            self.certificate = try Iam.SigningCertificate(dictionary: certificate)
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Policy", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Policy", required: false, type: .structure)
         ]
         /// A structure containing details about the policy.
         public let policy: Policy?
@@ -5492,17 +4931,16 @@ extension Iam {
             self.policy = policy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Iam.Policy(dictionary: policy) } else { self.policy = nil }
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
         }
     }
 
     public struct RemoveUserFromGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// The name of the user to remove. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -5514,21 +4952,18 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case groupName = "GroupName"
         }
     }
 
     public struct ServerCertificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateChain", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerCertificateMetadata", required: true, type: .structure), 
-            AWSShapeProperty(label: "CertificateBody", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateChain", required: false, type: .string), 
+            AWSShapeMember(label: "ServerCertificateMetadata", required: true, type: .structure), 
+            AWSShapeMember(label: "CertificateBody", required: true, type: .string)
         ]
         /// The contents of the public key certificate chain.
         public let certificateChain: String?
@@ -5543,22 +4978,19 @@ extension Iam {
             self.certificateBody = certificateBody
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateChain = dictionary["CertificateChain"] as? String
-            guard let serverCertificateMetadata = dictionary["ServerCertificateMetadata"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ServerCertificateMetadata") }
-            self.serverCertificateMetadata = try Iam.ServerCertificateMetadata(dictionary: serverCertificateMetadata)
-            guard let certificateBody = dictionary["CertificateBody"] as? String else { throw InitializableError.missingRequiredParam("CertificateBody") }
-            self.certificateBody = certificateBody
+        private enum CodingKeys: String, CodingKey {
+            case certificateChain = "CertificateChain"
+            case serverCertificateMetadata = "ServerCertificateMetadata"
+            case certificateBody = "CertificateBody"
         }
     }
 
     public struct ListSigningCertificatesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -5573,19 +5005,18 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.userName = dictionary["UserName"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct AttachedPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
         ]
         public let policyArn: String?
         /// The friendly name of the attached policy.
@@ -5596,23 +5027,22 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyArn = dictionary["PolicyArn"] as? String
-            self.policyName = dictionary["PolicyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case policyName = "PolicyName"
         }
     }
 
     public struct Role: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Arn", required: true, type: .string), 
-            AWSShapeProperty(label: "AssumeRolePolicyDocument", required: false, type: .string), 
-            AWSShapeProperty(label: "Path", required: true, type: .string), 
-            AWSShapeProperty(label: "CreateDate", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "RoleId", required: true, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: true, type: .string), 
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: true, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: true, type: .timestamp), 
+            AWSShapeMember(label: "RoleId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         ///  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide guide. 
         public let arn: String
@@ -5621,7 +5051,7 @@ extension Iam {
         ///  The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: String
+        public let createDate: Double
         ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
         public let roleId: String
         /// The friendly name that identifies the role.
@@ -5629,7 +5059,7 @@ extension Iam {
         /// A description of the role that you provide.
         public let description: String?
 
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, path: String, createDate: String, roleId: String, roleName: String, description: String? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, path: String, createDate: Double, roleId: String, roleName: String, description: String? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.path = path
@@ -5639,30 +5069,24 @@ extension Iam {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
-            self.arn = arn
-            self.assumeRolePolicyDocument = dictionary["AssumeRolePolicyDocument"] as? String
-            guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
-            self.path = path
-            guard let createDate = dictionary["CreateDate"] as? String else { throw InitializableError.missingRequiredParam("CreateDate") }
-            self.createDate = createDate
-            guard let roleId = dictionary["RoleId"] as? String else { throw InitializableError.missingRequiredParam("RoleId") }
-            self.roleId = roleId
-            guard let roleName = dictionary["RoleName"] as? String else { throw InitializableError.missingRequiredParam("RoleName") }
-            self.roleName = roleName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case path = "Path"
+            case createDate = "CreateDate"
+            case roleId = "RoleId"
+            case roleName = "RoleName"
+            case description = "Description"
         }
     }
 
     public struct ListAttachedGroupPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// (Optional) Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int32?
@@ -5680,22 +5104,20 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            self.marker = dictionary["Marker"] as? String
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxItems = "MaxItems"
+            case groupName = "GroupName"
+            case marker = "Marker"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct ListServerCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ServerCertificateMetadataList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "ServerCertificateMetadataList", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -5710,21 +5132,19 @@ extension Iam {
             self.serverCertificateMetadataList = serverCertificateMetadataList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let serverCertificateMetadataList = dictionary["ServerCertificateMetadataList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ServerCertificateMetadataList") }
-            self.serverCertificateMetadataList = try serverCertificateMetadataList.map({ try ServerCertificateMetadata(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case serverCertificateMetadataList = "ServerCertificateMetadataList"
         }
     }
 
     public struct ListRolesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -5739,18 +5159,17 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -5759,18 +5178,16 @@ extension Iam {
             self.policyArn = policyArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
         }
     }
 
     public struct DeleteGroupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name (friendly name, not ARN) identifying the group that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let groupName: String
@@ -5782,22 +5199,19 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ResyncMFADeviceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationCode1", required: true, type: .string), 
-            AWSShapeProperty(label: "SerialNumber", required: true, type: .string), 
-            AWSShapeProperty(label: "AuthenticationCode2", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode1", required: true, type: .string), 
+            AWSShapeMember(label: "SerialNumber", required: true, type: .string), 
+            AWSShapeMember(label: "AuthenticationCode2", required: true, type: .string)
         ]
         /// The name of the user whose MFA device you want to resynchronize. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -5815,25 +5229,20 @@ extension Iam {
             self.authenticationCode2 = authenticationCode2
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let authenticationCode1 = dictionary["AuthenticationCode1"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode1") }
-            self.authenticationCode1 = authenticationCode1
-            guard let serialNumber = dictionary["SerialNumber"] as? String else { throw InitializableError.missingRequiredParam("SerialNumber") }
-            self.serialNumber = serialNumber
-            guard let authenticationCode2 = dictionary["AuthenticationCode2"] as? String else { throw InitializableError.missingRequiredParam("AuthenticationCode2") }
-            self.authenticationCode2 = authenticationCode2
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case authenticationCode1 = "AuthenticationCode1"
+            case serialNumber = "SerialNumber"
+            case authenticationCode2 = "AuthenticationCode2"
         }
     }
 
     public struct ListInstanceProfilesForRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceProfiles", required: true, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfiles", required: true, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -5848,15 +5257,14 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let instanceProfiles = dictionary["InstanceProfiles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("InstanceProfiles") }
-            self.instanceProfiles = try instanceProfiles.map({ try InstanceProfile(dictionary: $0) })
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case instanceProfiles = "InstanceProfiles"
+            case isTruncated = "IsTruncated"
         }
     }
 
-    public enum AssignmentStatusType: String, CustomStringConvertible {
+    public enum AssignmentStatusType: String, CustomStringConvertible, Codable {
         case assigned = "Assigned"
         case unassigned = "Unassigned"
         case any = "Any"
@@ -5865,9 +5273,8 @@ extension Iam {
 
     public struct DeleteSAMLProviderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SAMLProviderArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SAMLProviderArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the SAML provider to delete.
         public let sAMLProviderArn: String
@@ -5876,18 +5283,16 @@ extension Iam {
             self.sAMLProviderArn = sAMLProviderArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let sAMLProviderArn = dictionary["SAMLProviderArn"] as? String else { throw InitializableError.missingRequiredParam("SAMLProviderArn") }
-            self.sAMLProviderArn = sAMLProviderArn
+        private enum CodingKeys: String, CodingKey {
+            case sAMLProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct PolicyRole: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RoleId", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string)
         ]
         /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the IAM User Guide.
         public let roleId: String?
@@ -5899,17 +5304,16 @@ extension Iam {
             self.roleName = roleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.roleId = dictionary["RoleId"] as? String
-            self.roleName = dictionary["RoleName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case roleId = "RoleId"
+            case roleName = "RoleName"
         }
     }
 
     public struct GetContextKeysForCustomPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyInputList", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyInputList", required: true, type: .list)
         ]
         /// A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyInputList: [String]
@@ -5918,19 +5322,17 @@ extension Iam {
             self.policyInputList = policyInputList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyInputList = dictionary["PolicyInputList"] as? [String] else { throw InitializableError.missingRequiredParam("PolicyInputList") }
-            self.policyInputList = policyInputList
+        private enum CodingKeys: String, CodingKey {
+            case policyInputList = "PolicyInputList"
         }
     }
 
     public struct ListUsersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "PathPrefix", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "PathPrefix", required: false, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -5945,18 +5347,17 @@ extension Iam {
             self.pathPrefix = pathPrefix
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            self.pathPrefix = dictionary["PathPrefix"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case pathPrefix = "PathPrefix"
         }
     }
 
     public struct OrganizationsDecisionDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowedByOrganizations", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowedByOrganizations", required: false, type: .boolean)
         ]
         /// Specifies whether the simulated action is allowed by the AWS Organizations service control policies that impact the simulated user's account.
         public let allowedByOrganizations: Bool?
@@ -5965,17 +5366,16 @@ extension Iam {
             self.allowedByOrganizations = allowedByOrganizations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allowedByOrganizations = dictionary["AllowedByOrganizations"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case allowedByOrganizations = "AllowedByOrganizations"
         }
     }
 
     public struct GetContextKeysForPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyInputList", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicySourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyInputList", required: false, type: .list), 
+            AWSShapeMember(label: "PolicySourceArn", required: true, type: .string)
         ]
         /// An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D).
         public let policyInputList: [String]?
@@ -5987,20 +5387,18 @@ extension Iam {
             self.policySourceArn = policySourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyInputList = dictionary["PolicyInputList"] as? [String]
-            guard let policySourceArn = dictionary["PolicySourceArn"] as? String else { throw InitializableError.missingRequiredParam("PolicySourceArn") }
-            self.policySourceArn = policySourceArn
+        private enum CodingKeys: String, CodingKey {
+            case policyInputList = "PolicyInputList"
+            case policySourceArn = "PolicySourceArn"
         }
     }
 
     public struct ListGroupPoliciesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -6015,25 +5413,23 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case groupName = "GroupName"
         }
     }
 
-    public enum ReportFormatType: String, CustomStringConvertible {
+    public enum ReportFormatType: String, CustomStringConvertible, Codable {
         case text_csv = "text/csv"
         public var description: String { return self.rawValue }
     }
 
     public struct DetachGroupPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyArn", required: true, type: .string), 
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let policyArn: String
@@ -6045,21 +5441,18 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyArn = dictionary["PolicyArn"] as? String else { throw InitializableError.missingRequiredParam("PolicyArn") }
-            self.policyArn = policyArn
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case policyArn = "PolicyArn"
+            case groupName = "GroupName"
         }
     }
 
     public struct ListVirtualMFADevicesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VirtualMFADevices", required: true, type: .list), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VirtualMFADevices", required: true, type: .list), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         ///  The list of virtual MFA devices in the current account that match the AssignmentStatus value that was passed in the request.
         public let virtualMFADevices: [VirtualMFADevice]
@@ -6074,19 +5467,17 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let virtualMFADevices = dictionary["VirtualMFADevices"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("VirtualMFADevices") }
-            self.virtualMFADevices = try virtualMFADevices.map({ try VirtualMFADevice(dictionary: $0) })
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case virtualMFADevices = "VirtualMFADevices"
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct GetInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceProfileName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceProfileName", required: true, type: .string)
         ]
         /// The name of the instance profile to get information about. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let instanceProfileName: String
@@ -6095,17 +5486,15 @@ extension Iam {
             self.instanceProfileName = instanceProfileName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceProfileName = dictionary["InstanceProfileName"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileName") }
-            self.instanceProfileName = instanceProfileName
+        private enum CodingKeys: String, CodingKey {
+            case instanceProfileName = "InstanceProfileName"
         }
     }
 
     public struct CreateServiceLinkedRoleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Role", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Role", required: false, type: .structure)
         ]
         /// A Role object that contains details about the newly created role.
         public let role: Role?
@@ -6114,18 +5503,17 @@ extension Iam {
             self.role = role
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let role = dictionary["Role"] as? [String: Any] { self.role = try Iam.Role(dictionary: role) } else { self.role = nil }
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
         }
     }
 
     public struct ListRolesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Roles", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "Roles", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -6140,15 +5528,14 @@ extension Iam {
             self.roles = roles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let roles = dictionary["Roles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Roles") }
-            self.roles = try roles.map({ try Role(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case roles = "Roles"
         }
     }
 
-    public enum ContextKeyTypeEnum: String, CustomStringConvertible {
+    public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
         case string = "string"
         case stringlist = "stringList"
         case numeric = "numeric"
@@ -6166,10 +5553,9 @@ extension Iam {
 
     public struct DeleteUserPolicyRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name (friendly name, not ARN) identifying the user that the policy is embedded in. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let userName: String
@@ -6181,19 +5567,16 @@ extension Iam {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case userName = "UserName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ResetServiceSpecificCredentialResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredential", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredential", required: false, type: .structure)
         ]
         /// A structure with details about the updated service-specific credential, including the new password.  This is the only time that you can access the password. You cannot recover the password later, but you can reset it again. 
         public let serviceSpecificCredential: ServiceSpecificCredential?
@@ -6202,18 +5585,17 @@ extension Iam {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceSpecificCredential = dictionary["ServiceSpecificCredential"] as? [String: Any] { self.serviceSpecificCredential = try Iam.ServiceSpecificCredential(dictionary: serviceSpecificCredential) } else { self.serviceSpecificCredential = nil }
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredential = "ServiceSpecificCredential"
         }
     }
 
     public struct UpdateLoginProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: true, type: .string), 
-            AWSShapeProperty(label: "PasswordResetRequired", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: true, type: .string), 
+            AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
         ]
         /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (\u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF). It also includes the special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
         public let password: String?
@@ -6228,21 +5610,19 @@ extension Iam {
             self.passwordResetRequired = passwordResetRequired
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.password = dictionary["Password"] as? String
-            guard let userName = dictionary["UserName"] as? String else { throw InitializableError.missingRequiredParam("UserName") }
-            self.userName = userName
-            self.passwordResetRequired = dictionary["PasswordResetRequired"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case userName = "UserName"
+            case passwordResetRequired = "PasswordResetRequired"
         }
     }
 
     public struct ListAccountAliasesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AccountAliases", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean), 
+            AWSShapeMember(label: "AccountAliases", required: true, type: .list)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -6257,21 +5637,19 @@ extension Iam {
             self.accountAliases = accountAliases
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
-            guard let accountAliases = dictionary["AccountAliases"] as? [String] else { throw InitializableError.missingRequiredParam("AccountAliases") }
-            self.accountAliases = accountAliases
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case isTruncated = "IsTruncated"
+            case accountAliases = "AccountAliases"
         }
     }
 
     public struct ListSSHPublicKeysResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SSHPublicKeys", required: false, type: .list), 
-            AWSShapeProperty(label: "IsTruncated", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SSHPublicKeys", required: false, type: .list), 
+            AWSShapeMember(label: "IsTruncated", required: false, type: .boolean)
         ]
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -6286,22 +5664,17 @@ extension Iam {
             self.isTruncated = isTruncated
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let sSHPublicKeys = dictionary["SSHPublicKeys"] as? [[String: Any]] {
-                self.sSHPublicKeys = try sSHPublicKeys.map({ try SSHPublicKeyMetadata(dictionary: $0) })
-            } else { 
-                self.sSHPublicKeys = nil
-            }
-            self.isTruncated = dictionary["IsTruncated"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case sSHPublicKeys = "SSHPublicKeys"
+            case isTruncated = "IsTruncated"
         }
     }
 
     public struct ListServiceSpecificCredentialsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceSpecificCredentials", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceSpecificCredentials", required: false, type: .list)
         ]
         /// A list of structures that each contain details about a service-specific credential.
         public let serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]?
@@ -6310,16 +5683,12 @@ extension Iam {
             self.serviceSpecificCredentials = serviceSpecificCredentials
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceSpecificCredentials = dictionary["ServiceSpecificCredentials"] as? [[String: Any]] {
-                self.serviceSpecificCredentials = try serviceSpecificCredentials.map({ try ServiceSpecificCredentialMetadata(dictionary: $0) })
-            } else { 
-                self.serviceSpecificCredentials = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case serviceSpecificCredentials = "ServiceSpecificCredentials"
         }
     }
 
-    public enum PolicyScopeType: String, CustomStringConvertible {
+    public enum PolicyScopeType: String, CustomStringConvertible, Codable {
         case all = "All"
         case aws = "AWS"
         case local = "Local"
@@ -6328,11 +5697,10 @@ extension Iam {
 
     public struct ListMFADevicesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "UserName", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxItems", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", required: false, type: .integer)
         ]
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
@@ -6347,18 +5715,17 @@ extension Iam {
             self.maxItems = maxItems
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.userName = dictionary["UserName"] as? String
-            self.maxItems = dictionary["MaxItems"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case userName = "UserName"
+            case maxItems = "MaxItems"
         }
     }
 
     public struct DeleteGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "GroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: true, type: .string)
         ]
         /// The name of the IAM group to delete. This parameter allows (per its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
         public let groupName: String
@@ -6367,9 +5734,8 @@ extension Iam {
             self.groupName = groupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let groupName = dictionary["GroupName"] as? String else { throw InitializableError.missingRequiredParam("GroupName") }
-            self.groupName = groupName
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
         }
     }
 

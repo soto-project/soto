@@ -31,12 +31,11 @@ extension Config {
 
     public struct ConfigStreamDeliveryInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "lastStatusChangeTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp)
         ]
         /// The error message from the last attempted delivery.
         public let lastErrorMessage: String?
@@ -45,29 +44,28 @@ extension Config {
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
         public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
-        public let lastStatusChangeTime: String?
+        public let lastStatusChangeTime: Double?
 
-        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: String? = nil) {
+        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Double? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastErrorCode = lastErrorCode
             self.lastStatus = lastStatus
             self.lastStatusChangeTime = lastStatusChangeTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
-            self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastErrorMessage = "lastErrorMessage"
+            case lastErrorCode = "lastErrorCode"
+            case lastStatus = "lastStatus"
+            case lastStatusChangeTime = "lastStatusChangeTime"
         }
     }
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Indicates whether the AWS resource complies with the specified AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
@@ -79,22 +77,17 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
-                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
-            } else { 
-                self.evaluationResults = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationResults = "EvaluationResults"
+            case nextToken = "NextToken"
         }
     }
 
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationResults", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationResults", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Indicates whether the specified AWS resource complies each AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
@@ -106,23 +99,18 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let evaluationResults = dictionary["EvaluationResults"] as? [[String: Any]] {
-                self.evaluationResults = try evaluationResults.map({ try EvaluationResult(dictionary: $0) })
-            } else { 
-                self.evaluationResults = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationResults = "EvaluationResults"
+            case nextToken = "NextToken"
         }
     }
 
     public struct Source: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Owner", required: true, type: .enum), 
-            AWSShapeProperty(label: "SourceDetails", required: false, type: .list), 
-            AWSShapeProperty(label: "SourceIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Owner", required: true, type: .enum), 
+            AWSShapeMember(label: "SourceDetails", required: false, type: .list), 
+            AWSShapeMember(label: "SourceIdentifier", required: true, type: .string)
         ]
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
         public let owner: Owner
@@ -137,24 +125,17 @@ extension Config {
             self.sourceIdentifier = sourceIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawOwner = dictionary["Owner"] as? String, let owner = Owner(rawValue: rawOwner) else { throw InitializableError.missingRequiredParam("Owner") }
-            self.owner = owner
-            if let sourceDetails = dictionary["SourceDetails"] as? [[String: Any]] {
-                self.sourceDetails = try sourceDetails.map({ try SourceDetail(dictionary: $0) })
-            } else { 
-                self.sourceDetails = nil
-            }
-            guard let sourceIdentifier = dictionary["SourceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceIdentifier") }
-            self.sourceIdentifier = sourceIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case owner = "Owner"
+            case sourceDetails = "SourceDetails"
+            case sourceIdentifier = "SourceIdentifier"
         }
     }
 
     public struct DeleteConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the AWS Config rule that you want to delete.
         public let configRuleName: String
@@ -163,37 +144,35 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
-            self.configRuleName = configRuleName
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
         }
     }
 
     public struct ConfigExportDeliveryInfo: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "lastErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "lastAttemptTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastSuccessfulTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "nextDeliveryTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "lastAttemptTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastSuccessfulTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "nextDeliveryTime", required: false, type: .timestamp)
         ]
         /// The error message from the last attempted delivery.
         public let lastErrorMessage: String?
         /// The time of the last attempted delivery.
-        public let lastAttemptTime: String?
+        public let lastAttemptTime: Double?
         /// The time of the last successful delivery.
-        public let lastSuccessfulTime: String?
+        public let lastSuccessfulTime: Double?
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// Status of the last attempted delivery.
         public let lastStatus: DeliveryStatus?
         /// The time that the next delivery occurs.
-        public let nextDeliveryTime: String?
+        public let nextDeliveryTime: Double?
 
-        public init(lastErrorMessage: String? = nil, lastAttemptTime: String? = nil, lastSuccessfulTime: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: String? = nil) {
+        public init(lastErrorMessage: String? = nil, lastAttemptTime: Double? = nil, lastSuccessfulTime: Double? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: Double? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastAttemptTime = lastAttemptTime
             self.lastSuccessfulTime = lastSuccessfulTime
@@ -202,23 +181,22 @@ extension Config {
             self.nextDeliveryTime = nextDeliveryTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
-            self.lastAttemptTime = dictionary["lastAttemptTime"] as? String
-            self.lastSuccessfulTime = dictionary["lastSuccessfulTime"] as? String
-            self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = DeliveryStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.nextDeliveryTime = dictionary["nextDeliveryTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastErrorMessage = "lastErrorMessage"
+            case lastAttemptTime = "lastAttemptTime"
+            case lastSuccessfulTime = "lastSuccessfulTime"
+            case lastErrorCode = "lastErrorCode"
+            case lastStatus = "lastStatus"
+            case nextDeliveryTime = "nextDeliveryTime"
         }
     }
 
     public struct SourceDetail: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MessageType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EventSource", required: false, type: .enum), 
-            AWSShapeProperty(label: "MaximumExecutionFrequency", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MessageType", required: false, type: .enum), 
+            AWSShapeMember(label: "EventSource", required: false, type: .enum), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum)
         ]
         /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
         public let messageType: MessageType?
@@ -233,14 +211,14 @@ extension Config {
             self.maximumExecutionFrequency = maximumExecutionFrequency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let messageType = dictionary["MessageType"] as? String { self.messageType = MessageType(rawValue: messageType) } else { self.messageType = nil }
-            if let eventSource = dictionary["EventSource"] as? String { self.eventSource = EventSource(rawValue: eventSource) } else { self.eventSource = nil }
-            if let maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String { self.maximumExecutionFrequency = MaximumExecutionFrequency(rawValue: maximumExecutionFrequency) } else { self.maximumExecutionFrequency = nil }
+        private enum CodingKeys: String, CodingKey {
+            case messageType = "MessageType"
+            case eventSource = "EventSource"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
         }
     }
 
-    public enum ComplianceType: String, CustomStringConvertible {
+    public enum ComplianceType: String, CustomStringConvertible, Codable {
         case compliant = "COMPLIANT"
         case non_compliant = "NON_COMPLIANT"
         case not_applicable = "NOT_APPLICABLE"
@@ -250,9 +228,8 @@ extension Config {
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorders", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorders", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified configuration recorders.
         public let configurationRecorders: [ConfigurationRecorder]?
@@ -261,20 +238,15 @@ extension Config {
             self.configurationRecorders = configurationRecorders
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationRecorders = dictionary["ConfigurationRecorders"] as? [[String: Any]] {
-                self.configurationRecorders = try configurationRecorders.map({ try ConfigurationRecorder(dictionary: $0) })
-            } else { 
-                self.configurationRecorders = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorders = "ConfigurationRecorders"
         }
     }
 
     public struct DescribeConfigurationRecordersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorderNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// A list of configuration recorder names.
         public let configurationRecorderNames: [String]?
@@ -283,19 +255,18 @@ extension Config {
             self.configurationRecorderNames = configurationRecorderNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationRecorderNames = dictionary["ConfigurationRecorderNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderNames = "ConfigurationRecorderNames"
         }
     }
 
     public struct ResourceIdentifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceDeletionTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "resourceDeletionTime", required: false, type: .timestamp)
         ]
         /// The type of resource.
         public let resourceType: ResourceType?
@@ -304,32 +275,31 @@ extension Config {
         /// The custom name of the resource (if available).
         public let resourceName: String?
         /// The time that the resource was deleted.
-        public let resourceDeletionTime: String?
+        public let resourceDeletionTime: Double?
 
-        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: String? = nil) {
+        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: Double? = nil) {
             self.resourceType = resourceType
             self.resourceId = resourceId
             self.resourceName = resourceName
             self.resourceDeletionTime = resourceDeletionTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.resourceId = dictionary["resourceId"] as? String
-            self.resourceName = dictionary["resourceName"] as? String
-            self.resourceDeletionTime = dictionary["resourceDeletionTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceDeletionTime = "resourceDeletionTime"
         }
     }
 
     public struct DeliveryChannel: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "s3KeyPrefix", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
-            AWSShapeProperty(label: "s3BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "snsTopicARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "s3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "configSnapshotDeliveryProperties", required: false, type: .structure), 
+            AWSShapeMember(label: "s3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "snsTopicARN", required: false, type: .string)
         ]
         /// The prefix for the specified Amazon S3 bucket.
         public let s3KeyPrefix: String?
@@ -350,20 +320,19 @@ extension Config {
             self.snsTopicARN = snsTopicARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.s3KeyPrefix = dictionary["s3KeyPrefix"] as? String
-            self.name = dictionary["name"] as? String
-            if let configSnapshotDeliveryProperties = dictionary["configSnapshotDeliveryProperties"] as? [String: Any] { self.configSnapshotDeliveryProperties = try Config.ConfigSnapshotDeliveryProperties(dictionary: configSnapshotDeliveryProperties) } else { self.configSnapshotDeliveryProperties = nil }
-            self.s3BucketName = dictionary["s3BucketName"] as? String
-            self.snsTopicARN = dictionary["snsTopicARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case s3KeyPrefix = "s3KeyPrefix"
+            case name = "name"
+            case configSnapshotDeliveryProperties = "configSnapshotDeliveryProperties"
+            case s3BucketName = "s3BucketName"
+            case snsTopicARN = "snsTopicARN"
         }
     }
 
     public struct PutConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRule", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRule", required: true, type: .structure)
         ]
         /// The rule that you want to add to your account.
         public let configRule: ConfigRule
@@ -372,17 +341,15 @@ extension Config {
             self.configRule = configRule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configRule = dictionary["ConfigRule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigRule") }
-            self.configRule = try Config.ConfigRule(dictionary: configRule)
+        private enum CodingKeys: String, CodingKey {
+            case configRule = "ConfigRule"
         }
     }
 
     public struct DescribeDeliveryChannelsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannels", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannels", required: false, type: .list)
         ]
         /// A list that contains the descriptions of the specified delivery channel.
         public let deliveryChannels: [DeliveryChannel]?
@@ -391,21 +358,16 @@ extension Config {
             self.deliveryChannels = deliveryChannels
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deliveryChannels = dictionary["DeliveryChannels"] as? [[String: Any]] {
-                self.deliveryChannels = try deliveryChannels.map({ try DeliveryChannel(dictionary: $0) })
-            } else { 
-                self.deliveryChannels = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannels = "DeliveryChannels"
         }
     }
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigRulesEvaluationStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRulesEvaluationStatus", required: false, type: .list)
         ]
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -417,27 +379,22 @@ extension Config {
             self.configRulesEvaluationStatus = configRulesEvaluationStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let configRulesEvaluationStatus = dictionary["ConfigRulesEvaluationStatus"] as? [[String: Any]] {
-                self.configRulesEvaluationStatus = try configRulesEvaluationStatus.map({ try ConfigRuleEvaluationStatus(dictionary: $0) })
-            } else { 
-                self.configRulesEvaluationStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case configRulesEvaluationStatus = "ConfigRulesEvaluationStatus"
         }
     }
 
-    public enum EventSource: String, CustomStringConvertible {
+    public enum EventSource: String, CustomStringConvertible, Codable {
         case aws_config = "aws.config"
         public var description: String { return self.rawValue }
     }
 
     public struct DescribeComplianceByResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ComplianceByResources", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceByResources", required: false, type: .list)
         ]
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
@@ -449,22 +406,17 @@ extension Config {
             self.complianceByResources = complianceByResources
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let complianceByResources = dictionary["ComplianceByResources"] as? [[String: Any]] {
-                self.complianceByResources = try complianceByResources.map({ try ComplianceByResource(dictionary: $0) })
-            } else { 
-                self.complianceByResources = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case complianceByResources = "ComplianceByResources"
         }
     }
 
     public struct DescribeConfigRulesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
         public let configRuleNames: [String]?
@@ -476,17 +428,16 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configRuleNames = dictionary["ConfigRuleNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeliverConfigSnapshotResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configSnapshotId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configSnapshotId", required: false, type: .string)
         ]
         /// The ID of the snapshot that is being created.
         public let configSnapshotId: String?
@@ -495,21 +446,20 @@ extension Config {
             self.configSnapshotId = configSnapshotId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configSnapshotId = dictionary["configSnapshotId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configSnapshotId = "configSnapshotId"
         }
     }
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "includeDeletedResources", required: false, type: .boolean), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "resourceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "includeDeletedResources", required: false, type: .boolean), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "resourceIds", required: false, type: .list), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string)
         ]
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
         public let includeDeletedResources: Bool?
@@ -533,22 +483,20 @@ extension Config {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.includeDeletedResources = dictionary["includeDeletedResources"] as? Bool
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let rawresourceType = dictionary["resourceType"] as? String, let resourceType = ResourceType(rawValue: rawresourceType) else { throw InitializableError.missingRequiredParam("resourceType") }
-            self.resourceType = resourceType
-            self.resourceIds = dictionary["resourceIds"] as? [String]
-            self.limit = dictionary["limit"] as? Int32
-            self.resourceName = dictionary["resourceName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case includeDeletedResources = "includeDeletedResources"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
+            case resourceIds = "resourceIds"
+            case limit = "limit"
+            case resourceName = "resourceName"
         }
     }
 
     public struct DeliverConfigSnapshotRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deliveryChannelName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel through which the snapshot is delivered.
         public let deliveryChannelName: String
@@ -557,17 +505,15 @@ extension Config {
             self.deliveryChannelName = deliveryChannelName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryChannelName = dictionary["deliveryChannelName"] as? String else { throw InitializableError.missingRequiredParam("deliveryChannelName") }
-            self.deliveryChannelName = deliveryChannelName
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelName = "deliveryChannelName"
         }
     }
 
     public struct DescribeDeliveryChannelsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannelNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
@@ -576,12 +522,12 @@ extension Config {
             self.deliveryChannelNames = deliveryChannelNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deliveryChannelNames = dictionary["DeliveryChannelNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelNames = "DeliveryChannelNames"
         }
     }
 
-    public enum ConfigRuleState: String, CustomStringConvertible {
+    public enum ConfigRuleState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleting = "DELETING"
         case deleting_results = "DELETING_RESULTS"
@@ -589,7 +535,7 @@ extension Config {
         public var description: String { return self.rawValue }
     }
 
-    public enum ResourceType: String, CustomStringConvertible {
+    public enum ResourceType: String, CustomStringConvertible, Codable {
         case aws__ec2__customergateway = "AWS::EC2::CustomerGateway"
         case aws__ec2__eip = "AWS::EC2::EIP"
         case aws__ec2__host = "AWS::EC2::Host"
@@ -628,7 +574,7 @@ extension Config {
         public var description: String { return self.rawValue }
     }
 
-    public enum Owner: String, CustomStringConvertible {
+    public enum Owner: String, CustomStringConvertible, Codable {
         case custom_lambda = "CUSTOM_LAMBDA"
         case aws = "AWS"
         public var description: String { return self.rawValue }
@@ -636,9 +582,8 @@ extension Config {
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceSummariesByResourceType", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceSummariesByResourceType", required: false, type: .list)
         ]
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
         public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
@@ -647,20 +592,15 @@ extension Config {
             self.complianceSummariesByResourceType = complianceSummariesByResourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let complianceSummariesByResourceType = dictionary["ComplianceSummariesByResourceType"] as? [[String: Any]] {
-                self.complianceSummariesByResourceType = try complianceSummariesByResourceType.map({ try ComplianceSummaryByResourceType(dictionary: $0) })
-            } else { 
-                self.complianceSummariesByResourceType = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummariesByResourceType = "ComplianceSummariesByResourceType"
         }
     }
 
     public struct DeleteEvaluationResultsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string)
         ]
         /// The name of the Config rule for which you want to delete the evaluation results.
         public let configRuleName: String
@@ -669,34 +609,32 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
-            self.configRuleName = configRuleName
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
         }
     }
 
     public struct ConfigurationItem: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationStateId", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "relatedEvents", required: false, type: .list), 
-            AWSShapeProperty(label: "tags", required: false, type: .map), 
-            AWSShapeProperty(label: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "configuration", required: false, type: .string), 
-            AWSShapeProperty(label: "relationships", required: false, type: .list), 
-            AWSShapeProperty(label: "availabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string), 
-            AWSShapeProperty(label: "configurationItemStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "version", required: false, type: .string), 
-            AWSShapeProperty(label: "accountId", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceCreationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "supplementaryConfiguration", required: false, type: .map), 
-            AWSShapeProperty(label: "awsRegion", required: false, type: .string), 
-            AWSShapeProperty(label: "configurationItemMD5Hash", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationStateId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "relatedEvents", required: false, type: .list), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "configuration", required: false, type: .string), 
+            AWSShapeMember(label: "relationships", required: false, type: .list), 
+            AWSShapeMember(label: "availabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItemStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "configurationItemCaptureTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "version", required: false, type: .string), 
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceCreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "supplementaryConfiguration", required: false, type: .map), 
+            AWSShapeMember(label: "awsRegion", required: false, type: .string), 
+            AWSShapeMember(label: "configurationItemMD5Hash", required: false, type: .string)
         ]
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public let configurationStateId: String?
@@ -721,13 +659,13 @@ extension Config {
         /// The configuration item status.
         public let configurationItemStatus: ConfigurationItemStatus?
         /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: String?
+        public let configurationItemCaptureTime: Double?
         /// The version number of the resource configuration.
         public let version: String?
         /// The 12 digit AWS account ID associated with the resource.
         public let accountId: String?
         /// The time stamp when the resource was created.
-        public let resourceCreationTime: String?
+        public let resourceCreationTime: Double?
         /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
         public let supplementaryConfiguration: [String: String]?
         /// The region where the resource resides.
@@ -735,7 +673,7 @@ extension Config {
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
 
-        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: String? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: String? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
+        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: Double? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Double? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
             self.configurationStateId = configurationStateId
             self.resourceType = resourceType
             self.resourceName = resourceName
@@ -756,45 +694,32 @@ extension Config {
             self.configurationItemMD5Hash = configurationItemMD5Hash
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationStateId = dictionary["configurationStateId"] as? String
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.resourceName = dictionary["resourceName"] as? String
-            self.relatedEvents = dictionary["relatedEvents"] as? [String]
-            if let tags = dictionary["tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
-            self.resourceId = dictionary["resourceId"] as? String
-            self.configuration = dictionary["configuration"] as? String
-            if let relationships = dictionary["relationships"] as? [[String: Any]] {
-                self.relationships = try relationships.map({ try Relationship(dictionary: $0) })
-            } else { 
-                self.relationships = nil
-            }
-            self.availabilityZone = dictionary["availabilityZone"] as? String
-            self.arn = dictionary["arn"] as? String
-            if let configurationItemStatus = dictionary["configurationItemStatus"] as? String { self.configurationItemStatus = ConfigurationItemStatus(rawValue: configurationItemStatus) } else { self.configurationItemStatus = nil }
-            self.configurationItemCaptureTime = dictionary["configurationItemCaptureTime"] as? String
-            self.version = dictionary["version"] as? String
-            self.accountId = dictionary["accountId"] as? String
-            self.resourceCreationTime = dictionary["resourceCreationTime"] as? String
-            if let supplementaryConfiguration = dictionary["supplementaryConfiguration"] as? [String: String] {
-                self.supplementaryConfiguration = supplementaryConfiguration
-            } else { 
-                self.supplementaryConfiguration = nil
-            }
-            self.awsRegion = dictionary["awsRegion"] as? String
-            self.configurationItemMD5Hash = dictionary["configurationItemMD5Hash"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationStateId = "configurationStateId"
+            case resourceType = "resourceType"
+            case resourceName = "resourceName"
+            case relatedEvents = "relatedEvents"
+            case tags = "tags"
+            case resourceId = "resourceId"
+            case configuration = "configuration"
+            case relationships = "relationships"
+            case availabilityZone = "availabilityZone"
+            case arn = "arn"
+            case configurationItemStatus = "configurationItemStatus"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case version = "version"
+            case accountId = "accountId"
+            case resourceCreationTime = "resourceCreationTime"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case awsRegion = "awsRegion"
+            case configurationItemMD5Hash = "configurationItemMD5Hash"
         }
     }
 
     public struct PutConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorder", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorder", required: true, type: .structure)
         ]
         /// The configuration recorder object that records each configuration change made to the resources.
         public let configurationRecorder: ConfigurationRecorder
@@ -803,42 +728,39 @@ extension Config {
             self.configurationRecorder = configurationRecorder
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationRecorder = dictionary["ConfigurationRecorder"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ConfigurationRecorder") }
-            self.configurationRecorder = try Config.ConfigurationRecorder(dictionary: configurationRecorder)
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorder = "ConfigurationRecorder"
         }
     }
 
     public struct EvaluationResultIdentifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrderingTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "EvaluationResultQualifier", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderingTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure)
         ]
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        public let orderingTimestamp: String?
+        public let orderingTimestamp: Double?
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
 
-        public init(orderingTimestamp: String? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
+        public init(orderingTimestamp: Double? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
             self.orderingTimestamp = orderingTimestamp
             self.evaluationResultQualifier = evaluationResultQualifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.orderingTimestamp = dictionary["OrderingTimestamp"] as? String
-            if let evaluationResultQualifier = dictionary["EvaluationResultQualifier"] as? [String: Any] { self.evaluationResultQualifier = try Config.EvaluationResultQualifier(dictionary: evaluationResultQualifier) } else { self.evaluationResultQualifier = nil }
+        private enum CodingKeys: String, CodingKey {
+            case orderingTimestamp = "OrderingTimestamp"
+            case evaluationResultQualifier = "EvaluationResultQualifier"
         }
     }
 
     public struct RecordingGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "allSupported", required: false, type: .boolean), 
-            AWSShapeProperty(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
-            AWSShapeProperty(label: "resourceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "allSupported", required: false, type: .boolean), 
+            AWSShapeMember(label: "includeGlobalResourceTypes", required: false, type: .boolean), 
+            AWSShapeMember(label: "resourceTypes", required: false, type: .list)
         ]
         /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it automatically starts recording resources of that type. If you set this option to true, you cannot enumerate a list of resourceTypes.
         public let allSupported: Bool?
@@ -853,21 +775,20 @@ extension Config {
             self.resourceTypes = resourceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allSupported = dictionary["allSupported"] as? Bool
-            self.includeGlobalResourceTypes = dictionary["includeGlobalResourceTypes"] as? Bool
-            if let resourceTypes = dictionary["resourceTypes"] as? [String] { self.resourceTypes = resourceTypes.flatMap({ ResourceType(rawValue: $0)}) } else { self.resourceTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case allSupported = "allSupported"
+            case includeGlobalResourceTypes = "includeGlobalResourceTypes"
+            case resourceTypes = "resourceTypes"
         }
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleName", required: true, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ComplianceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleName", required: true, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
         ]
         /// The name of the AWS Config rule for which you want compliance information.
         public let configRuleName: String
@@ -885,21 +806,19 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configRuleName = dictionary["ConfigRuleName"] as? String else { throw InitializableError.missingRequiredParam("ConfigRuleName") }
-            self.configRuleName = configRuleName
-            self.limit = dictionary["Limit"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+            case complianceTypes = "ComplianceTypes"
         }
     }
 
     public struct ComplianceSummaryByResourceType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceSummary", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
         /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each compliance.
         public let complianceSummary: ComplianceSummary?
@@ -911,17 +830,16 @@ extension Config {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let complianceSummary = dictionary["ComplianceSummary"] as? [String: Any] { self.complianceSummary = try Config.ComplianceSummary(dictionary: complianceSummary) } else { self.complianceSummary = nil }
-            self.resourceType = dictionary["ResourceType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummary = "ComplianceSummary"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct PutDeliveryChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannel", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannel", required: true, type: .structure)
         ]
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
         public let deliveryChannel: DeliveryChannel
@@ -930,21 +848,19 @@ extension Config {
             self.deliveryChannel = deliveryChannel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryChannel = dictionary["DeliveryChannel"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DeliveryChannel") }
-            self.deliveryChannel = try Config.DeliveryChannel(dictionary: deliveryChannel)
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannel = "DeliveryChannel"
         }
     }
 
     public struct Evaluation: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ComplianceResourceType", required: true, type: .string), 
-            AWSShapeProperty(label: "ComplianceResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "OrderingTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Annotation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceType", required: true, type: .enum), 
+            AWSShapeMember(label: "ComplianceResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "ComplianceResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "OrderingTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Annotation", required: false, type: .string)
         ]
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
         public let complianceType: ComplianceType
@@ -953,11 +869,11 @@ extension Config {
         /// The ID of the AWS resource that was evaluated.
         public let complianceResourceId: String
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        public let orderingTimestamp: String
+        public let orderingTimestamp: Double
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: String, annotation: String? = nil) {
+        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Double, annotation: String? = nil) {
             self.complianceType = complianceType
             self.complianceResourceType = complianceResourceType
             self.complianceResourceId = complianceResourceId
@@ -965,24 +881,19 @@ extension Config {
             self.annotation = annotation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawComplianceType = dictionary["ComplianceType"] as? String, let complianceType = ComplianceType(rawValue: rawComplianceType) else { throw InitializableError.missingRequiredParam("ComplianceType") }
-            self.complianceType = complianceType
-            guard let complianceResourceType = dictionary["ComplianceResourceType"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceType") }
-            self.complianceResourceType = complianceResourceType
-            guard let complianceResourceId = dictionary["ComplianceResourceId"] as? String else { throw InitializableError.missingRequiredParam("ComplianceResourceId") }
-            self.complianceResourceId = complianceResourceId
-            guard let orderingTimestamp = dictionary["OrderingTimestamp"] as? String else { throw InitializableError.missingRequiredParam("OrderingTimestamp") }
-            self.orderingTimestamp = orderingTimestamp
-            self.annotation = dictionary["Annotation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case complianceType = "ComplianceType"
+            case complianceResourceType = "ComplianceResourceType"
+            case complianceResourceId = "ComplianceResourceId"
+            case orderingTimestamp = "OrderingTimestamp"
+            case annotation = "Annotation"
         }
     }
 
     public struct StopConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
@@ -991,25 +902,23 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
-            self.configurationRecorderName = configurationRecorderName
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderName = "ConfigurationRecorderName"
         }
     }
 
     public struct ConfigRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleState", required: false, type: .enum), 
-            AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeProperty(label: "InputParameters", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: true, type: .structure), 
-            AWSShapeProperty(label: "Scope", required: false, type: .structure), 
-            AWSShapeProperty(label: "MaximumExecutionFrequency", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleState", required: false, type: .enum), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
+            AWSShapeMember(label: "InputParameters", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: true, type: .structure), 
+            AWSShapeMember(label: "Scope", required: false, type: .structure), 
+            AWSShapeMember(label: "MaximumExecutionFrequency", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule. AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
         public let configRuleState: ConfigRuleState?
@@ -1042,27 +951,25 @@ extension Config {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configRuleState = dictionary["ConfigRuleState"] as? String { self.configRuleState = ConfigRuleState(rawValue: configRuleState) } else { self.configRuleState = nil }
-            self.configRuleName = dictionary["ConfigRuleName"] as? String
-            self.inputParameters = dictionary["InputParameters"] as? String
-            self.configRuleId = dictionary["ConfigRuleId"] as? String
-            self.configRuleArn = dictionary["ConfigRuleArn"] as? String
-            guard let source = dictionary["Source"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Source") }
-            self.source = try Config.Source(dictionary: source)
-            if let scope = dictionary["Scope"] as? [String: Any] { self.scope = try Config.Scope(dictionary: scope) } else { self.scope = nil }
-            if let maximumExecutionFrequency = dictionary["MaximumExecutionFrequency"] as? String { self.maximumExecutionFrequency = MaximumExecutionFrequency(rawValue: maximumExecutionFrequency) } else { self.maximumExecutionFrequency = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configRuleState = "ConfigRuleState"
+            case configRuleName = "ConfigRuleName"
+            case inputParameters = "InputParameters"
+            case configRuleId = "ConfigRuleId"
+            case configRuleArn = "ConfigRuleArn"
+            case source = "Source"
+            case scope = "Scope"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case description = "Description"
         }
     }
 
     public struct EvaluationResultQualifier: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
         ]
         /// The ID of the evaluated AWS resource.
         public let resourceId: String?
@@ -1077,18 +984,17 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceId = dictionary["ResourceId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.configRuleName = dictionary["ConfigRuleName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case configRuleName = "ConfigRuleName"
         }
     }
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecordersStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecordersStatus", required: false, type: .list)
         ]
         /// A list that contains status of the specified recorders.
         public let configurationRecordersStatus: [ConfigurationRecorderStatus]?
@@ -1097,44 +1003,39 @@ extension Config {
             self.configurationRecordersStatus = configurationRecordersStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationRecordersStatus = dictionary["ConfigurationRecordersStatus"] as? [[String: Any]] {
-                self.configurationRecordersStatus = try configurationRecordersStatus.map({ try ConfigurationRecorderStatus(dictionary: $0) })
-            } else { 
-                self.configurationRecordersStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecordersStatus = "ConfigurationRecordersStatus"
         }
     }
 
     public struct ComplianceSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NonCompliantResourceCount", required: false, type: .structure), 
-            AWSShapeProperty(label: "CompliantResourceCount", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceSummaryTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NonCompliantResourceCount", required: false, type: .structure), 
+            AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure)
         ]
         /// The time that AWS Config created the compliance summary.
-        public let complianceSummaryTimestamp: String?
+        public let complianceSummaryTimestamp: Double?
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
         public let compliantResourceCount: ComplianceContributorCount?
 
-        public init(complianceSummaryTimestamp: String? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
+        public init(complianceSummaryTimestamp: Double? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.nonCompliantResourceCount = nonCompliantResourceCount
             self.compliantResourceCount = compliantResourceCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.complianceSummaryTimestamp = dictionary["ComplianceSummaryTimestamp"] as? String
-            if let nonCompliantResourceCount = dictionary["NonCompliantResourceCount"] as? [String: Any] { self.nonCompliantResourceCount = try Config.ComplianceContributorCount(dictionary: nonCompliantResourceCount) } else { self.nonCompliantResourceCount = nil }
-            if let compliantResourceCount = dictionary["CompliantResourceCount"] as? [String: Any] { self.compliantResourceCount = try Config.ComplianceContributorCount(dictionary: compliantResourceCount) } else { self.compliantResourceCount = nil }
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummaryTimestamp = "ComplianceSummaryTimestamp"
+            case nonCompliantResourceCount = "NonCompliantResourceCount"
+            case compliantResourceCount = "CompliantResourceCount"
         }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible {
+    public enum DeliveryStatus: String, CustomStringConvertible, Codable {
         case success = "Success"
         case failure = "Failure"
         case not_applicable = "Not_Applicable"
@@ -1143,12 +1044,11 @@ extension Config {
 
     public struct Scope: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceResourceTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "ComplianceResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "TagValue", required: false, type: .string), 
-            AWSShapeProperty(label: "TagKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceResourceTypes", required: false, type: .list), 
+            AWSShapeMember(label: "ComplianceResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "TagValue", required: false, type: .string), 
+            AWSShapeMember(label: "TagKey", required: false, type: .string)
         ]
         /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
         public let complianceResourceTypes: [String]?
@@ -1166,44 +1066,43 @@ extension Config {
             self.tagKey = tagKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.complianceResourceTypes = dictionary["ComplianceResourceTypes"] as? [String]
-            self.complianceResourceId = dictionary["ComplianceResourceId"] as? String
-            self.tagValue = dictionary["TagValue"] as? String
-            self.tagKey = dictionary["TagKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case complianceResourceTypes = "ComplianceResourceTypes"
+            case complianceResourceId = "ComplianceResourceId"
+            case tagValue = "TagValue"
+            case tagKey = "TagKey"
         }
     }
 
     public struct ConfigRuleEvaluationStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "FirstEvaluationStarted", required: false, type: .boolean), 
-            AWSShapeProperty(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string), 
-            AWSShapeProperty(label: "FirstActivatedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ConfigRuleId", required: false, type: .string), 
-            AWSShapeProperty(label: "LastSuccessfulInvocationTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ConfigRuleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "LastErrorMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "LastFailedInvocationTime", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastFailedEvaluationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FirstEvaluationStarted", required: false, type: .boolean), 
+            AWSShapeMember(label: "LastSuccessfulEvaluationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string), 
+            AWSShapeMember(label: "FirstActivatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConfigRuleId", required: false, type: .string), 
+            AWSShapeMember(label: "LastSuccessfulInvocationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ConfigRuleArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "LastErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastFailedInvocationTime", required: false, type: .timestamp)
         ]
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        public let lastFailedEvaluationTime: String?
+        public let lastFailedEvaluationTime: Double?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
         public let firstEvaluationStarted: Bool?
         /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        public let lastSuccessfulEvaluationTime: String?
+        public let lastSuccessfulEvaluationTime: Double?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
         /// The time that you first activated the AWS Config rule.
-        public let firstActivatedTime: String?
+        public let firstActivatedTime: Double?
         /// The ID of the AWS Config rule.
         public let configRuleId: String?
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        public let lastSuccessfulInvocationTime: String?
+        public let lastSuccessfulInvocationTime: Double?
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
         /// The error code that AWS Config returned when the rule last failed.
@@ -1211,9 +1110,9 @@ extension Config {
         /// The error message that AWS Config returned when the rule last failed.
         public let lastErrorMessage: String?
         /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        public let lastFailedInvocationTime: String?
+        public let lastFailedInvocationTime: Double?
 
-        public init(lastFailedEvaluationTime: String? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: String? = nil, configRuleName: String? = nil, firstActivatedTime: String? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: String? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: String? = nil) {
+        public init(lastFailedEvaluationTime: Double? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: Double? = nil, configRuleName: String? = nil, firstActivatedTime: Double? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: Double? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: Double? = nil) {
             self.lastFailedEvaluationTime = lastFailedEvaluationTime
             self.firstEvaluationStarted = firstEvaluationStarted
             self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
@@ -1227,26 +1126,25 @@ extension Config {
             self.lastFailedInvocationTime = lastFailedInvocationTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastFailedEvaluationTime = dictionary["LastFailedEvaluationTime"] as? String
-            self.firstEvaluationStarted = dictionary["FirstEvaluationStarted"] as? Bool
-            self.lastSuccessfulEvaluationTime = dictionary["LastSuccessfulEvaluationTime"] as? String
-            self.configRuleName = dictionary["ConfigRuleName"] as? String
-            self.firstActivatedTime = dictionary["FirstActivatedTime"] as? String
-            self.configRuleId = dictionary["ConfigRuleId"] as? String
-            self.lastSuccessfulInvocationTime = dictionary["LastSuccessfulInvocationTime"] as? String
-            self.configRuleArn = dictionary["ConfigRuleArn"] as? String
-            self.lastErrorCode = dictionary["LastErrorCode"] as? String
-            self.lastErrorMessage = dictionary["LastErrorMessage"] as? String
-            self.lastFailedInvocationTime = dictionary["LastFailedInvocationTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastFailedEvaluationTime = "LastFailedEvaluationTime"
+            case firstEvaluationStarted = "FirstEvaluationStarted"
+            case lastSuccessfulEvaluationTime = "LastSuccessfulEvaluationTime"
+            case configRuleName = "ConfigRuleName"
+            case firstActivatedTime = "FirstActivatedTime"
+            case configRuleId = "ConfigRuleId"
+            case lastSuccessfulInvocationTime = "LastSuccessfulInvocationTime"
+            case configRuleArn = "ConfigRuleArn"
+            case lastErrorCode = "LastErrorCode"
+            case lastErrorMessage = "LastErrorMessage"
+            case lastFailedInvocationTime = "LastFailedInvocationTime"
         }
     }
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceSummary", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceSummary", required: false, type: .structure)
         ]
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
         public let complianceSummary: ComplianceSummary?
@@ -1255,16 +1153,15 @@ extension Config {
             self.complianceSummary = complianceSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let complianceSummary = dictionary["ComplianceSummary"] as? [String: Any] { self.complianceSummary = try Config.ComplianceSummary(dictionary: complianceSummary) } else { self.complianceSummary = nil }
+        private enum CodingKeys: String, CodingKey {
+            case complianceSummary = "ComplianceSummary"
         }
     }
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceTypes", required: false, type: .list)
         ]
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance, and you can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceTypes: [String]?
@@ -1273,18 +1170,17 @@ extension Config {
             self.resourceTypes = resourceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.resourceTypes = dictionary["ResourceTypes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypes = "ResourceTypes"
         }
     }
 
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ComplianceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
         ]
         /// Specify one or more AWS Config rule names to filter the results by rule.
         public let configRuleNames: [String]?
@@ -1299,21 +1195,20 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configRuleNames = dictionary["ConfigRuleNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+            case nextToken = "NextToken"
+            case complianceTypes = "ComplianceTypes"
         }
     }
 
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceId", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: true, type: .string), 
-            AWSShapeProperty(label: "ComplianceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceId", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: true, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
         ]
         /// The ID of the AWS resource for which you want compliance information.
         public let resourceId: String
@@ -1331,23 +1226,20 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
-            self.resourceId = resourceId
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let resourceType = dictionary["ResourceType"] as? String else { throw InitializableError.missingRequiredParam("ResourceType") }
-            self.resourceType = resourceType
-            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+            case nextToken = "NextToken"
+            case resourceType = "ResourceType"
+            case complianceTypes = "ComplianceTypes"
         }
     }
 
     public struct ComplianceByResource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Compliance", required: false, type: .structure), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
         ]
         /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
         public let compliance: Compliance?
@@ -1362,19 +1254,18 @@ extension Config {
             self.resourceType = resourceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let compliance = dictionary["Compliance"] as? [String: Any] { self.compliance = try Config.Compliance(dictionary: compliance) } else { self.compliance = nil }
-            self.resourceId = dictionary["ResourceId"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case compliance = "Compliance"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceByConfigRules", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceByConfigRules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Indicates whether each of the specified AWS Config rules is compliant.
         public let complianceByConfigRules: [ComplianceByConfigRule]?
@@ -1386,23 +1277,18 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let complianceByConfigRules = dictionary["ComplianceByConfigRules"] as? [[String: Any]] {
-                self.complianceByConfigRules = try complianceByConfigRules.map({ try ComplianceByConfigRule(dictionary: $0) })
-            } else { 
-                self.complianceByConfigRules = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case complianceByConfigRules = "ComplianceByConfigRules"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Limit", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Limit", required: false, type: .integer)
         ]
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
         public let configRuleNames: [String]?
@@ -1417,21 +1303,20 @@ extension Config {
             self.limit = limit
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configRuleNames = dictionary["ConfigRuleNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.limit = dictionary["Limit"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
+            case nextToken = "NextToken"
+            case limit = "Limit"
         }
     }
 
     public struct DeliveryChannelStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "configStreamDeliveryInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
-            AWSShapeProperty(label: "configSnapshotDeliveryInfo", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "configStreamDeliveryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "configHistoryDeliveryInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "configSnapshotDeliveryInfo", required: false, type: .structure)
         ]
         /// The name of the delivery channel.
         public let name: String?
@@ -1449,28 +1334,24 @@ extension Config {
             self.configSnapshotDeliveryInfo = configSnapshotDeliveryInfo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let configStreamDeliveryInfo = dictionary["configStreamDeliveryInfo"] as? [String: Any] { self.configStreamDeliveryInfo = try Config.ConfigStreamDeliveryInfo(dictionary: configStreamDeliveryInfo) } else { self.configStreamDeliveryInfo = nil }
-            if let configHistoryDeliveryInfo = dictionary["configHistoryDeliveryInfo"] as? [String: Any] { self.configHistoryDeliveryInfo = try Config.ConfigExportDeliveryInfo(dictionary: configHistoryDeliveryInfo) } else { self.configHistoryDeliveryInfo = nil }
-            if let configSnapshotDeliveryInfo = dictionary["configSnapshotDeliveryInfo"] as? [String: Any] { self.configSnapshotDeliveryInfo = try Config.ConfigExportDeliveryInfo(dictionary: configSnapshotDeliveryInfo) } else { self.configSnapshotDeliveryInfo = nil }
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case configStreamDeliveryInfo = "configStreamDeliveryInfo"
+            case configHistoryDeliveryInfo = "configHistoryDeliveryInfo"
+            case configSnapshotDeliveryInfo = "configSnapshotDeliveryInfo"
         }
     }
 
     public struct StartConfigRulesEvaluationResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ComplianceByConfigRule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Compliance", required: false, type: .structure), 
-            AWSShapeProperty(label: "ConfigRuleName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Compliance", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigRuleName", required: false, type: .string)
         ]
         /// Indicates whether the AWS Config rule is compliant.
         public let compliance: Compliance?
@@ -1482,18 +1363,17 @@ extension Config {
             self.configRuleName = configRuleName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let compliance = dictionary["Compliance"] as? [String: Any] { self.compliance = try Config.Compliance(dictionary: compliance) } else { self.compliance = nil }
-            self.configRuleName = dictionary["ConfigRuleName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case compliance = "Compliance"
+            case configRuleName = "ConfigRuleName"
         }
     }
 
     public struct GetResourceConfigHistoryResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "configurationItems", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "configurationItems", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// A list that contains the configuration history of one or more resources.
         public let configurationItems: [ConfigurationItem]?
@@ -1505,22 +1385,17 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationItems = dictionary["configurationItems"] as? [[String: Any]] {
-                self.configurationItems = try configurationItems.map({ try ConfigurationItem(dictionary: $0) })
-            } else { 
-                self.configurationItems = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationItems = "configurationItems"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ComplianceContributorCount: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CappedCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "CapExceeded", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CappedCount", required: false, type: .integer), 
+            AWSShapeMember(label: "CapExceeded", required: false, type: .boolean)
         ]
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
         public let cappedCount: Int32?
@@ -1532,17 +1407,16 @@ extension Config {
             self.capExceeded = capExceeded
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.cappedCount = dictionary["CappedCount"] as? Int32
-            self.capExceeded = dictionary["CapExceeded"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case cappedCount = "CappedCount"
+            case capExceeded = "CapExceeded"
         }
     }
 
     public struct DeleteConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
@@ -1551,26 +1425,24 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
-            self.configurationRecorderName = configurationRecorderName
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderName = "ConfigurationRecorderName"
         }
     }
 
     public struct GetResourceConfigHistoryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "laterTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceType", required: true, type: .enum), 
-            AWSShapeProperty(label: "chronologicalOrder", required: false, type: .enum), 
-            AWSShapeProperty(label: "earlierTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "resourceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "laterTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "limit", required: false, type: .integer), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "resourceType", required: true, type: .enum), 
+            AWSShapeMember(label: "chronologicalOrder", required: false, type: .enum), 
+            AWSShapeMember(label: "earlierTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "resourceId", required: true, type: .string)
         ]
         /// The time stamp that indicates a later time. If not specified, current time is taken.
-        public let laterTime: String?
+        public let laterTime: Double?
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1580,11 +1452,11 @@ extension Config {
         /// The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
-        public let earlierTime: String?
+        public let earlierTime: Double?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String
 
-        public init(laterTime: String? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: String? = nil, resourceId: String) {
+        public init(laterTime: Double? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Double? = nil, resourceId: String) {
             self.laterTime = laterTime
             self.limit = limit
             self.nextToken = nextToken
@@ -1594,27 +1466,24 @@ extension Config {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.laterTime = dictionary["laterTime"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let rawresourceType = dictionary["resourceType"] as? String, let resourceType = ResourceType(rawValue: rawresourceType) else { throw InitializableError.missingRequiredParam("resourceType") }
-            self.resourceType = resourceType
-            if let chronologicalOrder = dictionary["chronologicalOrder"] as? String { self.chronologicalOrder = ChronologicalOrder(rawValue: chronologicalOrder) } else { self.chronologicalOrder = nil }
-            self.earlierTime = dictionary["earlierTime"] as? String
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
-            self.resourceId = resourceId
+        private enum CodingKeys: String, CodingKey {
+            case laterTime = "laterTime"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
+            case chronologicalOrder = "chronologicalOrder"
+            case earlierTime = "earlierTime"
+            case resourceId = "resourceId"
         }
     }
 
     public struct Relationship: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "resourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "resourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "relationshipName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "resourceId", required: false, type: .string), 
+            AWSShapeMember(label: "resourceName", required: false, type: .string), 
+            AWSShapeMember(label: "relationshipName", required: false, type: .string)
         ]
         /// The resource type of the related resource.
         public let resourceType: ResourceType?
@@ -1632,20 +1501,19 @@ extension Config {
             self.relationshipName = relationshipName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceType = dictionary["resourceType"] as? String { self.resourceType = ResourceType(rawValue: resourceType) } else { self.resourceType = nil }
-            self.resourceId = dictionary["resourceId"] as? String
-            self.resourceName = dictionary["resourceName"] as? String
-            self.relationshipName = dictionary["relationshipName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case relationshipName = "relationshipName"
         }
     }
 
     public struct Compliance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ComplianceContributorCount", required: false, type: .structure), 
-            AWSShapeProperty(label: "ComplianceType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ComplianceContributorCount", required: false, type: .structure), 
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum)
         ]
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
         public let complianceContributorCount: ComplianceContributorCount?
@@ -1657,17 +1525,16 @@ extension Config {
             self.complianceType = complianceType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let complianceContributorCount = dictionary["ComplianceContributorCount"] as? [String: Any] { self.complianceContributorCount = try Config.ComplianceContributorCount(dictionary: complianceContributorCount) } else { self.complianceContributorCount = nil }
-            if let complianceType = dictionary["ComplianceType"] as? String { self.complianceType = ComplianceType(rawValue: complianceType) } else { self.complianceType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case complianceContributorCount = "ComplianceContributorCount"
+            case complianceType = "ComplianceType"
         }
     }
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorderNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderNames", required: false, type: .list)
         ]
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
         public let configurationRecorderNames: [String]?
@@ -1676,16 +1543,15 @@ extension Config {
             self.configurationRecorderNames = configurationRecorderNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configurationRecorderNames = dictionary["ConfigurationRecorderNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderNames = "ConfigurationRecorderNames"
         }
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "deliveryFrequency", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deliveryFrequency", required: false, type: .enum)
         ]
         /// The frequency with which AWS Config delivers configuration snapshots.
         public let deliveryFrequency: MaximumExecutionFrequency?
@@ -1694,12 +1560,12 @@ extension Config {
             self.deliveryFrequency = deliveryFrequency
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deliveryFrequency = dictionary["deliveryFrequency"] as? String { self.deliveryFrequency = MaximumExecutionFrequency(rawValue: deliveryFrequency) } else { self.deliveryFrequency = nil }
+        private enum CodingKeys: String, CodingKey {
+            case deliveryFrequency = "deliveryFrequency"
         }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible {
+    public enum RecorderStatus: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case success = "Success"
         case failure = "Failure"
@@ -1708,10 +1574,9 @@ extension Config {
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resourceIdentifiers", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceIdentifiers", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
         public let resourceIdentifiers: [ResourceIdentifier]?
@@ -1723,17 +1588,13 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resourceIdentifiers = dictionary["resourceIdentifiers"] as? [[String: Any]] {
-                self.resourceIdentifiers = try resourceIdentifiers.map({ try ResourceIdentifier(dictionary: $0) })
-            } else { 
-                self.resourceIdentifiers = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdentifiers = "resourceIdentifiers"
+            case nextToken = "nextToken"
         }
     }
 
-    public enum MessageType: String, CustomStringConvertible {
+    public enum MessageType: String, CustomStringConvertible, Codable {
         case configurationitemchangenotification = "ConfigurationItemChangeNotification"
         case configurationsnapshotdeliverycompleted = "ConfigurationSnapshotDeliveryCompleted"
         case schedulednotification = "ScheduledNotification"
@@ -1743,18 +1604,14 @@ extension Config {
 
     public struct DeleteEvaluationResultsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeConfigRulesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRules", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRules", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The details about your AWS Config rules.
         public let configRules: [ConfigRule]?
@@ -1766,17 +1623,13 @@ extension Config {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configRules = dictionary["ConfigRules"] as? [[String: Any]] {
-                self.configRules = try configRules.map({ try ConfigRule(dictionary: $0) })
-            } else { 
-                self.configRules = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configRules = "ConfigRules"
+            case nextToken = "NextToken"
         }
     }
 
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible {
+    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable {
         case one_hour = "One_Hour"
         case three_hours = "Three_Hours"
         case six_hours = "Six_Hours"
@@ -1787,21 +1640,20 @@ extension Config {
 
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EvaluationResultIdentifier", required: false, type: .structure), 
-            AWSShapeProperty(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ResultRecordedTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ComplianceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ResultToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Annotation", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EvaluationResultIdentifier", required: false, type: .structure), 
+            AWSShapeMember(label: "ConfigRuleInvokedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ResultRecordedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ComplianceType", required: false, type: .enum), 
+            AWSShapeMember(label: "ResultToken", required: false, type: .string), 
+            AWSShapeMember(label: "Annotation", required: false, type: .string)
         ]
         /// Uniquely identifies the evaluation result.
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: String?
+        public let configRuleInvokedTime: Double?
         /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: String?
+        public let resultRecordedTime: Double?
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
         public let complianceType: ComplianceType?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
@@ -1809,7 +1661,7 @@ extension Config {
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: String? = nil, resultRecordedTime: String? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
+        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: Double? = nil, resultRecordedTime: Double? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
             self.evaluationResultIdentifier = evaluationResultIdentifier
             self.configRuleInvokedTime = configRuleInvokedTime
             self.resultRecordedTime = resultRecordedTime
@@ -1818,17 +1670,17 @@ extension Config {
             self.annotation = annotation
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let evaluationResultIdentifier = dictionary["EvaluationResultIdentifier"] as? [String: Any] { self.evaluationResultIdentifier = try Config.EvaluationResultIdentifier(dictionary: evaluationResultIdentifier) } else { self.evaluationResultIdentifier = nil }
-            self.configRuleInvokedTime = dictionary["ConfigRuleInvokedTime"] as? String
-            self.resultRecordedTime = dictionary["ResultRecordedTime"] as? String
-            if let complianceType = dictionary["ComplianceType"] as? String { self.complianceType = ComplianceType(rawValue: complianceType) } else { self.complianceType = nil }
-            self.resultToken = dictionary["ResultToken"] as? String
-            self.annotation = dictionary["Annotation"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case evaluationResultIdentifier = "EvaluationResultIdentifier"
+            case configRuleInvokedTime = "ConfigRuleInvokedTime"
+            case resultRecordedTime = "ResultRecordedTime"
+            case complianceType = "ComplianceType"
+            case resultToken = "ResultToken"
+            case annotation = "Annotation"
         }
     }
 
-    public enum ConfigurationItemStatus: String, CustomStringConvertible {
+    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable {
         case ok = "Ok"
         case failed = "Failed"
         case discovered = "Discovered"
@@ -1838,13 +1690,12 @@ extension Config {
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Limit", required: false, type: .integer), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "ComplianceTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Limit", required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ComplianceTypes", required: false, type: .list)
         ]
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int32?
@@ -1865,20 +1716,19 @@ extension Config {
             self.complianceTypes = complianceTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.limit = dictionary["Limit"] as? Int32
-            self.resourceId = dictionary["ResourceId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
-            if let complianceTypes = dictionary["ComplianceTypes"] as? [String] { self.complianceTypes = complianceTypes.flatMap({ ComplianceType(rawValue: $0)}) } else { self.complianceTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case resourceId = "ResourceId"
+            case nextToken = "NextToken"
+            case resourceType = "ResourceType"
+            case complianceTypes = "ComplianceTypes"
         }
     }
 
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannelsStatus", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelsStatus", required: false, type: .list)
         ]
         /// A list that contains the status of a specified delivery channel.
         public let deliveryChannelsStatus: [DeliveryChannelStatus]?
@@ -1887,20 +1737,15 @@ extension Config {
             self.deliveryChannelsStatus = deliveryChannelsStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deliveryChannelsStatus = dictionary["DeliveryChannelsStatus"] as? [[String: Any]] {
-                self.deliveryChannelsStatus = try deliveryChannelsStatus.map({ try DeliveryChannelStatus(dictionary: $0) })
-            } else { 
-                self.deliveryChannelsStatus = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelsStatus = "DeliveryChannelsStatus"
         }
     }
 
     public struct PutEvaluationsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "FailedEvaluations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailedEvaluations", required: false, type: .list)
         ]
         /// Requests that failed because of a client or server error.
         public let failedEvaluations: [Evaluation]?
@@ -1909,16 +1754,12 @@ extension Config {
             self.failedEvaluations = failedEvaluations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let failedEvaluations = dictionary["FailedEvaluations"] as? [[String: Any]] {
-                self.failedEvaluations = try failedEvaluations.map({ try Evaluation(dictionary: $0) })
-            } else { 
-                self.failedEvaluations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case failedEvaluations = "FailedEvaluations"
         }
     }
 
-    public enum ChronologicalOrder: String, CustomStringConvertible {
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable {
         case reverse = "Reverse"
         case forward = "Forward"
         public var description: String { return self.rawValue }
@@ -1926,9 +1767,8 @@ extension Config {
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigRuleNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigRuleNames", required: false, type: .list)
         ]
         /// The list of names of Config rules that you want to run evaluations for.
         public let configRuleNames: [String]?
@@ -1937,16 +1777,15 @@ extension Config {
             self.configRuleNames = configRuleNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.configRuleNames = dictionary["ConfigRuleNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case configRuleNames = "ConfigRuleNames"
         }
     }
 
     public struct StartConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationRecorderName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationRecorderName", required: true, type: .string)
         ]
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
@@ -1955,17 +1794,15 @@ extension Config {
             self.configurationRecorderName = configurationRecorderName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let configurationRecorderName = dictionary["ConfigurationRecorderName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationRecorderName") }
-            self.configurationRecorderName = configurationRecorderName
+        private enum CodingKeys: String, CodingKey {
+            case configurationRecorderName = "ConfigurationRecorderName"
         }
     }
 
     public struct DeleteDeliveryChannelRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannelName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelName", required: true, type: .string)
         ]
         /// The name of the delivery channel to delete.
         public let deliveryChannelName: String
@@ -1974,17 +1811,15 @@ extension Config {
             self.deliveryChannelName = deliveryChannelName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let deliveryChannelName = dictionary["DeliveryChannelName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryChannelName") }
-            self.deliveryChannelName = deliveryChannelName
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelName = "DeliveryChannelName"
         }
     }
 
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeliveryChannelNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeliveryChannelNames", required: false, type: .list)
         ]
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
@@ -1993,30 +1828,29 @@ extension Config {
             self.deliveryChannelNames = deliveryChannelNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deliveryChannelNames = dictionary["DeliveryChannelNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case deliveryChannelNames = "DeliveryChannelNames"
         }
     }
 
     public struct ConfigurationRecorderStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatusChangeTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastStopTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "recording", required: false, type: .boolean), 
-            AWSShapeProperty(label: "lastErrorCode", required: false, type: .string), 
-            AWSShapeProperty(label: "lastStatus", required: false, type: .enum), 
-            AWSShapeProperty(label: "lastStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "lastErrorMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatusChangeTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastStopTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "recording", required: false, type: .boolean), 
+            AWSShapeMember(label: "lastErrorCode", required: false, type: .string), 
+            AWSShapeMember(label: "lastStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "lastStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "lastErrorMessage", required: false, type: .string)
         ]
         /// The name of the configuration recorder.
         public let name: String?
         /// The time when the status was last changed.
-        public let lastStatusChangeTime: String?
+        public let lastStatusChangeTime: Double?
         /// The time the recorder was last stopped.
-        public let lastStopTime: String?
+        public let lastStopTime: Double?
         /// Specifies whether the recorder is currently recording or not.
         public let recording: Bool?
         /// The error code indicating that the recording failed.
@@ -2024,11 +1858,11 @@ extension Config {
         /// The last (previous) status of the recorder.
         public let lastStatus: RecorderStatus?
         /// The time the recorder was last started.
-        public let lastStartTime: String?
+        public let lastStartTime: Double?
         /// The message indicating that the recording failed due to an error.
         public let lastErrorMessage: String?
 
-        public init(name: String? = nil, lastStatusChangeTime: String? = nil, lastStopTime: String? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: String? = nil, lastErrorMessage: String? = nil) {
+        public init(name: String? = nil, lastStatusChangeTime: Double? = nil, lastStopTime: Double? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: Double? = nil, lastErrorMessage: String? = nil) {
             self.name = name
             self.lastStatusChangeTime = lastStatusChangeTime
             self.lastStopTime = lastStopTime
@@ -2039,25 +1873,24 @@ extension Config {
             self.lastErrorMessage = lastErrorMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.lastStatusChangeTime = dictionary["lastStatusChangeTime"] as? String
-            self.lastStopTime = dictionary["lastStopTime"] as? String
-            self.recording = dictionary["recording"] as? Bool
-            self.lastErrorCode = dictionary["lastErrorCode"] as? String
-            if let lastStatus = dictionary["lastStatus"] as? String { self.lastStatus = RecorderStatus(rawValue: lastStatus) } else { self.lastStatus = nil }
-            self.lastStartTime = dictionary["lastStartTime"] as? String
-            self.lastErrorMessage = dictionary["lastErrorMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case lastStatusChangeTime = "lastStatusChangeTime"
+            case lastStopTime = "lastStopTime"
+            case recording = "recording"
+            case lastErrorCode = "lastErrorCode"
+            case lastStatus = "lastStatus"
+            case lastStartTime = "lastStartTime"
+            case lastErrorMessage = "lastErrorMessage"
         }
     }
 
     public struct ConfigurationRecorder: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "recordingGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "roleARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "recordingGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "roleARN", required: false, type: .string)
         ]
         /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
         public let name: String?
@@ -2072,20 +1905,19 @@ extension Config {
             self.roleARN = roleARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            if let recordingGroup = dictionary["recordingGroup"] as? [String: Any] { self.recordingGroup = try Config.RecordingGroup(dictionary: recordingGroup) } else { self.recordingGroup = nil }
-            self.roleARN = dictionary["roleARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case recordingGroup = "recordingGroup"
+            case roleARN = "roleARN"
         }
     }
 
     public struct PutEvaluationsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Evaluations", required: false, type: .list), 
-            AWSShapeProperty(label: "ResultToken", required: true, type: .string), 
-            AWSShapeProperty(label: "TestMode", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Evaluations", required: false, type: .list), 
+            AWSShapeMember(label: "ResultToken", required: true, type: .string), 
+            AWSShapeMember(label: "TestMode", required: false, type: .boolean)
         ]
         /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
         public let evaluations: [Evaluation]?
@@ -2100,15 +1932,10 @@ extension Config {
             self.testMode = testMode
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let evaluations = dictionary["Evaluations"] as? [[String: Any]] {
-                self.evaluations = try evaluations.map({ try Evaluation(dictionary: $0) })
-            } else { 
-                self.evaluations = nil
-            }
-            guard let resultToken = dictionary["ResultToken"] as? String else { throw InitializableError.missingRequiredParam("ResultToken") }
-            self.resultToken = resultToken
-            self.testMode = dictionary["TestMode"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case evaluations = "Evaluations"
+            case resultToken = "ResultToken"
+            case testMode = "TestMode"
         }
     }
 

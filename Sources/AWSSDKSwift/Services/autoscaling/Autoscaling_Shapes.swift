@@ -31,10 +31,9 @@ extension Autoscaling {
 
     public struct LaunchConfigurationsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchConfigurations", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchConfigurations", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The launch configurations.
         public let launchConfigurations: [LaunchConfiguration]
@@ -46,18 +45,16 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let launchConfigurations = dictionary["LaunchConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("LaunchConfigurations") }
-            self.launchConfigurations = try launchConfigurations.map({ try LaunchConfiguration(dictionary: $0) })
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurations = "LaunchConfigurations"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ActivityType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Activity", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activity", required: false, type: .structure)
         ]
         /// A scaling activity.
         public let activity: Activity?
@@ -66,16 +63,15 @@ extension Autoscaling {
             self.activity = activity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let activity = dictionary["Activity"] as? [String: Any] { self.activity = try Autoscaling.Activity(dictionary: activity) } else { self.activity = nil }
+        private enum CodingKeys: String, CodingKey {
+            case activity = "Activity"
         }
     }
 
     public struct ProcessType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProcessName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessName", required: true, type: .string)
         ]
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
         public let processName: String
@@ -84,32 +80,27 @@ extension Autoscaling {
             self.processName = processName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let processName = dictionary["ProcessName"] as? String else { throw InitializableError.missingRequiredParam("ProcessName") }
-            self.processName = processName
+        private enum CodingKeys: String, CodingKey {
+            case processName = "ProcessName"
         }
     }
 
     public struct DeleteLifecycleHookAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PutLifecycleHookType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationTargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationMetadata", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultResult", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "HeartbeatTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleTransition", required: false, type: .string), 
-            AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string)
         ]
         /// The ARN of the notification target that Auto Scaling will use to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key/value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Auto Scaling sends it a test message. Test messages contains the following additional key/value pair: "Event": "autoscaling:TEST_NOTIFICATION".
         public let notificationTargetARN: String?
@@ -139,27 +130,24 @@ extension Autoscaling {
             self.lifecycleHookName = lifecycleHookName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notificationTargetARN = dictionary["NotificationTargetARN"] as? String
-            self.notificationMetadata = dictionary["NotificationMetadata"] as? String
-            self.defaultResult = dictionary["DefaultResult"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.heartbeatTimeout = dictionary["HeartbeatTimeout"] as? Int32
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.lifecycleTransition = dictionary["LifecycleTransition"] as? String
-            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
-            self.lifecycleHookName = lifecycleHookName
+        private enum CodingKeys: String, CodingKey {
+            case notificationTargetARN = "NotificationTargetARN"
+            case notificationMetadata = "NotificationMetadata"
+            case defaultResult = "DefaultResult"
+            case roleARN = "RoleARN"
+            case heartbeatTimeout = "HeartbeatTimeout"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleTransition = "LifecycleTransition"
+            case lifecycleHookName = "LifecycleHookName"
         }
     }
 
     public struct LaunchConfigurationNamesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchConfigurationNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationNames", required: false, type: .list)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -174,19 +162,18 @@ extension Autoscaling {
             self.launchConfigurationNames = launchConfigurationNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.launchConfigurationNames = dictionary["LaunchConfigurationNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case launchConfigurationNames = "LaunchConfigurationNames"
         }
     }
 
     public struct DescribeNotificationConfigurationsAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationConfigurations", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationConfigurations", required: true, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -198,30 +185,28 @@ extension Autoscaling {
             self.notificationConfigurations = notificationConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let notificationConfigurations = dictionary["NotificationConfigurations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("NotificationConfigurations") }
-            self.notificationConfigurations = try notificationConfigurations.map({ try NotificationConfiguration(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notificationConfigurations = "NotificationConfigurations"
         }
     }
 
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MinAdjustmentStep", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyType", required: false, type: .string), 
-            AWSShapeProperty(label: "AdjustmentType", required: false, type: .string), 
-            AWSShapeProperty(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyName", required: false, type: .string), 
-            AWSShapeProperty(label: "MetricAggregationType", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyARN", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeProperty(label: "StepAdjustments", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .string), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string), 
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyARN", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list)
         ]
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public let minAdjustmentStep: Int32?
@@ -266,37 +251,28 @@ extension Autoscaling {
             self.stepAdjustments = stepAdjustments
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.minAdjustmentStep = dictionary["MinAdjustmentStep"] as? Int32
-            self.policyType = dictionary["PolicyType"] as? String
-            self.adjustmentType = dictionary["AdjustmentType"] as? String
-            self.cooldown = dictionary["Cooldown"] as? Int32
-            self.minAdjustmentMagnitude = dictionary["MinAdjustmentMagnitude"] as? Int32
-            self.policyName = dictionary["PolicyName"] as? String
-            self.metricAggregationType = dictionary["MetricAggregationType"] as? String
-            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
-            self.policyARN = dictionary["PolicyARN"] as? String
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            if let alarms = dictionary["Alarms"] as? [[String: Any]] {
-                self.alarms = try alarms.map({ try Alarm(dictionary: $0) })
-            } else { 
-                self.alarms = nil
-            }
-            self.estimatedInstanceWarmup = dictionary["EstimatedInstanceWarmup"] as? Int32
-            if let stepAdjustments = dictionary["StepAdjustments"] as? [[String: Any]] {
-                self.stepAdjustments = try stepAdjustments.map({ try StepAdjustment(dictionary: $0) })
-            } else { 
-                self.stepAdjustments = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case minAdjustmentStep = "MinAdjustmentStep"
+            case policyType = "PolicyType"
+            case adjustmentType = "AdjustmentType"
+            case cooldown = "Cooldown"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+            case policyName = "PolicyName"
+            case metricAggregationType = "MetricAggregationType"
+            case scalingAdjustment = "ScalingAdjustment"
+            case policyARN = "PolicyARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case alarms = "Alarms"
+            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
+            case stepAdjustments = "StepAdjustments"
         }
     }
 
     public struct DetachLoadBalancersType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more load balancer names.
         public let loadBalancerNames: [String]
@@ -308,19 +284,16 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
-            self.loadBalancerNames = loadBalancerNames
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct AdjustmentType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AdjustmentType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdjustmentType", required: false, type: .string)
         ]
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
@@ -329,22 +302,21 @@ extension Autoscaling {
             self.adjustmentType = adjustmentType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.adjustmentType = dictionary["AdjustmentType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentType = "AdjustmentType"
         }
     }
 
     public struct AutoScalingInstanceDetails: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleState", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
-            AWSShapeProperty(label: "HealthStatus", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleState", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string)
         ]
         /// The launch configuration used to launch the instance. This value is not available if you attached the instance to the Auto Scaling group.
         public let launchConfigurationName: String
@@ -371,50 +343,42 @@ extension Autoscaling {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
-            self.launchConfigurationName = launchConfigurationName
-            guard let lifecycleState = dictionary["LifecycleState"] as? String else { throw InitializableError.missingRequiredParam("LifecycleState") }
-            self.lifecycleState = lifecycleState
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
-            self.protectedFromScaleIn = protectedFromScaleIn
-            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
-            self.healthStatus = healthStatus
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
-            self.availabilityZone = availabilityZone
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationName = "LaunchConfigurationName"
+            case lifecycleState = "LifecycleState"
+            case instanceId = "InstanceId"
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case healthStatus = "HealthStatus"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct PutScheduledUpdateGroupActionType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Time", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Recurrence", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .string)
         ]
         /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Auto Scaling returns an error message.
-        public let startTime: String?
+        public let startTime: Double?
         /// The minimum size for the Auto Scaling group.
         public let minSize: Int32?
         /// This parameter is deprecated.
-        public let time: String?
+        public let time: Double?
         /// The maximum size for the Auto Scaling group.
         public let maxSize: Int32?
         /// The number of EC2 instances that should be running in the group.
         public let desiredCapacity: Int32?
         /// The time for the recurring schedule to end. Auto Scaling does not perform the action after this time.
-        public let endTime: String?
+        public let endTime: Double?
         /// The name of this scaling action.
         public let scheduledActionName: String
         /// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -422,7 +386,7 @@ extension Autoscaling {
         /// The recurring schedule for this action, in Unix cron syntax format. For more information, see Cron in Wikipedia.
         public let recurrence: String?
 
-        public init(startTime: String? = nil, minSize: Int32? = nil, time: String? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: String? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
+        public init(startTime: Double? = nil, minSize: Int32? = nil, time: Double? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Double? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
             self.startTime = startTime
             self.minSize = minSize
             self.time = time
@@ -434,28 +398,25 @@ extension Autoscaling {
             self.recurrence = recurrence
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.minSize = dictionary["MinSize"] as? Int32
-            self.time = dictionary["Time"] as? String
-            self.maxSize = dictionary["MaxSize"] as? Int32
-            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
-            self.endTime = dictionary["EndTime"] as? String
-            guard let scheduledActionName = dictionary["ScheduledActionName"] as? String else { throw InitializableError.missingRequiredParam("ScheduledActionName") }
-            self.scheduledActionName = scheduledActionName
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.recurrence = dictionary["Recurrence"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case minSize = "MinSize"
+            case time = "Time"
+            case maxSize = "MaxSize"
+            case desiredCapacity = "DesiredCapacity"
+            case endTime = "EndTime"
+            case scheduledActionName = "ScheduledActionName"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case recurrence = "Recurrence"
         }
     }
 
     public struct AutoScalingGroupNamesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -470,38 +431,37 @@ extension Autoscaling {
             self.autoScalingGroupNames = autoScalingGroupNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.autoScalingGroupNames = dictionary["AutoScalingGroupNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case autoScalingGroupNames = "AutoScalingGroupNames"
         }
     }
 
     public struct DescribeScheduledActionsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ScheduledActionNames", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledActionNames", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let startTime: String?
+        public let startTime: Double?
         /// Describes one or more scheduled actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. You can describe up to a maximum of 50 instances with a single call. If there are more items to return, the call returns a token. To get the next set of items, repeat the call with the returned token.
         public let scheduledActionNames: [String]?
         /// The name of the group.
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let endTime: String?
+        public let endTime: Double?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(maxRecords: Int32? = nil, startTime: String? = nil, scheduledActionNames: [String]? = nil, autoScalingGroupName: String? = nil, endTime: String? = nil, nextToken: String? = nil) {
+        public init(maxRecords: Int32? = nil, startTime: Double? = nil, scheduledActionNames: [String]? = nil, autoScalingGroupName: String? = nil, endTime: Double? = nil, nextToken: String? = nil) {
             self.maxRecords = maxRecords
             self.startTime = startTime
             self.scheduledActionNames = scheduledActionNames
@@ -510,22 +470,21 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.startTime = dictionary["StartTime"] as? String
-            self.scheduledActionNames = dictionary["ScheduledActionNames"] as? [String]
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.endTime = dictionary["EndTime"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case startTime = "StartTime"
+            case scheduledActionNames = "ScheduledActionNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
         }
     }
 
     public struct LoadBalancerState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string)
         ]
         /// The name of the load balancer.
         public let loadBalancerName: String?
@@ -537,21 +496,20 @@ extension Autoscaling {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerName = dictionary["LoadBalancerName"] as? String
-            self.state = dictionary["State"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerName = "LoadBalancerName"
+            case state = "State"
         }
     }
 
     public struct ExecutePolicyType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string), 
-            AWSShapeProperty(label: "BreachThreshold", required: false, type: .double), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "HonorCooldown", required: false, type: .boolean), 
-            AWSShapeProperty(label: "MetricValue", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: true, type: .string), 
+            AWSShapeMember(label: "BreachThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean), 
+            AWSShapeMember(label: "MetricValue", required: false, type: .double)
         ]
         /// The name or ARN of the policy.
         public let policyName: String
@@ -572,22 +530,20 @@ extension Autoscaling {
             self.metricValue = metricValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
-            self.breachThreshold = dictionary["BreachThreshold"] as? Double
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.honorCooldown = dictionary["HonorCooldown"] as? Bool
-            self.metricValue = dictionary["MetricValue"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+            case breachThreshold = "BreachThreshold"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case honorCooldown = "HonorCooldown"
+            case metricValue = "MetricValue"
         }
     }
 
     public struct DisableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metrics", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metrics: [String]?
@@ -599,18 +555,16 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metrics = dictionary["Metrics"] as? [String]
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "Metrics"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingNotificationTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingNotificationTypes", required: false, type: .list)
         ]
         /// The notification types.
         public let autoScalingNotificationTypes: [String]?
@@ -619,20 +573,19 @@ extension Autoscaling {
             self.autoScalingNotificationTypes = autoScalingNotificationTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoScalingNotificationTypes = dictionary["AutoScalingNotificationTypes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingNotificationTypes = "AutoScalingNotificationTypes"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "PropagateAtLaunch", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
         /// The tag key.
         public let key: String
@@ -653,22 +606,20 @@ extension Autoscaling {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            self.propagateAtLaunch = dictionary["PropagateAtLaunch"] as? Bool
-            self.value = dictionary["Value"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.resourceId = dictionary["ResourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case propagateAtLaunch = "PropagateAtLaunch"
+            case value = "Value"
+            case resourceType = "ResourceType"
+            case resourceId = "ResourceId"
         }
     }
 
     public struct AttachLoadBalancersType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerNames", required: true, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerNames", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more load balancer names.
         public let loadBalancerNames: [String]
@@ -680,20 +631,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let loadBalancerNames = dictionary["LoadBalancerNames"] as? [String] else { throw InitializableError.missingRequiredParam("LoadBalancerNames") }
-            self.loadBalancerNames = loadBalancerNames
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerNames = "LoadBalancerNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct LoadBalancerTargetGroupState: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerTargetGroupARN", required: false, type: .string), 
-            AWSShapeProperty(label: "State", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerTargetGroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the target group.
         public let loadBalancerTargetGroupARN: String?
@@ -705,21 +653,20 @@ extension Autoscaling {
             self.state = state
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.loadBalancerTargetGroupARN = dictionary["LoadBalancerTargetGroupARN"] as? String
-            self.state = dictionary["State"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerTargetGroupARN = "LoadBalancerTargetGroupARN"
+            case state = "State"
         }
     }
 
     public struct TagDescription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Key", required: false, type: .string), 
-            AWSShapeProperty(label: "PropagateAtLaunch", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "PropagateAtLaunch", required: false, type: .boolean), 
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceId", required: false, type: .string)
         ]
         /// The tag key.
         public let key: String?
@@ -740,24 +687,23 @@ extension Autoscaling {
             self.resourceId = resourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.key = dictionary["Key"] as? String
-            self.propagateAtLaunch = dictionary["PropagateAtLaunch"] as? Bool
-            self.value = dictionary["Value"] as? String
-            self.resourceType = dictionary["ResourceType"] as? String
-            self.resourceId = dictionary["ResourceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case propagateAtLaunch = "PropagateAtLaunch"
+            case value = "Value"
+            case resourceType = "ResourceType"
+            case resourceId = "ResourceId"
         }
     }
 
     public struct CompleteLifecycleActionType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleActionToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LifecycleActionResult", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleActionResult", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The name of the group for the lifecycle hook.
         public let autoScalingGroupName: String
@@ -778,25 +724,21 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
-            self.lifecycleHookName = lifecycleHookName
-            self.lifecycleActionToken = dictionary["LifecycleActionToken"] as? String
-            guard let lifecycleActionResult = dictionary["LifecycleActionResult"] as? String else { throw InitializableError.missingRequiredParam("LifecycleActionResult") }
-            self.lifecycleActionResult = lifecycleActionResult
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleHookName = "LifecycleHookName"
+            case lifecycleActionToken = "LifecycleActionToken"
+            case lifecycleActionResult = "LifecycleActionResult"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct StepAdjustment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScalingAdjustment", required: true, type: .integer), 
-            AWSShapeProperty(label: "MetricIntervalUpperBound", required: false, type: .double), 
-            AWSShapeProperty(label: "MetricIntervalLowerBound", required: false, type: .double)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScalingAdjustment", required: true, type: .integer), 
+            AWSShapeMember(label: "MetricIntervalUpperBound", required: false, type: .double), 
+            AWSShapeMember(label: "MetricIntervalLowerBound", required: false, type: .double)
         ]
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int32
@@ -811,28 +753,23 @@ extension Autoscaling {
             self.metricIntervalLowerBound = metricIntervalLowerBound
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32 else { throw InitializableError.missingRequiredParam("ScalingAdjustment") }
-            self.scalingAdjustment = scalingAdjustment
-            self.metricIntervalUpperBound = dictionary["MetricIntervalUpperBound"] as? Double
-            self.metricIntervalLowerBound = dictionary["MetricIntervalLowerBound"] as? Double
+        private enum CodingKeys: String, CodingKey {
+            case scalingAdjustment = "ScalingAdjustment"
+            case metricIntervalUpperBound = "MetricIntervalUpperBound"
+            case metricIntervalLowerBound = "MetricIntervalLowerBound"
         }
     }
 
     public struct SetInstanceProtectionAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Alarm: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AlarmName", required: false, type: .string), 
-            AWSShapeProperty(label: "AlarmARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AlarmName", required: false, type: .string), 
+            AWSShapeMember(label: "AlarmARN", required: false, type: .string)
         ]
         /// The name of the alarm.
         public let alarmName: String?
@@ -844,22 +781,21 @@ extension Autoscaling {
             self.alarmARN = alarmARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.alarmName = dictionary["AlarmName"] as? String
-            self.alarmARN = dictionary["AlarmARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+            case alarmARN = "AlarmARN"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
-            AWSShapeProperty(label: "HealthStatus", required: true, type: .string), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleState", required: true, type: .enum), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleState", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: true, type: .string)
         ]
         /// Indicates whether the instance is protected from termination by Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -883,28 +819,21 @@ extension Autoscaling {
             self.availabilityZone = availabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
-            self.protectedFromScaleIn = protectedFromScaleIn
-            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
-            self.healthStatus = healthStatus
-            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
-            self.launchConfigurationName = launchConfigurationName
-            guard let rawLifecycleState = dictionary["LifecycleState"] as? String, let lifecycleState = LifecycleState(rawValue: rawLifecycleState) else { throw InitializableError.missingRequiredParam("LifecycleState") }
-            self.lifecycleState = lifecycleState
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let availabilityZone = dictionary["AvailabilityZone"] as? String else { throw InitializableError.missingRequiredParam("AvailabilityZone") }
-            self.availabilityZone = availabilityZone
+        private enum CodingKeys: String, CodingKey {
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case healthStatus = "HealthStatus"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case lifecycleState = "LifecycleState"
+            case instanceId = "InstanceId"
+            case availabilityZone = "AvailabilityZone"
         }
     }
 
     public struct ScalingProcessQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalingProcesses", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingProcesses", required: false, type: .list)
         ]
         /// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupName: String
@@ -916,19 +845,17 @@ extension Autoscaling {
             self.scalingProcesses = scalingProcesses
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.scalingProcesses = dictionary["ScalingProcesses"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case scalingProcesses = "ScalingProcesses"
         }
     }
 
     public struct ExitStandbyQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more instance IDs. You must specify at least one instance ID.
         public let instanceIds: [String]?
@@ -940,34 +867,32 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case instanceIds = "InstanceIds"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct CreateAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxSize", required: true, type: .integer), 
-            AWSShapeProperty(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "MinSize", required: true, type: .integer), 
-            AWSShapeProperty(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultCooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "LoadBalancerNames", required: false, type: .list), 
-            AWSShapeProperty(label: "HealthCheckType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
+            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckType", required: false, type: .string)
         ]
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets.
         public let availabilityZones: [String]?
@@ -1024,40 +949,32 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
-            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
-            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let maxSize = dictionary["MaxSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxSize") }
-            self.maxSize = maxSize
-            self.targetGroupARNs = dictionary["TargetGroupARNs"] as? [String]
-            guard let minSize = dictionary["MinSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MinSize") }
-            self.minSize = minSize
-            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
-            self.placementGroup = dictionary["PlacementGroup"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.defaultCooldown = dictionary["DefaultCooldown"] as? Int32
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
-            self.terminationPolicies = dictionary["TerminationPolicies"] as? [String]
-            self.loadBalancerNames = dictionary["LoadBalancerNames"] as? [String]
-            self.healthCheckType = dictionary["HealthCheckType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case tags = "Tags"
+            case maxSize = "MaxSize"
+            case targetGroupARNs = "TargetGroupARNs"
+            case minSize = "MinSize"
+            case desiredCapacity = "DesiredCapacity"
+            case placementGroup = "PlacementGroup"
+            case instanceId = "InstanceId"
+            case defaultCooldown = "DefaultCooldown"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case terminationPolicies = "TerminationPolicies"
+            case loadBalancerNames = "LoadBalancerNames"
+            case healthCheckType = "HealthCheckType"
         }
     }
 
     public struct TagsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -1069,23 +986,18 @@ extension Autoscaling {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try TagDescription(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct PutNotificationConfigurationType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationTypes", required: true, type: .list), 
-            AWSShapeProperty(label: "TopicARN", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationTypes", required: true, type: .list), 
+            AWSShapeMember(label: "TopicARN", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The type of event that will cause the notification to be sent. For details about notification types supported by Auto Scaling, see DescribeAutoScalingNotificationTypes.
         public let notificationTypes: [String]
@@ -1100,22 +1012,18 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let notificationTypes = dictionary["NotificationTypes"] as? [String] else { throw InitializableError.missingRequiredParam("NotificationTypes") }
-            self.notificationTypes = notificationTypes
-            guard let topicARN = dictionary["TopicARN"] as? String else { throw InitializableError.missingRequiredParam("TopicARN") }
-            self.topicARN = topicARN
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case notificationTypes = "NotificationTypes"
+            case topicARN = "TopicARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct EnabledMetric: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Granularity", required: false, type: .string), 
-            AWSShapeProperty(label: "Metric", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularity", required: false, type: .string), 
+            AWSShapeMember(label: "Metric", required: false, type: .string)
         ]
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
@@ -1127,17 +1035,16 @@ extension Autoscaling {
             self.metric = metric
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.granularity = dictionary["Granularity"] as? String
-            self.metric = dictionary["Metric"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case granularity = "Granularity"
+            case metric = "Metric"
         }
     }
 
     public struct MetricGranularityType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Granularity", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularity", required: false, type: .string)
         ]
         /// The granularity. The only valid value is 1Minute.
         public let granularity: String?
@@ -1146,32 +1053,31 @@ extension Autoscaling {
             self.granularity = granularity
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.granularity = dictionary["Granularity"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case granularity = "Granularity"
         }
     }
 
     public struct ScheduledUpdateGroupAction: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ScheduledActionARN", required: false, type: .string), 
-            AWSShapeProperty(label: "Time", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ScheduledActionName", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Recurrence", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledActionARN", required: false, type: .string), 
+            AWSShapeMember(label: "Time", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ScheduledActionName", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Recurrence", required: false, type: .string)
         ]
         /// The date and time that the action is scheduled to begin. This date and time can be up to one month in the future. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action will start and stop.
-        public let startTime: String?
+        public let startTime: Double?
         /// The Amazon Resource Name (ARN) of the scheduled action.
         public let scheduledActionARN: String?
         /// This parameter is deprecated.
-        public let time: String?
+        public let time: Double?
         /// The minimum size of the group.
         public let minSize: Int32?
         /// The maximum size of the group.
@@ -1179,7 +1085,7 @@ extension Autoscaling {
         /// The number of instances you prefer to maintain in the group.
         public let desiredCapacity: Int32?
         /// The date and time that the action is scheduled to end. This date and time can be up to one month in the future.
-        public let endTime: String?
+        public let endTime: Double?
         /// The name of the scheduled action.
         public let scheduledActionName: String?
         /// The name of the group.
@@ -1187,7 +1093,7 @@ extension Autoscaling {
         /// The recurring schedule for the action.
         public let recurrence: String?
 
-        public init(startTime: String? = nil, scheduledActionARN: String? = nil, time: String? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: String? = nil, scheduledActionName: String? = nil, autoScalingGroupName: String? = nil, recurrence: String? = nil) {
+        public init(startTime: Double? = nil, scheduledActionARN: String? = nil, time: Double? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Double? = nil, scheduledActionName: String? = nil, autoScalingGroupName: String? = nil, recurrence: String? = nil) {
             self.startTime = startTime
             self.scheduledActionARN = scheduledActionARN
             self.time = time
@@ -1200,26 +1106,25 @@ extension Autoscaling {
             self.recurrence = recurrence
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.scheduledActionARN = dictionary["ScheduledActionARN"] as? String
-            self.time = dictionary["Time"] as? String
-            self.minSize = dictionary["MinSize"] as? Int32
-            self.maxSize = dictionary["MaxSize"] as? Int32
-            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
-            self.endTime = dictionary["EndTime"] as? String
-            self.scheduledActionName = dictionary["ScheduledActionName"] as? String
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.recurrence = dictionary["Recurrence"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case scheduledActionARN = "ScheduledActionARN"
+            case time = "Time"
+            case minSize = "MinSize"
+            case maxSize = "MaxSize"
+            case desiredCapacity = "DesiredCapacity"
+            case endTime = "EndTime"
+            case scheduledActionName = "ScheduledActionName"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case recurrence = "Recurrence"
         }
     }
 
     public struct DeletePolicyType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -1231,18 +1136,16 @@ extension Autoscaling {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case policyName = "PolicyName"
         }
     }
 
     public struct ProcessesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Processes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Processes", required: false, type: .list)
         ]
         /// The names of the process types.
         public let processes: [ProcessType]?
@@ -1251,21 +1154,16 @@ extension Autoscaling {
             self.processes = processes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let processes = dictionary["Processes"] as? [[String: Any]] {
-                self.processes = try processes.map({ try ProcessType(dictionary: $0) })
-            } else { 
-                self.processes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case processes = "Processes"
         }
     }
 
     public struct AttachInstancesQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// One or more instance IDs.
         public let instanceIds: [String]?
@@ -1277,19 +1175,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case instanceIds = "InstanceIds"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct AutoScalingGroupsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroups", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroups", required: true, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -1301,39 +1197,37 @@ extension Autoscaling {
             self.autoScalingGroups = autoScalingGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let autoScalingGroups = dictionary["AutoScalingGroups"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AutoScalingGroups") }
-            self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case autoScalingGroups = "AutoScalingGroups"
         }
     }
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: true, type: .list), 
-            AWSShapeProperty(label: "EnabledMetrics", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxSize", required: true, type: .integer), 
-            AWSShapeProperty(label: "SuspendedProcesses", required: false, type: .list), 
-            AWSShapeProperty(label: "TargetGroupARNs", required: false, type: .list), 
-            AWSShapeProperty(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "MinSize", required: true, type: .integer), 
-            AWSShapeProperty(label: "DesiredCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupARN", required: false, type: .string), 
-            AWSShapeProperty(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultCooldown", required: true, type: .integer), 
-            AWSShapeProperty(label: "Instances", required: false, type: .list), 
-            AWSShapeProperty(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "LoadBalancerNames", required: false, type: .list), 
-            AWSShapeProperty(label: "HealthCheckType", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: true, type: .list), 
+            AWSShapeMember(label: "EnabledMetrics", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "MaxSize", required: true, type: .integer), 
+            AWSShapeMember(label: "SuspendedProcesses", required: false, type: .list), 
+            AWSShapeMember(label: "TargetGroupARNs", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "MinSize", required: true, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupARN", required: false, type: .string), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultCooldown", required: true, type: .integer), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LoadBalancerNames", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckType", required: true, type: .string)
         ]
         /// One or more Availability Zones for the group.
         public let availabilityZones: [String]
@@ -1354,7 +1248,7 @@ extension Autoscaling {
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         public let targetGroupARNs: [String]?
         /// The date and time the group was created.
-        public let createdTime: String
+        public let createdTime: Double
         /// The current state of the group when DeleteAutoScalingGroup is in progress.
         public let status: String?
         /// The minimum size of the group.
@@ -1380,7 +1274,7 @@ extension Autoscaling {
         /// The service to use for the health checks. The valid values are EC2 and ELB.
         public let healthCheckType: String
 
-        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, targetGroupARNs: [String]? = nil, createdTime: String, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, instances: [Instance]? = nil, terminationPolicies: [String]? = nil, healthCheckGracePeriod: Int32? = nil, autoScalingGroupName: String, loadBalancerNames: [String]? = nil, healthCheckType: String) {
+        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, targetGroupARNs: [String]? = nil, createdTime: Double, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, instances: [Instance]? = nil, terminationPolicies: [String]? = nil, healthCheckGracePeriod: Int32? = nil, autoScalingGroupName: String, loadBalancerNames: [String]? = nil, healthCheckType: String) {
             self.availabilityZones = availabilityZones
             self.enabledMetrics = enabledMetrics
             self.launchConfigurationName = launchConfigurationName
@@ -1405,61 +1299,36 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let availabilityZones = dictionary["AvailabilityZones"] as? [String] else { throw InitializableError.missingRequiredParam("AvailabilityZones") }
-            self.availabilityZones = availabilityZones
-            if let enabledMetrics = dictionary["EnabledMetrics"] as? [[String: Any]] {
-                self.enabledMetrics = try enabledMetrics.map({ try EnabledMetric(dictionary: $0) })
-            } else { 
-                self.enabledMetrics = nil
-            }
-            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
-            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
-            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try TagDescription(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            guard let maxSize = dictionary["MaxSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxSize") }
-            self.maxSize = maxSize
-            if let suspendedProcesses = dictionary["SuspendedProcesses"] as? [[String: Any]] {
-                self.suspendedProcesses = try suspendedProcesses.map({ try SuspendedProcess(dictionary: $0) })
-            } else { 
-                self.suspendedProcesses = nil
-            }
-            self.targetGroupARNs = dictionary["TargetGroupARNs"] as? [String]
-            guard let createdTime = dictionary["CreatedTime"] as? String else { throw InitializableError.missingRequiredParam("CreatedTime") }
-            self.createdTime = createdTime
-            self.status = dictionary["Status"] as? String
-            guard let minSize = dictionary["MinSize"] as? Int32 else { throw InitializableError.missingRequiredParam("MinSize") }
-            self.minSize = minSize
-            guard let desiredCapacity = dictionary["DesiredCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredCapacity") }
-            self.desiredCapacity = desiredCapacity
-            self.autoScalingGroupARN = dictionary["AutoScalingGroupARN"] as? String
-            self.placementGroup = dictionary["PlacementGroup"] as? String
-            guard let defaultCooldown = dictionary["DefaultCooldown"] as? Int32 else { throw InitializableError.missingRequiredParam("DefaultCooldown") }
-            self.defaultCooldown = defaultCooldown
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
-            self.terminationPolicies = dictionary["TerminationPolicies"] as? [String]
-            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.loadBalancerNames = dictionary["LoadBalancerNames"] as? [String]
-            guard let healthCheckType = dictionary["HealthCheckType"] as? String else { throw InitializableError.missingRequiredParam("HealthCheckType") }
-            self.healthCheckType = healthCheckType
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case enabledMetrics = "EnabledMetrics"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case tags = "Tags"
+            case maxSize = "MaxSize"
+            case suspendedProcesses = "SuspendedProcesses"
+            case targetGroupARNs = "TargetGroupARNs"
+            case createdTime = "CreatedTime"
+            case status = "Status"
+            case minSize = "MinSize"
+            case desiredCapacity = "DesiredCapacity"
+            case autoScalingGroupARN = "AutoScalingGroupARN"
+            case placementGroup = "PlacementGroup"
+            case defaultCooldown = "DefaultCooldown"
+            case instances = "Instances"
+            case terminationPolicies = "TerminationPolicies"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case loadBalancerNames = "LoadBalancerNames"
+            case healthCheckType = "HealthCheckType"
         }
     }
 
     public struct DescribeLifecycleHookTypesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LifecycleHookTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHookTypes", required: false, type: .list)
         ]
         /// The lifecycle hook types.
         public let lifecycleHookTypes: [String]?
@@ -1468,18 +1337,17 @@ extension Autoscaling {
             self.lifecycleHookTypes = lifecycleHookTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lifecycleHookTypes = dictionary["LifecycleHookTypes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHookTypes = "LifecycleHookTypes"
         }
     }
 
     public struct DescribeNotificationConfigurationsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupNames", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupNames", required: false, type: .list)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -1494,23 +1362,22 @@ extension Autoscaling {
             self.autoScalingGroupNames = autoScalingGroupNames
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.autoScalingGroupNames = dictionary["AutoScalingGroupNames"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case autoScalingGroupNames = "AutoScalingGroupNames"
         }
     }
 
     public struct Ebs: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "Encrypted", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean)
         ]
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -1534,23 +1401,22 @@ extension Autoscaling {
             self.encrypted = encrypted
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.volumeSize = dictionary["VolumeSize"] as? Int32
-            self.iops = dictionary["Iops"] as? Int32
-            self.encrypted = dictionary["Encrypted"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case deleteOnTermination = "DeleteOnTermination"
+            case volumeType = "VolumeType"
+            case volumeSize = "VolumeSize"
+            case iops = "Iops"
+            case encrypted = "Encrypted"
         }
     }
 
     public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -1565,15 +1431,14 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible {
+    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
         case pendingspotbidplacement = "PendingSpotBidPlacement"
         case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
         case waitingforspotinstanceid = "WaitingForSpotInstanceId"
@@ -1591,12 +1456,11 @@ extension Autoscaling {
 
     public struct DescribeScalingActivitiesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "ActivityIds", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ActivityIds", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The maximum number of items to return with this call. The default value is 100.
         public let maxRecords: Int32?
@@ -1614,21 +1478,20 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.activityIds = dictionary["ActivityIds"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case activityIds = "ActivityIds"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DetachInstancesQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
         /// If True, the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public let shouldDecrementDesiredCapacity: Bool
@@ -1643,24 +1506,21 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct DescribePoliciesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "PolicyTypes", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyTypes", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -1681,21 +1541,20 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.policyTypes = dictionary["PolicyTypes"] as? [String]
-            self.policyNames = dictionary["PolicyNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case policyTypes = "PolicyTypes"
+            case policyNames = "PolicyNames"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DeleteNotificationConfigurationType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicARN", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicARN", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
         public let topicARN: String
@@ -1707,20 +1566,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let topicARN = dictionary["TopicARN"] as? String else { throw InitializableError.missingRequiredParam("TopicARN") }
-            self.topicARN = topicARN
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case topicARN = "TopicARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct PoliciesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScalingPolicies", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScalingPolicies", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -1732,29 +1588,21 @@ extension Autoscaling {
             self.scalingPolicies = scalingPolicies
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let scalingPolicies = dictionary["ScalingPolicies"] as? [[String: Any]] {
-                self.scalingPolicies = try scalingPolicies.map({ try ScalingPolicy(dictionary: $0) })
-            } else { 
-                self.scalingPolicies = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scalingPolicies = "ScalingPolicies"
         }
     }
 
     public struct PutLifecycleHookAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct LaunchConfigurationNameType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string)
         ]
         /// The name of the launch configuration.
         public let launchConfigurationName: String
@@ -1763,20 +1611,18 @@ extension Autoscaling {
             self.launchConfigurationName = launchConfigurationName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
-            self.launchConfigurationName = launchConfigurationName
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationName = "LaunchConfigurationName"
         }
     }
 
     public struct DescribeAccountLimitsAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer), 
-            AWSShapeProperty(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
-            AWSShapeProperty(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxNumberOfLaunchConfigurations", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfLaunchConfigurations", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfAutoScalingGroups", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxNumberOfAutoScalingGroups", required: false, type: .integer)
         ]
         /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
         public let maxNumberOfLaunchConfigurations: Int32?
@@ -1794,27 +1640,23 @@ extension Autoscaling {
             self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxNumberOfLaunchConfigurations = dictionary["MaxNumberOfLaunchConfigurations"] as? Int32
-            self.numberOfLaunchConfigurations = dictionary["NumberOfLaunchConfigurations"] as? Int32
-            self.numberOfAutoScalingGroups = dictionary["NumberOfAutoScalingGroups"] as? Int32
-            self.maxNumberOfAutoScalingGroups = dictionary["MaxNumberOfAutoScalingGroups"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
+            case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
+            case numberOfAutoScalingGroups = "NumberOfAutoScalingGroups"
+            case maxNumberOfAutoScalingGroups = "MaxNumberOfAutoScalingGroups"
         }
     }
 
     public struct CompleteLifecycleActionAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct PolicyARNType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "PolicyARN", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyARN", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the policy.
         public let policyARN: String?
@@ -1823,17 +1665,16 @@ extension Autoscaling {
             self.policyARN = policyARN
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.policyARN = dictionary["PolicyARN"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case policyARN = "PolicyARN"
         }
     }
 
     public struct SuspendedProcess: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProcessName", required: false, type: .string), 
-            AWSShapeProperty(label: "SuspensionReason", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProcessName", required: false, type: .string), 
+            AWSShapeMember(label: "SuspensionReason", required: false, type: .string)
         ]
         /// The name of the suspended process.
         public let processName: String?
@@ -1845,34 +1686,33 @@ extension Autoscaling {
             self.suspensionReason = suspensionReason
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.processName = dictionary["ProcessName"] as? String
-            self.suspensionReason = dictionary["SuspensionReason"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case processName = "ProcessName"
+            case suspensionReason = "SuspensionReason"
         }
     }
 
     public struct CreateLaunchConfigurationType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeProperty(label: "UserData", required: false, type: .string), 
-            AWSShapeProperty(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SpotPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "KernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceMonitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "PlacementTenancy", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "KeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RamdiskId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "UserData", required: false, type: .string), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
+            AWSShapeMember(label: "KernelId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
+            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean), 
+            AWSShapeMember(label: "RamdiskId", required: false, type: .string)
         ]
         /// One or more mappings that specify how block devices are exposed to the instance. For more information, see Block Device Mapping in the Amazon Elastic Compute Cloud User Guide.
         public let blockDeviceMappings: [BlockDeviceMapping]?
@@ -1932,38 +1772,32 @@ extension Autoscaling {
             self.ramdiskId = ramdiskId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
-                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
-            } else { 
-                self.blockDeviceMappings = nil
-            }
-            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
-            self.launchConfigurationName = launchConfigurationName
-            self.userData = dictionary["UserData"] as? String
-            self.classicLinkVPCSecurityGroups = dictionary["ClassicLinkVPCSecurityGroups"] as? [String]
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.spotPrice = dictionary["SpotPrice"] as? String
-            self.kernelId = dictionary["KernelId"] as? String
-            if let instanceMonitoring = dictionary["InstanceMonitoring"] as? [String: Any] { self.instanceMonitoring = try Autoscaling.InstanceMonitoring(dictionary: instanceMonitoring) } else { self.instanceMonitoring = nil }
-            self.classicLinkVPCId = dictionary["ClassicLinkVPCId"] as? String
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.placementTenancy = dictionary["PlacementTenancy"] as? String
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            self.keyName = dictionary["KeyName"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
-            self.imageId = dictionary["ImageId"] as? String
-            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
-            self.ramdiskId = dictionary["RamdiskId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case userData = "UserData"
+            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
+            case ebsOptimized = "EbsOptimized"
+            case spotPrice = "SpotPrice"
+            case kernelId = "KernelId"
+            case instanceMonitoring = "InstanceMonitoring"
+            case classicLinkVPCId = "ClassicLinkVPCId"
+            case instanceType = "InstanceType"
+            case placementTenancy = "PlacementTenancy"
+            case securityGroups = "SecurityGroups"
+            case keyName = "KeyName"
+            case instanceId = "InstanceId"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case imageId = "ImageId"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
+            case ramdiskId = "RamdiskId"
         }
     }
 
     public struct DescribeLifecycleHooksAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LifecycleHooks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHooks", required: false, type: .list)
         ]
         /// The lifecycle hooks for the specified group.
         public let lifecycleHooks: [LifecycleHook]?
@@ -1972,22 +1806,17 @@ extension Autoscaling {
             self.lifecycleHooks = lifecycleHooks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let lifecycleHooks = dictionary["LifecycleHooks"] as? [[String: Any]] {
-                self.lifecycleHooks = try lifecycleHooks.map({ try LifecycleHook(dictionary: $0) })
-            } else { 
-                self.lifecycleHooks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHooks = "LifecycleHooks"
         }
     }
 
     public struct DescribeAutoScalingInstancesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -2002,19 +1831,18 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct AutoScalingInstancesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingInstances", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingInstances", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The instances.
         public let autoScalingInstances: [AutoScalingInstanceDetails]?
@@ -2026,23 +1854,18 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let autoScalingInstances = dictionary["AutoScalingInstances"] as? [[String: Any]] {
-                self.autoScalingInstances = try autoScalingInstances.map({ try AutoScalingInstanceDetails(dictionary: $0) })
-            } else { 
-                self.autoScalingInstances = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingInstances = "AutoScalingInstances"
+            case nextToken = "NextToken"
         }
     }
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicARN", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicARN", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationType", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
         public let topicARN: String?
@@ -2057,19 +1880,18 @@ extension Autoscaling {
             self.notificationType = notificationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicARN = dictionary["TopicARN"] as? String
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.notificationType = dictionary["NotificationType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicARN = "TopicARN"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case notificationType = "NotificationType"
         }
     }
 
     public struct DescribeMetricCollectionTypesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Granularities", required: false, type: .list), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularities", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list)
         ]
         /// The granularities for the metrics.
         public let granularities: [MetricGranularityType]?
@@ -2081,25 +1903,16 @@ extension Autoscaling {
             self.metrics = metrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let granularities = dictionary["Granularities"] as? [[String: Any]] {
-                self.granularities = try granularities.map({ try MetricGranularityType(dictionary: $0) })
-            } else { 
-                self.granularities = nil
-            }
-            if let metrics = dictionary["Metrics"] as? [[String: Any]] {
-                self.metrics = try metrics.map({ try MetricCollectionType(dictionary: $0) })
-            } else { 
-                self.metrics = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case granularities = "Granularities"
+            case metrics = "Metrics"
         }
     }
 
     public struct DetachInstancesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Activities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to detaching the instances from the Auto Scaling group.
         public let activities: [Activity]?
@@ -2108,36 +1921,25 @@ extension Autoscaling {
             self.activities = activities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let activities = dictionary["Activities"] as? [[String: Any]] {
-                self.activities = try activities.map({ try Activity(dictionary: $0) })
-            } else { 
-                self.activities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
         }
     }
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct InstanceMonitoring: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
@@ -2146,16 +1948,15 @@ extension Autoscaling {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
     public struct ExitStandbyAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Activities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to moving instances out of Standby mode.
         public let activities: [Activity]?
@@ -2164,21 +1965,16 @@ extension Autoscaling {
             self.activities = activities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let activities = dictionary["Activities"] as? [[String: Any]] {
-                self.activities = try activities.map({ try Activity(dictionary: $0) })
-            } else { 
-                self.activities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
         }
     }
 
     public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// If true, terminating the instance also decrements the size of the Auto Scaling group.
         public let shouldDecrementDesiredCapacity: Bool
@@ -2190,21 +1986,18 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct SetDesiredCapacityType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DesiredCapacity", required: true, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "HonorCooldown", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DesiredCapacity", required: true, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "HonorCooldown", required: false, type: .boolean)
         ]
         /// The number of EC2 instances that should be running in the Auto Scaling group.
         public let desiredCapacity: Int32
@@ -2219,20 +2012,17 @@ extension Autoscaling {
             self.honorCooldown = honorCooldown
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let desiredCapacity = dictionary["DesiredCapacity"] as? Int32 else { throw InitializableError.missingRequiredParam("DesiredCapacity") }
-            self.desiredCapacity = desiredCapacity
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.honorCooldown = dictionary["HonorCooldown"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case desiredCapacity = "DesiredCapacity"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case honorCooldown = "HonorCooldown"
         }
     }
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TerminationPolicyTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TerminationPolicyTypes", required: false, type: .list)
         ]
         /// The termination policies supported by Auto Scaling (OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, and Default).
         public let terminationPolicyTypes: [String]?
@@ -2241,36 +2031,32 @@ extension Autoscaling {
             self.terminationPolicyTypes = terminationPolicyTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.terminationPolicyTypes = dictionary["TerminationPolicyTypes"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case terminationPolicyTypes = "TerminationPolicyTypes"
         }
     }
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Activity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "Details", required: false, type: .string), 
-            AWSShapeProperty(label: "Progress", required: false, type: .integer), 
-            AWSShapeProperty(label: "Cause", required: true, type: .string), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StatusCode", required: true, type: .enum), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "ActivityId", required: true, type: .string), 
-            AWSShapeProperty(label: "StatusMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Details", required: false, type: .string), 
+            AWSShapeMember(label: "Progress", required: false, type: .integer), 
+            AWSShapeMember(label: "Cause", required: true, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StatusCode", required: true, type: .enum), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "ActivityId", required: true, type: .string), 
+            AWSShapeMember(label: "StatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The start time of the activity.
-        public let startTime: String
+        public let startTime: Double
         /// The details about the activity.
         public let details: String?
         /// A value between 0 and 100 that indicates the progress of the activity.
@@ -2278,7 +2064,7 @@ extension Autoscaling {
         /// The reason the activity began.
         public let cause: String
         /// The end time of the activity.
-        public let endTime: String?
+        public let endTime: Double?
         /// The current status of the activity.
         public let statusCode: ScalingActivityStatusCode
         /// The name of the Auto Scaling group.
@@ -2290,7 +2076,7 @@ extension Autoscaling {
         /// A friendly, more verbose description of the activity.
         public let description: String?
 
-        public init(startTime: String, details: String? = nil, progress: Int32? = nil, cause: String, endTime: String? = nil, statusCode: ScalingActivityStatusCode, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
+        public init(startTime: Double, details: String? = nil, progress: Int32? = nil, cause: String, endTime: Double? = nil, statusCode: ScalingActivityStatusCode, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
             self.startTime = startTime
             self.details = details
             self.progress = progress
@@ -2303,32 +2089,26 @@ extension Autoscaling {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let startTime = dictionary["StartTime"] as? String else { throw InitializableError.missingRequiredParam("StartTime") }
-            self.startTime = startTime
-            self.details = dictionary["Details"] as? String
-            self.progress = dictionary["Progress"] as? Int32
-            guard let cause = dictionary["Cause"] as? String else { throw InitializableError.missingRequiredParam("Cause") }
-            self.cause = cause
-            self.endTime = dictionary["EndTime"] as? String
-            guard let rawStatusCode = dictionary["StatusCode"] as? String, let statusCode = ScalingActivityStatusCode(rawValue: rawStatusCode) else { throw InitializableError.missingRequiredParam("StatusCode") }
-            self.statusCode = statusCode
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            guard let activityId = dictionary["ActivityId"] as? String else { throw InitializableError.missingRequiredParam("ActivityId") }
-            self.activityId = activityId
-            self.statusMessage = dictionary["StatusMessage"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case details = "Details"
+            case progress = "Progress"
+            case cause = "Cause"
+            case endTime = "EndTime"
+            case statusCode = "StatusCode"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case activityId = "ActivityId"
+            case statusMessage = "StatusMessage"
+            case description = "Description"
         }
     }
 
     public struct SetInstanceHealthQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "HealthStatus", required: true, type: .string), 
-            AWSShapeProperty(label: "ShouldRespectGracePeriod", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "HealthStatus", required: true, type: .string), 
+            AWSShapeMember(label: "ShouldRespectGracePeriod", required: false, type: .boolean)
         ]
         /// The ID of the instance.
         public let instanceId: String
@@ -2343,20 +2123,17 @@ extension Autoscaling {
             self.shouldRespectGracePeriod = shouldRespectGracePeriod
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            guard let healthStatus = dictionary["HealthStatus"] as? String else { throw InitializableError.missingRequiredParam("HealthStatus") }
-            self.healthStatus = healthStatus
-            self.shouldRespectGracePeriod = dictionary["ShouldRespectGracePeriod"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case healthStatus = "HealthStatus"
+            case shouldRespectGracePeriod = "ShouldRespectGracePeriod"
         }
     }
 
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AdjustmentTypes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdjustmentTypes", required: false, type: .list)
         ]
         /// The policy adjustment types.
         public let adjustmentTypes: [AdjustmentType]?
@@ -2365,21 +2142,16 @@ extension Autoscaling {
             self.adjustmentTypes = adjustmentTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let adjustmentTypes = dictionary["AdjustmentTypes"] as? [[String: Any]] {
-                self.adjustmentTypes = try adjustmentTypes.map({ try AdjustmentType(dictionary: $0) })
-            } else { 
-                self.adjustmentTypes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentTypes = "AdjustmentTypes"
         }
     }
 
     public struct ScheduledActionsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ScheduledUpdateGroupActions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ScheduledUpdateGroupActions", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -2391,22 +2163,17 @@ extension Autoscaling {
             self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let scheduledUpdateGroupActions = dictionary["ScheduledUpdateGroupActions"] as? [[String: Any]] {
-                self.scheduledUpdateGroupActions = try scheduledUpdateGroupActions.map({ try ScheduledUpdateGroupAction(dictionary: $0) })
-            } else { 
-                self.scheduledUpdateGroupActions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scheduledUpdateGroupActions = "ScheduledUpdateGroupActions"
         }
     }
 
     public struct ActivitiesType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Activities", required: true, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         public let activities: [Activity]
@@ -2418,18 +2185,16 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let activities = dictionary["Activities"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Activities") }
-            self.activities = try activities.map({ try Activity(dictionary: $0) })
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
+            case nextToken = "NextToken"
         }
     }
 
     public struct EnterStandbyAnswer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Activities", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Activities", required: false, type: .list)
         ]
         /// The activities related to moving instances into Standby mode.
         public let activities: [Activity]?
@@ -2438,20 +2203,15 @@ extension Autoscaling {
             self.activities = activities
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let activities = dictionary["Activities"] as? [[String: Any]] {
-                self.activities = try activities.map({ try Activity(dictionary: $0) })
-            } else { 
-                self.activities = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
         }
     }
 
     public struct MetricCollectionType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Metric", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Metric", required: false, type: .string)
         ]
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public let metric: String?
@@ -2460,28 +2220,27 @@ extension Autoscaling {
             self.metric = metric
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.metric = dictionary["Metric"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
         }
     }
 
     public struct UpdateAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: false, type: .string), 
-            AWSShapeProperty(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VPCZoneIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "MinSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "DesiredCapacity", required: false, type: .integer), 
-            AWSShapeProperty(label: "PlacementGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultCooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "HealthCheckGracePeriod", required: false, type: .integer), 
-            AWSShapeProperty(label: "TerminationPolicies", required: false, type: .list), 
-            AWSShapeProperty(label: "HealthCheckType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: false, type: .string), 
+            AWSShapeMember(label: "NewInstancesProtectedFromScaleIn", required: false, type: .boolean), 
+            AWSShapeMember(label: "VPCZoneIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MaxSize", required: false, type: .integer), 
+            AWSShapeMember(label: "MinSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DesiredCapacity", required: false, type: .integer), 
+            AWSShapeMember(label: "PlacementGroup", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultCooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "HealthCheckGracePeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "TerminationPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "HealthCheckType", required: false, type: .string)
         ]
         /// One or more Availability Zones for the group.
         public let availabilityZones: [String]?
@@ -2526,30 +2285,28 @@ extension Autoscaling {
             self.healthCheckType = healthCheckType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.launchConfigurationName = dictionary["LaunchConfigurationName"] as? String
-            self.newInstancesProtectedFromScaleIn = dictionary["NewInstancesProtectedFromScaleIn"] as? Bool
-            self.vPCZoneIdentifier = dictionary["VPCZoneIdentifier"] as? String
-            self.maxSize = dictionary["MaxSize"] as? Int32
-            self.minSize = dictionary["MinSize"] as? Int32
-            self.desiredCapacity = dictionary["DesiredCapacity"] as? Int32
-            self.placementGroup = dictionary["PlacementGroup"] as? String
-            self.defaultCooldown = dictionary["DefaultCooldown"] as? Int32
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.healthCheckGracePeriod = dictionary["HealthCheckGracePeriod"] as? Int32
-            self.terminationPolicies = dictionary["TerminationPolicies"] as? [String]
-            self.healthCheckType = dictionary["HealthCheckType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case maxSize = "MaxSize"
+            case minSize = "MinSize"
+            case desiredCapacity = "DesiredCapacity"
+            case placementGroup = "PlacementGroup"
+            case defaultCooldown = "DefaultCooldown"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case healthCheckGracePeriod = "HealthCheckGracePeriod"
+            case terminationPolicies = "TerminationPolicies"
+            case healthCheckType = "HealthCheckType"
         }
     }
 
     public struct DeleteLifecycleHookType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The name of the lifecycle hook.
         public let lifecycleHookName: String
@@ -2561,20 +2318,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
-            self.lifecycleHookName = lifecycleHookName
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHookName = "LifecycleHookName"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct DescribeLoadBalancersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "LoadBalancers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancers", required: false, type: .list)
         ]
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -2586,21 +2340,16 @@ extension Autoscaling {
             self.loadBalancers = loadBalancers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
-                self.loadBalancers = try loadBalancers.map({ try LoadBalancerState(dictionary: $0) })
-            } else { 
-                self.loadBalancers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case loadBalancers = "LoadBalancers"
         }
     }
 
     public struct DeleteTagsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// One or more tags.
         public let tags: [Tag]
@@ -2609,18 +2358,16 @@ extension Autoscaling {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBalancerTargetGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBalancerTargetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Information about the target groups.
         public let loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
@@ -2632,31 +2379,23 @@ extension Autoscaling {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loadBalancerTargetGroups = dictionary["LoadBalancerTargetGroups"] as? [[String: Any]] {
-                self.loadBalancerTargetGroups = try loadBalancerTargetGroups.map({ try LoadBalancerTargetGroupState(dictionary: $0) })
-            } else { 
-                self.loadBalancerTargetGroups = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case loadBalancerTargetGroups = "LoadBalancerTargetGroups"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DetachLoadBalancersResultType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct EnterStandbyQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ShouldDecrementDesiredCapacity", required: true, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list)
         ]
         /// Specifies whether the instances moved to Standby mode count as part of the Auto Scaling group's desired capacity. If set, the desired capacity for the Auto Scaling group decrements by the number of instances moved to Standby mode.
         public let shouldDecrementDesiredCapacity: Bool
@@ -2671,21 +2410,18 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shouldDecrementDesiredCapacity = dictionary["ShouldDecrementDesiredCapacity"] as? Bool else { throw InitializableError.missingRequiredParam("ShouldDecrementDesiredCapacity") }
-            self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetGroupARNs", required: true, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The Amazon Resource Names (ARN) of the target groups.
         public let targetGroupARNs: [String]
@@ -2697,20 +2433,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] else { throw InitializableError.missingRequiredParam("TargetGroupARNs") }
-            self.targetGroupARNs = targetGroupARNs
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupARNs = "TargetGroupARNs"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TargetGroupARNs", required: true, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TargetGroupARNs", required: true, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The Amazon Resource Names (ARN) of the target groups.
         public let targetGroupARNs: [String]
@@ -2722,20 +2455,17 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let targetGroupARNs = dictionary["TargetGroupARNs"] as? [String] else { throw InitializableError.missingRequiredParam("TargetGroupARNs") }
-            self.targetGroupARNs = targetGroupARNs
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case targetGroupARNs = "TargetGroupARNs"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct DeleteScheduledActionType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ScheduledActionName", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ScheduledActionName", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The name of the action to delete.
         public let scheduledActionName: String
@@ -2747,15 +2477,13 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let scheduledActionName = dictionary["ScheduledActionName"] as? String else { throw InitializableError.missingRequiredParam("ScheduledActionName") }
-            self.scheduledActionName = scheduledActionName
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case scheduledActionName = "ScheduledActionName"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
-    public enum LifecycleState: String, CustomStringConvertible {
+    public enum LifecycleState: String, CustomStringConvertible, Codable {
         case pending = "Pending"
         case pending_wait = "Pending:Wait"
         case pending_proceed = "Pending:Proceed"
@@ -2774,17 +2502,16 @@ extension Autoscaling {
 
     public struct LifecycleHook: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationTargetARN", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationMetadata", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultResult", required: false, type: .string), 
-            AWSShapeProperty(label: "RoleARN", required: false, type: .string), 
-            AWSShapeProperty(label: "HeartbeatTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "LifecycleTransition", required: false, type: .string), 
-            AWSShapeProperty(label: "LifecycleHookName", required: false, type: .string), 
-            AWSShapeProperty(label: "GlobalTimeout", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationTargetARN", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationMetadata", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultResult", required: false, type: .string), 
+            AWSShapeMember(label: "RoleARN", required: false, type: .string), 
+            AWSShapeMember(label: "HeartbeatTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleTransition", required: false, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: false, type: .string), 
+            AWSShapeMember(label: "GlobalTimeout", required: false, type: .integer)
         ]
         /// The ARN of the notification target that Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This ARN target can be either an SQS queue or an SNS topic. The notification message sent to the target includes the following:   Lifecycle action token   User account ID   Name of the Auto Scaling group   Lifecycle hook name   EC2 instance ID   Lifecycle transition   Notification metadata  
         public let notificationTargetARN: String?
@@ -2817,26 +2544,25 @@ extension Autoscaling {
             self.globalTimeout = globalTimeout
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notificationTargetARN = dictionary["NotificationTargetARN"] as? String
-            self.notificationMetadata = dictionary["NotificationMetadata"] as? String
-            self.defaultResult = dictionary["DefaultResult"] as? String
-            self.roleARN = dictionary["RoleARN"] as? String
-            self.heartbeatTimeout = dictionary["HeartbeatTimeout"] as? Int32
-            self.autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String
-            self.lifecycleTransition = dictionary["LifecycleTransition"] as? String
-            self.lifecycleHookName = dictionary["LifecycleHookName"] as? String
-            self.globalTimeout = dictionary["GlobalTimeout"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case notificationTargetARN = "NotificationTargetARN"
+            case notificationMetadata = "NotificationMetadata"
+            case defaultResult = "DefaultResult"
+            case roleARN = "RoleARN"
+            case heartbeatTimeout = "HeartbeatTimeout"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleTransition = "LifecycleTransition"
+            case lifecycleHookName = "LifecycleHookName"
+            case globalTimeout = "GlobalTimeout"
         }
     }
 
     public struct EnableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Granularity", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Metrics", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Granularity", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Metrics", required: false, type: .list)
         ]
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
         public let granularity: String
@@ -2851,38 +2577,35 @@ extension Autoscaling {
             self.metrics = metrics
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let granularity = dictionary["Granularity"] as? String else { throw InitializableError.missingRequiredParam("Granularity") }
-            self.granularity = granularity
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.metrics = dictionary["Metrics"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case granularity = "Granularity"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case metrics = "Metrics"
         }
     }
 
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LaunchConfigurationARN", required: false, type: .string), 
-            AWSShapeProperty(label: "LaunchConfigurationName", required: true, type: .string), 
-            AWSShapeProperty(label: "UserData", required: false, type: .string), 
-            AWSShapeProperty(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SpotPrice", required: false, type: .string), 
-            AWSShapeProperty(label: "KernelId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceMonitoring", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClassicLinkVPCId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "CreatedTime", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "PlacementTenancy", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "KeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "IamInstanceProfile", required: false, type: .string), 
-            AWSShapeProperty(label: "ImageId", required: true, type: .string), 
-            AWSShapeProperty(label: "RamdiskId", required: false, type: .string), 
-            AWSShapeProperty(label: "AssociatePublicIpAddress", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LaunchConfigurationARN", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchConfigurationName", required: true, type: .string), 
+            AWSShapeMember(label: "UserData", required: false, type: .string), 
+            AWSShapeMember(label: "ClassicLinkVPCSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "SpotPrice", required: false, type: .string), 
+            AWSShapeMember(label: "KernelId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceMonitoring", required: false, type: .structure), 
+            AWSShapeMember(label: "ClassicLinkVPCId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "PlacementTenancy", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "KeyName", required: false, type: .string), 
+            AWSShapeMember(label: "IamInstanceProfile", required: false, type: .string), 
+            AWSShapeMember(label: "ImageId", required: true, type: .string), 
+            AWSShapeMember(label: "RamdiskId", required: false, type: .string), 
+            AWSShapeMember(label: "AssociatePublicIpAddress", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the launch configuration.
         public let launchConfigurationARN: String?
@@ -2907,7 +2630,7 @@ extension Autoscaling {
         /// The instance type for the instances.
         public let instanceType: String
         /// The creation date and time for the launch configuration.
-        public let createdTime: String
+        public let createdTime: Double
         /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs in an isolated, single-tenant hardware and can only be launched into a VPC.
         public let placementTenancy: String?
         /// The security groups to associate with the instances.
@@ -2923,7 +2646,7 @@ extension Autoscaling {
         /// [EC2-VPC] Indicates whether to assign a public IP address to each instance.
         public let associatePublicIpAddress: Bool?
 
-        public init(launchConfigurationARN: String? = nil, launchConfigurationName: String, userData: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, spotPrice: String? = nil, kernelId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, instanceType: String, createdTime: String, placementTenancy: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, iamInstanceProfile: String? = nil, imageId: String, ramdiskId: String? = nil, associatePublicIpAddress: Bool? = nil) {
+        public init(launchConfigurationARN: String? = nil, launchConfigurationName: String, userData: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, spotPrice: String? = nil, kernelId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, instanceType: String, createdTime: Double, placementTenancy: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, iamInstanceProfile: String? = nil, imageId: String, ramdiskId: String? = nil, associatePublicIpAddress: Bool? = nil) {
             self.launchConfigurationARN = launchConfigurationARN
             self.launchConfigurationName = launchConfigurationName
             self.userData = userData
@@ -2945,44 +2668,35 @@ extension Autoscaling {
             self.associatePublicIpAddress = associatePublicIpAddress
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.launchConfigurationARN = dictionary["LaunchConfigurationARN"] as? String
-            guard let launchConfigurationName = dictionary["LaunchConfigurationName"] as? String else { throw InitializableError.missingRequiredParam("LaunchConfigurationName") }
-            self.launchConfigurationName = launchConfigurationName
-            self.userData = dictionary["UserData"] as? String
-            self.classicLinkVPCSecurityGroups = dictionary["ClassicLinkVPCSecurityGroups"] as? [String]
-            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
-                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
-            } else { 
-                self.blockDeviceMappings = nil
-            }
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.spotPrice = dictionary["SpotPrice"] as? String
-            self.kernelId = dictionary["KernelId"] as? String
-            if let instanceMonitoring = dictionary["InstanceMonitoring"] as? [String: Any] { self.instanceMonitoring = try Autoscaling.InstanceMonitoring(dictionary: instanceMonitoring) } else { self.instanceMonitoring = nil }
-            self.classicLinkVPCId = dictionary["ClassicLinkVPCId"] as? String
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            guard let createdTime = dictionary["CreatedTime"] as? String else { throw InitializableError.missingRequiredParam("CreatedTime") }
-            self.createdTime = createdTime
-            self.placementTenancy = dictionary["PlacementTenancy"] as? String
-            self.securityGroups = dictionary["SecurityGroups"] as? [String]
-            self.keyName = dictionary["KeyName"] as? String
-            self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
-            guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
-            self.imageId = imageId
-            self.ramdiskId = dictionary["RamdiskId"] as? String
-            self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case launchConfigurationARN = "LaunchConfigurationARN"
+            case launchConfigurationName = "LaunchConfigurationName"
+            case userData = "UserData"
+            case classicLinkVPCSecurityGroups = "ClassicLinkVPCSecurityGroups"
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case ebsOptimized = "EbsOptimized"
+            case spotPrice = "SpotPrice"
+            case kernelId = "KernelId"
+            case instanceMonitoring = "InstanceMonitoring"
+            case classicLinkVPCId = "ClassicLinkVPCId"
+            case instanceType = "InstanceType"
+            case createdTime = "CreatedTime"
+            case placementTenancy = "PlacementTenancy"
+            case securityGroups = "SecurityGroups"
+            case keyName = "KeyName"
+            case iamInstanceProfile = "IamInstanceProfile"
+            case imageId = "ImageId"
+            case ramdiskId = "RamdiskId"
+            case associatePublicIpAddress = "AssociatePublicIpAddress"
         }
     }
 
     public struct DescribeTagsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -2997,25 +2711,20 @@ extension Autoscaling {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try Filter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case filters = "Filters"
         }
     }
 
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoDevice", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", required: true, type: .string), 
-            AWSShapeProperty(label: "Ebs", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoDevice", required: false, type: .boolean), 
+            AWSShapeMember(label: "VirtualName", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: true, type: .string), 
+            AWSShapeMember(label: "Ebs", required: false, type: .structure)
         ]
         /// Suppresses a device mapping. If this parameter is true for the root device, the instance might fail the EC2 health check. Auto Scaling launches a replacement instance if the instance fails the health check.
         public let noDevice: Bool?
@@ -3033,21 +2742,19 @@ extension Autoscaling {
             self.ebs = ebs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.noDevice = dictionary["NoDevice"] as? Bool
-            self.virtualName = dictionary["VirtualName"] as? String
-            guard let deviceName = dictionary["DeviceName"] as? String else { throw InitializableError.missingRequiredParam("DeviceName") }
-            self.deviceName = deviceName
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Autoscaling.Ebs(dictionary: ebs) } else { self.ebs = nil }
+        private enum CodingKeys: String, CodingKey {
+            case noDevice = "NoDevice"
+            case virtualName = "VirtualName"
+            case deviceName = "DeviceName"
+            case ebs = "Ebs"
         }
     }
 
     public struct DeleteAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ForceDelete", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ForceDelete", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// Specifies that the group will be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
         public let forceDelete: Bool?
@@ -3059,21 +2766,19 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.forceDelete = dictionary["ForceDelete"] as? Bool
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case forceDelete = "ForceDelete"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct RecordLifecycleActionHeartbeatType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleHookName", required: true, type: .string), 
-            AWSShapeProperty(label: "LifecycleActionToken", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleHookName", required: true, type: .string), 
+            AWSShapeMember(label: "LifecycleActionToken", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The name of the Auto Scaling group for the hook.
         public let autoScalingGroupName: String
@@ -3091,23 +2796,20 @@ extension Autoscaling {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            guard let lifecycleHookName = dictionary["LifecycleHookName"] as? String else { throw InitializableError.missingRequiredParam("LifecycleHookName") }
-            self.lifecycleHookName = lifecycleHookName
-            self.lifecycleActionToken = dictionary["LifecycleActionToken"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case lifecycleHookName = "LifecycleHookName"
+            case lifecycleActionToken = "LifecycleActionToken"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct DescribeLoadBalancersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
@@ -3122,29 +2824,27 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct PutScalingPolicyType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MinAdjustmentStep", required: false, type: .integer), 
-            AWSShapeProperty(label: "MetricAggregationType", required: false, type: .string), 
-            AWSShapeProperty(label: "StepAdjustments", required: false, type: .list), 
-            AWSShapeProperty(label: "PolicyType", required: false, type: .string), 
-            AWSShapeProperty(label: "AdjustmentType", required: true, type: .string), 
-            AWSShapeProperty(label: "ScalingAdjustment", required: false, type: .integer), 
-            AWSShapeProperty(label: "Cooldown", required: false, type: .integer), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
-            AWSShapeProperty(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
-            AWSShapeProperty(label: "PolicyName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MinAdjustmentStep", required: false, type: .integer), 
+            AWSShapeMember(label: "MetricAggregationType", required: false, type: .string), 
+            AWSShapeMember(label: "StepAdjustments", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyType", required: false, type: .string), 
+            AWSShapeMember(label: "AdjustmentType", required: true, type: .string), 
+            AWSShapeMember(label: "ScalingAdjustment", required: false, type: .integer), 
+            AWSShapeMember(label: "Cooldown", required: false, type: .integer), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "MinAdjustmentMagnitude", required: false, type: .integer), 
+            AWSShapeMember(label: "EstimatedInstanceWarmup", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyName", required: true, type: .string)
         ]
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public let minAdjustmentStep: Int32?
@@ -3183,35 +2883,27 @@ extension Autoscaling {
             self.policyName = policyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.minAdjustmentStep = dictionary["MinAdjustmentStep"] as? Int32
-            self.metricAggregationType = dictionary["MetricAggregationType"] as? String
-            if let stepAdjustments = dictionary["StepAdjustments"] as? [[String: Any]] {
-                self.stepAdjustments = try stepAdjustments.map({ try StepAdjustment(dictionary: $0) })
-            } else { 
-                self.stepAdjustments = nil
-            }
-            self.policyType = dictionary["PolicyType"] as? String
-            guard let adjustmentType = dictionary["AdjustmentType"] as? String else { throw InitializableError.missingRequiredParam("AdjustmentType") }
-            self.adjustmentType = adjustmentType
-            self.scalingAdjustment = dictionary["ScalingAdjustment"] as? Int32
-            self.cooldown = dictionary["Cooldown"] as? Int32
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            self.minAdjustmentMagnitude = dictionary["MinAdjustmentMagnitude"] as? Int32
-            self.estimatedInstanceWarmup = dictionary["EstimatedInstanceWarmup"] as? Int32
-            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
-            self.policyName = policyName
+        private enum CodingKeys: String, CodingKey {
+            case minAdjustmentStep = "MinAdjustmentStep"
+            case metricAggregationType = "MetricAggregationType"
+            case stepAdjustments = "StepAdjustments"
+            case policyType = "PolicyType"
+            case adjustmentType = "AdjustmentType"
+            case scalingAdjustment = "ScalingAdjustment"
+            case cooldown = "Cooldown"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case minAdjustmentMagnitude = "MinAdjustmentMagnitude"
+            case estimatedInstanceWarmup = "EstimatedInstanceWarmup"
+            case policyName = "PolicyName"
         }
     }
 
     public struct SetInstanceProtectionQuery: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ProtectedFromScaleIn", required: true, type: .boolean), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list)
         ]
         /// Indicates whether the instance is protected from termination by Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -3226,30 +2918,23 @@ extension Autoscaling {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let protectedFromScaleIn = dictionary["ProtectedFromScaleIn"] as? Bool else { throw InitializableError.missingRequiredParam("ProtectedFromScaleIn") }
-            self.protectedFromScaleIn = protectedFromScaleIn
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
-            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
-            self.instanceIds = instanceIds
+        private enum CodingKeys: String, CodingKey {
+            case protectedFromScaleIn = "ProtectedFromScaleIn"
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct AttachLoadBalancersResultType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Values", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
         /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
         public let name: String?
@@ -3261,18 +2946,17 @@ extension Autoscaling {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.values = dictionary["Values"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
     public struct DescribeLifecycleHooksType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LifecycleHookNames", required: false, type: .list), 
-            AWSShapeProperty(label: "AutoScalingGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LifecycleHookNames", required: false, type: .list), 
+            AWSShapeMember(label: "AutoScalingGroupName", required: true, type: .string)
         ]
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
         public let lifecycleHookNames: [String]?
@@ -3284,18 +2968,16 @@ extension Autoscaling {
             self.autoScalingGroupName = autoScalingGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lifecycleHookNames = dictionary["LifecycleHookNames"] as? [String]
-            guard let autoScalingGroupName = dictionary["AutoScalingGroupName"] as? String else { throw InitializableError.missingRequiredParam("AutoScalingGroupName") }
-            self.autoScalingGroupName = autoScalingGroupName
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleHookNames = "LifecycleHookNames"
+            case autoScalingGroupName = "AutoScalingGroupName"
         }
     }
 
     public struct CreateOrUpdateTagsType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list)
         ]
         /// One or more tags.
         public let tags: [Tag]
@@ -3304,9 +2986,8 @@ extension Autoscaling {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 

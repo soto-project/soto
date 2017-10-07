@@ -31,9 +31,8 @@ extension Opsworks {
 
     public struct DeregisterVolumeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
         /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public let volumeId: String
@@ -42,18 +41,16 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
-            self.volumeId = volumeId
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .map)
         ]
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
@@ -65,22 +62,19 @@ extension Opsworks {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tags = dictionary["Tags"] as? [String: String] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = tags
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
         }
     }
 
     public struct CreateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowSelfManagement", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean)
         ]
         /// The user's IAM ARN; this can also be a federated user's ARN.
         public let iamUserArn: String
@@ -98,21 +92,19 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
-            self.iamUserArn = iamUserArn
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
-            self.sshUsername = dictionary["SshUsername"] as? String
-            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+            case allowSelfManagement = "AllowSelfManagement"
         }
     }
 
     public struct DescribeRdsDbInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "RdsDbInstanceArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "RdsDbInstanceArns", required: false, type: .list)
         ]
         /// The stack ID that the instances are registered with. The operation returns descriptions of all registered Amazon RDS instances.
         public let stackId: String
@@ -124,40 +116,38 @@ extension Opsworks {
             self.rdsDbInstanceArns = rdsDbInstanceArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            self.rdsDbInstanceArns = dictionary["RdsDbInstanceArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case rdsDbInstanceArns = "RdsDbInstanceArns"
         }
     }
 
     public struct Layer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shortname", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Packages", required: false, type: .list), 
-            AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomRecipes", required: false, type: .structure), 
-            AWSShapeProperty(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomSecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerId", required: false, type: .string), 
-            AWSShapeProperty(label: "EnableAutoHealing", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "DefaultSecurityGroupNames", required: false, type: .list), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultRecipes", required: false, type: .structure), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "AutoAssignPublicIps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomInstanceProfileArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "DefaultSecurityGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string)
         ]
         /// The layer short name.
         public let shortname: String?
@@ -230,47 +220,38 @@ extension Opsworks {
             self.customInstanceProfileArn = customInstanceProfileArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortname = dictionary["Shortname"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.packages = dictionary["Packages"] as? [String]
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
-            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            self.customJson = dictionary["CustomJson"] as? String
-            if let cloudWatchLogsConfiguration = dictionary["CloudWatchLogsConfiguration"] as? [String: Any] { self.cloudWatchLogsConfiguration = try Opsworks.CloudWatchLogsConfiguration(dictionary: cloudWatchLogsConfiguration) } else { self.cloudWatchLogsConfiguration = nil }
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
-            self.stackId = dictionary["StackId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.layerId = dictionary["LayerId"] as? String
-            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
-            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
-                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
-            } else { 
-                self.volumeConfigurations = nil
-            }
-            self.defaultSecurityGroupNames = dictionary["DefaultSecurityGroupNames"] as? [String]
-            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
-            if let defaultRecipes = dictionary["DefaultRecipes"] as? [String: Any] { self.defaultRecipes = try Opsworks.Recipes(dictionary: defaultRecipes) } else { self.defaultRecipes = nil }
-            if let `type` = dictionary["Type"] as? String { self.`type` = LayerType(rawValue: `type`) } else { self.`type` = nil }
-            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
-            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shortname = "Shortname"
+            case arn = "Arn"
+            case packages = "Packages"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case customRecipes = "CustomRecipes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case customJson = "CustomJson"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case createdAt = "CreatedAt"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case stackId = "StackId"
+            case name = "Name"
+            case layerId = "LayerId"
+            case enableAutoHealing = "EnableAutoHealing"
+            case volumeConfigurations = "VolumeConfigurations"
+            case defaultSecurityGroupNames = "DefaultSecurityGroupNames"
+            case attributes = "Attributes"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case defaultRecipes = "DefaultRecipes"
+            case `type` = "Type"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
         }
     }
 
     public struct SetTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "AutoScalingSchedule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -282,20 +263,18 @@ extension Opsworks {
             self.autoScalingSchedule = autoScalingSchedule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) } else { self.autoScalingSchedule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case autoScalingSchedule = "AutoScalingSchedule"
         }
     }
 
     public struct DescribeRaidArraysRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "RaidArrayIds", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "RaidArrayIds", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The stack ID.
         public let stackId: String?
@@ -310,14 +289,14 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.raidArrayIds = dictionary["RaidArrayIds"] as? [String]
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case raidArrayIds = "RaidArrayIds"
+            case instanceId = "InstanceId"
         }
     }
 
-    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible {
+    public enum CloudWatchLogsTimeZone: String, CustomStringConvertible, Codable {
         case local = "LOCAL"
         case utc = "UTC"
         public var description: String { return self.rawValue }
@@ -325,14 +304,13 @@ extension Opsworks {
 
     public struct StackSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstancesCount", required: false, type: .structure), 
-            AWSShapeProperty(label: "LayersCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AppsCount", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancesCount", required: false, type: .structure), 
+            AWSShapeMember(label: "LayersCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AppsCount", required: false, type: .integer)
         ]
         /// An InstancesCount object with the number of instances in each status.
         public let instancesCount: InstancesCount?
@@ -356,21 +334,20 @@ extension Opsworks {
             self.appsCount = appsCount
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instancesCount = dictionary["InstancesCount"] as? [String: Any] { self.instancesCount = try Opsworks.InstancesCount(dictionary: instancesCount) } else { self.instancesCount = nil }
-            self.layersCount = dictionary["LayersCount"] as? Int32
-            self.arn = dictionary["Arn"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.appsCount = dictionary["AppsCount"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case instancesCount = "InstancesCount"
+            case layersCount = "LayersCount"
+            case arn = "Arn"
+            case stackId = "StackId"
+            case name = "Name"
+            case appsCount = "AppsCount"
         }
     }
 
     public struct DescribeCommandsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Commands", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Commands", required: false, type: .list)
         ]
         /// An array of Command objects that describe each of the specified commands.
         public let commands: [Command]?
@@ -379,20 +356,15 @@ extension Opsworks {
             self.commands = commands
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let commands = dictionary["Commands"] as? [[String: Any]] {
-                self.commands = try commands.map({ try Command(dictionary: $0) })
-            } else { 
-                self.commands = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case commands = "Commands"
         }
     }
 
     public struct DeregisterEcsClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsClusterArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
         /// The cluster's ARN.
         public let ecsClusterArn: String
@@ -401,18 +373,16 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let ecsClusterArn = dictionary["EcsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("EcsClusterArn") }
-            self.ecsClusterArn = ecsClusterArn
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
         }
     }
 
     public struct DescribeEcsClustersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsClusters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of EcsCluster objects containing the cluster descriptions.
         public let ecsClusters: [EcsCluster]?
@@ -424,24 +394,19 @@ extension Opsworks {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let ecsClusters = dictionary["EcsClusters"] as? [[String: Any]] {
-                self.ecsClusters = try ecsClusters.map({ try EcsCluster(dictionary: $0) })
-            } else { 
-                self.ecsClusters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusters = "EcsClusters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowSelfManagement", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean)
         ]
         /// The user IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
@@ -459,20 +424,18 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
-            self.iamUserArn = iamUserArn
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
-            self.sshUsername = dictionary["SshUsername"] as? String
-            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+            case allowSelfManagement = "AllowSelfManagement"
         }
     }
 
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackIds", required: false, type: .list)
         ]
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
         public let stackIds: [String]?
@@ -481,18 +444,17 @@ extension Opsworks {
             self.stackIds = stackIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackIds = dictionary["StackIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackIds = "StackIds"
         }
     }
 
     public struct SslConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: true, type: .string), 
-            AWSShapeProperty(label: "Chain", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateKey", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: true, type: .string), 
+            AWSShapeMember(label: "Chain", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateKey", required: true, type: .string)
         ]
         /// The contents of the certificate's domain.crt file.
         public let certificate: String
@@ -507,22 +469,19 @@ extension Opsworks {
             self.privateKey = privateKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificate = dictionary["Certificate"] as? String else { throw InitializableError.missingRequiredParam("Certificate") }
-            self.certificate = certificate
-            self.chain = dictionary["Chain"] as? String
-            guard let privateKey = dictionary["PrivateKey"] as? String else { throw InitializableError.missingRequiredParam("PrivateKey") }
-            self.privateKey = privateKey
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case chain = "Chain"
+            case privateKey = "PrivateKey"
         }
     }
 
     public struct DescribeElasticIpsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ips", required: false, type: .list), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Ips", required: false, type: .list), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
         public let stackId: String?
@@ -537,19 +496,18 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.ips = dictionary["Ips"] as? [String]
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case ips = "Ips"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct StackConfigurationManager: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The name. This parameter must be set to "Chef".
         public let name: String?
@@ -561,27 +519,26 @@ extension Opsworks {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct UpdateAppRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AppId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSources", required: false, type: .list), 
-            AWSShapeProperty(label: "Environment", required: false, type: .list), 
-            AWSShapeProperty(label: "AppSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Domains", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The app ID.
         public let appId: String
@@ -620,79 +577,65 @@ extension Opsworks {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let appId = dictionary["AppId"] as? String else { throw InitializableError.missingRequiredParam("AppId") }
-            self.appId = appId
-            self.name = dictionary["Name"] as? String
-            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
-                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
-            } else { 
-                self.dataSources = nil
-            }
-            if let environment = dictionary["Environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
-            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.enableSsl = dictionary["EnableSsl"] as? Bool
-            if let `type` = dictionary["Type"] as? String { self.`type` = AppType(rawValue: `type`) } else { self.`type` = nil }
-            self.domains = dictionary["Domains"] as? [String]
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
+            case name = "Name"
+            case dataSources = "DataSources"
+            case environment = "Environment"
+            case appSource = "AppSource"
+            case sslConfiguration = "SslConfiguration"
+            case attributes = "Attributes"
+            case enableSsl = "EnableSsl"
+            case `type` = "Type"
+            case domains = "Domains"
+            case description = "Description"
         }
     }
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsContainerInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "ReportedAgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "SshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "LastServiceErrorId", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicDns", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerIds", required: false, type: .list), 
-            AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "Platform", required: false, type: .string), 
-            AWSShapeProperty(label: "EcsClusterArn", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateIp", required: false, type: .string), 
-            AWSShapeProperty(label: "InfrastructureClass", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AmiId", required: false, type: .string), 
-            AWSShapeProperty(label: "PrivateDns", required: false, type: .string), 
-            AWSShapeProperty(label: "RootDeviceVolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Tenancy", required: false, type: .string), 
-            AWSShapeProperty(label: "SshHostRsaKeyFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "RegisteredBy", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "ReportedOs", required: false, type: .structure), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "SshHostDsaKeyFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "Architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Os", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "VirtualizationType", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsContainerInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedAgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "LastServiceErrorId", required: false, type: .string), 
+            AWSShapeMember(label: "PublicDns", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "Platform", required: false, type: .string), 
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
+            AWSShapeMember(label: "InfrastructureClass", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateDns", required: false, type: .string), 
+            AWSShapeMember(label: "RootDeviceVolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
+            AWSShapeMember(label: "SshHostRsaKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "RegisteredBy", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "ReportedOs", required: false, type: .structure), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "SshHostDsaKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "InstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .enum)
         ]
         /// For container instances, the instance's ARN.
         public let ecsContainerInstanceArn: String?
@@ -820,56 +763,52 @@ extension Opsworks {
             self.virtualizationType = virtualizationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ecsContainerInstanceArn = dictionary["EcsContainerInstanceArn"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.hostname = dictionary["Hostname"] as? String
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            self.publicIp = dictionary["PublicIp"] as? String
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.ec2InstanceId = dictionary["Ec2InstanceId"] as? String
-            self.status = dictionary["Status"] as? String
-            self.reportedAgentVersion = dictionary["ReportedAgentVersion"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.elasticIp = dictionary["ElasticIp"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.sshKeyName = dictionary["SshKeyName"] as? String
-            if let rootDeviceType = dictionary["RootDeviceType"] as? String { self.rootDeviceType = RootDeviceType(rawValue: rootDeviceType) } else { self.rootDeviceType = nil }
-            self.lastServiceErrorId = dictionary["LastServiceErrorId"] as? String
-            self.publicDns = dictionary["PublicDns"] as? String
-            self.layerIds = dictionary["LayerIds"] as? [String]
-            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
-                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
-            } else { 
-                self.blockDeviceMappings = nil
-            }
-            self.subnetId = dictionary["SubnetId"] as? String
-            self.platform = dictionary["Platform"] as? String
-            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
-            self.privateIp = dictionary["PrivateIp"] as? String
-            self.infrastructureClass = dictionary["InfrastructureClass"] as? String
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            self.amiId = dictionary["AmiId"] as? String
-            self.privateDns = dictionary["PrivateDns"] as? String
-            self.rootDeviceVolumeId = dictionary["RootDeviceVolumeId"] as? String
-            self.tenancy = dictionary["Tenancy"] as? String
-            self.sshHostRsaKeyFingerprint = dictionary["SshHostRsaKeyFingerprint"] as? String
-            self.registeredBy = dictionary["RegisteredBy"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            if let reportedOs = dictionary["ReportedOs"] as? [String: Any] { self.reportedOs = try Opsworks.ReportedOs(dictionary: reportedOs) } else { self.reportedOs = nil }
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            self.sshHostDsaKeyFingerprint = dictionary["SshHostDsaKeyFingerprint"] as? String
-            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
-            self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
-            self.os = dictionary["Os"] as? String
-            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
-            if let virtualizationType = dictionary["VirtualizationType"] as? String { self.virtualizationType = VirtualizationType(rawValue: virtualizationType) } else { self.virtualizationType = nil }
+        private enum CodingKeys: String, CodingKey {
+            case ecsContainerInstanceArn = "EcsContainerInstanceArn"
+            case arn = "Arn"
+            case hostname = "Hostname"
+            case ebsOptimized = "EbsOptimized"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case publicIp = "PublicIp"
+            case instanceType = "InstanceType"
+            case availabilityZone = "AvailabilityZone"
+            case ec2InstanceId = "Ec2InstanceId"
+            case status = "Status"
+            case reportedAgentVersion = "ReportedAgentVersion"
+            case stackId = "StackId"
+            case elasticIp = "ElasticIp"
+            case instanceId = "InstanceId"
+            case sshKeyName = "SshKeyName"
+            case rootDeviceType = "RootDeviceType"
+            case lastServiceErrorId = "LastServiceErrorId"
+            case publicDns = "PublicDns"
+            case layerIds = "LayerIds"
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case subnetId = "SubnetId"
+            case platform = "Platform"
+            case ecsClusterArn = "EcsClusterArn"
+            case privateIp = "PrivateIp"
+            case infrastructureClass = "InfrastructureClass"
+            case securityGroupIds = "SecurityGroupIds"
+            case amiId = "AmiId"
+            case privateDns = "PrivateDns"
+            case rootDeviceVolumeId = "RootDeviceVolumeId"
+            case tenancy = "Tenancy"
+            case sshHostRsaKeyFingerprint = "SshHostRsaKeyFingerprint"
+            case registeredBy = "RegisteredBy"
+            case createdAt = "CreatedAt"
+            case reportedOs = "ReportedOs"
+            case agentVersion = "AgentVersion"
+            case sshHostDsaKeyFingerprint = "SshHostDsaKeyFingerprint"
+            case architecture = "Architecture"
+            case instanceProfileArn = "InstanceProfileArn"
+            case os = "Os"
+            case autoScalingType = "AutoScalingType"
+            case virtualizationType = "VirtualizationType"
         }
     }
 
-    public enum CloudWatchLogsEncoding: String, CustomStringConvertible {
+    public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable {
         case ascii = "ascii"
         case big5 = "big5"
         case big5hkscs = "big5hkscs"
@@ -967,9 +906,8 @@ extension Opsworks {
 
     public struct DescribeUserProfilesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArns", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArns", required: false, type: .list)
         ]
         /// An array of IAM or federated user ARNs that identify the users to be described.
         public let iamUserArns: [String]?
@@ -978,18 +916,17 @@ extension Opsworks {
             self.iamUserArns = iamUserArns
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamUserArns = dictionary["IamUserArns"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArns = "IamUserArns"
         }
     }
 
     public struct DeleteInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeleteVolumes", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "DeleteElasticIp", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteVolumes", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "DeleteElasticIp", required: false, type: .boolean)
         ]
         /// Whether to delete the instance's Amazon EBS volumes.
         public let deleteVolumes: Bool?
@@ -1004,37 +941,35 @@ extension Opsworks {
             self.deleteElasticIp = deleteElasticIp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deleteVolumes = dictionary["DeleteVolumes"] as? Bool
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            self.deleteElasticIp = dictionary["DeleteElasticIp"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case deleteVolumes = "DeleteVolumes"
+            case instanceId = "InstanceId"
+            case deleteElasticIp = "DeleteElasticIp"
         }
     }
 
     public struct InstancesCount: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Pending", required: false, type: .integer), 
-            AWSShapeProperty(label: "Stopping", required: false, type: .integer), 
-            AWSShapeProperty(label: "Booting", required: false, type: .integer), 
-            AWSShapeProperty(label: "Online", required: false, type: .integer), 
-            AWSShapeProperty(label: "RunningSetup", required: false, type: .integer), 
-            AWSShapeProperty(label: "Terminated", required: false, type: .integer), 
-            AWSShapeProperty(label: "SetupFailed", required: false, type: .integer), 
-            AWSShapeProperty(label: "Assigning", required: false, type: .integer), 
-            AWSShapeProperty(label: "ConnectionLost", required: false, type: .integer), 
-            AWSShapeProperty(label: "Terminating", required: false, type: .integer), 
-            AWSShapeProperty(label: "ShuttingDown", required: false, type: .integer), 
-            AWSShapeProperty(label: "Registering", required: false, type: .integer), 
-            AWSShapeProperty(label: "Rebooting", required: false, type: .integer), 
-            AWSShapeProperty(label: "Unassigning", required: false, type: .integer), 
-            AWSShapeProperty(label: "Stopped", required: false, type: .integer), 
-            AWSShapeProperty(label: "StartFailed", required: false, type: .integer), 
-            AWSShapeProperty(label: "Registered", required: false, type: .integer), 
-            AWSShapeProperty(label: "Deregistering", required: false, type: .integer), 
-            AWSShapeProperty(label: "Requested", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Pending", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopping", required: false, type: .integer), 
+            AWSShapeMember(label: "Booting", required: false, type: .integer), 
+            AWSShapeMember(label: "Online", required: false, type: .integer), 
+            AWSShapeMember(label: "RunningSetup", required: false, type: .integer), 
+            AWSShapeMember(label: "Terminated", required: false, type: .integer), 
+            AWSShapeMember(label: "SetupFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "Assigning", required: false, type: .integer), 
+            AWSShapeMember(label: "ConnectionLost", required: false, type: .integer), 
+            AWSShapeMember(label: "Terminating", required: false, type: .integer), 
+            AWSShapeMember(label: "ShuttingDown", required: false, type: .integer), 
+            AWSShapeMember(label: "Registering", required: false, type: .integer), 
+            AWSShapeMember(label: "Rebooting", required: false, type: .integer), 
+            AWSShapeMember(label: "Unassigning", required: false, type: .integer), 
+            AWSShapeMember(label: "Stopped", required: false, type: .integer), 
+            AWSShapeMember(label: "StartFailed", required: false, type: .integer), 
+            AWSShapeMember(label: "Registered", required: false, type: .integer), 
+            AWSShapeMember(label: "Deregistering", required: false, type: .integer), 
+            AWSShapeMember(label: "Requested", required: false, type: .integer)
         ]
         /// The number of instances with pending status.
         public let pending: Int32?
@@ -1097,51 +1032,50 @@ extension Opsworks {
             self.requested = requested
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.pending = dictionary["Pending"] as? Int32
-            self.stopping = dictionary["Stopping"] as? Int32
-            self.booting = dictionary["Booting"] as? Int32
-            self.online = dictionary["Online"] as? Int32
-            self.runningSetup = dictionary["RunningSetup"] as? Int32
-            self.terminated = dictionary["Terminated"] as? Int32
-            self.setupFailed = dictionary["SetupFailed"] as? Int32
-            self.assigning = dictionary["Assigning"] as? Int32
-            self.connectionLost = dictionary["ConnectionLost"] as? Int32
-            self.terminating = dictionary["Terminating"] as? Int32
-            self.shuttingDown = dictionary["ShuttingDown"] as? Int32
-            self.registering = dictionary["Registering"] as? Int32
-            self.rebooting = dictionary["Rebooting"] as? Int32
-            self.unassigning = dictionary["Unassigning"] as? Int32
-            self.stopped = dictionary["Stopped"] as? Int32
-            self.startFailed = dictionary["StartFailed"] as? Int32
-            self.registered = dictionary["Registered"] as? Int32
-            self.deregistering = dictionary["Deregistering"] as? Int32
-            self.requested = dictionary["Requested"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case pending = "Pending"
+            case stopping = "Stopping"
+            case booting = "Booting"
+            case online = "Online"
+            case runningSetup = "RunningSetup"
+            case terminated = "Terminated"
+            case setupFailed = "SetupFailed"
+            case assigning = "Assigning"
+            case connectionLost = "ConnectionLost"
+            case terminating = "Terminating"
+            case shuttingDown = "ShuttingDown"
+            case registering = "Registering"
+            case rebooting = "Rebooting"
+            case unassigning = "Unassigning"
+            case stopped = "Stopped"
+            case startFailed = "StartFailed"
+            case registered = "Registered"
+            case deregistering = "Deregistering"
+            case requested = "Requested"
         }
     }
 
     public struct CreateLayerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shortname", required: true, type: .string), 
-            AWSShapeProperty(label: "Packages", required: false, type: .list), 
-            AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomRecipes", required: false, type: .structure), 
-            AWSShapeProperty(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomSecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomInstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EnableAutoHealing", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoAssignPublicIps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shortname", required: true, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference.
         public let shortname: String
@@ -1201,56 +1135,43 @@ extension Opsworks {
             self.`type` = `type`
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let shortname = dictionary["Shortname"] as? String else { throw InitializableError.missingRequiredParam("Shortname") }
-            self.shortname = shortname
-            self.packages = dictionary["Packages"] as? [String]
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
-            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            self.customJson = dictionary["CustomJson"] as? String
-            if let cloudWatchLogsConfiguration = dictionary["CloudWatchLogsConfiguration"] as? [String: Any] { self.cloudWatchLogsConfiguration = try Opsworks.CloudWatchLogsConfiguration(dictionary: cloudWatchLogsConfiguration) } else { self.cloudWatchLogsConfiguration = nil }
-            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
-            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
-            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
-                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
-            } else { 
-                self.volumeConfigurations = nil
-            }
-            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
-            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
-            guard let rawType = dictionary["Type"] as? String, let `type` = LayerType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
+        private enum CodingKeys: String, CodingKey {
+            case shortname = "Shortname"
+            case packages = "Packages"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case customRecipes = "CustomRecipes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case customJson = "CustomJson"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case stackId = "StackId"
+            case name = "Name"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
+            case enableAutoHealing = "EnableAutoHealing"
+            case volumeConfigurations = "VolumeConfigurations"
+            case attributes = "Attributes"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
+            case `type` = "Type"
         }
     }
 
     public struct UpdateInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "AmiId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Os", required: false, type: .string), 
-            AWSShapeProperty(label: "SshKeyName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceType", required: false, type: .string), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string)
         ]
         /// The instance's layer IDs.
         public let layerIds: [String]?
@@ -1292,40 +1213,38 @@ extension Opsworks {
             self.sshKeyName = sshKeyName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerIds = dictionary["LayerIds"] as? [String]
-            self.hostname = dictionary["Hostname"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
-            self.amiId = dictionary["AmiId"] as? String
-            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
-            self.instanceType = dictionary["InstanceType"] as? String
-            self.os = dictionary["Os"] as? String
-            self.sshKeyName = dictionary["SshKeyName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
+            case hostname = "Hostname"
+            case agentVersion = "AgentVersion"
+            case ebsOptimized = "EbsOptimized"
+            case architecture = "Architecture"
+            case amiId = "AmiId"
+            case autoScalingType = "AutoScalingType"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case instanceId = "InstanceId"
+            case instanceType = "InstanceType"
+            case os = "Os"
+            case sshKeyName = "SshKeyName"
         }
     }
 
     public struct RaidArray: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Device", required: false, type: .string), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "RaidLevel", required: false, type: .integer), 
-            AWSShapeProperty(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "MountPoint", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer), 
-            AWSShapeProperty(label: "NumberOfDisks", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "RaidLevel", required: false, type: .integer), 
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .integer), 
+            AWSShapeMember(label: "NumberOfDisks", required: false, type: .integer)
         ]
         /// The array's Linux device. For example /dev/mdadm0.
         public let device: String?
@@ -1370,28 +1289,27 @@ extension Opsworks {
             self.numberOfDisks = numberOfDisks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.device = dictionary["Device"] as? String
-            self.iops = dictionary["Iops"] as? Int32
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.raidLevel = dictionary["RaidLevel"] as? Int32
-            self.raidArrayId = dictionary["RaidArrayId"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.mountPoint = dictionary["MountPoint"] as? String
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.size = dictionary["Size"] as? Int32
-            self.numberOfDisks = dictionary["NumberOfDisks"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+            case iops = "Iops"
+            case availabilityZone = "AvailabilityZone"
+            case raidLevel = "RaidLevel"
+            case raidArrayId = "RaidArrayId"
+            case createdAt = "CreatedAt"
+            case volumeType = "VolumeType"
+            case stackId = "StackId"
+            case mountPoint = "MountPoint"
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case size = "Size"
+            case numberOfDisks = "NumberOfDisks"
         }
     }
 
     public struct CloneStackResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// The cloned stack ID.
         public let stackId: String?
@@ -1400,16 +1318,15 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string)
         ]
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
         public let stackId: String?
@@ -1418,12 +1335,12 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
-    public enum AutoScalingType: String, CustomStringConvertible {
+    public enum AutoScalingType: String, CustomStringConvertible, Codable {
         case load = "load"
         case timer = "timer"
         public var description: String { return self.rawValue }
@@ -1431,12 +1348,11 @@ extension Opsworks {
 
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DownScaling", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeProperty(label: "LayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
         public let downScaling: AutoScalingThresholds?
@@ -1454,32 +1370,31 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) } else { self.downScaling = nil }
-            self.enable = dictionary["Enable"] as? Bool
-            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) } else { self.upScaling = nil }
-            self.layerId = dictionary["LayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case downScaling = "DownScaling"
+            case enable = "Enable"
+            case upScaling = "UpScaling"
+            case layerId = "LayerId"
         }
     }
 
     public struct App: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shortname", required: false, type: .string), 
-            AWSShapeProperty(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "AppSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Domains", required: false, type: .list), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "DataSources", required: false, type: .list), 
-            AWSShapeProperty(label: "Environment", required: false, type: .list), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "AppId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// The app's short name.
         public let shortname: String?
@@ -1527,37 +1442,25 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortname = dictionary["Shortname"] as? String
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
-            self.enableSsl = dictionary["EnableSsl"] as? Bool
-            self.domains = dictionary["Domains"] as? [String]
-            self.description = dictionary["Description"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.name = dictionary["Name"] as? String
-            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
-                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
-            } else { 
-                self.dataSources = nil
-            }
-            if let environment = dictionary["Environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            if let `type` = dictionary["Type"] as? String { self.`type` = AppType(rawValue: `type`) } else { self.`type` = nil }
-            self.appId = dictionary["AppId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shortname = "Shortname"
+            case sslConfiguration = "SslConfiguration"
+            case appSource = "AppSource"
+            case enableSsl = "EnableSsl"
+            case domains = "Domains"
+            case description = "Description"
+            case createdAt = "CreatedAt"
+            case stackId = "StackId"
+            case name = "Name"
+            case dataSources = "DataSources"
+            case environment = "Environment"
+            case attributes = "Attributes"
+            case `type` = "Type"
+            case appId = "AppId"
         }
     }
 
-    public enum VirtualizationType: String, CustomStringConvertible {
+    public enum VirtualizationType: String, CustomStringConvertible, Codable {
         case paravirtual = "paravirtual"
         case hvm = "hvm"
         public var description: String { return self.rawValue }
@@ -1565,18 +1468,17 @@ extension Opsworks {
 
     public struct Command: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogUrl", required: false, type: .string), 
-            AWSShapeProperty(label: "AcknowledgedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "ExitCode", required: false, type: .integer), 
-            AWSShapeProperty(label: "CommandId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "CompletedAt", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogUrl", required: false, type: .string), 
+            AWSShapeMember(label: "AcknowledgedAt", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "ExitCode", required: false, type: .integer), 
+            AWSShapeMember(label: "CommandId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "CompletedAt", required: false, type: .string)
         ]
         /// The URL of the command log.
         public let logUrl: String?
@@ -1612,21 +1514,21 @@ extension Opsworks {
             self.completedAt = completedAt
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.logUrl = dictionary["LogUrl"] as? String
-            self.acknowledgedAt = dictionary["AcknowledgedAt"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.status = dictionary["Status"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.exitCode = dictionary["ExitCode"] as? Int32
-            self.commandId = dictionary["CommandId"] as? String
-            self.`type` = dictionary["Type"] as? String
-            self.completedAt = dictionary["CompletedAt"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case logUrl = "LogUrl"
+            case acknowledgedAt = "AcknowledgedAt"
+            case createdAt = "CreatedAt"
+            case status = "Status"
+            case instanceId = "InstanceId"
+            case deploymentId = "DeploymentId"
+            case exitCode = "ExitCode"
+            case commandId = "CommandId"
+            case `type` = "Type"
+            case completedAt = "CompletedAt"
         }
     }
 
-    public enum LayerType: String, CustomStringConvertible {
+    public enum LayerType: String, CustomStringConvertible, Codable {
         case aws_flow_ruby = "aws-flow-ruby"
         case ecs_cluster = "ecs-cluster"
         case java_app = "java-app"
@@ -1644,13 +1546,12 @@ extension Opsworks {
 
     public struct UserProfile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowSelfManagement", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AllowSelfManagement", required: false, type: .boolean)
         ]
         /// The user's IAM ARN.
         public let iamUserArn: String?
@@ -1671,26 +1572,25 @@ extension Opsworks {
             self.allowSelfManagement = allowSelfManagement
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamUserArn = dictionary["IamUserArn"] as? String
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
-            self.sshUsername = dictionary["SshUsername"] as? String
-            self.name = dictionary["Name"] as? String
-            self.allowSelfManagement = dictionary["AllowSelfManagement"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+            case name = "Name"
+            case allowSelfManagement = "AllowSelfManagement"
         }
     }
 
     public struct WeeklyAutoScalingSchedule: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Saturday", required: false, type: .map), 
-            AWSShapeProperty(label: "Tuesday", required: false, type: .map), 
-            AWSShapeProperty(label: "Sunday", required: false, type: .map), 
-            AWSShapeProperty(label: "Friday", required: false, type: .map), 
-            AWSShapeProperty(label: "Monday", required: false, type: .map), 
-            AWSShapeProperty(label: "Thursday", required: false, type: .map), 
-            AWSShapeProperty(label: "Wednesday", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Saturday", required: false, type: .map), 
+            AWSShapeMember(label: "Tuesday", required: false, type: .map), 
+            AWSShapeMember(label: "Sunday", required: false, type: .map), 
+            AWSShapeMember(label: "Friday", required: false, type: .map), 
+            AWSShapeMember(label: "Monday", required: false, type: .map), 
+            AWSShapeMember(label: "Thursday", required: false, type: .map), 
+            AWSShapeMember(label: "Wednesday", required: false, type: .map)
         ]
         /// The schedule for Saturday.
         public let saturday: [String: String]?
@@ -1717,50 +1617,21 @@ extension Opsworks {
             self.wednesday = wednesday
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let saturday = dictionary["Saturday"] as? [String: String] {
-                self.saturday = saturday
-            } else { 
-                self.saturday = nil
-            }
-            if let tuesday = dictionary["Tuesday"] as? [String: String] {
-                self.tuesday = tuesday
-            } else { 
-                self.tuesday = nil
-            }
-            if let sunday = dictionary["Sunday"] as? [String: String] {
-                self.sunday = sunday
-            } else { 
-                self.sunday = nil
-            }
-            if let friday = dictionary["Friday"] as? [String: String] {
-                self.friday = friday
-            } else { 
-                self.friday = nil
-            }
-            if let monday = dictionary["Monday"] as? [String: String] {
-                self.monday = monday
-            } else { 
-                self.monday = nil
-            }
-            if let thursday = dictionary["Thursday"] as? [String: String] {
-                self.thursday = thursday
-            } else { 
-                self.thursday = nil
-            }
-            if let wednesday = dictionary["Wednesday"] as? [String: String] {
-                self.wednesday = wednesday
-            } else { 
-                self.wednesday = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case saturday = "Saturday"
+            case tuesday = "Tuesday"
+            case sunday = "Sunday"
+            case friday = "Friday"
+            case monday = "Monday"
+            case thursday = "Thursday"
+            case wednesday = "Wednesday"
         }
     }
 
     public struct RegisterEcsClusterResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsClusterArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
         ]
         /// The cluster's ARN.
         public let ecsClusterArn: String?
@@ -1769,16 +1640,15 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArn = "EcsClusterArn"
         }
     }
 
     public struct RegisterElasticIpResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string)
         ]
         /// The Elastic IP address.
         public let elasticIp: String?
@@ -1787,16 +1657,15 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.elasticIp = dictionary["ElasticIp"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
         }
     }
 
     public struct GetHostnameSuggestionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
         public let layerId: String
@@ -1805,17 +1674,15 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
         }
     }
 
     public struct DeregisterInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -1824,34 +1691,32 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct CreateInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "BlockDeviceMappings", required: false, type: .list), 
-            AWSShapeProperty(label: "SubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerIds", required: true, type: .list), 
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "EbsOptimized", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tenancy", required: false, type: .string), 
-            AWSShapeProperty(label: "AmiId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstanceType", required: true, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "Architecture", required: false, type: .enum), 
-            AWSShapeProperty(label: "RootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AutoScalingType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Os", required: false, type: .string), 
-            AWSShapeProperty(label: "SshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualizationType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlockDeviceMappings", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: true, type: .list), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "EbsOptimized", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tenancy", required: false, type: .string), 
+            AWSShapeMember(label: "AmiId", required: false, type: .string), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstanceType", required: true, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Architecture", required: false, type: .enum), 
+            AWSShapeMember(label: "RootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "AutoScalingType", required: false, type: .enum), 
+            AWSShapeMember(label: "Os", required: false, type: .string), 
+            AWSShapeMember(label: "SshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualizationType", required: false, type: .string)
         ]
         /// An array of BlockDeviceMapping objects that specify the instance's block devices. For more information, see Block Device Mapping. Note that block device mappings are not supported for custom AMIs.
         public let blockDeviceMappings: [BlockDeviceMapping]?
@@ -1911,51 +1776,43 @@ extension Opsworks {
             self.virtualizationType = virtualizationType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
-                self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
-            } else { 
-                self.blockDeviceMappings = nil
-            }
-            self.subnetId = dictionary["SubnetId"] as? String
-            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
-            self.layerIds = layerIds
-            self.hostname = dictionary["Hostname"] as? String
-            self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            self.tenancy = dictionary["Tenancy"] as? String
-            self.amiId = dictionary["AmiId"] as? String
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
-            self.instanceType = instanceType
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            if let architecture = dictionary["Architecture"] as? String { self.architecture = Architecture(rawValue: architecture) } else { self.architecture = nil }
-            if let rootDeviceType = dictionary["RootDeviceType"] as? String { self.rootDeviceType = RootDeviceType(rawValue: rootDeviceType) } else { self.rootDeviceType = nil }
-            if let autoScalingType = dictionary["AutoScalingType"] as? String { self.autoScalingType = AutoScalingType(rawValue: autoScalingType) } else { self.autoScalingType = nil }
-            self.os = dictionary["Os"] as? String
-            self.sshKeyName = dictionary["SshKeyName"] as? String
-            self.virtualizationType = dictionary["VirtualizationType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case blockDeviceMappings = "BlockDeviceMappings"
+            case subnetId = "SubnetId"
+            case layerIds = "LayerIds"
+            case hostname = "Hostname"
+            case ebsOptimized = "EbsOptimized"
+            case tenancy = "Tenancy"
+            case amiId = "AmiId"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case instanceType = "InstanceType"
+            case availabilityZone = "AvailabilityZone"
+            case agentVersion = "AgentVersion"
+            case stackId = "StackId"
+            case architecture = "Architecture"
+            case rootDeviceType = "RootDeviceType"
+            case autoScalingType = "AutoScalingType"
+            case os = "Os"
+            case sshKeyName = "SshKeyName"
+            case virtualizationType = "VirtualizationType"
         }
     }
 
     public struct CreateAppRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shortname", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "DataSources", required: false, type: .list), 
-            AWSShapeProperty(label: "SslConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "AppSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "Environment", required: false, type: .list), 
-            AWSShapeProperty(label: "EnableSsl", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Domains", required: false, type: .list), 
-            AWSShapeProperty(label: "Type", required: true, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "DataSources", required: false, type: .list), 
+            AWSShapeMember(label: "SslConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "AppSource", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "Environment", required: false, type: .list), 
+            AWSShapeMember(label: "EnableSsl", required: false, type: .boolean), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: true, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The app's short name.
         public let shortname: String?
@@ -1997,43 +1854,27 @@ extension Opsworks {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortname = dictionary["Shortname"] as? String
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
-                self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
-            } else { 
-                self.dataSources = nil
-            }
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
-            if let attributes = dictionary["Attributes"] as? [AppAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            if let environment = dictionary["Environment"] as? [[String: Any]] {
-                self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
-            } else { 
-                self.environment = nil
-            }
-            self.enableSsl = dictionary["EnableSsl"] as? Bool
-            self.domains = dictionary["Domains"] as? [String]
-            guard let rawType = dictionary["Type"] as? String, let `type` = AppType(rawValue: rawType) else { throw InitializableError.missingRequiredParam("Type") }
-            self.`type` = `type`
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case shortname = "Shortname"
+            case stackId = "StackId"
+            case name = "Name"
+            case dataSources = "DataSources"
+            case sslConfiguration = "SslConfiguration"
+            case appSource = "AppSource"
+            case attributes = "Attributes"
+            case environment = "Environment"
+            case enableSsl = "EnableSsl"
+            case domains = "Domains"
+            case `type` = "Type"
+            case description = "Description"
         }
     }
 
     public struct ShutdownEventConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExecutionTimeout", required: false, type: .integer), 
-            AWSShapeProperty(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExecutionTimeout", required: false, type: .integer), 
+            AWSShapeMember(label: "DelayUntilElbConnectionsDrained", required: false, type: .boolean)
         ]
         /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
         public let executionTimeout: Int32?
@@ -2045,17 +1886,16 @@ extension Opsworks {
             self.delayUntilElbConnectionsDrained = delayUntilElbConnectionsDrained
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.executionTimeout = dictionary["ExecutionTimeout"] as? Int32
-            self.delayUntilElbConnectionsDrained = dictionary["DelayUntilElbConnectionsDrained"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case executionTimeout = "ExecutionTimeout"
+            case delayUntilElbConnectionsDrained = "DelayUntilElbConnectionsDrained"
         }
     }
 
     public struct CreateUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
         ]
         /// The user's IAM ARN.
         public let iamUserArn: String?
@@ -2064,37 +1904,36 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamUserArn = dictionary["IamUserArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
         }
     }
 
     public struct CloneStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeProperty(label: "ClonePermissions", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceStackId", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "CloneAppIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeProperty(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "ClonePermissions", required: false, type: .boolean), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "SourceStackId", required: true, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "CloneAppIds", required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
         /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
         public let defaultOs: String?
@@ -2165,44 +2004,37 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultOs = dictionary["DefaultOs"] as? String
-            self.clonePermissions = dictionary["ClonePermissions"] as? Bool
-            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
-            self.serviceRoleArn = serviceRoleArn
-            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
-            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
-            self.region = dictionary["Region"] as? String
-            guard let sourceStackId = dictionary["SourceStackId"] as? String else { throw InitializableError.missingRequiredParam("SourceStackId") }
-            self.sourceStackId = sourceStackId
-            self.customJson = dictionary["CustomJson"] as? String
-            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
-            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.cloneAppIds = dictionary["CloneAppIds"] as? [String]
-            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
-            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
-            self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case defaultOs = "DefaultOs"
+            case clonePermissions = "ClonePermissions"
+            case serviceRoleArn = "ServiceRoleArn"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case chefConfiguration = "ChefConfiguration"
+            case region = "Region"
+            case sourceStackId = "SourceStackId"
+            case customJson = "CustomJson"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case agentVersion = "AgentVersion"
+            case vpcId = "VpcId"
+            case name = "Name"
+            case cloneAppIds = "CloneAppIds"
+            case attributes = "Attributes"
+            case defaultSubnetId = "DefaultSubnetId"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case hostnameTheme = "HostnameTheme"
+            case configurationManager = "ConfigurationManager"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
         }
     }
 
     public struct DescribeLayersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list)
         ]
         /// The stack ID.
         public let stackId: String?
@@ -2214,18 +2046,17 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.layerIds = dictionary["LayerIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case layerIds = "LayerIds"
         }
     }
 
     public struct DescribeAgentVersionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure)
         ]
         /// The stack ID.
         public let stackId: String?
@@ -2237,19 +2068,18 @@ extension Opsworks {
             self.configurationManager = configurationManager
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case configurationManager = "ConfigurationManager"
         }
     }
 
     public struct DescribeDeploymentsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AppId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentIds", required: false, type: .list), 
+            AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// The stack ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified stack.
         public let stackId: String?
@@ -2264,18 +2094,17 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.deploymentIds = dictionary["DeploymentIds"] as? [String]
-            self.appId = dictionary["AppId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case deploymentIds = "DeploymentIds"
+            case appId = "AppId"
         }
     }
 
     public struct DescribeAppsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Apps", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Apps", required: false, type: .list)
         ]
         /// An array of App objects that describe the specified apps. 
         public let apps: [App]?
@@ -2284,20 +2113,15 @@ extension Opsworks {
             self.apps = apps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let apps = dictionary["Apps"] as? [[String: Any]] {
-                self.apps = try apps.map({ try App(dictionary: $0) })
-            } else { 
-                self.apps = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case apps = "Apps"
         }
     }
 
     public struct DescribeVolumesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Volumes", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Volumes", required: false, type: .list)
         ]
         /// An array of volume IDs.
         public let volumes: [Volume]?
@@ -2306,21 +2130,16 @@ extension Opsworks {
             self.volumes = volumes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let volumes = dictionary["Volumes"] as? [[String: Any]] {
-                self.volumes = try volumes.map({ try Volume(dictionary: $0) })
-            } else { 
-                self.volumes = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case volumes = "Volumes"
         }
     }
 
     public struct GrantAccessRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidForInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
         public let validForInMinutes: Int32?
@@ -2332,18 +2151,16 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validForInMinutes = dictionary["ValidForInMinutes"] as? Int32
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case validForInMinutes = "ValidForInMinutes"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct DescribeLayersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Layers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Layers", required: false, type: .list)
         ]
         /// An array of Layer objects that describe the layers.
         public let layers: [Layer]?
@@ -2352,21 +2169,16 @@ extension Opsworks {
             self.layers = layers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let layers = dictionary["Layers"] as? [[String: Any]] {
-                self.layers = try layers.map({ try Layer(dictionary: $0) })
-            } else { 
-                self.layers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case layers = "Layers"
         }
     }
 
     public struct DetachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerId", required: true, type: .string), 
-            AWSShapeProperty(label: "ElasticLoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
         public let layerId: String
@@ -2378,19 +2190,16 @@ extension Opsworks {
             self.elasticLoadBalancerName = elasticLoadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
-            guard let elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("ElasticLoadBalancerName") }
-            self.elasticLoadBalancerName = elasticLoadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
         }
     }
 
     public struct RegisterInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The registered instance's AWS OpsWorks Stacks ID.
         public let instanceId: String?
@@ -2399,20 +2208,19 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct ElasticIp: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Domain", required: false, type: .string), 
-            AWSShapeProperty(label: "Ip", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Domain", required: false, type: .string), 
+            AWSShapeMember(label: "Ip", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The domain.
         public let domain: String?
@@ -2433,20 +2241,19 @@ extension Opsworks {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.domain = dictionary["Domain"] as? String
-            self.ip = dictionary["Ip"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.region = dictionary["Region"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case ip = "Ip"
+            case instanceId = "InstanceId"
+            case region = "Region"
+            case name = "Name"
         }
     }
 
     public struct GrantAccessResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TemporaryCredential", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TemporaryCredential", required: false, type: .structure)
         ]
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
         public let temporaryCredential: TemporaryCredential?
@@ -2455,12 +2262,12 @@ extension Opsworks {
             self.temporaryCredential = temporaryCredential
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let temporaryCredential = dictionary["TemporaryCredential"] as? [String: Any] { self.temporaryCredential = try Opsworks.TemporaryCredential(dictionary: temporaryCredential) } else { self.temporaryCredential = nil }
+        private enum CodingKeys: String, CodingKey {
+            case temporaryCredential = "TemporaryCredential"
         }
     }
 
-    public enum RootDeviceType: String, CustomStringConvertible {
+    public enum RootDeviceType: String, CustomStringConvertible, Codable {
         case ebs = "ebs"
         case instance_store = "instance-store"
         public var description: String { return self.rawValue }
@@ -2468,10 +2275,9 @@ extension Opsworks {
 
     public struct AssignInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerIds", required: true, type: .list), 
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: true, type: .list), 
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
         public let layerIds: [String]
@@ -2483,20 +2289,17 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
-            self.layerIds = layerIds
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct AssociateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The Elastic IP address.
         public let elasticIp: String
@@ -2508,18 +2311,16 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
-            self.elasticIp = elasticIp
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct UnassignVolumeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
         /// The volume ID.
         public let volumeId: String
@@ -2528,22 +2329,20 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
-            self.volumeId = volumeId
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
         }
     }
 
     public struct VolumeConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NumberOfDisks", required: true, type: .integer), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "MountPoint", required: true, type: .string), 
-            AWSShapeProperty(label: "Size", required: true, type: .integer), 
-            AWSShapeProperty(label: "RaidLevel", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NumberOfDisks", required: true, type: .integer), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "MountPoint", required: true, type: .string), 
+            AWSShapeMember(label: "Size", required: true, type: .integer), 
+            AWSShapeMember(label: "RaidLevel", required: false, type: .integer)
         ]
         /// The number of disks in the volume.
         public let numberOfDisks: Int32
@@ -2567,24 +2366,20 @@ extension Opsworks {
             self.raidLevel = raidLevel
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let numberOfDisks = dictionary["NumberOfDisks"] as? Int32 else { throw InitializableError.missingRequiredParam("NumberOfDisks") }
-            self.numberOfDisks = numberOfDisks
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.iops = dictionary["Iops"] as? Int32
-            guard let mountPoint = dictionary["MountPoint"] as? String else { throw InitializableError.missingRequiredParam("MountPoint") }
-            self.mountPoint = mountPoint
-            guard let size = dictionary["Size"] as? Int32 else { throw InitializableError.missingRequiredParam("Size") }
-            self.size = size
-            self.raidLevel = dictionary["RaidLevel"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case numberOfDisks = "NumberOfDisks"
+            case volumeType = "VolumeType"
+            case iops = "Iops"
+            case mountPoint = "MountPoint"
+            case size = "Size"
+            case raidLevel = "RaidLevel"
         }
     }
 
     public struct CreateAppResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AppId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// The app ID.
         public let appId: String?
@@ -2593,16 +2388,15 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.appId = dictionary["AppId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
         }
     }
 
     public struct DescribeUserProfilesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserProfiles", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfiles", required: false, type: .list)
         ]
         /// A Users object that describes the specified users.
         public let userProfiles: [UserProfile]?
@@ -2611,23 +2405,18 @@ extension Opsworks {
             self.userProfiles = userProfiles
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let userProfiles = dictionary["UserProfiles"] as? [[String: Any]] {
-                self.userProfiles = try userProfiles.map({ try UserProfile(dictionary: $0) })
-            } else { 
-                self.userProfiles = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case userProfiles = "UserProfiles"
         }
     }
 
     public struct SetLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DownScaling", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enable", required: false, type: .boolean), 
-            AWSShapeProperty(label: "UpScaling", required: false, type: .structure), 
-            AWSShapeProperty(label: "LayerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DownScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "Enable", required: false, type: .boolean), 
+            AWSShapeMember(label: "UpScaling", required: false, type: .structure), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
         public let downScaling: AutoScalingThresholds?
@@ -2645,20 +2434,18 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) } else { self.downScaling = nil }
-            self.enable = dictionary["Enable"] as? Bool
-            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) } else { self.upScaling = nil }
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
+        private enum CodingKeys: String, CodingKey {
+            case downScaling = "DownScaling"
+            case enable = "Enable"
+            case upScaling = "UpScaling"
+            case layerId = "LayerId"
         }
     }
 
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -2667,13 +2454,12 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
-    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible {
+    public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
         case start_of_file = "start_of_file"
         case end_of_file = "end_of_file"
         public var description: String { return self.rawValue }
@@ -2681,19 +2467,18 @@ extension Opsworks {
 
     public struct CloudWatchLogsLogStream: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "File", required: false, type: .string), 
-            AWSShapeProperty(label: "TimeZone", required: false, type: .enum), 
-            AWSShapeProperty(label: "InitialPosition", required: false, type: .enum), 
-            AWSShapeProperty(label: "BatchSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "BufferDuration", required: false, type: .integer), 
-            AWSShapeProperty(label: "MultiLineStartPattern", required: false, type: .string), 
-            AWSShapeProperty(label: "BatchCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "DatetimeFormat", required: false, type: .string), 
-            AWSShapeProperty(label: "Encoding", required: false, type: .enum), 
-            AWSShapeProperty(label: "FileFingerprintLines", required: false, type: .string), 
-            AWSShapeProperty(label: "LogGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "File", required: false, type: .string), 
+            AWSShapeMember(label: "TimeZone", required: false, type: .enum), 
+            AWSShapeMember(label: "InitialPosition", required: false, type: .enum), 
+            AWSShapeMember(label: "BatchSize", required: false, type: .integer), 
+            AWSShapeMember(label: "BufferDuration", required: false, type: .integer), 
+            AWSShapeMember(label: "MultiLineStartPattern", required: false, type: .string), 
+            AWSShapeMember(label: "BatchCount", required: false, type: .integer), 
+            AWSShapeMember(label: "DatetimeFormat", required: false, type: .string), 
+            AWSShapeMember(label: "Encoding", required: false, type: .enum), 
+            AWSShapeMember(label: "FileFingerprintLines", required: false, type: .string), 
+            AWSShapeMember(label: "LogGroupName", required: false, type: .string)
         ]
         /// Specifies log files that you want to push to CloudWatch Logs.  File can point to a specific file or multiple files (by using wild card characters such as /var/log/system.log*). Only the latest file is pushed to CloudWatch Logs, based on file modification time. We recommend that you use wild card characters to specify a series of files of the same type, such as access_log.2014-06-01-01, access_log.2014-06-01-02, and so on by using a pattern like access_log.*. Don't use a wildcard to match multiple file types, such as access_log_80 and access_log_443. To specify multiple, different file types, add another log stream entry to the configuration file, so that each log file type is stored in a different log group. Zipped files are not supported.
         public let file: String?
@@ -2732,26 +2517,25 @@ extension Opsworks {
             self.logGroupName = logGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.file = dictionary["File"] as? String
-            if let timeZone = dictionary["TimeZone"] as? String { self.timeZone = CloudWatchLogsTimeZone(rawValue: timeZone) } else { self.timeZone = nil }
-            if let initialPosition = dictionary["InitialPosition"] as? String { self.initialPosition = CloudWatchLogsInitialPosition(rawValue: initialPosition) } else { self.initialPosition = nil }
-            self.batchSize = dictionary["BatchSize"] as? Int32
-            self.bufferDuration = dictionary["BufferDuration"] as? Int32
-            self.multiLineStartPattern = dictionary["MultiLineStartPattern"] as? String
-            self.batchCount = dictionary["BatchCount"] as? Int32
-            self.datetimeFormat = dictionary["DatetimeFormat"] as? String
-            if let encoding = dictionary["Encoding"] as? String { self.encoding = CloudWatchLogsEncoding(rawValue: encoding) } else { self.encoding = nil }
-            self.fileFingerprintLines = dictionary["FileFingerprintLines"] as? String
-            self.logGroupName = dictionary["LogGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case file = "File"
+            case timeZone = "TimeZone"
+            case initialPosition = "InitialPosition"
+            case batchSize = "BatchSize"
+            case bufferDuration = "BufferDuration"
+            case multiLineStartPattern = "MultiLineStartPattern"
+            case batchCount = "BatchCount"
+            case datetimeFormat = "DatetimeFormat"
+            case encoding = "Encoding"
+            case fileFingerprintLines = "FileFingerprintLines"
+            case logGroupName = "LogGroupName"
         }
     }
 
     public struct UpdateMyUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string)
         ]
         /// The user's SSH public key.
         public let sshPublicKey: String?
@@ -2760,21 +2544,20 @@ extension Opsworks {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sshPublicKey = "SshPublicKey"
         }
     }
 
-    public enum StackAttributesKeys: String, CustomStringConvertible {
+    public enum StackAttributesKeys: String, CustomStringConvertible, Codable {
         case color = "Color"
         public var description: String { return self.rawValue }
     }
 
     public struct StopInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -2783,18 +2566,16 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
@@ -2806,20 +2587,17 @@ extension Opsworks {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
         }
     }
 
     public struct DeploymentCommand: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .enum), 
-            AWSShapeProperty(label: "Args", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .enum), 
+            AWSShapeMember(label: "Args", required: false, type: .map)
         ]
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
         public let name: DeploymentCommandName
@@ -2831,29 +2609,18 @@ extension Opsworks {
             self.args = args
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rawName = dictionary["Name"] as? String, let name = DeploymentCommandName(rawValue: rawName) else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            if let args = dictionary["Args"] as? [String: Any] {
-                var argsDict: [String: [String]] = [:]
-                for (key, value) in args {
-                    guard let strings = value as? [String] else { throw InitializableError.convertingError }
-                    argsDict[key] = strings
-                }
-                self.args = argsDict
-            } else { 
-                self.args = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case args = "Args"
         }
     }
 
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "LayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
         /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
         public let stackId: String?
@@ -2868,18 +2635,17 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            self.layerId = dictionary["LayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case instanceIds = "InstanceIds"
+            case layerId = "LayerId"
         }
     }
 
     public struct DescribeLoadBasedAutoScalingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LoadBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
         public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
@@ -2888,23 +2654,18 @@ extension Opsworks {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let loadBasedAutoScalingConfigurations = dictionary["LoadBasedAutoScalingConfigurations"] as? [[String: Any]] {
-                self.loadBasedAutoScalingConfigurations = try loadBasedAutoScalingConfigurations.map({ try LoadBasedAutoScalingConfiguration(dictionary: $0) })
-            } else { 
-                self.loadBasedAutoScalingConfigurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case loadBasedAutoScalingConfigurations = "LoadBasedAutoScalingConfigurations"
         }
     }
 
     public struct RegisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DbPassword", required: true, type: .string), 
-            AWSShapeProperty(label: "DbUser", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "DbPassword", required: true, type: .string), 
+            AWSShapeMember(label: "DbUser", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -2922,23 +2683,18 @@ extension Opsworks {
             self.dbUser = dbUser
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
-            self.rdsDbInstanceArn = rdsDbInstanceArn
-            guard let dbPassword = dictionary["DbPassword"] as? String else { throw InitializableError.missingRequiredParam("DbPassword") }
-            self.dbPassword = dbPassword
-            guard let dbUser = dictionary["DbUser"] as? String else { throw InitializableError.missingRequiredParam("DbUser") }
-            self.dbUser = dbUser
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
         }
     }
 
     public struct CreateInstanceResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -2947,27 +2703,26 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CompletedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Command", required: false, type: .structure), 
-            AWSShapeProperty(label: "AppId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CompletedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "Command", required: false, type: .structure), 
+            AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// Date when the deployment completed.
         public let completedAt: String?
@@ -3008,33 +2763,32 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.completedAt = dictionary["CompletedAt"] as? String
-            self.status = dictionary["Status"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.comment = dictionary["Comment"] as? String
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.iamUserArn = dictionary["IamUserArn"] as? String
-            self.customJson = dictionary["CustomJson"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            if let command = dictionary["Command"] as? [String: Any] { self.command = try Opsworks.DeploymentCommand(dictionary: command) } else { self.command = nil }
-            self.appId = dictionary["AppId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "CompletedAt"
+            case status = "Status"
+            case createdAt = "CreatedAt"
+            case stackId = "StackId"
+            case comment = "Comment"
+            case deploymentId = "DeploymentId"
+            case iamUserArn = "IamUserArn"
+            case customJson = "CustomJson"
+            case duration = "Duration"
+            case instanceIds = "InstanceIds"
+            case command = "Command"
+            case appId = "AppId"
         }
     }
 
     public struct RegisterInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIdentity", required: false, type: .structure), 
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "PrivateIp", required: false, type: .string), 
-            AWSShapeProperty(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
-            AWSShapeProperty(label: "PublicIp", required: false, type: .string), 
-            AWSShapeProperty(label: "RsaPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIdentity", required: false, type: .structure), 
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "PrivateIp", required: false, type: .string), 
+            AWSShapeMember(label: "RsaPublicKeyFingerprint", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIp", required: false, type: .string), 
+            AWSShapeMember(label: "RsaPublicKey", required: false, type: .string)
         ]
         /// An InstanceIdentity object that contains the instance's identity.
         public let instanceIdentity: InstanceIdentity?
@@ -3061,24 +2815,22 @@ extension Opsworks {
             self.rsaPublicKey = rsaPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instanceIdentity = dictionary["InstanceIdentity"] as? [String: Any] { self.instanceIdentity = try Opsworks.InstanceIdentity(dictionary: instanceIdentity) } else { self.instanceIdentity = nil }
-            self.hostname = dictionary["Hostname"] as? String
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            self.privateIp = dictionary["PrivateIp"] as? String
-            self.rsaPublicKeyFingerprint = dictionary["RsaPublicKeyFingerprint"] as? String
-            self.publicIp = dictionary["PublicIp"] as? String
-            self.rsaPublicKey = dictionary["RsaPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceIdentity = "InstanceIdentity"
+            case hostname = "Hostname"
+            case stackId = "StackId"
+            case privateIp = "PrivateIp"
+            case rsaPublicKeyFingerprint = "RsaPublicKeyFingerprint"
+            case publicIp = "PublicIp"
+            case rsaPublicKey = "RsaPublicKey"
         }
     }
 
     public struct DescribeAppsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "AppIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "AppIds", required: false, type: .list)
         ]
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
         public let stackId: String?
@@ -3090,22 +2842,21 @@ extension Opsworks {
             self.appIds = appIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.appIds = dictionary["AppIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case appIds = "AppIds"
         }
     }
 
     public struct Source: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SshKey", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .enum), 
-            AWSShapeProperty(label: "Url", required: false, type: .string), 
-            AWSShapeProperty(label: "Revision", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SshKey", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .enum), 
+            AWSShapeMember(label: "Url", required: false, type: .string), 
+            AWSShapeMember(label: "Revision", required: false, type: .string)
         ]
         /// In requests, the repository's SSH key. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let sshKey: String?
@@ -3129,21 +2880,20 @@ extension Opsworks {
             self.revision = revision
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sshKey = dictionary["SshKey"] as? String
-            self.username = dictionary["Username"] as? String
-            self.password = dictionary["Password"] as? String
-            if let `type` = dictionary["Type"] as? String { self.`type` = SourceType(rawValue: `type`) } else { self.`type` = nil }
-            self.url = dictionary["Url"] as? String
-            self.revision = dictionary["Revision"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sshKey = "SshKey"
+            case username = "Username"
+            case password = "Password"
+            case `type` = "Type"
+            case url = "Url"
+            case revision = "Revision"
         }
     }
 
     public struct DescribeRaidArraysResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RaidArrays", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RaidArrays", required: false, type: .list)
         ]
         /// A RaidArrays object that describes the specified RAID arrays.
         public let raidArrays: [RaidArray]?
@@ -3152,20 +2902,15 @@ extension Opsworks {
             self.raidArrays = raidArrays
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let raidArrays = dictionary["RaidArrays"] as? [[String: Any]] {
-                self.raidArrays = try raidArrays.map({ try RaidArray(dictionary: $0) })
-            } else { 
-                self.raidArrays = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case raidArrays = "RaidArrays"
         }
     }
 
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Stacks", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Stacks", required: false, type: .list)
         ]
         /// An array of Stack objects that describe the stacks.
         public let stacks: [Stack]?
@@ -3174,22 +2919,17 @@ extension Opsworks {
             self.stacks = stacks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stacks = dictionary["Stacks"] as? [[String: Any]] {
-                self.stacks = try stacks.map({ try Stack(dictionary: $0) })
-            } else { 
-                self.stacks = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case stacks = "Stacks"
         }
     }
 
     public struct DescribeServiceErrorsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceErrorIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceErrorIds", required: false, type: .list)
         ]
         /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
         public let stackId: String?
@@ -3204,21 +2944,20 @@ extension Opsworks {
             self.serviceErrorIds = serviceErrorIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.serviceErrorIds = dictionary["ServiceErrorIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case instanceId = "InstanceId"
+            case serviceErrorIds = "ServiceErrorIds"
         }
     }
 
     public struct DescribeVolumesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
         public let raidArrayId: String?
@@ -3236,25 +2975,24 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.raidArrayId = dictionary["RaidArrayId"] as? String
-            self.volumeIds = dictionary["VolumeIds"] as? [String]
-            self.stackId = dictionary["StackId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case raidArrayId = "RaidArrayId"
+            case volumeIds = "VolumeIds"
+            case stackId = "StackId"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct AutoScalingThresholds: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MemoryThreshold", required: false, type: .double), 
-            AWSShapeProperty(label: "CpuThreshold", required: false, type: .double), 
-            AWSShapeProperty(label: "IgnoreMetricsTime", required: false, type: .integer), 
-            AWSShapeProperty(label: "LoadThreshold", required: false, type: .double), 
-            AWSShapeProperty(label: "InstanceCount", required: false, type: .integer), 
-            AWSShapeProperty(label: "Alarms", required: false, type: .list), 
-            AWSShapeProperty(label: "ThresholdsWaitTime", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MemoryThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "CpuThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "IgnoreMetricsTime", required: false, type: .integer), 
+            AWSShapeMember(label: "LoadThreshold", required: false, type: .double), 
+            AWSShapeMember(label: "InstanceCount", required: false, type: .integer), 
+            AWSShapeMember(label: "Alarms", required: false, type: .list), 
+            AWSShapeMember(label: "ThresholdsWaitTime", required: false, type: .integer)
         ]
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
         public let memoryThreshold: Double?
@@ -3281,18 +3019,18 @@ extension Opsworks {
             self.thresholdsWaitTime = thresholdsWaitTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.memoryThreshold = dictionary["MemoryThreshold"] as? Double
-            self.cpuThreshold = dictionary["CpuThreshold"] as? Double
-            self.ignoreMetricsTime = dictionary["IgnoreMetricsTime"] as? Int32
-            self.loadThreshold = dictionary["LoadThreshold"] as? Double
-            self.instanceCount = dictionary["InstanceCount"] as? Int32
-            self.alarms = dictionary["Alarms"] as? [String]
-            self.thresholdsWaitTime = dictionary["ThresholdsWaitTime"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case memoryThreshold = "MemoryThreshold"
+            case cpuThreshold = "CpuThreshold"
+            case ignoreMetricsTime = "IgnoreMetricsTime"
+            case loadThreshold = "LoadThreshold"
+            case instanceCount = "InstanceCount"
+            case alarms = "Alarms"
+            case thresholdsWaitTime = "ThresholdsWaitTime"
         }
     }
 
-    public enum LayerAttributesKeys: String, CustomStringConvertible {
+    public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
         case ecsclusterarn = "EcsClusterArn"
         case enablehaproxystats = "EnableHaproxyStats"
         case haproxystatsurl = "HaproxyStatsUrl"
@@ -3323,12 +3061,11 @@ extension Opsworks {
 
     public struct DescribeEcsClustersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsClusterArns", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterArns", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// A list of ARNs, one for each cluster to be described.
         public let ecsClusterArns: [String]?
@@ -3346,35 +3083,34 @@ extension Opsworks {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ecsClusterArns = dictionary["EcsClusterArns"] as? [String]
-            self.stackId = dictionary["StackId"] as? String
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterArns = "EcsClusterArns"
+            case stackId = "StackId"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateLayerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shortname", required: false, type: .string), 
-            AWSShapeProperty(label: "Packages", required: false, type: .list), 
-            AWSShapeProperty(label: "LifecycleEventConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomRecipes", required: false, type: .structure), 
-            AWSShapeProperty(label: "AutoAssignElasticIps", required: false, type: .boolean), 
-            AWSShapeProperty(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomSecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerId", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomInstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EnableAutoHealing", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeConfigurations", required: false, type: .list), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoAssignPublicIps", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shortname", required: false, type: .string), 
+            AWSShapeMember(label: "Packages", required: false, type: .list), 
+            AWSShapeMember(label: "LifecycleEventConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomRecipes", required: false, type: .structure), 
+            AWSShapeMember(label: "AutoAssignElasticIps", required: false, type: .boolean), 
+            AWSShapeMember(label: "InstallUpdatesOnBoot", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomSecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "CustomInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "EnableAutoHealing", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeConfigurations", required: false, type: .list), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "UseEbsOptimizedInstances", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoAssignPublicIps", required: false, type: .boolean)
         ]
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see the Layer Reference 
         public let shortname: String?
@@ -3430,42 +3166,32 @@ extension Opsworks {
             self.autoAssignPublicIps = autoAssignPublicIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.shortname = dictionary["Shortname"] as? String
-            self.packages = dictionary["Packages"] as? [String]
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
-            self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
-            self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
-            self.customJson = dictionary["CustomJson"] as? String
-            if let cloudWatchLogsConfiguration = dictionary["CloudWatchLogsConfiguration"] as? [String: Any] { self.cloudWatchLogsConfiguration = try Opsworks.CloudWatchLogsConfiguration(dictionary: cloudWatchLogsConfiguration) } else { self.cloudWatchLogsConfiguration = nil }
-            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
-            self.name = dictionary["Name"] as? String
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
-            self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
-            self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
-            if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
-                self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
-            } else { 
-                self.volumeConfigurations = nil
-            }
-            if let attributes = dictionary["Attributes"] as? [LayerAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
-            self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case shortname = "Shortname"
+            case packages = "Packages"
+            case lifecycleEventConfiguration = "LifecycleEventConfiguration"
+            case customRecipes = "CustomRecipes"
+            case autoAssignElasticIps = "AutoAssignElasticIps"
+            case installUpdatesOnBoot = "InstallUpdatesOnBoot"
+            case customJson = "CustomJson"
+            case cloudWatchLogsConfiguration = "CloudWatchLogsConfiguration"
+            case customSecurityGroupIds = "CustomSecurityGroupIds"
+            case name = "Name"
+            case layerId = "LayerId"
+            case customInstanceProfileArn = "CustomInstanceProfileArn"
+            case enableAutoHealing = "EnableAutoHealing"
+            case volumeConfigurations = "VolumeConfigurations"
+            case attributes = "Attributes"
+            case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
+            case autoAssignPublicIps = "AutoAssignPublicIps"
         }
     }
 
     public struct DescribeStackProvisioningParametersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .map), 
-            AWSShapeProperty(label: "AgentInstallerUrl", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .map), 
+            AWSShapeMember(label: "AgentInstallerUrl", required: false, type: .string)
         ]
         /// An embedded object that contains the provisioning parameters.
         public let parameters: [String: String]?
@@ -3477,21 +3203,16 @@ extension Opsworks {
             self.agentInstallerUrl = agentInstallerUrl
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [String: String] {
-                self.parameters = parameters
-            } else { 
-                self.parameters = nil
-            }
-            self.agentInstallerUrl = dictionary["AgentInstallerUrl"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case agentInstallerUrl = "AgentInstallerUrl"
         }
     }
 
     public struct UnassignInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -3500,13 +3221,12 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
-    public enum AppType: String, CustomStringConvertible {
+    public enum AppType: String, CustomStringConvertible, Codable {
         case aws_flow_ruby = "aws-flow-ruby"
         case java = "java"
         case rails = "rails"
@@ -3519,30 +3239,29 @@ extension Opsworks {
 
     public struct Stack: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeProperty(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure)
         ]
         /// The stack's default operating system.
         public let defaultOs: String?
@@ -3613,41 +3332,36 @@ extension Opsworks {
             self.chefConfiguration = chefConfiguration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultOs = dictionary["DefaultOs"] as? String
-            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
-            self.arn = dictionary["Arn"] as? String
-            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
-            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            self.region = dictionary["Region"] as? String
-            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
-            self.customJson = dictionary["CustomJson"] as? String
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
-            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.name = dictionary["Name"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
-            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
-            self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
+        private enum CodingKeys: String, CodingKey {
+            case defaultOs = "DefaultOs"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
+            case arn = "Arn"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case serviceRoleArn = "ServiceRoleArn"
+            case region = "Region"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case customJson = "CustomJson"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case createdAt = "CreatedAt"
+            case vpcId = "VpcId"
+            case stackId = "StackId"
+            case name = "Name"
+            case agentVersion = "AgentVersion"
+            case attributes = "Attributes"
+            case defaultSubnetId = "DefaultSubnetId"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case hostnameTheme = "HostnameTheme"
+            case configurationManager = "ConfigurationManager"
+            case chefConfiguration = "ChefConfiguration"
         }
     }
 
     public struct StartStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -3656,19 +3370,17 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct ReportedOs: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Family", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Family", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The operating system family.
         public let family: String?
@@ -3683,22 +3395,21 @@ extension Opsworks {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.family = dictionary["Family"] as? String
-            self.name = dictionary["Name"] as? String
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case family = "Family"
+            case name = "Name"
+            case version = "Version"
         }
     }
 
     public struct Recipes: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Undeploy", required: false, type: .list), 
-            AWSShapeProperty(label: "Configure", required: false, type: .list), 
-            AWSShapeProperty(label: "Setup", required: false, type: .list), 
-            AWSShapeProperty(label: "Shutdown", required: false, type: .list), 
-            AWSShapeProperty(label: "Deploy", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Undeploy", required: false, type: .list), 
+            AWSShapeMember(label: "Configure", required: false, type: .list), 
+            AWSShapeMember(label: "Setup", required: false, type: .list), 
+            AWSShapeMember(label: "Shutdown", required: false, type: .list), 
+            AWSShapeMember(label: "Deploy", required: false, type: .list)
         ]
         /// An array of custom recipe names to be run following a undeploy event.
         public let undeploy: [String]?
@@ -3719,16 +3430,16 @@ extension Opsworks {
             self.deploy = deploy
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.undeploy = dictionary["Undeploy"] as? [String]
-            self.configure = dictionary["Configure"] as? [String]
-            self.setup = dictionary["Setup"] as? [String]
-            self.shutdown = dictionary["Shutdown"] as? [String]
-            self.deploy = dictionary["Deploy"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case undeploy = "Undeploy"
+            case configure = "Configure"
+            case setup = "Setup"
+            case shutdown = "Shutdown"
+            case deploy = "Deploy"
         }
     }
 
-    public enum Architecture: String, CustomStringConvertible {
+    public enum Architecture: String, CustomStringConvertible, Codable {
         case x86_64 = "x86_64"
         case i386 = "i386"
         public var description: String { return self.rawValue }
@@ -3736,13 +3447,12 @@ extension Opsworks {
 
     public struct SetPermissionRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Level", required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserArn", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowSsh", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "AllowSudo", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Level", required: false, type: .string), 
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string), 
+            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean)
         ]
         /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions.
         public let level: String?
@@ -3763,22 +3473,19 @@ extension Opsworks {
             self.allowSudo = allowSudo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.level = dictionary["Level"] as? String
-            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
-            self.iamUserArn = iamUserArn
-            self.allowSsh = dictionary["AllowSsh"] as? Bool
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            self.allowSudo = dictionary["AllowSudo"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case level = "Level"
+            case iamUserArn = "IamUserArn"
+            case allowSsh = "AllowSsh"
+            case stackId = "StackId"
+            case allowSudo = "AllowSudo"
         }
     }
 
     public struct DescribeTimeBasedAutoScalingResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TimeBasedAutoScalingConfigurations", required: false, type: .list)
         ]
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
         public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
@@ -3787,21 +3494,16 @@ extension Opsworks {
             self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let timeBasedAutoScalingConfigurations = dictionary["TimeBasedAutoScalingConfigurations"] as? [[String: Any]] {
-                self.timeBasedAutoScalingConfigurations = try timeBasedAutoScalingConfigurations.map({ try TimeBasedAutoScalingConfiguration(dictionary: $0) })
-            } else { 
-                self.timeBasedAutoScalingConfigurations = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case timeBasedAutoScalingConfigurations = "TimeBasedAutoScalingConfigurations"
         }
     }
 
     public struct DescribeElasticLoadBalancersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerIds", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "LayerIds", required: false, type: .list)
         ]
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
         public let stackId: String?
@@ -3813,19 +3515,18 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.layerIds = dictionary["LayerIds"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case layerIds = "LayerIds"
         }
     }
 
     public struct UpdateVolumeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MountPoint", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The new mount point.
         public let mountPoint: String?
@@ -3840,19 +3541,17 @@ extension Opsworks {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.mountPoint = dictionary["MountPoint"] as? String
-            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
-            self.volumeId = volumeId
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case mountPoint = "MountPoint"
+            case volumeId = "VolumeId"
+            case name = "Name"
         }
     }
 
     public struct RegisterVolumeResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VolumeId", required: false, type: .string)
         ]
         /// The volume ID.
         public let volumeId: String?
@@ -3861,16 +3560,15 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.volumeId = dictionary["VolumeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case volumeId = "VolumeId"
         }
     }
 
     public struct DescribeMyUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "UserProfile", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "UserProfile", required: false, type: .structure)
         ]
         /// A UserProfile object that describes the user's SSH information.
         public let userProfile: SelfUserProfile?
@@ -3879,17 +3577,16 @@ extension Opsworks {
             self.userProfile = userProfile
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let userProfile = dictionary["UserProfile"] as? [String: Any] { self.userProfile = try Opsworks.SelfUserProfile(dictionary: userProfile) } else { self.userProfile = nil }
+        private enum CodingKeys: String, CodingKey {
+            case userProfile = "UserProfile"
         }
     }
 
     public struct RegisterElasticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The Elastic IP address.
         public let elasticIp: String
@@ -3901,21 +3598,18 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
-            self.elasticIp = elasticIp
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case stackId = "StackId"
         }
     }
 
     public struct DescribeCommandsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CommandIds", required: false, type: .list), 
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CommandIds", required: false, type: .list), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
         ]
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
         public let commandIds: [String]?
@@ -3930,18 +3624,17 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.commandIds = dictionary["CommandIds"] as? [String]
-            self.deploymentId = dictionary["DeploymentId"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case commandIds = "CommandIds"
+            case deploymentId = "DeploymentId"
+            case instanceId = "InstanceId"
         }
     }
 
     public struct DescribeAgentVersionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AgentVersions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AgentVersions", required: false, type: .list)
         ]
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
         public let agentVersions: [AgentVersion]?
@@ -3950,16 +3643,12 @@ extension Opsworks {
             self.agentVersions = agentVersions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let agentVersions = dictionary["AgentVersions"] as? [[String: Any]] {
-                self.agentVersions = try agentVersions.map({ try AgentVersion(dictionary: $0) })
-            } else { 
-                self.agentVersions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case agentVersions = "AgentVersions"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case git = "git"
         case svn = "svn"
         case archive = "archive"
@@ -3969,27 +3658,26 @@ extension Opsworks {
 
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DefaultInstanceProfileArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Region", required: true, type: .string), 
-            AWSShapeProperty(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeProperty(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeProperty(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: true, type: .string), 
+            AWSShapeMember(label: "Region", required: true, type: .string), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
         /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
@@ -4051,42 +3739,33 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultOs = dictionary["DefaultOs"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
-            guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
-            self.serviceRoleArn = serviceRoleArn
-            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
-            guard let defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("DefaultInstanceProfileArn") }
-            self.defaultInstanceProfileArn = defaultInstanceProfileArn
-            guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
-            self.region = region
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
-            self.customJson = dictionary["CustomJson"] as? String
-            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
-            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            self.vpcId = dictionary["VpcId"] as? String
-            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
-            self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case defaultOs = "DefaultOs"
+            case chefConfiguration = "ChefConfiguration"
+            case serviceRoleArn = "ServiceRoleArn"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case region = "Region"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case agentVersion = "AgentVersion"
+            case name = "Name"
+            case vpcId = "VpcId"
+            case attributes = "Attributes"
+            case defaultSubnetId = "DefaultSubnetId"
+            case configurationManager = "ConfigurationManager"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case hostnameTheme = "HostnameTheme"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
         }
     }
 
     public struct DeleteLayerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string)
         ]
         /// The layer ID.
         public let layerId: String
@@ -4095,18 +3774,16 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
         }
     }
 
     public struct RegisterEcsClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "EcsClusterArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "EcsClusterArn", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -4118,21 +3795,18 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            guard let ecsClusterArn = dictionary["EcsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("EcsClusterArn") }
-            self.ecsClusterArn = ecsClusterArn
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case ecsClusterArn = "EcsClusterArn"
         }
     }
 
     public struct UpdateRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DbPassword", required: false, type: .string), 
-            AWSShapeProperty(label: "DbUser", required: false, type: .string), 
-            AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
         /// The database password.
         public let dbPassword: String?
@@ -4147,20 +3821,18 @@ extension Opsworks {
             self.rdsDbInstanceArn = rdsDbInstanceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.dbPassword = dictionary["DbPassword"] as? String
-            self.dbUser = dictionary["DbUser"] as? String
-            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
-            self.rdsDbInstanceArn = rdsDbInstanceArn
+        private enum CodingKeys: String, CodingKey {
+            case dbPassword = "DbPassword"
+            case dbUser = "DbUser"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
         }
     }
 
     public struct ChefConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ManageBerkshelf", required: false, type: .boolean), 
-            AWSShapeProperty(label: "BerkshelfVersion", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ManageBerkshelf", required: false, type: .boolean), 
+            AWSShapeMember(label: "BerkshelfVersion", required: false, type: .string)
         ]
         /// Whether to enable Berkshelf.
         public let manageBerkshelf: Bool?
@@ -4172,17 +3844,16 @@ extension Opsworks {
             self.berkshelfVersion = berkshelfVersion
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.manageBerkshelf = dictionary["ManageBerkshelf"] as? Bool
-            self.berkshelfVersion = dictionary["BerkshelfVersion"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case manageBerkshelf = "ManageBerkshelf"
+            case berkshelfVersion = "BerkshelfVersion"
         }
     }
 
     public struct DisassociateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
         public let elasticIp: String
@@ -4191,18 +3862,16 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
-            self.elasticIp = elasticIp
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
         }
     }
 
     public struct ListTagsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .map)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .map)
         ]
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null. 
         public let nextToken: String?
@@ -4214,22 +3883,17 @@ extension Opsworks {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [String: String] {
-                self.tags = tags
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct AttachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerId", required: true, type: .string), 
-            AWSShapeProperty(label: "ElasticLoadBalancerName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: true, type: .string), 
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: true, type: .string)
         ]
         /// The ID of the layer that the Elastic Load Balancing instance is to be attached to.
         public let layerId: String
@@ -4241,21 +3905,18 @@ extension Opsworks {
             self.elasticLoadBalancerName = elasticLoadBalancerName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
-            self.layerId = layerId
-            guard let elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String else { throw InitializableError.missingRequiredParam("ElasticLoadBalancerName") }
-            self.elasticLoadBalancerName = elasticLoadBalancerName
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
         }
     }
 
     public struct EnvironmentVariable: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: true, type: .string), 
-            AWSShapeProperty(label: "Key", required: true, type: .string), 
-            AWSShapeProperty(label: "Secure", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: true, type: .string), 
+            AWSShapeMember(label: "Key", required: true, type: .string), 
+            AWSShapeMember(label: "Secure", required: false, type: .boolean)
         ]
         /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
         public let value: String
@@ -4270,20 +3931,17 @@ extension Opsworks {
             self.secure = secure
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let value = dictionary["Value"] as? String else { throw InitializableError.missingRequiredParam("Value") }
-            self.value = value
-            guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
-            self.key = key
-            self.secure = dictionary["Secure"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
+            case secure = "Secure"
         }
     }
 
     public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: true, type: .list)
         ]
         /// An array of layer IDs.
         public let layerIds: [String]
@@ -4292,13 +3950,12 @@ extension Opsworks {
             self.layerIds = layerIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
-            self.layerIds = layerIds
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
         }
     }
 
-    public enum VolumeType: String, CustomStringConvertible {
+    public enum VolumeType: String, CustomStringConvertible, Codable {
         case gp2 = "gp2"
         case io1 = "io1"
         case standard = "standard"
@@ -4307,17 +3964,16 @@ extension Opsworks {
 
     public struct RdsDbInstance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "DbUser", required: false, type: .string), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "Engine", required: false, type: .string), 
-            AWSShapeProperty(label: "MissingOnRds", required: false, type: .boolean), 
-            AWSShapeProperty(label: "RdsDbInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DbPassword", required: false, type: .string), 
-            AWSShapeProperty(label: "DbInstanceIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Engine", required: false, type: .string), 
+            AWSShapeMember(label: "MissingOnRds", required: false, type: .boolean), 
+            AWSShapeMember(label: "RdsDbInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "DbPassword", required: false, type: .string), 
+            AWSShapeMember(label: "DbInstanceIdentifier", required: false, type: .string)
         ]
         /// The ID of the stack with which the instance is registered.
         public let stackId: String?
@@ -4350,24 +4006,23 @@ extension Opsworks {
             self.dbInstanceIdentifier = dbInstanceIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.address = dictionary["Address"] as? String
-            self.dbUser = dictionary["DbUser"] as? String
-            self.region = dictionary["Region"] as? String
-            self.engine = dictionary["Engine"] as? String
-            self.missingOnRds = dictionary["MissingOnRds"] as? Bool
-            self.rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String
-            self.dbPassword = dictionary["DbPassword"] as? String
-            self.dbInstanceIdentifier = dictionary["DbInstanceIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case address = "Address"
+            case dbUser = "DbUser"
+            case region = "Region"
+            case engine = "Engine"
+            case missingOnRds = "MissingOnRds"
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
+            case dbPassword = "DbPassword"
+            case dbInstanceIdentifier = "DbInstanceIdentifier"
         }
     }
 
     public struct DescribeStackSummaryResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackSummary", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackSummary", required: false, type: .structure)
         ]
         /// A StackSummary object that contains the results.
         public let stackSummary: StackSummary?
@@ -4376,28 +4031,27 @@ extension Opsworks {
             self.stackSummary = stackSummary
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let stackSummary = dictionary["StackSummary"] as? [String: Any] { self.stackSummary = try Opsworks.StackSummary(dictionary: stackSummary) } else { self.stackSummary = nil }
+        private enum CodingKeys: String, CodingKey {
+            case stackSummary = "StackSummary"
         }
     }
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Device", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2VolumeId", required: false, type: .string), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "RaidArrayId", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .string), 
-            AWSShapeProperty(label: "MountPoint", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Size", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Device", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "RaidArrayId", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .string), 
+            AWSShapeMember(label: "MountPoint", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Size", required: false, type: .integer)
         ]
         /// The device name.
         public let device: String?
@@ -4442,31 +4096,30 @@ extension Opsworks {
             self.size = size
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.device = dictionary["Device"] as? String
-            self.volumeId = dictionary["VolumeId"] as? String
-            self.region = dictionary["Region"] as? String
-            self.ec2VolumeId = dictionary["Ec2VolumeId"] as? String
-            self.iops = dictionary["Iops"] as? Int32
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.raidArrayId = dictionary["RaidArrayId"] as? String
-            self.status = dictionary["Status"] as? String
-            self.volumeType = dictionary["VolumeType"] as? String
-            self.mountPoint = dictionary["MountPoint"] as? String
-            self.name = dictionary["Name"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.size = dictionary["Size"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case device = "Device"
+            case volumeId = "VolumeId"
+            case region = "Region"
+            case ec2VolumeId = "Ec2VolumeId"
+            case iops = "Iops"
+            case availabilityZone = "AvailabilityZone"
+            case raidArrayId = "RaidArrayId"
+            case status = "Status"
+            case volumeType = "VolumeType"
+            case mountPoint = "MountPoint"
+            case name = "Name"
+            case instanceId = "InstanceId"
+            case size = "Size"
         }
     }
 
     public struct SelfUserProfile: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SshPublicKey", required: false, type: .string), 
-            AWSShapeProperty(label: "SshUsername", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "SshPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "SshUsername", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The user's IAM ARN.
         public let iamUserArn: String?
@@ -4484,22 +4137,21 @@ extension Opsworks {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.iamUserArn = dictionary["IamUserArn"] as? String
-            self.sshPublicKey = dictionary["SshPublicKey"] as? String
-            self.sshUsername = dictionary["SshUsername"] as? String
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
+            case sshPublicKey = "SshPublicKey"
+            case sshUsername = "SshUsername"
+            case name = "Name"
         }
     }
 
     public struct EcsCluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EcsClusterName", required: false, type: .string), 
-            AWSShapeProperty(label: "RegisteredAt", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "EcsClusterArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EcsClusterName", required: false, type: .string), 
+            AWSShapeMember(label: "RegisteredAt", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "EcsClusterArn", required: false, type: .string)
         ]
         /// The cluster name.
         public let ecsClusterName: String?
@@ -4517,19 +4169,18 @@ extension Opsworks {
             self.ecsClusterArn = ecsClusterArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.ecsClusterName = dictionary["EcsClusterName"] as? String
-            self.registeredAt = dictionary["RegisteredAt"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case ecsClusterName = "EcsClusterName"
+            case registeredAt = "RegisteredAt"
+            case stackId = "StackId"
+            case ecsClusterArn = "EcsClusterArn"
         }
     }
 
     public struct DescribeStackSummaryRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -4538,17 +4189,15 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct CreateLayerResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
         /// The layer ID.
         public let layerId: String?
@@ -4557,19 +4206,18 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerId = dictionary["LayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerId = "LayerId"
         }
     }
 
     public struct TemporaryCredential: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidForInMinutes", required: false, type: .integer), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidForInMinutes", required: false, type: .integer), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string)
         ]
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
         public let validForInMinutes: Int32?
@@ -4587,19 +4235,18 @@ extension Opsworks {
             self.username = username
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validForInMinutes = dictionary["ValidForInMinutes"] as? Int32
-            self.password = dictionary["Password"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.username = dictionary["Username"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case validForInMinutes = "ValidForInMinutes"
+            case password = "Password"
+            case instanceId = "InstanceId"
+            case username = "Username"
         }
     }
 
     public struct DeregisterElasticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string)
         ]
         /// The Elastic IP address.
         public let elasticIp: String
@@ -4608,23 +4255,21 @@ extension Opsworks {
             self.elasticIp = elasticIp
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
-            self.elasticIp = elasticIp
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
         }
     }
 
     public struct CreateDeploymentRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LayerIds", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "Comment", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "Command", required: true, type: .structure), 
-            AWSShapeProperty(label: "InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AppId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LayerIds", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "Command", required: true, type: .structure), 
+            AWSShapeMember(label: "InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "AppId", required: false, type: .string)
         ]
         /// The layer IDs for the deployment targets.
         public let layerIds: [String]?
@@ -4651,24 +4296,21 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.layerIds = dictionary["LayerIds"] as? [String]
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            self.comment = dictionary["Comment"] as? String
-            self.customJson = dictionary["CustomJson"] as? String
-            guard let command = dictionary["Command"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Command") }
-            self.command = try Opsworks.DeploymentCommand(dictionary: command)
-            self.instanceIds = dictionary["InstanceIds"] as? [String]
-            self.appId = dictionary["AppId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case layerIds = "LayerIds"
+            case stackId = "StackId"
+            case comment = "Comment"
+            case customJson = "CustomJson"
+            case command = "Command"
+            case instanceIds = "InstanceIds"
+            case appId = "AppId"
         }
     }
 
     public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceIds", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list)
         ]
         /// An array of instance IDs.
         public let instanceIds: [String]
@@ -4677,17 +4319,15 @@ extension Opsworks {
             self.instanceIds = instanceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceIds = dictionary["InstanceIds"] as? [String] else { throw InitializableError.missingRequiredParam("InstanceIds") }
-            self.instanceIds = instanceIds
+        private enum CodingKeys: String, CodingKey {
+            case instanceIds = "InstanceIds"
         }
     }
 
     public struct StopStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -4696,17 +4336,15 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct DescribeRdsDbInstancesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RdsDbInstances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RdsDbInstances", required: false, type: .list)
         ]
         /// An a array of RdsDbInstance objects that describe the instances.
         public let rdsDbInstances: [RdsDbInstance]?
@@ -4715,25 +4353,20 @@ extension Opsworks {
             self.rdsDbInstances = rdsDbInstances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let rdsDbInstances = dictionary["RdsDbInstances"] as? [[String: Any]] {
-                self.rdsDbInstances = try rdsDbInstances.map({ try RdsDbInstance(dictionary: $0) })
-            } else { 
-                self.rdsDbInstances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case rdsDbInstances = "RdsDbInstances"
         }
     }
 
     public struct ServiceError: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CreatedAt", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "ServiceErrorId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "ServiceErrorId", required: false, type: .string)
         ]
         /// When the error occurred.
         public let createdAt: String?
@@ -4757,21 +4390,20 @@ extension Opsworks {
             self.serviceErrorId = serviceErrorId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createdAt = dictionary["CreatedAt"] as? String
-            self.message = dictionary["Message"] as? String
-            self.stackId = dictionary["StackId"] as? String
-            self.`type` = dictionary["Type"] as? String
-            self.instanceId = dictionary["InstanceId"] as? String
-            self.serviceErrorId = dictionary["ServiceErrorId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case message = "Message"
+            case stackId = "StackId"
+            case `type` = "Type"
+            case instanceId = "InstanceId"
+            case serviceErrorId = "ServiceErrorId"
         }
     }
 
     public struct RebootInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -4780,17 +4412,15 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct CreateDeploymentResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeploymentId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string)
         ]
         /// The deployment ID, which can be used with other requests to identify the deployment.
         public let deploymentId: String?
@@ -4799,16 +4429,15 @@ extension Opsworks {
             self.deploymentId = deploymentId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["DeploymentId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
         }
     }
 
     public struct DescribeServiceErrorsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceErrors", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceErrors", required: false, type: .list)
         ]
         /// An array of ServiceError objects that describe the specified service errors.
         public let serviceErrors: [ServiceError]?
@@ -4817,21 +4446,16 @@ extension Opsworks {
             self.serviceErrors = serviceErrors
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let serviceErrors = dictionary["ServiceErrors"] as? [[String: Any]] {
-                self.serviceErrors = try serviceErrors.map({ try ServiceError(dictionary: $0) })
-            } else { 
-                self.serviceErrors = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case serviceErrors = "ServiceErrors"
         }
     }
 
     public struct DescribePermissionsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string)
         ]
         /// The stack ID.
         public let stackId: String?
@@ -4843,18 +4467,17 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["StackId"] as? String
-            self.iamUserArn = dictionary["IamUserArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case iamUserArn = "IamUserArn"
         }
     }
 
     public struct AgentVersion: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeProperty(label: "Version", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
         /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
@@ -4866,19 +4489,18 @@ extension Opsworks {
             self.version = version
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            self.version = dictionary["Version"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case configurationManager = "ConfigurationManager"
+            case version = "Version"
         }
     }
 
     public struct DataSource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Type", required: false, type: .string), 
-            AWSShapeProperty(label: "Arn", required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string)
         ]
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, or RdsDbInstance.
         public let `type`: String?
@@ -4893,19 +4515,18 @@ extension Opsworks {
             self.databaseName = databaseName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.`type` = dictionary["Type"] as? String
-            self.arn = dictionary["Arn"] as? String
-            self.databaseName = dictionary["DatabaseName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "Type"
+            case arn = "Arn"
+            case databaseName = "DatabaseName"
         }
     }
 
     public struct TimeBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoScalingSchedule", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "AutoScalingSchedule", required: false, type: .structure)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -4917,17 +4538,16 @@ extension Opsworks {
             self.autoScalingSchedule = autoScalingSchedule
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["InstanceId"] as? String
-            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) } else { self.autoScalingSchedule = nil }
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case autoScalingSchedule = "AutoScalingSchedule"
         }
     }
 
     public struct DescribeElasticLoadBalancersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticLoadBalancers", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticLoadBalancers", required: false, type: .list)
         ]
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
         public let elasticLoadBalancers: [ElasticLoadBalancer]?
@@ -4936,16 +4556,12 @@ extension Opsworks {
             self.elasticLoadBalancers = elasticLoadBalancers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticLoadBalancers = dictionary["ElasticLoadBalancers"] as? [[String: Any]] {
-                self.elasticLoadBalancers = try elasticLoadBalancers.map({ try ElasticLoadBalancer(dictionary: $0) })
-            } else { 
-                self.elasticLoadBalancers = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case elasticLoadBalancers = "ElasticLoadBalancers"
         }
     }
 
-    public enum AppAttributesKeys: String, CustomStringConvertible {
+    public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
         case documentroot = "DocumentRoot"
         case railsenv = "RailsEnv"
         case autobundleondeploy = "AutoBundleOnDeploy"
@@ -4955,10 +4571,9 @@ extension Opsworks {
 
     public struct GetHostnameSuggestionResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Hostname", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Hostname", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string)
         ]
         /// The generated host name.
         public let hostname: String?
@@ -4970,13 +4585,13 @@ extension Opsworks {
             self.layerId = layerId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.hostname = dictionary["Hostname"] as? String
-            self.layerId = dictionary["LayerId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case layerId = "LayerId"
         }
     }
 
-    public enum DeploymentCommandName: String, CustomStringConvertible {
+    public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
         case install_dependencies = "install_dependencies"
         case update_dependencies = "update_dependencies"
         case update_custom_cookbooks = "update_custom_cookbooks"
@@ -4994,13 +4609,12 @@ extension Opsworks {
 
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnapshotId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeSize", required: false, type: .integer), 
-            AWSShapeProperty(label: "DeleteOnTermination", required: false, type: .boolean), 
-            AWSShapeProperty(label: "VolumeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Iops", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnapshotId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeSize", required: false, type: .integer), 
+            AWSShapeMember(label: "DeleteOnTermination", required: false, type: .boolean), 
+            AWSShapeMember(label: "VolumeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Iops", required: false, type: .integer)
         ]
         /// The snapshot ID.
         public let snapshotId: String?
@@ -5021,23 +4635,22 @@ extension Opsworks {
             self.iops = iops
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snapshotId = dictionary["SnapshotId"] as? String
-            self.volumeSize = dictionary["VolumeSize"] as? Int32
-            self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
-            if let volumeType = dictionary["VolumeType"] as? String { self.volumeType = VolumeType(rawValue: volumeType) } else { self.volumeType = nil }
-            self.iops = dictionary["Iops"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case snapshotId = "SnapshotId"
+            case volumeSize = "VolumeSize"
+            case deleteOnTermination = "DeleteOnTermination"
+            case volumeType = "VolumeType"
+            case iops = "Iops"
         }
     }
 
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NoDevice", required: false, type: .string), 
-            AWSShapeProperty(label: "VirtualName", required: false, type: .string), 
-            AWSShapeProperty(label: "DeviceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Ebs", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NoDevice", required: false, type: .string), 
+            AWSShapeMember(label: "VirtualName", required: false, type: .string), 
+            AWSShapeMember(label: "DeviceName", required: false, type: .string), 
+            AWSShapeMember(label: "Ebs", required: false, type: .structure)
         ]
         /// Suppresses the specified device included in the AMI's block device mapping.
         public let noDevice: String?
@@ -5055,19 +4668,18 @@ extension Opsworks {
             self.ebs = ebs
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.noDevice = dictionary["NoDevice"] as? String
-            self.virtualName = dictionary["VirtualName"] as? String
-            self.deviceName = dictionary["DeviceName"] as? String
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Opsworks.EbsBlockDevice(dictionary: ebs) } else { self.ebs = nil }
+        private enum CodingKeys: String, CodingKey {
+            case noDevice = "NoDevice"
+            case virtualName = "VirtualName"
+            case deviceName = "DeviceName"
+            case ebs = "Ebs"
         }
     }
 
     public struct DeregisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RdsDbInstanceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RdsDbInstanceArn", required: true, type: .string)
         ]
         /// The Amazon RDS instance's ARN.
         public let rdsDbInstanceArn: String
@@ -5076,34 +4688,32 @@ extension Opsworks {
             self.rdsDbInstanceArn = rdsDbInstanceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let rdsDbInstanceArn = dictionary["RdsDbInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("RdsDbInstanceArn") }
-            self.rdsDbInstanceArn = rdsDbInstanceArn
+        private enum CodingKeys: String, CodingKey {
+            case rdsDbInstanceArn = "RdsDbInstanceArn"
         }
     }
 
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DefaultOs", required: false, type: .string), 
-            AWSShapeProperty(label: "ChefConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "ServiceRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultRootDeviceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "DefaultInstanceProfileArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CustomCookbooksSource", required: false, type: .structure), 
-            AWSShapeProperty(label: "CustomJson", required: false, type: .string), 
-            AWSShapeProperty(label: "UseCustomCookbooks", required: false, type: .boolean), 
-            AWSShapeProperty(label: "DefaultSshKeyName", required: false, type: .string), 
-            AWSShapeProperty(label: "AgentVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string), 
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "ConfigurationManager", required: false, type: .structure), 
-            AWSShapeProperty(label: "Attributes", required: false, type: .map), 
-            AWSShapeProperty(label: "DefaultSubnetId", required: false, type: .string), 
-            AWSShapeProperty(label: "HostnameTheme", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultOs", required: false, type: .string), 
+            AWSShapeMember(label: "ChefConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ServiceRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRootDeviceType", required: false, type: .enum), 
+            AWSShapeMember(label: "DefaultInstanceProfileArn", required: false, type: .string), 
+            AWSShapeMember(label: "CustomCookbooksSource", required: false, type: .structure), 
+            AWSShapeMember(label: "CustomJson", required: false, type: .string), 
+            AWSShapeMember(label: "UseCustomCookbooks", required: false, type: .boolean), 
+            AWSShapeMember(label: "DefaultSshKeyName", required: false, type: .string), 
+            AWSShapeMember(label: "AgentVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "ConfigurationManager", required: false, type: .structure), 
+            AWSShapeMember(label: "Attributes", required: false, type: .map), 
+            AWSShapeMember(label: "DefaultSubnetId", required: false, type: .string), 
+            AWSShapeMember(label: "HostnameTheme", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "UseOpsworksSecurityGroups", required: false, type: .boolean)
         ]
         /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information on the supported operating systems, see AWS OpsWorks Stacks Operating Systems.
         public let defaultOs: String?
@@ -5162,39 +4772,33 @@ extension Opsworks {
             self.useOpsworksSecurityGroups = useOpsworksSecurityGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.defaultOs = dictionary["DefaultOs"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
-            self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            if let defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String { self.defaultRootDeviceType = RootDeviceType(rawValue: defaultRootDeviceType) } else { self.defaultRootDeviceType = nil }
-            self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
-            self.customJson = dictionary["CustomJson"] as? String
-            self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
-            self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
-            self.agentVersion = dictionary["AgentVersion"] as? String
-            self.name = dictionary["Name"] as? String
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
-            if let attributes = dictionary["Attributes"] as? [StackAttributesKeys: String] {
-                self.attributes = attributes
-            } else { 
-                self.attributes = nil
-            }
-            self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
-            self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
-            self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case defaultOs = "DefaultOs"
+            case chefConfiguration = "ChefConfiguration"
+            case serviceRoleArn = "ServiceRoleArn"
+            case defaultRootDeviceType = "DefaultRootDeviceType"
+            case defaultInstanceProfileArn = "DefaultInstanceProfileArn"
+            case customCookbooksSource = "CustomCookbooksSource"
+            case customJson = "CustomJson"
+            case useCustomCookbooks = "UseCustomCookbooks"
+            case defaultSshKeyName = "DefaultSshKeyName"
+            case agentVersion = "AgentVersion"
+            case name = "Name"
+            case stackId = "StackId"
+            case configurationManager = "ConfigurationManager"
+            case attributes = "Attributes"
+            case defaultSubnetId = "DefaultSubnetId"
+            case hostnameTheme = "HostnameTheme"
+            case defaultAvailabilityZone = "DefaultAvailabilityZone"
+            case useOpsworksSecurityGroups = "UseOpsworksSecurityGroups"
         }
     }
 
     public struct UpdateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIp", required: true, type: .string), 
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: true, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The address.
         public let elasticIp: String
@@ -5206,19 +4810,17 @@ extension Opsworks {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let elasticIp = dictionary["ElasticIp"] as? String else { throw InitializableError.missingRequiredParam("ElasticIp") }
-            self.elasticIp = elasticIp
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case name = "Name"
         }
     }
 
     public struct InstanceIdentity: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Document", required: false, type: .string), 
-            AWSShapeProperty(label: "Signature", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Document", required: false, type: .string), 
+            AWSShapeMember(label: "Signature", required: false, type: .string)
         ]
         /// A JSON document that contains the metadata.
         public let document: String?
@@ -5230,17 +4832,16 @@ extension Opsworks {
             self.signature = signature
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.document = dictionary["Document"] as? String
-            self.signature = dictionary["Signature"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case document = "Document"
+            case signature = "Signature"
         }
     }
 
     public struct DescribeInstancesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Instances", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Instances", required: false, type: .list)
         ]
         /// An array of Instance objects that describe the instances.
         public let instances: [Instance]?
@@ -5249,20 +4850,15 @@ extension Opsworks {
             self.instances = instances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let instances = dictionary["Instances"] as? [[String: Any]] {
-                self.instances = try instances.map({ try Instance(dictionary: $0) })
-            } else { 
-                self.instances = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case instances = "Instances"
         }
     }
 
     public struct LifecycleEventConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Shutdown", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Shutdown", required: false, type: .structure)
         ]
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public let shutdown: ShutdownEventConfiguration?
@@ -5271,16 +4867,15 @@ extension Opsworks {
             self.shutdown = shutdown
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let shutdown = dictionary["Shutdown"] as? [String: Any] { self.shutdown = try Opsworks.ShutdownEventConfiguration(dictionary: shutdown) } else { self.shutdown = nil }
+        private enum CodingKeys: String, CodingKey {
+            case shutdown = "Shutdown"
         }
     }
 
     public struct DescribeStackProvisioningParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string)
         ]
         /// The stack ID
         public let stackId: String
@@ -5289,17 +4884,15 @@ extension Opsworks {
             self.stackId = stackId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
         }
     }
 
     public struct DeleteAppRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AppId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppId", required: true, type: .string)
         ]
         /// The app ID.
         public let appId: String
@@ -5308,17 +4901,15 @@ extension Opsworks {
             self.appId = appId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let appId = dictionary["AppId"] as? String else { throw InitializableError.missingRequiredParam("AppId") }
-            self.appId = appId
+        private enum CodingKeys: String, CodingKey {
+            case appId = "AppId"
         }
     }
 
     public struct DescribeDeploymentsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deployments", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deployments", required: false, type: .list)
         ]
         /// An array of Deployment objects that describe the deployments.
         public let deployments: [Deployment]?
@@ -5327,20 +4918,15 @@ extension Opsworks {
             self.deployments = deployments
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let deployments = dictionary["Deployments"] as? [[String: Any]] {
-                self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
-            } else { 
-                self.deployments = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case deployments = "Deployments"
         }
     }
 
     public struct DescribePermissionsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Permissions", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Permissions", required: false, type: .list)
         ]
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
         public let permissions: [Permission]?
@@ -5349,21 +4935,16 @@ extension Opsworks {
             self.permissions = permissions
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let permissions = dictionary["Permissions"] as? [[String: Any]] {
-                self.permissions = try permissions.map({ try Permission(dictionary: $0) })
-            } else { 
-                self.permissions = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
         }
     }
 
     public struct RegisterVolumeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StackId", required: true, type: .string), 
-            AWSShapeProperty(label: "Ec2VolumeId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StackId", required: true, type: .string), 
+            AWSShapeMember(label: "Ec2VolumeId", required: false, type: .string)
         ]
         /// The stack ID.
         public let stackId: String
@@ -5375,19 +4956,17 @@ extension Opsworks {
             self.ec2VolumeId = ec2VolumeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
-            self.stackId = stackId
-            self.ec2VolumeId = dictionary["Ec2VolumeId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "StackId"
+            case ec2VolumeId = "Ec2VolumeId"
         }
     }
 
     public struct CloudWatchLogsConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LogStreams", required: false, type: .list), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogStreams", required: false, type: .list), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         /// A list of configuration options for CloudWatch Logs.
         public let logStreams: [CloudWatchLogsLogStream]?
@@ -5399,21 +4978,16 @@ extension Opsworks {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let logStreams = dictionary["LogStreams"] as? [[String: Any]] {
-                self.logStreams = try logStreams.map({ try CloudWatchLogsLogStream(dictionary: $0) })
-            } else { 
-                self.logStreams = nil
-            }
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case logStreams = "LogStreams"
+            case enabled = "Enabled"
         }
     }
 
     public struct StartInstanceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String
@@ -5422,19 +4996,17 @@ extension Opsworks {
             self.instanceId = instanceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
-            self.instanceId = instanceId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
         }
     }
 
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
         public let nextToken: String?
@@ -5449,23 +5021,21 @@ extension Opsworks {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceArn = "ResourceArn"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Permission: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Level", required: false, type: .string), 
-            AWSShapeProperty(label: "IamUserArn", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowSsh", required: false, type: .boolean), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "AllowSudo", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Level", required: false, type: .string), 
+            AWSShapeMember(label: "IamUserArn", required: false, type: .string), 
+            AWSShapeMember(label: "AllowSsh", required: false, type: .boolean), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "AllowSudo", required: false, type: .boolean)
         ]
         /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions 
         public let level: String?
@@ -5486,21 +5056,20 @@ extension Opsworks {
             self.allowSudo = allowSudo
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.level = dictionary["Level"] as? String
-            self.iamUserArn = dictionary["IamUserArn"] as? String
-            self.allowSsh = dictionary["AllowSsh"] as? Bool
-            self.stackId = dictionary["StackId"] as? String
-            self.allowSudo = dictionary["AllowSudo"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case level = "Level"
+            case iamUserArn = "IamUserArn"
+            case allowSsh = "AllowSsh"
+            case stackId = "StackId"
+            case allowSudo = "AllowSudo"
         }
     }
 
     public struct AssignVolumeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceId", required: false, type: .string), 
-            AWSShapeProperty(label: "VolumeId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string), 
+            AWSShapeMember(label: "VolumeId", required: true, type: .string)
         ]
         /// The instance ID.
         public let instanceId: String?
@@ -5512,18 +5081,16 @@ extension Opsworks {
             self.volumeId = volumeId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceId = dictionary["InstanceId"] as? String
-            guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
-            self.volumeId = volumeId
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case volumeId = "VolumeId"
         }
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IamUserArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamUserArn", required: true, type: .string)
         ]
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
@@ -5532,25 +5099,23 @@ extension Opsworks {
             self.iamUserArn = iamUserArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let iamUserArn = dictionary["IamUserArn"] as? String else { throw InitializableError.missingRequiredParam("IamUserArn") }
-            self.iamUserArn = iamUserArn
+        private enum CodingKeys: String, CodingKey {
+            case iamUserArn = "IamUserArn"
         }
     }
 
     public struct ElasticLoadBalancer: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "StackId", required: false, type: .string), 
-            AWSShapeProperty(label: "Ec2InstanceIds", required: false, type: .list), 
-            AWSShapeProperty(label: "Region", required: false, type: .string), 
-            AWSShapeProperty(label: "LayerId", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "ElasticLoadBalancerName", required: false, type: .string), 
-            AWSShapeProperty(label: "DnsName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "StackId", required: false, type: .string), 
+            AWSShapeMember(label: "Ec2InstanceIds", required: false, type: .list), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "LayerId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "ElasticLoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string)
         ]
         /// A list of subnet IDs, if the stack is running in a VPC.
         public let subnetIds: [String]?
@@ -5583,24 +5148,23 @@ extension Opsworks {
             self.dnsName = dnsName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.stackId = dictionary["StackId"] as? String
-            self.ec2InstanceIds = dictionary["Ec2InstanceIds"] as? [String]
-            self.region = dictionary["Region"] as? String
-            self.layerId = dictionary["LayerId"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
-            self.elasticLoadBalancerName = dictionary["ElasticLoadBalancerName"] as? String
-            self.dnsName = dictionary["DnsName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case availabilityZones = "AvailabilityZones"
+            case stackId = "StackId"
+            case ec2InstanceIds = "Ec2InstanceIds"
+            case region = "Region"
+            case layerId = "LayerId"
+            case vpcId = "VpcId"
+            case elasticLoadBalancerName = "ElasticLoadBalancerName"
+            case dnsName = "DnsName"
         }
     }
 
     public struct DescribeElasticIpsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ElasticIps", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIps", required: false, type: .list)
         ]
         /// An ElasticIps object that describes the specified Elastic IP addresses.
         public let elasticIps: [ElasticIp]?
@@ -5609,12 +5173,8 @@ extension Opsworks {
             self.elasticIps = elasticIps
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let elasticIps = dictionary["ElasticIps"] as? [[String: Any]] {
-                self.elasticIps = try elasticIps.map({ try ElasticIp(dictionary: $0) })
-            } else { 
-                self.elasticIps = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case elasticIps = "ElasticIps"
         }
     }
 

@@ -31,12 +31,11 @@ extension Codestar {
 
     public struct CreateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "emailAddress", required: true, type: .string), 
-            AWSShapeProperty(label: "displayName", required: true, type: .string), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "emailAddress", required: true, type: .string), 
+            AWSShapeMember(label: "displayName", required: true, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The email address that will be displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String
@@ -54,23 +53,19 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let emailAddress = dictionary["emailAddress"] as? String else { throw InitializableError.missingRequiredParam("emailAddress") }
-            self.emailAddress = emailAddress
-            guard let displayName = dictionary["displayName"] as? String else { throw InitializableError.missingRequiredParam("displayName") }
-            self.displayName = displayName
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct ListUserProfilesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
@@ -82,37 +77,36 @@ extension Codestar {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct UpdateUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "createdTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
         /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: String?
+        public let lastModifiedTimestamp: Double?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
         /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
         public let sshPublicKey: String?
 
-        public init(createdTimestamp: String? = nil, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: String? = nil, userArn: String, sshPublicKey: String? = nil) {
+        public init(createdTimestamp: Double? = nil, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: Double? = nil, userArn: String, sshPublicKey: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
             self.displayName = displayName
@@ -121,25 +115,23 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createdTimestamp = dictionary["createdTimestamp"] as? String
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            self.lastModifiedTimestamp = dictionary["lastModifiedTimestamp"] as? String
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "createdTimestamp"
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct CreateProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "name", required: true, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
         ]
         /// Reserved for future use.
         public let description: String?
@@ -157,30 +149,24 @@ extension Codestar {
             self.clientRequestToken = clientRequestToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["description"] as? String
-            guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
-            self.name = name
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case id = "id"
+            case clientRequestToken = "clientRequestToken"
         }
     }
 
     public struct UpdateProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ListTeamMembersResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "teamMembers", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "teamMembers", required: true, type: .list)
         ]
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -192,20 +178,18 @@ extension Codestar {
             self.teamMembers = teamMembers
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let teamMembers = dictionary["teamMembers"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("teamMembers") }
-            self.teamMembers = try teamMembers.map({ try TeamMember(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case teamMembers = "teamMembers"
         }
     }
 
     public struct DeleteProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "deleteStack", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "deleteStack", required: false, type: .boolean)
         ]
         /// The ID of the project to be deleted in AWS CodeStar.
         public let id: String
@@ -220,19 +204,17 @@ extension Codestar {
             self.deleteStack = deleteStack
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
-            self.deleteStack = dictionary["deleteStack"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case clientRequestToken = "clientRequestToken"
+            case deleteStack = "deleteStack"
         }
     }
 
     public struct DeleteUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
         public let userArn: String
@@ -241,19 +223,17 @@ extension Codestar {
             self.userArn = userArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
         }
     }
 
     public struct UpdateTeamMemberResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: false, type: .string), 
-            AWSShapeProperty(label: "projectRole", required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessAllowed", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: false, type: .string), 
+            AWSShapeMember(label: "projectRole", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the user whose team membership attributes were updated.
         public let userArn: String?
@@ -268,19 +248,18 @@ extension Codestar {
             self.remoteAccessAllowed = remoteAccessAllowed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.userArn = dictionary["userArn"] as? String
-            self.projectRole = dictionary["projectRole"] as? String
-            self.remoteAccessAllowed = dictionary["remoteAccessAllowed"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
         }
     }
 
     public struct DisassociateTeamMemberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "projectId", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "projectId", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
         public let userArn: String
@@ -292,39 +271,36 @@ extension Codestar {
             self.projectId = projectId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            guard let projectId = dictionary["projectId"] as? String else { throw InitializableError.missingRequiredParam("projectId") }
-            self.projectId = projectId
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+            case projectId = "projectId"
         }
     }
 
     public struct CreateUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "createdTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The date the user profile was created, in timestamp format.
-        public let createdTimestamp: String?
+        public let createdTimestamp: Double?
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
         /// The date the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: String?
+        public let lastModifiedTimestamp: Double?
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
         /// The SSH public key associated with the user in AWS CodeStar. This is the public portion of the public/private keypair the user can use to access project resources if a project owner allows the user remote access to those resources.
         public let sshPublicKey: String?
 
-        public init(createdTimestamp: String? = nil, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: String? = nil, userArn: String, sshPublicKey: String? = nil) {
+        public init(createdTimestamp: Double? = nil, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: Double? = nil, userArn: String, sshPublicKey: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
             self.displayName = displayName
@@ -333,25 +309,23 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.createdTimestamp = dictionary["createdTimestamp"] as? String
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            self.lastModifiedTimestamp = dictionary["lastModifiedTimestamp"] as? String
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "createdTimestamp"
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct CreateProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectTemplateId", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: true, type: .string)
         ]
         /// Reserved for future use.
         public let projectTemplateId: String?
@@ -369,22 +343,19 @@ extension Codestar {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.projectTemplateId = dictionary["projectTemplateId"] as? String
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
-            guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
-            self.arn = arn
+        private enum CodingKeys: String, CodingKey {
+            case projectTemplateId = "projectTemplateId"
+            case id = "id"
+            case clientRequestToken = "clientRequestToken"
+            case arn = "arn"
         }
     }
 
     public struct ListUserProfilesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userProfiles", required: true, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userProfiles", required: true, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// All the user profiles configured in AWS CodeStar for an AWS account.
         public let userProfiles: [UserProfileSummary]
@@ -396,38 +367,36 @@ extension Codestar {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userProfiles = dictionary["userProfiles"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("userProfiles") }
-            self.userProfiles = try userProfiles.map({ try UserProfileSummary(dictionary: $0) })
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case userProfiles = "userProfiles"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeUserProfileResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "createdTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "lastModifiedTimestamp", required: true, type: .timestamp), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "createdTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "lastModifiedTimestamp", required: true, type: .timestamp), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
-        public let createdTimestamp: String
+        public let createdTimestamp: Double
         /// The email address for the user. Optional.
         public let emailAddress: String?
         /// The display name shown for the user in AWS CodeStar projects. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
         public let displayName: String?
         /// The date and time when the user profile was last modified, in timestamp format.
-        public let lastModifiedTimestamp: String
+        public let lastModifiedTimestamp: Double
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
         /// The SSH public key associated with the user. This SSH public key is associated with the user profile, and can be used in conjunction with the associated private key for access to project resources, such as Amazon EC2 instances, if a project owner grants remote access to those resources.
         public let sshPublicKey: String?
 
-        public init(createdTimestamp: String, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: String, userArn: String, sshPublicKey: String? = nil) {
+        public init(createdTimestamp: Double, emailAddress: String? = nil, displayName: String? = nil, lastModifiedTimestamp: Double, userArn: String, sshPublicKey: String? = nil) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
             self.displayName = displayName
@@ -436,24 +405,20 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let createdTimestamp = dictionary["createdTimestamp"] as? String else { throw InitializableError.missingRequiredParam("createdTimestamp") }
-            self.createdTimestamp = createdTimestamp
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            guard let lastModifiedTimestamp = dictionary["lastModifiedTimestamp"] as? String else { throw InitializableError.missingRequiredParam("lastModifiedTimestamp") }
-            self.lastModifiedTimestamp = lastModifiedTimestamp
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "createdTimestamp"
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case lastModifiedTimestamp = "lastModifiedTimestamp"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct DescribeProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
         /// The ID of the project.
         public let id: String
@@ -462,19 +427,17 @@ extension Codestar {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
     public struct ListTeamMembersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectId", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The ID of the project for which you want to list team members.
         public let projectId: String
@@ -489,20 +452,18 @@ extension Codestar {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectId = dictionary["projectId"] as? String else { throw InitializableError.missingRequiredParam("projectId") }
-            self.projectId = projectId
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct ListResourcesResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "resources", required: false, type: .list), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resources", required: false, type: .list), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string)
         ]
         /// An array of resources associated with the project. 
         public let resources: [Resource]?
@@ -514,24 +475,19 @@ extension Codestar {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let resources = dictionary["resources"] as? [[String: Any]] {
-                self.resources = try resources.map({ try Resource(dictionary: $0) })
-            } else { 
-                self.resources = nil
-            }
-            self.nextToken = dictionary["nextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case resources = "resources"
+            case nextToken = "nextToken"
         }
     }
 
     public struct UserProfileSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "userArn", required: false, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: false, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The email address associated with the user.
         public let emailAddress: String?
@@ -549,19 +505,18 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            self.userArn = dictionary["userArn"] as? String
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct AssociateTeamMemberResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string)
         ]
         /// The user- or system-generated token from the initial request that can be used to repeat the request. 
         public let clientRequestToken: String?
@@ -570,19 +525,18 @@ extension Codestar {
             self.clientRequestToken = clientRequestToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
         }
     }
 
     public struct UpdateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "emailAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "displayName", required: false, type: .string), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "sshPublicKey", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "emailAddress", required: false, type: .string), 
+            AWSShapeMember(label: "displayName", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "sshPublicKey", required: false, type: .string)
         ]
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String?
@@ -600,21 +554,19 @@ extension Codestar {
             self.sshPublicKey = sshPublicKey
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.emailAddress = dictionary["emailAddress"] as? String
-            self.displayName = dictionary["displayName"] as? String
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            self.sshPublicKey = dictionary["sshPublicKey"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "emailAddress"
+            case displayName = "displayName"
+            case userArn = "userArn"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct ListProjectsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "projects", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "projects", required: true, type: .list)
         ]
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
@@ -626,18 +578,16 @@ extension Codestar {
             self.projects = projects
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let projects = dictionary["projects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("projects") }
-            self.projects = try projects.map({ try ProjectSummary(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
     public struct Resource: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the resource.
         public let id: String
@@ -646,21 +596,19 @@ extension Codestar {
             self.id = id
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
     public struct AssociateTeamMemberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectId", required: true, type: .string), 
-            AWSShapeProperty(label: "projectRole", required: true, type: .string), 
-            AWSShapeProperty(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "projectRole", required: true, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
         /// The ID of the project to which you will add the IAM user.
         public let projectId: String
@@ -681,23 +629,19 @@ extension Codestar {
             self.userArn = userArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectId = dictionary["projectId"] as? String else { throw InitializableError.missingRequiredParam("projectId") }
-            self.projectId = projectId
-            guard let projectRole = dictionary["projectRole"] as? String else { throw InitializableError.missingRequiredParam("projectRole") }
-            self.projectRole = projectRole
-            self.remoteAccessAllowed = dictionary["remoteAccessAllowed"] as? Bool
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case clientRequestToken = "clientRequestToken"
+            case userArn = "userArn"
         }
     }
 
     public struct DescribeUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
@@ -706,19 +650,17 @@ extension Codestar {
             self.userArn = userArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
         }
     }
 
     public struct ListResourcesRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectId", required: true, type: .string), 
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The ID of the project.
         public let projectId: String
@@ -733,20 +675,18 @@ extension Codestar {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectId = dictionary["projectId"] as? String else { throw InitializableError.missingRequiredParam("projectId") }
-            self.projectId = projectId
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct ProjectSummary: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectId", required: false, type: .string), 
-            AWSShapeProperty(label: "projectArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", required: false, type: .string), 
+            AWSShapeMember(label: "projectArn", required: false, type: .string)
         ]
         /// The ID of the project.
         public let projectId: String?
@@ -758,18 +698,17 @@ extension Codestar {
             self.projectArn = projectArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.projectId = dictionary["projectId"] as? String
-            self.projectArn = dictionary["projectArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case projectArn = "projectArn"
         }
     }
 
     public struct ListProjectsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "nextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "maxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "nextToken", required: false, type: .string), 
+            AWSShapeMember(label: "maxResults", required: false, type: .integer)
         ]
         /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
         public let nextToken: String?
@@ -781,18 +720,17 @@ extension Codestar {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case maxResults = "maxResults"
         }
     }
 
     public struct DeleteProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "stackId", required: false, type: .string), 
-            AWSShapeProperty(label: "projectArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "stackId", required: false, type: .string), 
+            AWSShapeMember(label: "projectArn", required: false, type: .string)
         ]
         /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
         public let stackId: String?
@@ -804,19 +742,18 @@ extension Codestar {
             self.projectArn = projectArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.stackId = dictionary["stackId"] as? String
-            self.projectArn = dictionary["projectArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case stackId = "stackId"
+            case projectArn = "projectArn"
         }
     }
 
     public struct UpdateProjectRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "id", required: true, type: .string), 
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "id", required: true, type: .string), 
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string)
         ]
         /// The ID of the project you want to update.
         public let id: String
@@ -831,21 +768,19 @@ extension Codestar {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
-            self.id = id
-            self.name = dictionary["name"] as? String
-            self.description = dictionary["description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case description = "description"
         }
     }
 
     public struct TeamMember: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: true, type: .string), 
-            AWSShapeProperty(label: "projectRole", required: true, type: .string), 
-            AWSShapeProperty(label: "remoteAccessAllowed", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string), 
+            AWSShapeMember(label: "projectRole", required: true, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean)
         ]
         /// The Amazon Resource Name (ARN) of the user in IAM.
         public let userArn: String
@@ -860,20 +795,17 @@ extension Codestar {
             self.remoteAccessAllowed = remoteAccessAllowed
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
-            guard let projectRole = dictionary["projectRole"] as? String else { throw InitializableError.missingRequiredParam("projectRole") }
-            self.projectRole = projectRole
-            self.remoteAccessAllowed = dictionary["remoteAccessAllowed"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
         }
     }
 
     public struct DeleteUserProfileRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "userArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
         public let userArn: String
@@ -882,28 +814,23 @@ extension Codestar {
             self.userArn = userArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
+        private enum CodingKeys: String, CodingKey {
+            case userArn = "userArn"
         }
     }
 
     public struct DisassociateTeamMemberResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct UpdateTeamMemberRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "projectId", required: true, type: .string), 
-            AWSShapeProperty(label: "projectRole", required: false, type: .string), 
-            AWSShapeProperty(label: "remoteAccessAllowed", required: false, type: .boolean), 
-            AWSShapeProperty(label: "userArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "projectId", required: true, type: .string), 
+            AWSShapeMember(label: "projectRole", required: false, type: .string), 
+            AWSShapeMember(label: "remoteAccessAllowed", required: false, type: .boolean), 
+            AWSShapeMember(label: "userArn", required: true, type: .string)
         ]
         /// The ID of the project.
         public let projectId: String
@@ -921,28 +848,25 @@ extension Codestar {
             self.userArn = userArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let projectId = dictionary["projectId"] as? String else { throw InitializableError.missingRequiredParam("projectId") }
-            self.projectId = projectId
-            self.projectRole = dictionary["projectRole"] as? String
-            self.remoteAccessAllowed = dictionary["remoteAccessAllowed"] as? Bool
-            guard let userArn = dictionary["userArn"] as? String else { throw InitializableError.missingRequiredParam("userArn") }
-            self.userArn = userArn
+        private enum CodingKeys: String, CodingKey {
+            case projectId = "projectId"
+            case projectRole = "projectRole"
+            case remoteAccessAllowed = "remoteAccessAllowed"
+            case userArn = "userArn"
         }
     }
 
     public struct DescribeProjectResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "name", required: false, type: .string), 
-            AWSShapeProperty(label: "id", required: false, type: .string), 
-            AWSShapeProperty(label: "stackId", required: false, type: .string), 
-            AWSShapeProperty(label: "description", required: false, type: .string), 
-            AWSShapeProperty(label: "projectTemplateId", required: false, type: .string), 
-            AWSShapeProperty(label: "createdTimeStamp", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "clientRequestToken", required: false, type: .string), 
-            AWSShapeProperty(label: "arn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "id", required: false, type: .string), 
+            AWSShapeMember(label: "stackId", required: false, type: .string), 
+            AWSShapeMember(label: "description", required: false, type: .string), 
+            AWSShapeMember(label: "projectTemplateId", required: false, type: .string), 
+            AWSShapeMember(label: "createdTimeStamp", required: false, type: .timestamp), 
+            AWSShapeMember(label: "clientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "arn", required: false, type: .string)
         ]
         /// The display name for the project.
         public let name: String?
@@ -955,13 +879,13 @@ extension Codestar {
         /// The ID for the AWS CodeStar project template used to create the project.
         public let projectTemplateId: String?
         /// The date and time the project was created, in timestamp format.
-        public let createdTimeStamp: String?
+        public let createdTimeStamp: Double?
         /// A user- or system-generated token that identifies the entity that requested project creation. 
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) for the project.
         public let arn: String?
 
-        public init(name: String? = nil, id: String? = nil, stackId: String? = nil, description: String? = nil, projectTemplateId: String? = nil, createdTimeStamp: String? = nil, clientRequestToken: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, id: String? = nil, stackId: String? = nil, description: String? = nil, projectTemplateId: String? = nil, createdTimeStamp: Double? = nil, clientRequestToken: String? = nil, arn: String? = nil) {
             self.name = name
             self.id = id
             self.stackId = stackId
@@ -972,15 +896,15 @@ extension Codestar {
             self.arn = arn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["name"] as? String
-            self.id = dictionary["id"] as? String
-            self.stackId = dictionary["stackId"] as? String
-            self.description = dictionary["description"] as? String
-            self.projectTemplateId = dictionary["projectTemplateId"] as? String
-            self.createdTimeStamp = dictionary["createdTimeStamp"] as? String
-            self.clientRequestToken = dictionary["clientRequestToken"] as? String
-            self.arn = dictionary["arn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case id = "id"
+            case stackId = "stackId"
+            case description = "description"
+            case projectTemplateId = "projectTemplateId"
+            case createdTimeStamp = "createdTimeStamp"
+            case clientRequestToken = "clientRequestToken"
+            case arn = "arn"
         }
     }
 

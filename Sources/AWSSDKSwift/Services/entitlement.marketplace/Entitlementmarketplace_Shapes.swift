@@ -29,7 +29,7 @@ import AWSSDKSwiftCore
 
 extension Entitlementmarketplace {
 
-    public enum GetEntitlementFilterName: String, CustomStringConvertible {
+    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable {
         case customer_identifier = "CUSTOMER_IDENTIFIER"
         case dimension = "DIMENSION"
         public var description: String { return self.rawValue }
@@ -37,12 +37,11 @@ extension Entitlementmarketplace {
 
     public struct EntitlementValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "IntegerValue", required: false, type: .integer), 
-            AWSShapeProperty(label: "StringValue", required: false, type: .string), 
-            AWSShapeProperty(label: "DoubleValue", required: false, type: .double), 
-            AWSShapeProperty(label: "BooleanValue", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IntegerValue", required: false, type: .integer), 
+            AWSShapeMember(label: "StringValue", required: false, type: .string), 
+            AWSShapeMember(label: "DoubleValue", required: false, type: .double), 
+            AWSShapeMember(label: "BooleanValue", required: false, type: .boolean)
         ]
         /// The IntegerValue field will be populated with an integer value when the entitlement is an integer type. Otherwise, the field will not be set.
         public let integerValue: Int32?
@@ -60,20 +59,19 @@ extension Entitlementmarketplace {
             self.booleanValue = booleanValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.integerValue = dictionary["IntegerValue"] as? Int32
-            self.stringValue = dictionary["StringValue"] as? String
-            self.doubleValue = dictionary["DoubleValue"] as? Double
-            self.booleanValue = dictionary["BooleanValue"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case integerValue = "IntegerValue"
+            case stringValue = "StringValue"
+            case doubleValue = "DoubleValue"
+            case booleanValue = "BooleanValue"
         }
     }
 
     public struct GetEntitlementsResult: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Entitlements", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Entitlements", required: false, type: .list)
         ]
         /// For paginated results, use NextToken in subsequent calls to GetEntitlements. If the result contains an empty set of entitlements, NextToken might still be present and should be used.
         public let nextToken: String?
@@ -85,25 +83,20 @@ extension Entitlementmarketplace {
             self.entitlements = entitlements
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let entitlements = dictionary["Entitlements"] as? [[String: Any]] {
-                self.entitlements = try entitlements.map({ try Entitlement(dictionary: $0) })
-            } else { 
-                self.entitlements = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case entitlements = "Entitlements"
         }
     }
 
     public struct Entitlement: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CustomerIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Dimension", required: false, type: .string), 
-            AWSShapeProperty(label: "Value", required: false, type: .structure), 
-            AWSShapeProperty(label: "ProductCode", required: false, type: .string), 
-            AWSShapeProperty(label: "ExpirationDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomerIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Dimension", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .structure), 
+            AWSShapeMember(label: "ProductCode", required: false, type: .string), 
+            AWSShapeMember(label: "ExpirationDate", required: false, type: .timestamp)
         ]
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
@@ -114,9 +107,9 @@ extension Entitlementmarketplace {
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public let productCode: String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
-        public let expirationDate: String?
+        public let expirationDate: Double?
 
-        public init(customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil, productCode: String? = nil, expirationDate: String? = nil) {
+        public init(customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil, productCode: String? = nil, expirationDate: Double? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.value = value
@@ -124,23 +117,22 @@ extension Entitlementmarketplace {
             self.expirationDate = expirationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.customerIdentifier = dictionary["CustomerIdentifier"] as? String
-            self.dimension = dictionary["Dimension"] as? String
-            if let value = dictionary["Value"] as? [String: Any] { self.value = try Entitlementmarketplace.EntitlementValue(dictionary: value) } else { self.value = nil }
-            self.productCode = dictionary["ProductCode"] as? String
-            self.expirationDate = dictionary["ExpirationDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case customerIdentifier = "CustomerIdentifier"
+            case dimension = "Dimension"
+            case value = "Value"
+            case productCode = "ProductCode"
+            case expirationDate = "ExpirationDate"
         }
     }
 
     public struct GetEntitlementsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", required: false, type: .map), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ProductCode", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .map), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProductCode", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.
         public let filter: [GetEntitlementFilterName: [String]]?
@@ -158,21 +150,11 @@ extension Entitlementmarketplace {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filter = dictionary["Filter"] as? [String: Any] {
-                var filterDict: [GetEntitlementFilterName: [String]] = [:]
-                for (key, value) in filter {
-                    guard let filterValueList = value as? [String] else { throw InitializableError.convertingError }
-                    filterDict[GetEntitlementFilterName(rawValue: key)!] = filterValueList
-                }
-                self.filter = filterDict
-            } else { 
-                self.filter = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let productCode = dictionary["ProductCode"] as? String else { throw InitializableError.missingRequiredParam("ProductCode") }
-            self.productCode = productCode
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case productCode = "ProductCode"
+            case maxResults = "MaxResults"
         }
     }
 

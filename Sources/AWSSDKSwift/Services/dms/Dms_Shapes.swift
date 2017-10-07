@@ -31,9 +31,8 @@ extension Dms {
 
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The modified replication subnet group.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -42,16 +41,15 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
         }
     }
 
     public struct CreateReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was created.
         public let replicationTask: ReplicationTask?
@@ -60,19 +58,18 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure)
         ]
         /// The EC2 subnet IDs for the subnet group.
         public let subnetIds: SubnetIdentifierList
@@ -90,22 +87,18 @@ extension Dms {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = try Dms.SubnetIdentifierList(dictionary: subnetIds)
-            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-            guard let replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupDescription") }
-            self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
+            case tags = "Tags"
         }
     }
 
     public struct ModifyEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The modified endpoint.
         public let endpoint: Endpoint?
@@ -114,16 +107,15 @@ extension Dms {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
         }
     }
 
     public struct ReplicationTaskList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .list)
         ]
         public let replicationTask: [ReplicationTask]?
 
@@ -131,22 +123,17 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [[String: Any]] {
-                self.replicationTask = try replicationTask.map({ try ReplicationTask(dictionary: $0) })
-            } else { 
-                self.replicationTask = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -161,18 +148,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct FilterList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Filter", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .list)
         ]
         public let filter: [Filter]?
 
@@ -180,22 +166,17 @@ extension Dms {
             self.filter = filter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let filter = dictionary["Filter"] as? [[String: Any]] {
-                self.filter = try filter.map({ try Filter(dictionary: $0) })
-            } else { 
-                self.filter = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
         }
     }
 
     public struct DescribeEndpointsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -210,18 +191,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct DeleteEndpointMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -230,17 +210,15 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct EventCategoriesList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategory", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategory", required: false, type: .list)
         ]
         public let eventCategory: [String]?
 
@@ -248,22 +226,21 @@ extension Dms {
             self.eventCategory = eventCategory
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.eventCategory = dictionary["EventCategory"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case eventCategory = "EventCategory"
         }
     }
 
     public struct S3Settings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CsvRowDelimiter", required: false, type: .string), 
-            AWSShapeProperty(label: "CompressionType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServiceAccessRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "BucketName", required: false, type: .string), 
-            AWSShapeProperty(label: "BucketFolder", required: false, type: .string), 
-            AWSShapeProperty(label: "ExternalTableDefinition", required: false, type: .string), 
-            AWSShapeProperty(label: "CsvDelimiter", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CsvRowDelimiter", required: false, type: .string), 
+            AWSShapeMember(label: "CompressionType", required: false, type: .enum), 
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "BucketFolder", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalTableDefinition", required: false, type: .string), 
+            AWSShapeMember(label: "CsvDelimiter", required: false, type: .string)
         ]
         ///  The delimiter used to separate rows in the source files. The default is a carriage return (\n). 
         public let csvRowDelimiter: String?
@@ -290,22 +267,21 @@ extension Dms {
             self.csvDelimiter = csvDelimiter
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.csvRowDelimiter = dictionary["CsvRowDelimiter"] as? String
-            if let compressionType = dictionary["CompressionType"] as? String { self.compressionType = CompressionTypeValue(rawValue: compressionType) } else { self.compressionType = nil }
-            self.serviceAccessRoleArn = dictionary["ServiceAccessRoleArn"] as? String
-            self.bucketName = dictionary["BucketName"] as? String
-            self.bucketFolder = dictionary["BucketFolder"] as? String
-            self.externalTableDefinition = dictionary["ExternalTableDefinition"] as? String
-            self.csvDelimiter = dictionary["CsvDelimiter"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case csvRowDelimiter = "CsvRowDelimiter"
+            case compressionType = "CompressionType"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case bucketName = "BucketName"
+            case bucketFolder = "BucketFolder"
+            case externalTableDefinition = "ExternalTableDefinition"
+            case csvDelimiter = "CsvDelimiter"
         }
     }
 
     public struct ReplicationSubnetGroups: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .list)
         ]
         public let replicationSubnetGroup: [ReplicationSubnetGroup]?
 
@@ -313,20 +289,15 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [[String: Any]] {
-                self.replicationSubnetGroup = try replicationSubnetGroup.map({ try ReplicationSubnetGroup(dictionary: $0) })
-            } else { 
-                self.replicationSubnetGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
         }
     }
 
     public struct FilterValueList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .list)
         ]
         public let value: [String]?
 
@@ -334,32 +305,31 @@ extension Dms {
             self.value = value
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
         }
     }
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeProperty(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "ExternalId", required: false, type: .string), 
-            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "ExternalId", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// Additional connection attributes used to connect to the endpoint.
         public let extraConnectionAttributes: String?
@@ -416,33 +386,32 @@ extension Dms {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
-            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
-            self.username = dictionary["Username"] as? String
-            self.endpointArn = dictionary["EndpointArn"] as? String
-            if let dynamoDbSettings = dictionary["DynamoDbSettings"] as? [String: Any] { self.dynamoDbSettings = try Dms.DynamoDbSettings(dictionary: dynamoDbSettings) } else { self.dynamoDbSettings = nil }
-            if let mongoDbSettings = dictionary["MongoDbSettings"] as? [String: Any] { self.mongoDbSettings = try Dms.MongoDbSettings(dictionary: mongoDbSettings) } else { self.mongoDbSettings = nil }
-            self.status = dictionary["Status"] as? String
-            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
-            self.serverName = dictionary["ServerName"] as? String
-            if let s3Settings = dictionary["S3Settings"] as? [String: Any] { self.s3Settings = try Dms.S3Settings(dictionary: s3Settings) } else { self.s3Settings = nil }
-            self.databaseName = dictionary["DatabaseName"] as? String
-            self.externalId = dictionary["ExternalId"] as? String
-            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.engineName = dictionary["EngineName"] as? String
-            self.port = dictionary["Port"] as? Int32
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
+            case endpointIdentifier = "EndpointIdentifier"
+            case username = "Username"
+            case endpointArn = "EndpointArn"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case mongoDbSettings = "MongoDbSettings"
+            case status = "Status"
+            case endpointType = "EndpointType"
+            case serverName = "ServerName"
+            case s3Settings = "S3Settings"
+            case databaseName = "DatabaseName"
+            case externalId = "ExternalId"
+            case sslMode = "SslMode"
+            case certificateArn = "CertificateArn"
+            case engineName = "EngineName"
+            case port = "Port"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrderableReplicationInstances", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderableReplicationInstances", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// The order-able replication instances available.
         public let orderableReplicationInstances: OrderableReplicationInstanceList?
@@ -454,19 +423,18 @@ extension Dms {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orderableReplicationInstances = dictionary["OrderableReplicationInstances"] as? [String: Any] { self.orderableReplicationInstances = try Dms.OrderableReplicationInstanceList(dictionary: orderableReplicationInstances) } else { self.orderableReplicationInstances = nil }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case orderableReplicationInstances = "OrderableReplicationInstances"
+            case marker = "Marker"
         }
     }
 
     public struct DescribeTableStatisticsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "TableStatistics", required: false, type: .list), 
-            AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "TableStatistics", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -481,30 +449,25 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let tableStatistics = dictionary["TableStatistics"] as? [[String: Any]] {
-                self.tableStatistics = try tableStatistics.map({ try TableStatistics(dictionary: $0) })
-            } else { 
-                self.tableStatistics = nil
-            }
-            self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case tableStatistics = "TableStatistics"
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct EventSubscription: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceIdsList", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "CustSubscriptionId", required: false, type: .string), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "CustomerAwsId", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategoriesList", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubscriptionCreationTime", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdsList", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "CustSubscriptionId", required: false, type: .string), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CustomerAwsId", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategoriesList", required: false, type: .structure), 
+            AWSShapeMember(label: "SubscriptionCreationTime", required: false, type: .string)
         ]
         /// The status of the AWS DMS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that AWS DMS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
         public let status: String?
@@ -537,26 +500,25 @@ extension Dms {
             self.subscriptionCreationTime = subscriptionCreationTime
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            if let sourceIdsList = dictionary["SourceIdsList"] as? [String: Any] { self.sourceIdsList = try Dms.SourceIdsList(dictionary: sourceIdsList) } else { self.sourceIdsList = nil }
-            self.sourceType = dictionary["SourceType"] as? String
-            self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
-            self.enabled = dictionary["Enabled"] as? Bool
-            self.customerAwsId = dictionary["CustomerAwsId"] as? String
-            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String: Any] { self.eventCategoriesList = try Dms.EventCategoriesList(dictionary: eventCategoriesList) } else { self.eventCategoriesList = nil }
-            self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case snsTopicArn = "SnsTopicArn"
+            case sourceIdsList = "SourceIdsList"
+            case sourceType = "SourceType"
+            case custSubscriptionId = "CustSubscriptionId"
+            case enabled = "Enabled"
+            case customerAwsId = "CustomerAwsId"
+            case eventCategoriesList = "EventCategoriesList"
+            case subscriptionCreationTime = "SubscriptionCreationTime"
         }
     }
 
     public struct DescribeEndpointTypesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -571,18 +533,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct VpcSecurityGroupMembershipList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSecurityGroupMembership", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroupMembership", required: false, type: .list)
         ]
         public let vpcSecurityGroupMembership: [VpcSecurityGroupMembership]?
 
@@ -590,20 +551,15 @@ extension Dms {
             self.vpcSecurityGroupMembership = vpcSecurityGroupMembership
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let vpcSecurityGroupMembership = dictionary["VpcSecurityGroupMembership"] as? [[String: Any]] {
-                self.vpcSecurityGroupMembership = try vpcSecurityGroupMembership.map({ try VpcSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.vpcSecurityGroupMembership = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroupMembership = "VpcSecurityGroupMembership"
         }
     }
 
     public struct TagList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tag", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tag", required: false, type: .list)
         ]
         public let tag: [Tag]?
 
@@ -611,16 +567,12 @@ extension Dms {
             self.tag = tag
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [[String: Any]] {
-                self.tag = try tag.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tag = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tag = "Tag"
         }
     }
 
-    public enum DmsSslModeValue: String, CustomStringConvertible {
+    public enum DmsSslModeValue: String, CustomStringConvertible, Codable {
         case none = "none"
         case require = "require"
         case verify_ca = "verify-ca"
@@ -630,9 +582,8 @@ extension Dms {
 
     public struct DeleteReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public let replicationInstanceArn: String
@@ -641,19 +592,17 @@ extension Dms {
             self.replicationInstanceArn = replicationInstanceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
-            self.replicationInstanceArn = replicationInstanceArn
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
         }
     }
 
     public struct SupportedEndpointType: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeProperty(label: "SupportsCDC", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "SupportsCDC", required: false, type: .boolean)
         ]
         /// The database engine name. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
         public let engineName: String?
@@ -668,18 +617,17 @@ extension Dms {
             self.supportsCDC = supportsCDC
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.engineName = dictionary["EngineName"] as? String
-            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
-            self.supportsCDC = dictionary["SupportsCDC"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case engineName = "EngineName"
+            case endpointType = "EndpointType"
+            case supportsCDC = "SupportsCDC"
         }
     }
 
     public struct DeleteEventSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The event subscription that was deleted.
         public let eventSubscription: EventSubscription?
@@ -688,12 +636,12 @@ extension Dms {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Dms.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
-    public enum MigrationTypeValue: String, CustomStringConvertible {
+    public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
         case full_load = "full-load"
         case cdc = "cdc"
         case full_load_and_cdc = "full-load-and-cdc"
@@ -702,10 +650,9 @@ extension Dms {
 
     public struct DescribeEventCategoriesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | migration-task
         public let sourceType: String?
@@ -717,18 +664,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceType = dictionary["SourceType"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case filters = "Filters"
         }
     }
 
     public struct DescribeCertificatesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Certificates", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Certificates", required: false, type: .structure)
         ]
         /// The pagination token.
         public let marker: String?
@@ -740,27 +686,23 @@ extension Dms {
             self.certificates = certificates
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let certificates = dictionary["Certificates"] as? [String: Any] { self.certificates = try Dms.CertificateList(dictionary: certificates) } else { self.certificates = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case certificates = "Certificates"
         }
     }
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DescribeReplicationTasksMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -775,18 +717,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct DeleteReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was deleted.
         public let replicationInstance: ReplicationInstance?
@@ -795,17 +736,16 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String?
@@ -817,25 +757,21 @@ extension Dms {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct AddTagsToResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct ReloadTablesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication task. 
         public let replicationTaskArn: String?
@@ -844,17 +780,16 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct DescribeEndpointTypesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SupportedEndpointTypes", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SupportedEndpointTypes", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -866,17 +801,16 @@ extension Dms {
             self.supportedEndpointTypes = supportedEndpointTypes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let supportedEndpointTypes = dictionary["SupportedEndpointTypes"] as? [String: Any] { self.supportedEndpointTypes = try Dms.SupportedEndpointTypeList(dictionary: supportedEndpointTypes) } else { self.supportedEndpointTypes = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case supportedEndpointTypes = "SupportedEndpointTypes"
         }
     }
 
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public let resourceArn: String
@@ -885,23 +819,21 @@ extension Dms {
             self.resourceArn = resourceArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
         }
     }
 
     public struct CreateEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnsTopicArn", required: true, type: .string), 
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean), 
-            AWSShapeProperty(label: "SourceIds", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "SourceIds", required: false, type: .structure)
         ]
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it. 
         public let snsTopicArn: String
@@ -928,66 +860,60 @@ extension Dms {
             self.sourceIds = sourceIds
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let snsTopicArn = dictionary["SnsTopicArn"] as? String else { throw InitializableError.missingRequiredParam("SnsTopicArn") }
-            self.snsTopicArn = snsTopicArn
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
-            self.sourceType = dictionary["SourceType"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Dms.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.enabled = dictionary["Enabled"] as? Bool
-            if let sourceIds = dictionary["SourceIds"] as? [String: Any] { self.sourceIds = try Dms.SourceIdsList(dictionary: sourceIds) } else { self.sourceIds = nil }
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
+            case subscriptionName = "SubscriptionName"
+            case sourceType = "SourceType"
+            case tags = "Tags"
+            case eventCategories = "EventCategories"
+            case enabled = "Enabled"
+            case sourceIds = "SourceIds"
         }
     }
 
     public struct StartReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "StartReplicationTaskType", required: true, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "StartReplicationTaskType", required: true, type: .enum)
         ]
         /// The Amazon Resource Number (ARN) of the replication task to be started.
         public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: String?
+        public let cdcStartTime: Double?
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
-        public init(replicationTaskArn: String, cdcStartTime: String? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
+        public init(replicationTaskArn: String, cdcStartTime: Double? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.replicationTaskArn = replicationTaskArn
             self.cdcStartTime = cdcStartTime
             self.startReplicationTaskType = startReplicationTaskType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
-            self.cdcStartTime = dictionary["CdcStartTime"] as? String
-            guard let rawStartReplicationTaskType = dictionary["StartReplicationTaskType"] as? String, let startReplicationTaskType = StartReplicationTaskTypeValue(rawValue: rawStartReplicationTaskType) else { throw InitializableError.missingRequiredParam("StartReplicationTaskType") }
-            self.startReplicationTaskType = startReplicationTaskType
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
+            case cdcStartTime = "CdcStartTime"
+            case startReplicationTaskType = "StartReplicationTaskType"
         }
     }
 
     public struct CreateReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceClass", required: true, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: true, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
@@ -1032,35 +958,32 @@ extension Dms {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.multiAZ = dictionary["MultiAZ"] as? Bool
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
-            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Dms.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            guard let replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceIdentifier") }
-            self.replicationInstanceIdentifier = replicationInstanceIdentifier
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            guard let replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceClass") }
-            self.replicationInstanceClass = replicationInstanceClass
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case multiAZ = "MultiAZ"
+            case tags = "Tags"
+            case allocatedStorage = "AllocatedStorage"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case availabilityZone = "AvailabilityZone"
+            case publiclyAccessible = "PubliclyAccessible"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case engineVersion = "EngineVersion"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case replication_instance = "replication-instance"
         public var description: String { return self.rawValue }
     }
 
     public struct DeleteCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
         /// The Secure Sockets Layer (SSL) certificate.
         public let certificate: Certificate?
@@ -1069,17 +992,16 @@ extension Dms {
             self.certificate = certificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) } else { self.certificate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
     public struct DescribeConnectionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Connections", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Connections", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1091,28 +1013,27 @@ extension Dms {
             self.connections = connections
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let connections = dictionary["Connections"] as? [String: Any] { self.connections = try Dms.ConnectionList(dictionary: connections) } else { self.connections = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case connections = "Connections"
         }
     }
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The start time for the events to be listed.
-        public let startTime: String?
+        public let startTime: Double?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1122,7 +1043,7 @@ extension Dms {
         /// A list of event categories for a source type that you want to subscribe to.
         public let eventCategories: EventCategoriesList?
         /// The end time for the events to be listed.
-        public let endTime: String?
+        public let endTime: Double?
         /// Filters applied to the action.
         public let filters: FilterList?
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
@@ -1130,7 +1051,7 @@ extension Dms {
         /// The duration of the events to be listed.
         public let duration: Int32?
 
-        public init(startTime: String? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: String? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: Double? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: Double? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1142,24 +1063,23 @@ extension Dms {
             self.duration = duration
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Dms.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.duration = dictionary["Duration"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
+            case endTime = "EndTime"
+            case filters = "Filters"
+            case sourceIdentifier = "SourceIdentifier"
+            case duration = "Duration"
         }
     }
 
     public struct VpcSecurityGroupIdList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .list)
         ]
         public let vpcSecurityGroupId: [String]?
 
@@ -1167,12 +1087,12 @@ extension Dms {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 
-    public enum NestingLevelValue: String, CustomStringConvertible {
+    public enum NestingLevelValue: String, CustomStringConvertible, Codable {
         case none = "none"
         case one = "one"
         public var description: String { return self.rawValue }
@@ -1180,11 +1100,10 @@ extension Dms {
 
     public struct DescribeTableStatisticsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1199,19 +1118,17 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -1220,18 +1137,16 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
         public let resourceArn: String
@@ -1243,15 +1158,13 @@ extension Dms {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
         }
     }
 
-    public enum AuthTypeValue: String, CustomStringConvertible {
+    public enum AuthTypeValue: String, CustomStringConvertible, Codable {
         case no = "no"
         case password = "password"
         public var description: String { return self.rawValue }
@@ -1259,19 +1172,18 @@ extension Dms {
 
     public struct MongoDbSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AuthType", required: false, type: .enum), 
-            AWSShapeProperty(label: "AuthSource", required: false, type: .string), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "DocsToInvestigate", required: false, type: .string), 
-            AWSShapeProperty(label: "NestingLevel", required: false, type: .enum), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "ExtractDocId", required: false, type: .string), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "AuthMechanism", required: false, type: .enum)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AuthType", required: false, type: .enum), 
+            AWSShapeMember(label: "AuthSource", required: false, type: .string), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "DocsToInvestigate", required: false, type: .string), 
+            AWSShapeMember(label: "NestingLevel", required: false, type: .enum), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "ExtractDocId", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "AuthMechanism", required: false, type: .enum)
         ]
         ///  The authentication type you use to access the MongoDB source endpoint. Valid values: NO, PASSWORD  When NO is selected, user name and password parameters are not used and can be empty. 
         public let authType: AuthTypeValue?
@@ -1310,26 +1222,25 @@ extension Dms {
             self.authMechanism = authMechanism
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let authType = dictionary["AuthType"] as? String { self.authType = AuthTypeValue(rawValue: authType) } else { self.authType = nil }
-            self.authSource = dictionary["AuthSource"] as? String
-            self.serverName = dictionary["ServerName"] as? String
-            self.docsToInvestigate = dictionary["DocsToInvestigate"] as? String
-            if let nestingLevel = dictionary["NestingLevel"] as? String { self.nestingLevel = NestingLevelValue(rawValue: nestingLevel) } else { self.nestingLevel = nil }
-            self.username = dictionary["Username"] as? String
-            self.databaseName = dictionary["DatabaseName"] as? String
-            self.extractDocId = dictionary["ExtractDocId"] as? String
-            self.password = dictionary["Password"] as? String
-            self.port = dictionary["Port"] as? Int32
-            if let authMechanism = dictionary["AuthMechanism"] as? String { self.authMechanism = AuthMechanismValue(rawValue: authMechanism) } else { self.authMechanism = nil }
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case authSource = "AuthSource"
+            case serverName = "ServerName"
+            case docsToInvestigate = "DocsToInvestigate"
+            case nestingLevel = "NestingLevel"
+            case username = "Username"
+            case databaseName = "DatabaseName"
+            case extractDocId = "ExtractDocId"
+            case password = "Password"
+            case port = "Port"
+            case authMechanism = "AuthMechanism"
         }
     }
 
     public struct ModifyReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The modified replication instance.
         public let replicationInstance: ReplicationInstance?
@@ -1338,16 +1249,15 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
         }
     }
 
     public struct DescribeEventCategoriesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategoryGroupList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoryGroupList", required: false, type: .structure)
         ]
         /// A list of event categories.
         public let eventCategoryGroupList: EventCategoryGroupList?
@@ -1356,16 +1266,15 @@ extension Dms {
             self.eventCategoryGroupList = eventCategoryGroupList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventCategoryGroupList = dictionary["EventCategoryGroupList"] as? [String: Any] { self.eventCategoryGroupList = try Dms.EventCategoryGroupList(dictionary: eventCategoryGroupList) } else { self.eventCategoryGroupList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventCategoryGroupList = "EventCategoryGroupList"
         }
     }
 
     public struct EventList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Event", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Event", required: false, type: .list)
         ]
         public let event: [Event]?
 
@@ -1373,21 +1282,16 @@ extension Dms {
             self.event = event
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let event = dictionary["Event"] as? [[String: Any]] {
-                self.event = try event.map({ try Event(dictionary: $0) })
-            } else { 
-                self.event = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
         }
     }
 
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationSubnetGroups", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroups", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1399,17 +1303,16 @@ extension Dms {
             self.replicationSubnetGroups = replicationSubnetGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let replicationSubnetGroups = dictionary["ReplicationSubnetGroups"] as? [String: Any] { self.replicationSubnetGroups = try Dms.ReplicationSubnetGroups(dictionary: replicationSubnetGroups) } else { self.replicationSubnetGroups = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationSubnetGroups = "ReplicationSubnetGroups"
         }
     }
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountQuotas", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountQuotas", required: false, type: .structure)
         ]
         /// Account quota information.
         public let accountQuotas: AccountQuotaList?
@@ -1418,17 +1321,16 @@ extension Dms {
             self.accountQuotas = accountQuotas
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accountQuotas = dictionary["AccountQuotas"] as? [String: Any] { self.accountQuotas = try Dms.AccountQuotaList(dictionary: accountQuotas) } else { self.accountQuotas = nil }
+        private enum CodingKeys: String, CodingKey {
+            case accountQuotas = "AccountQuotas"
         }
     }
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1440,17 +1342,16 @@ extension Dms {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let events = dictionary["Events"] as? [String: Any] { self.events = try Dms.EventList(dictionary: events) } else { self.events = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case events = "Events"
         }
     }
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string)
         ]
         /// The name of the DMS event notification subscription to be deleted.
         public let subscriptionName: String
@@ -1459,13 +1360,12 @@ extension Dms {
             self.subscriptionName = subscriptionName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionName = "SubscriptionName"
         }
     }
 
-    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible {
+    public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
         case start_replication = "start-replication"
         case resume_processing = "resume-processing"
         case reload_target = "reload-target"
@@ -1474,10 +1374,9 @@ extension Dms {
 
     public struct DescribeSchemasResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Schemas", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Schemas", required: false, type: .list)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -1489,25 +1388,21 @@ extension Dms {
             self.schemas = schemas
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            self.schemas = dictionary["Schemas"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case schemas = "Schemas"
         }
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct SourceIdsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceId", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceId", required: false, type: .list)
         ]
         public let sourceId: [String]?
 
@@ -1515,16 +1410,15 @@ extension Dms {
             self.sourceId = sourceId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceId = dictionary["SourceId"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case sourceId = "SourceId"
         }
     }
 
     public struct SubnetIdentifierList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .list)
         ]
         public let subnetIdentifier: [String]?
 
@@ -1532,17 +1426,16 @@ extension Dms {
             self.subnetIdentifier = subnetIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? [String]
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
         }
     }
 
     public struct TableToReload: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SchemaName", required: false, type: .string), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "TableName", required: false, type: .string)
         ]
         /// The schema name of the table to be reloaded.
         public let schemaName: String?
@@ -1554,17 +1447,16 @@ extension Dms {
             self.tableName = tableName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.schemaName = dictionary["SchemaName"] as? String
-            self.tableName = dictionary["TableName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case schemaName = "SchemaName"
+            case tableName = "TableName"
         }
     }
 
     public struct CertificateList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .list)
         ]
         public let certificate: [Certificate]?
 
@@ -1572,32 +1464,27 @@ extension Dms {
             self.certificate = certificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [[String: Any]] {
-                self.certificate = try certificate.map({ try Certificate(dictionary: $0) })
-            } else { 
-                self.certificate = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
     public struct Certificate: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ValidFromDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "KeyLength", required: false, type: .integer), 
-            AWSShapeProperty(label: "SigningAlgorithm", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "ValidToDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "CertificateOwner", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "CertificateCreationDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ValidFromDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KeyLength", required: false, type: .integer), 
+            AWSShapeMember(label: "SigningAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "ValidToDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CertificateOwner", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "CertificateCreationDate", required: false, type: .timestamp)
         ]
         /// The beginning date that the certificate is valid.
-        public let validFromDate: String?
+        public let validFromDate: Double?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int32?
         /// The signing algorithm for the certificate.
@@ -1609,15 +1496,15 @@ extension Dms {
         /// The contents of the .pem X.509 certificate file for the certificate.
         public let certificatePem: String?
         /// The final date that the certificate is valid.
-        public let validToDate: String?
+        public let validToDate: Double?
         /// The owner of the certificate.
         public let certificateOwner: String?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
         public let certificateIdentifier: String?
         /// The date that the certificate was created.
-        public let certificateCreationDate: String?
+        public let certificateCreationDate: Double?
 
-        public init(validFromDate: String? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: String? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: String? = nil) {
+        public init(validFromDate: Double? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: Double? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: Double? = nil) {
             self.validFromDate = validFromDate
             self.keyLength = keyLength
             self.signingAlgorithm = signingAlgorithm
@@ -1630,25 +1517,24 @@ extension Dms {
             self.certificateCreationDate = certificateCreationDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.validFromDate = dictionary["ValidFromDate"] as? String
-            self.keyLength = dictionary["KeyLength"] as? Int32
-            self.signingAlgorithm = dictionary["SigningAlgorithm"] as? String
-            self.certificateWallet = dictionary["CertificateWallet"] as? Data
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.certificatePem = dictionary["CertificatePem"] as? String
-            self.validToDate = dictionary["ValidToDate"] as? String
-            self.certificateOwner = dictionary["CertificateOwner"] as? String
-            self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
-            self.certificateCreationDate = dictionary["CertificateCreationDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case validFromDate = "ValidFromDate"
+            case keyLength = "KeyLength"
+            case signingAlgorithm = "SigningAlgorithm"
+            case certificateWallet = "CertificateWallet"
+            case certificateArn = "CertificateArn"
+            case certificatePem = "CertificatePem"
+            case validToDate = "ValidToDate"
+            case certificateOwner = "CertificateOwner"
+            case certificateIdentifier = "CertificateIdentifier"
+            case certificateCreationDate = "CertificateCreationDate"
         }
     }
 
     public struct ReplicationInstanceList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .list)
         ]
         public let replicationInstance: [ReplicationInstance]?
 
@@ -1656,20 +1542,15 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [[String: Any]] {
-                self.replicationInstance = try replicationInstance.map({ try ReplicationInstance(dictionary: $0) })
-            } else { 
-                self.replicationInstance = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TagList", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TagList", required: false, type: .structure)
         ]
         /// A list of tags for the resource.
         public let tagList: TagList?
@@ -1678,20 +1559,19 @@ extension Dms {
             self.tagList = tagList
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [String: Any] { self.tagList = try Dms.TagList(dictionary: tagList) } else { self.tagList = nil }
+        private enum CodingKeys: String, CodingKey {
+            case tagList = "TagList"
         }
     }
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SnsTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "SubscriptionName", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure), 
-            AWSShapeProperty(label: "Enabled", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
         ]
         ///  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String?
@@ -1712,21 +1592,19 @@ extension Dms {
             self.enabled = enabled
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
-            self.subscriptionName = subscriptionName
-            self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Dms.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
-            self.enabled = dictionary["Enabled"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
+            case subscriptionName = "SubscriptionName"
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
+            case enabled = "Enabled"
         }
     }
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
         /// The name of the availability zone.
         public let name: String?
@@ -1735,12 +1613,12 @@ extension Dms {
             self.name = name
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.name = dictionary["Name"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
-    public enum AuthMechanismValue: String, CustomStringConvertible {
+    public enum AuthMechanismValue: String, CustomStringConvertible, Codable {
         case `default` = "default"
         case mongodb_cr = "mongodb_cr"
         case scram_sha_1 = "scram_sha_1"
@@ -1749,19 +1627,18 @@ extension Dms {
 
     public struct ModifyReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "VpcSecurityGroupIds", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ApplyImmediately", required: false, type: .boolean), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowMajorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "VpcSecurityGroupIds", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean)
         ]
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
         public let allowMajorVersionUpgrade: Bool?
@@ -1800,32 +1677,30 @@ extension Dms {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.allowMajorVersionUpgrade = dictionary["AllowMajorVersionUpgrade"] as? Bool
-            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
-            self.multiAZ = dictionary["MultiAZ"] as? Bool
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Dms.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
-            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
-            self.replicationInstanceArn = replicationInstanceArn
-            self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
+        private enum CodingKeys: String, CodingKey {
+            case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case multiAZ = "MultiAZ"
+            case engineVersion = "EngineVersion"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case allocatedStorage = "AllocatedStorage"
+            case vpcSecurityGroupIds = "VpcSecurityGroupIds"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case applyImmediately = "ApplyImmediately"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         }
     }
 
     public struct Connection: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string)
         ]
         /// The error message when the connection last failed.
         public let lastFailureMessage: String?
@@ -1849,25 +1724,24 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
-            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
-            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
-            self.status = dictionary["Status"] as? String
-            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
-            self.endpointArn = dictionary["EndpointArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastFailureMessage = "LastFailureMessage"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case status = "Status"
+            case endpointIdentifier = "EndpointIdentifier"
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct RefreshSchemasStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndpointArn", required: false, type: .string), 
-            AWSShapeProperty(label: "LastRefreshDate", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "EndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "LastRefreshDate", required: false, type: .timestamp)
         ]
         /// The last failure message for the schema.
         public let lastFailureMessage: String?
@@ -1878,9 +1752,9 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The date the schema was last refreshed.
-        public let lastRefreshDate: String?
+        public let lastRefreshDate: Double?
 
-        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: String? = nil) {
+        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: Double? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.replicationInstanceArn = replicationInstanceArn
             self.status = status
@@ -1888,22 +1762,21 @@ extension Dms {
             self.lastRefreshDate = lastRefreshDate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
-            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
-            if let status = dictionary["Status"] as? String { self.status = RefreshSchemasStatusTypeValue(rawValue: status) } else { self.status = nil }
-            self.endpointArn = dictionary["EndpointArn"] as? String
-            self.lastRefreshDate = dictionary["LastRefreshDate"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case lastFailureMessage = "LastFailureMessage"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case status = "Status"
+            case endpointArn = "EndpointArn"
+            case lastRefreshDate = "LastRefreshDate"
         }
     }
 
     public struct DescribeReplicationInstancesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -1918,19 +1791,18 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct DescribeEventSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscriptionsList", required: false, type: .structure), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscriptionsList", required: false, type: .structure), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         /// A list of event subscriptions.
         public let eventSubscriptionsList: EventSubscriptionsList?
@@ -1942,17 +1814,16 @@ extension Dms {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [String: Any] { self.eventSubscriptionsList = try Dms.EventSubscriptionsList(dictionary: eventSubscriptionsList) } else { self.eventSubscriptionsList = nil }
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscriptionsList = "EventSubscriptionsList"
+            case marker = "Marker"
         }
     }
 
     public struct ConnectionList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Connection", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connection", required: false, type: .list)
         ]
         public let connection: [Connection]?
 
@@ -1960,22 +1831,17 @@ extension Dms {
             self.connection = connection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connection = dictionary["Connection"] as? [[String: Any]] {
-                self.connection = try connection.map({ try Connection(dictionary: $0) })
-            } else { 
-                self.connection = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
         }
     }
 
     public struct AccountQuota: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Max", required: false, type: .long), 
-            AWSShapeProperty(label: "Used", required: false, type: .long), 
-            AWSShapeProperty(label: "AccountQuotaName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Max", required: false, type: .long), 
+            AWSShapeMember(label: "Used", required: false, type: .long), 
+            AWSShapeMember(label: "AccountQuotaName", required: false, type: .string)
         ]
         /// The maximum allowed value for the quota.
         public let max: Int64?
@@ -1990,20 +1856,19 @@ extension Dms {
             self.accountQuotaName = accountQuotaName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.max = dictionary["Max"] as? Int64
-            self.used = dictionary["Used"] as? Int64
-            self.accountQuotaName = dictionary["AccountQuotaName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case max = "Max"
+            case used = "Used"
+            case accountQuotaName = "AccountQuotaName"
         }
     }
 
     public struct DescribeCertificatesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public let maxRecords: Int32?
@@ -2018,19 +1883,18 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct ReloadTablesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeProperty(label: "TablesToReload", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "TablesToReload", required: true, type: .list)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance. 
         public let replicationTaskArn: String
@@ -2042,20 +1906,17 @@ extension Dms {
             self.tablesToReload = tablesToReload
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
-            guard let tablesToReload = dictionary["TablesToReload"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TablesToReload") }
-            self.tablesToReload = try tablesToReload.map({ try TableToReload(dictionary: $0) })
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
+            case tablesToReload = "TablesToReload"
         }
     }
 
     public struct RefreshSchemasMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
@@ -2067,19 +1928,16 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
-            self.replicationInstanceArn = replicationInstanceArn
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct ModifyEventSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The modified event subscription.
         public let eventSubscription: EventSubscription?
@@ -2088,16 +1946,15 @@ extension Dms {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Dms.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
     public struct StartReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task started.
         public let replicationTask: ReplicationTask?
@@ -2106,16 +1963,15 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct DeleteReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public let replicationTaskArn: String
@@ -2124,19 +1980,17 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubnetStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .structure), 
+            AWSShapeMember(label: "SubnetStatus", required: false, type: .string)
         ]
         /// The subnet identifier.
         public let subnetIdentifier: String?
@@ -2151,33 +2005,32 @@ extension Dms {
             self.subnetStatus = subnetStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Dms.AvailabilityZone(dictionary: subnetAvailabilityZone) } else { self.subnetAvailabilityZone = nil }
-            self.subnetStatus = dictionary["SubnetStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
+            case subnetStatus = "SubnetStatus"
         }
     }
 
     public struct CreateEndpointMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "EndpointType", required: true, type: .enum), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineName", required: true, type: .string), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointType", required: true, type: .enum), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: true, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string)
         ]
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
@@ -2231,35 +2084,31 @@ extension Dms {
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            guard let endpointIdentifier = dictionary["EndpointIdentifier"] as? String else { throw InitializableError.missingRequiredParam("EndpointIdentifier") }
-            self.endpointIdentifier = endpointIdentifier
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
-            self.username = dictionary["Username"] as? String
-            if let mongoDbSettings = dictionary["MongoDbSettings"] as? [String: Any] { self.mongoDbSettings = try Dms.MongoDbSettings(dictionary: mongoDbSettings) } else { self.mongoDbSettings = nil }
-            if let dynamoDbSettings = dictionary["DynamoDbSettings"] as? [String: Any] { self.dynamoDbSettings = try Dms.DynamoDbSettings(dictionary: dynamoDbSettings) } else { self.dynamoDbSettings = nil }
-            guard let rawEndpointType = dictionary["EndpointType"] as? String, let endpointType = ReplicationEndpointTypeValue(rawValue: rawEndpointType) else { throw InitializableError.missingRequiredParam("EndpointType") }
-            self.endpointType = endpointType
-            self.serverName = dictionary["ServerName"] as? String
-            if let s3Settings = dictionary["S3Settings"] as? [String: Any] { self.s3Settings = try Dms.S3Settings(dictionary: s3Settings) } else { self.s3Settings = nil }
-            self.databaseName = dictionary["DatabaseName"] as? String
-            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
-            self.engineName = engineName
-            self.password = dictionary["Password"] as? String
-            self.port = dictionary["Port"] as? Int32
-            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case endpointIdentifier = "EndpointIdentifier"
+            case tags = "Tags"
+            case username = "Username"
+            case mongoDbSettings = "MongoDbSettings"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case endpointType = "EndpointType"
+            case serverName = "ServerName"
+            case s3Settings = "S3Settings"
+            case databaseName = "DatabaseName"
+            case sslMode = "SslMode"
+            case certificateArn = "CertificateArn"
+            case engineName = "EngineName"
+            case password = "Password"
+            case port = "Port"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
         }
     }
 
     public struct EventCategoryGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceType", required: false, type: .string), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceType", required: false, type: .string), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
         ]
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-server | security-group | migration-task
         public let sourceType: String?
@@ -2271,21 +2120,20 @@ extension Dms {
             self.eventCategories = eventCategories
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Dms.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
         }
     }
 
     public struct ReplicationSubnetGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroupStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "Subnets", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
         /// The status of the subnet group.
         public let subnetGroupStatus: String?
@@ -2306,37 +2154,36 @@ extension Dms {
             self.vpcId = vpcId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
-            if let subnets = dictionary["Subnets"] as? [String: Any] { self.subnets = try Dms.SubnetList(dictionary: subnets) } else { self.subnets = nil }
-            self.replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String
-            self.replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String
-            self.vpcId = dictionary["VpcId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupStatus = "SubnetGroupStatus"
+            case subnets = "Subnets"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
+            case vpcId = "VpcId"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EventCategories", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EventCategories", required: false, type: .structure)
         ]
         /// The event message.
         public let message: String?
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.  Constraints:replication instance, endpoint, migration task
         public let sourceIdentifier: String?
         /// The date of the event.
-        public let date: String?
+        public let date: Double?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
         public let sourceType: SourceType?
         /// The event categories available for the specified source type.
         public let eventCategories: EventCategoriesList?
 
-        public init(message: String? = nil, sourceIdentifier: String? = nil, date: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil) {
+        public init(message: String? = nil, sourceIdentifier: String? = nil, date: Double? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil) {
             self.message = message
             self.sourceIdentifier = sourceIdentifier
             self.date = date
@@ -2344,20 +2191,19 @@ extension Dms {
             self.eventCategories = eventCategories
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.message = dictionary["Message"] as? String
-            self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
-            self.date = dictionary["Date"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Dms.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case sourceIdentifier = "SourceIdentifier"
+            case date = "Date"
+            case sourceType = "SourceType"
+            case eventCategories = "EventCategories"
         }
     }
 
     public struct TestConnectionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Connection", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Connection", required: false, type: .structure)
         ]
         /// The connection tested.
         public let connection: Connection?
@@ -2366,19 +2212,18 @@ extension Dms {
             self.connection = connection
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let connection = dictionary["Connection"] as? [String: Any] { self.connection = try Dms.Connection(dictionary: connection) } else { self.connection = nil }
+        private enum CodingKeys: String, CodingKey {
+            case connection = "Connection"
         }
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure), 
-            AWSShapeProperty(label: "SubscriptionName", required: false, type: .string), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure), 
+            AWSShapeMember(label: "SubscriptionName", required: false, type: .string), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -2396,29 +2241,28 @@ extension Dms {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
-            self.subscriptionName = dictionary["SubscriptionName"] as? String
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case filters = "Filters"
+            case subscriptionName = "SubscriptionName"
+            case marker = "Marker"
         }
     }
 
     public struct TableStatistics: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Deletes", required: false, type: .long), 
-            AWSShapeProperty(label: "Updates", required: false, type: .long), 
-            AWSShapeProperty(label: "TableState", required: false, type: .string), 
-            AWSShapeProperty(label: "SchemaName", required: false, type: .string), 
-            AWSShapeProperty(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
-            AWSShapeProperty(label: "FullLoadRows", required: false, type: .long), 
-            AWSShapeProperty(label: "Inserts", required: false, type: .long), 
-            AWSShapeProperty(label: "FullLoadErrorRows", required: false, type: .long), 
-            AWSShapeProperty(label: "TableName", required: false, type: .string), 
-            AWSShapeProperty(label: "LastUpdateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Ddls", required: false, type: .long)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Deletes", required: false, type: .long), 
+            AWSShapeMember(label: "Updates", required: false, type: .long), 
+            AWSShapeMember(label: "TableState", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "FullLoadCondtnlChkFailedRows", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadRows", required: false, type: .long), 
+            AWSShapeMember(label: "Inserts", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadErrorRows", required: false, type: .long), 
+            AWSShapeMember(label: "TableName", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Ddls", required: false, type: .long)
         ]
         /// The number of delete actions performed on a table.
         public let deletes: Int64?
@@ -2439,11 +2283,11 @@ extension Dms {
         /// The name of the table.
         public let tableName: String?
         /// The last time the table was updated.
-        public let lastUpdateTime: String?
+        public let lastUpdateTime: Double?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
 
-        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, fullLoadErrorRows: Int64? = nil, tableName: String? = nil, lastUpdateTime: String? = nil, ddls: Int64? = nil) {
+        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, fullLoadErrorRows: Int64? = nil, tableName: String? = nil, lastUpdateTime: Double? = nil, ddls: Int64? = nil) {
             self.deletes = deletes
             self.updates = updates
             self.tableState = tableState
@@ -2457,26 +2301,25 @@ extension Dms {
             self.ddls = ddls
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deletes = dictionary["Deletes"] as? Int64
-            self.updates = dictionary["Updates"] as? Int64
-            self.tableState = dictionary["TableState"] as? String
-            self.schemaName = dictionary["SchemaName"] as? String
-            self.fullLoadCondtnlChkFailedRows = dictionary["FullLoadCondtnlChkFailedRows"] as? Int64
-            self.fullLoadRows = dictionary["FullLoadRows"] as? Int64
-            self.inserts = dictionary["Inserts"] as? Int64
-            self.fullLoadErrorRows = dictionary["FullLoadErrorRows"] as? Int64
-            self.tableName = dictionary["TableName"] as? String
-            self.lastUpdateTime = dictionary["LastUpdateTime"] as? String
-            self.ddls = dictionary["Ddls"] as? Int64
+        private enum CodingKeys: String, CodingKey {
+            case deletes = "Deletes"
+            case updates = "Updates"
+            case tableState = "TableState"
+            case schemaName = "SchemaName"
+            case fullLoadCondtnlChkFailedRows = "FullLoadCondtnlChkFailedRows"
+            case fullLoadRows = "FullLoadRows"
+            case inserts = "Inserts"
+            case fullLoadErrorRows = "FullLoadErrorRows"
+            case tableName = "TableName"
+            case lastUpdateTime = "LastUpdateTime"
+            case ddls = "Ddls"
         }
     }
 
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure)
         ]
         /// The replication subnet group that was created.
         public let replicationSubnetGroup: ReplicationSubnetGroup?
@@ -2485,19 +2328,18 @@ extension Dms {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
         }
     }
 
     public struct ImportCertificateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateWallet", required: false, type: .blob), 
-            AWSShapeProperty(label: "CertificatePem", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "CertificateIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateWallet", required: false, type: .blob), 
+            AWSShapeMember(label: "CertificatePem", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "CertificateIdentifier", required: true, type: .string)
         ]
         /// The location of the imported Oracle Wallet certificate for use with SSL.
         public let certificateWallet: Data?
@@ -2515,21 +2357,19 @@ extension Dms {
             self.certificateIdentifier = certificateIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.certificateWallet = dictionary["CertificateWallet"] as? Data
-            self.certificatePem = dictionary["CertificatePem"] as? String
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let certificateIdentifier = dictionary["CertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("CertificateIdentifier") }
-            self.certificateIdentifier = certificateIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case certificateWallet = "CertificateWallet"
+            case certificatePem = "CertificatePem"
+            case tags = "Tags"
+            case certificateIdentifier = "CertificateIdentifier"
         }
     }
 
     public struct TestConnectionMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
@@ -2541,19 +2381,16 @@ extension Dms {
             self.endpointArn = endpointArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
-            self.replicationInstanceArn = replicationInstanceArn
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case endpointArn = "EndpointArn"
         }
     }
 
     public struct DeleteReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The deleted replication task.
         public let replicationTask: ReplicationTask?
@@ -2562,16 +2399,15 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was created.
         public let endpoint: Endpoint?
@@ -2580,16 +2416,15 @@ extension Dms {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
         }
     }
 
     public struct CreateReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationInstance", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationInstance", required: false, type: .structure)
         ]
         /// The replication instance that was created.
         public let replicationInstance: ReplicationInstance?
@@ -2598,16 +2433,15 @@ extension Dms {
             self.replicationInstance = replicationInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationInstance = "ReplicationInstance"
         }
     }
 
     public struct SubnetList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Subnet", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Subnet", required: false, type: .list)
         ]
         public let subnet: [Subnet]?
 
@@ -2615,20 +2449,15 @@ extension Dms {
             self.subnet = subnet
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnet = dictionary["Subnet"] as? [[String: Any]] {
-                self.subnet = try subnet.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnet = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case subnet = "Subnet"
         }
     }
 
     public struct EndpointList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .list)
         ]
         public let endpoint: [Endpoint]?
 
@@ -2636,25 +2465,20 @@ extension Dms {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [[String: Any]] {
-                self.endpoint = try endpoint.map({ try Endpoint(dictionary: $0) })
-            } else { 
-                self.endpoint = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
         }
     }
 
     public struct ModifyReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableMappings", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
         ]
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
         public let tableMappings: String?
@@ -2665,11 +2489,11 @@ extension Dms {
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
         public let migrationType: MigrationTypeValue?
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: String?
+        public let cdcStartTime: Double?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: Double? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
@@ -2678,24 +2502,22 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tableMappings = dictionary["TableMappings"] as? String
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
-            self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
-            if let migrationType = dictionary["MigrationType"] as? String { self.migrationType = MigrationTypeValue(rawValue: migrationType) } else { self.migrationType = nil }
-            self.cdcStartTime = dictionary["CdcStartTime"] as? String
-            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tableMappings = "TableMappings"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case migrationType = "MigrationType"
+            case cdcStartTime = "CdcStartTime"
+            case replicationTaskSettings = "ReplicationTaskSettings"
         }
     }
 
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .structure), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationSubnetGroupDescription", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .structure), 
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationSubnetGroupDescription", required: false, type: .string)
         ]
         /// A list of subnet IDs.
         public let subnetIds: SubnetIdentifierList
@@ -2710,26 +2532,23 @@ extension Dms {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = try Dms.SubnetIdentifierList(dictionary: subnetIds)
-            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
-            self.replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
+            case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
         }
     }
 
     public struct OrderableReplicationInstance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeProperty(label: "DefaultAllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "StorageType", required: false, type: .string), 
-            AWSShapeProperty(label: "MinAllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "IncludedAllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "MaxAllocatedStorage", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "MinAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "IncludedAllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer)
         ]
         /// The version of the replication engine.
         public let engineVersion: String?
@@ -2756,27 +2575,26 @@ extension Dms {
             self.maxAllocatedStorage = maxAllocatedStorage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
-            self.defaultAllocatedStorage = dictionary["DefaultAllocatedStorage"] as? Int32
-            self.storageType = dictionary["StorageType"] as? String
-            self.minAllocatedStorage = dictionary["MinAllocatedStorage"] as? Int32
-            self.includedAllocatedStorage = dictionary["IncludedAllocatedStorage"] as? Int32
-            self.maxAllocatedStorage = dictionary["MaxAllocatedStorage"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case engineVersion = "EngineVersion"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case defaultAllocatedStorage = "DefaultAllocatedStorage"
+            case storageType = "StorageType"
+            case minAllocatedStorage = "MinAllocatedStorage"
+            case includedAllocatedStorage = "IncludedAllocatedStorage"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
         }
     }
 
     public struct ReplicationTaskStats: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TablesLoaded", required: false, type: .integer), 
-            AWSShapeProperty(label: "ElapsedTimeMillis", required: false, type: .long), 
-            AWSShapeProperty(label: "FullLoadProgressPercent", required: false, type: .integer), 
-            AWSShapeProperty(label: "TablesQueued", required: false, type: .integer), 
-            AWSShapeProperty(label: "TablesErrored", required: false, type: .integer), 
-            AWSShapeProperty(label: "TablesLoading", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TablesLoaded", required: false, type: .integer), 
+            AWSShapeMember(label: "ElapsedTimeMillis", required: false, type: .long), 
+            AWSShapeMember(label: "FullLoadProgressPercent", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesQueued", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesErrored", required: false, type: .integer), 
+            AWSShapeMember(label: "TablesLoading", required: false, type: .integer)
         ]
         /// The number of tables loaded for this task.
         public let tablesLoaded: Int32?
@@ -2800,21 +2618,20 @@ extension Dms {
             self.tablesLoading = tablesLoading
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.tablesLoaded = dictionary["TablesLoaded"] as? Int32
-            self.elapsedTimeMillis = dictionary["ElapsedTimeMillis"] as? Int64
-            self.fullLoadProgressPercent = dictionary["FullLoadProgressPercent"] as? Int32
-            self.tablesQueued = dictionary["TablesQueued"] as? Int32
-            self.tablesErrored = dictionary["TablesErrored"] as? Int32
-            self.tablesLoading = dictionary["TablesLoading"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case tablesLoaded = "TablesLoaded"
+            case elapsedTimeMillis = "ElapsedTimeMillis"
+            case fullLoadProgressPercent = "FullLoadProgressPercent"
+            case tablesQueued = "TablesQueued"
+            case tablesErrored = "TablesErrored"
+            case tablesLoading = "TablesLoading"
         }
     }
 
     public struct DeleteEndpointResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure)
         ]
         /// The endpoint that was deleted.
         public let endpoint: Endpoint?
@@ -2823,16 +2640,15 @@ extension Dms {
             self.endpoint = endpoint
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
         }
     }
 
     public struct ModifyReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task that was modified.
         public let replicationTask: ReplicationTask?
@@ -2841,16 +2657,15 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct SupportedEndpointTypeList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SupportedEndpointType", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SupportedEndpointType", required: false, type: .list)
         ]
         public let supportedEndpointType: [SupportedEndpointType]?
 
@@ -2858,42 +2673,37 @@ extension Dms {
             self.supportedEndpointType = supportedEndpointType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let supportedEndpointType = dictionary["SupportedEndpointType"] as? [[String: Any]] {
-                self.supportedEndpointType = try supportedEndpointType.map({ try SupportedEndpointType(dictionary: $0) })
-            } else { 
-                self.supportedEndpointType = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case supportedEndpointType = "SupportedEndpointType"
         }
     }
 
     public struct ReplicationTask: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskStats", required: false, type: .structure), 
-            AWSShapeProperty(label: "LastFailureMessage", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SourceEndpointArn", required: false, type: .string), 
-            AWSShapeProperty(label: "TableMappings", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskArn", required: false, type: .string), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "StopReason", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "MigrationType", required: false, type: .enum), 
-            AWSShapeProperty(label: "TargetEndpointArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskStats", required: false, type: .structure), 
+            AWSShapeMember(label: "LastFailureMessage", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskStartDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationTaskCreationDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "TableMappings", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskArn", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "StopReason", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: false, type: .enum), 
+            AWSShapeMember(label: "TargetEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
         ]
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
         public let replicationTaskStats: ReplicationTaskStats?
         /// The last error (failure) message generated for the replication instance.
         public let lastFailureMessage: String?
         /// The date the replication task is scheduled to start.
-        public let replicationTaskStartDate: String?
+        public let replicationTaskStartDate: Double?
         /// The date the replication task was created.
-        public let replicationTaskCreationDate: String?
+        public let replicationTaskCreationDate: Double?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String?
         /// Table mappings specified in the task.
@@ -2915,7 +2725,7 @@ extension Dms {
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
 
-        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: String? = nil, replicationTaskCreationDate: String? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Double? = nil, replicationTaskCreationDate: Double? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
             self.lastFailureMessage = lastFailureMessage
             self.replicationTaskStartDate = replicationTaskStartDate
@@ -2932,29 +2742,28 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTaskStats = dictionary["ReplicationTaskStats"] as? [String: Any] { self.replicationTaskStats = try Dms.ReplicationTaskStats(dictionary: replicationTaskStats) } else { self.replicationTaskStats = nil }
-            self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
-            self.replicationTaskStartDate = dictionary["ReplicationTaskStartDate"] as? String
-            self.replicationTaskCreationDate = dictionary["ReplicationTaskCreationDate"] as? String
-            self.sourceEndpointArn = dictionary["SourceEndpointArn"] as? String
-            self.tableMappings = dictionary["TableMappings"] as? String
-            self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
-            self.status = dictionary["Status"] as? String
-            self.stopReason = dictionary["StopReason"] as? String
-            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
-            self.replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String
-            if let migrationType = dictionary["MigrationType"] as? String { self.migrationType = MigrationTypeValue(rawValue: migrationType) } else { self.migrationType = nil }
-            self.targetEndpointArn = dictionary["TargetEndpointArn"] as? String
-            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskStats = "ReplicationTaskStats"
+            case lastFailureMessage = "LastFailureMessage"
+            case replicationTaskStartDate = "ReplicationTaskStartDate"
+            case replicationTaskCreationDate = "ReplicationTaskCreationDate"
+            case sourceEndpointArn = "SourceEndpointArn"
+            case tableMappings = "TableMappings"
+            case replicationTaskArn = "ReplicationTaskArn"
+            case status = "Status"
+            case stopReason = "StopReason"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case migrationType = "MigrationType"
+            case targetEndpointArn = "TargetEndpointArn"
+            case replicationTaskSettings = "ReplicationTaskSettings"
         }
     }
 
     public struct StopReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTask", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTask", required: false, type: .structure)
         ]
         /// The replication task stopped.
         public let replicationTask: ReplicationTask?
@@ -2963,16 +2772,15 @@ extension Dms {
             self.replicationTask = replicationTask
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
+        private enum CodingKeys: String, CodingKey {
+            case replicationTask = "ReplicationTask"
         }
     }
 
     public struct RefreshSchemasResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the refreshed schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -2981,16 +2789,15 @@ extension Dms {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) } else { self.refreshSchemasStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case refreshSchemasStatus = "RefreshSchemasStatus"
         }
     }
 
     public struct DeleteCertificateMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "CertificateArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateArn", required: true, type: .string)
         ]
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public let certificateArn: String
@@ -2999,17 +2806,15 @@ extension Dms {
             self.certificateArn = certificateArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let certificateArn = dictionary["CertificateArn"] as? String else { throw InitializableError.missingRequiredParam("CertificateArn") }
-            self.certificateArn = certificateArn
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
         }
     }
 
     public struct DynamoDbSettings: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ServiceAccessRoleArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ServiceAccessRoleArn", required: true, type: .string)
         ]
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         public let serviceAccessRoleArn: String
@@ -3018,17 +2823,15 @@ extension Dms {
             self.serviceAccessRoleArn = serviceAccessRoleArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let serviceAccessRoleArn = dictionary["ServiceAccessRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceAccessRoleArn") }
-            self.serviceAccessRoleArn = serviceAccessRoleArn
+        private enum CodingKeys: String, CodingKey {
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
         }
     }
 
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "RefreshSchemasStatus", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RefreshSchemasStatus", required: false, type: .structure)
         ]
         /// The status of the schema.
         public let refreshSchemasStatus: RefreshSchemasStatus?
@@ -3037,18 +2840,17 @@ extension Dms {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) } else { self.refreshSchemasStatus = nil }
+        private enum CodingKeys: String, CodingKey {
+            case refreshSchemasStatus = "RefreshSchemasStatus"
         }
     }
 
     public struct DescribeSchemasMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -3063,19 +2865,17 @@ extension Dms {
             self.maxRecords = maxRecords
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case endpointArn = "EndpointArn"
+            case maxRecords = "MaxRecords"
         }
     }
 
     public struct StopReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationTaskArn", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationTaskArn", required: true, type: .string)
         ]
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
         public let replicationTaskArn: String
@@ -3084,17 +2884,15 @@ extension Dms {
             self.replicationTaskArn = replicationTaskArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationTaskArn = dictionary["ReplicationTaskArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskArn") }
-            self.replicationTaskArn = replicationTaskArn
+        private enum CodingKeys: String, CodingKey {
+            case replicationTaskArn = "ReplicationTaskArn"
         }
     }
 
     public struct CreateEventSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .structure)
         ]
         /// The event subscription that was created.
         public let eventSubscription: EventSubscription?
@@ -3103,12 +2901,12 @@ extension Dms {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Dms.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
-    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible {
+    public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
         case successful = "successful"
         case failed = "failed"
         case refreshing = "refreshing"
@@ -3117,9 +2915,8 @@ extension Dms {
 
     public struct OrderableReplicationInstanceList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "OrderableReplicationInstance", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrderableReplicationInstance", required: false, type: .list)
         ]
         public let orderableReplicationInstance: [OrderableReplicationInstance]?
 
@@ -3127,20 +2924,15 @@ extension Dms {
             self.orderableReplicationInstance = orderableReplicationInstance
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let orderableReplicationInstance = dictionary["OrderableReplicationInstance"] as? [[String: Any]] {
-                self.orderableReplicationInstance = try orderableReplicationInstance.map({ try OrderableReplicationInstance(dictionary: $0) })
-            } else { 
-                self.orderableReplicationInstance = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case orderableReplicationInstance = "OrderableReplicationInstance"
         }
     }
 
     public struct EventCategoryGroupList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventCategoryGroup", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventCategoryGroup", required: false, type: .list)
         ]
         public let eventCategoryGroup: [EventCategoryGroup]?
 
@@ -3148,21 +2940,16 @@ extension Dms {
             self.eventCategoryGroup = eventCategoryGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventCategoryGroup = dictionary["EventCategoryGroup"] as? [[String: Any]] {
-                self.eventCategoryGroup = try eventCategoryGroup.map({ try EventCategoryGroup(dictionary: $0) })
-            } else { 
-                self.eventCategoryGroup = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventCategoryGroup = "EventCategoryGroup"
         }
     }
 
     public struct DescribeReplicationTasksResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationTasks", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationTasks", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -3174,18 +2961,17 @@ extension Dms {
             self.replicationTasks = replicationTasks
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let replicationTasks = dictionary["ReplicationTasks"] as? [String: Any] { self.replicationTasks = try Dms.ReplicationTaskList(dictionary: replicationTasks) } else { self.replicationTasks = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationTasks = "ReplicationTasks"
         }
     }
 
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: true, type: .structure)
         ]
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
         public let resourceArn: String
@@ -3197,21 +2983,18 @@ extension Dms {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceArn = dictionary["ResourceArn"] as? String else { throw InitializableError.missingRequiredParam("ResourceArn") }
-            self.resourceArn = resourceArn
-            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try Dms.TagList(dictionary: tags)
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
         }
     }
 
     public struct DescribeConnectionsMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Filters", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .structure)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -3226,18 +3009,17 @@ extension Dms {
             self.filters = filters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
-            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Dms.FilterList(dictionary: filters) } else { self.filters = nil }
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
+            case filters = "Filters"
         }
     }
 
     public struct AccountQuotaList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AccountQuota", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountQuota", required: false, type: .list)
         ]
         public let accountQuota: [AccountQuota]?
 
@@ -3245,28 +3027,20 @@ extension Dms {
             self.accountQuota = accountQuota
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let accountQuota = dictionary["AccountQuota"] as? [[String: Any]] {
-                self.accountQuota = try accountQuota.map({ try AccountQuota(dictionary: $0) })
-            } else { 
-                self.accountQuota = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case accountQuota = "AccountQuota"
         }
     }
 
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
 
-        public init(dictionary: [String: Any]) throws {
-        }
     }
 
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReplicationSubnetGroupIdentifier", required: true, type: .string)
         ]
         /// The subnet group name of the replication instance.
         public let replicationSubnetGroupIdentifier: String
@@ -3275,13 +3049,12 @@ extension Dms {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationSubnetGroupIdentifier") }
-            self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
+        private enum CodingKeys: String, CodingKey {
+            case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
         }
     }
 
-    public enum CompressionTypeValue: String, CustomStringConvertible {
+    public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
         case none = "none"
         case gzip = "gzip"
         public var description: String { return self.rawValue }
@@ -3289,12 +3062,11 @@ extension Dms {
 
     public struct ReplicationPendingModifiedValues: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer)
         ]
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public let multiAZ: Bool?
@@ -3312,19 +3084,18 @@ extension Dms {
             self.allocatedStorage = allocatedStorage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.multiAZ = dictionary["MultiAZ"] as? Bool
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
-            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case multiAZ = "MultiAZ"
+            case engineVersion = "EngineVersion"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case allocatedStorage = "AllocatedStorage"
         }
     }
 
     public struct EventSubscriptionsList: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EventSubscription", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EventSubscription", required: false, type: .list)
         ]
         public let eventSubscription: [EventSubscription]?
 
@@ -3332,43 +3103,38 @@ extension Dms {
             self.eventSubscription = eventSubscription
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [[String: Any]] {
-                self.eventSubscription = try eventSubscription.map({ try EventSubscription(dictionary: $0) })
-            } else { 
-                self.eventSubscription = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case eventSubscription = "EventSubscription"
         }
     }
 
     public struct ReplicationInstance: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "InstanceCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "PendingModifiedValues", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicationInstanceStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroups", required: false, type: .structure), 
-            AWSShapeProperty(label: "MultiAZ", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "AllocatedStorage", required: false, type: .integer), 
-            AWSShapeProperty(label: "ReplicationSubnetGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
-            AWSShapeProperty(label: "PubliclyAccessible", required: false, type: .boolean), 
-            AWSShapeProperty(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
-            AWSShapeProperty(label: "EngineVersion", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceClass", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
-            AWSShapeProperty(label: "SecondaryAvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "KmsKeyId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationInstanceStatus", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstancePublicIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "AllocatedStorage", required: false, type: .integer), 
+            AWSShapeMember(label: "ReplicationSubnetGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationInstancePrivateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "AutoMinorVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ReplicationInstanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstancePrivateIpAddresses", required: false, type: .list), 
+            AWSShapeMember(label: "EngineVersion", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceClass", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstancePublicIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "SecondaryAvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The time the replication instance was created.
-        public let instanceCreateTime: String?
+        public let instanceCreateTime: Double?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
         /// The status of the replication instance.
@@ -3410,7 +3176,7 @@ extension Dms {
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(instanceCreateTime: String? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: Double? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -3434,36 +3200,35 @@ extension Dms {
             self.kmsKeyId = kmsKeyId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.instanceCreateTime = dictionary["InstanceCreateTime"] as? String
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Dms.ReplicationPendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            self.replicationInstanceStatus = dictionary["ReplicationInstanceStatus"] as? String
-            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [String: Any] { self.vpcSecurityGroups = try Dms.VpcSecurityGroupMembershipList(dictionary: vpcSecurityGroups) } else { self.vpcSecurityGroups = nil }
-            self.multiAZ = dictionary["MultiAZ"] as? Bool
-            self.replicationInstancePublicIpAddresses = dictionary["ReplicationInstancePublicIpAddresses"] as? [String]
-            self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
-            self.replicationInstancePrivateIpAddress = dictionary["ReplicationInstancePrivateIpAddress"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
-            self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
-            self.replicationInstancePrivateIpAddresses = dictionary["ReplicationInstancePrivateIpAddresses"] as? [String]
-            self.engineVersion = dictionary["EngineVersion"] as? String
-            self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String
-            self.replicationInstancePublicIpAddress = dictionary["ReplicationInstancePublicIpAddress"] as? String
-            self.secondaryAvailabilityZone = dictionary["SecondaryAvailabilityZone"] as? String
-            self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case instanceCreateTime = "InstanceCreateTime"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case replicationInstanceStatus = "ReplicationInstanceStatus"
+            case vpcSecurityGroups = "VpcSecurityGroups"
+            case multiAZ = "MultiAZ"
+            case replicationInstancePublicIpAddresses = "ReplicationInstancePublicIpAddresses"
+            case allocatedStorage = "AllocatedStorage"
+            case replicationSubnetGroup = "ReplicationSubnetGroup"
+            case replicationInstancePrivateIpAddress = "ReplicationInstancePrivateIpAddress"
+            case availabilityZone = "AvailabilityZone"
+            case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+            case publiclyAccessible = "PubliclyAccessible"
+            case replicationInstanceIdentifier = "ReplicationInstanceIdentifier"
+            case replicationInstancePrivateIpAddresses = "ReplicationInstancePrivateIpAddresses"
+            case engineVersion = "EngineVersion"
+            case replicationInstanceClass = "ReplicationInstanceClass"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationInstancePublicIpAddress = "ReplicationInstancePublicIpAddress"
+            case secondaryAvailabilityZone = "SecondaryAvailabilityZone"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Certificate", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Certificate", required: false, type: .structure)
         ]
         /// The certificate to be uploaded.
         public let certificate: Certificate?
@@ -3472,17 +3237,16 @@ extension Dms {
             self.certificate = certificate
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) } else { self.certificate = nil }
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
         }
     }
 
     public struct DescribeEndpointsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "Endpoints", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoints", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -3494,31 +3258,30 @@ extension Dms {
             self.endpoints = endpoints
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let endpoints = dictionary["Endpoints"] as? [String: Any] { self.endpoints = try Dms.EndpointList(dictionary: endpoints) } else { self.endpoints = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case endpoints = "Endpoints"
         }
     }
 
     public struct ModifyEndpointMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "EndpointIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "Username", required: false, type: .string), 
-            AWSShapeProperty(label: "EndpointArn", required: true, type: .string), 
-            AWSShapeProperty(label: "DynamoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "MongoDbSettings", required: false, type: .structure), 
-            AWSShapeProperty(label: "EndpointType", required: false, type: .enum), 
-            AWSShapeProperty(label: "ServerName", required: false, type: .string), 
-            AWSShapeProperty(label: "S3Settings", required: false, type: .structure), 
-            AWSShapeProperty(label: "DatabaseName", required: false, type: .string), 
-            AWSShapeProperty(label: "SslMode", required: false, type: .enum), 
-            AWSShapeProperty(label: "CertificateArn", required: false, type: .string), 
-            AWSShapeProperty(label: "EngineName", required: false, type: .string), 
-            AWSShapeProperty(label: "Password", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer), 
-            AWSShapeProperty(label: "ExtraConnectionAttributes", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Username", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "DynamoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "MongoDbSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .enum), 
+            AWSShapeMember(label: "ServerName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Settings", required: false, type: .structure), 
+            AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
+            AWSShapeMember(label: "SslMode", required: false, type: .enum), 
+            AWSShapeMember(label: "CertificateArn", required: false, type: .string), 
+            AWSShapeMember(label: "EngineName", required: false, type: .string), 
+            AWSShapeMember(label: "Password", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer), 
+            AWSShapeMember(label: "ExtraConnectionAttributes", required: false, type: .string)
         ]
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
@@ -3569,32 +3332,30 @@ extension Dms {
             self.extraConnectionAttributes = extraConnectionAttributes
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.endpointIdentifier = dictionary["EndpointIdentifier"] as? String
-            self.username = dictionary["Username"] as? String
-            guard let endpointArn = dictionary["EndpointArn"] as? String else { throw InitializableError.missingRequiredParam("EndpointArn") }
-            self.endpointArn = endpointArn
-            if let dynamoDbSettings = dictionary["DynamoDbSettings"] as? [String: Any] { self.dynamoDbSettings = try Dms.DynamoDbSettings(dictionary: dynamoDbSettings) } else { self.dynamoDbSettings = nil }
-            if let mongoDbSettings = dictionary["MongoDbSettings"] as? [String: Any] { self.mongoDbSettings = try Dms.MongoDbSettings(dictionary: mongoDbSettings) } else { self.mongoDbSettings = nil }
-            if let endpointType = dictionary["EndpointType"] as? String { self.endpointType = ReplicationEndpointTypeValue(rawValue: endpointType) } else { self.endpointType = nil }
-            self.serverName = dictionary["ServerName"] as? String
-            if let s3Settings = dictionary["S3Settings"] as? [String: Any] { self.s3Settings = try Dms.S3Settings(dictionary: s3Settings) } else { self.s3Settings = nil }
-            self.databaseName = dictionary["DatabaseName"] as? String
-            if let sslMode = dictionary["SslMode"] as? String { self.sslMode = DmsSslModeValue(rawValue: sslMode) } else { self.sslMode = nil }
-            self.certificateArn = dictionary["CertificateArn"] as? String
-            self.engineName = dictionary["EngineName"] as? String
-            self.password = dictionary["Password"] as? String
-            self.port = dictionary["Port"] as? Int32
-            self.extraConnectionAttributes = dictionary["ExtraConnectionAttributes"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case endpointIdentifier = "EndpointIdentifier"
+            case username = "Username"
+            case endpointArn = "EndpointArn"
+            case dynamoDbSettings = "DynamoDbSettings"
+            case mongoDbSettings = "MongoDbSettings"
+            case endpointType = "EndpointType"
+            case serverName = "ServerName"
+            case s3Settings = "S3Settings"
+            case databaseName = "DatabaseName"
+            case sslMode = "SslMode"
+            case certificateArn = "CertificateArn"
+            case engineName = "EngineName"
+            case password = "Password"
+            case port = "Port"
+            case extraConnectionAttributes = "ExtraConnectionAttributes"
         }
     }
 
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "VpcSecurityGroupId", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
         ]
         /// The status of the VPC security group.
         public let status: String?
@@ -3606,18 +3367,17 @@ extension Dms {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "MaxRecords", required: false, type: .integer), 
-            AWSShapeProperty(label: "Marker", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
         ]
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
@@ -3629,25 +3389,24 @@ extension Dms {
             self.marker = marker
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.marker = dictionary["Marker"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case marker = "Marker"
         }
     }
 
     public struct CreateReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TableMappings", required: true, type: .string), 
-            AWSShapeProperty(label: "SourceEndpointArn", required: true, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .structure), 
-            AWSShapeProperty(label: "ReplicationInstanceArn", required: true, type: .string), 
-            AWSShapeProperty(label: "ReplicationTaskIdentifier", required: true, type: .string), 
-            AWSShapeProperty(label: "MigrationType", required: true, type: .enum), 
-            AWSShapeProperty(label: "TargetEndpointArn", required: true, type: .string), 
-            AWSShapeProperty(label: "CdcStartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "ReplicationTaskSettings", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TableMappings", required: true, type: .string), 
+            AWSShapeMember(label: "SourceEndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .structure), 
+            AWSShapeMember(label: "ReplicationInstanceArn", required: true, type: .string), 
+            AWSShapeMember(label: "ReplicationTaskIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "MigrationType", required: true, type: .enum), 
+            AWSShapeMember(label: "TargetEndpointArn", required: true, type: .string), 
+            AWSShapeMember(label: "CdcStartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ReplicationTaskSettings", required: false, type: .string)
         ]
         /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with "file://". When working with the DMS API, provide the JSON as the parameter value. For example, --table-mappings file://mappingfile.json
         public let tableMappings: String
@@ -3664,11 +3423,11 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: String?
+        public let cdcStartTime: Double?
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: Double? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
             self.tags = tags
@@ -3680,26 +3439,20 @@ extension Dms {
             self.replicationTaskSettings = replicationTaskSettings
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tableMappings = dictionary["TableMappings"] as? String else { throw InitializableError.missingRequiredParam("TableMappings") }
-            self.tableMappings = tableMappings
-            guard let sourceEndpointArn = dictionary["SourceEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("SourceEndpointArn") }
-            self.sourceEndpointArn = sourceEndpointArn
-            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Dms.TagList(dictionary: tags) } else { self.tags = nil }
-            guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
-            self.replicationInstanceArn = replicationInstanceArn
-            guard let replicationTaskIdentifier = dictionary["ReplicationTaskIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ReplicationTaskIdentifier") }
-            self.replicationTaskIdentifier = replicationTaskIdentifier
-            guard let rawMigrationType = dictionary["MigrationType"] as? String, let migrationType = MigrationTypeValue(rawValue: rawMigrationType) else { throw InitializableError.missingRequiredParam("MigrationType") }
-            self.migrationType = migrationType
-            guard let targetEndpointArn = dictionary["TargetEndpointArn"] as? String else { throw InitializableError.missingRequiredParam("TargetEndpointArn") }
-            self.targetEndpointArn = targetEndpointArn
-            self.cdcStartTime = dictionary["CdcStartTime"] as? String
-            self.replicationTaskSettings = dictionary["ReplicationTaskSettings"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case tableMappings = "TableMappings"
+            case sourceEndpointArn = "SourceEndpointArn"
+            case tags = "Tags"
+            case replicationInstanceArn = "ReplicationInstanceArn"
+            case replicationTaskIdentifier = "ReplicationTaskIdentifier"
+            case migrationType = "MigrationType"
+            case targetEndpointArn = "TargetEndpointArn"
+            case cdcStartTime = "CdcStartTime"
+            case replicationTaskSettings = "ReplicationTaskSettings"
         }
     }
 
-    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible {
+    public enum ReplicationEndpointTypeValue: String, CustomStringConvertible, Codable {
         case source = "source"
         case target = "target"
         public var description: String { return self.rawValue }
@@ -3707,10 +3460,9 @@ extension Dms {
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Name", required: true, type: .string), 
-            AWSShapeProperty(label: "Values", required: true, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Values", required: true, type: .structure)
         ]
         /// The name of the filter.
         public let name: String
@@ -3722,20 +3474,17 @@ extension Dms {
             self.values = values
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
-            self.name = name
-            guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = try Dms.FilterValueList(dictionary: values)
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
     public struct DescribeReplicationInstancesResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Marker", required: false, type: .string), 
-            AWSShapeProperty(label: "ReplicationInstances", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicationInstances", required: false, type: .structure)
         ]
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public let marker: String?
@@ -3747,9 +3496,9 @@ extension Dms {
             self.replicationInstances = replicationInstances
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["Marker"] as? String
-            if let replicationInstances = dictionary["ReplicationInstances"] as? [String: Any] { self.replicationInstances = try Dms.ReplicationInstanceList(dictionary: replicationInstances) } else { self.replicationInstances = nil }
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case replicationInstances = "ReplicationInstances"
         }
     }
 

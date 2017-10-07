@@ -31,10 +31,9 @@ extension Dax {
 
     public struct NodeTypeSpecificValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string)
         ]
         /// The parameter value for this node type.
         public let value: String?
@@ -46,17 +45,16 @@ extension Dax {
             self.nodeType = nodeType
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case nodeType = "NodeType"
         }
     }
 
     public struct UpdateSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
         /// The subnet group that has been modified.
         public let subnetGroup: SubnetGroup?
@@ -65,17 +63,16 @@ extension Dax {
             self.subnetGroup = subnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnetGroup = dictionary["SubnetGroup"] as? [String: Any] { self.subnetGroup = try Dax.SubnetGroup(dictionary: subnetGroup) } else { self.subnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroup = "SubnetGroup"
         }
     }
 
     public struct TagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: true, type: .list), 
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: true, type: .list), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
         /// The tags to be assigned to the DAX resource. 
         public let tags: [Tag]
@@ -87,21 +84,18 @@ extension Dax {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct UpdateSubnetGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: false, type: .list), 
-            AWSShapeProperty(label: "SubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: false, type: .list), 
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A list of subnet IDs in the subnet group.
         public let subnetIds: [String]?
@@ -116,21 +110,19 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
-            guard let subnetGroupName = dictionary["SubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("SubnetGroupName") }
-            self.subnetGroupName = subnetGroupName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case subnetGroupName = "SubnetGroupName"
+            case description = "Description"
         }
     }
 
     public struct CreateSubnetGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIds", required: true, type: .list), 
-            AWSShapeProperty(label: "SubnetGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIds", required: true, type: .list), 
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// A list of VPC subnet IDs for the subnet group.
         public let subnetIds: [String]
@@ -145,23 +137,20 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
-            guard let subnetGroupName = dictionary["SubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("SubnetGroupName") }
-            self.subnetGroupName = subnetGroupName
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case subnetGroupName = "SubnetGroupName"
+            case description = "Description"
         }
     }
 
     public struct DescribeParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// How the parameter is defined. For example, system denotes a system-defined parameter.
         public let source: String?
@@ -179,21 +168,19 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.source = dictionary["Source"] as? String
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case parameterGroupName = "ParameterGroupName"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "TopicStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "TopicArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "TopicArn", required: false, type: .string)
         ]
         /// The current state of the topic.
         public let topicStatus: String?
@@ -205,18 +192,17 @@ extension Dax {
             self.topicArn = topicArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.topicStatus = dictionary["TopicStatus"] as? String
-            self.topicArn = dictionary["TopicArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case topicStatus = "TopicStatus"
+            case topicArn = "TopicArn"
         }
     }
 
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// If this value is present, there are additional results to be displayed. To retrieve them, call ListTags again, with NextToken set to this value.
         public let nextToken: String?
@@ -228,21 +214,16 @@ extension Dax {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tags = "Tags"
         }
     }
 
     public struct RebootNodeResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster after a node has been rebooted.
         public let cluster: Cluster?
@@ -251,12 +232,12 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
-    public enum ChangeType: String, CustomStringConvertible {
+    public enum ChangeType: String, CustomStringConvertible, Codable {
         case immediate = "IMMEDIATE"
         case requires_reboot = "REQUIRES_REBOOT"
         public var description: String { return self.rawValue }
@@ -264,10 +245,9 @@ extension Dax {
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Address", required: false, type: .string), 
-            AWSShapeProperty(label: "Port", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// The DNS hostname of the endpoint.
         public let address: String?
@@ -279,18 +259,17 @@ extension Dax {
             self.port = port
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.address = dictionary["Address"] as? String
-            self.port = dictionary["Port"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
         }
     }
 
     public struct ParameterNameValue: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string)
         ]
         /// The name of the parameter.
         public let parameterName: String?
@@ -302,17 +281,16 @@ extension Dax {
             self.parameterValue = parameterValue
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.parameterValue = dictionary["ParameterValue"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterName = "ParameterName"
+            case parameterValue = "ParameterValue"
         }
     }
 
     public struct CreateClusterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster that you have created.
         public let cluster: Cluster?
@@ -321,16 +299,15 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct DeleteSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletionMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
         /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
         public let deletionMessage: String?
@@ -339,16 +316,15 @@ extension Dax {
             self.deletionMessage = deletionMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deletionMessage = dictionary["DeletionMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deletionMessage = "DeletionMessage"
         }
     }
 
     public struct IncreaseReplicationFactorResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster. with its new replication factor.
         public let cluster: Cluster?
@@ -357,16 +333,15 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct UpdateParameterGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
         /// The parameter group that has been modified.
         public let parameterGroup: ParameterGroup?
@@ -375,16 +350,15 @@ extension Dax {
             self.parameterGroup = parameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameterGroup = dictionary["ParameterGroup"] as? [String: Any] { self.parameterGroup = try Dax.ParameterGroup(dictionary: parameterGroup) } else { self.parameterGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroup = "ParameterGroup"
         }
     }
 
     public struct CreateParameterGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure)
         ]
         /// Represents the output of a CreateParameterGroup action.
         public let parameterGroup: ParameterGroup?
@@ -393,17 +367,16 @@ extension Dax {
             self.parameterGroup = parameterGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameterGroup = dictionary["ParameterGroup"] as? [String: Any] { self.parameterGroup = try Dax.ParameterGroup(dictionary: parameterGroup) } else { self.parameterGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroup = "ParameterGroup"
         }
     }
 
     public struct UpdateParameterGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterNameValues", required: true, type: .list), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterNameValues", required: true, type: .list), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
         public let parameterNameValues: [ParameterNameValue]
@@ -415,21 +388,18 @@ extension Dax {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parameterNameValues = dictionary["ParameterNameValues"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ParameterNameValues") }
-            self.parameterNameValues = try parameterNameValues.map({ try ParameterNameValue(dictionary: $0) })
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case parameterNameValues = "ParameterNameValues"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DescribeParameterGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The names of the parameter groups.
         public let parameterGroupNames: [String]?
@@ -444,19 +414,18 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterGroupNames = dictionary["ParameterGroupNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupNames = "ParameterGroupNames"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Value", required: false, type: .string), 
-            AWSShapeProperty(label: "Key", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Value", required: false, type: .string), 
+            AWSShapeMember(label: "Key", required: false, type: .string)
         ]
         /// The value of the tag. Tag values are case-sensitive and can be null. 
         public let value: String?
@@ -468,17 +437,16 @@ extension Dax {
             self.key = key
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.value = dictionary["Value"] as? String
-            self.key = dictionary["Key"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case key = "Key"
         }
     }
 
     public struct DeleteClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
         /// The name of the cluster to be deleted.
         public let clusterName: String
@@ -487,20 +455,18 @@ extension Dax {
             self.clusterName = clusterName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "ClusterName"
         }
     }
 
     public struct DecreaseReplicationFactorRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "NodeIdsToRemove", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string), 
-            AWSShapeProperty(label: "NewReplicationFactor", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer)
         ]
         /// The Availability Zone(s) from which to remove nodes.
         public let availabilityZones: [String]?
@@ -518,23 +484,20 @@ extension Dax {
             self.newReplicationFactor = newReplicationFactor
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            self.nodeIdsToRemove = dictionary["NodeIdsToRemove"] as? [String]
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
-            guard let newReplicationFactor = dictionary["NewReplicationFactor"] as? Int32 else { throw InitializableError.missingRequiredParam("NewReplicationFactor") }
-            self.newReplicationFactor = newReplicationFactor
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case nodeIdsToRemove = "NodeIdsToRemove"
+            case clusterName = "ClusterName"
+            case newReplicationFactor = "NewReplicationFactor"
         }
     }
 
     public struct DescribeSubnetGroupsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetGroupNames", required: false, type: .list), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetGroupNames", required: false, type: .list), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
@@ -549,19 +512,18 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.subnetGroupNames = dictionary["SubnetGroupNames"] as? [String]
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case subnetGroupNames = "SubnetGroupNames"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct DescribeParametersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of parameters within a parameter group. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
@@ -573,22 +535,17 @@ extension Dax {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct ParameterGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
         /// A description of the parameter group.
         public let description: String?
@@ -600,18 +557,17 @@ extension Dax {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DescribeClustersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Clusters", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Clusters", required: false, type: .list)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -623,17 +579,13 @@ extension Dax {
             self.clusters = clusters
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let clusters = dictionary["Clusters"] as? [[String: Any]] {
-                self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
-            } else { 
-                self.clusters = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case clusters = "Clusters"
         }
     }
 
-    public enum SourceType: String, CustomStringConvertible {
+    public enum SourceType: String, CustomStringConvertible, Codable {
         case cluster = "CLUSTER"
         case parameter_group = "PARAMETER_GROUP"
         case subnet_group = "SUBNET_GROUP"
@@ -642,24 +594,23 @@ extension Dax {
 
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "StartTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "SourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "EndTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "Duration", required: false, type: .integer), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SourceName", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Duration", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
-        public let startTime: String?
+        public let startTime: Double?
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response.
         public let sourceName: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
-        public let endTime: String?
+        public let endTime: Double?
         /// The number of minutes' worth of events to retrieve.
         public let duration: Int32?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -667,7 +618,7 @@ extension Dax {
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int32?
 
-        public init(startTime: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, endTime: String? = nil, duration: Int32? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(startTime: Double? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, endTime: Double? = nil, duration: Int32? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
             self.sourceName = sourceName
             self.sourceType = sourceType
@@ -677,28 +628,27 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.startTime = dictionary["StartTime"] as? String
-            self.sourceName = dictionary["SourceName"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.endTime = dictionary["EndTime"] as? String
-            self.duration = dictionary["Duration"] as? Int32
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case startTime = "StartTime"
+            case sourceName = "SourceName"
+            case sourceType = "SourceType"
+            case endTime = "EndTime"
+            case duration = "Duration"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct UpdateClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "NotificationTopicStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationTopicStatus", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Amazon Resource Name (ARN) that identifies the topic.
         public let notificationTopicArn: String?
@@ -725,23 +675,21 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case notificationTopicArn = "NotificationTopicArn"
+            case notificationTopicStatus = "NotificationTopicStatus"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case clusterName = "ClusterName"
+            case securityGroupIds = "SecurityGroupIds"
+            case parameterGroupName = "ParameterGroupName"
+            case description = "Description"
         }
     }
 
     public struct DeleteSubnetGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupName", required: true, type: .string)
         ]
         /// The name of the subnet group to delete.
         public let subnetGroupName: String
@@ -750,17 +698,15 @@ extension Dax {
             self.subnetGroupName = subnetGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let subnetGroupName = dictionary["SubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("SubnetGroupName") }
-            self.subnetGroupName = subnetGroupName
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupName = "SubnetGroupName"
         }
     }
 
     public struct DeleteParameterGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "DeletionMessage", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeletionMessage", required: false, type: .string)
         ]
         /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
         public let deletionMessage: String?
@@ -769,19 +715,18 @@ extension Dax {
             self.deletionMessage = deletionMessage
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.deletionMessage = dictionary["DeletionMessage"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case deletionMessage = "DeletionMessage"
         }
     }
 
     public struct SubnetGroup: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Subnets", required: false, type: .list), 
-            AWSShapeProperty(label: "VpcId", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The name of the subnet group.
         public let subnetGroupName: String?
@@ -799,24 +744,19 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetGroupName = dictionary["SubnetGroupName"] as? String
-            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
-                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnets = nil
-            }
-            self.vpcId = dictionary["VpcId"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroupName = "SubnetGroupName"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
+            case description = "Description"
         }
     }
 
     public struct CreateParameterGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// A description of the parameter group.
         public let description: String?
@@ -828,19 +768,17 @@ extension Dax {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.description = dictionary["Description"] as? String
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DescribeDefaultParametersResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Parameters", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Parameters", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// A list of parameters. Each element in the list represents one parameter.
         public let parameters: [Parameter]?
@@ -852,22 +790,17 @@ extension Dax {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case nextToken = "NextToken"
         }
     }
 
     public struct SecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroupIdentifier", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroupIdentifier", required: false, type: .string)
         ]
         /// The status of this security group.
         public let status: String?
@@ -879,19 +812,18 @@ extension Dax {
             self.securityGroupIdentifier = securityGroupIdentifier
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.status = dictionary["Status"] as? String
-            self.securityGroupIdentifier = dictionary["SecurityGroupIdentifier"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case securityGroupIdentifier = "SecurityGroupIdentifier"
         }
     }
 
     public struct IncreaseReplicationFactorRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string), 
-            AWSShapeProperty(label: "NewReplicationFactor", required: true, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "NewReplicationFactor", required: true, type: .integer)
         ]
         /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
         public let availabilityZones: [String]?
@@ -906,21 +838,18 @@ extension Dax {
             self.newReplicationFactor = newReplicationFactor
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
-            guard let newReplicationFactor = dictionary["NewReplicationFactor"] as? Int32 else { throw InitializableError.missingRequiredParam("NewReplicationFactor") }
-            self.newReplicationFactor = newReplicationFactor
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case clusterName = "ClusterName"
+            case newReplicationFactor = "NewReplicationFactor"
         }
     }
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "Events", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "Events", required: false, type: .list)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -932,36 +861,31 @@ extension Dax {
             self.events = events
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case events = "Events"
         }
     }
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterDiscoveryEndpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "ClusterName", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: false, type: .string), 
-            AWSShapeProperty(label: "TotalNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "SubnetGroup", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroup", required: false, type: .structure), 
-            AWSShapeProperty(label: "Nodes", required: false, type: .list), 
-            AWSShapeProperty(label: "Status", required: false, type: .string), 
-            AWSShapeProperty(label: "SecurityGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "IamRoleArn", required: false, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ActiveNodes", required: false, type: .integer), 
-            AWSShapeProperty(label: "NotificationConfiguration", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeIdsToRemove", required: false, type: .list), 
-            AWSShapeProperty(label: "ClusterArn", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterDiscoveryEndpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterName", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "TotalNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "SubnetGroup", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "Nodes", required: false, type: .list), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ActiveNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "NotificationConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeIdsToRemove", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterArn", required: false, type: .string)
         ]
         /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
         public let clusterDiscoveryEndpoint: Endpoint?
@@ -1015,40 +939,31 @@ extension Dax {
             self.clusterArn = clusterArn
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let clusterDiscoveryEndpoint = dictionary["ClusterDiscoveryEndpoint"] as? [String: Any] { self.clusterDiscoveryEndpoint = try Dax.Endpoint(dictionary: clusterDiscoveryEndpoint) } else { self.clusterDiscoveryEndpoint = nil }
-            self.clusterName = dictionary["ClusterName"] as? String
-            self.nodeType = dictionary["NodeType"] as? String
-            self.totalNodes = dictionary["TotalNodes"] as? Int32
-            self.subnetGroup = dictionary["SubnetGroup"] as? String
-            self.description = dictionary["Description"] as? String
-            if let parameterGroup = dictionary["ParameterGroup"] as? [String: Any] { self.parameterGroup = try Dax.ParameterGroupStatus(dictionary: parameterGroup) } else { self.parameterGroup = nil }
-            if let nodes = dictionary["Nodes"] as? [[String: Any]] {
-                self.nodes = try nodes.map({ try Node(dictionary: $0) })
-            } else { 
-                self.nodes = nil
-            }
-            self.status = dictionary["Status"] as? String
-            if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
-                self.securityGroups = try securityGroups.map({ try SecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.securityGroups = nil
-            }
-            self.iamRoleArn = dictionary["IamRoleArn"] as? String
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            self.activeNodes = dictionary["ActiveNodes"] as? Int32
-            if let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] { self.notificationConfiguration = try Dax.NotificationConfiguration(dictionary: notificationConfiguration) } else { self.notificationConfiguration = nil }
-            self.nodeIdsToRemove = dictionary["NodeIdsToRemove"] as? [String]
-            self.clusterArn = dictionary["ClusterArn"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case clusterDiscoveryEndpoint = "ClusterDiscoveryEndpoint"
+            case clusterName = "ClusterName"
+            case nodeType = "NodeType"
+            case totalNodes = "TotalNodes"
+            case subnetGroup = "SubnetGroup"
+            case description = "Description"
+            case parameterGroup = "ParameterGroup"
+            case nodes = "Nodes"
+            case status = "Status"
+            case securityGroups = "SecurityGroups"
+            case iamRoleArn = "IamRoleArn"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case activeNodes = "ActiveNodes"
+            case notificationConfiguration = "NotificationConfiguration"
+            case nodeIdsToRemove = "NodeIdsToRemove"
+            case clusterArn = "ClusterArn"
         }
     }
 
     public struct DescribeParameterGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterGroups", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroups", required: false, type: .list)
         ]
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
@@ -1060,22 +975,17 @@ extension Dax {
             self.parameterGroups = parameterGroups
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            if let parameterGroups = dictionary["ParameterGroups"] as? [[String: Any]] {
-                self.parameterGroups = try parameterGroups.map({ try ParameterGroup(dictionary: $0) })
-            } else { 
-                self.parameterGroups = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case parameterGroups = "ParameterGroups"
         }
     }
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetIdentifier", required: false, type: .string), 
-            AWSShapeProperty(label: "SubnetAvailabilityZone", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SubnetAvailabilityZone", required: false, type: .string)
         ]
         /// The system-assigned identifier for the subnet.
         public let subnetIdentifier: String?
@@ -1087,13 +997,13 @@ extension Dax {
             self.subnetAvailabilityZone = subnetAvailabilityZone
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            self.subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetIdentifier = "SubnetIdentifier"
+            case subnetAvailabilityZone = "SubnetAvailabilityZone"
         }
     }
 
-    public enum IsModifiable: String, CustomStringConvertible {
+    public enum IsModifiable: String, CustomStringConvertible, Codable {
         case `true` = "TRUE"
         case `false` = "FALSE"
         case conditional = "CONDITIONAL"
@@ -1102,18 +1012,17 @@ extension Dax {
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterType", required: false, type: .enum), 
-            AWSShapeProperty(label: "NodeTypeSpecificValues", required: false, type: .list), 
-            AWSShapeProperty(label: "AllowedValues", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterValue", required: false, type: .string), 
-            AWSShapeProperty(label: "DataType", required: false, type: .string), 
-            AWSShapeProperty(label: "ParameterName", required: false, type: .string), 
-            AWSShapeProperty(label: "Source", required: false, type: .string), 
-            AWSShapeProperty(label: "IsModifiable", required: false, type: .enum), 
-            AWSShapeProperty(label: "ChangeType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterType", required: false, type: .enum), 
+            AWSShapeMember(label: "NodeTypeSpecificValues", required: false, type: .list), 
+            AWSShapeMember(label: "AllowedValues", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterValue", required: false, type: .string), 
+            AWSShapeMember(label: "DataType", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string), 
+            AWSShapeMember(label: "Source", required: false, type: .string), 
+            AWSShapeMember(label: "IsModifiable", required: false, type: .enum), 
+            AWSShapeMember(label: "ChangeType", required: false, type: .enum), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Determines whether the parameter can be applied to any nodes, or only nodes of a particular type.
         public let parameterType: ParameterType?
@@ -1149,30 +1058,25 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let parameterType = dictionary["ParameterType"] as? String { self.parameterType = ParameterType(rawValue: parameterType) } else { self.parameterType = nil }
-            if let nodeTypeSpecificValues = dictionary["NodeTypeSpecificValues"] as? [[String: Any]] {
-                self.nodeTypeSpecificValues = try nodeTypeSpecificValues.map({ try NodeTypeSpecificValue(dictionary: $0) })
-            } else { 
-                self.nodeTypeSpecificValues = nil
-            }
-            self.allowedValues = dictionary["AllowedValues"] as? String
-            self.parameterValue = dictionary["ParameterValue"] as? String
-            self.dataType = dictionary["DataType"] as? String
-            self.parameterName = dictionary["ParameterName"] as? String
-            self.source = dictionary["Source"] as? String
-            if let isModifiable = dictionary["IsModifiable"] as? String { self.isModifiable = IsModifiable(rawValue: isModifiable) } else { self.isModifiable = nil }
-            if let changeType = dictionary["ChangeType"] as? String { self.changeType = ChangeType(rawValue: changeType) } else { self.changeType = nil }
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterType = "ParameterType"
+            case nodeTypeSpecificValues = "NodeTypeSpecificValues"
+            case allowedValues = "AllowedValues"
+            case parameterValue = "ParameterValue"
+            case dataType = "DataType"
+            case parameterName = "ParameterName"
+            case source = "Source"
+            case isModifiable = "IsModifiable"
+            case changeType = "ChangeType"
+            case description = "Description"
         }
     }
 
     public struct DescribeSubnetGroupsResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroups", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroups", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// An array of subnet groups. Each element in the array represents a single subnet group.
         public let subnetGroups: [SubnetGroup]?
@@ -1184,22 +1088,17 @@ extension Dax {
             self.nextToken = nextToken
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnetGroups = dictionary["SubnetGroups"] as? [[String: Any]] {
-                self.subnetGroups = try subnetGroups.map({ try SubnetGroup(dictionary: $0) })
-            } else { 
-                self.subnetGroups = nil
-            }
-            self.nextToken = dictionary["NextToken"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroups = "SubnetGroups"
+            case nextToken = "NextToken"
         }
     }
 
     public struct DescribeDefaultParametersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
@@ -1211,17 +1110,16 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct TagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The list of tags that are associated with the DAX resource.
         public let tags: [Tag]?
@@ -1230,23 +1128,18 @@ extension Dax {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SourceName", required: false, type: .string), 
-            AWSShapeProperty(label: "Message", required: false, type: .string), 
-            AWSShapeProperty(label: "SourceType", required: false, type: .enum), 
-            AWSShapeProperty(label: "Date", required: false, type: .timestamp)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SourceName", required: false, type: .string), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "SourceType", required: false, type: .enum), 
+            AWSShapeMember(label: "Date", required: false, type: .timestamp)
         ]
         /// The source of the event. For example, if the event occurred at the node level, the source would be the node ID.
         public let sourceName: String?
@@ -1255,39 +1148,38 @@ extension Dax {
         /// Specifies the origin of this event - a cluster, a parameter group, a node ID, etc.
         public let sourceType: SourceType?
         /// The date and time when the event occurred.
-        public let date: String?
+        public let date: Double?
 
-        public init(sourceName: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: String? = nil) {
+        public init(sourceName: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: Double? = nil) {
             self.sourceName = sourceName
             self.message = message
             self.sourceType = sourceType
             self.date = date
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.sourceName = dictionary["SourceName"] as? String
-            self.message = dictionary["Message"] as? String
-            if let sourceType = dictionary["SourceType"] as? String { self.sourceType = SourceType(rawValue: sourceType) } else { self.sourceType = nil }
-            self.date = dictionary["Date"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "SourceName"
+            case message = "Message"
+            case sourceType = "SourceType"
+            case date = "Date"
         }
     }
 
     public struct CreateClusterRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "AvailabilityZones", required: false, type: .list), 
-            AWSShapeProperty(label: "ReplicationFactor", required: true, type: .integer), 
-            AWSShapeProperty(label: "NotificationTopicArn", required: false, type: .string), 
-            AWSShapeProperty(label: "IamRoleArn", required: true, type: .string), 
-            AWSShapeProperty(label: "PreferredMaintenanceWindow", required: false, type: .string), 
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string), 
-            AWSShapeProperty(label: "NodeType", required: true, type: .string), 
-            AWSShapeProperty(label: "SubnetGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Tags", required: false, type: .list), 
-            AWSShapeProperty(label: "SecurityGroupIds", required: false, type: .list), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string), 
-            AWSShapeProperty(label: "Description", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "ReplicationFactor", required: true, type: .integer), 
+            AWSShapeMember(label: "NotificationTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string), 
+            AWSShapeMember(label: "NodeType", required: true, type: .string), 
+            AWSShapeMember(label: "SubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
+            AWSShapeMember(label: "SecurityGroupIds", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
         public let availabilityZones: [String]?
@@ -1329,35 +1221,26 @@ extension Dax {
             self.description = description
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
-            guard let replicationFactor = dictionary["ReplicationFactor"] as? Int32 else { throw InitializableError.missingRequiredParam("ReplicationFactor") }
-            self.replicationFactor = replicationFactor
-            self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
-            guard let iamRoleArn = dictionary["IamRoleArn"] as? String else { throw InitializableError.missingRequiredParam("IamRoleArn") }
-            self.iamRoleArn = iamRoleArn
-            self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
-            guard let nodeType = dictionary["NodeType"] as? String else { throw InitializableError.missingRequiredParam("NodeType") }
-            self.nodeType = nodeType
-            self.subnetGroupName = dictionary["SubnetGroupName"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
-            self.description = dictionary["Description"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case replicationFactor = "ReplicationFactor"
+            case notificationTopicArn = "NotificationTopicArn"
+            case iamRoleArn = "IamRoleArn"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case clusterName = "ClusterName"
+            case nodeType = "NodeType"
+            case subnetGroupName = "SubnetGroupName"
+            case tags = "Tags"
+            case securityGroupIds = "SecurityGroupIds"
+            case parameterGroupName = "ParameterGroupName"
+            case description = "Description"
         }
     }
 
     public struct CreateSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "SubnetGroup", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubnetGroup", required: false, type: .structure)
         ]
         /// Represents the output of a CreateSubnetGroup operation.
         public let subnetGroup: SubnetGroup?
@@ -1366,16 +1249,15 @@ extension Dax {
             self.subnetGroup = subnetGroup
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let subnetGroup = dictionary["SubnetGroup"] as? [String: Any] { self.subnetGroup = try Dax.SubnetGroup(dictionary: subnetGroup) } else { self.subnetGroup = nil }
+        private enum CodingKeys: String, CodingKey {
+            case subnetGroup = "SubnetGroup"
         }
     }
 
     public struct DeleteClusterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster that is being deleted.
         public let cluster: Cluster?
@@ -1384,17 +1266,16 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct RebootNodeRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NodeId", required: true, type: .string), 
-            AWSShapeProperty(label: "ClusterName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeId", required: true, type: .string), 
+            AWSShapeMember(label: "ClusterName", required: true, type: .string)
         ]
         /// The system-assigned ID of the node to be rebooted.
         public let nodeId: String
@@ -1406,21 +1287,18 @@ extension Dax {
             self.clusterName = clusterName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let nodeId = dictionary["NodeId"] as? String else { throw InitializableError.missingRequiredParam("NodeId") }
-            self.nodeId = nodeId
-            guard let clusterName = dictionary["ClusterName"] as? String else { throw InitializableError.missingRequiredParam("ClusterName") }
-            self.clusterName = clusterName
+        private enum CodingKeys: String, CodingKey {
+            case nodeId = "NodeId"
+            case clusterName = "ClusterName"
         }
     }
 
     public struct ParameterGroupStatus: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterApplyStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeIdsToReboot", required: false, type: .list), 
-            AWSShapeProperty(label: "ParameterGroupName", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "NodeIdsToReboot", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
         ]
         /// The status of parameter updates. 
         public let parameterApplyStatus: String?
@@ -1435,14 +1313,14 @@ extension Dax {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
-            self.nodeIdsToReboot = dictionary["NodeIdsToReboot"] as? [String]
-            self.parameterGroupName = dictionary["ParameterGroupName"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterApplyStatus = "ParameterApplyStatus"
+            case nodeIdsToReboot = "NodeIdsToReboot"
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
-    public enum ParameterType: String, CustomStringConvertible {
+    public enum ParameterType: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case node_type_specific = "NODE_TYPE_SPECIFIC"
         public var description: String { return self.rawValue }
@@ -1450,9 +1328,8 @@ extension Dax {
 
     public struct DecreaseReplicationFactorResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster, after you have decreased its replication factor.
         public let cluster: Cluster?
@@ -1461,16 +1338,15 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct UpdateClusterResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Cluster", required: false, type: .structure)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Cluster", required: false, type: .structure)
         ]
         /// A description of the DAX cluster, after it has been modified.
         public let cluster: Cluster?
@@ -1479,16 +1355,15 @@ extension Dax {
             self.cluster = cluster
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Dax.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
         }
     }
 
     public struct UntagResourceResponse: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "Tags", required: false, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
         /// The tag keys that have been removed from the cluster.
         public let tags: [Tag]?
@@ -1497,20 +1372,15 @@ extension Dax {
             self.tags = tags
         }
 
-        public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
     public struct DeleteParameterGroupRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupName", required: true, type: .string)
         ]
         /// The name of the parameter group to delete.
         public let parameterGroupName: String
@@ -1519,19 +1389,17 @@ extension Dax {
             self.parameterGroupName = parameterGroupName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
-            self.parameterGroupName = parameterGroupName
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupName = "ParameterGroupName"
         }
     }
 
     public struct DescribeClustersRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ClusterNames", required: false, type: .list), 
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "MaxResults", required: false, type: .integer)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterNames", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// The names of the DAX clusters being described.
         public let clusterNames: [String]?
@@ -1546,30 +1414,29 @@ extension Dax {
             self.maxResults = maxResults
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.clusterNames = dictionary["ClusterNames"] as? [String]
-            self.nextToken = dictionary["NextToken"] as? String
-            self.maxResults = dictionary["MaxResults"] as? Int32
+        private enum CodingKeys: String, CodingKey {
+            case clusterNames = "ClusterNames"
+            case nextToken = "NextToken"
+            case maxResults = "MaxResults"
         }
     }
 
     public struct Node: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ParameterGroupStatus", required: false, type: .string), 
-            AWSShapeProperty(label: "Endpoint", required: false, type: .structure), 
-            AWSShapeProperty(label: "NodeCreateTime", required: false, type: .timestamp), 
-            AWSShapeProperty(label: "AvailabilityZone", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeId", required: false, type: .string), 
-            AWSShapeProperty(label: "NodeStatus", required: false, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterGroupStatus", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "NodeCreateTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "NodeId", required: false, type: .string), 
+            AWSShapeMember(label: "NodeStatus", required: false, type: .string)
         ]
         /// The status of the parameter group associated with this node. For example, in-sync.
         public let parameterGroupStatus: String?
         /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
         public let endpoint: Endpoint?
         /// The date and time (in UNIX epoch format) when the node was launched.
-        public let nodeCreateTime: String?
+        public let nodeCreateTime: Double?
         /// The Availability Zone (AZ) in which the node has been deployed.
         public let availabilityZone: String?
         /// A system-generated identifier for the node.
@@ -1577,7 +1444,7 @@ extension Dax {
         /// The current status of the node. For example: available.
         public let nodeStatus: String?
 
-        public init(parameterGroupStatus: String? = nil, endpoint: Endpoint? = nil, nodeCreateTime: String? = nil, availabilityZone: String? = nil, nodeId: String? = nil, nodeStatus: String? = nil) {
+        public init(parameterGroupStatus: String? = nil, endpoint: Endpoint? = nil, nodeCreateTime: Double? = nil, availabilityZone: String? = nil, nodeId: String? = nil, nodeStatus: String? = nil) {
             self.parameterGroupStatus = parameterGroupStatus
             self.endpoint = endpoint
             self.nodeCreateTime = nodeCreateTime
@@ -1586,22 +1453,21 @@ extension Dax {
             self.nodeStatus = nodeStatus
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.parameterGroupStatus = dictionary["ParameterGroupStatus"] as? String
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dax.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
-            self.nodeCreateTime = dictionary["NodeCreateTime"] as? String
-            self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            self.nodeId = dictionary["NodeId"] as? String
-            self.nodeStatus = dictionary["NodeStatus"] as? String
+        private enum CodingKeys: String, CodingKey {
+            case parameterGroupStatus = "ParameterGroupStatus"
+            case endpoint = "Endpoint"
+            case nodeCreateTime = "NodeCreateTime"
+            case availabilityZone = "AvailabilityZone"
+            case nodeId = "NodeId"
+            case nodeStatus = "NodeStatus"
         }
     }
 
     public struct ListTagsRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "NextToken", required: false, type: .string), 
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceName", required: true, type: .string)
         ]
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
         public let nextToken: String?
@@ -1613,19 +1479,17 @@ extension Dax {
             self.resourceName = resourceName
         }
 
-        public init(dictionary: [String: Any]) throws {
-            self.nextToken = dictionary["NextToken"] as? String
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceName = "ResourceName"
         }
     }
 
     public struct UntagResourceRequest: AWSShape {
         /// The key for the payload
-        public static let payload: String? = nil
-        public static var parsingHints: [AWSShapeProperty] = [
-            AWSShapeProperty(label: "ResourceName", required: true, type: .string), 
-            AWSShapeProperty(label: "TagKeys", required: true, type: .list)
+        public static var members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ResourceName", required: true, type: .string), 
+            AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
         /// The name of the DAX resource from which the tags should be removed.
         public let resourceName: String
@@ -1637,11 +1501,9 @@ extension Dax {
             self.tagKeys = tagKeys
         }
 
-        public init(dictionary: [String: Any]) throws {
-            guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
-            self.resourceName = resourceName
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+        private enum CodingKeys: String, CodingKey {
+            case resourceName = "ResourceName"
+            case tagKeys = "TagKeys"
         }
     }
 
