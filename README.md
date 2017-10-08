@@ -1,8 +1,17 @@
 # aws-sdk-swift
 
-AWS SDK for the Swift programming language that works on Linux and Mac.
+AWS SDK for the Swift programming language.
+This library doesn't depend on Objective-C Runtime, So you can use this with Linux.
 
 [<img src="https://travis-ci.org/noppoMan/aws-sdk-swift.svg?branch=master">](https://travis-ci.org/noppoMan/aws-sdk-swift)
+
+
+## Supported Platforms and Swift Versions
+
+| | **Swift 4** | **Swift 3.2** |
+|---|:---:|:---:|
+|**macOS**        | ○ | ○ |
+|**Ubuntu 14.04** | ○ | ○ |
 
 ## Documentation
 
@@ -10,7 +19,7 @@ Visit the aws-sdk-swift [documentation](http://htmlpreview.github.io/?https://gi
 
 ## Installation
 
-### SPM
+### Swift Package Manager
 
 Package.swift
 
@@ -20,7 +29,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .Package(url: "https://github.com/noppoMan/aws-sdk-swift.git", majorVersion: 0, minor: 3)
+        .package(url: "https://github.com/noppoMan/aws-sdk-swift.git", from: "1.0.0")
     ]
 )
 ```
