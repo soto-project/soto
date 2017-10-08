@@ -67,7 +67,7 @@ extension MturkRequester {
         ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
         public let assignmentDurationInSeconds: Int64?
         ///  The date and time the HIT was created.
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         ///  The ID of the HIT Group of this HIT.
         public let hITGroupId: String?
         public let reward: String?
@@ -84,7 +84,7 @@ extension MturkRequester {
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
         public let hITStatus: HITStatus?
         /// The date and time the HIT expires.
-        public let expiration: Double?
+        public let expiration: TimeStamp?
         ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
         public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
@@ -96,7 +96,7 @@ extension MturkRequester {
         ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
         public let numberOfAssignmentsPending: Int32?
 
-        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Double? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: HITStatus? = nil, expiration: Double? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
+        public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: TimeStamp? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: HITReviewStatus? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: HITStatus? = nil, expiration: TimeStamp? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
             self.hITLayoutId = hITLayoutId
             self.numberOfAssignmentsCompleted = numberOfAssignmentsCompleted
@@ -444,7 +444,7 @@ extension MturkRequester {
         ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
         public let qualificationTypeStatus: QualificationTypeStatus?
         ///  The date and time the Qualification type was created. 
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// The answers to the Qualification test specified in the Test parameter.
         public let answerKey: String?
         ///  A long description for the Qualification type. 
@@ -464,7 +464,7 @@ extension MturkRequester {
         ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
         public let qualificationTypeId: String?
 
-        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: Double? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
+        public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: QualificationTypeStatus? = nil, creationTime: TimeStamp? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
             self.retryDelayInSeconds = retryDelayInSeconds
             self.qualificationTypeStatus = qualificationTypeStatus
@@ -504,11 +504,11 @@ extension MturkRequester {
             AWSShapeMember(label: "HITId", required: true, type: .string)
         ]
         ///  The date and time at which you want the HIT to expire 
-        public let expireAt: Double?
+        public let expireAt: TimeStamp?
         ///  The HIT to update. 
         public let hITId: String
 
-        public init(expireAt: Double? = nil, hITId: String) {
+        public init(expireAt: TimeStamp? = nil, hITId: String) {
             self.expireAt = expireAt
             self.hITId = hITId
         }
@@ -990,13 +990,13 @@ extension MturkRequester {
         public let status: QualificationStatus?
         public let localeValue: Locale?
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        public let grantTime: Double?
+        public let grantTime: TimeStamp?
         ///  The ID of the Worker who possesses the Qualification. 
         public let workerId: String?
         ///  The ID of the Qualification type for the Qualification.
         public let qualificationTypeId: String?
 
-        public init(integerValue: Int32? = nil, status: QualificationStatus? = nil, localeValue: Locale? = nil, grantTime: Double? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
+        public init(integerValue: Int32? = nil, status: QualificationStatus? = nil, localeValue: Locale? = nil, grantTime: TimeStamp? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
             self.integerValue = integerValue
             self.status = status
             self.localeValue = localeValue
@@ -1592,23 +1592,23 @@ extension MturkRequester {
             AWSShapeMember(label: "Answer", required: false, type: .string)
         ]
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let autoApprovalTime: Double?
+        public let autoApprovalTime: TimeStamp?
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public let submitTime: Double?
+        public let submitTime: TimeStamp?
         ///  The ID of the HIT.
         public let hITId: String?
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        public let deadline: Double?
+        public let deadline: TimeStamp?
         ///  The status of the assignment.
         public let assignmentStatus: AssignmentStatus?
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        public let approvalTime: Double?
+        public let approvalTime: TimeStamp?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
         public let requesterFeedback: String?
         ///  The date and time the Worker accepted the assignment.
-        public let acceptTime: Double?
+        public let acceptTime: TimeStamp?
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        public let rejectionTime: Double?
+        public let rejectionTime: TimeStamp?
         ///  A unique identifier for the assignment.
         public let assignmentId: String?
         ///  The ID of the Worker who accepted the HIT.
@@ -1616,7 +1616,7 @@ extension MturkRequester {
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
         public let answer: String?
 
-        public init(autoApprovalTime: Double? = nil, submitTime: Double? = nil, hITId: String? = nil, deadline: Double? = nil, assignmentStatus: AssignmentStatus? = nil, approvalTime: Double? = nil, requesterFeedback: String? = nil, acceptTime: Double? = nil, rejectionTime: Double? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
+        public init(autoApprovalTime: TimeStamp? = nil, submitTime: TimeStamp? = nil, hITId: String? = nil, deadline: TimeStamp? = nil, assignmentStatus: AssignmentStatus? = nil, approvalTime: TimeStamp? = nil, requesterFeedback: String? = nil, acceptTime: TimeStamp? = nil, rejectionTime: TimeStamp? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
             self.autoApprovalTime = autoApprovalTime
             self.submitTime = submitTime
             self.hITId = hITId
@@ -1818,12 +1818,12 @@ extension MturkRequester {
         /// The Reason text given when the bonus was granted, if any.
         public let reason: String?
         /// The date and time of when the bonus was granted.
-        public let grantTime: Double?
+        public let grantTime: TimeStamp?
         /// The ID of the Worker to whom the bonus was paid.
         public let workerId: String?
         public let bonusAmount: String?
 
-        public init(assignmentId: String? = nil, reason: String? = nil, grantTime: Double? = nil, workerId: String? = nil, bonusAmount: String? = nil) {
+        public init(assignmentId: String? = nil, reason: String? = nil, grantTime: TimeStamp? = nil, workerId: String? = nil, bonusAmount: String? = nil) {
             self.assignmentId = assignmentId
             self.reason = reason
             self.grantTime = grantTime
@@ -1946,9 +1946,9 @@ extension MturkRequester {
         ///  Present only when the Results have a FAILED Status.
         public let errorCode: String?
         ///  The date when the action was completed.
-        public let completeTime: Double?
+        public let completeTime: TimeStamp?
 
-        public init(status: ReviewActionStatus? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: Double? = nil) {
+        public init(status: ReviewActionStatus? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: TimeStamp? = nil) {
             self.status = status
             self.actionName = actionName
             self.actionId = actionId
@@ -2009,7 +2009,7 @@ extension MturkRequester {
             AWSShapeMember(label: "QualificationRequestId", required: false, type: .string)
         ]
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        public let submitTime: Double?
+        public let submitTime: TimeStamp?
         ///  The ID of the Worker requesting the Qualification.
         public let workerId: String?
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
@@ -2021,7 +2021,7 @@ extension MturkRequester {
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
         public let qualificationRequestId: String?
 
-        public init(submitTime: Double? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
+        public init(submitTime: TimeStamp? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
             self.submitTime = submitTime
             self.workerId = workerId
             self.answer = answer

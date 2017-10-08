@@ -452,11 +452,11 @@ extension Waf {
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let endTime: Double
+        public let endTime: TimeStamp
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
-        public let startTime: Double
+        public let startTime: TimeStamp
 
-        public init(endTime: Double, startTime: Double) {
+        public init(endTime: TimeStamp, startTime: TimeStamp) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2391,7 +2391,7 @@ extension Waf {
             AWSShapeMember(label: "Action", required: false, type: .string)
         ]
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         /// A complex type that contains detailed information about the request.
         public let request: HTTPRequest
         /// A value that indicates how one result in the response relates proportionally to other results in the response. A result that has a weight of 2 represents roughly twice as many CloudFront web requests as a result that has a weight of 1.
@@ -2399,7 +2399,7 @@ extension Waf {
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
 
-        public init(timestamp: Double? = nil, request: HTTPRequest, weight: Int64, action: String? = nil) {
+        public init(timestamp: TimeStamp? = nil, request: HTTPRequest, weight: Int64, action: String? = nil) {
             self.timestamp = timestamp
             self.request = request
             self.weight = weight

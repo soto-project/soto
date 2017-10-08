@@ -93,11 +93,11 @@ extension Ecr {
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
         public let authorizationToken: String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        public let expiresAt: Double?
+        public let expiresAt: TimeStamp?
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
         public let proxyEndpoint: String?
 
-        public init(authorizationToken: String? = nil, expiresAt: Double? = nil, proxyEndpoint: String? = nil) {
+        public init(authorizationToken: String? = nil, expiresAt: TimeStamp? = nil, proxyEndpoint: String? = nil) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
             self.proxyEndpoint = proxyEndpoint
@@ -445,11 +445,11 @@ extension Ecr {
         /// The list of tags associated with this image.
         public let imageTags: [String]?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
-        public let imagePushedAt: Double?
+        public let imagePushedAt: TimeStamp?
         /// The AWS account ID associated with the registry to which this image belongs.
         public let registryId: String?
 
-        public init(imageSizeInBytes: Int64? = nil, repositoryName: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, imagePushedAt: Double? = nil, registryId: String? = nil) {
+        public init(imageSizeInBytes: Int64? = nil, repositoryName: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, imagePushedAt: TimeStamp? = nil, registryId: String? = nil) {
             self.imageSizeInBytes = imageSizeInBytes
             self.repositoryName = repositoryName
             self.imageDigest = imageDigest
@@ -1000,11 +1000,11 @@ extension Ecr {
         /// The AWS account ID associated with the registry that contains the repository.
         public let registryId: String?
         /// The date and time, in JavaScript date/time format, when the repository was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, the AWS account ID of the repository owner, the repository namespace, and then the repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
         public let repositoryArn: String?
 
-        public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: Double? = nil, repositoryArn: String? = nil) {
+        public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: TimeStamp? = nil, repositoryArn: String? = nil) {
             self.repositoryName = repositoryName
             self.repositoryUri = repositoryUri
             self.registryId = registryId

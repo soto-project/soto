@@ -344,9 +344,9 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String
         /// The date and time the security configuration was created.
-        public let creationDateTime: Double
+        public let creationDateTime: TimeStamp
 
-        public init(name: String, creationDateTime: Double) {
+        public init(name: String, creationDateTime: TimeStamp) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
@@ -404,11 +404,11 @@ extension Elasticmapreduce {
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The creation date and time end value filter for listing clusters.
-        public let createdBefore: Double?
+        public let createdBefore: TimeStamp?
         /// The creation date and time beginning value filter for listing clusters.
-        public let createdAfter: Double?
+        public let createdAfter: TimeStamp?
 
-        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: Double? = nil, createdAfter: Double? = nil) {
+        public init(clusterStates: [ClusterState]? = nil, marker: String? = nil, createdBefore: TimeStamp? = nil, createdAfter: TimeStamp? = nil) {
             self.clusterStates = clusterStates
             self.marker = marker
             self.createdBefore = createdBefore
@@ -612,9 +612,9 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
 
-        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: Double? = nil) {
+        public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: TimeStamp? = nil) {
             self.securityConfiguration = securityConfiguration
             self.name = name
             self.creationDateTime = creationDateTime
@@ -696,13 +696,13 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster was ready to execute steps.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The creation date and time of the cluster.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The date and time when the cluster was terminated.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
 
-        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
+        public init(readyDateTime: TimeStamp? = nil, creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -1482,13 +1482,13 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the cluster step execution started.
-        public let startDateTime: Double?
+        public let startDateTime: TimeStamp?
         /// The date and time when the cluster step was created.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The date and time when the cluster step execution completed or failed.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
 
-        public init(startDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
+        public init(startDateTime: TimeStamp? = nil, creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
             self.startDateTime = startDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -1830,13 +1830,13 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance group became ready to perform tasks.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The creation date and time of the instance group.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The date and time when the instance group terminated.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
 
-        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
+        public init(readyDateTime: TimeStamp? = nil, creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -1915,11 +1915,11 @@ extension Elasticmapreduce {
         /// Return only job flows whose job flow ID is contained in this list.
         public let jobFlowIds: [String]?
         /// Return only job flows created before this date and time.
-        public let createdBefore: Double?
+        public let createdBefore: TimeStamp?
         /// Return only job flows created after this date and time.
-        public let createdAfter: Double?
+        public let createdAfter: TimeStamp?
 
-        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: Double? = nil, createdAfter: Double? = nil) {
+        public init(jobFlowStates: [JobFlowExecutionState]? = nil, jobFlowIds: [String]? = nil, createdBefore: TimeStamp? = nil, createdAfter: TimeStamp? = nil) {
             self.jobFlowStates = jobFlowStates
             self.jobFlowIds = jobFlowIds
             self.createdBefore = createdBefore
@@ -2200,9 +2200,9 @@ extension Elasticmapreduce {
         /// The name of the security configuration.
         public let name: String?
         /// The date and time the security configuration was created.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
 
-        public init(name: String? = nil, creationDateTime: Double? = nil) {
+        public init(name: String? = nil, creationDateTime: TimeStamp? = nil) {
             self.name = name
             self.creationDateTime = creationDateTime
         }
@@ -2564,13 +2564,13 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The time and date the instance fleet was ready to run jobs.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The time and date the instance fleet was created.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The time and date the instance fleet terminated.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
 
-        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
+        public init(readyDateTime: TimeStamp? = nil, creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -2711,17 +2711,17 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "State", required: true, type: .enum)
         ]
         /// The start date and time of the step.
-        public let startDateTime: Double?
+        public let startDateTime: TimeStamp?
         /// A description of the step's current state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the step.
-        public let creationDateTime: Double
+        public let creationDateTime: TimeStamp
         /// The completion date and time of the step.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
         /// The state of the step.
         public let state: StepExecutionState
 
-        public init(startDateTime: Double? = nil, lastStateChangeReason: String? = nil, creationDateTime: Double, endDateTime: Double? = nil, state: StepExecutionState) {
+        public init(startDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, state: StepExecutionState) {
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason
             self.creationDateTime = creationDateTime
@@ -3517,7 +3517,7 @@ extension Elasticmapreduce {
         /// Actual count of running instances.
         public let instanceRunningCount: Int32
         /// The date/time the instance group was terminated.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
         public let state: InstanceGroupState
         /// Details regarding the state of the instance group.
@@ -3525,9 +3525,9 @@ extension Elasticmapreduce {
         /// EC2 instance type.
         public let instanceType: String
         /// The date/time the instance group was available to the cluster.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The date/time the instance group was created.
-        public let creationDateTime: Double
+        public let creationDateTime: TimeStamp
         /// Target number of instances to run in the instance group.
         public let instanceRequestCount: Int32
         /// Friendly name for the instance group.
@@ -3537,9 +3537,9 @@ extension Elasticmapreduce {
         /// Market type of the EC2 instances used to create a cluster node.
         public let market: MarketType
         /// The date/time the instance group was started.
-        public let startDateTime: Double?
+        public let startDateTime: TimeStamp?
 
-        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: Double? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: Double? = nil, creationDateTime: Double, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: Double? = nil) {
+        public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: TimeStamp? = nil, state: InstanceGroupState, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: TimeStamp? = nil, creationDateTime: TimeStamp, instanceRequestCount: Int32, name: String? = nil, instanceRole: InstanceRoleType, market: MarketType, startDateTime: TimeStamp? = nil) {
             self.instanceGroupId = instanceGroupId
             self.bidPrice = bidPrice
             self.instanceRunningCount = instanceRunningCount
@@ -3658,13 +3658,13 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "EndDateTime", required: false, type: .timestamp)
         ]
         /// The date and time when the instance was ready to perform tasks.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The creation date and time of the instance.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The date and time when the instance was terminated.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
 
-        public init(readyDateTime: Double? = nil, creationDateTime: Double? = nil, endDateTime: Double? = nil) {
+        public init(readyDateTime: TimeStamp? = nil, creationDateTime: TimeStamp? = nil, endDateTime: TimeStamp? = nil) {
             self.readyDateTime = readyDateTime
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
@@ -3816,19 +3816,19 @@ extension Elasticmapreduce {
             AWSShapeMember(label: "State", required: true, type: .enum)
         ]
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        public let readyDateTime: Double?
+        public let readyDateTime: TimeStamp?
         /// The start date and time of the job flow.
-        public let startDateTime: Double?
+        public let startDateTime: TimeStamp?
         /// Description of the job flow last changed state.
         public let lastStateChangeReason: String?
         /// The creation date and time of the job flow.
-        public let creationDateTime: Double
+        public let creationDateTime: TimeStamp
         /// The completion date and time of the job flow.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
         /// The state of the job flow.
         public let state: JobFlowExecutionState
 
-        public init(readyDateTime: Double? = nil, startDateTime: Double? = nil, lastStateChangeReason: String? = nil, creationDateTime: Double, endDateTime: Double? = nil, state: JobFlowExecutionState) {
+        public init(readyDateTime: TimeStamp? = nil, startDateTime: TimeStamp? = nil, lastStateChangeReason: String? = nil, creationDateTime: TimeStamp, endDateTime: TimeStamp? = nil, state: JobFlowExecutionState) {
             self.readyDateTime = readyDateTime
             self.startDateTime = startDateTime
             self.lastStateChangeReason = lastStateChangeReason

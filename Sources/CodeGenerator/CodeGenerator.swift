@@ -455,7 +455,7 @@ extension Shape {
             return "Data"
             
         case .timestamp:
-            return "Double"
+            return "TimeStamp"
             
         case .enum(_):
             return name.toSwiftClassCase()

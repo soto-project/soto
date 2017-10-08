@@ -40,13 +40,13 @@ extension Meteringmarketplace {
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored. Your application can meter usage for up to one hour in the past.
-        public let timestamp: Double
+        public let timestamp: TimeStamp
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time.
         public let quantity: Int32
 
-        public init(customerIdentifier: String, timestamp: Double, dimension: String, quantity: Int32) {
+        public init(customerIdentifier: String, timestamp: TimeStamp, dimension: String, quantity: Int32) {
             self.customerIdentifier = customerIdentifier
             self.timestamp = timestamp
             self.dimension = dimension
@@ -88,7 +88,7 @@ extension Meteringmarketplace {
             AWSShapeMember(label: "ProductCode", required: true, type: .string)
         ]
         /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
-        public let timestamp: Double
+        public let timestamp: TimeStamp
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
         public let dryRun: Bool
         /// It will be one of the fcp dimension name provided during the publishing of the product.
@@ -98,7 +98,7 @@ extension Meteringmarketplace {
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
 
-        public init(timestamp: Double, dryRun: Bool, usageDimension: String, usageQuantity: Int32, productCode: String) {
+        public init(timestamp: TimeStamp, dryRun: Bool, usageDimension: String, usageQuantity: Int32, productCode: String) {
             self.timestamp = timestamp
             self.dryRun = dryRun
             self.usageDimension = usageDimension

@@ -881,11 +881,11 @@ extension Dms {
         /// The Amazon Resource Number (ARN) of the replication task to be started.
         public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Double?
+        public let cdcStartTime: TimeStamp?
         /// The type of replication task.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
-        public init(replicationTaskArn: String, cdcStartTime: Double? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
+        public init(replicationTaskArn: String, cdcStartTime: TimeStamp? = nil, startReplicationTaskType: StartReplicationTaskTypeValue) {
             self.replicationTaskArn = replicationTaskArn
             self.cdcStartTime = cdcStartTime
             self.startReplicationTaskType = startReplicationTaskType
@@ -1033,7 +1033,7 @@ extension Dms {
             AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The start time for the events to be listed.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1043,7 +1043,7 @@ extension Dms {
         /// A list of event categories for a source type that you want to subscribe to.
         public let eventCategories: EventCategoriesList?
         /// The end time for the events to be listed.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Filters applied to the action.
         public let filters: FilterList?
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens. 
@@ -1051,7 +1051,7 @@ extension Dms {
         /// The duration of the events to be listed.
         public let duration: Int32?
 
-        public init(startTime: Double? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: Double? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil, endTime: TimeStamp? = nil, filters: FilterList? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -1484,7 +1484,7 @@ extension Dms {
             AWSShapeMember(label: "CertificateCreationDate", required: false, type: .timestamp)
         ]
         /// The beginning date that the certificate is valid.
-        public let validFromDate: Double?
+        public let validFromDate: TimeStamp?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int32?
         /// The signing algorithm for the certificate.
@@ -1496,15 +1496,15 @@ extension Dms {
         /// The contents of the .pem X.509 certificate file for the certificate.
         public let certificatePem: String?
         /// The final date that the certificate is valid.
-        public let validToDate: Double?
+        public let validToDate: TimeStamp?
         /// The owner of the certificate.
         public let certificateOwner: String?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
         public let certificateIdentifier: String?
         /// The date that the certificate was created.
-        public let certificateCreationDate: Double?
+        public let certificateCreationDate: TimeStamp?
 
-        public init(validFromDate: Double? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: Double? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: Double? = nil) {
+        public init(validFromDate: TimeStamp? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: TimeStamp? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: TimeStamp? = nil) {
             self.validFromDate = validFromDate
             self.keyLength = keyLength
             self.signingAlgorithm = signingAlgorithm
@@ -1752,9 +1752,9 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String?
         /// The date the schema was last refreshed.
-        public let lastRefreshDate: Double?
+        public let lastRefreshDate: TimeStamp?
 
-        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: Double? = nil) {
+        public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: RefreshSchemasStatusTypeValue? = nil, endpointArn: String? = nil, lastRefreshDate: TimeStamp? = nil) {
             self.lastFailureMessage = lastFailureMessage
             self.replicationInstanceArn = replicationInstanceArn
             self.status = status
@@ -2177,13 +2177,13 @@ extension Dms {
         ///  The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.  Constraints:replication instance, endpoint, migration task
         public let sourceIdentifier: String?
         /// The date of the event.
-        public let date: Double?
+        public let date: TimeStamp?
         ///  The type of AWS DMS resource that generates events.  Valid values: replication-instance | endpoint | migration-task
         public let sourceType: SourceType?
         /// The event categories available for the specified source type.
         public let eventCategories: EventCategoriesList?
 
-        public init(message: String? = nil, sourceIdentifier: String? = nil, date: Double? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil) {
+        public init(message: String? = nil, sourceIdentifier: String? = nil, date: TimeStamp? = nil, sourceType: SourceType? = nil, eventCategories: EventCategoriesList? = nil) {
             self.message = message
             self.sourceIdentifier = sourceIdentifier
             self.date = date
@@ -2283,11 +2283,11 @@ extension Dms {
         /// The name of the table.
         public let tableName: String?
         /// The last time the table was updated.
-        public let lastUpdateTime: Double?
+        public let lastUpdateTime: TimeStamp?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
         public let ddls: Int64?
 
-        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, fullLoadErrorRows: Int64? = nil, tableName: String? = nil, lastUpdateTime: Double? = nil, ddls: Int64? = nil) {
+        public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadCondtnlChkFailedRows: Int64? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, fullLoadErrorRows: Int64? = nil, tableName: String? = nil, lastUpdateTime: TimeStamp? = nil, ddls: Int64? = nil) {
             self.deletes = deletes
             self.updates = updates
             self.tableState = tableState
@@ -2489,11 +2489,11 @@ extension Dms {
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
         public let migrationType: MigrationTypeValue?
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Double?
+        public let cdcStartTime: TimeStamp?
         /// JSON file that contains settings for the task, such as target metadata settings.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: Double? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.replicationTaskArn = replicationTaskArn
             self.replicationTaskIdentifier = replicationTaskIdentifier
@@ -2701,9 +2701,9 @@ extension Dms {
         /// The last error (failure) message generated for the replication instance.
         public let lastFailureMessage: String?
         /// The date the replication task is scheduled to start.
-        public let replicationTaskStartDate: Double?
+        public let replicationTaskStartDate: TimeStamp?
         /// The date the replication task was created.
-        public let replicationTaskCreationDate: Double?
+        public let replicationTaskCreationDate: TimeStamp?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let sourceEndpointArn: String?
         /// Table mappings specified in the task.
@@ -2725,7 +2725,7 @@ extension Dms {
         /// The settings for the replication task.
         public let replicationTaskSettings: String?
 
-        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Double? = nil, replicationTaskCreationDate: Double? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
+        public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: TimeStamp? = nil, replicationTaskCreationDate: TimeStamp? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: MigrationTypeValue? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
             self.lastFailureMessage = lastFailureMessage
             self.replicationTaskStartDate = replicationTaskStartDate
@@ -3134,7 +3134,7 @@ extension Dms {
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string)
         ]
         /// The time the replication instance was created.
-        public let instanceCreateTime: Double?
+        public let instanceCreateTime: TimeStamp?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
         /// The status of the replication instance.
@@ -3176,7 +3176,7 @@ extension Dms {
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public let kmsKeyId: String?
 
-        public init(instanceCreateTime: Double? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
+        public init(instanceCreateTime: TimeStamp? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
             self.pendingModifiedValues = pendingModifiedValues
             self.replicationInstanceStatus = replicationInstanceStatus
@@ -3423,11 +3423,11 @@ extension Dms {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let targetEndpointArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public let cdcStartTime: Double?
+        public let cdcStartTime: TimeStamp?
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
         public let replicationTaskSettings: String?
 
-        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: Double? = nil, replicationTaskSettings: String? = nil) {
+        public init(tableMappings: String, sourceEndpointArn: String, tags: TagList? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: MigrationTypeValue, targetEndpointArn: String, cdcStartTime: TimeStamp? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
             self.sourceEndpointArn = sourceEndpointArn
             self.tags = tags

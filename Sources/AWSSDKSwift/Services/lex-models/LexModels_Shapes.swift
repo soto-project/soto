@@ -73,7 +73,7 @@ extension LexModels {
         /// The name of the bot.
         public let name: String?
         /// The date when the bot version was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -83,7 +83,7 @@ extension LexModels {
         /// Checksum identifying the version of the bot that was created.
         public let checksum: String?
         /// The date when the $LATEST version of this bot was updated. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The message that Amazon Lex uses to abort a conversation. For more information, see .
         public let abortStatement: Statement?
         ///  Specifies the target locale for the bot. 
@@ -101,7 +101,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt
@@ -152,7 +152,7 @@ extension LexModels {
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version of the slot type.
@@ -162,9 +162,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
 
-        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -280,7 +280,7 @@ extension LexModels {
         /// Describes how the intent is fulfilled. For more information, see . 
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// If defined in the bot, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. For more information, see .
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -290,7 +290,7 @@ extension LexModels {
         /// Checksum of the intent.
         public let checksum: String?
         /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see . 
         public let confirmationPrompt: Prompt?
         /// An array of sample utterances configured for the intent.
@@ -306,7 +306,7 @@ extension LexModels {
         /// An array of intent slots configured for the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: TimeStamp? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -379,11 +379,11 @@ extension LexModels {
         /// The name of the bot. 
         public let name: String?
         /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The date that the bot was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(description: String? = nil, status: Status? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
+        public init(description: String? = nil, status: Status? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
             self.description = description
             self.status = status
             self.version = version
@@ -836,17 +836,17 @@ extension LexModels {
         /// The version of the Amazon Lex bot to which the alias points.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A description of the bot alias.
         public let description: String?
         /// Checksum of the bot alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The name of the bot to which the alias points.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -913,7 +913,7 @@ extension LexModels {
         /// If defined in the intent, Amazon Lex invokes this Lambda function to fulfill the intent after the user provides all of the information required by the intent.
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// If defined in the intent, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled.
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -923,7 +923,7 @@ extension LexModels {
         /// Checksum of the $LATESTversion of the intent created or updated.
         public let checksum: String?
         /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// If defined in the intent, Amazon Lex prompts the user to confirm the intent before fulfilling it.
         public let confirmationPrompt: Prompt?
         ///  An array of sample utterances that are configured for the intent. 
@@ -939,7 +939,7 @@ extension LexModels {
         /// An array of intent slots that are configured for the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: TimeStamp? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -994,7 +994,7 @@ extension LexModels {
         /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
         public let botConfiguration: [String: String]?
         /// The date that the association between the bot and the channel was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A description of the association between the bot and the channel.
         public let description: String?
         /// The type of the messaging platform.
@@ -1002,7 +1002,7 @@ extension LexModels {
         /// The name of the Amazon Lex bot.
         public let botName: String?
 
-        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: Double? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
+        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
             self.botAlias = botAlias
             self.name = name
             self.botConfiguration = botConfiguration
@@ -1188,11 +1188,11 @@ extension LexModels {
         /// The name of the intent.
         public let name: String?
         /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The date that the intent was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
+        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
             self.description = description
             self.version = version
             self.name = name
@@ -1237,7 +1237,7 @@ extension LexModels {
         /// The name of the bot.
         public let name: String?
         /// The date that the bot was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -1247,7 +1247,7 @@ extension LexModels {
         /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
         public let checksum: String?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see .
         public let abortStatement: Statement?
         ///  The target locale for the bot. 
@@ -1265,7 +1265,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex explains why it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt
@@ -1340,17 +1340,17 @@ extension LexModels {
         /// The version of the bot that the alias points to.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A description of the bot alias.
         public let description: String?
         /// Checksum of the bot alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The name of the bot that the alias points to.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -1385,7 +1385,7 @@ extension LexModels {
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version assigned to the new slot type version. 
@@ -1395,9 +1395,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
 
-        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -1920,7 +1920,7 @@ extension LexModels {
         ///  Describes how the intent is fulfilled. 
         public let fulfillmentActivity: FulfillmentActivity?
         /// The date that the intent was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// If defined, Amazon Lex uses this prompt to solicit additional user activity after the intent is fulfilled. 
         public let followUpPrompt: FollowUpPrompt?
         /// A description of the intent.
@@ -1930,7 +1930,7 @@ extension LexModels {
         /// Checksum of the intent version created.
         public let checksum: String?
         /// The date that the intent was updated. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it. 
         public let confirmationPrompt: Prompt?
         /// An array of sample utterances configured for the intent. 
@@ -1946,7 +1946,7 @@ extension LexModels {
         /// An array of slot types that defines the information required to fulfill the intent.
         public let slots: [Slot]?
 
-        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: Double? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
+        public init(name: String? = nil, fulfillmentActivity: FulfillmentActivity? = nil, createdDate: TimeStamp? = nil, followUpPrompt: FollowUpPrompt? = nil, description: String? = nil, dialogCodeHook: CodeHook? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, confirmationPrompt: Prompt? = nil, sampleUtterances: [String]? = nil, rejectionStatement: Statement? = nil, conclusionStatement: Statement? = nil, parentIntentSignature: String? = nil, version: String? = nil, slots: [Slot]? = nil) {
             self.name = name
             self.fulfillmentActivity = fulfillmentActivity
             self.createdDate = createdDate
@@ -2059,9 +2059,9 @@ extension LexModels {
             AWSShapeMember(label: "count", required: false, type: .integer)
         ]
         /// The date that the utterance was first recorded.
-        public let firstUtteredDate: Double?
+        public let firstUtteredDate: TimeStamp?
         /// The date that the utterance was last recorded.
-        public let lastUtteredDate: Double?
+        public let lastUtteredDate: TimeStamp?
         /// The text that was entered by the user or the text representation of an audio clip.
         public let utteranceString: String?
         /// The total number of individuals that used the utterance.
@@ -2069,7 +2069,7 @@ extension LexModels {
         /// The number of times that the utterance was processed.
         public let count: Int32?
 
-        public init(firstUtteredDate: Double? = nil, lastUtteredDate: Double? = nil, utteranceString: String? = nil, distinctUsers: Int32? = nil, count: Int32? = nil) {
+        public init(firstUtteredDate: TimeStamp? = nil, lastUtteredDate: TimeStamp? = nil, utteranceString: String? = nil, distinctUsers: Int32? = nil, count: Int32? = nil) {
             self.firstUtteredDate = firstUtteredDate
             self.lastUtteredDate = lastUtteredDate
             self.utteranceString = utteranceString
@@ -2135,11 +2135,11 @@ extension LexModels {
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same. 
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The date that the slot type was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: Double? = nil, createdDate: Double? = nil) {
+        public init(description: String? = nil, version: String? = nil, name: String? = nil, lastUpdatedDate: TimeStamp? = nil, createdDate: TimeStamp? = nil) {
             self.description = description
             self.version = version
             self.name = name
@@ -2224,7 +2224,7 @@ extension LexModels {
         /// The name of the slot type.
         public let name: String?
         /// The date that the slot type was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A list of EnumerationValue objects that defines the values that the slot type can take.
         public let enumerationValues: [EnumerationValue]?
         /// The version of the slot type. For a new slot type, the version is always $LATEST. 
@@ -2234,9 +2234,9 @@ extension LexModels {
         /// A description of the slot type.
         public let description: String?
         /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
 
-        public init(name: String? = nil, createdDate: Double? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: Double? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, enumerationValues: [EnumerationValue]? = nil, version: String? = nil, checksum: String? = nil, description: String? = nil, lastUpdatedDate: TimeStamp? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.enumerationValues = enumerationValues
@@ -2295,17 +2295,17 @@ extension LexModels {
         /// The version of the bot that the alias points to.
         public let botVersion: String?
         /// The date that the bot alias was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A description of the alias.
         public let description: String?
         /// The checksum for the current version of the alias.
         public let checksum: String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The name of the bot that the alias points to.
         public let botName: String?
 
-        public init(name: String? = nil, botVersion: String? = nil, createdDate: Double? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, botName: String? = nil) {
+        public init(name: String? = nil, botVersion: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, botName: String? = nil) {
             self.name = name
             self.botVersion = botVersion
             self.createdDate = createdDate
@@ -2415,7 +2415,7 @@ extension LexModels {
         /// Provides information necessary to communicate with the messaging platform. 
         public let botConfiguration: [String: String]?
         /// The date that the association between the Amazon Lex bot and the channel was created. 
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A text description of the association you are creating. 
         public let description: String?
         /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
@@ -2423,7 +2423,7 @@ extension LexModels {
         /// The name of the Amazon Lex bot to which this association is being made.   Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio. 
         public let botName: String?
 
-        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: Double? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
+        public init(botAlias: String? = nil, name: String? = nil, botConfiguration: [String: String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, type: ChannelType? = nil, botName: String? = nil) {
             self.botAlias = botAlias
             self.name = name
             self.botConfiguration = botConfiguration
@@ -2596,7 +2596,7 @@ extension LexModels {
         /// The name of the bot.
         public let name: String?
         /// The date that the bot was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         ///  The prompts that Amazon Lex uses when it doesn't understand the user's intent. For more information, see . 
         public let clarificationPrompt: Prompt?
         /// A description of the bot.
@@ -2606,7 +2606,7 @@ extension LexModels {
         /// Checksum of the bot that you created.
         public let checksum: String?
         /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The message that Amazon Lex uses to abort a conversation. For more information, see .
         public let abortStatement: Statement?
         ///  The target locale for the bot. 
@@ -2624,7 +2624,7 @@ extension LexModels {
         /// If status is FAILED, Amazon Lex provides the reason that it failed to build the bot.
         public let failureReason: String?
 
-        public init(name: String? = nil, createdDate: Double? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: Double? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
+        public init(name: String? = nil, createdDate: TimeStamp? = nil, clarificationPrompt: Prompt? = nil, description: String? = nil, idleSessionTTLInSeconds: Int32? = nil, checksum: String? = nil, lastUpdatedDate: TimeStamp? = nil, abortStatement: Statement? = nil, locale: Locale? = nil, childDirected: Bool? = nil, status: Status? = nil, voiceId: String? = nil, version: String? = nil, intents: [Intent]? = nil, failureReason: String? = nil) {
             self.name = name
             self.createdDate = createdDate
             self.clarificationPrompt = clarificationPrompt

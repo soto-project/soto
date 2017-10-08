@@ -228,9 +228,9 @@ extension Xray {
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
         public let nextToken: String?
         /// The start time of this page of results.
-        public let approximateTime: Double?
+        public let approximateTime: TimeStamp?
 
-        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: Double? = nil) {
+        public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: TimeStamp? = nil) {
             self.tracesProcessedCount = tracesProcessedCount
             self.traceSummaries = traceSummaries
             self.nextToken = nextToken
@@ -256,11 +256,11 @@ extension Xray {
             AWSShapeMember(label: "ResponseTimeHistogram", required: false, type: .list)
         ]
         /// The start time of the first segment on the edge.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
         /// The end time of the last segment on the edge.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int32?
         /// Aliases for the edge.
@@ -268,7 +268,7 @@ extension Xray {
         /// A histogram that maps the spread of client response times on an edge.
         public let responseTimeHistogram: [HistogramEntry]?
 
-        public init(startTime: Double? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: Double? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
+        public init(startTime: TimeStamp? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: TimeStamp? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
             self.startTime = startTime
             self.summaryStatistics = summaryStatistics
             self.endTime = endTime
@@ -322,13 +322,13 @@ extension Xray {
             AWSShapeMember(label: "StartTime", required: true, type: .timestamp)
         ]
         /// The end of the time frame for which to generate a graph.
-        public let endTime: Double
+        public let endTime: TimeStamp
         /// Pagination token. Not used.
         public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
-        public let startTime: Double
+        public let startTime: TimeStamp
 
-        public init(endTime: Double, nextToken: String? = nil, startTime: Double) {
+        public init(endTime: TimeStamp, nextToken: String? = nil, startTime: TimeStamp) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
@@ -394,15 +394,15 @@ extension Xray {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which the graph was generated.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The end of the time frame for which the graph was generated.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The services that have processed a traced request during the specified time frame.
         public let services: [Service]?
         /// Pagination token. Not used.
         public let nextToken: String?
 
-        public init(startTime: Double? = nil, endTime: Double? = nil, services: [Service]? = nil, nextToken: String? = nil) {
+        public init(startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, services: [Service]? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.services = services
@@ -633,9 +633,9 @@ extension Xray {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// The start of the time frame for which to retrieve traces.
-        public let startTime: Double
+        public let startTime: TimeStamp
         /// The end of the time frame for which to retrieve traces.
-        public let endTime: Double
+        public let endTime: TimeStamp
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
         public let filterExpression: String?
         /// Set to true to get summaries for only a subset of available traces.
@@ -643,7 +643,7 @@ extension Xray {
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
         public let nextToken: String?
 
-        public init(startTime: Double, endTime: Double, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
+        public init(startTime: TimeStamp, endTime: TimeStamp, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.filterExpression = filterExpression
@@ -725,19 +725,19 @@ extension Xray {
         /// A histogram that maps the spread of service response times.
         public let responseTimeHistogram: [HistogramEntry]?
         /// The start time of the first segment that the service generated.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Indicates that the service was the first service to process a request.
         public let root: Bool?
         /// The canonical name of the service.
         public let name: String?
         /// The end time of the last segment that the service generated.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// A list of names for the service, including the canonical name.
         public let names: [String]?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
-        public init(accountId: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, state: String? = nil, referenceId: Int32? = nil, edges: [Edge]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Double? = nil, root: Bool? = nil, name: String? = nil, endTime: Double? = nil, names: [String]? = nil, type: String? = nil) {
+        public init(accountId: String? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, state: String? = nil, referenceId: Int32? = nil, edges: [Edge]? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: TimeStamp? = nil, root: Bool? = nil, name: String? = nil, endTime: TimeStamp? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.summaryStatistics = summaryStatistics
             self.durationHistogram = durationHistogram
@@ -845,13 +845,13 @@ extension Xray {
             AWSShapeMember(label: "BackendConnectionErrors", required: false, type: .structure)
         ]
         public let segmentsRejectedCount: Int32?
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         public let segmentsReceivedCount: Int32?
         public let segmentsSentCount: Int32?
         public let segmentsSpilloverCount: Int32?
         public let backendConnectionErrors: BackendConnectionErrors?
 
-        public init(segmentsRejectedCount: Int32? = nil, timestamp: Double? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
+        public init(segmentsRejectedCount: Int32? = nil, timestamp: TimeStamp? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
             self.segmentsRejectedCount = segmentsRejectedCount
             self.timestamp = timestamp
             self.segmentsReceivedCount = segmentsReceivedCount

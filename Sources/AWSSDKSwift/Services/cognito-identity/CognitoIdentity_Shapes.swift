@@ -145,9 +145,9 @@ extension CognitoIdentity {
         /// The Session Token portion of the credentials
         public let sessionToken: String?
         /// The date at which these credentials will expire.
-        public let expiration: Double?
+        public let expiration: TimeStamp?
 
-        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: Double? = nil) {
+        public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: TimeStamp? = nil) {
             self.secretKey = secretKey
             self.accessKeyId = accessKeyId
             self.sessionToken = sessionToken
@@ -710,15 +710,15 @@ extension CognitoIdentity {
             AWSShapeMember(label: "Logins", required: false, type: .list)
         ]
         /// Date on which the identity was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// Date on which the identity was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// A unique identifier in the format REGION:GUID.
         public let identityId: String?
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public let logins: [String]?
 
-        public init(lastModifiedDate: Double? = nil, creationDate: Double? = nil, identityId: String? = nil, logins: [String]? = nil) {
+        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, identityId: String? = nil, logins: [String]? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.identityId = identityId

@@ -796,11 +796,11 @@ extension Iot {
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public let deprecated: Bool?
         /// The date and time when the thing type was deprecated.
-        public let deprecationDate: Double?
+        public let deprecationDate: TimeStamp?
         /// The date and time when the thing type was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
 
-        public init(deprecated: Bool? = nil, deprecationDate: Double? = nil, creationDate: Double? = nil) {
+        public init(deprecated: Bool? = nil, deprecationDate: TimeStamp? = nil, creationDate: TimeStamp? = nil) {
             self.deprecated = deprecated
             self.deprecationDate = deprecationDate
             self.creationDate = creationDate
@@ -1109,9 +1109,9 @@ extension Iot {
         /// The rule ARN.
         public let ruleArn: String?
         /// The date and time the rule was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
 
-        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: Double? = nil) {
+        public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: TimeStamp? = nil) {
             self.ruleDisabled = ruleDisabled
             self.topicPattern = topicPattern
             self.ruleName = ruleName
@@ -1298,7 +1298,7 @@ extension Iot {
         /// The name of the rule.
         public let ruleName: String?
         /// The date and time the rule was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The version of the SQL rules engine to use when evaluating the rule.
         public let awsIotSqlVersion: String?
         /// The description of the rule.
@@ -1308,7 +1308,7 @@ extension Iot {
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
         public let sql: String?
 
-        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: Double? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
+        public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: TimeStamp? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
             self.ruleDisabled = ruleDisabled
             self.ruleName = ruleName
             self.createdAt = createdAt
@@ -1375,7 +1375,7 @@ extension Iot {
         /// The status of the certificate.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The certificate data, in PEM format.
@@ -1389,9 +1389,9 @@ extension Iot {
         /// The ARN of the certificate.
         public let certificateArn: String?
         /// The date and time the certificate was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
 
-        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Double? = nil) {
+        public init(caCertificateId: String? = nil, status: CertificateStatus? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: TimeStamp? = nil) {
             self.caCertificateId = caCertificateId
             self.status = status
             self.creationDate = creationDate
@@ -1545,13 +1545,13 @@ extension Iot {
         /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
         /// The date the CA certificate was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The ID of the CA certificate.
         public let certificateId: String?
         /// The ARN of the CA certificate.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -1623,13 +1623,13 @@ extension Iot {
             AWSShapeMember(label: "isDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time the policy was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The policy version ID.
         public let versionId: String?
         /// Specifies whether the policy version is the default.
         public let isDefaultVersion: Bool?
 
-        public init(createDate: Double? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
+        public init(createDate: TimeStamp? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
             self.versionId = versionId
             self.isDefaultVersion = isDefaultVersion
@@ -2084,7 +2084,7 @@ extension Iot {
         /// The transfer message.
         public let transferMessage: String?
         /// The certificate creation date.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The certificate ID.
         public let certificateId: String?
         /// The certificate ARN.
@@ -2092,9 +2092,9 @@ extension Iot {
         /// The AWS account to which the transfer was made.
         public let transferredTo: String?
         /// The date the transfer was initiated.
-        public let transferDate: Double?
+        public let transferDate: TimeStamp?
 
-        public init(transferMessage: String? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: Double? = nil) {
+        public init(transferMessage: String? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: TimeStamp? = nil) {
             self.transferMessage = transferMessage
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2348,17 +2348,17 @@ extension Iot {
             AWSShapeMember(label: "rejectReason", required: false, type: .string)
         ]
         /// The date the transfer was rejected.
-        public let rejectDate: Double?
+        public let rejectDate: TimeStamp?
         /// The date the transfer was accepted.
-        public let acceptDate: Double?
+        public let acceptDate: TimeStamp?
         /// The transfer message.
         public let transferMessage: String?
         /// The date the transfer took place.
-        public let transferDate: Double?
+        public let transferDate: TimeStamp?
         /// The reason why the transfer was rejected.
         public let rejectReason: String?
 
-        public init(rejectDate: Double? = nil, acceptDate: Double? = nil, transferMessage: String? = nil, transferDate: Double? = nil, rejectReason: String? = nil) {
+        public init(rejectDate: TimeStamp? = nil, acceptDate: TimeStamp? = nil, transferMessage: String? = nil, transferDate: TimeStamp? = nil, rejectReason: String? = nil) {
             self.rejectDate = rejectDate
             self.acceptDate = acceptDate
             self.transferMessage = transferMessage
@@ -2409,13 +2409,13 @@ extension Iot {
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
         /// The date and time the certificate was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The ID of the certificate.
         public let certificateId: String?
         /// The ARN of the certificate.
         public let certificateArn: String?
 
-        public init(status: CertificateStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
+        public init(status: CertificateStatus? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.creationDate = creationDate
             self.certificateId = certificateId
@@ -2749,7 +2749,7 @@ extension Iot {
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public let autoRegistrationStatus: AutoRegistrationStatus?
         /// The date the CA certificate was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The CA certificate ID.
         public let certificateId: String?
         /// The CA certificate data, in PEM format.
@@ -2759,7 +2759,7 @@ extension Iot {
         /// The CA certificate ARN.
         public let certificateArn: String?
 
-        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: Double? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
+        public init(status: CACertificateStatus? = nil, autoRegistrationStatus: AutoRegistrationStatus? = nil, creationDate: TimeStamp? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
             self.status = status
             self.autoRegistrationStatus = autoRegistrationStatus
             self.creationDate = creationDate

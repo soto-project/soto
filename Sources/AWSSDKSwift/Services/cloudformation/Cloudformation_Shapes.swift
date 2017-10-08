@@ -188,15 +188,15 @@ extension Cloudformation {
             AWSShapeMember(label: "TemplateDescription", required: false, type: .string)
         ]
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: Double?
+        public let lastUpdatedTime: TimeStamp?
         /// The time the stack was deleted.
-        public let deletionTime: Double?
+        public let deletionTime: TimeStamp?
         /// Unique stack identifier.
         public let stackId: String?
         /// The current status of the stack.
         public let stackStatus: StackStatus
         /// The time the stack was created.
-        public let creationTime: Double
+        public let creationTime: TimeStamp
         /// Success/Failure message associated with the stack status.
         public let stackStatusReason: String?
         /// The name associated with the stack.
@@ -204,7 +204,7 @@ extension Cloudformation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
-        public init(lastUpdatedTime: Double? = nil, deletionTime: Double? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: Double, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
+        public init(lastUpdatedTime: TimeStamp? = nil, deletionTime: TimeStamp? = nil, stackId: String? = nil, stackStatus: StackStatus, creationTime: TimeStamp, stackStatusReason: String? = nil, stackName: String, templateDescription: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.deletionTime = deletionTime
             self.stackId = stackId
@@ -278,7 +278,7 @@ extension Cloudformation {
         /// Boolean to enable or disable rollback on stack creation failures:    true: disable rollback    false: enable rollback  
         public let disableRollback: Bool?
         /// The time at which the stack was created.
-        public let creationTime: Double
+        public let creationTime: TimeStamp
         /// A list of output structures.
         public let outputs: [Output]?
         /// Success/failure message associated with the stack status.
@@ -286,7 +286,7 @@ extension Cloudformation {
         /// SNS topic ARNs to which stack related events are published.
         public let notificationARNs: [String]?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public let lastUpdatedTime: Double?
+        public let lastUpdatedTime: TimeStamp?
         /// A user-defined description associated with the stack.
         public let description: String?
         /// A list of Parameter structures.
@@ -302,7 +302,7 @@ extension Cloudformation {
         /// The capabilities allowed in the stack.
         public let capabilities: [Capability]?
 
-        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: Double, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: Double? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
+        public init(stackStatus: StackStatus, tags: [Tag]? = nil, roleARN: String? = nil, disableRollback: Bool? = nil, creationTime: TimeStamp, outputs: [Output]? = nil, stackStatusReason: String? = nil, notificationARNs: [String]? = nil, lastUpdatedTime: TimeStamp? = nil, description: String? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetId: String? = nil, timeoutInMinutes: Int32? = nil, stackName: String, capabilities: [Capability]? = nil) {
             self.stackStatus = stackStatus
             self.tags = tags
             self.roleARN = roleARN
@@ -514,7 +514,7 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: Double
+        public let lastUpdatedTimestamp: TimeStamp
         /// Success/failure message associated with the resource.
         public let resourceStatusReason: String?
         /// The name associated with the stack.
@@ -522,7 +522,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: Double, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(metadata: String? = nil, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, lastUpdatedTimestamp: TimeStamp, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.metadata = metadata
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -1540,7 +1540,7 @@ extension Cloudformation {
         /// If you execute the change set, the tags that will be associated with the stack.
         public let tags: [Tag]?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// The ARNs of the Amazon Simple Notification Service (Amazon SNS) topics that will be associated with the stack if you execute the change set.
         public let notificationARNs: [String]?
         /// Information about the change set.
@@ -1564,7 +1564,7 @@ extension Cloudformation {
         /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
         public let capabilities: [Capability]?
 
-        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: Double? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
+        public init(executionStatus: ExecutionStatus? = nil, changes: [Change]? = nil, tags: [Tag]? = nil, creationTime: TimeStamp? = nil, notificationARNs: [String]? = nil, description: String? = nil, statusReason: String? = nil, status: ChangeSetStatus? = nil, parameters: [Parameter]? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, stackName: String? = nil, nextToken: String? = nil, capabilities: [Capability]? = nil) {
             self.executionStatus = executionStatus
             self.changes = changes
             self.tags = tags
@@ -1857,7 +1857,7 @@ extension Cloudformation {
             AWSShapeMember(label: "StackName", required: true, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: Double
+        public let timestamp: TimeStamp
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus?
         /// The unique ID name of the instance of the stack.
@@ -1879,7 +1879,7 @@ extension Cloudformation {
         /// The name associated with a stack.
         public let stackName: String
 
-        public init(timestamp: Double, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, clientRequestToken: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, physicalResourceId: String? = nil, stackName: String) {
+        public init(timestamp: TimeStamp, resourceStatus: ResourceStatus? = nil, stackId: String, eventId: String, resourceType: String? = nil, logicalResourceId: String? = nil, clientRequestToken: String? = nil, resourceProperties: String? = nil, resourceStatusReason: String? = nil, physicalResourceId: String? = nil, stackName: String) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId
@@ -1934,13 +1934,13 @@ extension Cloudformation {
         /// The ID of the change set.
         public let changeSetId: String?
         /// The start time when the change set was created, in UTC.
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// The name of the stack with which the change set is associated.
         public let stackName: String?
         /// Descriptive information about the change set.
         public let description: String?
 
-        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: Double? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(status: ChangeSetStatus? = nil, statusReason: String? = nil, executionStatus: ExecutionStatus? = nil, stackId: String? = nil, changeSetName: String? = nil, changeSetId: String? = nil, creationTime: TimeStamp? = nil, stackName: String? = nil, description: String? = nil) {
             self.status = status
             self.statusReason = statusReason
             self.executionStatus = executionStatus
@@ -2063,9 +2063,9 @@ extension Cloudformation {
         /// The logical name of the resource specified in the template.
         public let logicalResourceId: String
         /// Time the status was updated.
-        public let lastUpdatedTimestamp: Double
+        public let lastUpdatedTimestamp: TimeStamp
 
-        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: Double) {
+        public init(resourceType: String, physicalResourceId: String? = nil, resourceStatusReason: String? = nil, resourceStatus: ResourceStatus, logicalResourceId: String, lastUpdatedTimestamp: TimeStamp) {
             self.resourceType = resourceType
             self.physicalResourceId = physicalResourceId
             self.resourceStatusReason = resourceStatusReason
@@ -2137,7 +2137,7 @@ extension Cloudformation {
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Time the status was updated.
-        public let timestamp: Double
+        public let timestamp: TimeStamp
         /// Current status of the resource.
         public let resourceStatus: ResourceStatus
         /// Unique identifier of the stack.
@@ -2155,7 +2155,7 @@ extension Cloudformation {
         /// User defined description associated with the resource.
         public let description: String?
 
-        public init(timestamp: Double, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
+        public init(timestamp: TimeStamp, resourceStatus: ResourceStatus, stackId: String? = nil, resourceType: String, physicalResourceId: String? = nil, logicalResourceId: String, resourceStatusReason: String? = nil, stackName: String? = nil, description: String? = nil) {
             self.timestamp = timestamp
             self.resourceStatus = resourceStatus
             self.stackId = stackId

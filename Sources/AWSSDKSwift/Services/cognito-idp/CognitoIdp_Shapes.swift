@@ -760,9 +760,9 @@ extension CognitoIdp {
         /// A list of identity provider identifiers.
         public let idpIdentifiers: [String]?
         /// The date the identity provider was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The date the identity provider was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The identity provider name.
         public let providerName: String?
         /// The identity provider details, such as MetadataURL and MetadataFile.
@@ -772,7 +772,7 @@ extension CognitoIdp {
         /// The user pool ID.
         public let userPoolId: String?
 
-        public init(providerType: IdentityProviderTypeType? = nil, idpIdentifiers: [String]? = nil, lastModifiedDate: Double? = nil, creationDate: Double? = nil, providerName: String? = nil, providerDetails: [String: String]? = nil, attributeMapping: [String: String]? = nil, userPoolId: String? = nil) {
+        public init(providerType: IdentityProviderTypeType? = nil, idpIdentifiers: [String]? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, providerName: String? = nil, providerDetails: [String: String]? = nil, attributeMapping: [String: String]? = nil, userPoolId: String? = nil) {
             self.providerType = providerType
             self.idpIdentifiers = idpIdentifiers
             self.lastModifiedDate = lastModifiedDate
@@ -1269,7 +1269,7 @@ extension CognitoIdp {
         /// The explicit authentication flows.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// The date the user pool client was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The client secret from the user pool request of the client type.
         public let clientSecret: String?
         /// A list of allowed callback URLs for the identity providers.
@@ -1285,7 +1285,7 @@ extension CognitoIdp {
         /// Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to token to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly.
         public let allowedOAuthFlows: [OAuthFlowType]?
         /// The date the user pool client was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The default redirect URI. Must be in the CallbackURLs list.
         public let defaultRedirectURI: String?
         /// The ID of the client associated with the user pool.
@@ -1293,7 +1293,7 @@ extension CognitoIdp {
         /// A list of allowed OAuth scopes. Currently supported values are "phone", "email", "openid", and "Cognito".
         public let allowedOAuthScopes: [String]?
 
-        public init(allowedOAuthFlowsUserPoolClient: Bool? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, creationDate: Double? = nil, clientSecret: String? = nil, callbackURLs: [String]? = nil, userPoolId: String? = nil, clientName: String? = nil, supportedIdentityProviders: [String]? = nil, logoutURLs: [String]? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, lastModifiedDate: Double? = nil, defaultRedirectURI: String? = nil, clientId: String? = nil, allowedOAuthScopes: [String]? = nil) {
+        public init(allowedOAuthFlowsUserPoolClient: Bool? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, creationDate: TimeStamp? = nil, clientSecret: String? = nil, callbackURLs: [String]? = nil, userPoolId: String? = nil, clientName: String? = nil, supportedIdentityProviders: [String]? = nil, logoutURLs: [String]? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, lastModifiedDate: TimeStamp? = nil, defaultRedirectURI: String? = nil, clientId: String? = nil, allowedOAuthScopes: [String]? = nil) {
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
             self.refreshTokenValidity = refreshTokenValidity
             self.writeAttributes = writeAttributes
@@ -1537,9 +1537,9 @@ extension CognitoIdp {
         /// The name of the group.
         public let groupName: String?
         /// The date the group was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The date the group was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
         public let precedence: Int32?
         /// The role ARN for the group.
@@ -1547,7 +1547,7 @@ extension CognitoIdp {
         /// A string containing the description of the group.
         public let description: String?
 
-        public init(userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: Double? = nil, creationDate: Double? = nil, precedence: Int32? = nil, roleArn: String? = nil, description: String? = nil) {
+        public init(userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, precedence: Int32? = nil, roleArn: String? = nil, description: String? = nil) {
             self.userPoolId = userPoolId
             self.groupName = groupName
             self.lastModifiedDate = lastModifiedDate
@@ -1876,9 +1876,9 @@ extension CognitoIdp {
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The date the user pool description was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The date the user pool description was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The user pool status in a user pool description.
         public let status: StatusType?
         /// The AWS Lambda configuration information in a user pool description.
@@ -1888,7 +1888,7 @@ extension CognitoIdp {
         /// The ID in a user pool description.
         public let id: String?
 
-        public init(lastModifiedDate: Double? = nil, creationDate: Double? = nil, status: StatusType? = nil, lambdaConfig: LambdaConfigType? = nil, name: String? = nil, id: String? = nil) {
+        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, status: StatusType? = nil, lambdaConfig: LambdaConfigType? = nil, name: String? = nil, id: String? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.status = status
@@ -1969,15 +1969,15 @@ extension CognitoIdp {
         /// The user name of the user about whom you are receiving information.
         public let username: String
         /// The date the user was created.
-        public let userCreateDate: Double?
+        public let userCreateDate: TimeStamp?
         /// Specifies the options for MFA (e.g., email or phone number).
         public let mFAOptions: [MFAOptionType]?
         /// The date the user was last modified.
-        public let userLastModifiedDate: Double?
+        public let userLastModifiedDate: TimeStamp?
         /// An array of name-value pairs representing user attributes.
         public let userAttributes: [AttributeType]?
 
-        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String, userCreateDate: Double? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: Double? = nil, userAttributes: [AttributeType]? = nil) {
+        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String, userCreateDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: TimeStamp? = nil, userAttributes: [AttributeType]? = nil) {
             self.userStatus = userStatus
             self.enabled = enabled
             self.username = username
@@ -2402,15 +2402,15 @@ extension CognitoIdp {
         /// The device key.
         public let deviceKey: String?
         /// The last modified date of the device.
-        public let deviceLastModifiedDate: Double?
+        public let deviceLastModifiedDate: TimeStamp?
         /// The device attributes.
         public let deviceAttributes: [AttributeType]?
         /// The creation date of the device.
-        public let deviceCreateDate: Double?
+        public let deviceCreateDate: TimeStamp?
         /// The date in which the device was last authenticated.
-        public let deviceLastAuthenticatedDate: Double?
+        public let deviceLastAuthenticatedDate: TimeStamp?
 
-        public init(deviceKey: String? = nil, deviceLastModifiedDate: Double? = nil, deviceAttributes: [AttributeType]? = nil, deviceCreateDate: Double? = nil, deviceLastAuthenticatedDate: Double? = nil) {
+        public init(deviceKey: String? = nil, deviceLastModifiedDate: TimeStamp? = nil, deviceAttributes: [AttributeType]? = nil, deviceCreateDate: TimeStamp? = nil, deviceLastAuthenticatedDate: TimeStamp? = nil) {
             self.deviceKey = deviceKey
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.deviceAttributes = deviceAttributes
@@ -2657,7 +2657,7 @@ extension CognitoIdp {
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
         public let mfaConfiguration: UserPoolMfaType?
         /// The date the user pool was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The ID of the user pool.
         public let id: String?
         /// The status of a user pool.
@@ -2675,13 +2675,13 @@ extension CognitoIdp {
         /// The contents of the email verification message.
         public let emailVerificationMessage: String?
         /// The date the user pool was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// Specifies the attributes that are auto-verified in a user pool.
         public let autoVerifiedAttributes: [VerifiedAttributeType]?
         /// The device configuration.
         public let deviceConfiguration: DeviceConfigurationType?
 
-        public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: UserPoolMfaType? = nil, creationDate: Double? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: Double? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
+        public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [AliasAttributeType]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: UserPoolMfaType? = nil, creationDate: TimeStamp? = nil, id: String? = nil, status: StatusType? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: TimeStamp? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
             self.emailConfigurationFailure = emailConfigurationFailure
             self.userPoolTags = userPoolTags
             self.emailVerificationSubject = emailVerificationSubject
@@ -2804,15 +2804,15 @@ extension CognitoIdp {
             AWSShapeMember(label: "ProviderType", required: false, type: .enum)
         ]
         /// The date the provider was last modified.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The date the provider was added to the user pool.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The identity provider name.
         public let providerName: String?
         /// The identity provider type.
         public let providerType: IdentityProviderTypeType?
 
-        public init(lastModifiedDate: Double? = nil, creationDate: Double? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil) {
+        public init(lastModifiedDate: TimeStamp? = nil, creationDate: TimeStamp? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil) {
             self.lastModifiedDate = lastModifiedDate
             self.creationDate = creationDate
             self.providerName = providerName
@@ -3703,7 +3703,7 @@ extension CognitoIdp {
             AWSShapeMember(label: "ImportedUsers", required: false, type: .long)
         ]
         /// The date when the user import job was completed.
-        public let completionDate: Double?
+        public let completionDate: TimeStamp?
         /// The message returned when the user import job is completed.
         public let completionMessage: String?
         /// The number of users that could not be imported.
@@ -3711,7 +3711,7 @@ extension CognitoIdp {
         /// The number of users that were skipped.
         public let skippedUsers: Int64?
         /// The date the user import job was created.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The job ID for the user import job.
         public let jobId: String?
         /// The user pool ID for the user pool that the users are being imported into.
@@ -3721,7 +3721,7 @@ extension CognitoIdp {
         /// The pre-signed URL to be used to upload the .csv file.
         public let preSignedUrl: String?
         /// The date when the user import job was started.
-        public let startDate: Double?
+        public let startDate: TimeStamp?
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
         public let cloudWatchLogsRoleArn: String?
         /// The job name for the user import job.
@@ -3729,7 +3729,7 @@ extension CognitoIdp {
         /// The number of users that were successfully imported.
         public let importedUsers: Int64?
 
-        public init(completionDate: Double? = nil, completionMessage: String? = nil, failedUsers: Int64? = nil, skippedUsers: Int64? = nil, creationDate: Double? = nil, jobId: String? = nil, userPoolId: String? = nil, status: UserImportJobStatusType? = nil, preSignedUrl: String? = nil, startDate: Double? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, importedUsers: Int64? = nil) {
+        public init(completionDate: TimeStamp? = nil, completionMessage: String? = nil, failedUsers: Int64? = nil, skippedUsers: Int64? = nil, creationDate: TimeStamp? = nil, jobId: String? = nil, userPoolId: String? = nil, status: UserImportJobStatusType? = nil, preSignedUrl: String? = nil, startDate: TimeStamp? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, importedUsers: Int64? = nil) {
             self.completionDate = completionDate
             self.completionMessage = completionMessage
             self.failedUsers = failedUsers
@@ -3972,15 +3972,15 @@ extension CognitoIdp {
         /// The user name of the user you wish to describe.
         public let username: String?
         /// The creation date of the user.
-        public let userCreateDate: Double?
+        public let userCreateDate: TimeStamp?
         /// A container with information about the user type attributes.
         public let attributes: [AttributeType]?
         /// The last modified date of the user.
-        public let userLastModifiedDate: Double?
+        public let userLastModifiedDate: TimeStamp?
         /// The MFA options for the user.
         public let mFAOptions: [MFAOptionType]?
 
-        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: Double? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: Double? = nil, mFAOptions: [MFAOptionType]? = nil) {
+        public init(userStatus: UserStatusType? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: TimeStamp? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: TimeStamp? = nil, mFAOptions: [MFAOptionType]? = nil) {
             self.userStatus = userStatus
             self.enabled = enabled
             self.username = username

@@ -77,9 +77,9 @@ extension Shield {
             AWSShapeMember(label: "AttackId", required: false, type: .string)
         ]
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The list of attacks for a specified time period.
@@ -87,7 +87,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: Double? = nil, endTime: Double? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
+        public init(startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.resourceArn = resourceArn
@@ -111,11 +111,11 @@ extension Shield {
             AWSShapeMember(label: "TimeCommitmentInSeconds", required: false, type: .long)
         ]
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
         public let timeCommitmentInSeconds: Int64?
 
-        public init(startTime: Double? = nil, timeCommitmentInSeconds: Int64? = nil) {
+        public init(startTime: TimeStamp? = nil, timeCommitmentInSeconds: Int64? = nil) {
             self.startTime = startTime
             self.timeCommitmentInSeconds = timeCommitmentInSeconds
         }
@@ -138,13 +138,13 @@ extension Shield {
             AWSShapeMember(label: "AttackId", required: false, type: .string)
         ]
         /// The time the attack started, in the format 2016-12-16T13:50Z.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// List of mitigation actions taken for the attack.
         public let mitigations: [Mitigation]?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
         /// The time the attack ended, in the format 2016-12-16T13:50Z.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
         public let subResources: [SubResourceSummary]?
         /// List of counters that describe the attack for the specified time period.
@@ -152,7 +152,7 @@ extension Shield {
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
 
-        public init(startTime: Double? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: Double? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
+        public init(startTime: TimeStamp? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: TimeStamp? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
             self.startTime = startTime
             self.mitigations = mitigations
             self.resourceArn = resourceArn
@@ -378,11 +378,11 @@ extension Shield {
             AWSShapeMember(label: "FromInclusive", required: false, type: .timestamp)
         ]
         /// The end time, in the format 2016-12-16T15:50Z.
-        public let toExclusive: Double?
+        public let toExclusive: TimeStamp?
         /// The start time, in the format 2016-12-16T13:50Z.
-        public let fromInclusive: Double?
+        public let fromInclusive: TimeStamp?
 
-        public init(toExclusive: Double? = nil, fromInclusive: Double? = nil) {
+        public init(toExclusive: TimeStamp? = nil, fromInclusive: TimeStamp? = nil) {
             self.toExclusive = toExclusive
             self.fromInclusive = fromInclusive
         }

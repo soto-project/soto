@@ -54,13 +54,13 @@ extension Iam {
             AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
         ]
         /// The date and time when the SAML provider was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The XML metadata document that includes information about an identity provider.
         public let sAMLMetadataDocument: String?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: Double?
+        public let validUntil: TimeStamp?
 
-        public init(createDate: Double? = nil, sAMLMetadataDocument: String? = nil, validUntil: Double? = nil) {
+        public init(createDate: TimeStamp? = nil, sAMLMetadataDocument: String? = nil, validUntil: TimeStamp? = nil) {
             self.createDate = createDate
             self.sAMLMetadataDocument = sAMLMetadataDocument
             self.validUntil = validUntil
@@ -97,17 +97,17 @@ extension Iam {
         /// The friendly name (not ARN) identifying the policy.
         public let policyName: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: Double?
+        public let updateDate: TimeStamp?
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The number of entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int32?
         /// A friendly description of the policy. This element is included in the response to the GetPolicy operation. It is not included in the response to the ListPolicies operation. 
         public let description: String?
 
-        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: Double? = nil, path: String? = nil, createDate: Double? = nil, attachmentCount: Int32? = nil, description: String? = nil) {
+        public init(defaultVersionId: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, updateDate: TimeStamp? = nil, path: String? = nil, createDate: TimeStamp? = nil, attachmentCount: Int32? = nil, description: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.policyId = policyId
             self.arn = arn
@@ -347,7 +347,7 @@ extension Iam {
         /// The name identifying the instance profile.
         public let instanceProfileName: String
         /// The date when the instance profile was created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The role associated with the instance profile.
@@ -357,7 +357,7 @@ extension Iam {
         ///  The path to the instance profile. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(instanceProfileName: String, createDate: Double, arn: String, roles: [Role], instanceProfileId: String, path: String) {
+        public init(instanceProfileName: String, createDate: TimeStamp, arn: String, roles: [Role], instanceProfileId: String, path: String) {
             self.instanceProfileName = instanceProfileName
             self.createDate = createDate
             self.arn = arn
@@ -582,11 +582,11 @@ extension Iam {
         /// The status of the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: Double
+        public let uploadDate: TimeStamp
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(userName: String, status: StatusType, uploadDate: Double, sSHPublicKeyId: String) {
+        public init(userName: String, status: StatusType, uploadDate: TimeStamp, sSHPublicKeyId: String) {
             self.userName = userName
             self.status = status
             self.uploadDate = uploadDate
@@ -741,7 +741,7 @@ extension Iam {
             AWSShapeMember(label: "AccessKeyId", required: true, type: .string)
         ]
         /// The date when the access key was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The name of the IAM user that the access key is associated with.
         public let userName: String
         /// The status of the access key. Active means the key is valid for API calls, while Inactive means it is not. 
@@ -751,7 +751,7 @@ extension Iam {
         /// The ID for this access key.
         public let accessKeyId: String
 
-        public init(createDate: Double? = nil, userName: String, status: StatusType, secretAccessKey: String, accessKeyId: String) {
+        public init(createDate: TimeStamp? = nil, userName: String, status: StatusType, secretAccessKey: String, accessKeyId: String) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
@@ -1140,7 +1140,7 @@ extension Iam {
         /// The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let roleId: String?
         /// The friendly name that identifies the role.
@@ -1150,7 +1150,7 @@ extension Iam {
         /// A list of instance profiles that contain this role.
         public let instanceProfileList: [InstanceProfile]?
 
-        public init(attachedManagedPolicies: [AttachedPolicy]? = nil, arn: String? = nil, assumeRolePolicyDocument: String? = nil, path: String? = nil, createDate: Double? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, instanceProfileList: [InstanceProfile]? = nil) {
+        public init(attachedManagedPolicies: [AttachedPolicy]? = nil, arn: String? = nil, assumeRolePolicyDocument: String? = nil, path: String? = nil, createDate: TimeStamp? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, instanceProfileList: [InstanceProfile]? = nil) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -1776,11 +1776,11 @@ extension Iam {
         /// The name of the service associated with the service-specific credential.
         public let serviceName: String
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         /// The generated password for the service-specific credential.
         public let servicePassword: String
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceUserName: String, serviceName: String, createDate: Double, servicePassword: String) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceUserName: String, serviceName: String, createDate: TimeStamp, servicePassword: String) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -1810,7 +1810,7 @@ extension Iam {
             AWSShapeMember(label: "ClientIDList", required: false, type: .list)
         ]
         /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
         public let url: String?
         /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider. 
@@ -1818,7 +1818,7 @@ extension Iam {
         /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
         public let clientIDList: [String]?
 
-        public init(createDate: Double? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
+        public init(createDate: TimeStamp? = nil, url: String? = nil, thumbprintList: [String]? = nil, clientIDList: [String]? = nil) {
             self.createDate = createDate
             self.url = url
             self.thumbprintList = thumbprintList
@@ -1855,13 +1855,13 @@ extension Iam {
         /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// A list of the inline policies embedded in the user.
         public let userPolicyList: [PolicyDetail]?
         /// A list of the managed policies attached to the user.
         public let attachedManagedPolicies: [AttachedPolicy]?
 
-        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: Double? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
+        public init(userName: String? = nil, userId: String? = nil, arn: String? = nil, groupList: [String]? = nil, path: String? = nil, createDate: TimeStamp? = nil, userPolicyList: [PolicyDetail]? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
             self.userName = userName
             self.userId = userId
             self.arn = arn
@@ -2125,11 +2125,11 @@ extension Iam {
         /// The status of the signing certificate. Active means the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
         /// The date when the signing certificate was uploaded.
-        public let uploadDate: Double?
+        public let uploadDate: TimeStamp?
         /// The contents of the signing certificate.
         public let certificateBody: String
 
-        public init(certificateId: String, userName: String, status: StatusType, uploadDate: Double? = nil, certificateBody: String) {
+        public init(certificateId: String, userName: String, status: StatusType, uploadDate: TimeStamp? = nil, certificateBody: String) {
             self.certificateId = certificateId
             self.userName = userName
             self.status = status
@@ -2250,9 +2250,9 @@ extension Iam {
             AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the user was created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential Reports topic in the Using IAM guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. This field is null (not present) when:   The user does not have a password   The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014   there is no sign-in data associated with the user   This value is returned only in the GetUser and ListUsers actions. 
-        public let passwordLastUsed: Double?
+        public let passwordLastUsed: TimeStamp?
         /// The stable and unique string identifying the user. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let userId: String
         /// The friendly name identifying the user.
@@ -2262,7 +2262,7 @@ extension Iam {
         /// The path to the user. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String
 
-        public init(createDate: Double, passwordLastUsed: Double? = nil, userId: String, userName: String, arn: String, path: String) {
+        public init(createDate: TimeStamp, passwordLastUsed: TimeStamp? = nil, userId: String, userName: String, arn: String, path: String) {
             self.createDate = createDate
             self.passwordLastUsed = passwordLastUsed
             self.userId = userId
@@ -2519,13 +2519,13 @@ extension Iam {
             AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
         ]
         /// The date and time when the SAML provider was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of the SAML provider.
         public let arn: String?
         /// The expiration date and time for the SAML provider.
-        public let validUntil: Double?
+        public let validUntil: TimeStamp?
 
-        public init(createDate: Double? = nil, arn: String? = nil, validUntil: Double? = nil) {
+        public init(createDate: TimeStamp? = nil, arn: String? = nil, validUntil: TimeStamp? = nil) {
             self.createDate = createDate
             self.arn = arn
             self.validUntil = validUntil
@@ -2931,7 +2931,7 @@ extension Iam {
             AWSShapeMember(label: "AccessKeyId", required: false, type: .string)
         ]
         /// The date when the access key was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The name of the IAM user that the key is associated with.
         public let userName: String?
         /// The status of the access key. Active means the key is valid for API calls; Inactive means it is not.
@@ -2939,7 +2939,7 @@ extension Iam {
         /// The ID for this access key.
         public let accessKeyId: String?
 
-        public init(createDate: Double? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
+        public init(createDate: TimeStamp? = nil, userName: String? = nil, status: StatusType? = nil, accessKeyId: String? = nil) {
             self.createDate = createDate
             self.userName = userName
             self.status = status
@@ -3100,13 +3100,13 @@ extension Iam {
             AWSShapeMember(label: "PasswordResetRequired", required: false, type: .boolean)
         ]
         /// The date when the password for the user was created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         /// The name of the user, which can be used for signing in to the AWS Management Console.
         public let userName: String
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
 
-        public init(createDate: Double, userName: String, passwordResetRequired: Bool? = nil) {
+        public init(createDate: TimeStamp, userName: String, passwordResetRequired: Bool? = nil) {
             self.createDate = createDate
             self.userName = userName
             self.passwordResetRequired = passwordResetRequired
@@ -3323,9 +3323,9 @@ extension Iam {
         /// The generated user name for the service-specific credential.
         public let serviceUserName: String
         /// The date and time, in ISO 8601 date-time format, when the service-specific credential were created.
-        public let createDate: Double
+        public let createDate: TimeStamp
 
-        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceName: String, serviceUserName: String, createDate: Double) {
+        public init(serviceSpecificCredentialId: String, userName: String, status: StatusType, serviceName: String, serviceUserName: String, createDate: TimeStamp) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
             self.status = status
@@ -3363,11 +3363,11 @@ extension Iam {
         /// The MD5 message digest of the SSH public key.
         public let fingerprint: String
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
-        public let uploadDate: Double?
+        public let uploadDate: TimeStamp?
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
 
-        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: Double? = nil, sSHPublicKeyId: String) {
+        public init(sSHPublicKeyBody: String, userName: String, status: StatusType, fingerprint: String, uploadDate: TimeStamp? = nil, sSHPublicKeyId: String) {
             self.sSHPublicKeyBody = sSHPublicKeyBody
             self.userName = userName
             self.status = status
@@ -3394,13 +3394,13 @@ extension Iam {
             AWSShapeMember(label: "ServiceName", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
-        public let lastUsedDate: Double
+        public let lastUsedDate: TimeStamp
         /// The AWS region where this access key was most recently used. This field is displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user   For more information about AWS regions, see Regions and Endpoints in the Amazon Web Services General Reference.
         public let region: String
         /// The name of the AWS service with which this access key was most recently used. This field displays "N/A" when:   The user does not have an access key.   An access key exists but has never been used, at least not since IAM started tracking this information on April 22nd, 2015.   There is no sign-in data associated with the user  
         public let serviceName: String
 
-        public init(lastUsedDate: Double, region: String, serviceName: String) {
+        public init(lastUsedDate: TimeStamp, region: String, serviceName: String) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName
@@ -3506,17 +3506,17 @@ extension Iam {
         /// A list containing information about the versions of the policy.
         public let policyVersionList: [PolicyVersion]?
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public let updateDate: Double?
+        public let updateDate: TimeStamp?
         /// The path to the policy. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the policy was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
         public let attachmentCount: Int32?
         /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see Versioning for Managed Policies in the Using IAM guide. 
         public let defaultVersionId: String?
 
-        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Double? = nil, path: String? = nil, createDate: Double? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
+        public init(description: String? = nil, policyId: String? = nil, arn: String? = nil, isAttachable: Bool? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: TimeStamp? = nil, path: String? = nil, createDate: TimeStamp? = nil, attachmentCount: Int32? = nil, defaultVersionId: String? = nil) {
             self.description = description
             self.policyId = policyId
             self.arn = arn
@@ -3623,7 +3623,7 @@ extension Iam {
             AWSShapeMember(label: "IsDefaultVersion", required: false, type: .boolean)
         ]
         /// The date and time, in ISO 8601 date-time format, when the policy version was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1. 
         public let versionId: String?
         /// The policy document. The policy document is returned in the response to the GetPolicyVersion and GetAccountAuthorizationDetails operations. It is not returned in the response to the CreatePolicyVersion or ListPolicyVersions operations. 
@@ -3631,7 +3631,7 @@ extension Iam {
         /// Specifies whether the policy version is set as the policy's default version.
         public let isDefaultVersion: Bool?
 
-        public init(createDate: Double? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
+        public init(createDate: TimeStamp? = nil, versionId: String? = nil, document: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
             self.versionId = versionId
             self.document = document
@@ -3673,11 +3673,11 @@ extension Iam {
         /// The user with whom the MFA device is associated.
         public let userName: String
         /// The date when the MFA device was enabled for the user.
-        public let enableDate: Double
+        public let enableDate: TimeStamp
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
         public let serialNumber: String
 
-        public init(userName: String, enableDate: Double, serialNumber: String) {
+        public init(userName: String, enableDate: TimeStamp, serialNumber: String) {
             self.userName = userName
             self.enableDate = enableDate
             self.serialNumber = serialNumber
@@ -3707,13 +3707,13 @@ extension Iam {
         ///  The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The date on which the certificate is set to expire.
-        public let expiration: Double?
+        public let expiration: TimeStamp?
         /// The date when the server certificate was uploaded.
-        public let uploadDate: Double?
+        public let uploadDate: TimeStamp?
         ///  The path to the server certificate. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(serverCertificateName: String, serverCertificateId: String, arn: String, expiration: Double? = nil, uploadDate: Double? = nil, path: String) {
+        public init(serverCertificateName: String, serverCertificateId: String, arn: String, expiration: TimeStamp? = nil, uploadDate: TimeStamp? = nil, path: String) {
             self.serverCertificateName = serverCertificateName
             self.serverCertificateId = serverCertificateId
             self.arn = arn
@@ -3751,13 +3751,13 @@ extension Iam {
         /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide.
         public let path: String?
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: Double?
+        public let createDate: TimeStamp?
         /// The stable and unique string identifying the group. For more information about IDs, see IAM Identifiers in the Using IAM guide.
         public let groupId: String?
         /// A list of the managed policies attached to the group.
         public let attachedManagedPolicies: [AttachedPolicy]?
 
-        public init(arn: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil, createDate: Double? = nil, groupId: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
+        public init(arn: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil, createDate: TimeStamp? = nil, groupId: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil) {
             self.arn = arn
             self.groupName = groupName
             self.groupPolicyList = groupPolicyList
@@ -4375,7 +4375,7 @@ extension Iam {
             AWSShapeMember(label: "SerialNumber", required: true, type: .string)
         ]
         /// The date and time on which the virtual MFA device was enabled.
-        public let enableDate: Double?
+        public let enableDate: TimeStamp?
         ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments, AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in Base32 format. The Base32String value is Base64-encoded. 
         public let qRCodePNG: Data?
         ///  The Base32 seed defined as specified in RFC3548. The Base32StringSeed is Base64-encoded. 
@@ -4385,7 +4385,7 @@ extension Iam {
         /// The serial number associated with VirtualMFADevice.
         public let serialNumber: String
 
-        public init(enableDate: Double? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
+        public init(enableDate: TimeStamp? = nil, qRCodePNG: Data? = nil, base32StringSeed: Data? = nil, user: User? = nil, serialNumber: String) {
             self.enableDate = enableDate
             self.qRCodePNG = qRCodePNG
             self.base32StringSeed = base32StringSeed
@@ -4564,9 +4564,9 @@ extension Iam {
         /// The format (MIME type) of the credential report.
         public let reportFormat: ReportFormatType?
         ///  The date and time when the credential report was created, in ISO 8601 date-time format.
-        public let generatedTime: Double?
+        public let generatedTime: TimeStamp?
 
-        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: Double? = nil) {
+        public init(content: Data? = nil, reportFormat: ReportFormatType? = nil, generatedTime: TimeStamp? = nil) {
             self.content = content
             self.reportFormat = reportFormat
             self.generatedTime = generatedTime
@@ -4589,7 +4589,7 @@ extension Iam {
             AWSShapeMember(label: "Path", required: true, type: .string)
         ]
         /// The date and time, in ISO 8601 date-time format, when the group was created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         ///  The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see IAM Identifiers in the Using IAM guide. 
         public let arn: String
         /// The friendly name that identifies the group.
@@ -4599,7 +4599,7 @@ extension Iam {
         /// The path to the group. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
 
-        public init(createDate: Double, arn: String, groupName: String, groupId: String, path: String) {
+        public init(createDate: TimeStamp, arn: String, groupName: String, groupId: String, path: String) {
             self.createDate = createDate
             self.arn = arn
             self.groupName = groupName
@@ -5051,7 +5051,7 @@ extension Iam {
         ///  The path to the role. For more information about paths, see IAM Identifiers in the Using IAM guide. 
         public let path: String
         /// The date and time, in ISO 8601 date-time format, when the role was created.
-        public let createDate: Double
+        public let createDate: TimeStamp
         ///  The stable and unique string identifying the role. For more information about IDs, see IAM Identifiers in the Using IAM guide. 
         public let roleId: String
         /// The friendly name that identifies the role.
@@ -5059,7 +5059,7 @@ extension Iam {
         /// A description of the role that you provide.
         public let description: String?
 
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, path: String, createDate: Double, roleId: String, roleName: String, description: String? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, path: String, createDate: TimeStamp, roleId: String, roleName: String, description: String? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.path = path

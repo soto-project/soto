@@ -368,17 +368,17 @@ extension Autoscaling {
             AWSShapeMember(label: "Recurrence", required: false, type: .string)
         ]
         /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Auto Scaling returns an error message.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The minimum size for the Auto Scaling group.
         public let minSize: Int32?
         /// This parameter is deprecated.
-        public let time: Double?
+        public let time: TimeStamp?
         /// The maximum size for the Auto Scaling group.
         public let maxSize: Int32?
         /// The number of EC2 instances that should be running in the group.
         public let desiredCapacity: Int32?
         /// The time for the recurring schedule to end. Auto Scaling does not perform the action after this time.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The name of this scaling action.
         public let scheduledActionName: String
         /// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -386,7 +386,7 @@ extension Autoscaling {
         /// The recurring schedule for this action, in Unix cron syntax format. For more information, see Cron in Wikipedia.
         public let recurrence: String?
 
-        public init(startTime: Double? = nil, minSize: Int32? = nil, time: Double? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Double? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
+        public init(startTime: TimeStamp? = nil, minSize: Int32? = nil, time: TimeStamp? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, scheduledActionName: String, autoScalingGroupName: String, recurrence: String? = nil) {
             self.startTime = startTime
             self.minSize = minSize
             self.time = time
@@ -451,17 +451,17 @@ extension Autoscaling {
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int32?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Describes one or more scheduled actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. You can describe up to a maximum of 50 instances with a single call. If there are more items to return, the call returns a token. To get the next set of items, repeat the call with the returned token.
         public let scheduledActionNames: [String]?
         /// The name of the group.
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
 
-        public init(maxRecords: Int32? = nil, startTime: Double? = nil, scheduledActionNames: [String]? = nil, autoScalingGroupName: String? = nil, endTime: Double? = nil, nextToken: String? = nil) {
+        public init(maxRecords: Int32? = nil, startTime: TimeStamp? = nil, scheduledActionNames: [String]? = nil, autoScalingGroupName: String? = nil, endTime: TimeStamp? = nil, nextToken: String? = nil) {
             self.maxRecords = maxRecords
             self.startTime = startTime
             self.scheduledActionNames = scheduledActionNames
@@ -1073,11 +1073,11 @@ extension Autoscaling {
             AWSShapeMember(label: "Recurrence", required: false, type: .string)
         ]
         /// The date and time that the action is scheduled to begin. This date and time can be up to one month in the future. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action will start and stop.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the scheduled action.
         public let scheduledActionARN: String?
         /// This parameter is deprecated.
-        public let time: Double?
+        public let time: TimeStamp?
         /// The minimum size of the group.
         public let minSize: Int32?
         /// The maximum size of the group.
@@ -1085,7 +1085,7 @@ extension Autoscaling {
         /// The number of instances you prefer to maintain in the group.
         public let desiredCapacity: Int32?
         /// The date and time that the action is scheduled to end. This date and time can be up to one month in the future.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The name of the scheduled action.
         public let scheduledActionName: String?
         /// The name of the group.
@@ -1093,7 +1093,7 @@ extension Autoscaling {
         /// The recurring schedule for the action.
         public let recurrence: String?
 
-        public init(startTime: Double? = nil, scheduledActionARN: String? = nil, time: Double? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: Double? = nil, scheduledActionName: String? = nil, autoScalingGroupName: String? = nil, recurrence: String? = nil) {
+        public init(startTime: TimeStamp? = nil, scheduledActionARN: String? = nil, time: TimeStamp? = nil, minSize: Int32? = nil, maxSize: Int32? = nil, desiredCapacity: Int32? = nil, endTime: TimeStamp? = nil, scheduledActionName: String? = nil, autoScalingGroupName: String? = nil, recurrence: String? = nil) {
             self.startTime = startTime
             self.scheduledActionARN = scheduledActionARN
             self.time = time
@@ -1248,7 +1248,7 @@ extension Autoscaling {
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         public let targetGroupARNs: [String]?
         /// The date and time the group was created.
-        public let createdTime: Double
+        public let createdTime: TimeStamp
         /// The current state of the group when DeleteAutoScalingGroup is in progress.
         public let status: String?
         /// The minimum size of the group.
@@ -1274,7 +1274,7 @@ extension Autoscaling {
         /// The service to use for the health checks. The valid values are EC2 and ELB.
         public let healthCheckType: String
 
-        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, targetGroupARNs: [String]? = nil, createdTime: Double, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, instances: [Instance]? = nil, terminationPolicies: [String]? = nil, healthCheckGracePeriod: Int32? = nil, autoScalingGroupName: String, loadBalancerNames: [String]? = nil, healthCheckType: String) {
+        public init(availabilityZones: [String], enabledMetrics: [EnabledMetric]? = nil, launchConfigurationName: String? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, vPCZoneIdentifier: String? = nil, tags: [TagDescription]? = nil, maxSize: Int32, suspendedProcesses: [SuspendedProcess]? = nil, targetGroupARNs: [String]? = nil, createdTime: TimeStamp, status: String? = nil, minSize: Int32, desiredCapacity: Int32, autoScalingGroupARN: String? = nil, placementGroup: String? = nil, defaultCooldown: Int32, instances: [Instance]? = nil, terminationPolicies: [String]? = nil, healthCheckGracePeriod: Int32? = nil, autoScalingGroupName: String, loadBalancerNames: [String]? = nil, healthCheckType: String) {
             self.availabilityZones = availabilityZones
             self.enabledMetrics = enabledMetrics
             self.launchConfigurationName = launchConfigurationName
@@ -2056,7 +2056,7 @@ extension Autoscaling {
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// The start time of the activity.
-        public let startTime: Double
+        public let startTime: TimeStamp
         /// The details about the activity.
         public let details: String?
         /// A value between 0 and 100 that indicates the progress of the activity.
@@ -2064,7 +2064,7 @@ extension Autoscaling {
         /// The reason the activity began.
         public let cause: String
         /// The end time of the activity.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The current status of the activity.
         public let statusCode: ScalingActivityStatusCode
         /// The name of the Auto Scaling group.
@@ -2076,7 +2076,7 @@ extension Autoscaling {
         /// A friendly, more verbose description of the activity.
         public let description: String?
 
-        public init(startTime: Double, details: String? = nil, progress: Int32? = nil, cause: String, endTime: Double? = nil, statusCode: ScalingActivityStatusCode, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
+        public init(startTime: TimeStamp, details: String? = nil, progress: Int32? = nil, cause: String, endTime: TimeStamp? = nil, statusCode: ScalingActivityStatusCode, autoScalingGroupName: String, activityId: String, statusMessage: String? = nil, description: String? = nil) {
             self.startTime = startTime
             self.details = details
             self.progress = progress
@@ -2630,7 +2630,7 @@ extension Autoscaling {
         /// The instance type for the instances.
         public let instanceType: String
         /// The creation date and time for the launch configuration.
-        public let createdTime: Double
+        public let createdTime: TimeStamp
         /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs in an isolated, single-tenant hardware and can only be launched into a VPC.
         public let placementTenancy: String?
         /// The security groups to associate with the instances.
@@ -2646,7 +2646,7 @@ extension Autoscaling {
         /// [EC2-VPC] Indicates whether to assign a public IP address to each instance.
         public let associatePublicIpAddress: Bool?
 
-        public init(launchConfigurationARN: String? = nil, launchConfigurationName: String, userData: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, spotPrice: String? = nil, kernelId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, instanceType: String, createdTime: Double, placementTenancy: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, iamInstanceProfile: String? = nil, imageId: String, ramdiskId: String? = nil, associatePublicIpAddress: Bool? = nil) {
+        public init(launchConfigurationARN: String? = nil, launchConfigurationName: String, userData: String? = nil, classicLinkVPCSecurityGroups: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, ebsOptimized: Bool? = nil, spotPrice: String? = nil, kernelId: String? = nil, instanceMonitoring: InstanceMonitoring? = nil, classicLinkVPCId: String? = nil, instanceType: String, createdTime: TimeStamp, placementTenancy: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, iamInstanceProfile: String? = nil, imageId: String, ramdiskId: String? = nil, associatePublicIpAddress: Bool? = nil) {
             self.launchConfigurationARN = launchConfigurationARN
             self.launchConfigurationName = launchConfigurationName
             self.userData = userData

@@ -159,9 +159,9 @@ extension Ecs {
         /// The ID of the deployment.
         public let id: String?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The Unix timestamp for when the service was last updated.
-        public let updatedAt: Double?
+        public let updatedAt: TimeStamp?
         /// The number of tasks in the deployment that are in the PENDING status.
         public let pendingCount: Int32?
         /// The most recent task definition that was specified for the service to use.
@@ -169,7 +169,7 @@ extension Ecs {
         /// The number of tasks in the deployment that are in the RUNNING status.
         public let runningCount: Int32?
 
-        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: Double? = nil, updatedAt: Double? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: TimeStamp? = nil, updatedAt: TimeStamp? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.desiredCount = desiredCount
             self.status = status
             self.id = id
@@ -263,7 +263,7 @@ extension Ecs {
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
         public let agentUpdateStatus: AgentUpdateStatus?
         /// The Unix timestamp for when the container instance was registered.
-        public let registeredAt: Double?
+        public let registeredAt: TimeStamp?
         /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
         public let remainingResources: [Resource]?
         /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the PutAttributes operation.
@@ -277,7 +277,7 @@ extension Ecs {
         /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch events for the container instance (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
 
-        public init(pendingTasksCount: Int32? = nil, versionInfo: VersionInfo? = nil, ec2InstanceId: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, registeredAt: Double? = nil, remainingResources: [Resource]? = nil, attributes: [Attribute]? = nil, status: String? = nil, containerInstanceArn: String? = nil, runningTasksCount: Int32? = nil, version: Int64? = nil) {
+        public init(pendingTasksCount: Int32? = nil, versionInfo: VersionInfo? = nil, ec2InstanceId: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: AgentUpdateStatus? = nil, registeredAt: TimeStamp? = nil, remainingResources: [Resource]? = nil, attributes: [Attribute]? = nil, status: String? = nil, containerInstanceArn: String? = nil, runningTasksCount: Int32? = nil, version: Int64? = nil) {
             self.pendingTasksCount = pendingTasksCount
             self.versionInfo = versionInfo
             self.ec2InstanceId = ec2InstanceId
@@ -1218,7 +1218,7 @@ extension Ecs {
         /// The placement strategy that determines how tasks for the service are placed.
         public let placementStrategy: [PlacementStrategy]?
         /// The Unix timestamp for when the service was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a region or across multiple regions.
         public let serviceName: String?
         /// The number of tasks in the cluster that are in the PENDING state.
@@ -1244,7 +1244,7 @@ extension Ecs {
         /// The number of tasks in the cluster that are in the RUNNING state.
         public let runningCount: Int32?
 
-        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: Double? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
+        public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: TimeStamp? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.roleArn = roleArn
             self.clusterArn = clusterArn
             self.placementStrategy = placementStrategy
@@ -1903,11 +1903,11 @@ extension Ecs {
         /// The ID string of the event.
         public let id: String?
         /// The Unix timestamp for when the event was triggered.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The event message.
         public let message: String?
 
-        public init(id: String? = nil, createdAt: Double? = nil, message: String? = nil) {
+        public init(id: String? = nil, createdAt: TimeStamp? = nil, message: String? = nil) {
             self.id = id
             self.createdAt = createdAt
             self.message = message
@@ -2526,9 +2526,9 @@ extension Ecs {
         /// One or more container overrides.
         public let overrides: TaskOverride?
         /// The Unix timestamp for when the task was created (the task entered the PENDING state).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The Unix timestamp for when the task was started (the task transitioned from the PENDING state to the RUNNING state).
-        public let startedAt: Double?
+        public let startedAt: TimeStamp?
         /// The desired status of the task.
         public let desiredStatus: String?
         /// The Amazon Resource Name (ARN) of the task definition that creates the task.
@@ -2540,7 +2540,7 @@ extension Ecs {
         /// The Amazon Resource Name (ARN) of the container instances that host the task.
         public let containerInstanceArn: String?
         /// The Unix timestamp for when the task was stopped (the task transitioned from the RUNNING state to the STOPPED state).
-        public let stoppedAt: Double?
+        public let stoppedAt: TimeStamp?
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch events, you can compare the version of a task reported by the Amazon ECS APIs with the version reported in CloudWatch events for the task (inside the detail object) to verify that the version in your event stream is current.
         public let version: Int64?
         /// The Amazon Resource Name (ARN) of the task.
@@ -2552,7 +2552,7 @@ extension Ecs {
         /// The last known status of the task.
         public let lastStatus: String?
 
-        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: Double? = nil, startedAt: Double? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: Double? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
+        public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: TimeStamp? = nil, startedAt: TimeStamp? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: TimeStamp? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
             self.clusterArn = clusterArn
             self.overrides = overrides
             self.createdAt = createdAt

@@ -1324,19 +1324,19 @@ extension Firehose {
         /// The status of the delivery stream.
         public let deliveryStreamStatus: DeliveryStreamStatus
         /// The date and time that the delivery stream was last updated.
-        public let lastUpdateTimestamp: Double?
+        public let lastUpdateTimestamp: TimeStamp?
         /// The name of the delivery stream.
         public let deliveryStreamName: String
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
         public let versionId: String
         /// The date and time that the delivery stream was created.
-        public let createTimestamp: Double?
+        public let createTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let deliveryStreamARN: String
         /// Indicates whether there are more destinations available to list.
         public let hasMoreDestinations: Bool
 
-        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: Double? = nil, deliveryStreamName: String, versionId: String, createTimestamp: Double? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
+        public init(destinations: [DestinationDescription], deliveryStreamStatus: DeliveryStreamStatus, lastUpdateTimestamp: TimeStamp? = nil, deliveryStreamName: String, versionId: String, createTimestamp: TimeStamp? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
             self.destinations = destinations
             self.deliveryStreamStatus = deliveryStreamStatus
             self.lastUpdateTimestamp = lastUpdateTimestamp

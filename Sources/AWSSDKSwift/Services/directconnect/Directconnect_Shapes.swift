@@ -998,7 +998,7 @@ extension Directconnect {
             AWSShapeMember(label: "partnerName", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeLoa for this connection.
-        public let loaIssueTime: Double?
+        public let loaIssueTime: TimeStamp?
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
         public let bandwidth: String?
         public let location: String?
@@ -1015,7 +1015,7 @@ extension Directconnect {
         /// The name of the AWS Direct Connect service provider associated with the connection.
         public let partnerName: String?
 
-        public init(loaIssueTime: Double? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
+        public init(loaIssueTime: TimeStamp? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: ConnectionState? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.bandwidth = bandwidth
             self.location = location
@@ -1314,7 +1314,7 @@ extension Directconnect {
             AWSShapeMember(label: "bandwidth", required: false, type: .string)
         ]
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        public let loaIssueTime: Double?
+        public let loaIssueTime: TimeStamp?
         public let interconnectState: InterconnectState?
         public let location: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
@@ -1325,7 +1325,7 @@ extension Directconnect {
         public let interconnectId: String?
         public let bandwidth: String?
 
-        public init(loaIssueTime: Double? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
+        public init(loaIssueTime: TimeStamp? = nil, interconnectState: InterconnectState? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
             self.interconnectState = interconnectState
             self.location = location

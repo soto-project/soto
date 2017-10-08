@@ -1645,7 +1645,7 @@ extension Elasticloadbalancing {
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// The date and time the load balancer was created.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The DNS name of the load balancer. For more information, see Configure a Custom Domain Name in the Classic Load Balancer Guide.
         public let canonicalHostedZoneName: String?
         /// The security groups for the load balancer. Valid only for load balancers in a VPC.
@@ -1661,7 +1661,7 @@ extension Elasticloadbalancing {
         /// The type of load balancer. Valid only for load balancers in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
         public let scheme: String?
 
-        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: Double? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
+        public init(availabilityZones: [String]? = nil, vPCId: String? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, subnets: [String]? = nil, policies: Policies? = nil, canonicalHostedZoneNameID: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, createdTime: TimeStamp? = nil, canonicalHostedZoneName: String? = nil, securityGroups: [String]? = nil, listenerDescriptions: [ListenerDescription]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, scheme: String? = nil) {
             self.availabilityZones = availabilityZones
             self.vPCId = vPCId
             self.backendServerDescriptions = backendServerDescriptions

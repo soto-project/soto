@@ -603,11 +603,11 @@ extension Devicefarm {
         /// The endpoint for the remote access sesssion.
         public let endpoint: String?
         /// The date and time the remote access session was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The date and time the remote access session was started.
-        public let started: Double?
+        public let started: TimeStamp?
         /// The date and time the remote access session was stopped.
-        public let stopped: Double?
+        public let stopped: TimeStamp?
         /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
         public let deviceMinutes: DeviceMinutes?
         /// A message about the remote access session.
@@ -619,7 +619,7 @@ extension Devicefarm {
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
 
-        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: Double? = nil, started: Double? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
+        public init(billingMethod: BillingMethod? = nil, status: ExecutionStatus? = nil, name: String? = nil, endpoint: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: ExecutionResult? = nil, arn: String? = nil) {
             self.billingMethod = billingMethod
             self.status = status
             self.name = name
@@ -692,13 +692,13 @@ extension Devicefarm {
         /// The suite's name.
         public let name: String?
         /// When the suite was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The suite's start time.
-        public let started: Double?
+        public let started: TimeStamp?
         /// Represents the total (metered or unmetered) minutes used by the test suite.
         public let deviceMinutes: DeviceMinutes?
         /// The suite's stop time.
-        public let stopped: Double?
+        public let stopped: TimeStamp?
         /// A message about the suite's result.
         public let message: String?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -710,7 +710,7 @@ extension Devicefarm {
         /// The suite's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Double? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: TimeStamp? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -1082,13 +1082,13 @@ extension Devicefarm {
         /// The project's name.
         public let name: String?
         /// When the project was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The default number of minutes (at the project level) a test run will execute before it times out. Default value is 60 minutes.
         public let defaultJobTimeoutMinutes: Int32?
         /// The project's ARN.
         public let arn: String?
 
-        public init(name: String? = nil, created: Double? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
+        public init(name: String? = nil, created: TimeStamp? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
             self.name = name
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -1509,13 +1509,13 @@ extension Devicefarm {
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
-        public let createdOn: Double?
+        public let createdOn: TimeStamp?
         /// The ID that corresponds to a device offering promotion.
         public let offeringPromotionId: String?
         /// The status of an offering transaction.
         public let offeringStatus: OfferingStatus?
 
-        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: Double? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil) {
+        public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: TimeStamp? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil) {
             self.transactionId = transactionId
             self.cost = cost
             self.createdOn = createdOn
@@ -1706,13 +1706,13 @@ extension Devicefarm {
         /// The test's name.
         public let name: String?
         /// When the test was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The test's start time.
-        public let started: Double?
+        public let started: TimeStamp?
         /// Represents the total (metered or unmetered) minutes used by the test.
         public let deviceMinutes: DeviceMinutes?
         /// The test's stop time.
-        public let stopped: Double?
+        public let stopped: TimeStamp?
         /// A message about the test's result.
         public let message: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
@@ -1724,7 +1724,7 @@ extension Devicefarm {
         /// The test's ARN.
         public let arn: String?
 
-        public init(status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Double? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(status: ExecutionStatus? = nil, name: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: TimeStamp? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
             self.name = name
             self.created = created
@@ -2234,11 +2234,11 @@ extension Devicefarm {
         /// The type specified for the offering status.
         public let `type`: OfferingTransactionType?
         /// The date on which the offering is effective.
-        public let effectiveOn: Double?
+        public let effectiveOn: TimeStamp?
         /// Represents the metadata of an offering status.
         public let offering: Offering?
 
-        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: Double? = nil, offering: Offering? = nil) {
+        public init(quantity: Int32? = nil, type: OfferingTransactionType? = nil, effectiveOn: TimeStamp? = nil, offering: Offering? = nil) {
             self.quantity = quantity
             self.`type` = `type`
             self.effectiveOn = effectiveOn
@@ -2337,13 +2337,13 @@ extension Devicefarm {
         /// The total number of completed jobs.
         public let completedJobs: Int32?
         /// When the run was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The run's start time.
-        public let started: Double?
+        public let started: TimeStamp?
         /// The total number of jobs for the run.
         public let totalJobs: Int32?
         /// The run's stop time.
-        public let stopped: Double?
+        public let stopped: TimeStamp?
         /// Represents the total (metered or unmetered) minutes used by the test run.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the run's result.
@@ -2355,7 +2355,7 @@ extension Devicefarm {
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
         public let billingMethod: BillingMethod?
 
-        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: Double? = nil, started: Double? = nil, totalJobs: Int32? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
+        public init(name: String? = nil, platform: DevicePlatform? = nil, type: TestType? = nil, result: ExecutionResult? = nil, arn: String? = nil, status: ExecutionStatus? = nil, completedJobs: Int32? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, totalJobs: Int32? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: BillingMethod? = nil) {
             self.name = name
             self.platform = platform
             self.`type` = `type`
@@ -2465,7 +2465,7 @@ extension Devicefarm {
         /// The upload's file name.
         public let name: String?
         /// When the upload was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// A message about the upload's result.
         public let message: String?
         /// The upload's type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.  
@@ -2475,7 +2475,7 @@ extension Devicefarm {
         /// The upload's ARN.
         public let arn: String?
 
-        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: Double? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
+        public init(metadata: String? = nil, status: UploadStatus? = nil, contentType: String? = nil, name: String? = nil, created: TimeStamp? = nil, message: String? = nil, type: UploadType? = nil, url: String? = nil, arn: String? = nil) {
             self.metadata = metadata
             self.status = status
             self.contentType = contentType
@@ -3462,11 +3462,11 @@ extension Devicefarm {
         /// The job's name.
         public let name: String?
         /// When the job was created.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The job's start time.
-        public let started: Double?
+        public let started: TimeStamp?
         /// The job's stop time.
-        public let stopped: Double?
+        public let stopped: TimeStamp?
         /// Represents the total (metered or unmetered) minutes used by the job.
         public let deviceMinutes: DeviceMinutes?
         /// A message about the job's result.
@@ -3480,7 +3480,7 @@ extension Devicefarm {
         /// The job's ARN.
         public let arn: String?
 
-        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: Double? = nil, started: Double? = nil, stopped: Double? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
+        public init(device: Device? = nil, status: ExecutionStatus? = nil, name: String? = nil, created: TimeStamp? = nil, started: TimeStamp? = nil, stopped: TimeStamp? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: TestType? = nil, result: ExecutionResult? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.device = device
             self.status = status
             self.name = name

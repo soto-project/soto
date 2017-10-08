@@ -836,7 +836,7 @@ extension Apigateway {
         /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
         public let variables: [String: String]?
         /// The timestamp when the stage was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The stage's description.
         public let description: String?
         /// The identifier of the Deployment that the stage points to.
@@ -846,13 +846,13 @@ extension Apigateway {
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
         public let methodSettings: [String: MethodSetting]?
         /// The timestamp when the stage last updated.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to Amazon API Gateway.
         public let stageName: String?
         /// Specifies whether a cache cluster is enabled for the stage.
         public let cacheClusterEnabled: Bool?
 
-        public init(documentationVersion: String? = nil, cacheClusterStatus: CacheClusterStatus? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, createdDate: Double? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: Double? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
+        public init(documentationVersion: String? = nil, cacheClusterStatus: CacheClusterStatus? = nil, cacheClusterSize: CacheClusterSize? = nil, variables: [String: String]? = nil, createdDate: TimeStamp? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: TimeStamp? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
             self.cacheClusterStatus = cacheClusterStatus
             self.cacheClusterSize = cacheClusterSize
@@ -1774,7 +1774,7 @@ extension Apigateway {
         /// The identifier of the API Key.
         public let id: String?
         /// The timestamp when the API Key was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The description of the API Key.
         public let description: String?
         /// A list of Stage resources that are associated with the ApiKey resource.
@@ -1782,11 +1782,11 @@ extension Apigateway {
         /// Specifies whether the API Key can be used by callers.
         public let enabled: Bool?
         /// The timestamp when the API Key was last updated.
-        public let lastUpdatedDate: Double?
+        public let lastUpdatedDate: TimeStamp?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
         public let customerId: String?
 
-        public init(name: String? = nil, value: String? = nil, id: String? = nil, createdDate: Double? = nil, description: String? = nil, stageKeys: [String]? = nil, enabled: Bool? = nil, lastUpdatedDate: Double? = nil, customerId: String? = nil) {
+        public init(name: String? = nil, value: String? = nil, id: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, stageKeys: [String]? = nil, enabled: Bool? = nil, lastUpdatedDate: TimeStamp? = nil, customerId: String? = nil) {
             self.name = name
             self.value = value
             self.id = id
@@ -1988,11 +1988,11 @@ extension Apigateway {
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
         public let certificateArn: String?
         /// The timestamp when the certificate was uploaded.
-        public let certificateUploadDate: Double?
+        public let certificateUploadDate: TimeStamp?
         /// The domain name of the Amazon CloudFront distribution. For more information, see the Amazon CloudFront documentation.
         public let distributionDomainName: String?
 
-        public init(certificateName: String? = nil, domainName: String? = nil, certificateArn: String? = nil, certificateUploadDate: Double? = nil, distributionDomainName: String? = nil) {
+        public init(certificateName: String? = nil, domainName: String? = nil, certificateArn: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil) {
             self.certificateName = certificateName
             self.domainName = domainName
             self.certificateArn = certificateArn
@@ -2587,9 +2587,9 @@ extension Apigateway {
         /// The identifier for the deployment resource.
         public let id: String?
         /// The date and time that the deployment resource was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(description: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil, id: String? = nil, createdDate: Double? = nil) {
+        public init(description: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil, id: String? = nil, createdDate: TimeStamp? = nil) {
             self.description = description
             self.apiSummary = apiSummary
             self.id = id
@@ -2651,13 +2651,13 @@ extension Apigateway {
         /// The description of the client certificate.
         public let description: String?
         /// The timestamp when the client certificate will expire.
-        public let expirationDate: Double?
+        public let expirationDate: TimeStamp?
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
         public let pemEncodedCertificate: String?
         /// The timestamp when the client certificate was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(clientCertificateId: String? = nil, description: String? = nil, expirationDate: Double? = nil, pemEncodedCertificate: String? = nil, createdDate: Double? = nil) {
+        public init(clientCertificateId: String? = nil, description: String? = nil, expirationDate: TimeStamp? = nil, pemEncodedCertificate: String? = nil, createdDate: TimeStamp? = nil) {
             self.clientCertificateId = clientCertificateId
             self.description = description
             self.expirationDate = expirationDate
@@ -2707,9 +2707,9 @@ extension Apigateway {
         /// The version identifier of the API documentation snapshot.
         public let version: String?
         /// The date when the API documentation snapshot is created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(description: String? = nil, version: String? = nil, createdDate: Double? = nil) {
+        public init(description: String? = nil, version: String? = nil, createdDate: TimeStamp? = nil) {
             self.description = description
             self.version = version
             self.createdDate = createdDate
@@ -3390,7 +3390,7 @@ extension Apigateway {
         /// The API's identifier. This identifier is unique across all of your APIs in Amazon API Gateway.
         public let id: String?
         /// The timestamp when the API was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The API's description.
         public let description: String?
         /// A version identifier for the API.
@@ -3398,7 +3398,7 @@ extension Apigateway {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(binaryMediaTypes: [String]? = nil, name: String? = nil, id: String? = nil, createdDate: Double? = nil, description: String? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(binaryMediaTypes: [String]? = nil, name: String? = nil, id: String? = nil, createdDate: TimeStamp? = nil, description: String? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.binaryMediaTypes = binaryMediaTypes
             self.name = name
             self.id = id

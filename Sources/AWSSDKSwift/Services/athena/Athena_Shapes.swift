@@ -734,13 +734,13 @@ extension Athena {
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
         /// The date and time that the query completed.
-        public let completionDateTime: Double?
+        public let completionDateTime: TimeStamp?
         /// The state of query execution. SUBMITTED indicates that the query is queued for execution. RUNNING indicates that the query is scanning data and returning results. SUCCEEDED indicates that the query completed without error. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that user input interrupted query execution.
         public let state: QueryExecutionState?
         /// The date and time that the query was submitted.
-        public let submissionDateTime: Double?
+        public let submissionDateTime: TimeStamp?
 
-        public init(stateChangeReason: String? = nil, completionDateTime: Double? = nil, state: QueryExecutionState? = nil, submissionDateTime: Double? = nil) {
+        public init(stateChangeReason: String? = nil, completionDateTime: TimeStamp? = nil, state: QueryExecutionState? = nil, submissionDateTime: TimeStamp? = nil) {
             self.stateChangeReason = stateChangeReason
             self.completionDateTime = completionDateTime
             self.state = state

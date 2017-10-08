@@ -155,7 +155,7 @@ extension Codecommit {
         /// The repository's name.
         public let repositoryName: String?
         /// The date and time the repository was created, in timestamp format.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The URL to use for cloning the repository over SSH.
         public let cloneUrlSsh: String?
         /// The ID of the AWS account associated with the repository.
@@ -165,11 +165,11 @@ extension Codecommit {
         /// The ID of the repository.
         public let repositoryId: String?
         /// The date and time the repository was last modified, in timestamp format.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// The repository's default branch name.
         public let defaultBranch: String?
 
-        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: Double? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: Double? = nil, defaultBranch: String? = nil) {
+        public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: TimeStamp? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: TimeStamp? = nil, defaultBranch: String? = nil) {
             self.repositoryDescription = repositoryDescription
             self.arn = arn
             self.repositoryName = repositoryName

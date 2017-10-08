@@ -41,7 +41,7 @@ extension Monitoring {
         /// The descriptive name for the alarm.
         public let alarmName: String?
         /// The time stamp for the alarm history item.
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         /// Data about the alarm, in JSON format.
         public let historyData: String?
         /// A summary of the alarm history, in text format.
@@ -49,7 +49,7 @@ extension Monitoring {
         /// The type of alarm history item.
         public let historyItemType: HistoryItemType?
 
-        public init(alarmName: String? = nil, timestamp: Double? = nil, historyData: String? = nil, historySummary: String? = nil, historyItemType: HistoryItemType? = nil) {
+        public init(alarmName: String? = nil, timestamp: TimeStamp? = nil, historyData: String? = nil, historySummary: String? = nil, historyItemType: HistoryItemType? = nil) {
             self.alarmName = alarmName
             self.timestamp = timestamp
             self.historyData = historyData
@@ -100,13 +100,13 @@ extension Monitoring {
         /// The dimensions associated with the metric.
         public let dimensions: [Dimension]?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         /// The value for the metric. Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         public let value: Double?
         /// The statistical values for the metric.
         public let statisticValues: StatisticSet?
 
-        public init(metricName: String, unit: StandardUnit? = nil, dimensions: [Dimension]? = nil, timestamp: Double? = nil, value: Double? = nil, statisticValues: StatisticSet? = nil) {
+        public init(metricName: String, unit: StandardUnit? = nil, dimensions: [Dimension]? = nil, timestamp: TimeStamp? = nil, value: Double? = nil, statisticValues: StatisticSet? = nil) {
             self.metricName = metricName
             self.unit = unit
             self.dimensions = dimensions
@@ -218,7 +218,7 @@ extension Monitoring {
         /// The number of metric values that contributed to the aggregate value of this data point.
         public let sampleCount: Double?
         /// The time stamp used for the data point.
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         /// The sum of the metric values for the data point.
         public let sum: Double?
         /// The standard unit for the data point.
@@ -232,7 +232,7 @@ extension Monitoring {
         /// The average of the metric values that correspond to the data point.
         public let average: Double?
 
-        public init(sampleCount: Double? = nil, timestamp: Double? = nil, sum: Double? = nil, unit: StandardUnit? = nil, extendedStatistics: [String: Double]? = nil, minimum: Double? = nil, maximum: Double? = nil, average: Double? = nil) {
+        public init(sampleCount: Double? = nil, timestamp: TimeStamp? = nil, sum: Double? = nil, unit: StandardUnit? = nil, extendedStatistics: [String: Double]? = nil, minimum: Double? = nil, maximum: Double? = nil, average: Double? = nil) {
             self.sampleCount = sampleCount
             self.timestamp = timestamp
             self.sum = sum
@@ -372,15 +372,15 @@ extension Monitoring {
         /// The maximum number of alarm history records to retrieve.
         public let maxRecords: Int32?
         /// The starting date to retrieve alarm history.
-        public let startDate: Double?
+        public let startDate: TimeStamp?
         /// The type of alarm histories to retrieve.
         public let historyItemType: HistoryItemType?
         /// The token returned by a previous call to indicate that there is more data available.
         public let nextToken: String?
         /// The ending date to retrieve alarm history.
-        public let endDate: Double?
+        public let endDate: TimeStamp?
 
-        public init(alarmName: String? = nil, maxRecords: Int32? = nil, startDate: Double? = nil, historyItemType: HistoryItemType? = nil, nextToken: String? = nil, endDate: Double? = nil) {
+        public init(alarmName: String? = nil, maxRecords: Int32? = nil, startDate: TimeStamp? = nil, historyItemType: HistoryItemType? = nil, nextToken: String? = nil, endDate: TimeStamp? = nil) {
             self.alarmName = alarmName
             self.maxRecords = maxRecords
             self.startDate = startDate
@@ -553,7 +553,7 @@ extension Monitoring {
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public let actionsEnabled: Bool?
         /// The time stamp of the last update to the alarm state.
-        public let stateUpdatedTimestamp: Double?
+        public let stateUpdatedTimestamp: TimeStamp?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
         /// An explanation for the alarm state, in JSON format.
@@ -570,7 +570,7 @@ extension Monitoring {
         public let alarmName: String?
         public let evaluateLowSampleCountPercentile: String?
         /// The time stamp of the last update to the alarm configuration.
-        public let alarmConfigurationUpdatedTimestamp: Double?
+        public let alarmConfigurationUpdatedTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
         /// The number of periods over which data is compared to the specified threshold.
@@ -585,7 +585,7 @@ extension Monitoring {
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         public let oKActions: [String]?
 
-        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: Double? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmConfigurationUpdatedTimestamp: Double? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
+        public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: Statistic? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: TimeStamp? = nil, unit: StandardUnit? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: StateValue? = nil, alarmName: String? = nil, evaluateLowSampleCountPercentile: String? = nil, alarmConfigurationUpdatedTimestamp: TimeStamp? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: ComparisonOperator? = nil, dimensions: [Dimension]? = nil, treatMissingData: String? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
             self.threshold = threshold
             self.period = period
@@ -783,13 +783,13 @@ extension Monitoring {
             AWSShapeMember(label: "Namespace", required: true, type: .string)
         ]
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
-        public let startTime: Double
+        public let startTime: TimeStamp
         /// The name of the metric, with or without spaces.
         public let metricName: String
         /// The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60. If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
         public let period: Int32
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        public let endTime: Double
+        public let endTime: TimeStamp
         /// The percentile statistics. Specify values between p0.0 and p100.
         public let extendedStatistics: [String]?
         /// The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide. For more information on specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide.
@@ -801,7 +801,7 @@ extension Monitoring {
         /// The namespace of the metric, with or without spaces.
         public let namespace: String
 
-        public init(startTime: Double, metricName: String, period: Int32, endTime: Double, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, unit: StandardUnit? = nil, statistics: [Statistic]? = nil, namespace: String) {
+        public init(startTime: TimeStamp, metricName: String, period: Int32, endTime: TimeStamp, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, unit: StandardUnit? = nil, statistics: [Statistic]? = nil, namespace: String) {
             self.startTime = startTime
             self.metricName = metricName
             self.period = period

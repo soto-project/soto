@@ -138,7 +138,7 @@ extension ApplicationAutoscaling {
         /// The Amazon Resource Name (ARN) of the scaling policy.
         public let policyARN: String
         /// The Unix timestamp for when the scaling policy was created.
-        public let creationTime: Double
+        public let creationTime: TimeStamp
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The CloudWatch alarms associated with the scaling policy.
@@ -148,7 +148,7 @@ extension ApplicationAutoscaling {
         /// The name of the scaling policy.
         public let policyName: String
 
-        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: Double, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
+        public init(stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil, policyType: PolicyType, serviceNamespace: ServiceNamespace, policyARN: String, creationTime: TimeStamp, scalableDimension: ScalableDimension, alarms: [Alarm]? = nil, resourceId: String, policyName: String) {
             self.stepScalingPolicyConfiguration = stepScalingPolicyConfiguration
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
             self.policyType = policyType
@@ -298,7 +298,7 @@ extension ApplicationAutoscaling {
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
         public let roleARN: String
         /// The Unix timestamp for when the scalable target was created.
-        public let creationTime: Double
+        public let creationTime: TimeStamp
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.    appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.    dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.    dynamodb:table:WriteCapacityUnits - The provisioned write capacity for a DynamoDB table.    dynamodb:index:ReadCapacityUnits - The provisioned read capacity for a DynamoDB global secondary index.    dynamodb:index:WriteCapacityUnits - The provisioned write capacity for a DynamoDB global secondary index.  
         public let scalableDimension: ScalableDimension
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.  
@@ -308,7 +308,7 @@ extension ApplicationAutoscaling {
         /// The minimum value to scale to in response to a scale in event.
         public let minCapacity: Int32
 
-        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: Double, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
+        public init(serviceNamespace: ServiceNamespace, roleARN: String, creationTime: TimeStamp, scalableDimension: ScalableDimension, resourceId: String, maxCapacity: Int32, minCapacity: Int32) {
             self.serviceNamespace = serviceNamespace
             self.roleARN = roleARN
             self.creationTime = creationTime
@@ -791,13 +791,13 @@ extension ApplicationAutoscaling {
             AWSShapeMember(label: "Description", required: true, type: .string)
         ]
         /// The Unix timestamp for when the scaling activity began.
-        public let startTime: Double
+        public let startTime: TimeStamp
         /// The details about the scaling activity.
         public let details: String?
         /// The namespace of the AWS service. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: ServiceNamespace
         /// The Unix timestamp for when the scaling activity ended.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Indicates the status of the scaling activity.
         public let statusCode: ScalingActivityStatusCode
         /// A simple description of what caused the scaling activity to happen.
@@ -813,7 +813,7 @@ extension ApplicationAutoscaling {
         /// A simple description of what action the scaling activity intends to accomplish.
         public let description: String
 
-        public init(startTime: Double, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: Double? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
+        public init(startTime: TimeStamp, details: String? = nil, serviceNamespace: ServiceNamespace, endTime: TimeStamp? = nil, statusCode: ScalingActivityStatusCode, cause: String, scalableDimension: ScalableDimension, activityId: String, statusMessage: String? = nil, resourceId: String, description: String) {
             self.startTime = startTime
             self.details = details
             self.serviceNamespace = serviceNamespace

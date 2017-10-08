@@ -44,9 +44,9 @@ extension Config {
         /// Status of the last attempted delivery.  Note Providing an SNS topic on a DeliveryChannel for AWS Config is optional. If the SNS delivery is turned off, the last status will be Not_Applicable.
         public let lastStatus: DeliveryStatus?
         /// The time from the last status change.
-        public let lastStatusChangeTime: Double?
+        public let lastStatusChangeTime: TimeStamp?
 
-        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: Double? = nil) {
+        public init(lastErrorMessage: String? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, lastStatusChangeTime: TimeStamp? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastErrorCode = lastErrorCode
             self.lastStatus = lastStatus
@@ -162,17 +162,17 @@ extension Config {
         /// The error message from the last attempted delivery.
         public let lastErrorMessage: String?
         /// The time of the last attempted delivery.
-        public let lastAttemptTime: Double?
+        public let lastAttemptTime: TimeStamp?
         /// The time of the last successful delivery.
-        public let lastSuccessfulTime: Double?
+        public let lastSuccessfulTime: TimeStamp?
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// Status of the last attempted delivery.
         public let lastStatus: DeliveryStatus?
         /// The time that the next delivery occurs.
-        public let nextDeliveryTime: Double?
+        public let nextDeliveryTime: TimeStamp?
 
-        public init(lastErrorMessage: String? = nil, lastAttemptTime: Double? = nil, lastSuccessfulTime: Double? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: Double? = nil) {
+        public init(lastErrorMessage: String? = nil, lastAttemptTime: TimeStamp? = nil, lastSuccessfulTime: TimeStamp? = nil, lastErrorCode: String? = nil, lastStatus: DeliveryStatus? = nil, nextDeliveryTime: TimeStamp? = nil) {
             self.lastErrorMessage = lastErrorMessage
             self.lastAttemptTime = lastAttemptTime
             self.lastSuccessfulTime = lastSuccessfulTime
@@ -275,9 +275,9 @@ extension Config {
         /// The custom name of the resource (if available).
         public let resourceName: String?
         /// The time that the resource was deleted.
-        public let resourceDeletionTime: Double?
+        public let resourceDeletionTime: TimeStamp?
 
-        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: Double? = nil) {
+        public init(resourceType: ResourceType? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceDeletionTime: TimeStamp? = nil) {
             self.resourceType = resourceType
             self.resourceId = resourceId
             self.resourceName = resourceName
@@ -659,13 +659,13 @@ extension Config {
         /// The configuration item status.
         public let configurationItemStatus: ConfigurationItemStatus?
         /// The time when the configuration recording was initiated.
-        public let configurationItemCaptureTime: Double?
+        public let configurationItemCaptureTime: TimeStamp?
         /// The version number of the resource configuration.
         public let version: String?
         /// The 12 digit AWS account ID associated with the resource.
         public let accountId: String?
         /// The time stamp when the resource was created.
-        public let resourceCreationTime: Double?
+        public let resourceCreationTime: TimeStamp?
         /// Configuration attributes that AWS Config returns for certain resource types to supplement the information returned for the configuration parameter.
         public let supplementaryConfiguration: [String: String]?
         /// The region where the resource resides.
@@ -673,7 +673,7 @@ extension Config {
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public let configurationItemMD5Hash: String?
 
-        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: Double? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: Double? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
+        public init(configurationStateId: String? = nil, resourceType: ResourceType? = nil, resourceName: String? = nil, relatedEvents: [String]? = nil, tags: [String: String]? = nil, resourceId: String? = nil, configuration: String? = nil, relationships: [Relationship]? = nil, availabilityZone: String? = nil, arn: String? = nil, configurationItemStatus: ConfigurationItemStatus? = nil, configurationItemCaptureTime: TimeStamp? = nil, version: String? = nil, accountId: String? = nil, resourceCreationTime: TimeStamp? = nil, supplementaryConfiguration: [String: String]? = nil, awsRegion: String? = nil, configurationItemMD5Hash: String? = nil) {
             self.configurationStateId = configurationStateId
             self.resourceType = resourceType
             self.resourceName = resourceName
@@ -740,11 +740,11 @@ extension Config {
             AWSShapeMember(label: "EvaluationResultQualifier", required: false, type: .structure)
         ]
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
-        public let orderingTimestamp: Double?
+        public let orderingTimestamp: TimeStamp?
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
 
-        public init(orderingTimestamp: Double? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
+        public init(orderingTimestamp: TimeStamp? = nil, evaluationResultQualifier: EvaluationResultQualifier? = nil) {
             self.orderingTimestamp = orderingTimestamp
             self.evaluationResultQualifier = evaluationResultQualifier
         }
@@ -869,11 +869,11 @@ extension Config {
         /// The ID of the AWS resource that was evaluated.
         public let complianceResourceId: String
         /// The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
-        public let orderingTimestamp: Double
+        public let orderingTimestamp: TimeStamp
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: Double, annotation: String? = nil) {
+        public init(complianceType: ComplianceType, complianceResourceType: String, complianceResourceId: String, orderingTimestamp: TimeStamp, annotation: String? = nil) {
             self.complianceType = complianceType
             self.complianceResourceType = complianceResourceType
             self.complianceResourceId = complianceResourceId
@@ -1016,13 +1016,13 @@ extension Config {
             AWSShapeMember(label: "CompliantResourceCount", required: false, type: .structure)
         ]
         /// The time that AWS Config created the compliance summary.
-        public let complianceSummaryTimestamp: Double?
+        public let complianceSummaryTimestamp: TimeStamp?
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
         public let nonCompliantResourceCount: ComplianceContributorCount?
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
         public let compliantResourceCount: ComplianceContributorCount?
 
-        public init(complianceSummaryTimestamp: Double? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
+        public init(complianceSummaryTimestamp: TimeStamp? = nil, nonCompliantResourceCount: ComplianceContributorCount? = nil, compliantResourceCount: ComplianceContributorCount? = nil) {
             self.complianceSummaryTimestamp = complianceSummaryTimestamp
             self.nonCompliantResourceCount = nonCompliantResourceCount
             self.compliantResourceCount = compliantResourceCount
@@ -1090,19 +1090,19 @@ extension Config {
             AWSShapeMember(label: "LastFailedInvocationTime", required: false, type: .timestamp)
         ]
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
-        public let lastFailedEvaluationTime: Double?
+        public let lastFailedEvaluationTime: TimeStamp?
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
         public let firstEvaluationStarted: Bool?
         /// The time that AWS Config last successfully evaluated your AWS resources against the rule.
-        public let lastSuccessfulEvaluationTime: Double?
+        public let lastSuccessfulEvaluationTime: TimeStamp?
         /// The name of the AWS Config rule.
         public let configRuleName: String?
         /// The time that you first activated the AWS Config rule.
-        public let firstActivatedTime: Double?
+        public let firstActivatedTime: TimeStamp?
         /// The ID of the AWS Config rule.
         public let configRuleId: String?
         /// The time that AWS Config last successfully invoked the AWS Config rule to evaluate your AWS resources.
-        public let lastSuccessfulInvocationTime: Double?
+        public let lastSuccessfulInvocationTime: TimeStamp?
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
         /// The error code that AWS Config returned when the rule last failed.
@@ -1110,9 +1110,9 @@ extension Config {
         /// The error message that AWS Config returned when the rule last failed.
         public let lastErrorMessage: String?
         /// The time that AWS Config last failed to invoke the AWS Config rule to evaluate your AWS resources.
-        public let lastFailedInvocationTime: Double?
+        public let lastFailedInvocationTime: TimeStamp?
 
-        public init(lastFailedEvaluationTime: Double? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: Double? = nil, configRuleName: String? = nil, firstActivatedTime: Double? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: Double? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: Double? = nil) {
+        public init(lastFailedEvaluationTime: TimeStamp? = nil, firstEvaluationStarted: Bool? = nil, lastSuccessfulEvaluationTime: TimeStamp? = nil, configRuleName: String? = nil, firstActivatedTime: TimeStamp? = nil, configRuleId: String? = nil, lastSuccessfulInvocationTime: TimeStamp? = nil, configRuleArn: String? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedInvocationTime: TimeStamp? = nil) {
             self.lastFailedEvaluationTime = lastFailedEvaluationTime
             self.firstEvaluationStarted = firstEvaluationStarted
             self.lastSuccessfulEvaluationTime = lastSuccessfulEvaluationTime
@@ -1442,7 +1442,7 @@ extension Config {
             AWSShapeMember(label: "resourceId", required: true, type: .string)
         ]
         /// The time stamp that indicates a later time. If not specified, current time is taken.
-        public let laterTime: Double?
+        public let laterTime: TimeStamp?
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int32?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1452,11 +1452,11 @@ extension Config {
         /// The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
-        public let earlierTime: Double?
+        public let earlierTime: TimeStamp?
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String
 
-        public init(laterTime: Double? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: Double? = nil, resourceId: String) {
+        public init(laterTime: TimeStamp? = nil, limit: Int32? = nil, nextToken: String? = nil, resourceType: ResourceType, chronologicalOrder: ChronologicalOrder? = nil, earlierTime: TimeStamp? = nil, resourceId: String) {
             self.laterTime = laterTime
             self.limit = limit
             self.nextToken = nextToken
@@ -1651,9 +1651,9 @@ extension Config {
         /// Uniquely identifies the evaluation result.
         public let evaluationResultIdentifier: EvaluationResultIdentifier?
         /// The time when the AWS Config rule evaluated the AWS resource.
-        public let configRuleInvokedTime: Double?
+        public let configRuleInvokedTime: TimeStamp?
         /// The time when AWS Config recorded the evaluation result.
-        public let resultRecordedTime: Double?
+        public let resultRecordedTime: TimeStamp?
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
         public let complianceType: ComplianceType?
         /// An encrypted token that associates an evaluation with an AWS Config rule. The token identifies the rule, the AWS resource being evaluated, and the event that triggered the evaluation.
@@ -1661,7 +1661,7 @@ extension Config {
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
 
-        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: Double? = nil, resultRecordedTime: Double? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
+        public init(evaluationResultIdentifier: EvaluationResultIdentifier? = nil, configRuleInvokedTime: TimeStamp? = nil, resultRecordedTime: TimeStamp? = nil, complianceType: ComplianceType? = nil, resultToken: String? = nil, annotation: String? = nil) {
             self.evaluationResultIdentifier = evaluationResultIdentifier
             self.configRuleInvokedTime = configRuleInvokedTime
             self.resultRecordedTime = resultRecordedTime
@@ -1848,9 +1848,9 @@ extension Config {
         /// The name of the configuration recorder.
         public let name: String?
         /// The time when the status was last changed.
-        public let lastStatusChangeTime: Double?
+        public let lastStatusChangeTime: TimeStamp?
         /// The time the recorder was last stopped.
-        public let lastStopTime: Double?
+        public let lastStopTime: TimeStamp?
         /// Specifies whether the recorder is currently recording or not.
         public let recording: Bool?
         /// The error code indicating that the recording failed.
@@ -1858,11 +1858,11 @@ extension Config {
         /// The last (previous) status of the recorder.
         public let lastStatus: RecorderStatus?
         /// The time the recorder was last started.
-        public let lastStartTime: Double?
+        public let lastStartTime: TimeStamp?
         /// The message indicating that the recording failed due to an error.
         public let lastErrorMessage: String?
 
-        public init(name: String? = nil, lastStatusChangeTime: Double? = nil, lastStopTime: Double? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: Double? = nil, lastErrorMessage: String? = nil) {
+        public init(name: String? = nil, lastStatusChangeTime: TimeStamp? = nil, lastStopTime: TimeStamp? = nil, recording: Bool? = nil, lastErrorCode: String? = nil, lastStatus: RecorderStatus? = nil, lastStartTime: TimeStamp? = nil, lastErrorMessage: String? = nil) {
             self.name = name
             self.lastStatusChangeTime = lastStatusChangeTime
             self.lastStopTime = lastStopTime

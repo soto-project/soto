@@ -517,12 +517,12 @@ extension Storagegateway {
         /// The Amazon Resource Name (ARN) of the virtual tape.
         public let tapeARN: String?
         /// The time when the point-in-time view of the virtual tape was replicated for later recovery. The string format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let tapeRecoveryPointTime: Double?
+        public let tapeRecoveryPointTime: TimeStamp?
         public let tapeStatus: String?
         /// The size, in bytes, of the virtual tapes to recover.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, tapeRecoveryPointTime: Double? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, tapeRecoveryPointTime: TimeStamp? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.tapeRecoveryPointTime = tapeRecoveryPointTime
             self.tapeStatus = tapeStatus
@@ -1233,8 +1233,8 @@ extension Storagegateway {
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
         public let tapeARN: String?
         /// The time that the archiving of the virtual tape was completed. The string format of the completion time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-        public let completionTime: Double?
-        public let tapeCreatedDate: Double?
+        public let completionTime: TimeStamp?
+        public let tapeCreatedDate: TimeStamp?
         /// The barcode that identifies the archived virtual tape.
         public let tapeBarcode: String?
         /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
@@ -1246,7 +1246,7 @@ extension Storagegateway {
         /// The size, in bytes, of the archived virtual tape.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, completionTime: Double? = nil, tapeCreatedDate: Double? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, completionTime: TimeStamp? = nil, tapeCreatedDate: TimeStamp? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, retrievedTo: String? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.completionTime = completionTime
             self.tapeCreatedDate = tapeCreatedDate
@@ -2074,7 +2074,7 @@ extension Storagegateway {
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.  Valid Values: true, false
         public let preservedExistingData: Bool?
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The Amazon Resource Name (ARN) of the storage volume.
         public let volumeARN: String?
         /// Represents the percentage complete if the volume is restoring or bootstrapping that represents the percent of data transferred. This field does not appear in the response if the stored volume is not restoring or bootstrapping.
@@ -2082,7 +2082,7 @@ extension Storagegateway {
         /// The ID of the local disk that was specified in the CreateStorediSCSIVolume operation.
         public let volumeDiskId: String?
 
-        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: Double? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
+        public init(volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, preservedExistingData: Bool? = nil, createdDate: TimeStamp? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeDiskId: String? = nil) {
             self.volumeiSCSIAttributes = volumeiSCSIAttributes
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
@@ -2178,9 +2178,9 @@ extension Storagegateway {
         /// An VolumeiSCSIAttributes object that represents a collection of iSCSI attributes for one stored volume.
         public let volumeiSCSIAttributes: VolumeiSCSIAttributes?
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this time stamp.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: Double? = nil) {
+        public init(sourceSnapshotId: String? = nil, volumeType: String? = nil, volumeStatus: String? = nil, volumeId: String? = nil, volumeSizeInBytes: Int64? = nil, volumeARN: String? = nil, volumeProgress: Double? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, createdDate: TimeStamp? = nil) {
             self.sourceSnapshotId = sourceSnapshotId
             self.volumeType = volumeType
             self.volumeStatus = volumeStatus
@@ -2291,7 +2291,7 @@ extension Storagegateway {
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
         /// The date the virtual tape was created.
-        public let tapeCreatedDate: Double?
+        public let tapeCreatedDate: TimeStamp?
         /// The barcode that identifies a specific virtual tape.
         public let tapeBarcode: String?
         /// The size, in bytes, of data written to the virtual tape.  This value is not available for tapes created prior to May,13 2015. 
@@ -2301,7 +2301,7 @@ extension Storagegateway {
         /// The size, in bytes, of the virtual tape capacity.
         public let tapeSizeInBytes: Int64?
 
-        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: Double? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
+        public init(tapeARN: String? = nil, vTLDevice: String? = nil, progress: Double? = nil, tapeCreatedDate: TimeStamp? = nil, tapeBarcode: String? = nil, tapeUsedInBytes: Int64? = nil, tapeStatus: String? = nil, tapeSizeInBytes: Int64? = nil) {
             self.tapeARN = tapeARN
             self.vTLDevice = vTLDevice
             self.progress = progress

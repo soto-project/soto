@@ -502,11 +502,11 @@ extension Cloudfront {
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
         public let status: String
         /// The date and time the invalidation request was first made. 
-        public let createTime: Double
+        public let createTime: TimeStamp
         /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
         public let id: String
 
-        public init(invalidationBatch: InvalidationBatch, status: String, createTime: Double, id: String) {
+        public init(invalidationBatch: InvalidationBatch, status: String, createTime: TimeStamp, id: String) {
             self.invalidationBatch = invalidationBatch
             self.status = status
             self.createTime = createTime
@@ -670,7 +670,7 @@ extension Cloudfront {
             AWSShapeMember(label: "PriceClass", required: true, type: .enum)
         ]
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: Double
+        public let lastModifiedTime: TimeStamp
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
@@ -691,7 +691,7 @@ extension Cloudfront {
         public let domainName: String
         public let priceClass: PriceClass
 
-        public init(lastModifiedTime: Double, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
+        public init(lastModifiedTime: TimeStamp, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: PriceClass) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.id = id
@@ -1849,7 +1849,7 @@ extension Cloudfront {
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The date and time that the distribution was last modified. 
-        public let lastModifiedTime: Double?
+        public let lastModifiedTime: TimeStamp?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
         public let status: String
         /// The current configuration information for the RTMP distribution.
@@ -1862,7 +1862,7 @@ extension Cloudfront {
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
         public let id: String
 
-        public init(lastModifiedTime: Double? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
+        public init(lastModifiedTime: TimeStamp? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -1967,7 +1967,7 @@ extension Cloudfront {
         public let isIPV6Enabled: Bool
         public let restrictions: Restrictions
         /// The date and time the distribution was last modified.
-        public let lastModifiedTime: Double
+        public let lastModifiedTime: TimeStamp
         public let viewerCertificate: ViewerCertificate
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
         public let id: String
@@ -1983,7 +1983,7 @@ extension Cloudfront {
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
         public let defaultCacheBehavior: DefaultCacheBehavior
 
-        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Double, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
+        public init(httpVersion: HttpVersion, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: TimeStamp, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: PriceClass, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
             self.customErrorResponses = customErrorResponses
             self.origins = origins
@@ -2492,9 +2492,9 @@ extension Cloudfront {
         public let id: String
         /// The status of an invalidation request.
         public let status: String
-        public let createTime: Double
+        public let createTime: TimeStamp
 
-        public init(id: String, status: String, createTime: Double) {
+        public init(id: String, status: String, createTime: TimeStamp) {
             self.id = id
             self.status = status
             self.createTime = createTime
@@ -3026,7 +3026,7 @@ extension Cloudfront {
             AWSShapeMember(label: "Id", required: true, type: .string)
         ]
         /// The date and time the distribution was last modified. 
-        public let lastModifiedTime: Double
+        public let lastModifiedTime: TimeStamp
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
@@ -3042,7 +3042,7 @@ extension Cloudfront {
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
         public let id: String
 
-        public init(lastModifiedTime: Double, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
+        public init(lastModifiedTime: TimeStamp, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
             self.lastModifiedTime = lastModifiedTime
             self.status = status
             self.activeTrustedSigners = activeTrustedSigners

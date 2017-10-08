@@ -310,7 +310,7 @@ extension Clouddirectory {
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
         /// The date and time when the directory was created.
-        public let creationDateTime: Double?
+        public let creationDateTime: TimeStamp?
         /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see arns.
         public let directoryArn: String?
         /// The name of the directory.
@@ -318,7 +318,7 @@ extension Clouddirectory {
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
         public let state: DirectoryState?
 
-        public init(creationDateTime: Double? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
+        public init(creationDateTime: TimeStamp? = nil, directoryArn: String? = nil, name: String? = nil, state: DirectoryState? = nil) {
             self.creationDateTime = creationDateTime
             self.directoryArn = directoryArn
             self.name = name
@@ -2549,11 +2549,11 @@ extension Clouddirectory {
         /// A Boolean data value.
         public let booleanValue: Bool?
         /// A date and time value.
-        public let datetimeValue: Double?
+        public let datetimeValue: TimeStamp?
         /// A number data value.
         public let numberValue: String?
 
-        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: Double? = nil, numberValue: String? = nil) {
+        public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: TimeStamp? = nil, numberValue: String? = nil) {
             self.stringValue = stringValue
             self.binaryValue = binaryValue
             self.booleanValue = booleanValue

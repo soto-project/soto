@@ -318,13 +318,13 @@ extension Email {
             AWSShapeMember(label: "ReportingMta", required: true, type: .string)
         ]
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
-        public let arrivalDate: Double?
+        public let arrivalDate: TimeStamp?
         /// Additional X-headers to include in the DSN.
         public let extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
         public let reportingMta: String
 
-        public init(arrivalDate: Double? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
+        public init(arrivalDate: TimeStamp? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
             self.extensionFields = extensionFields
             self.reportingMta = reportingMta
@@ -1859,9 +1859,9 @@ extension Email {
         /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public let name: String?
         /// The date and time the receipt rule set was created.
-        public let createdTimestamp: Double?
+        public let createdTimestamp: TimeStamp?
 
-        public init(name: String? = nil, createdTimestamp: Double? = nil) {
+        public init(name: String? = nil, createdTimestamp: TimeStamp? = nil) {
             self.name = name
             self.createdTimestamp = createdTimestamp
         }
@@ -2416,11 +2416,11 @@ extension Email {
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
         public let diagnosticCode: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
-        public let lastAttemptDate: Double?
+        public let lastAttemptDate: TimeStamp?
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
         public let remoteMta: String?
 
-        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: Double? = nil, remoteMta: String? = nil) {
+        public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: DsnAction, diagnosticCode: String? = nil, lastAttemptDate: TimeStamp? = nil, remoteMta: String? = nil) {
             self.status = status
             self.extensionFields = extensionFields
             self.finalRecipient = finalRecipient
@@ -2480,7 +2480,7 @@ extension Email {
         /// Number of emails that have been sent.
         public let deliveryAttempts: Int64?
         /// Time of the data point.
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
         /// Number of emails rejected by Amazon SES.
         public let rejects: Int64?
         /// Number of emails that have bounced.
@@ -2488,7 +2488,7 @@ extension Email {
         /// Number of unwanted emails that were rejected by recipients.
         public let complaints: Int64?
 
-        public init(deliveryAttempts: Int64? = nil, timestamp: Double? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
+        public init(deliveryAttempts: Int64? = nil, timestamp: TimeStamp? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
             self.deliveryAttempts = deliveryAttempts
             self.timestamp = timestamp
             self.rejects = rejects

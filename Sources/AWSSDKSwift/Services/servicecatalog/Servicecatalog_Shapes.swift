@@ -1263,9 +1263,9 @@ extension Servicecatalog {
         /// The summary metadata about the specified product view.
         public let productViewSummary: ProductViewSummary?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
 
-        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Double? = nil) {
+        public init(status: Status? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: TimeStamp? = nil) {
             self.status = status
             self.productARN = productARN
             self.productViewSummary = productViewSummary
@@ -1523,11 +1523,11 @@ extension Servicecatalog {
         /// The name of the artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The identifier for the artifact. This is sometimes referred to as the product version.
         public let id: String?
 
-        public init(description: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(description: String? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.description = description
             self.name = name
             self.createdTime = createdTime
@@ -1575,11 +1575,11 @@ extension Servicecatalog {
         /// The name of the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The identifier of the provisioning artifact.
         public let id: String?
 
-        public init(provisioningArtifactMetadata: [String: String]? = nil, description: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(provisioningArtifactMetadata: [String: String]? = nil, description: String? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.provisioningArtifactMetadata = provisioningArtifactMetadata
             self.description = description
             self.name = name
@@ -1858,11 +1858,11 @@ extension Servicecatalog {
         /// The text description of the portfolio.
         public let description: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The identifier for the portfolio.
         public let id: String?
 
-        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.displayName = displayName
             self.providerName = providerName
             self.aRN = aRN
@@ -1990,11 +1990,11 @@ extension Servicecatalog {
         /// Name of the resource.
         public let name: String?
         /// Creation time of the resource.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// Identifier of the resource.
         public let id: String?
 
-        public init(description: String? = nil, aRN: String? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(description: String? = nil, aRN: String? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.description = description
             self.aRN = aRN
             self.name = name
@@ -2157,11 +2157,11 @@ extension Servicecatalog {
         /// The current status message of the ProvisionedProduct.
         public let statusMessage: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The identifier of the ProvisionedProduct object.
         public let id: String?
 
-        public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(status: ProvisionedProductStatus? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.lastRecordId = lastRecordId
@@ -2892,11 +2892,11 @@ extension Servicecatalog {
         /// The name assigned to the provisioning artifact.
         public let name: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The identifier of the provisioning artifact. This is sometimes referred to as the product version.
         public let id: String?
 
-        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: Double? = nil, id: String? = nil) {
+        public init(description: String? = nil, type: ProvisioningArtifactType? = nil, name: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil) {
             self.description = description
             self.`type` = `type`
             self.name = name
@@ -3093,7 +3093,7 @@ extension Servicecatalog {
         /// The provisioning artifact identifier for this product. This is sometimes referred to as the product version.
         public let provisioningArtifactId: String?
         /// The time when the record for the ProvisionedProduct object was last updated.
-        public let updatedTime: Double?
+        public let updatedTime: TimeStamp?
         /// The user-friendly name of the ProvisionedProduct object.
         public let provisionedProductName: String?
         /// The identifier of the path for this product's provisioning.
@@ -3101,7 +3101,7 @@ extension Servicecatalog {
         /// The product identifier.
         public let productId: String?
         /// The UTC timestamp of the creation time.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// A list of errors that occurred while processing the request.
         public let recordErrors: [RecordError]?
         /// The status of the ProvisionedProduct object.  CREATED - Request created but the operation has not yet started.  IN_PROGRESS - The requested operation is in-progress.  IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.  SUCCEEDED - The requested operation has successfully completed.  FAILED - The requested operation has completed but has failed. Investigate using the error messages returned.
@@ -3117,7 +3117,7 @@ extension Servicecatalog {
         /// List of tags associated with this record.
         public let recordTags: [RecordTag]?
 
-        public init(provisioningArtifactId: String? = nil, updatedTime: Double? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Double? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
+        public init(provisioningArtifactId: String? = nil, updatedTime: TimeStamp? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: TimeStamp? = nil, recordErrors: [RecordError]? = nil, status: RecordStatus? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.updatedTime = updatedTime
             self.provisionedProductName = provisionedProductName

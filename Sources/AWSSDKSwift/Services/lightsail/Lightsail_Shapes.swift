@@ -254,7 +254,7 @@ extension Lightsail {
         /// The type of resource (usually InstanceSnapshot).
         public let resourceType: ResourceType?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
         public let fromBundleId: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -274,7 +274,7 @@ extension Lightsail {
         /// The progress of the snapshot.
         public let progress: String?
 
-        public init(state: InstanceSnapshotState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
+        public init(state: InstanceSnapshotState? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -332,11 +332,11 @@ extension Lightsail {
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
-        public let expiresAt: Double?
+        public let expiresAt: TimeStamp?
         /// The user name to use when logging in to the Amazon Lightsail instance.
         public let username: String?
 
-        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, password: String? = nil, certKey: String? = nil, expiresAt: Double? = nil, username: String? = nil) {
+        public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: InstanceAccessProtocol? = nil, password: String? = nil, certKey: String? = nil, expiresAt: TimeStamp? = nil, username: String? = nil) {
             self.privateKey = privateKey
             self.ipAddress = ipAddress
             self.instanceName = instanceName
@@ -540,13 +540,13 @@ extension Lightsail {
         /// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
         public let name: String?
         /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
 
-        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: Double? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: TimeStamp? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.attachedTo = attachedTo
             self.isAttached = isAttached
             self.location = location
@@ -638,7 +638,7 @@ extension Lightsail {
         /// The resource type (usually KeyPair).
         public let resourceType: ResourceType?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The RSA fingerprint of the key pair.
         public let fingerprint: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -646,7 +646,7 @@ extension Lightsail {
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -1055,7 +1055,7 @@ extension Lightsail {
         /// The private IP address of the instance.
         public let privateIpAddress: String?
         /// The timestamp when the instance was created (e.g., 1479734909.17).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
         public let sshKeyName: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
@@ -1081,7 +1081,7 @@ extension Lightsail {
         /// Information about the public ports and monthly data transfer rates for the instance.
         public let networking: InstanceNetworking?
 
-        public init(state: InstanceState? = nil, name: String? = nil, resourceType: ResourceType? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: Double? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
+        public init(state: InstanceState? = nil, name: String? = nil, resourceType: ResourceType? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: TimeStamp? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
             self.state = state
             self.name = name
             self.resourceType = resourceType
@@ -1144,13 +1144,13 @@ extension Lightsail {
         /// An array of key-value pairs containing information about the domain entries.
         public let domainEntries: [DomainEntry]?
         /// The date when the domain recordset was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
 
-        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, domainEntries: [DomainEntry]? = nil, createdAt: Double? = nil, supportCode: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, domainEntries: [DomainEntry]? = nil, createdAt: TimeStamp? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
             self.location = location
             self.resourceType = resourceType
@@ -1312,7 +1312,7 @@ extension Lightsail {
         /// The resource type of the disk. 
         public let resourceType: ResourceType?
         /// The date when the disk was created.
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
@@ -1334,7 +1334,7 @@ extension Lightsail {
         /// The input/output operations per second (IOPS) of the disk.
         public let iops: Int32?
 
-        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: Double? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
+        public init(isAttached: Bool? = nil, name: String? = nil, resourceType: ResourceType? = nil, createdAt: TimeStamp? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
             self.isAttached = isAttached
             self.name = name
             self.resourceType = resourceType
@@ -1911,9 +1911,9 @@ extension Lightsail {
         /// The sum.
         public let sum: Double?
         /// The timestamp (e.g., 1479816991.349).
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
 
-        public init(sampleCount: Double? = nil, unit: MetricUnit? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: Double? = nil) {
+        public init(sampleCount: Double? = nil, unit: MetricUnit? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: TimeStamp? = nil) {
             self.sampleCount = sampleCount
             self.unit = unit
             self.average = average
@@ -2097,15 +2097,15 @@ extension Lightsail {
         /// The error details.
         public let errorDetails: String?
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The status of the operation. 
         public let status: OperationStatus?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
-        public let statusChangedAt: Double?
+        public let statusChangedAt: TimeStamp?
         /// Details about the operation (e.g., Debian-1GB-Virginia-1).
         public let operationDetails: String?
 
-        public init(operationType: OperationType? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: Double? = nil, status: OperationStatus? = nil, statusChangedAt: Double? = nil, operationDetails: String? = nil) {
+        public init(operationType: OperationType? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: ResourceType? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: TimeStamp? = nil, status: OperationStatus? = nil, statusChangedAt: TimeStamp? = nil, operationDetails: String? = nil) {
             self.operationType = operationType
             self.isTerminal = isTerminal
             self.location = location
@@ -2910,15 +2910,15 @@ extension Lightsail {
         /// The instance statistics. 
         public let statistics: [MetricStatistic]
         /// The end time of the time period.
-        public let endTime: Double
+        public let endTime: TimeStamp
         /// The time period for which you are requesting data.
         public let period: Int32
         /// The start time of the time period.
-        public let startTime: Double
+        public let startTime: TimeStamp
         /// The metric name to get data about. 
         public let metricName: InstanceMetricName
 
-        public init(instanceName: String, unit: MetricUnit, statistics: [MetricStatistic], endTime: Double, period: Int32, startTime: Double, metricName: InstanceMetricName) {
+        public init(instanceName: String, unit: MetricUnit, statistics: [MetricStatistic], endTime: TimeStamp, period: Int32, startTime: TimeStamp, metricName: InstanceMetricName) {
             self.instanceName = instanceName
             self.unit = unit
             self.statistics = statistics

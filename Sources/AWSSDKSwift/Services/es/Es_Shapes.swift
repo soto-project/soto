@@ -298,13 +298,13 @@ extension Es {
         /// Indicates whether the Elasticsearch domain is being deleted.
         public let pendingDeletion: Bool?
         /// Timestamp which tells the creation date for the entity.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
         /// Provides the OptionState for the Elasticsearch domain.
         public let state: OptionState
         /// Timestamp which tells the last updated time for the entity.
-        public let updateDate: Double
+        public let updateDate: TimeStamp
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Double, state: OptionState, updateDate: Double) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: TimeStamp, state: OptionState, updateDate: TimeStamp) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate

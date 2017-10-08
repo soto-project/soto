@@ -38,15 +38,15 @@ extension Cloudtrail {
             AWSShapeMember(label: "ValidityStartTime", required: false, type: .timestamp)
         ]
         /// The ending time of validity of the public key.
-        public let validityEndTime: Double?
+        public let validityEndTime: TimeStamp?
         /// The fingerprint of the public key.
         public let fingerprint: String?
         /// The DER encoded public key value in PKCS#1 format.
         public let value: Data?
         /// The starting time of validity of the public key.
-        public let validityStartTime: Double?
+        public let validityStartTime: TimeStamp?
 
-        public init(validityEndTime: Double? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: Double? = nil) {
+        public init(validityEndTime: TimeStamp? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: TimeStamp? = nil) {
             self.validityEndTime = validityEndTime
             self.fingerprint = fingerprint
             self.value = value
@@ -173,13 +173,13 @@ extension Cloudtrail {
             AWSShapeMember(label: "StartTime", required: false, type: .timestamp)
         ]
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Reserved for future use.
         public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
 
-        public init(endTime: Double? = nil, nextToken: String? = nil, startTime: Double? = nil) {
+        public init(endTime: TimeStamp? = nil, nextToken: String? = nil, startTime: TimeStamp? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
             self.startTime = startTime
@@ -202,9 +202,9 @@ extension Cloudtrail {
             AWSShapeMember(label: "MaxResults", required: false, type: .integer)
         ]
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
         public let lookupAttributes: [LookupAttribute]?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
@@ -212,7 +212,7 @@ extension Cloudtrail {
         /// The number of events to return. Possible values are 1 through 50. The default is 10.
         public let maxResults: Int32?
 
-        public init(startTime: Double? = nil, endTime: Double? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.lookupAttributes = lookupAttributes
@@ -495,7 +495,7 @@ extension Cloudtrail {
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
         public let latestNotificationError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public let latestDeliveryTime: Double?
+        public let latestDeliveryTime: TimeStamp?
         /// This field is deprecated.
         public let timeLoggingStarted: String?
         /// This field is deprecated.
@@ -505,13 +505,13 @@ extension Cloudtrail {
         /// This field is deprecated.
         public let latestDeliveryAttemptSucceeded: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public let latestCloudWatchLogsDeliveryTime: Double?
+        public let latestCloudWatchLogsDeliveryTime: TimeStamp?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public let latestNotificationTime: Double?
+        public let latestNotificationTime: TimeStamp?
         /// This field is deprecated.
         public let latestNotificationAttemptSucceeded: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public let latestDigestDeliveryTime: Double?
+        public let latestDigestDeliveryTime: TimeStamp?
         /// Whether the CloudTrail is currently logging AWS API calls.
         public let isLogging: Bool?
         /// This field is deprecated.
@@ -521,13 +521,13 @@ extension Cloudtrail {
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
         public let latestDeliveryError: String?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public let stopLoggingTime: Double?
+        public let stopLoggingTime: TimeStamp?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public let startLoggingTime: Double?
+        public let startLoggingTime: TimeStamp?
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
         public let latestCloudWatchLogsDeliveryError: String?
 
-        public init(latestNotificationError: String? = nil, latestDeliveryTime: Double? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Double? = nil, latestNotificationTime: Double? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Double? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Double? = nil, startLoggingTime: Double? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
+        public init(latestNotificationError: String? = nil, latestDeliveryTime: TimeStamp? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: TimeStamp? = nil, latestNotificationTime: TimeStamp? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: TimeStamp? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: TimeStamp? = nil, startLoggingTime: TimeStamp? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
             self.latestNotificationError = latestNotificationError
             self.latestDeliveryTime = latestDeliveryTime
             self.timeLoggingStarted = timeLoggingStarted
@@ -604,7 +604,7 @@ extension Cloudtrail {
         /// The AWS service that the request was made to.
         public let eventSource: String?
         /// The date and time of the event returned.
-        public let eventTime: Double?
+        public let eventTime: TimeStamp?
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
         /// The CloudTrail ID of the event returned.
@@ -616,7 +616,7 @@ extension Cloudtrail {
         /// A JSON string that contains a representation of the event returned.
         public let cloudTrailEvent: String?
 
-        public init(eventSource: String? = nil, eventTime: Double? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
+        public init(eventSource: String? = nil, eventTime: TimeStamp? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
             self.eventSource = eventSource
             self.eventTime = eventTime
             self.username = username

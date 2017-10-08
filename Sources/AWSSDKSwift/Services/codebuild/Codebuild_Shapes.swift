@@ -138,13 +138,13 @@ extension Codebuild {
         /// The name of the build project.
         public let name: String?
         /// When the build project's settings were last modified, expressed in Unix time format.
-        public let lastModified: Double?
+        public let lastModified: TimeStamp?
         /// Information about the build input source code for this build project.
         public let source: ProjectSource?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
         public let timeoutInMinutes: Int32?
         /// When the build project was created, expressed in Unix time format.
-        public let created: Double?
+        public let created: TimeStamp?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the CMK's Amazon Resource Name (ARN) or, if specified, the CMK's alias (using the format alias/alias-name ).
         public let encryptionKey: String?
         /// A description that makes the build project easy to identify.
@@ -160,7 +160,7 @@ extension Codebuild {
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
 
-        public init(name: String? = nil, lastModified: Double? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: Double? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
+        public init(name: String? = nil, lastModified: TimeStamp? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: TimeStamp? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
             self.name = name
             self.lastModified = lastModified
             self.source = source
@@ -231,9 +231,9 @@ extension Codebuild {
         /// How long, in seconds, between the starting and ending times of the build's phase.
         public let durationInSeconds: Int64?
         /// When the build phase ended, expressed in Unix time format.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// When the build phase started, expressed in Unix time format.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
         /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
@@ -241,7 +241,7 @@ extension Codebuild {
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
         public let phaseType: BuildPhaseType?
 
-        public init(durationInSeconds: Int64? = nil, endTime: Double? = nil, startTime: Double? = nil, contexts: [PhaseContext]? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
+        public init(durationInSeconds: Int64? = nil, endTime: TimeStamp? = nil, startTime: TimeStamp? = nil, contexts: [PhaseContext]? = nil, phaseStatus: StatusType? = nil, phaseType: BuildPhaseType? = nil) {
             self.durationInSeconds = durationInSeconds
             self.endTime = endTime
             self.startTime = startTime
@@ -391,13 +391,13 @@ extension Codebuild {
         /// Whether the build has finished. True if completed; otherwise, false.
         public let buildComplete: Bool?
         /// When the build process ended, expressed in Unix time format.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Information about the build's logs in Amazon CloudWatch Logs.
         public let logs: LogsLocation?
         /// When the build process started, expressed in Unix time format.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
 
-        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: StatusType? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: Double? = nil, logs: LogsLocation? = nil, startTime: Double? = nil) {
+        public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: StatusType? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: TimeStamp? = nil, logs: LogsLocation? = nil, startTime: TimeStamp? = nil) {
             self.phases = phases
             self.source = source
             self.timeoutInMinutes = timeoutInMinutes

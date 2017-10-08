@@ -400,7 +400,7 @@ extension Elasticache {
             AWSShapeMember(label: "ProductDescription", required: false, type: .string)
         ]
         /// The time the reservation started.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int32?
         /// The recurring price charged to run this reserved cache node.
@@ -424,7 +424,7 @@ extension Elasticache {
         /// The description of the reserved cache node.
         public let productDescription: String?
 
-        public init(startTime: Double? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
+        public init(startTime: TimeStamp? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
             self.startTime = startTime
             self.cacheNodeCount = cacheNodeCount
             self.recurringCharges = recurringCharges
@@ -785,7 +785,7 @@ extension Elasticache {
             AWSShapeMember(label: "Duration", required: false, type: .integer)
         ]
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public let maxRecords: Int32?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -793,13 +793,13 @@ extension Elasticache {
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The identifier of the event source for which events are returned. If not specified, all sources are included in the response.
         public let sourceIdentifier: String?
         /// The number of minutes worth of events to retrieve.
         public let duration: Int32?
 
-        public init(startTime: Double? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: Double? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
+        public init(startTime: TimeStamp? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: SourceType? = nil, endTime: TimeStamp? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.marker = marker
@@ -842,11 +842,11 @@ extension Elasticache {
         /// The status of the parameter group applied to this cache node.
         public let parameterGroupStatus: String?
         /// The date and time when the cache node was created.
-        public let cacheNodeCreateTime: Double?
+        public let cacheNodeCreateTime: TimeStamp?
         /// The hostname for connecting to this cache node.
         public let endpoint: Endpoint?
 
-        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: Double? = nil, endpoint: Endpoint? = nil) {
+        public init(sourceCacheNodeId: String? = nil, customerAvailabilityZone: String? = nil, cacheNodeId: String? = nil, cacheNodeStatus: String? = nil, parameterGroupStatus: String? = nil, cacheNodeCreateTime: TimeStamp? = nil, endpoint: Endpoint? = nil) {
             self.sourceCacheNodeId = sourceCacheNodeId
             self.customerAvailabilityZone = customerAvailabilityZone
             self.cacheNodeId = cacheNodeId
@@ -1393,9 +1393,9 @@ extension Elasticache {
         /// Specifies the origin of this event - a cache cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
         /// The date and time when the event occurred.
-        public let date: Double?
+        public let date: TimeStamp?
 
-        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: Double? = nil) {
+        public init(sourceIdentifier: String? = nil, message: String? = nil, sourceType: SourceType? = nil, date: TimeStamp? = nil) {
             self.sourceIdentifier = sourceIdentifier
             self.message = message
             self.sourceType = sourceType
@@ -1496,7 +1496,7 @@ extension Elasticache {
         /// The name of the cache subnet group associated with the cache cluster.
         public let cacheSubnetGroupName: String?
         /// The date and time when the cache cluster was created.
-        public let cacheClusterCreateTime: Double?
+        public let cacheClusterCreateTime: TimeStamp?
         /// The number of cache nodes in the cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// The current state of this cache cluster, one of the following values: available, creating, deleted, deleting, incompatible-network, modifying, rebooting cache cluster nodes, restore-failed, or snapshotting.
@@ -1532,7 +1532,7 @@ extension Elasticache {
         /// The name of the cache engine (memcached or redis) to be used for this cache cluster.
         public let engine: String?
 
-        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: Double? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
+        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.cacheSubnetGroupName = cacheSubnetGroupName
@@ -2194,7 +2194,7 @@ extension Elasticache {
         /// The user-supplied identifier of the source cache cluster.
         public let cacheClusterId: String?
         /// The date and time when the source cache cluster was created.
-        public let cacheClusterCreateTime: Double?
+        public let cacheClusterCreateTime: TimeStamp?
         /// The number of cache nodes in the source cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// Indicates the status of Multi-AZ for the source replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
@@ -2238,7 +2238,7 @@ extension Elasticache {
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cache cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Double? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: TimeStamp? = nil, numCacheNodes: Int32? = nil, automaticFailover: AutomaticFailoverStatus? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.port = port
             self.cacheClusterId = cacheClusterId
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -2719,15 +2719,15 @@ extension Elasticache {
         /// A unique identifier for the source node group (shard).
         public let nodeGroupId: String?
         /// The date and time when the source node's metadata and cache data set was obtained for the snapshot.
-        public let snapshotCreateTime: Double?
+        public let snapshotCreateTime: TimeStamp?
         /// The date and time when the cache node was created in the source cache cluster.
-        public let cacheNodeCreateTime: Double?
+        public let cacheNodeCreateTime: TimeStamp?
         /// A unique identifier for the source cache cluster.
         public let cacheClusterId: String?
         /// The size of the cache on the source cache node.
         public let cacheSize: String?
 
-        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: Double? = nil, cacheNodeCreateTime: Double? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
+        public init(nodeGroupConfiguration: NodeGroupConfiguration? = nil, cacheNodeId: String? = nil, nodeGroupId: String? = nil, snapshotCreateTime: TimeStamp? = nil, cacheNodeCreateTime: TimeStamp? = nil, cacheClusterId: String? = nil, cacheSize: String? = nil) {
             self.nodeGroupConfiguration = nodeGroupConfiguration
             self.cacheNodeId = cacheNodeId
             self.nodeGroupId = nodeGroupId

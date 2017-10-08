@@ -608,11 +608,11 @@ extension Workspaces {
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
         public let connectionState: ConnectionState?
         /// The timestamp of the last known user connection.
-        public let lastKnownUserConnectionTimestamp: Double?
+        public let lastKnownUserConnectionTimestamp: TimeStamp?
         /// The timestamp of the connection state check.
-        public let connectionStateCheckTimestamp: Double?
+        public let connectionStateCheckTimestamp: TimeStamp?
 
-        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: Double? = nil, connectionStateCheckTimestamp: Double? = nil) {
+        public init(workspaceId: String? = nil, connectionState: ConnectionState? = nil, lastKnownUserConnectionTimestamp: TimeStamp? = nil, connectionStateCheckTimestamp: TimeStamp? = nil) {
             self.workspaceId = workspaceId
             self.connectionState = connectionState
             self.lastKnownUserConnectionTimestamp = lastKnownUserConnectionTimestamp

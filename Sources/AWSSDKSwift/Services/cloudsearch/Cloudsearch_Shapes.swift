@@ -268,13 +268,13 @@ extension Cloudsearch {
         /// Indicates that the option will be deleted once processing is complete.
         public let pendingDeletion: Bool?
         /// A timestamp for when this option was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
         public let state: OptionState
         /// A timestamp for when this option was last updated.
-        public let updateDate: Double
+        public let updateDate: TimeStamp
 
-        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Double, state: OptionState, updateDate: Double) {
+        public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: TimeStamp, state: OptionState, updateDate: TimeStamp) {
             self.updateVersion = updateVersion
             self.pendingDeletion = pendingDeletion
             self.creationDate = creationDate

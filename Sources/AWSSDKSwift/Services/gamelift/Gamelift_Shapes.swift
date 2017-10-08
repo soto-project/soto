@@ -317,13 +317,13 @@ extension Gamelift {
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// File size of the uploaded game build, expressed in bytes. When the build status is INITIALIZED, this value is 0.
         public let sizeOnDisk: Int64?
         /// Unique identifier for a build.
         public let buildId: String?
 
-        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Double? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
+        public init(status: BuildStatus? = nil, name: String? = nil, version: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: TimeStamp? = nil, sizeOnDisk: Int64? = nil, buildId: String? = nil) {
             self.status = status
             self.name = name
             self.version = version
@@ -565,9 +565,9 @@ extension Gamelift {
             AWSShapeMember(label: "Port", required: false, type: .integer)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Double?
+        public let terminationTime: TimeStamp?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// Unique identifier for the game session. A game session ID has the following format: arn:aws:gamelift:&lt;region&gt;::gamesession/&lt;fleet ID&gt;/&lt;custom ID string or idempotency token&gt;.
         public let gameSessionId: String?
         /// Maximum number of players that can be connected simultaneously to the game session.
@@ -591,7 +591,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(terminationTime: Double? = nil, creationTime: Double? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
+        public init(terminationTime: TimeStamp? = nil, creationTime: TimeStamp? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int32? = nil, status: GameSessionStatus? = nil, name: String? = nil, ipAddress: String? = nil, creatorId: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, gameProperties: [GameProperty]? = nil, fleetId: String? = nil, currentPlayerSessionCount: Int32? = nil, port: Int32? = nil) {
             self.terminationTime = terminationTime
             self.creationTime = creationTime
             self.gameSessionId = gameSessionId
@@ -710,7 +710,7 @@ extension Gamelift {
         /// Maximum number of players that can be connected simultaneously to the game session.
         public let maximumPlayerSessionCount: Int32?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Current status of the game session placement request.    PENDING – The placement request is currently in the queue waiting to be processed.    FULFILLED – A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED – The placement request was canceled with a call to StopGameSessionPlacement.    TIMED_OUT – A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
         public let status: GameSessionPlacementState?
         /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is Fulfilled). This identifier is unique across all regions. You can use this value as a GameSessionId value as needed.
@@ -718,7 +718,7 @@ extension Gamelift {
         /// IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is Fulfilled). 
         public let ipAddress: String?
         /// Time stamp indicating when this request was completed, canceled, or timed out.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public let gameSessionQueueName: String?
         /// Set of developer-defined properties for a game session. These properties are passed to the server process hosting the game session.
@@ -726,7 +726,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is Fulfilled).
         public let port: Int32?
 
-        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: Double? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, endTime: Double? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
+        public init(placedPlayerSessions: [PlacedPlayerSession]? = nil, gameSessionRegion: String? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, maximumPlayerSessionCount: Int32? = nil, startTime: TimeStamp? = nil, status: GameSessionPlacementState? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, endTime: TimeStamp? = nil, gameSessionQueueName: String? = nil, gameProperties: [GameProperty]? = nil, port: Int32? = nil) {
             self.placedPlayerSessions = placedPlayerSessions
             self.gameSessionRegion = gameSessionRegion
             self.placementId = placementId
@@ -837,13 +837,13 @@ extension Gamelift {
         /// Operating system that is running on this instance. 
         public let operatingSystem: OperatingSystem?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// EC2 instance type that defines the computing resources of this instance. 
         public let `type`: EC2InstanceType?
         /// Unique identifier for a fleet that the instance is in.
         public let fleetId: String?
 
-        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: Double? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
+        public init(status: InstanceStatus? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, creationTime: TimeStamp? = nil, type: EC2InstanceType? = nil, fleetId: String? = nil) {
             self.status = status
             self.instanceId = instanceId
             self.ipAddress = ipAddress
@@ -1303,13 +1303,13 @@ extension Gamelift {
             AWSShapeMember(label: "Description", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let lastUpdatedTime: Double?
+        public let lastUpdatedTime: TimeStamp?
         /// Alias configuration for the alias, including routing type and settings.
         public let routingStrategy: RoutingStrategy?
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
         public let name: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// Unique identifier for an alias; alias ARNs are unique across all regions.
         public let aliasArn: String?
         /// Unique identifier for an alias; alias IDs are unique within a region.
@@ -1317,7 +1317,7 @@ extension Gamelift {
         /// Human-readable description of an alias.
         public let description: String?
 
-        public init(lastUpdatedTime: Double? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: Double? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
+        public init(lastUpdatedTime: TimeStamp? = nil, routingStrategy: RoutingStrategy? = nil, name: String? = nil, creationTime: TimeStamp? = nil, aliasArn: String? = nil, aliasId: String? = nil, description: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.routingStrategy = routingStrategy
             self.name = name
@@ -1384,11 +1384,11 @@ extension Gamelift {
         /// Type of event being logged. The following events are currently in use:   General events:    GENERIC_EVENT – An unspecified event has occurred.     Fleet creation events:    FLEET_CREATED – A fleet record was successfully created with a status of NEW. Event messaging includes the fleet ID.    FLEET_STATE_DOWNLOADING – Fleet status changed from NEW to DOWNLOADING. The compressed build has started downloading to a fleet instance for installation.    FLEET_BINARY_DOWNLOAD_FAILED – The build failed to download to the fleet instance.    FLEET_CREATION_EXTRACTING_BUILD – The game server build was successfully downloaded to an instance, and the build files are now being extracted from the uploaded build and saved to an instance. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl).    FLEET_CREATION_RUNNING_INSTALLER – The game server build files were successfully extracted, and the Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed sucessfully. Access the logs by using the URL in PreSignedLogUrl).     FLEET_CREATION_VALIDATING_RUNTIME_CONFIG – The build process was successful, and the Amazon GameLift is now verifying that the game server launch path(s), which are specified in the fleet's run-time configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the run-time configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl). Once the game server is launched, failures and crashes are logged; these logs can be downloaded from the Amazon GameLift console.     FLEET_STATE_VALIDATING – Fleet status changed from DOWNLOADING to VALIDATING.    FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND – Validation of the run-time validation failed because the executable specified in a launch path does not exist on the instance.    FLEET_STATE_BUILDING – Fleet status changed from VALIDATING to BUILDING.    FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE – Validation of the runtime validation failed because the executable specified in a launch path failed to run on the fleet instance.    FLEET_STATE_ACTIVATING – Fleet status changed from BUILDING to ACTIVATING.     FLEET_ACTIVATION_FAILED - The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. A possible reason for failure is that the game server is not reporting "process ready" to the Amazon GameLift service.    FLEET_STATE_ACTIVE – The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.     Other fleet events:    FLEET_SCALING_EVENT – A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.    FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED – A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.     FLEET_DELETED – A request to delete a fleet was initiated.    
         public let eventCode: EventCode?
         /// Time stamp indicating when this event occurred. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let eventTime: Double?
+        public let eventTime: TimeStamp?
         /// Unique identifier for a fleet event.
         public let eventId: String?
 
-        public init(preSignedLogUrl: String? = nil, message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: Double? = nil, eventId: String? = nil) {
+        public init(preSignedLogUrl: String? = nil, message: String? = nil, resourceId: String? = nil, eventCode: EventCode? = nil, eventTime: TimeStamp? = nil, eventId: String? = nil) {
             self.preSignedLogUrl = preSignedLogUrl
             self.message = message
             self.resourceId = resourceId
@@ -2404,9 +2404,9 @@ extension Gamelift {
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. 
         public let playerData: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Double?
+        public let terminationTime: TimeStamp?
         /// Unique identifier for a player that is associated with this player session.
         public let playerId: String?
         /// Unique identifier for the game session that the player session is connected to.
@@ -2416,7 +2416,7 @@ extension Gamelift {
         /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int32?
 
-        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: Double? = nil, terminationTime: Double? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
+        public init(status: PlayerSessionStatus? = nil, playerSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, creationTime: TimeStamp? = nil, terminationTime: TimeStamp? = nil, playerId: String? = nil, gameSessionId: String? = nil, fleetId: String? = nil, port: Int32? = nil) {
             self.status = status
             self.playerSessionId = playerSessionId
             self.ipAddress = ipAddress
@@ -2540,9 +2540,9 @@ extension Gamelift {
             AWSShapeMember(label: "NextToken", required: false, type: .string)
         ]
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public let limit: Int32?
         /// Unique identifier for a fleet to get event logs for.
@@ -2550,7 +2550,7 @@ extension Gamelift {
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
         public let nextToken: String?
 
-        public init(startTime: Double? = nil, endTime: Double? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
+        public init(startTime: TimeStamp? = nil, endTime: TimeStamp? = nil, limit: Int32? = nil, fleetId: String, nextToken: String? = nil) {
             self.startTime = startTime
             self.endTime = endTime
             self.limit = limit
@@ -2751,11 +2751,11 @@ extension Gamelift {
             AWSShapeMember(label: "FleetId", required: false, type: .string)
         ]
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let terminationTime: Double?
+        public let terminationTime: TimeStamp?
         /// Identifier for a fleet that is unique across all regions.
         public let fleetArn: String?
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
-        public let creationTime: Double?
+        public let creationTime: TimeStamp?
         /// Type of game session protection to set for all new instances started in the fleet.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide. If no default log path for a fleet is specified, Amazon GameLift automatically uploads logs that are stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the Amazon GameLift console to access stored logs. 
@@ -2781,7 +2781,7 @@ extension Gamelift {
         /// Unique identifier for a fleet.
         public let fleetId: String?
 
-        public init(terminationTime: Double? = nil, fleetArn: String? = nil, creationTime: Double? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
+        public init(terminationTime: TimeStamp? = nil, fleetArn: String? = nil, creationTime: TimeStamp? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, logPaths: [String]? = nil, serverLaunchPath: String? = nil, description: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, metricGroups: [String]? = nil, status: FleetStatus? = nil, buildId: String? = nil, serverLaunchParameters: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, fleetId: String? = nil) {
             self.terminationTime = terminationTime
             self.fleetArn = fleetArn
             self.creationTime = creationTime

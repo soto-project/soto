@@ -62,9 +62,9 @@ extension States {
             AWSShapeMember(label: "stopDate", required: true, type: .timestamp)
         ]
         /// The date the execution was stopped.
-        public let stopDate: Double
+        public let stopDate: TimeStamp
 
-        public init(stopDate: Double) {
+        public init(stopDate: TimeStamp) {
             self.stopDate = stopDate
         }
 
@@ -82,9 +82,9 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
         /// The date the activity was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
 
-        public init(activityArn: String, creationDate: Double) {
+        public init(activityArn: String, creationDate: TimeStamp) {
             self.activityArn = activityArn
             self.creationDate = creationDate
         }
@@ -173,9 +173,9 @@ extension States {
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
 
-        public init(activityArn: String, name: String, creationDate: Double) {
+        public init(activityArn: String, name: String, creationDate: TimeStamp) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
@@ -200,9 +200,9 @@ extension States {
         /// The name of the activity.
         public let name: String
         /// The date the activity was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
 
-        public init(activityArn: String, name: String, creationDate: Double) {
+        public init(activityArn: String, name: String, creationDate: TimeStamp) {
             self.activityArn = activityArn
             self.name = name
             self.creationDate = creationDate
@@ -232,13 +232,13 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed state machine.
         public let stateMachineArn: String
         /// The date the execution started.
-        public let startDate: Double
+        public let startDate: TimeStamp
         /// If the execution already ended, the date the execution stopped.
-        public let stopDate: Double?
+        public let stopDate: TimeStamp?
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: Double, stopDate: Double? = nil, executionArn: String) {
+        public init(status: ExecutionStatus, name: String, stateMachineArn: String, startDate: TimeStamp, stopDate: TimeStamp? = nil, executionArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -341,13 +341,13 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
         /// The Amazon States Language definition of the state machine.
         public let definition: String
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
         public let roleArn: String
 
-        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: Double, definition: String, roleArn: String) {
+        public init(status: StateMachineStatus? = nil, name: String, stateMachineArn: String, creationDate: TimeStamp, definition: String, roleArn: String) {
             self.status = status
             self.name = name
             self.stateMachineArn = stateMachineArn
@@ -417,11 +417,11 @@ extension States {
             AWSShapeMember(label: "executionArn", required: true, type: .string)
         ]
         /// The date the execution was started.
-        public let startDate: Double
+        public let startDate: TimeStamp
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
 
-        public init(startDate: Double, executionArn: String) {
+        public init(startDate: TimeStamp, executionArn: String) {
             self.startDate = startDate
             self.executionArn = executionArn
         }
@@ -475,7 +475,7 @@ extension States {
         public let executionStartedEventDetails: ExecutionStartedEventDetails?
         public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
         /// The date the event occured.
-        public let timestamp: Double
+        public let timestamp: TimeStamp
         /// The id of the previous event.
         public let previousEventId: Int64?
         /// The id of the event. Events are numbered sequentially, starting at one.
@@ -487,7 +487,7 @@ extension States {
         public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
         public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
 
-        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Double, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
+        public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: HistoryEventType, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: TimeStamp, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
             self.lambdaFunctionFailedEventDetails = lambdaFunctionFailedEventDetails
             self.executionSucceededEventDetails = executionSucceededEventDetails
@@ -909,9 +909,9 @@ extension States {
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
         public let stateMachineArn: String
         /// The date the state machine was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
 
-        public init(stateMachineArn: String, creationDate: Double) {
+        public init(stateMachineArn: String, creationDate: TimeStamp) {
             self.stateMachineArn = stateMachineArn
             self.creationDate = creationDate
         }
@@ -1253,9 +1253,9 @@ extension States {
         /// The name of the state machine.
         public let name: String
         /// The date the state machine was created.
-        public let creationDate: Double
+        public let creationDate: TimeStamp
 
-        public init(stateMachineArn: String, name: String, creationDate: Double) {
+        public init(stateMachineArn: String, name: String, creationDate: TimeStamp) {
             self.stateMachineArn = stateMachineArn
             self.name = name
             self.creationDate = creationDate
@@ -1351,9 +1351,9 @@ extension States {
         /// The name of the execution.
         public let name: String?
         /// If the execution has already ended, the date the execution stopped.
-        public let stopDate: Double?
+        public let stopDate: TimeStamp?
         /// The date the execution was started.
-        public let startDate: Double
+        public let startDate: TimeStamp
         /// The JSON output data of the execution.
         public let output: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
@@ -1363,7 +1363,7 @@ extension States {
         /// The Amazon Resource Name (ARN) of the executed stated machine.
         public let stateMachineArn: String
 
-        public init(status: ExecutionStatus, name: String? = nil, stopDate: Double? = nil, startDate: Double, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
+        public init(status: ExecutionStatus, name: String? = nil, stopDate: TimeStamp? = nil, startDate: TimeStamp, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
             self.status = status
             self.name = name
             self.stopDate = stopDate

@@ -467,13 +467,13 @@ extension Opsworkscm {
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// The time when the event occurred. 
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// A human-readable informational or status message.
         public let message: String?
         /// The name of the server on or for which the event occurred. 
         public let serverName: String?
 
-        public init(logUrl: String? = nil, createdAt: Double? = nil, message: String? = nil, serverName: String? = nil) {
+        public init(logUrl: String? = nil, createdAt: TimeStamp? = nil, message: String? = nil, serverName: String? = nil) {
             self.logUrl = logUrl
             self.createdAt = createdAt
             self.message = message
@@ -580,7 +580,7 @@ extension Opsworkscm {
         /// The status of a backup while in progress. 
         public let status: BackupStatus?
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         ///  The engine version that is obtained from the server when the backup is created. 
         public let engineVersion: String?
         ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
@@ -608,7 +608,7 @@ extension Opsworkscm {
         ///  The key pair that is obtained from the server when the backup is created. 
         public let keyPair: String?
 
-        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: BackupStatus? = nil, createdAt: Double? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: BackupType? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
+        public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: BackupStatus? = nil, createdAt: TimeStamp? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: BackupType? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
             self.engineModel = engineModel
             self.serviceRoleArn = serviceRoleArn
             self.s3DataSize = s3DataSize
@@ -753,7 +753,7 @@ extension Opsworkscm {
         /// The preferred backup period specified for the server. 
         public let preferredBackupWindow: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
-        public let createdAt: Double?
+        public let createdAt: TimeStamp?
         /// The engine version of the server. Because Chef is the engine available in this release, the valid value for EngineVersion is 12. 
         public let engineVersion: String?
         /// The instance profile ARN of the server. 
@@ -781,7 +781,7 @@ extension Opsworkscm {
         /// The key pair associated with the server. 
         public let keyPair: String?
 
-        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: Double? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, cloudFormationStackArn: String? = nil, status: ServerStatus? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
+        public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: TimeStamp? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, cloudFormationStackArn: String? = nil, status: ServerStatus? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
             self.serverArn = serverArn
             self.engineModel = engineModel
             self.engineAttributes = engineAttributes

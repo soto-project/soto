@@ -645,9 +645,9 @@ extension Elasticloadbalancingv2 {
         /// The type of load balancer.
         public let `type`: LoadBalancerTypeEnum?
         /// The date and time the load balancer was created.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: IpAddressType? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil, createdTime: Double? = nil) {
+        public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: IpAddressType? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: LoadBalancerSchemeEnum? = nil, type: LoadBalancerTypeEnum? = nil, createdTime: TimeStamp? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroups = securityGroups
             self.loadBalancerArn = loadBalancerArn

@@ -107,9 +107,9 @@ extension Entitlementmarketplace {
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public let productCode: String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
-        public let expirationDate: Double?
+        public let expirationDate: TimeStamp?
 
-        public init(customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil, productCode: String? = nil, expirationDate: Double? = nil) {
+        public init(customerIdentifier: String? = nil, dimension: String? = nil, value: EntitlementValue? = nil, productCode: String? = nil, expirationDate: TimeStamp? = nil) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.value = value
