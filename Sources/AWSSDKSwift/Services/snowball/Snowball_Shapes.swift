@@ -813,7 +813,7 @@ extension Snowball {
         /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
         /// The creation date for this cluster.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The optional description of the cluster.
         public let description: String?
         /// The automatically generated ID for a specific address.
@@ -829,7 +829,7 @@ extension Snowball {
         /// The automatically generated ID for a cluster.
         public let clusterId: String?
 
-        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, kmsKeyARN: String? = nil, creationDate: Double? = nil, description: String? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil) {
+        public init(clusterState: ClusterState? = nil, shippingOption: ShippingOption? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, kmsKeyARN: String? = nil, creationDate: TimeStamp? = nil, description: String? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, resources: JobResource? = nil, clusterId: String? = nil) {
             self.clusterState = clusterState
             self.shippingOption = shippingOption
             self.forwardingAddressId = forwardingAddressId
@@ -1054,7 +1054,7 @@ extension Snowball {
         /// The current state of this job.
         public let jobState: JobState?
         /// The creation date for this job.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The type of appliance used with this job.
         public let snowballType: SnowballType?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
@@ -1062,7 +1062,7 @@ extension Snowball {
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
 
-        public init(isMaster: Bool? = nil, jobType: JobType? = nil, jobState: JobState? = nil, creationDate: Double? = nil, snowballType: SnowballType? = nil, jobId: String? = nil, description: String? = nil) {
+        public init(isMaster: Bool? = nil, jobType: JobType? = nil, jobState: JobState? = nil, creationDate: TimeStamp? = nil, snowballType: SnowballType? = nil, jobId: String? = nil, description: String? = nil) {
             self.isMaster = isMaster
             self.jobType = jobType
             self.jobState = jobState
@@ -1150,13 +1150,13 @@ extension Snowball {
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
         public let clusterState: ClusterState?
         /// The creation date for this cluster.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String?
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
-        public init(clusterState: ClusterState? = nil, creationDate: Double? = nil, clusterId: String? = nil, description: String? = nil) {
+        public init(clusterState: ClusterState? = nil, creationDate: TimeStamp? = nil, clusterId: String? = nil, description: String? = nil) {
             self.clusterState = clusterState
             self.creationDate = creationDate
             self.clusterId = clusterId
@@ -1205,7 +1205,7 @@ extension Snowball {
         /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
         public let kmsKeyARN: String?
         /// The creation date for this job.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
         /// The description of the job, provided at job creation.
@@ -1227,7 +1227,7 @@ extension Snowball {
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
         public let resources: JobResource?
 
-        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: Double? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
+        public init(dataTransferProgress: DataTransfer? = nil, snowballCapacityPreference: SnowballCapacity? = nil, forwardingAddressId: String? = nil, roleARN: String? = nil, jobState: JobState? = nil, kmsKeyARN: String? = nil, creationDate: TimeStamp? = nil, jobId: String? = nil, description: String? = nil, shippingDetails: ShippingDetails? = nil, addressId: String? = nil, jobType: JobType? = nil, notification: Notification? = nil, snowballType: SnowballType? = nil, jobLogInfo: JobLogs? = nil, clusterId: String? = nil, resources: JobResource? = nil) {
             self.dataTransferProgress = dataTransferProgress
             self.snowballCapacityPreference = snowballCapacityPreference
             self.forwardingAddressId = forwardingAddressId

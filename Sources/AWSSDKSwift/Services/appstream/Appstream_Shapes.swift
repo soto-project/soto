@@ -402,11 +402,11 @@ extension Appstream {
         /// The storage connectors to be enabled for the stack.
         public let storageConnectors: [StorageConnector]?
         /// The timestamp when the stack was created.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// A meaningful description for the stack.
         public let description: String?
 
-        public init(arn: String? = nil, stackErrors: [StackError]? = nil, displayName: String? = nil, name: String, storageConnectors: [StorageConnector]? = nil, createdTime: Double? = nil, description: String? = nil) {
+        public init(arn: String? = nil, stackErrors: [StackError]? = nil, displayName: String? = nil, name: String, storageConnectors: [StorageConnector]? = nil, createdTime: TimeStamp? = nil, description: String? = nil) {
             self.arn = arn
             self.stackErrors = stackErrors
             self.displayName = displayName
@@ -689,7 +689,7 @@ extension Appstream {
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
         public let instanceType: String
         /// The time at which the fleet was created.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// The description displayed to end users on the AppStream 2.0 portal.
         public let description: String?
         /// The name of the fleet.
@@ -699,7 +699,7 @@ extension Appstream {
         /// The maximum time for which a streaming session can run. The value can be any numeric value in seconds between 600 and 57600.
         public let maxUserDurationInSeconds: Int32?
 
-        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, enableDefaultInternetAccess: Bool? = nil, instanceType: String, createdTime: Double? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
+        public init(arn: String, vpcConfig: VpcConfig? = nil, state: FleetState, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, enableDefaultInternetAccess: Bool? = nil, instanceType: String, createdTime: TimeStamp? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
             self.arn = arn
             self.vpcConfig = vpcConfig
             self.state = state
@@ -1039,9 +1039,9 @@ extension Appstream {
         /// The URL to start the AppStream 2.0 streaming session.
         public let streamingURL: String?
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
-        public let expires: Double?
+        public let expires: TimeStamp?
 
-        public init(streamingURL: String? = nil, expires: Double? = nil) {
+        public init(streamingURL: String? = nil, expires: TimeStamp? = nil) {
             self.streamingURL = streamingURL
             self.expires = expires
         }
@@ -1219,7 +1219,7 @@ extension Appstream {
         /// The applications associated with an image.
         public let applications: [Application]?
         /// The timestamp when the image was created.
-        public let createdTime: Double?
+        public let createdTime: TimeStamp?
         /// A meaningful description for the image.
         public let description: String?
         /// The reason why the last state change occurred.
@@ -1229,11 +1229,11 @@ extension Appstream {
         /// The unique identifier for the image.
         public let name: String
         /// The AWS release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
-        public let publicBaseImageReleasedDate: Double?
+        public let publicBaseImageReleasedDate: TimeStamp?
         /// The visibility of an image to the user; images can be public or private.
         public let visibility: VisibilityType?
 
-        public init(platform: PlatformType? = nil, arn: String? = nil, state: ImageState? = nil, displayName: String? = nil, baseImageArn: String? = nil, applications: [Application]? = nil, createdTime: Double? = nil, description: String? = nil, stateChangeReason: ImageStateChangeReason? = nil, imageBuilderSupported: Bool? = nil, name: String, publicBaseImageReleasedDate: Double? = nil, visibility: VisibilityType? = nil) {
+        public init(platform: PlatformType? = nil, arn: String? = nil, state: ImageState? = nil, displayName: String? = nil, baseImageArn: String? = nil, applications: [Application]? = nil, createdTime: TimeStamp? = nil, description: String? = nil, stateChangeReason: ImageStateChangeReason? = nil, imageBuilderSupported: Bool? = nil, name: String, publicBaseImageReleasedDate: TimeStamp? = nil, visibility: VisibilityType? = nil) {
             self.platform = platform
             self.arn = arn
             self.state = state

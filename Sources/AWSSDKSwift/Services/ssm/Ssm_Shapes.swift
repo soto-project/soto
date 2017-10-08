@@ -803,9 +803,9 @@ extension Ssm {
         /// The status of this plugin. You can execute a document with multiple plugins.
         public let status: CommandPluginStatus?
         /// The time the plugin started executing. 
-        public let responseStartDateTime: Double?
+        public let responseStartDateTime: TimeStamp?
         /// The time the plugin stopped executing. Could stop prematurely if, for example, a cancel command was sent. 
-        public let responseFinishDateTime: Double?
+        public let responseFinishDateTime: TimeStamp?
         /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the Amazon S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
         /// The name of the plugin. Must be one of the following: aws:updateAgent, aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule, aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent. 
@@ -825,7 +825,7 @@ extension Ssm {
         /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(status: CommandPluginStatus? = nil, responseStartDateTime: Double? = nil, responseFinishDateTime: Double? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
+        public init(status: CommandPluginStatus? = nil, responseStartDateTime: TimeStamp? = nil, responseFinishDateTime: TimeStamp? = nil, outputS3BucketName: String? = nil, name: String? = nil, output: String? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, outputS3Region: String? = nil, outputS3KeyPrefix: String? = nil, responseCode: Int32? = nil, statusDetails: String? = nil) {
             self.status = status
             self.responseStartDateTime = responseStartDateTime
             self.responseFinishDateTime = responseFinishDateTime
@@ -1096,7 +1096,7 @@ extension Ssm {
         /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Systems Manager Run Command.
         public let maxErrors: String?
         /// The date and time the command was requested.
-        public let requestedDateTime: Double?
+        public let requestedDateTime: TimeStamp?
         /// The parameter values to be inserted in the document when executing the command.
         public let parameters: [String: [String]]?
         /// The name of the document requested for execution.
@@ -1104,7 +1104,7 @@ extension Ssm {
         /// The maximum number of instances that are allowed to execute the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Systems Manager Run Command.
         public let maxConcurrency: String?
         /// If this time is reached and the command has not already started executing, it will not execute. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API.
-        public let expiresAfter: Double?
+        public let expiresAfter: TimeStamp?
         /// The number of targets for which the status is Failed or Execution Timed Out.
         public let errorCount: Int32?
         /// A unique identifier for this command.
@@ -1112,7 +1112,7 @@ extension Ssm {
         /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to any instances.   In Progress: The command has been sent to at least one instance but has not reached a final state on all instances.   Success: The command successfully executed on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations does not have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before executing it on any instance. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: Double? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: Double? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(outputS3BucketName: String? = nil, notificationConfig: NotificationConfig? = nil, completedCount: Int32? = nil, targets: [Target]? = nil, outputS3KeyPrefix: String? = nil, comment: String? = nil, serviceRole: String? = nil, outputS3Region: String? = nil, instanceIds: [String]? = nil, targetCount: Int32? = nil, status: CommandStatus? = nil, maxErrors: String? = nil, requestedDateTime: TimeStamp? = nil, parameters: [String: [String]]? = nil, documentName: String? = nil, maxConcurrency: String? = nil, expiresAfter: TimeStamp? = nil, errorCount: Int32? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.outputS3BucketName = outputS3BucketName
             self.notificationConfig = notificationConfig
             self.completedCount = completedCount
@@ -1280,7 +1280,7 @@ extension Ssm {
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String
         /// The date/time the patch was installed on the instance.
-        public let installedTime: Double
+        public let installedTime: TimeStamp
         /// The title of the patch.
         public let title: String
         /// The state of the patch on the instance (INSTALLED, INSTALLED_OTHER, MISSING, NOT_APPLICABLE or FAILED).
@@ -1288,7 +1288,7 @@ extension Ssm {
         /// The Microsoft Knowledge Base ID of the patch.
         public let kBId: String
 
-        public init(severity: String, classification: String, installedTime: Double, title: String, state: PatchComplianceDataState, kBId: String) {
+        public init(severity: String, classification: String, installedTime: TimeStamp, title: String, state: PatchComplianceDataState, kBId: String) {
             self.severity = severity
             self.classification = classification
             self.installedTime = installedTime
@@ -1446,7 +1446,7 @@ extension Ssm {
         /// The ID of the created Maintenance Window.
         public let windowId: String?
         /// The date the Maintenance Window was last modified.
-        public let modifiedDate: Double?
+        public let modifiedDate: TimeStamp?
         /// The name of the Maintenance Window.
         public let name: String?
         /// Whether the Maintenance Windows is enabled.
@@ -1460,9 +1460,9 @@ extension Ssm {
         /// The duration of the Maintenance Window in hours.
         public let duration: Int32?
         /// The date the Maintenance Window was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
 
-        public init(windowId: String? = nil, modifiedDate: Double? = nil, name: String? = nil, enabled: Bool? = nil, allowUnassociatedTargets: Bool? = nil, schedule: String? = nil, cutoff: Int32? = nil, duration: Int32? = nil, createdDate: Double? = nil) {
+        public init(windowId: String? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, enabled: Bool? = nil, allowUnassociatedTargets: Bool? = nil, schedule: String? = nil, cutoff: Int32? = nil, duration: Int32? = nil, createdDate: TimeStamp? = nil) {
             self.windowId = windowId
             self.modifiedDate = modifiedDate
             self.name = name
@@ -1595,7 +1595,7 @@ extension Ssm {
         /// The document version used during the execution.
         public let documentVersion: String?
         /// The time the execution started.&gt;
-        public let executionStartTime: Double?
+        public let executionStartTime: TimeStamp?
         /// The list of execution outputs as defined in the Automation document.
         public let outputs: [String: [String]]?
         /// An Amazon S3 bucket where execution information is stored.
@@ -1603,9 +1603,9 @@ extension Ssm {
         /// The execution ID.
         public let automationExecutionId: String?
         /// The time the execution finished. This is not populated if the execution is still in progress.
-        public let executionEndTime: Double?
+        public let executionEndTime: TimeStamp?
 
-        public init(executedBy: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: Double? = nil) {
+        public init(executedBy: String? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: TimeStamp? = nil, outputs: [String: [String]]? = nil, logFile: String? = nil, automationExecutionId: String? = nil, executionEndTime: TimeStamp? = nil) {
             self.executedBy = executedBy
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -1818,7 +1818,7 @@ extension Ssm {
             AWSShapeMember(label: "LastPingDateTime", required: false, type: .timestamp)
         ]
         /// The last date the association was successfully run.
-        public let lastSuccessfulAssociationExecutionDate: Double?
+        public let lastSuccessfulAssociationExecutionDate: TimeStamp?
         /// Indicates whether latest version of the SSM Agent is running on your instance. 
         public let isLatestVersion: Bool?
         /// Information about the association.
@@ -1834,7 +1834,7 @@ extension Ssm {
         /// The status of the association.
         public let associationStatus: String?
         /// The date the association was last executed.
-        public let lastAssociationExecutionDate: Double?
+        public let lastAssociationExecutionDate: TimeStamp?
         /// The Amazon Identity and Access Management (IAM) role assigned to EC2 instances or managed instances. 
         public let iamRole: String?
         /// The name of the operating system platform running on your instance. 
@@ -1848,15 +1848,15 @@ extension Ssm {
         /// Connection status of the SSM Agent. 
         public let pingStatus: PingStatus?
         /// The date the server or VM was registered with AWS as a managed instance.
-        public let registrationDate: Double?
+        public let registrationDate: TimeStamp?
         /// The operating system platform type. 
         public let platformType: PlatformType?
         /// The activation ID created by Systems Manager when the server or VM was registered.
         public let activationId: String?
         /// The date and time when agent last pinged Systems Manager service. 
-        public let lastPingDateTime: Double?
+        public let lastPingDateTime: TimeStamp?
 
-        public init(lastSuccessfulAssociationExecutionDate: Double? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: ResourceType? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: Double? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: PingStatus? = nil, registrationDate: Double? = nil, platformType: PlatformType? = nil, activationId: String? = nil, lastPingDateTime: Double? = nil) {
+        public init(lastSuccessfulAssociationExecutionDate: TimeStamp? = nil, isLatestVersion: Bool? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, iPAddress: String? = nil, resourceType: ResourceType? = nil, platformVersion: String? = nil, computerName: String? = nil, associationStatus: String? = nil, lastAssociationExecutionDate: TimeStamp? = nil, iamRole: String? = nil, platformName: String? = nil, agentVersion: String? = nil, name: String? = nil, instanceId: String? = nil, pingStatus: PingStatus? = nil, registrationDate: TimeStamp? = nil, platformType: PlatformType? = nil, activationId: String? = nil, lastPingDateTime: TimeStamp? = nil) {
             self.lastSuccessfulAssociationExecutionDate = lastSuccessfulAssociationExecutionDate
             self.isLatestVersion = isLatestVersion
             self.associationOverview = associationOverview
@@ -2032,7 +2032,7 @@ extension Ssm {
         /// The name of the invocation target. For Amazon EC2 instances this is the value for the aws:Name tag. For on-premises instances, this is the name of the instance.
         public let instanceName: String?
         /// The time and date the request was sent to this instance.
-        public let requestedDateTime: Double?
+        public let requestedDateTime: TimeStamp?
         /// The instance ID in which this invocation was requested.
         public let instanceId: String?
         /// The document name that was requested for execution.
@@ -2044,7 +2044,7 @@ extension Ssm {
         /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Run Command Status. StatusDetails can be one of the following values:   Pending: The command has not been sent to the instance.   In Progress: The command has been sent to the instance but has not reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.  
         public let statusDetails: String?
 
-        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: Double? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
+        public init(commandPlugins: [CommandPlugin]? = nil, notificationConfig: NotificationConfig? = nil, comment: String? = nil, standardOutputUrl: String? = nil, serviceRole: String? = nil, traceOutput: String? = nil, status: CommandInvocationStatus? = nil, instanceName: String? = nil, requestedDateTime: TimeStamp? = nil, instanceId: String? = nil, documentName: String? = nil, standardErrorUrl: String? = nil, commandId: String? = nil, statusDetails: String? = nil) {
             self.commandPlugins = commandPlugins
             self.notificationConfig = notificationConfig
             self.comment = comment
@@ -2378,9 +2378,9 @@ extension Ssm {
             AWSShapeMember(label: "LastSuccessfulExecutionDate", required: false, type: .timestamp)
         ]
         /// The date on which the association was last run.
-        public let lastExecutionDate: Double?
+        public let lastExecutionDate: TimeStamp?
         /// The date when the association was last updated.
-        public let lastUpdateAssociationDate: Double?
+        public let lastUpdateAssociationDate: TimeStamp?
         /// The instances targeted by the request. 
         public let targets: [Target]?
         /// The association status.
@@ -2402,11 +2402,11 @@ extension Ssm {
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
         /// The date when the association was made.
-        public let date: Double?
+        public let date: TimeStamp?
         /// The last date on which the association was successfully run.
-        public let lastSuccessfulExecutionDate: Double?
+        public let lastSuccessfulExecutionDate: TimeStamp?
 
-        public init(lastExecutionDate: Double? = nil, lastUpdateAssociationDate: Double? = nil, targets: [Target]? = nil, status: AssociationStatus? = nil, associationId: String? = nil, parameters: [String: [String]]? = nil, name: String? = nil, instanceId: String? = nil, documentVersion: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, date: Double? = nil, lastSuccessfulExecutionDate: Double? = nil) {
+        public init(lastExecutionDate: TimeStamp? = nil, lastUpdateAssociationDate: TimeStamp? = nil, targets: [Target]? = nil, status: AssociationStatus? = nil, associationId: String? = nil, parameters: [String: [String]]? = nil, name: String? = nil, instanceId: String? = nil, documentVersion: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, date: TimeStamp? = nil, lastSuccessfulExecutionDate: TimeStamp? = nil) {
             self.lastExecutionDate = lastExecutionDate
             self.lastUpdateAssociationDate = lastUpdateAssociationDate
             self.targets = targets
@@ -2760,11 +2760,11 @@ extension Ssm {
         /// The status.
         public let name: AssociationStatusName
         /// The date when the status changed.
-        public let date: Double
+        public let date: TimeStamp
         /// A user-defined string.
         public let additionalInfo: String?
 
-        public init(message: String, name: AssociationStatusName, date: Double, additionalInfo: String? = nil) {
+        public init(message: String, name: AssociationStatusName, date: TimeStamp, additionalInfo: String? = nil) {
             self.message = message
             self.name = name
             self.date = date
@@ -2864,7 +2864,7 @@ extension Ssm {
         /// The version of the document to use during execution.
         public let documentVersion: String?
         /// The time the execution started.
-        public let executionStartTime: Double?
+        public let executionStartTime: TimeStamp?
         /// The list of execution outputs as defined in the automation document.
         public let outputs: [String: [String]]?
         /// A message describing why an execution has failed, if the status is set to Failed.
@@ -2874,9 +2874,9 @@ extension Ssm {
         /// A list of details about the current state of all steps that comprise an execution. An Automation document contains a list of steps that are executed in order.
         public let stepExecutions: [StepExecution]?
         /// The time the execution finished.
-        public let executionEndTime: Double?
+        public let executionEndTime: TimeStamp?
 
-        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: Double? = nil) {
+        public init(parameters: [String: [String]]? = nil, automationExecutionStatus: AutomationExecutionStatus? = nil, documentName: String? = nil, documentVersion: String? = nil, executionStartTime: TimeStamp? = nil, outputs: [String: [String]]? = nil, failureMessage: String? = nil, automationExecutionId: String? = nil, stepExecutions: [StepExecution]? = nil, executionEndTime: TimeStamp? = nil) {
             self.parameters = parameters
             self.automationExecutionStatus = automationExecutionStatus
             self.documentName = documentName
@@ -2982,7 +2982,7 @@ extension Ssm {
         /// The language of the patch if it's language-specific.
         public let language: String?
         /// The date the patch was released.
-        public let releaseDate: Double?
+        public let releaseDate: TimeStamp?
         /// The title of the patch.
         public let title: String?
         /// The ID of the patch (this is different than the Microsoft Knowledge Base ID).
@@ -3002,7 +3002,7 @@ extension Ssm {
         /// The severity of the patch (for example Critical, Important, Moderate).
         public let msrcSeverity: String?
 
-        public init(classification: String? = nil, product: String? = nil, language: String? = nil, releaseDate: Double? = nil, title: String? = nil, id: String? = nil, description: String? = nil, productFamily: String? = nil, vendor: String? = nil, msrcNumber: String? = nil, kbNumber: String? = nil, contentUrl: String? = nil, msrcSeverity: String? = nil) {
+        public init(classification: String? = nil, product: String? = nil, language: String? = nil, releaseDate: TimeStamp? = nil, title: String? = nil, id: String? = nil, description: String? = nil, productFamily: String? = nil, vendor: String? = nil, msrcNumber: String? = nil, kbNumber: String? = nil, contentUrl: String? = nil, msrcSeverity: String? = nil) {
             self.classification = classification
             self.product = product
             self.language = language
@@ -3295,7 +3295,7 @@ extension Ssm {
         /// The name of the parameter.
         public let name: String?
         /// Date the parameter was last changed or updated.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
         /// The type of parameter used.
@@ -3307,7 +3307,7 @@ extension Ssm {
         /// Information about the parameter.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Double? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: TimeStamp? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, value: String? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
@@ -3432,7 +3432,7 @@ extension Ssm {
         /// The default version.
         public let defaultVersion: String?
         /// The date when the document was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The AWS user account of the person who created the document.
         public let owner: String?
         /// The type of document. 
@@ -3458,7 +3458,7 @@ extension Ssm {
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
         public let hashType: DocumentHashType?
 
-        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Double? = nil, owner: String? = nil, documentType: DocumentType? = nil, description: String? = nil, status: DocumentStatus? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: DocumentHashType? = nil) {
+        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: TimeStamp? = nil, owner: String? = nil, documentType: DocumentType? = nil, description: String? = nil, status: DocumentStatus? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: DocumentHashType? = nil) {
             self.sha1 = sha1
             self.defaultVersion = defaultVersion
             self.createdDate = createdDate
@@ -3927,7 +3927,7 @@ extension Ssm {
         /// The parameter name.
         public let name: String?
         /// Date the parameter was last changed or updated.
-        public let lastModifiedDate: Double?
+        public let lastModifiedDate: TimeStamp?
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public let allowedPattern: String?
         /// The type of parameter. Valid parameter types include the following: String, String list, Secure string.
@@ -3937,7 +3937,7 @@ extension Ssm {
         /// Description of the parameter actions.
         public let description: String?
 
-        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: Double? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
+        public init(keyId: String? = nil, name: String? = nil, lastModifiedDate: TimeStamp? = nil, allowedPattern: String? = nil, type: ParameterType? = nil, lastModifiedUser: String? = nil, description: String? = nil) {
             self.keyId = keyId
             self.name = name
             self.lastModifiedDate = lastModifiedDate
@@ -4026,7 +4026,7 @@ extension Ssm {
         /// A list of explicitly approved patches for the baseline.
         public let approvedPatches: [String]?
         /// The date when the patch baseline was last modified.
-        public let modifiedDate: Double?
+        public let modifiedDate: TimeStamp?
         /// The name of the patch baseline.
         public let name: String?
         /// A list of explicitly rejected patches for the baseline.
@@ -4036,11 +4036,11 @@ extension Ssm {
         /// A set of global filters used to exclude patches from the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The date when the patch baseline was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A description of the Patch Baseline.
         public let description: String?
 
-        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Double? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Double? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: TimeStamp? = nil, description: String? = nil) {
             self.baselineId = baselineId
             self.approvedPatches = approvedPatches
             self.modifiedDate = modifiedDate
@@ -4354,11 +4354,11 @@ extension Ssm {
             AWSShapeMember(label: "DeploymentStatus", required: false, type: .enum)
         ]
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
-        public let approvalDate: Double?
+        public let approvalDate: TimeStamp?
         /// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED, EXPLICIT_REJECTED).
         public let deploymentStatus: PatchDeploymentStatus?
 
-        public init(approvalDate: Double? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
+        public init(approvalDate: TimeStamp? = nil, deploymentStatus: PatchDeploymentStatus? = nil) {
             self.approvalDate = approvalDate
             self.deploymentStatus = deploymentStatus
         }
@@ -4434,11 +4434,11 @@ extension Ssm {
             AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the Maintenance Window finished executing.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The ID of the task executions from the Maintenance Window execution.
         public let taskIds: [String]?
         /// The time the Maintenance Window started executing.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The status of the Maintenance Window execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
@@ -4446,7 +4446,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: Double? = nil, taskIds: [String]? = nil, startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: TimeStamp? = nil, taskIds: [String]? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.taskIds = taskIds
             self.startTime = startTime
@@ -4698,9 +4698,9 @@ extension Ssm {
         /// The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.
         public let defaultInstanceName: String?
         /// The date by which this activation request should expire. The default value is 24 hours.
-        public let expirationDate: Double?
+        public let expirationDate: TimeStamp?
 
-        public init(iamRole: String, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, expirationDate: Double? = nil) {
+        public init(iamRole: String, description: String? = nil, registrationLimit: Int32? = nil, defaultInstanceName: String? = nil, expirationDate: TimeStamp? = nil) {
             self.iamRole = iamRole
             self.description = description
             self.registrationLimit = registrationLimit
@@ -5296,7 +5296,7 @@ extension Ssm {
             AWSShapeMember(label: "OwnerInformation", required: false, type: .string)
         ]
         /// The time the invocation started.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The status of the task invocation.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
@@ -5308,7 +5308,7 @@ extension Ssm {
         /// The ID of the action performed in the service that actually handled the task invocation. If the task type is RUN_COMMAND, this value is the command ID.
         public let executionId: String?
         /// The time the invocation finished.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The ID of the target definition in this Maintenance Window the invocation was performed for.
         public let windowTargetId: String?
         /// The ID of the specific task execution in the Maintenance Window execution.
@@ -5318,7 +5318,7 @@ extension Ssm {
         /// User-provided value that was specified when the target was registered with the Maintenance Window. This was also included in any CloudWatch events raised during the task invocation.
         public let ownerInformation: String?
 
-        public init(startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: Double? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
+        public init(startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, invocationId: String? = nil, parameters: String? = nil, executionId: String? = nil, endTime: TimeStamp? = nil, windowTargetId: String? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil, ownerInformation: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -5458,7 +5458,7 @@ extension Ssm {
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public let failedCount: Int32?
         /// The time the most recent patching operation completed on the instance.
-        public let operationEndTime: Double
+        public let operationEndTime: TimeStamp
         /// The name of the patch group the managed instance belongs to.
         public let patchGroup: String
         /// The ID of the patch baseline used to patch the instance.
@@ -5476,11 +5476,11 @@ extension Ssm {
         /// The number of patches from the patch baseline that are installed on the instance.
         public let installedCount: Int32?
         /// The time the most recent patching operation was started on the instance.
-        public let operationStartTime: Double
+        public let operationStartTime: TimeStamp
         /// Placeholder information, this field will always be empty in the current release of the service.
         public let ownerInformation: String?
 
-        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: Double, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: PatchOperationType, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: Double, ownerInformation: String? = nil) {
+        public init(installedOtherCount: Int32? = nil, failedCount: Int32? = nil, operationEndTime: TimeStamp, patchGroup: String, baselineId: String, missingCount: Int32? = nil, instanceId: String, operation: PatchOperationType, notApplicableCount: Int32? = nil, snapshotId: String? = nil, installedCount: Int32? = nil, operationStartTime: TimeStamp, ownerInformation: String? = nil) {
             self.installedOtherCount = installedOtherCount
             self.failedCount = failedCount
             self.operationEndTime = operationEndTime
@@ -5526,7 +5526,7 @@ extension Ssm {
             AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the task execution started.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The status of the task execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution that ran the task.
@@ -5536,13 +5536,13 @@ extension Ssm {
         /// The type of executed task.
         public let taskType: MaintenanceWindowTaskType?
         /// The time the task execution finished.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The ID of the specific task execution in the Maintenance Window execution.
         public let taskExecutionId: String?
         /// The details explaining the status of the task execution. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: MaintenanceWindowTaskType? = nil, endTime: Double? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, taskType: MaintenanceWindowTaskType? = nil, endTime: TimeStamp? = nil, taskExecutionId: String? = nil, statusDetails: String? = nil) {
             self.startTime = startTime
             self.status = status
             self.windowExecutionId = windowExecutionId
@@ -5576,11 +5576,11 @@ extension Ssm {
             AWSShapeMember(label: "StatusDetails", required: false, type: .string)
         ]
         /// The time the execution finished.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The ID of the Maintenance Window.
         public let windowId: String?
         /// The time the execution started.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The status of the execution.
         public let status: MaintenanceWindowExecutionStatus?
         /// The ID of the Maintenance Window execution.
@@ -5588,7 +5588,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(endTime: Double? = nil, windowId: String? = nil, startTime: Double? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
+        public init(endTime: TimeStamp? = nil, windowId: String? = nil, startTime: TimeStamp? = nil, status: MaintenanceWindowExecutionStatus? = nil, windowExecutionId: String? = nil, statusDetails: String? = nil) {
             self.endTime = endTime
             self.windowId = windowId
             self.startTime = startTime
@@ -5731,7 +5731,7 @@ extension Ssm {
             AWSShapeMember(label: "Response", required: false, type: .string)
         ]
         /// If a step has finished execution, this contains the time the execution ended. If the step has not yet concluded, this field is not populated.
-        public let executionEndTime: Double?
+        public let executionEndTime: TimeStamp?
         /// The name of this execution step.
         public let stepName: String?
         /// The action this step performs. The action determines the behavior of the step.
@@ -5741,7 +5741,7 @@ extension Ssm {
         /// Fully-resolved values passed into the step before execution.
         public let inputs: [String: String]?
         /// If a step has begun execution, this contains the time the step started. If the step is in Pending status, this field is not populated.
-        public let executionStartTime: Double?
+        public let executionStartTime: TimeStamp?
         /// Returned values from the execution of the step.
         public let outputs: [String: [String]]?
         /// The response code returned by the execution of the step.
@@ -5753,7 +5753,7 @@ extension Ssm {
         /// A message associated with the response code for an execution.
         public let response: String?
 
-        public init(executionEndTime: Double? = nil, stepName: String? = nil, action: String? = nil, failureDetails: FailureDetails? = nil, inputs: [String: String]? = nil, executionStartTime: Double? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
+        public init(executionEndTime: TimeStamp? = nil, stepName: String? = nil, action: String? = nil, failureDetails: FailureDetails? = nil, inputs: [String: String]? = nil, executionStartTime: TimeStamp? = nil, outputs: [String: [String]]? = nil, responseCode: String? = nil, failureMessage: String? = nil, stepStatus: AutomationExecutionStatus? = nil, response: String? = nil) {
             self.executionEndTime = executionEndTime
             self.stepName = stepName
             self.action = action
@@ -5855,7 +5855,7 @@ extension Ssm {
         /// The ID of the specific task execution in the Maintenance Window task that was retrieved.
         public let taskExecutionId: String?
         /// The time the task execution started.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The ID of the Maintenance Window execution that includes the task.
         public let windowExecutionId: String?
         /// The ARN of the executed task.
@@ -5867,7 +5867,7 @@ extension Ssm {
         /// The parameters passed to the task when it was executed. The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
         /// The time the task execution completed.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The defined maximum number of task executions that could be run in parallel.
         public let maxConcurrency: String?
         /// The type of task executed.
@@ -5875,7 +5875,7 @@ extension Ssm {
         /// The details explaining the Status. Only available for certain status values.
         public let statusDetails: String?
 
-        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: Double? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: Double? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil, statusDetails: String? = nil) {
+        public init(priority: Int32? = nil, serviceRole: String? = nil, taskExecutionId: String? = nil, startTime: TimeStamp? = nil, windowExecutionId: String? = nil, taskArn: String? = nil, maxErrors: String? = nil, status: MaintenanceWindowExecutionStatus? = nil, taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]? = nil, endTime: TimeStamp? = nil, maxConcurrency: String? = nil, type: MaintenanceWindowTaskType? = nil, statusDetails: String? = nil) {
             self.priority = priority
             self.serviceRole = serviceRole
             self.taskExecutionId = taskExecutionId
@@ -6008,7 +6008,7 @@ extension Ssm {
         /// A list of explicitly approved patches for the baseline.
         public let approvedPatches: [String]?
         /// The date the patch baseline was last modified.
-        public let modifiedDate: Double?
+        public let modifiedDate: TimeStamp?
         /// The name of the patch baseline.
         public let name: String?
         /// A list of explicitly rejected patches for the baseline.
@@ -6018,13 +6018,13 @@ extension Ssm {
         /// A set of global filters used to exclude patches from the baseline.
         public let globalFilters: PatchFilterGroup?
         /// The date the patch baseline was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// Patch groups included in the patch baseline.
         public let patchGroups: [String]?
         /// A description of the patch baseline.
         public let description: String?
 
-        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: Double? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: Double? = nil, patchGroups: [String]? = nil, description: String? = nil) {
+        public init(baselineId: String? = nil, approvedPatches: [String]? = nil, modifiedDate: TimeStamp? = nil, name: String? = nil, rejectedPatches: [String]? = nil, approvalRules: PatchRuleGroup? = nil, globalFilters: PatchFilterGroup? = nil, createdDate: TimeStamp? = nil, patchGroups: [String]? = nil, description: String? = nil) {
             self.baselineId = baselineId
             self.approvedPatches = approvedPatches
             self.modifiedDate = modifiedDate
@@ -6460,7 +6460,7 @@ extension Ssm {
         /// The association document verions.
         public let documentVersion: String?
         /// The date the instance association executed. 
-        public let executionDate: Double?
+        public let executionDate: TimeStamp?
         /// Summary information about association execution.
         public let executionSummary: String?
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
@@ -6470,7 +6470,7 @@ extension Ssm {
         /// Detailed status information about the instance association.
         public let detailedStatus: String?
 
-        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, executionDate: Double? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
+        public init(status: String? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, executionDate: TimeStamp? = nil, executionSummary: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, errorCode: String? = nil, detailedStatus: String? = nil) {
             self.status = status
             self.associationId = associationId
             self.instanceId = instanceId
@@ -6730,17 +6730,17 @@ extension Ssm {
         /// The name of the Resource Data Sync.
         public let syncName: String?
         /// The last time the configuration attempted to sync (UTC).
-        public let lastSyncTime: Double?
+        public let lastSyncTime: TimeStamp?
         /// The last time the sync operations returned a status of SUCCESSFUL (UTC).
-        public let lastSuccessfulSyncTime: Double?
+        public let lastSuccessfulSyncTime: TimeStamp?
         /// The date and time the configuration was created (UTC).
-        public let syncCreatedTime: Double?
+        public let syncCreatedTime: TimeStamp?
         /// Configuration information for the target Amazon S3 bucket.
         public let s3Destination: ResourceDataSyncS3Destination?
         /// The status reported by the last sync.
         public let lastStatus: LastResourceDataSyncStatus?
 
-        public init(syncName: String? = nil, lastSyncTime: Double? = nil, lastSuccessfulSyncTime: Double? = nil, syncCreatedTime: Double? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, lastStatus: LastResourceDataSyncStatus? = nil) {
+        public init(syncName: String? = nil, lastSyncTime: TimeStamp? = nil, lastSuccessfulSyncTime: TimeStamp? = nil, syncCreatedTime: TimeStamp? = nil, s3Destination: ResourceDataSyncS3Destination? = nil, lastStatus: LastResourceDataSyncStatus? = nil) {
             self.syncName = syncName
             self.lastSyncTime = lastSyncTime
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
@@ -7136,7 +7136,7 @@ extension Ssm {
             AWSShapeMember(label: "ScheduleExpression", required: false, type: .string)
         ]
         /// The date on which the association was last run.
-        public let lastExecutionDate: Double?
+        public let lastExecutionDate: TimeStamp?
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
         public let associationId: String?
         /// The ID of the instance.
@@ -7152,7 +7152,7 @@ extension Ssm {
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
 
-        public init(lastExecutionDate: Double? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, targets: [Target]? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil) {
+        public init(lastExecutionDate: TimeStamp? = nil, associationId: String? = nil, instanceId: String? = nil, name: String? = nil, documentVersion: String? = nil, targets: [Target]? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil) {
             self.lastExecutionDate = lastExecutionDate
             self.associationId = associationId
             self.instanceId = instanceId
@@ -7195,19 +7195,19 @@ extension Ssm {
         /// The maximum number of managed instances that can be registered using this activation.
         public let registrationLimit: Int32?
         /// The date when this activation can no longer be used to register managed instances.
-        public let expirationDate: Double?
+        public let expirationDate: TimeStamp?
         /// The ID created by Systems Manager when you submitted the activation.
         public let activationId: String?
         /// The number of managed instances already registered with this activation.
         public let registrationsCount: Int32?
         /// The date the activation was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// A name for the managed instance when it is created.
         public let defaultInstanceName: String?
         /// A user defined description of the activation.
         public let description: String?
 
-        public init(iamRole: String? = nil, expired: Bool? = nil, registrationLimit: Int32? = nil, expirationDate: Double? = nil, activationId: String? = nil, registrationsCount: Int32? = nil, createdDate: Double? = nil, defaultInstanceName: String? = nil, description: String? = nil) {
+        public init(iamRole: String? = nil, expired: Bool? = nil, registrationLimit: Int32? = nil, expirationDate: TimeStamp? = nil, activationId: String? = nil, registrationsCount: Int32? = nil, createdDate: TimeStamp? = nil, defaultInstanceName: String? = nil, description: String? = nil) {
             self.iamRole = iamRole
             self.expired = expired
             self.registrationLimit = registrationLimit
@@ -7637,7 +7637,7 @@ extension Ssm {
             AWSShapeMember(label: "DocumentVersion", required: false, type: .string)
         ]
         /// The date the document was created.
-        public let createdDate: Double?
+        public let createdDate: TimeStamp?
         /// The document name.
         public let name: String?
         /// An identifier for the default version of the document.
@@ -7645,7 +7645,7 @@ extension Ssm {
         /// The document version.
         public let documentVersion: String?
 
-        public init(createdDate: Double? = nil, name: String? = nil, isDefaultVersion: Bool? = nil, documentVersion: String? = nil) {
+        public init(createdDate: TimeStamp? = nil, name: String? = nil, isDefaultVersion: Bool? = nil, documentVersion: String? = nil) {
             self.createdDate = createdDate
             self.name = name
             self.isDefaultVersion = isDefaultVersion

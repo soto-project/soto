@@ -365,7 +365,7 @@ extension Route53domains {
             AWSShapeMember(label: "TransferLock", required: false, type: .boolean)
         ]
         /// Expiration date of the domain in Coordinated Universal Time (UTC).
-        public let expiry: Double?
+        public let expiry: TimeStamp?
         /// The name of the domain that the summary information applies to.
         public let domainName: String
         /// Indicates whether the domain is automatically renewed upon expiration.
@@ -373,7 +373,7 @@ extension Route53domains {
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public let transferLock: Bool?
 
-        public init(expiry: Double? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
+        public init(expiry: TimeStamp? = nil, domainName: String, autoRenew: Bool? = nil, transferLock: Bool? = nil) {
             self.expiry = expiry
             self.domainName = domainName
             self.autoRenew = autoRenew
@@ -875,13 +875,13 @@ extension Route53domains {
         /// Detailed information on the status including possible errors.
         public let message: String?
         /// The date when the request was submitted.
-        public let submittedDate: Double?
+        public let submittedDate: TimeStamp?
         /// The type of operation that was requested.
         public let `type`: OperationType?
         /// The name of a domain.
         public let domainName: String?
 
-        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: Double? = nil, type: OperationType? = nil, domainName: String? = nil) {
+        public init(status: OperationStatus? = nil, operationId: String? = nil, message: String? = nil, submittedDate: TimeStamp? = nil, type: OperationType? = nil, domainName: String? = nil) {
             self.status = status
             self.operationId = operationId
             self.message = message
@@ -966,7 +966,7 @@ extension Route53domains {
             AWSShapeMember(label: "Price", required: false, type: .double)
         ]
         /// The date that the operation was billed, in Unix format.
-        public let billDate: Double?
+        public let billDate: TimeStamp?
         /// The ID of the invoice that is associated with the billing record.
         public let invoiceId: String?
         /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see DNS Domain Name Format in the Amazon Route 53 Developer Guidezzz.
@@ -976,7 +976,7 @@ extension Route53domains {
         /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public let price: Double?
 
-        public init(billDate: Double? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
+        public init(billDate: TimeStamp? = nil, invoiceId: String? = nil, domainName: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.invoiceId = invoiceId
             self.domainName = domainName
@@ -1146,7 +1146,7 @@ extension Route53domains {
         /// Provides details about the domain technical contact.
         public let techContact: ContactDetail
         /// The date when the registration for the domain is set to expire. The date format is Unix time.
-        public let expirationDate: Double?
+        public let expirationDate: TimeStamp?
         /// Name of the registrar of the domain as identified in the registry. Amazon Route 53 domains are registered by registrar Gandi. The value is "GANDI SAS". 
         public let registrarName: String?
         /// Specifies whether contact information for the tech contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
@@ -1154,7 +1154,7 @@ extension Route53domains {
         /// Web address of the registrar.
         public let registrarUrl: String?
         /// The date when the domain was created as found in the response to a WHOIS query. The date format is Unix time.
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         /// Email address to contact to report incorrect contact information for a domain, to report that the domain is being used to send spam, to report that someone is cybersquatting on a domain name, or report some other type of abuse.
         public let abuseContactEmail: String?
         /// Specifies whether contact information for the admin contact is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
@@ -1164,7 +1164,7 @@ extension Route53domains {
         /// Provides details about the domain administrative contact.
         public let adminContact: ContactDetail
         /// The last updated date of the domain as found in the response to a WHOIS query. The date format is Unix time.
-        public let updatedDate: Double?
+        public let updatedDate: TimeStamp?
         /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
         public let whoIsServer: String?
         /// The name of the domain.
@@ -1178,7 +1178,7 @@ extension Route53domains {
         /// Specifies whether the domain registration is set to renew automatically.
         public let autoRenew: Bool?
 
-        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: Double? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: Double? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: Double? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
+        public init(registryDomainId: String? = nil, reseller: String? = nil, registrantContact: ContactDetail, statusList: [String]? = nil, techContact: ContactDetail, expirationDate: TimeStamp? = nil, registrarName: String? = nil, techPrivacy: Bool? = nil, registrarUrl: String? = nil, creationDate: TimeStamp? = nil, abuseContactEmail: String? = nil, adminPrivacy: Bool? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail, updatedDate: TimeStamp? = nil, whoIsServer: String? = nil, nameservers: [Nameserver], dnsSec: String? = nil, domainName: String, registrantPrivacy: Bool? = nil, autoRenew: Bool? = nil) {
             self.registryDomainId = registryDomainId
             self.reseller = reseller
             self.registrantContact = registrantContact
@@ -1274,11 +1274,11 @@ extension Route53domains {
         /// Identifier returned to track the requested action.
         public let operationId: String
         /// The date when the request was submitted.
-        public let submittedDate: Double
+        public let submittedDate: TimeStamp
         /// Type of the action requested.
         public let `type`: OperationType
 
-        public init(status: OperationStatus, operationId: String, submittedDate: Double, type: OperationType) {
+        public init(status: OperationStatus, operationId: String, submittedDate: TimeStamp, type: OperationType) {
             self.status = status
             self.operationId = operationId
             self.submittedDate = submittedDate
@@ -1365,13 +1365,13 @@ extension Route53domains {
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int32?
         /// The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-        public let start: Double?
+        public let start: TimeStamp?
         /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
         /// The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-        public let end: Double?
+        public let end: TimeStamp?
 
-        public init(maxItems: Int32? = nil, start: Double? = nil, marker: String? = nil, end: Double? = nil) {
+        public init(maxItems: Int32? = nil, start: TimeStamp? = nil, marker: String? = nil, end: TimeStamp? = nil) {
             self.maxItems = maxItems
             self.start = start
             self.marker = marker

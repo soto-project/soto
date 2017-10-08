@@ -513,11 +513,11 @@ extension Kinesisanalytics {
             AWSShapeMember(label: "ApplicationName", required: true, type: .string)
         ]
         ///  You can use the DescribeApplication operation to get this value. 
-        public let createTimestamp: Double
+        public let createTimestamp: TimeStamp
         /// Name of the Amazon Kinesis Analytics application to delete.
         public let applicationName: String
 
-        public init(createTimestamp: Double, applicationName: String) {
+        public init(createTimestamp: TimeStamp, applicationName: String) {
             self.createTimestamp = createTimestamp
             self.applicationName = applicationName
         }
@@ -1061,11 +1061,11 @@ extension Kinesisanalytics {
         /// Status of the application.
         public let applicationStatus: ApplicationStatus
         /// Timestamp when the application was last updated.
-        public let lastUpdateTimestamp: Double?
+        public let lastUpdateTimestamp: TimeStamp?
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
         public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application version was created.
-        public let createTimestamp: Double?
+        public let createTimestamp: TimeStamp?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
         public let applicationCode: String?
         /// Name of the application.
@@ -1081,7 +1081,7 @@ extension Kinesisanalytics {
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
         public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
-        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, lastUpdateTimestamp: Double? = nil, inputDescriptions: [InputDescription]? = nil, createTimestamp: Double? = nil, applicationCode: String? = nil, applicationName: String, outputDescriptions: [OutputDescription]? = nil, applicationARN: String, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
+        public init(applicationDescription: String? = nil, applicationStatus: ApplicationStatus, lastUpdateTimestamp: TimeStamp? = nil, inputDescriptions: [InputDescription]? = nil, createTimestamp: TimeStamp? = nil, applicationCode: String? = nil, applicationName: String, outputDescriptions: [OutputDescription]? = nil, applicationARN: String, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationStatus = applicationStatus
             self.lastUpdateTimestamp = lastUpdateTimestamp

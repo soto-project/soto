@@ -273,7 +273,7 @@ extension Discovery {
             AWSShapeMember(label: "configurationId", required: false, type: .string)
         ]
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public let timeOfCreation: Double?
+        public let timeOfCreation: TimeStamp?
         /// A type of IT asset to tag.
         public let configurationType: ConfigurationItemType?
         /// A value on which to filter. For example key = serverType and value = web server.
@@ -283,7 +283,7 @@ extension Discovery {
         /// The configuration ID for the item to tag. You can specify a list of keys and values.
         public let configurationId: String?
 
-        public init(timeOfCreation: Double? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
+        public init(timeOfCreation: TimeStamp? = nil, configurationType: ConfigurationItemType? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
             self.timeOfCreation = timeOfCreation
             self.configurationType = configurationType
             self.value = value
@@ -1003,9 +1003,9 @@ extension Discovery {
         /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
         public let statusMessage: String
         /// The time that the configuration data export was initiated.
-        public let exportRequestTime: Double
+        public let exportRequestTime: TimeStamp
 
-        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Double) {
+        public init(exportId: String, exportStatus: ExportStatus, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: TimeStamp) {
             self.exportId = exportId
             self.exportStatus = exportStatus
             self.configurationsDownloadUrl = configurationsDownloadUrl

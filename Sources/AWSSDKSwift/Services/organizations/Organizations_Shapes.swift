@@ -197,19 +197,19 @@ extension Organizations {
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String?
         /// The date and time that the request was made for the account creation.
-        public let requestedTimestamp: Double?
+        public let requestedTimestamp: TimeStamp?
         /// The status of the request.
         public let state: CreateAccountState?
         /// The account name given to the account when it was created.
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
-        public let completedTimestamp: Double?
+        public let completedTimestamp: TimeStamp?
         /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.  
         public let failureReason: CreateAccountFailureReason?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(accountId: String? = nil, requestedTimestamp: Double? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: Double? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
+        public init(accountId: String? = nil, requestedTimestamp: TimeStamp? = nil, state: CreateAccountState? = nil, accountName: String? = nil, completedTimestamp: TimeStamp? = nil, failureReason: CreateAccountFailureReason? = nil, id: String? = nil) {
             self.accountId = accountId
             self.requestedTimestamp = requestedTimestamp
             self.state = state
@@ -993,13 +993,13 @@ extension Organizations {
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The date the account became a part of the organization.
-        public let joinedTimestamp: Double?
+        public let joinedTimestamp: TimeStamp?
         /// The method by which the account joined the organization.
         public let joinedMethod: AccountJoinedMethod?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
         public let id: String?
 
-        public init(status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, joinedTimestamp: Double? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
+        public init(status: AccountStatus? = nil, arn: String? = nil, email: String? = nil, name: String? = nil, joinedTimestamp: TimeStamp? = nil, joinedMethod: AccountJoinedMethod? = nil, id: String? = nil) {
             self.status = status
             self.arn = arn
             self.email = email
@@ -1656,7 +1656,7 @@ extension Organizations {
             AWSShapeMember(label: "Id", required: false, type: .string)
         ]
         /// The date and time that the handshake request was made.
-        public let requestedTimestamp: Double?
+        public let requestedTimestamp: TimeStamp?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake.
@@ -1664,7 +1664,7 @@ extension Organizations {
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
         public let state: HandshakeState?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public let expirationTimestamp: Double?
+        public let expirationTimestamp: TimeStamp?
         /// Additional information that is needed to process the handshake.
         public let resources: [HandshakeResource]?
         /// Information about the two accounts that are participating in the handshake.
@@ -1672,7 +1672,7 @@ extension Organizations {
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String?
 
-        public init(requestedTimestamp: Double? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: Double? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
+        public init(requestedTimestamp: TimeStamp? = nil, arn: String? = nil, action: ActionType? = nil, state: HandshakeState? = nil, expirationTimestamp: TimeStamp? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
             self.requestedTimestamp = requestedTimestamp
             self.arn = arn
             self.action = action

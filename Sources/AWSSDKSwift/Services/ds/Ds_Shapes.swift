@@ -412,7 +412,7 @@ extension Ds {
         /// The short name of the directory.
         public let shortName: String?
         /// Specifies when the directory was created.
-        public let launchTime: Double?
+        public let launchTime: TimeStamp?
         /// The directory identifier.
         public let directoryId: String?
         /// The current stage of the directory.
@@ -420,7 +420,7 @@ extension Ds {
         /// The textual description for the directory.
         public let description: String?
         /// The date and time that the stage was last updated.
-        public let stageLastUpdatedDateTime: Double?
+        public let stageLastUpdatedDateTime: TimeStamp?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
@@ -446,7 +446,7 @@ extension Ds {
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
         public let dnsIpAddrs: [String]?
 
-        public init(shortName: String? = nil, launchTime: Double? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: Double? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
+        public init(shortName: String? = nil, launchTime: TimeStamp? = nil, directoryId: String? = nil, stage: DirectoryStage? = nil, description: String? = nil, stageLastUpdatedDateTime: TimeStamp? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: DirectorySize? = nil, alias: String? = nil, radiusStatus: RadiusStatus? = nil, type: DirectoryType? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
             self.launchTime = launchTime
             self.directoryId = directoryId
@@ -533,7 +533,7 @@ extension Ds {
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
         public let remoteDomainName: String?
         /// The date and time that the trust relationship was last updated.
-        public let lastUpdatedDateTime: Double?
+        public let lastUpdatedDateTime: TimeStamp?
         /// The trust relationship type.
         public let trustType: TrustType?
         /// The reason for the TrustState.
@@ -543,15 +543,15 @@ extension Ds {
         /// The trust relationship state.
         public let trustState: TrustState?
         /// The date and time that the trust relationship was created.
-        public let createdDateTime: Double?
+        public let createdDateTime: TimeStamp?
         /// The unique ID of the trust relationship.
         public let trustId: String?
         /// The date and time that the TrustState was last updated.
-        public let stateLastUpdatedDateTime: Double?
+        public let stateLastUpdatedDateTime: TimeStamp?
         /// The trust relationship direction.
         public let trustDirection: TrustDirection?
 
-        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Double? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: Double? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Double? = nil, trustDirection: TrustDirection? = nil) {
+        public init(remoteDomainName: String? = nil, lastUpdatedDateTime: TimeStamp? = nil, trustType: TrustType? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: TrustState? = nil, createdDateTime: TimeStamp? = nil, trustId: String? = nil, stateLastUpdatedDateTime: TimeStamp? = nil, trustDirection: TrustDirection? = nil) {
             self.remoteDomainName = remoteDomainName
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.trustType = trustType
@@ -631,13 +631,13 @@ extension Ds {
         /// The name of an AWS SNS topic the receives status messages from the directory.
         public let topicName: String?
         /// The date and time of when you associated your directory with the SNS topic.
-        public let createdDateTime: Double?
+        public let createdDateTime: TimeStamp?
         /// The topic registration status.
         public let status: TopicStatus?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
         public let directoryId: String?
 
-        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Double? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
+        public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: TimeStamp? = nil, status: TopicStatus? = nil, directoryId: String? = nil) {
             self.topicArn = topicArn
             self.topicName = topicName
             self.createdDateTime = createdDateTime
@@ -1156,17 +1156,17 @@ extension Ds {
         /// The reason for the SchemaExtensionStatus.
         public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension was completed.
-        public let endDateTime: Double?
+        public let endDateTime: TimeStamp?
         /// The identifier of the directory to which the schema extension is applied.
         public let directoryId: String?
         /// The date and time that the schema extension started being applied to the directory.
-        public let startDateTime: Double?
+        public let startDateTime: TimeStamp?
         /// The current status of the schema extension.
         public let schemaExtensionStatus: SchemaExtensionStatus?
         /// A description of the schema extension.
         public let description: String?
 
-        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Double? = nil, directoryId: String? = nil, startDateTime: Double? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
+        public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: TimeStamp? = nil, directoryId: String? = nil, startDateTime: TimeStamp? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, description: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
             self.schemaExtensionStatusReason = schemaExtensionStatusReason
             self.endDateTime = endDateTime
@@ -1568,7 +1568,7 @@ extension Ds {
         /// The snapshot status.
         public let status: SnapshotStatus?
         /// The date and time that the snapshot was taken.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The snapshot type.
         public let `type`: SnapshotType?
         /// The descriptive name of the snapshot.
@@ -1576,7 +1576,7 @@ extension Ds {
         /// The directory identifier.
         public let directoryId: String?
 
-        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: Double? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
+        public init(snapshotId: String? = nil, status: SnapshotStatus? = nil, startTime: TimeStamp? = nil, type: SnapshotType? = nil, name: String? = nil, directoryId: String? = nil) {
             self.snapshotId = snapshotId
             self.status = status
             self.startTime = startTime
@@ -2074,7 +2074,7 @@ extension Ds {
         /// The status of the IP address block.
         public let ipRouteStatusMsg: IpRouteStatusMsg?
         /// The date and time the address block was added to the directory.
-        public let addedDateTime: Double?
+        public let addedDateTime: TimeStamp?
         /// IP address block in the IpRoute.
         public let cidrIp: String?
         /// The reason for the IpRouteStatusMsg.
@@ -2082,7 +2082,7 @@ extension Ds {
         /// Identifier (ID) of the directory associated with the IP addresses.
         public let directoryId: String?
 
-        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: Double? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
+        public init(description: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, addedDateTime: TimeStamp? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
             self.description = description
             self.ipRouteStatusMsg = ipRouteStatusMsg
             self.addedDateTime = addedDateTime

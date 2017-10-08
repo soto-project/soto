@@ -390,7 +390,7 @@ extension Polly {
         /// Amazon Resource Name (ARN) of the lexicon.
         public let lexiconArn: String?
         /// Date lexicon was last modified (a timestamp value).
-        public let lastModified: Double?
+        public let lastModified: TimeStamp?
         /// Number of lexemes in the lexicon.
         public let lexemesCount: Int32?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -400,7 +400,7 @@ extension Polly {
         /// Total size of the lexicon, in characters.
         public let size: Int32?
 
-        public init(lexiconArn: String? = nil, lastModified: Double? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
+        public init(lexiconArn: String? = nil, lastModified: TimeStamp? = nil, lexemesCount: Int32? = nil, languageCode: LanguageCode? = nil, alphabet: String? = nil, size: Int32? = nil) {
             self.lexiconArn = lexiconArn
             self.lastModified = lastModified
             self.lexemesCount = lexemesCount

@@ -529,11 +529,11 @@ extension Events {
         /// The source of the event.
         public let source: String?
         /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
-        public let time: Double?
+        public let time: TimeStamp?
         /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
 
-        public init(detail: String? = nil, detailType: String? = nil, source: String? = nil, time: Double? = nil, resources: [String]? = nil) {
+        public init(detail: String? = nil, detailType: String? = nil, source: String? = nil, time: TimeStamp? = nil, resources: [String]? = nil) {
             self.detail = detail
             self.detailType = detailType
             self.source = source

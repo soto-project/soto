@@ -379,9 +379,9 @@ extension Elasticfilesystem {
         /// Latest known metered size (in bytes) of data stored in the file system.
         public let value: Int64
         /// Time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
-        public let timestamp: Double?
+        public let timestamp: TimeStamp?
 
-        public init(value: Int64, timestamp: Double? = nil) {
+        public init(value: Int64, timestamp: TimeStamp? = nil) {
             self.value = value
             self.timestamp = timestamp
         }
@@ -471,7 +471,7 @@ extension Elasticfilesystem {
         /// Lifecycle phase of the file system.
         public let lifeCycleState: LifeCycleState
         /// Time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
-        public let creationTime: Double
+        public let creationTime: TimeStamp
         /// The PerformanceMode of the file system.
         public let performanceMode: PerformanceMode
         /// Current number of mount targets that the file system has. For more information, see CreateMountTarget.
@@ -479,7 +479,7 @@ extension Elasticfilesystem {
         /// AWS account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
         public let ownerId: String
 
-        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: Double, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
+        public init(name: String? = nil, creationToken: String, sizeInBytes: FileSystemSize, fileSystemId: String, lifeCycleState: LifeCycleState, creationTime: TimeStamp, performanceMode: PerformanceMode, numberOfMountTargets: Int32, ownerId: String) {
             self.name = name
             self.creationToken = creationToken
             self.sizeInBytes = sizeInBytes

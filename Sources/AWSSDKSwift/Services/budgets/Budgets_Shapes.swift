@@ -623,10 +623,10 @@ extension Budgets {
             AWSShapeMember(label: "Start", required: true, type: .timestamp), 
             AWSShapeMember(label: "End", required: true, type: .timestamp)
         ]
-        public let start: Double
-        public let end: Double
+        public let start: TimeStamp
+        public let end: TimeStamp
 
-        public init(start: Double, end: Double) {
+        public init(start: TimeStamp, end: TimeStamp) {
             self.start = start
             self.end = end
         }

@@ -105,9 +105,9 @@ extension Sts {
         /// The secret access key that can be used to sign requests.
         public let secretAccessKey: String
         /// The date on which the current credentials expire.
-        public let expiration: Double
+        public let expiration: TimeStamp
 
-        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: Double) {
+        public init(sessionToken: String, accessKeyId: String, secretAccessKey: String, expiration: TimeStamp) {
             self.sessionToken = sessionToken
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey

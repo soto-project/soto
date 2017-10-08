@@ -58,7 +58,7 @@ extension Health {
             AWSShapeMember(label: "entityValue", required: false, type: .string)
         ]
         /// The most recent time that the entity was updated.
-        public let lastUpdatedTime: Double?
+        public let lastUpdatedTime: TimeStamp?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
@@ -72,7 +72,7 @@ extension Health {
         /// The ID of the affected entity.
         public let entityValue: String?
 
-        public init(lastUpdatedTime: Double? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
+        public init(lastUpdatedTime: TimeStamp? = nil, statusCode: EntityStatusCode? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.statusCode = statusCode
             self.entityArn = entityArn
@@ -195,7 +195,7 @@ extension Health {
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         public let availabilityZone: String?
         /// The most recent date and time that the event was updated.
-        public let lastUpdatedTime: Double?
+        public let lastUpdatedTime: TimeStamp?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public let statusCode: EventStatusCode?
         /// The 
@@ -203,15 +203,15 @@ extension Health {
         /// The AWS region name of the event.
         public let region: String?
         /// The date and time that the event ended.
-        public let endTime: Double?
+        public let endTime: TimeStamp?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let eventTypeCode: String?
         /// The date and time that the event began.
-        public let startTime: Double?
+        public let startTime: TimeStamp?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public let arn: String?
 
-        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Double? = nil, statusCode: EventStatusCode? = nil, eventTypeCategory: EventTypeCategory? = nil, region: String? = nil, endTime: Double? = nil, eventTypeCode: String? = nil, startTime: Double? = nil, arn: String? = nil) {
+        public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: TimeStamp? = nil, statusCode: EventStatusCode? = nil, eventTypeCategory: EventTypeCategory? = nil, region: String? = nil, endTime: TimeStamp? = nil, eventTypeCode: String? = nil, startTime: TimeStamp? = nil, arn: String? = nil) {
             self.service = service
             self.availabilityZone = availabilityZone
             self.lastUpdatedTime = lastUpdatedTime
@@ -650,11 +650,11 @@ extension Health {
             AWSShapeMember(label: "from", required: false, type: .timestamp)
         ]
         /// The ending date and time of a time range.
-        public let to: Double?
+        public let to: TimeStamp?
         /// The starting date and time of a time range.
-        public let from: Double?
+        public let from: TimeStamp?
 
-        public init(to: Double? = nil, from: Double? = nil) {
+        public init(to: TimeStamp? = nil, from: TimeStamp? = nil) {
             self.to = to
             self.from = from
         }

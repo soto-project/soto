@@ -57,9 +57,9 @@ extension Sms {
         public let connectorId: String?
         public let vmManagerName: String?
         public let macAddress: String?
-        public let associatedOn: Double?
+        public let associatedOn: TimeStamp?
 
-        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Double? = nil) {
+        public init(capabilityList: ConnectorCapabilityList? = nil, status: ConnectorStatus? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: VmManagerType? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: TimeStamp? = nil) {
             self.capabilityList = capabilityList
             self.status = status
             self.ipAddress = ipAddress
@@ -156,9 +156,9 @@ extension Sms {
         public let serverList: ServerList?
         public let serverCatalogStatus: ServerCatalogStatus?
         public let nextToken: String?
-        public let lastModifiedOn: Double?
+        public let lastModifiedOn: TimeStamp?
 
-        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: Double? = nil) {
+        public init(serverList: ServerList? = nil, serverCatalogStatus: ServerCatalogStatus? = nil, nextToken: String? = nil, lastModifiedOn: TimeStamp? = nil) {
             self.serverList = serverList
             self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
@@ -238,13 +238,13 @@ extension Sms {
             AWSShapeMember(label: "licenseType", required: false, type: .enum)
         ]
         public let roleName: String?
-        public let nextReplicationRunStartTime: Double?
+        public let nextReplicationRunStartTime: TimeStamp?
         public let description: String?
         public let frequency: Int32?
         public let replicationJobId: String
         public let licenseType: LicenseType?
 
-        public init(roleName: String? = nil, nextReplicationRunStartTime: Double? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
+        public init(roleName: String? = nil, nextReplicationRunStartTime: TimeStamp? = nil, description: String? = nil, frequency: Int32? = nil, replicationJobId: String, licenseType: LicenseType? = nil) {
             self.roleName = roleName
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
             self.description = description
@@ -293,14 +293,14 @@ extension Sms {
         ]
         public let state: ReplicationRunState?
         public let replicationRunId: String?
-        public let completedTime: Double?
-        public let scheduledStartTime: Double?
+        public let completedTime: TimeStamp?
+        public let scheduledStartTime: TimeStamp?
         public let description: String?
         public let amiId: String?
         public let `type`: ReplicationRunType?
         public let statusMessage: String?
 
-        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: Double? = nil, scheduledStartTime: Double? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
+        public init(state: ReplicationRunState? = nil, replicationRunId: String? = nil, completedTime: TimeStamp? = nil, scheduledStartTime: TimeStamp? = nil, description: String? = nil, amiId: String? = nil, type: ReplicationRunType? = nil, statusMessage: String? = nil) {
             self.state = state
             self.replicationRunId = replicationRunId
             self.completedTime = completedTime
@@ -348,7 +348,7 @@ extension Sms {
         ]
         public let state: ReplicationJobState?
         public let replicationRunList: ReplicationRunList?
-        public let nextReplicationRunStartTime: Double?
+        public let nextReplicationRunStartTime: TimeStamp?
         public let vmServer: VmServer?
         public let licenseType: LicenseType?
         public let description: String?
@@ -358,10 +358,10 @@ extension Sms {
         public let statusMessage: String?
         public let replicationJobId: String?
         public let roleName: String?
-        public let seedReplicationTime: Double?
+        public let seedReplicationTime: TimeStamp?
         public let serverType: ServerType?
 
-        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Double? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Double? = nil, serverType: ServerType? = nil) {
+        public init(state: ReplicationJobState? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: TimeStamp? = nil, vmServer: VmServer? = nil, licenseType: LicenseType? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: TimeStamp? = nil, serverType: ServerType? = nil) {
             self.state = state
             self.replicationRunList = replicationRunList
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
@@ -485,14 +485,14 @@ extension Sms {
             AWSShapeMember(label: "frequency", required: true, type: .integer), 
             AWSShapeMember(label: "licenseType", required: false, type: .enum)
         ]
-        public let seedReplicationTime: Double
+        public let seedReplicationTime: TimeStamp
         public let roleName: String?
         public let serverId: String
         public let description: String?
         public let frequency: Int32
         public let licenseType: LicenseType?
 
-        public init(seedReplicationTime: Double, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
+        public init(seedReplicationTime: TimeStamp, roleName: String? = nil, serverId: String, description: String? = nil, frequency: Int32, licenseType: LicenseType? = nil) {
             self.seedReplicationTime = seedReplicationTime
             self.roleName = roleName
             self.serverId = serverId

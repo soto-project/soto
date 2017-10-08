@@ -292,11 +292,11 @@ extension Importexport {
             AWSShapeMember(label: "IsCanceled", required: false, type: .boolean)
         ]
         public let jobType: JobType?
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         public let jobId: String?
         public let isCanceled: Bool?
 
-        public init(jobType: JobType? = nil, creationDate: Double? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
+        public init(jobType: JobType? = nil, creationDate: TimeStamp? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
             self.jobType = jobType
             self.creationDate = creationDate
             self.jobId = jobId
@@ -335,7 +335,7 @@ extension Importexport {
         public let artifactList: [Artifact]?
         public let signature: String?
         public let progressMessage: String?
-        public let creationDate: Double?
+        public let creationDate: TimeStamp?
         public let currentManifest: String?
         public let trackingNumber: String?
         public let progressCode: String?
@@ -348,7 +348,7 @@ extension Importexport {
         public let logBucket: String?
         public let locationCode: String?
 
-        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Double? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
+        public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: TimeStamp? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: JobType? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
             self.carrier = carrier
             self.artifactList = artifactList
             self.signature = signature
