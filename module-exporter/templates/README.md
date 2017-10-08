@@ -16,7 +16,7 @@ import PackageDescription
 let package = Package(
     name: "MyAWSApp",
     dependencies: [
-        .Package(url: "https://github.com/swift-aws/{{repositoryName}}.git", majorVersion: 0, minor: {{version.minor}})
+        .package(url: "https://github.com/swift-aws/{{repositoryName}}.git", .upToNextMajor(from: "{{version.major}}.{{version.minor}}.{{version.patch}}"))
     ]
 )
 ```

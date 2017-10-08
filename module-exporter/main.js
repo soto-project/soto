@@ -7,8 +7,9 @@ const _ = require('lodash');
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 
 var currentAWSDKVersion = {
-  major: "0",
-  minor: "3"
+  major: "1",
+  minor: "0",
+  patch: "0"
 };
 
 const Template = {
@@ -77,7 +78,7 @@ co(function *() {
     var path = entries[index];
     var src = servicePath+"/"+path;
     var repoPath = dest+"/"+path;
-    var sourceDestPath = repoPath+"/Sources";
+    var sourceDestPath = repoPath+"/Sources/"+moduleNamefy(path);
 
     yield mkdirp(repoPath);
     yield mkdirp(sourceDestPath);
